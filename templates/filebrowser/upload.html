@@ -1,0 +1,80 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% load adminmedia %}
+
+{% block extrahead %}
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}js/admin/CollapsedFieldsets.js"></script>
+{% endblock %}
+{% block coltype %}colM{% endblock %}
+{% block bodyclass %}change-form{% endblock %}
+{% block stylesheet %}{% admin_media_prefix %}css/forms.css{% endblock %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filebrowser/css/filebrowser.css" />
+{% if query.pop %}
+<style type="text/css">
+#header { display: none; }
+.breadcrumbs { display: none; }
+</style>
+{% endif %}
+{% endblock %}
+{% block breadcrumbs %}<div class="breadcrumbs">{% if not query.pop %}{{ breadcrumbs }}{% endif %}</div>{% endblock %}
+
+{% block content %}
+{% if query.pop %}<div class="fb_breadcrumbs">{{ breadcrumbs }}</div>{% endif %}
+<div id="content-main">
+    <form enctype="multipart/form-data" action="?action=upload&{{ query.pop }}" method="post" name="FileForm">
+    <div>
+        {% if error_list %}
+        <p class="errornote">
+            {% for error in error_list %}
+            {{ error.0 }}<br />
+            {% endfor %}
+        </p>
+        {% endif %}
+        <fieldset class="module aligned ()">
+        <div class="form-row">
+            <label for="id_imageupload_file">{% trans "File" %} 1:</label> 
+            <input type="file" id="id_imageupload_file" class="vFileUploadField" name="file" /><input type="hidden" id="id_imageupload" name="imageupload" value="" />
+        </div>
+        <div class="form-row">
+            <label for="id_imageupload_file">{% trans "File" %} 2:</label> 
+            <input type="file" id="id_imageupload_file" class="vFileUploadField" name="file" /><input type="hidden" id="id_imageupload" name="imageupload" value="" />
+        </div>
+        <div class="form-row">
+            <label for="id_imageupload_file">{% trans "File" %} 3:</label> 
+            <input type="file" id="id_imageupload_file" class="vFileUploadField" name="file" /><input type="hidden" id="id_imageupload" name="imageupload" value="" />
+        </div>
+        <div class="form-row">
+            <label for="id_imageupload_file">{% trans "File" %} 4:</label> 
+            <input type="file" id="id_imageupload_file_4" class="vFileUploadField" name="file" /><input type="hidden" id="id_imageupload" name="imageupload" value="" />
+        </div>
+        <div class="form-row">
+            <label for="id_imageupload_file">{% trans "File" %} 5:</label> 
+            <input type="file" id="id_imageupload_file" class="vFileUploadField" name="file" /><input type="hidden" id="id_imageupload" name="imageupload" value="" />
+        </div>
+        </fieldset>
+        <fieldset class="module aligned collapse">
+        <h2>{% trans "Help" %}</h2>
+        <div class="form-row" >
+            {% for extension in settings_var.EXTENSIONS.items %}
+            {% ifnotequal extension.0 'Folder' %}
+            <label for="id_body" class="required">{% if forloop.first %}{% trans "Allowed" %}:{% else %}&nbsp;{% endif %}</label> 
+            <p>{{ extension.0 }} ({{ extension.1|join:", " }})</p>
+            {% endifnotequal %}
+            {% endfor %}
+        </div>
+        <div class="form-row" >
+            <label for="id_body" class="required">{% trans "Max. Filesize" %}:</label> 
+            <p class="help">{{ settings_var.MAX_UPLOAD_SIZE }}</p>
+        </div>
+        </fieldset>
+        <div class="submit-row">
+            <input type="submit" value="Upload" class="default" />
+        </div>
+    </div>
+    </form>
+    
+</div>
+{% endblock %}

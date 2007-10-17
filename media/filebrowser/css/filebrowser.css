@@ -1,0 +1,14 @@
+.fb_deletelink:link, .fb_deletelink:visited { cursor: pointer; display: block; width: 23px; height: 17px; padding: 0; margin: 1px 0 0 0; background: transparent url('../img/icon_delete.png') 0 center no-repeat; }
+.fb_deletelink:hover, .fb_deletelink:active { background: transparent url('../img/icon_delete_hover.png') 0 center no-repeat; }
+.fb_renamelink:link, .fb_renamelink:visited { cursor: pointer; display: block; width: 23px; height: 17px; padding: 0; margin: 1px 0 0 0; background: transparent url('../img/icon_rename.png') 0 center no-repeat; }
+.fb_renamelink:hover, .fb_renamelink:active { background: transparent url('../img/icon_rename_hover.png') 0 center no-repeat; }
+.fb_selectlink:link, .fb_selectlink:visited { cursor: pointer; display: block; width: 23px; height: 17px; padding: 0; margin: 1px 0 0 0; background: transparent url('../img/icon_select.png') 0 center no-repeat; }
+.fb_selectlink:hover, .fb_selectlink:active { background: transparent url('../img/icon_select_hover.png') 0 center no-repeat; }
+.fb_change:link, .fb_change:visited { cursor: pointer; display: block; width: 23px; height: 17px; padding: 0; margin: 1px 0 0 0; background: transparent url('../img/icon_change.png') 0 center no-repeat; }
+.fb_change:hover, .fb_change:active { background: transparent url('../img/icon_change_hover.png') 0 center no-repeat; }
+.pbox:link, .pbox:visited { cursor: pointer; display: block; width: 23px; height: 17px; padding: 0; margin: 1px 0 0 0; background: transparent url('../img/icon_change.png') 0 center no-repeat; }
+.pbox:hover, .pbox:active { background: transparent url('../img/icon_change_hover.png') 0 center no-repeat; }
+.fb_breadcrumbs { background:white; padding:2px 0px 3px 0px; font-size:11px;  color:#999;  margin:0 0 15px 0; border-bottom:1px solid #ccc; text-align:left; }
+/*table thead th a { background:url(../img/tableheader_arrows.gif) left .4em no-repeat; }
+table thead th.ascending a { background:url(../img/tableheader_arrow_down.gif) left .4em no-repeat; }
+table thead th.descending a { background:url(../img/tableheader_arrow_up.gif) left .4em no-repeat; }*/

@@ -1,0 +1,59 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% load adminmedia %}
+
+{% block extrahead %}
+{% ifequal query.pop 'pop=1' %} <!-- FileBrowseField -->
+<script language="javascript" type="text/javascript" src="{% admin_media_prefix %}filebrowser/js/FB_FileBrowseField.js"></script>
+{% endifequal %}
+{% ifequal query.pop 'pop=2' %} <!-- TinyMCE -->
+<script language="javascript" type="text/javascript" src="{% admin_media_prefix %}tinymce/jscripts/tiny_mce/tiny_mce_popup_fb.js"></script>
+<script language="javascript" type="text/javascript" src="{% admin_media_prefix %}filebrowser/js/FB_TinyMCE.js"></script>
+{% endifequal %}
+{% endblock %}
+{% block coltype %}flex{% endblock %}
+{% block bodyclass %}change-list{% endblock %}
+{% block stylesheet %}{% admin_media_prefix %}css/changelists.css{% endblock %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filebrowser/css/filebrowser.css" />
+{% if query.pop %}
+<style type="text/css">
+#header { display: none; }
+.breadcrumbs { display: none; }
+</style>
+{% endif %}
+{% endblock %}
+{% block breadcrumbs %}<div class="breadcrumbs">{% if not query.pop %}{{ breadcrumbs }}{% endif %}</div>{% endblock %}
+
+{% block content %}
+{% if query.pop %}<div class="fb_breadcrumbs">{{ breadcrumbs }}</div>{% endif %}
+<div id="content-main">
+    <ul class="object-tools">
+        <li><a href="mkdir/{{ query.query_str_total }}" class="addlink">{% trans "Make Directory" %}</a></li>
+        <li><a href="upload/{{ query.query_str_total }}" class="addlink">{% trans "Multiple Upload" %}</a></li>
+        {% if not query.pop %}
+        {% if settings_var.USE_PICNIK %}
+        <li><a href="http://www.picnik.com/service?_apikey={{ settings_var.PICNIK_KEY }}&_page=/in/upload&_export={{ settings_var.CALLBACK_URL }}picnik_callback/" class="addlink">{% trans "Picnik-Upload" %}</a></li>
+        {% endif %}
+        {% endif %}
+        <li><a href="makethumbs/{{ query.query_str_total }}" class="addlink">{% trans "Make Thumbs" %}</a></li>
+    </ul>
+    <div class="module filtered" id="changelist">
+        {% include "filebrowser/include/toolbar.html" %}
+        {% include "filebrowser/include/filter.html" %}
+        <div id="toolbartable">
+        <table cellspacing="0">
+            {% if results_var.results_current %}
+                {% include "filebrowser/include/tableheader.html" %}
+            {% endif %}
+            <tbody>
+            {% for file in file_dict %}
+                {% include "filebrowser/include/filelisting.html" %}
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        {% include "filebrowser/include/paginator.html" %}
+    </div>
+</div>
+{% endblock %}

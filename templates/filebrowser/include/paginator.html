@@ -1,0 +1,7 @@
+<p class="paginator">
+{% if results_var.results_total %}
+{% if not results_var.results_current %}<span style="color: #ff0000; font-weight: bold;">No Entries Found </span></b>{% endif %}<b>Total: {{ results_var.results_total }} Entries | </b>{% for count in counter.items %} {{ count.0 }}: {{ count.1 }}{% endfor %}
+{% else %}
+<span style="color: #ff0000; font-weight: bold;">No Entries</span>
+{% endif %}
+</p>

@@ -1,0 +1,19 @@
+{% load i18n %}
+{% load adminmedia %}
+
+<div id="toolbar">
+    <form id="changelist-search" action="." method="get">
+        <div><!-- DIV needed for valid HTML -->
+        <label for="searchbar"><img src="{% admin_media_prefix %}img/admin/icon_searchbox.png" alt="Search" /></label>
+        <input type="text" size="40" name="q" value="{{ q }}" id="searchbar" />
+        {% if query.filter_type %}<input type="hidden" name="filter_type" value="{{ query.filter_type }}" />{% endif %}
+        {% if query.filter_date %}<input type="hidden" name="filter_date" value="{{ query.filter_date }}" />{% endif %}
+        {% if query.o %}<input type="hidden" name="o" value="{{ query.o }}" />{% endif %}
+        {% if query.ot %}<input type="hidden" name="ot" value="{{ query.ot }}" />{% endif %}
+        {% if query.pop %}<input type="hidden" name="pop" value="{{ query.pop }}" />{% endif %}
+        <input type="submit" value="Go" />
+        {% if query.filter_type or query.filter_date or query.q %}<span class="small quiet">{{ results_var.results_current }} results (<a href="?{{ query.pop }}">{{ results_var.results_total }} total</a>)</span>{% endif %}
+        </div>
+    </form>
+</div>
+<script type="text/javascript">document.getElementById("searchbar").focus();</script>

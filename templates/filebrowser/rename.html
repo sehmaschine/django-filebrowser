@@ -1,0 +1,40 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% load adminmedia %}
+
+{% block coltype %}colM{% endblock %}
+{% block bodyclass %}change-form{% endblock %}
+{% block stylesheet %}{% admin_media_prefix %}css/forms.css{% endblock %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filebrowser/css/filebrowser.css" />
+{% if query.pop %}
+<style type="text/css">
+#header { display: none; }
+.breadcrumbs { display: none; }
+</style>
+{% endif %}
+{% endblock %}
+{% block breadcrumbs %}<div class="breadcrumbs">{% if not query.pop %}{{ breadcrumbs }}{% endif %}</div>{% endblock %}
+
+{% block content %}
+{% if query.pop %}<div class="fb_breadcrumbs">{{ breadcrumbs }}</div>{% endif %}
+<div id="content-main">
+    <form enctype="multipart/form-data" action="?{{ query.pop }}" method="post">
+    <div>
+        {% if error %}<p class="errornote">{{ error.headline }}</p>{% endif %}
+        <fieldset class="module aligned ()">
+        {% if error %}<div class="form-row errors">{% else %}<div class="form-row">{% endif %}
+            {% if error.error_msg %}<ul class="errorlist"><li>{{ error.error_msg }}</li></ul>{% endif %}
+            <label for="id_name" class="required">{% trans "Name" %}</label>
+            <input type="text" id="id_name" class="vTextField required" name="name" size="50" value="" maxlength="30" />
+            {% if file_extension %}<b>{{ file_extension }}</b>{% endif %}
+            <p class="help">{% trans "The file/directory will automatically be converted to lowercase.<br />Only letters, numbers, underscores and hyphens are allowed." %}</p>
+        </div>
+        </fieldset>
+        <div class="submit-row">
+            <input type="submit" value="{% trans 'Submit' %}" class="default" />
+        </div>
+    </div>
+    </form>
+</div>
+{% endblock %}
