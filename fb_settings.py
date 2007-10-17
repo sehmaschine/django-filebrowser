@@ -25,5 +25,5 @@ THUMBNAIL_SIZE = (70, 150)
 # use snipshot for basic image-editing
 USE_SNIPSHOT = False
 # use picnik for advanced image-editing
-USE_PICNIK = True
-PICNIK_KEY = "467db04f1bb6da08464f63e348c616d6"
+USE_PICNIK = False
+PICNIK_KEY = ""
