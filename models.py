@@ -1,2 +1,5 @@
-# This file is only here, if someone wants to add the filebrowser
-# to the INSTALLED_APPS
+from django.db import models
+ 
+class FileBrowser(models.Model):
+    class Admin:
+        pass
