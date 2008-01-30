@@ -3,6 +3,8 @@ from django.template import RequestContext as Context
 from django.http import HttpResponseRedirect
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.cache import never_cache
+from django.utils.translation import ugettext as _
+from django.utils.safestring import mark_safe
 from time import gmtime, strftime, localtime, mktime, time
 import os, string, ftplib, re, Image
 
@@ -55,7 +57,7 @@ def _get_breadcrumbs(query, dir_name, page):
             breadcrumbs = breadcrumbs + '&nbsp;&rsaquo;&nbsp;%s' % (_(page))
     elif dir_list:
         breadcrumbs = breadcrumbs + '&nbsp;&rsaquo;&nbsp;%s' % (dir_list[0])
-    return breadcrumbs
+    return mark_safe(breadcrumbs)
     
 
 def _get_sub_query(items, var_1, var_2, var_3):
