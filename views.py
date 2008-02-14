@@ -612,7 +612,7 @@ def rename(request, dir_name=None, file_name=None):
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
         'title': _('Rename "%s"') % file_name,
     }, context_instance=Context(request))
-delete = staff_member_required(never_cache(delete))
+rename = staff_member_required(never_cache(rename))
 
 
 def snipshot_callback(request, dir_name=None):
