@@ -39,7 +39,7 @@
     <td style="padding-top: 8px;"><b><a href="{{ file.link }}">{{ file.filename }}</a></b>{% if file.image_dimensions %}<br /><span class="tiny">{{ file.image_dimensions.0 }} x {{ file.image_dimensions.1 }} px</span>{% endif %}</td>
     {% endifequal %}
     <!-- Size -->
-    <td style="padding-top: 8px;">{{ file.filesize_str }}</td>
+    <td style="padding-top: 8px;">{{ file.filesize_str|safe }}</td>
     <!-- Date -->
     <td style="padding-top: 8px;">{{ file.date }}</td>
     <!-- Rename -->
