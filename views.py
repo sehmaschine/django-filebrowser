@@ -232,15 +232,20 @@ def index(request, dir_name=None):
         
         # DIMENSIONS / MAKETHUMB / SELECT
         if file_type == 'Image':
-            im = Image.open(os.path.join(PATH_SERVER, path, file))
-            image_dimensions = im.size
-            path_thumb = "%s%s%s%s" % (PATH_WWW, path, THUMB_PREFIX, file)
             try:
-                thmb = Image.open(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file))
-                thumb_dimensions = thmb.size
+                im = Image.open(os.path.join(PATH_SERVER, path, file))
+                image_dimensions = im.size
+                path_thumb = "%s%s%s%s" % (PATH_WWW, path, THUMB_PREFIX, file)
+                try:
+                    thmb = Image.open(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file))
+                    thumb_dimensions = thmb.size
+                except:
+                    path_thumb = settings.ADMIN_MEDIA_PREFIX + 'filebrowser/img/filebrowser_Thumb.gif'
+                    flag_makethumb = True
             except:
-                path_thumb = settings.ADMIN_MEDIA_PREFIX + 'filebrowser/img/filebrowser_Thumb.gif'
-                flag_makethumb = True
+                # if image is corrupt, change filetype to not defined
+                file_type = ''
+                path_thumb = settings.ADMIN_MEDIA_PREFIX + 'filebrowser/img/filebrowser_' + file_type + '.gif'
         else:
             path_thumb = settings.ADMIN_MEDIA_PREFIX + 'filebrowser/img/filebrowser_' + file_type + '.gif'
         
