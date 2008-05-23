@@ -11,7 +11,7 @@
     {% ifequal query.pop 'pop=2' %}
     <td style="border-left: none !important; padding-top: 5px !important;">
         {% ifnotequal file.file_type 'Folder' %}
-        <a href="javascript://" onclick="FileSubmit('{{ file.link }}');" class="fb_selectlink"></a>
+        <a href="javascript://" onclick="FileBrowserDialogue.fileSubmit('{{ file.link }}');" class="fb_selectlink"></a>
         {% endifnotequal %}
     </td>
     {% endifequal %}
