@@ -46,13 +46,13 @@ def _get_breadcrumbs(query, dir_name, page):
     breadcrumbs = ""
     if not query['pop']:
         breadcrumbs = '<a href="/admin/">%s</a>&nbsp;&rsaquo;&nbsp;' % (_('Home'))
-    breadcrumbs = breadcrumbs + '<a href="%s%s">%s</a>' % (PATH_ADMIN, query['query_str_total'], 'FileBrowser')
+    breadcrumbs = breadcrumbs + '<a href="%s%s">%s</a>' % (URL_ADMIN, query['query_str_total'], 'FileBrowser')
     if subdir_list:
         for item in subdir_list:
-            breadcrumbs = breadcrumbs + '&nbsp;&rsaquo;&nbsp;<a href="%s%s%s">%s</a>' % (PATH_ADMIN, item[1], query['query_str_total'], item[0])
+            breadcrumbs = breadcrumbs + '&nbsp;&rsaquo;&nbsp;<a href="%s%s%s">%s</a>' % (URL_ADMIN, item[1], query['query_str_total'], item[0])
     if page:
         if dir_list:
-            breadcrumbs = breadcrumbs + '&nbsp;&rsaquo;&nbsp;<a href="%s%s/%s">%s</a>&nbsp;&rsaquo;&nbsp;%s' % (PATH_ADMIN, dir_list[1], query['query_str_total'], dir_list[0], _(page))
+            breadcrumbs = breadcrumbs + '&nbsp;&rsaquo;&nbsp;<a href="%s%s/%s">%s</a>&nbsp;&rsaquo;&nbsp;%s' % (URL_ADMIN, dir_list[1], query['query_str_total'], dir_list[0], _(page))
         else:
             breadcrumbs = breadcrumbs + '&nbsp;&rsaquo;&nbsp;%s' % (_(page))
     elif dir_list:
@@ -153,9 +153,11 @@ def _make_filedict(file_list):
 
 def _get_settings_var(http_post, path):
     settings_var = {}
+    settings_var['URL_WWW'] = URL_WWW
+    settings_var['URL_ADMIN'] = URL_ADMIN
     settings_var['PATH_SERVER'] = PATH_SERVER
-    settings_var['PATH_WWW'] = PATH_WWW
-    settings_var['PATH_ADMIN'] = PATH_ADMIN
+    settings_var['PATH_FILEBROWSER_MEDIA'] = PATH_FILEBROWSER_MEDIA
+    settings_var['PATH_TINYMCE'] = PATH_TINYMCE
     settings_var['EXTENSIONS'] = EXTENSIONS
     settings_var['MAX_UPLOAD_SIZE'] = _get_filesize(MAX_UPLOAD_SIZE)
     settings_var['THUMB_PREFIX'] = THUMB_PREFIX
@@ -163,7 +165,7 @@ def _get_settings_var(http_post, path):
     settings_var['USE_SNIPSHOT'] = USE_SNIPSHOT
     settings_var['USE_PICNIK'] = USE_PICNIK
     settings_var['PICNIK_KEY'] = PICNIK_KEY
-    settings_var['CALLBACK_URL'] = "http://" + http_post + PATH_ADMIN + path
+    settings_var['CALLBACK_URL'] = "http://" + http_post + URL_ADMIN + path
     return settings_var
     
 
@@ -187,8 +189,8 @@ def index(request, dir_name=None):
         filesize_str = '' # filesize in B, kB, MB
         date = '' # YYYY-MM-dd
         path_thumb = '' # path to thumbnail
-        link = '' # link to file (using PATH_WWW), link to folder (using PATH_ADMIN)
-        select_link = '' # link to file (using PATH_WWW)
+        link = '' # link to file (using URL_WWW), link to folder (using URL_ADMIN)
+        select_link = '' # link to file (using URL_WWW)
         file_extension = '' # see EXTENSIONS in fb_settings.py
         file_type = '' # Folder, Image, Video, Document, Sound, Code
         image_dimensions = '' # (width, height)
@@ -215,11 +217,11 @@ def index(request, dir_name=None):
         # EXTENSION / FLAG_EMPTYDIR / DELETE_TOTAL
         if os.path.isfile(os.path.join(PATH_SERVER, path, file)): # file
             file_extension = os.path.splitext(file)[1].lower()
-            link = "%s%s%s" % (PATH_WWW, path, file)
+            link = "%s%s%s" % (URL_WWW, path, file)
             select_link = link
         elif os.path.isdir(os.path.join(PATH_SERVER, path, file)): # folder
-            link = "%s%s%s" % (PATH_ADMIN, path, file)
-            select_link = "%s%s%s/" % (PATH_WWW, path, file)
+            link = "%s%s%s" % (URL_ADMIN, path, file)
+            select_link = "%s%s%s/" % (URL_WWW, path, file)
             if not os.listdir(os.path.join(PATH_SERVER, path, file)):
                 flag_deletedir = True
         
@@ -235,7 +237,7 @@ def index(request, dir_name=None):
             try:
                 im = Image.open(os.path.join(PATH_SERVER, path, file))
                 image_dimensions = im.size
-                path_thumb = "%s%s%s%s" % (PATH_WWW, path, THUMB_PREFIX, file)
+                path_thumb = "%s%s%s%s" % (URL_WWW, path, THUMB_PREFIX, file)
                 try:
                     thmb = Image.open(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file))
                     thumb_dimensions = thmb.size
@@ -319,7 +321,7 @@ def mkdir(request, dir_name=None):
                     msg = _('The directory %s was successfully created.') % (request.POST.get('name').lower())
                     request.user.message_set.create(message=msg)
                     # on redirect, sort by date desc to see the new directory on top of the list
-                    return HttpResponseRedirect(PATH_ADMIN + path + "?&ot=desc&o=3&" + query['pop'])
+                    return HttpResponseRedirect(URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop'])
                 except OSError, (errno, strerror):
                     if errno == 17:
                         error['headline'] = _('The directory %s already exists.') % (request.POST.get('name').lower())
@@ -421,7 +423,7 @@ def upload(request, dir_name=None):
                 msg = "%s%s" % (_('Successfully uploaded '), success_msg)
                 request.user.message_set.create(message=msg)
                 # on redirect, sort by date desc to see the uploaded files on top of the list
-                redirect_url = PATH_ADMIN + path + "?&ot=desc&o=3&" + query['pop']
+                redirect_url = URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop']
                 return HttpResponseRedirect(redirect_url)
             elif success_msg != "":
                 msg = "%s%s" % (_('Successfully uploaded '), success_msg)
@@ -464,7 +466,7 @@ def makethumb(request, dir_name=None, file_name=None):
         except IOError:
             msg = _('File does not exist.')
         request.user.message_set.create(message=msg)
-        return HttpResponseRedirect(PATH_ADMIN + path + query['query_str_total'])
+        return HttpResponseRedirect(URL_ADMIN + path + query['query_str_total'])
         
     else:
         dir_path = os.path.join(PATH_SERVER, path)
@@ -498,7 +500,7 @@ def makethumb(request, dir_name=None, file_name=None):
                             pass
         if msg:
             request.user.message_set.create(message=msg)
-        return HttpResponseRedirect(PATH_ADMIN + path + query['query_str_total'])
+        return HttpResponseRedirect(URL_ADMIN + path + query['query_str_total'])
     
     return render_to_response('filebrowser/index.html', {
         'dir': dir_name,
@@ -531,7 +533,7 @@ def delete(request, dir_name=None):
                     pass
                 msg = _('The file %s was successfully deleted.') % (request.GET.get('filename').lower())
                 request.user.message_set.create(message=msg)
-                return HttpResponseRedirect(PATH_ADMIN + path + query['query_nodelete'])
+                return HttpResponseRedirect(URL_ADMIN + path + query['query_nodelete'])
             except OSError:
                 msg = OSError
         else:
@@ -540,7 +542,7 @@ def delete(request, dir_name=None):
                 os.rmdir(server_path)
                 msg = _('The directory %s was successfully deleted.') % (request.GET.get('filename').lower())
                 request.user.message_set.create(message=msg)
-                return HttpResponseRedirect(PATH_ADMIN + path + query['query_nodelete'])
+                return HttpResponseRedirect(URL_ADMIN + path + query['query_nodelete'])
             except OSError:
                 msg = OSError
     
@@ -597,7 +599,7 @@ def rename(request, dir_name=None, file_name=None):
                         msg = _('Renaming was successful.')
                         request.user.message_set.create(message=msg)
                         # on redirect, sort by date desc to see the new directory on top of the list
-                        return HttpResponseRedirect(PATH_ADMIN + path + "?&ot=desc&o=3&" + query['pop'])
+                        return HttpResponseRedirect(URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop'])
                     except OSError, (errno, strerror):
                         pass
                 else:
@@ -663,10 +665,10 @@ def snipshot_callback(request, dir_name=None):
                 pass
             
             # on redirect, sort by date desc to see the new file
-            redirect_url = PATH_ADMIN + path + "?&ot=desc&o=3&"
+            redirect_url = URL_ADMIN + path + "?&ot=desc&o=3&"
             return HttpResponseRedirect(redirect_url)
     else:
-        return HttpResponseRedirect(PATH_ADMIN + path)
+        return HttpResponseRedirect(URL_ADMIN + path)
         
 #snipshot_callback = staff_member_required(never_cache(snipshot_callback))
 
@@ -722,6 +724,6 @@ def picnik_callback(request, dir_name=None):
             redirect_url = SNIPSHOT_CALLBACK_URL + path + "?&ot=desc&o=3&"
             return HttpResponseRedirect(redirect_url)
     else:
-        return HttpResponseRedirect(PATH_ADMIN + path)
+        return HttpResponseRedirect(URL_ADMIN + path)
         
 #picnik_callback = staff_member_required(never_cache(picnik_callback))

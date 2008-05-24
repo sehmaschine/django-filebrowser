@@ -1,10 +1,18 @@
 import os
-
 from django.conf import settings
 
+# your media-url
+URL_WWW = settings.MEDIA_URL + 'uploads/'
+# your filebrowser admin url
+URL_ADMIN = '/admin/filebrowser/'
+
+# paths
 PATH_SERVER = os.path.join(settings.MEDIA_ROOT, 'uploads')
-PATH_WWW = settings.MEDIA_URL + 'uploads/'
-PATH_ADMIN = '/admin/filebrowser/'
+# path to your filebrowser media (img/js/css)
+PATH_FILEBROWSER_MEDIA = "/media/admin/filebrowser/"
+# path to tinymce
+PATH_TINYMCE = "/media/admin/tinymce/jscripts/tiny_mce/"
+
 # extensions / lower case (important)
 EXTENSIONS = {
     'Folder':[''],
@@ -14,6 +22,7 @@ EXTENSIONS = {
     'Sound':['.mp3','.mp4','.wav','.aiff','.midi'],
     'Code':['.html','.py','.js','.css']
 }
+
 # max upload size in bytes
 MAX_UPLOAD_SIZE = 2000000
 # thumbnail-prefix / thumbnail size
