@@ -19,14 +19,12 @@
 {% if query.pop %}
 <style type="text/css">
 #header { display: none; }
-.breadcrumbs { display: none; }
 </style>
 {% endif %}
 {% endblock %}
-{% block breadcrumbs %}<div class="breadcrumbs">{% if not query.pop %}{{ breadcrumbs }}{% endif %}</div>{% endblock %}
+{% block breadcrumbs %}<div class="breadcrumbs">{{ breadcrumbs }}</div>{% endblock %}
 
 {% block content %}
-{% if query.pop %}<div class="fb_breadcrumbs">{{ breadcrumbs }}</div>{% endif %}
 <div id="content-main">
     <ul class="object-tools">
         <li><a href="mkdir/{{ query.query_str_total }}" class="addlink">{% trans "Make Directory" %}</a></li>
