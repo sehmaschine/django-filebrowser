@@ -356,7 +356,6 @@ def upload(request, dir_name=None):
     success_msg = ""
     if request.GET.get('action') == 'upload':
         if request.FILES:
-            print request.FILES
             for file in request.FILES.getlist('file'):
                 filename = file['filename']
                 error_msg = ""
@@ -372,6 +371,8 @@ def upload(request, dir_name=None):
                     if alnum_name_re.search(filename):
                         # CHECK EXTENSION / FILE_TYPE
                         file_extension = os.path.splitext(filename)[1].lower()
+                        if file_extension == "":
+                            file_extension='unknown'
                         file_type = ''
                         for k,v in EXTENSIONS.iteritems():
                             for extension in v:
