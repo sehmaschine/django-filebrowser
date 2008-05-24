@@ -6,7 +6,7 @@
 {% block bodyclass %}change-form{% endblock %}
 {% block stylesheet %}{% admin_media_prefix %}css/forms.css{% endblock %}
 {% block extrastyle %}
-<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filebrowser/css/filebrowser.css" />
+<link rel="stylesheet" type="text/css" href="{{ settings_var.PATH_FILEBROWSER_MEDIA }}css/filebrowser.css" />
 {% if query.pop %}
 <style type="text/css">
 #header { display: none; }

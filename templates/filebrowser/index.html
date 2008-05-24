@@ -4,18 +4,18 @@
 
 {% block extrahead %}
 {% ifequal query.pop 'pop=1' %} <!-- FileBrowseField -->
-<script language="javascript" type="text/javascript" src="{% admin_media_prefix %}filebrowser/js/FB_FileBrowseField.js"></script>
+<script language="javascript" type="text/javascript" src="{{ settings_var.PATH_FILEBROWSER_MEDIA }}js/FB_FileBrowseField.js"></script>
 {% endifequal %}
 {% ifequal query.pop 'pop=2' %} <!-- TinyMCE -->
-<script language="javascript" type="text/javascript" src="{% admin_media_prefix %}tinymce/jscripts/tiny_mce/tiny_mce_popup.js"></script>
-<script language="javascript" type="text/javascript" src="{% admin_media_prefix %}filebrowser/js/FB_TinyMCE.js"></script>
+<script language="javascript" type="text/javascript" src="{{ settings_var.PATH_TINYMCE }}tiny_mce_popup.js"></script>
+<script language="javascript" type="text/javascript" src="{{ settings_var.PATH_FILEBROWSER_MEDIA }}js/FB_TinyMCE.js"></script>
 {% endifequal %}
 {% endblock %}
 {% block coltype %}flex{% endblock %}
 {% block bodyclass %}change-list{% endblock %}
 {% block stylesheet %}{% admin_media_prefix %}css/changelists.css{% endblock %}
 {% block extrastyle %}
-<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}filebrowser/css/filebrowser.css" />
+<link rel="stylesheet" type="text/css" href="{{ settings_var.PATH_FILEBROWSER_MEDIA }}css/filebrowser.css" />
 {% if query.pop %}
 <style type="text/css">
 #header { display: none; }
