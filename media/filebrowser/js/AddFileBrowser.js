@@ -70,10 +70,10 @@ var FileBrowser = {
         if (thumbnail) {
             var img_preview = quickElement('p', help.parentNode, '', 'class', 'help', 'style', 'display:block;');
             var img_link = quickElement('a', img_preview, '', 'href', fileSRC, 'target', '_blank');
-            var image = quickElement('img', img_link, '', 'src', thumbnail, 'id', 'image_'+inputfield_id, 'onError', 'FileBrowser.removePreview("image_'+inputfield_id+'")');
+            var image = quickElement('img', img_link, '', 'src', thumbnail, 'id', 'image_'+inputfield_id, 'class', 'preview', 'onError', 'FileBrowser.removePreview("image_'+inputfield_id+'")');
         } else {
             var img_preview = quickElement('p', help.parentNode, '', 'class', 'help', 'style', 'display:none;');
-            var image = quickElement('img', img_preview, '', 'src', '', 'id', 'image_'+inputfield_id);
+            var image = quickElement('img', img_preview, '', 'src', '', 'id', 'image_'+inputfield_id, 'class', 'preview');
         }
         // add on change handle for input_fields
         help.previousSibling.previousSibling.setAttribute('onchange', 'javscript:FileBrowser.fieldChange("'+inputfield_id+'");');
