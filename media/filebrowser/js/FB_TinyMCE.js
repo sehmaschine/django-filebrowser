@@ -1,17 +1,8 @@
-function FileSubmit(FileURL) {
-    var win = tinyMCEPopup.getWindowArg("window");
-    var editorID = tinyMCEPopup.getWindowArg("editorID");
-    win.document.getElementById(tinyMCEPopup.getWindowArg("input")).value = FileURL;
-    if (win.getImageData) {
-        win.getImageData(FileURL);
-    }
-    win.tinyMCEPopup.setWindowArg('editor_id', editorID);
-    tinyMCEPopup.close();
-}
-
 var FileBrowserDialogue = {
     init : function () {
-        // Here goes your code for setting your custom things onLoad.
+        // remove tinymce stylesheet.
+        var allLinks = document.getElementsByTagName("link");
+        allLinks[allLinks.length-1].parentNode.removeChild(allLinks[allLinks.length-1]);
     },
     fileSubmit : function (FileURL) {
         var URL = FileURL;
