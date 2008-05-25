@@ -29,6 +29,7 @@ function FileSubmit(FileURL, ThumbURL) {
         temp_link.setAttribute("target", "_blank");
         var temp_image = opener.document.createElement("img");
         temp_image.setAttribute("id", imgID);
+        temp_image.setAttribute("class", "preview");
         temp_image.setAttribute("src", ThumbURL);
         temp_link.appendChild(temp_image);
         p_elem.setAttribute("style", "display:block");
