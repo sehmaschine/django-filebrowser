@@ -1,22 +1,23 @@
 function CustomFileBrowser(field_name, url, type, win) {
-    // alert("Field_Name: " + field_name + "\nURL: " + url + "\nType: " + type + "\nWin: " + win); // debug/testing
-    var fileBrowserWindow = new Array();
 
-    fileBrowserWindow['title'] = 'File Browser';
-    fileBrowserWindow['file'] = "/admin/filebrowser/?pop=2";
-    fileBrowserWindow['width'] = '820';
-    fileBrowserWindow['height'] = '600';
-    fileBrowserWindow['close_previous'] = 'no';
-    tinyMCE.openWindow(fileBrowserWindow, {
-      window : win,
-      input : field_name,
-      resizable : 'yes',
-      scrollbars : 'yes',
-      inline : 'yes',
-      editorID: tinyMCE.getWindowArg('editor_id')
+    var cmsURL = "/admin/filebrowser/?pop=2";
+    cmsURL = cmsURL + "&type=" + type;
+    
+    tinyMCE.activeEditor.windowManager.open({
+        file: cmsURL,
+        width: 820,  // Your dimensions may differ - toy around with them!
+        height: 500,
+        resizable: "yes",
+        scrollbars: "yes",
+        inline: "no",  // This parameter only has an effect if you use the inlinepopups plugin!
+        close_previous: "no",
+    }, {
+        window: win,
+        input: field_name,
+        editor_id: tinyMCE.selectedInstance.editorId,
     });
     return false;
-  }
+}
 
 function myCustomSetupContent(editor_id, body, doc) {
     if (body.innerHTML == "") {
