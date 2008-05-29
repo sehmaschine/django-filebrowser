@@ -6,7 +6,7 @@ from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from time import gmtime, strftime, localtime, mktime, time
-import os, string, ftplib, re, Image
+import os, string, ftplib, re, Image, decimal
 
 # get settings
 from filebrowser.fb_settings import *
@@ -162,6 +162,7 @@ def _get_settings_var(http_post, path):
     settings_var['MAX_UPLOAD_SIZE'] = _get_filesize(MAX_UPLOAD_SIZE)
     settings_var['THUMB_PREFIX'] = THUMB_PREFIX
     settings_var['THUMBNAIL_SIZE'] = THUMBNAIL_SIZE
+    settings_var['IMAGE_GENERATOR'] = IMAGE_GENERATOR
     settings_var['USE_SNIPSHOT'] = USE_SNIPSHOT
     settings_var['USE_PICNIK'] = USE_PICNIK
     settings_var['PICNIK_KEY'] = PICNIK_KEY
@@ -352,10 +353,16 @@ def upload(request, dir_name=None):
     query = _get_query(request.GET)
     alnum_name_re = re.compile(r'^[a-zA-Z0-9._/-]+$')
     
+    # PIL's Fehler "Suspension not allowed here" work around:
+    # s. http://mail.python.org/pipermail/image-sig/1999-August/000816.html
+    import ImageFile
+    ImageFile.MAXBLOCK = 1000000 # default is 64k
+    
     error_list = []
     success_msg = ""
     if request.GET.get('action') == 'upload':
         if request.FILES:
+            checkbox_counter = 1
             for file in request.FILES.getlist('file'):
                 filename = file['filename']
                 error_msg = ""
@@ -404,6 +411,42 @@ def upload(request, dir_name=None):
                                     except IOError:
                                         error_msg = "<b>%s:</b> %s" % (filename, _('Thumbnail creation failed.'))
                                         error_list.append([error_msg])
+                                        
+                                # MAKE ADDITIONAL IMAGE VERSIONS
+                                checkbox = "checkbox_" + str(checkbox_counter)
+                                use_image_generator = request.POST.get(checkbox)
+                                if use_image_generator and IMAGE_GENERATOR != "":
+                                    for prefix in IMAGE_GENERATOR:
+                                        image_path = os.path.join(PATH_SERVER, path, prefix[0] + filename)
+                                        print image_path
+                                        try:
+                                            # DIMENSIONS
+                                            dimensions = im.size
+                                            print dimensions
+                                            current_width = dimensions[0]
+                                            current_height = dimensions[1]
+                                            ratio = decimal.Decimal(0)
+                                            ratio = decimal.Decimal(current_width)/decimal.Decimal(current_height)
+                                            new_size_width = prefix[1]
+                                            new_size_height = int(new_size_width/ratio)
+                                            new_size = (new_size_width, new_size_height)
+                                            print new_size
+                                            # NEW IMAGE
+                                            im = Image.open(file_path)
+                                            new_image = im.resize(new_size, Image.ANTIALIAS)
+                                            new_image.save(image_path, quality=90, optimize=1)
+                                            # MAKE THUMBNAILS FOR EACH IMAGE VERSION
+                                            thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + prefix[0] + filename)
+                                            try:
+                                                new_image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+                                                new_image.save(thumb_path)
+                                            except IOError:
+                                                error_msg = "<b>%s:</b> %s" % (filename, _('Thumbnail creation failed.'))
+                                                error_list.append([error_msg])
+                                        except IOError:
+                                            error_msg = "<b>%s:</b> %s" % (filename, _('Image creation failed.'))
+                                            error_list.append([error_msg])
+                                
                             else:
                                 error_msg = "<b>%s:</b> %s" % (filename, _('Filesize exceeds allowed Upload Size.'))
                                 error_list.append([error_msg])
@@ -432,6 +475,7 @@ def upload(request, dir_name=None):
         else:
             error_msg = _('At least one file must be chosen.')
             error_list.append([error_msg])
+        checkbox_counter = checkbox_counter + 1
             
     
     return render_to_response('filebrowser/upload.html', {
@@ -633,10 +677,8 @@ def snipshot_callback(request, dir_name=None):
     error = {}
     
     if request.FILES:
-        print request.FILES
         for file in request.FILES.getlist('file'):
             filename = file['filename']
-            print filename
             # DELETE OLD FILE
             file_path = os.path.join(PATH_SERVER, path, filename)
             try:
@@ -702,8 +744,6 @@ def picnik_callback(request, dir_name=None):
                         pass
                 except OSError:
                     msg = OSError
-            
-            print filename
             
             # UPLOAD NEW FILE
             file_path = os.path.join(PATH_SERVER, path, filename)

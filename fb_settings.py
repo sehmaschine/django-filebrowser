@@ -25,9 +25,15 @@ EXTENSIONS = {
 
 # max upload size in bytes
 MAX_UPLOAD_SIZE = 2000000
+
 # thumbnail-prefix / thumbnail size
 THUMB_PREFIX = 'thumb_'
 THUMBNAIL_SIZE = (70, 150)
+
+# image generator (thumb, new image width)
+# if you do not need to save different image sizes
+# write IMAGE_GENERATOR = ""
+IMAGE_GENERATOR = [('small_',140),('medium_',300),('big_',620)]
 
 # WARNING: image-editing is experimental
 # NOTE: only ONE of the editing-flags below should be set to true
