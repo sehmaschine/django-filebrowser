@@ -418,11 +418,9 @@ def upload(request, dir_name=None):
                                 if use_image_generator and IMAGE_GENERATOR != "":
                                     for prefix in IMAGE_GENERATOR:
                                         image_path = os.path.join(PATH_SERVER, path, prefix[0] + filename)
-                                        print image_path
                                         try:
                                             # DIMENSIONS
                                             dimensions = im.size
-                                            print dimensions
                                             current_width = dimensions[0]
                                             current_height = dimensions[1]
                                             ratio = decimal.Decimal(0)
@@ -430,7 +428,6 @@ def upload(request, dir_name=None):
                                             new_size_width = prefix[1]
                                             new_size_height = int(new_size_width/ratio)
                                             new_size = (new_size_width, new_size_height)
-                                            print new_size
                                             # NEW IMAGE
                                             im = Image.open(file_path)
                                             new_image = im.resize(new_size, Image.ANTIALIAS)
@@ -446,6 +443,53 @@ def upload(request, dir_name=None):
                                         except IOError:
                                             error_msg = "<b>%s:</b> %s" % (filename, _('Image creation failed.'))
                                             error_list.append([error_msg])
+                                            
+                                # GENERATE CROPPED/RECTANGULAR IMAGE
+                                if use_image_generator and IMAGE_CROP_GENERATOR != "":
+                                    for prefix in IMAGE_CROP_GENERATOR:
+                                        image_path = os.path.join(PATH_SERVER, path, prefix[0] + filename)
+                                        try:
+                                            # DIMENSIONS
+                                            dimensions = im.size
+                                            current_width = dimensions[0]
+                                            current_height = dimensions[1]
+                                            ratio = decimal.Decimal(0)
+                                            ratio = decimal.Decimal(current_width)/decimal.Decimal(current_height)
+                                            # new_size
+                                            # either side of the img must be at least the crop_size_width
+                                            new_size_width = prefix[1]
+                                            new_size_height = int(new_size_width/ratio)
+                                            if new_size_width > new_size_height:
+                                                new_size_height = new_size_width
+                                                new_size_width = int(new_size_height*ratio) 
+                                            new_size = (new_size_width, new_size_height)                        
+                                            # crop_size
+                                            # trying to crop the middle of the img
+                                            crop_size_width = prefix[1]
+                                            crop_size_height = crop_size_width
+                                            upper_left_x = int((new_size_width-crop_size_width)/2)
+                                            upper_left_y = int((new_size_height-crop_size_height)/2)
+                                            crop_size = (upper_left_x, upper_left_y, upper_left_x+crop_size_width, upper_left_y+crop_size_height)
+                                            # NEW IMAGE
+                                            im = Image.open(file_path)
+                                            # resize img first
+                                            new_image = im.resize(new_size, Image.ANTIALIAS)
+                                            # then crop
+                                            cropped_image = new_image.crop(crop_size)
+                                            cropped_image.save(image_path, quality=90, optimize=1)
+                                            # MAKE THUMBNAILS FOR EACH IMAGE VERSION
+                                            thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + prefix[0] + filename)
+                                            try:
+                                                cropped_image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+                                                cropped_image.save(thumb_path)
+                                            except IOError:
+                                                error_msg = "<b>%s:</b> %s" % (filename, _('Thumbnail creation failed.'))
+                                                error_list.append([error_msg])
+                                        except IOError:
+                                            error_msg = "<b>%s:</b> %s" % (filename, _('Image creation failed.'))
+                                            error_list.append([error_msg])
+                                    
+                                    
                                 
                             else:
                                 error_msg = "<b>%s:</b> %s" % (filename, _('Filesize exceeds allowed Upload Size.'))
