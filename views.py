@@ -45,7 +45,7 @@ def _get_breadcrumbs(query, dir_name, page):
     dir_list = _get_dir_list(dir_name)
     breadcrumbs = ""
     if not query['pop']:
-        breadcrumbs = '<a href="/admin/">%s</a>&nbsp;&rsaquo;&nbsp;' % (_('Home'))
+        breadcrumbs = '<a href="%s">%s</a>&nbsp;&rsaquo;&nbsp;' % (URL_HOME,_('Home'))
     breadcrumbs = breadcrumbs + '<a href="%s%s">%s</a>' % (URL_ADMIN, query['query_str_total'], 'FileBrowser')
     if subdir_list:
         for item in subdir_list:
@@ -155,6 +155,7 @@ def _get_settings_var(http_post, path):
     settings_var = {}
     settings_var['URL_WWW'] = URL_WWW
     settings_var['URL_ADMIN'] = URL_ADMIN
+    settings_var['URL_HOME'] = URL_HOME
     settings_var['PATH_SERVER'] = PATH_SERVER
     settings_var['PATH_FILEBROWSER_MEDIA'] = PATH_FILEBROWSER_MEDIA
     settings_var['PATH_TINYMCE'] = PATH_TINYMCE

@@ -5,6 +5,8 @@ from django.conf import settings
 URL_WWW = settings.MEDIA_URL + 'uploads/'
 # your filebrowser admin url
 URL_ADMIN = getattr(settings, "FILEBROWSER_URL_ADMIN", '/admin/filebrowser/')
+# home url
+URL_HOME = getattr(settings, "FILEBROWSER_URL_HOME", '/admin/')
 
 # paths
 PATH_SERVER = os.path.join(settings.MEDIA_ROOT, 'uploads')
