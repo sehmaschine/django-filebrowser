@@ -416,6 +416,7 @@ def upload(request, dir_name=None):
                                 # MAKE ADDITIONAL IMAGE VERSIONS
                                 checkbox = "checkbox_" + str(checkbox_counter)
                                 use_image_generator = request.POST.get(checkbox)
+                                im = Image.open(file_path)
                                 if use_image_generator and IMAGE_GENERATOR != "":
                                     for prefix in IMAGE_GENERATOR:
                                         image_path = os.path.join(PATH_SERVER, path, prefix[0] + filename)
@@ -429,18 +430,20 @@ def upload(request, dir_name=None):
                                             new_size_width = prefix[1]
                                             new_size_height = int(new_size_width/ratio)
                                             new_size = (new_size_width, new_size_height)
-                                            # NEW IMAGE
-                                            im = Image.open(file_path)
-                                            new_image = im.resize(new_size, Image.ANTIALIAS)
-                                            new_image.save(image_path, quality=90, optimize=1)
-                                            # MAKE THUMBNAILS FOR EACH IMAGE VERSION
-                                            thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + prefix[0] + filename)
-                                            try:
-                                                new_image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
-                                                new_image.save(thumb_path)
-                                            except IOError:
-                                                error_msg = "<b>%s:</b> %s" % (filename, _('Thumbnail creation failed.'))
-                                                error_list.append([error_msg])
+                                            # ONLY MAKE NEW IMAGE VERSION OF ORIGINAL IMAGE IS BIGGER THAN THE NEW VERSION
+                                            # OTHERWISE FAIL SILENTLY
+                                            if int(current_width) > int(new_size_width):
+                                                # NEW IMAGE
+                                                new_image = im.resize(new_size, Image.ANTIALIAS)
+                                                new_image.save(image_path, quality=90, optimize=1)
+                                                # MAKE THUMBNAILS FOR EACH IMAGE VERSION
+                                                thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + prefix[0] + filename)
+                                                try:
+                                                    new_image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+                                                    new_image.save(thumb_path)
+                                                except IOError:
+                                                    error_msg = "<b>%s:</b> %s" % (filename, _('Thumbnail creation failed.'))
+                                                    error_list.append([error_msg])
                                         except IOError:
                                             error_msg = "<b>%s:</b> %s" % (filename, _('Image creation failed.'))
                                             error_list.append([error_msg])

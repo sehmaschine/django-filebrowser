@@ -30,16 +30,16 @@ MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 2000000)
 
 # thumbnail-prefix / thumbnail size
 THUMB_PREFIX = getattr(settings, 'FILEBROWSER_THUMB_PREFIX', 'thumb_')
-THUMBNAIL_SIZE = getattr(settings, 'FILEBROWSER_THUMBNAIL_SIZE', (70, 150))
+THUMBNAIL_SIZE = getattr(settings, 'FILEBROWSER_THUMBNAIL_SIZE', (50, 150))
 
 # image generator (prefix, new image width)
 # if you do not need to save different image sizes
 # write IMAGE_GENERATOR = ""
-IMAGE_GENERATOR = getattr(settings, "FILEBROWSER_IMAGE_GENERATOR", [('small_',140),('medium_',300),('big_',460),('large_',620)])
+IMAGE_GENERATOR = getattr(settings, "FILEBROWSER_IMAGE_GENERATOR", [('small_',134),('medium_',294),('big_',454),('large_',614)])
 # generator for a cropped image (prefix, width)
 # if you do not need to save different image sizes
 # write IMAGE_GENERATOR = ""
-IMAGE_CROP_GENERATOR = getattr(settings, "FILEBROWSER_IMAGE_CROP_GENERATOR", [('cropped_',75)])
+IMAGE_CROP_GENERATOR = getattr(settings, "FILEBROWSER_IMAGE_CROP_GENERATOR", [('cropped_',54)])
 
 # WARNING: image-editing is experimental
 # NOTE: only ONE of the editing-flags below should be set to true
