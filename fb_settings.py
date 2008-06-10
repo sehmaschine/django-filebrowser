@@ -35,11 +35,12 @@ THUMBNAIL_SIZE = getattr(settings, 'FILEBROWSER_THUMBNAIL_SIZE', (50, 150))
 # image generator (prefix, new image width)
 # if you do not need to save different image sizes
 # write IMAGE_GENERATOR = ""
-IMAGE_GENERATOR = getattr(settings, "FILEBROWSER_IMAGE_GENERATOR", [('small_',134),('medium_',294),('big_',454),('large_',614)])
+IMAGE_GENERATOR_LANDSCAPE = getattr(settings, "FILEBROWSER_IMAGE_GENERATOR", [('thumbnail_',134),('small_',294),('medium_',454),('big_',614),('large_',774),('full',934)])
+IMAGE_GENERATOR_PORTRAIT = getattr(settings, "FILEBROWSER_IMAGE_GENERATOR", [('thumbnail_',76),('small_',154),('medium_',234),('big_',316),('large_',396),('full',476)])
 # generator for a cropped image (prefix, width)
 # if you do not need to save different image sizes
 # write IMAGE_GENERATOR = ""
-IMAGE_CROP_GENERATOR = getattr(settings, "FILEBROWSER_IMAGE_CROP_GENERATOR", [('cropped_',54)])
+IMAGE_CROP_GENERATOR = getattr(settings, "FILEBROWSER_IMAGE_CROP_GENERATOR", [('cropped_',54,54),('cropped_small_',134,134)])
 
 # WARNING: image-editing is experimental
 # NOTE: only ONE of the editing-flags below should be set to true

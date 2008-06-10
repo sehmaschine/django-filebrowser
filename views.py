@@ -163,7 +163,8 @@ def _get_settings_var(http_post, path):
     settings_var['MAX_UPLOAD_SIZE'] = _get_filesize(MAX_UPLOAD_SIZE)
     settings_var['THUMB_PREFIX'] = THUMB_PREFIX
     settings_var['THUMBNAIL_SIZE'] = THUMBNAIL_SIZE
-    settings_var['IMAGE_GENERATOR'] = IMAGE_GENERATOR
+    settings_var['IMAGE_GENERATOR_LANDSCAPE'] = IMAGE_GENERATOR_LANDSCAPE
+    settings_var['IMAGE_GENERATOR_PORTRAIT'] = IMAGE_GENERATOR_PORTRAIT
     settings_var['USE_SNIPSHOT'] = USE_SNIPSHOT
     settings_var['USE_PICNIK'] = USE_PICNIK
     settings_var['PICNIK_KEY'] = PICNIK_KEY
@@ -414,17 +415,24 @@ def upload(request, dir_name=None):
                                         error_list.append([error_msg])
                                         
                                 # MAKE ADDITIONAL IMAGE VERSIONS
+                                versions_path = os.path.join(PATH_SERVER, path, "versions_" + filename.replace(".", "_").lower())
+                                os.mkdir(versions_path)
+                                os.chmod(versions_path, 0775)
                                 checkbox = "checkbox_" + str(checkbox_counter)
                                 use_image_generator = request.POST.get(checkbox)
                                 im = Image.open(file_path)
-                                if use_image_generator and IMAGE_GENERATOR != "":
-                                    for prefix in IMAGE_GENERATOR:
-                                        image_path = os.path.join(PATH_SERVER, path, prefix[0] + filename)
+                                if use_image_generator and (IMAGE_GENERATOR_LANDSCAPE != "" or IMAGE_GENERATOR_PORTRAIT != ""):
+                                    dimensions = im.size
+                                    current_width = dimensions[0]
+                                    current_height = dimensions[1]
+                                    if int(current_width) > int(current_height):
+                                        generator_to_use = IMAGE_GENERATOR_LANDSCAPE
+                                    else:
+                                        generator_to_use = IMAGE_GENERATOR_PORTRAIT
+                                    for prefix in generator_to_use: 
+                                        image_path = os.path.join(versions_path, prefix[0] + filename)
                                         try:
                                             # DIMENSIONS
-                                            dimensions = im.size
-                                            current_width = dimensions[0]
-                                            current_height = dimensions[1]
                                             ratio = decimal.Decimal(0)
                                             ratio = decimal.Decimal(current_width)/decimal.Decimal(current_height)
                                             new_size_width = prefix[1]
@@ -437,7 +445,7 @@ def upload(request, dir_name=None):
                                                 new_image = im.resize(new_size, Image.ANTIALIAS)
                                                 new_image.save(image_path, quality=90, optimize=1)
                                                 # MAKE THUMBNAILS FOR EACH IMAGE VERSION
-                                                thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + prefix[0] + filename)
+                                                thumb_path = os.path.join(versions_path, THUMB_PREFIX + prefix[0] + filename)
                                                 try:
                                                     new_image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
                                                     new_image.save(thumb_path)
@@ -451,7 +459,7 @@ def upload(request, dir_name=None):
                                 # GENERATE CROPPED/RECTANGULAR IMAGE
                                 if use_image_generator and IMAGE_CROP_GENERATOR != "":
                                     for prefix in IMAGE_CROP_GENERATOR:
-                                        image_path = os.path.join(PATH_SERVER, path, prefix[0] + filename)
+                                        image_path = os.path.join(versions_path, prefix[0] + filename)
                                         try:
                                             # DIMENSIONS
                                             dimensions = im.size
@@ -470,7 +478,10 @@ def upload(request, dir_name=None):
                                             # crop_size
                                             # trying to crop the middle of the img
                                             crop_size_width = prefix[1]
-                                            crop_size_height = crop_size_width
+                                            if prefix[2]:
+                                                crop_size_height = prefix[2]
+                                            else:
+                                                crop_size_height = crop_size_width
                                             upper_left_x = int((new_size_width-crop_size_width)/2)
                                             upper_left_y = int((new_size_height-crop_size_height)/2)
                                             crop_size = (upper_left_x, upper_left_y, upper_left_x+crop_size_width, upper_left_y+crop_size_height)
@@ -482,7 +493,7 @@ def upload(request, dir_name=None):
                                             cropped_image = new_image.crop(crop_size)
                                             cropped_image.save(image_path, quality=90, optimize=1)
                                             # MAKE THUMBNAILS FOR EACH IMAGE VERSION
-                                            thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + prefix[0] + filename)
+                                            thumb_path = os.path.join(versions_path, THUMB_PREFIX + prefix[0] + filename)
                                             try:
                                                 cropped_image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
                                                 cropped_image.save(thumb_path)
