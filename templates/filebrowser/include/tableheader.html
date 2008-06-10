@@ -5,8 +5,8 @@
     {% ifequal query.pop 'pop=1' %}<th></th>{% endifequal %}
     {% ifequal query.pop 'pop=2' %}<th></th>{% endifequal %}
     <!-- FILETYPE -->
-    {% ifequal query.o '7' %}<th class="sorted {{ query.ot }}ending"><a href="?{{ query.query_nosort }}&amp;ot={{ query.ot_new }}&amp;o=7">{% trans 'Type' %}</a></th>{% endifequal %}
-    {% ifnotequal query.o '7' %}<th><a href="?{{ query.query_nosort }}&amp;ot=asc&amp;o=7">{% trans 'Type' %}</a></th>{% endifnotequal %}
+    {% ifequal query.o '7' %}<th class="sorted {{ query.ot }}ending"><a href="?{{ query.query_nosort }}&amp;ot={{ query.ot_new }}&amp;o=7">&nbsp;</a></th>{% endifequal %}
+    {% ifnotequal query.o '7' %}<th><a href="?{{ query.query_nosort }}&amp;ot=asc&amp;o=7">&nbsp;</a></th>{% endifnotequal %}
     <!-- THUMB -->
     {% ifnotequal counter.Image 0 %}{% if results_var.change_total %}<th>&nbsp;</th>{% endif %}{% endifnotequal %}
     <!-- FILENAME / DIMENSIONS  -->

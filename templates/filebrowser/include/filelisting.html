@@ -16,11 +16,11 @@
     </td>
     {% endifequal %}
     <!-- FileIcon -->
-    <td style="border-left: none !important;"><img src="{{ settings_var.PATH_FILEBROWSER_MEDIA }}img/filebrowser_{{ file.file_type }}.gif" style="margin-top: 1px;" /></td>
+    <td style="border-left: none !important; padding: 5px !important;"><img src="{{ settings_var.PATH_FILEBROWSER_MEDIA }}img/filebrowser_{{ file.file_type }}.gif" style="margin-top: 1px;" /></td>
     <!-- Thumb -->
     {% ifnotequal counter.Image 0 %}
     {% if results_var.change_total %}
-    <td style="padding: 4px; border-left: collapse;">
+    <td style="padding: 5px; border-left: collapse;">
         {% if file.flag_makethumb %}
         <a href="makethumb/{{ file.filename }}/?{{ query.pop }}">
         <img src="{{ settings_var.PATH_FILEBROWSER_MEDIA }}img/filebrowser_Thumb.gif" width="{{ thumbnail_size.0 }}" style="margin: 2px;" /></a>
@@ -34,16 +34,16 @@
     {% endifnotequal %}
     <!-- Filename/Dimensions -->
     {% ifequal file.file_type 'Folder' %}
-    <td style="padding-top: 8px;"><b><a href="{{ file.link }}/{{ query.query_str_total }}">{{ file.filename }}</a></b></td>
+    <td style="padding-top: 9px;"><b><a href="{{ file.link }}/{{ query.query_str_total }}">{{ file.filename }}</a></b></td>
     {% else %}
-    <td style="padding-top: 8px;"><b><a href="{{ file.link }}">{{ file.filename }}</a></b>{% if file.image_dimensions %}<br /><span class="tiny">{{ file.image_dimensions.0 }} x {{ file.image_dimensions.1 }} px</span>{% endif %}</td>
+    <td style="padding-top: 9px;"><b><a href="{{ file.link }}">{{ file.filename }}</a></b>{% if file.image_dimensions %}<br /><span class="tiny">{{ file.image_dimensions.0 }} x {{ file.image_dimensions.1 }} px</span>{% endif %}</td>
     {% endifequal %}
     <!-- Size -->
-    <td style="padding-top: 8px;">{{ file.filesize_str|safe }}</td>
+    <td style="padding-top: 9px;">{{ file.filesize_str|safe }}</td>
     <!-- Date -->
-    <td style="padding-top: 8px;">{{ file.date }}</td>
+    <td style="padding-top: 9px;">{{ file.date }}</td>
     <!-- Rename -->
-    <td><a href="rename/{{ file.filename }}/?{{ query.pop }}" class="fb_renamelink"></a></td>
+    <td  style="padding: 5px !important;"><a href="rename/{{ file.filename }}/?{{ query.pop }}" class="fb_renamelink"></a></td>
     <!-- Change Image / EXPERIMENTAL and not fully implemented -->
     {% if not query.pop %}
     {% if settings_var.USE_SNIPSHOT or settings_var.USE_PICNIK %}
@@ -65,7 +65,7 @@
     {% endif %}
     <!-- Delete -->
     {% if results_var.delete_total %}
-    <td>
+    <td style="padding: 5px !important;">
         {% ifnotequal file.file_type 'Folder' %}
         <a href="delete/{{ query.query_str_total }}&filename={{ file.filename }}&type={{ file.file_type }}" class="fb_deletelink" onclick="return confirm('Are you sure you want to delete this file?');"></a>
         {% else %}
