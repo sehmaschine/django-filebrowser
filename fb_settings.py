@@ -26,7 +26,7 @@ EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
 })
 
 # max upload size in bytes
-MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 2000000)
+MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 5000000)
 
 # thumbnail-prefix / thumbnail size
 THUMB_PREFIX = getattr(settings, 'FILEBROWSER_THUMB_PREFIX', 'thumb_')
@@ -35,12 +35,12 @@ THUMBNAIL_SIZE = getattr(settings, 'FILEBROWSER_THUMBNAIL_SIZE', (50, 150))
 # image generator (prefix, new image width)
 # if you do not need to save different image sizes
 # write IMAGE_GENERATOR = ""
-IMAGE_GENERATOR_LANDSCAPE = getattr(settings, "FILEBROWSER_IMAGE_GENERATOR", [('thumbnail_',134),('small_',294),('medium_',454),('big_',614),('large_',774),('full',934)])
-IMAGE_GENERATOR_PORTRAIT = getattr(settings, "FILEBROWSER_IMAGE_GENERATOR", [('thumbnail_',76),('small_',154),('medium_',234),('big_',316),('large_',396),('full',476)])
+IMAGE_GENERATOR_LANDSCAPE = getattr(settings, "FILEBROWSER_IMAGE_GENERATOR_LANDSCAPE", [('thumbnail_',134),('small_',294),('medium_',454),('big_',614)])
+IMAGE_GENERATOR_PORTRAIT = getattr(settings, "FILEBROWSER_IMAGE_GENERATOR_PORTRAIT", [('thumbnail_',134),('small_',294),('medium_',454),('big_',614)])
 # generator for a cropped image (prefix, width)
 # if you do not need to save different image sizes
 # write IMAGE_GENERATOR = ""
-IMAGE_CROP_GENERATOR = getattr(settings, "FILEBROWSER_IMAGE_CROP_GENERATOR", [('cropped_',54,54),('cropped_small_',134,134)])
+IMAGE_CROP_GENERATOR = getattr(settings, "FILEBROWSER_IMAGE_CROP_GENERATOR", [('cropped_',54,54),('croppedthumbnail_',134,134)])
 
 # WARNING: image-editing is experimental
 # NOTE: only ONE of the editing-flags below should be set to true
