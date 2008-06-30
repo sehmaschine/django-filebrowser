@@ -29,11 +29,6 @@
     <ul class="object-tools">
         <li><a href="mkdir/{{ query.query_str_total }}" class="addlink">{% trans "Make Directory" %}</a></li>
         <li><a href="upload/{{ query.query_str_total }}" class="addlink">{% trans "Multiple Upload" %}</a></li>
-        {% if not query.pop %}
-        {% if settings_var.USE_PICNIK %}
-        <li><a href="http://www.picnik.com/service?_apikey={{ settings_var.PICNIK_KEY }}&_page=/in/upload&_export={{ settings_var.CALLBACK_URL }}picnik_callback/" class="addlink">{% trans "Picnik-Upload" %}</a></li>
-        {% endif %}
-        {% endif %}
         <li><a href="makethumbs/{{ query.query_str_total }}" class="addlink">{% trans "Make Thumbs" %}</a></li>
     </ul>
     <div class="module filtered" id="changelist">
