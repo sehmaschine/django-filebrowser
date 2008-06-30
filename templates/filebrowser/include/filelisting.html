@@ -44,25 +44,6 @@
     <td style="padding-top: 9px;">{{ file.date }}</td>
     <!-- Rename -->
     <td  style="padding: 5px !important;"><a href="rename/{{ file.filename }}/?{{ query.pop }}" class="fb_renamelink"></a></td>
-    <!-- Change Image / EXPERIMENTAL and not fully implemented -->
-    {% if not query.pop %}
-    {% if settings_var.USE_SNIPSHOT or settings_var.USE_PICNIK %}
-    {% if results_var.change_total %}
-    {% ifequal file.file_type 'Image' %}
-    {% if settings_var.USE_SNIPSHOT %}
-    <td><a href='http://services.snipshot.com/?snipshot_input={{ file.link }}&snipshot_output_options={"filename":"{{file.filename}}","filetype":"{{file.file_extension|cut:"."}}"}&snipshot_callback={{ settings_var.CALLBACK_URL }}snipshot_callback/&snipshot_output=file&snipshot_callback_agent=snipshot' class="fb_change"></a></td>
-    {% endif %}
-    {% if settings_var.USE_PICNIK %}
-    <td><a href="http://www.picnik.com/service?_apikey={{ settings_var.PICNIK_KEY }}&_imageid={{ file.filename }}&_replace=ask&_import={{ file.link }}&_export={{ settings_var.CALLBACK_URL }}picnik_callback/" class="fb_change"></a>
-    </td>
-    {% endif %}
-    {% endifequal %}
-    {% ifnotequal file.file_type 'Image' %}
-    <td>&nbsp;</td>
-    {% endifnotequal %}
-    {% endif %}
-    {% endif %}
-    {% endif %}
     <!-- Delete -->
     {% if results_var.delete_total %}
     <td style="padding: 5px !important;">
