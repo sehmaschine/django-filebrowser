@@ -7,11 +7,14 @@ from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from time import gmtime, strftime, localtime, mktime, time
 import os, string, ftplib, re, Image, decimal
+from django import forms
 
 # get settings
 from filebrowser.fb_settings import *
 # get functions
 from filebrowser.functions import _get_path, _get_subdir_list, _get_dir_list, _get_breadcrumbs, _get_sub_query, _get_query, _get_filterdate, _get_filesize, _make_filedict, _get_settings_var
+# get forms
+from filebrowser.forms import MakeDirForm
 
 def index(request, dir_name=None):
     """
@@ -151,38 +154,32 @@ def mkdir(request, dir_name=None):
     Make directory
     """
     
+    from filebrowser.forms import MakeDirForm
+    
     path = _get_path(dir_name)
     query = _get_query(request.GET)
-    alnum_name_re = re.compile(r'^[a-zA-Z0-9_-]+$')
     error = {}
-    if request.POST:
-        if request.POST.get('name'):
-            if not alnum_name_re.search(request.POST.get('name')):
-                error['headline'] = _('Please correct the errors below.')
-                error['error_msg'] = _('Only letters, numbers, underscores and hyphens are allowed.')
-            else:
-                server_path = os.path.join(PATH_SERVER, path, request.POST.get('name').lower())
-                try:
-                    os.mkdir(server_path)
-                    os.chmod(server_path, 0775)
-                    msg = _('The directory %s was successfully created.') % (request.POST.get('name').lower())
-                    request.user.message_set.create(message=msg)
-                    # on redirect, sort by date desc to see the new directory on top of the list
-                    return HttpResponseRedirect(URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop'])
-                except OSError, (errno, strerror):
-                    if errno == 17:
-                        error['headline'] = _('The directory %s already exists.') % (request.POST.get('name').lower())
-                    elif errno == 13:
-                        error['headline'] = _('Permission denied.')
-                    else:
-                        pass
-        else:
-            error['headline'] = _('Please correct the errors below.')
-            error['error_msg'] = _('This field is required.')
+    if request.method == 'POST':
+        form = MakeDirForm(PATH_SERVER, path, request.POST)
+        if form.is_valid():
+            server_path = os.path.join(PATH_SERVER, path, form.cleaned_data['dir_name'].lower())
+            try:
+                os.mkdir(server_path)
+                os.chmod(server_path, 0775)
+                msg = _('The directory %s was successfully created.') % (form.cleaned_data['dir_name'].lower())
+                request.user.message_set.create(message=msg)
+                # on redirect, sort by date desc to see the new directory on top of the list
+                return HttpResponseRedirect(URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop'])
+            except OSError, (errno, strerror):
+                if errno == 13:
+                    form.errors['dir_name'] = forms.util.ErrorList([_('Permission denied.')])
+                else:
+                    form.errors['dir_name'] = forms.util.ErrorList([_('Error creating directory.')])
+    else:
+        form = MakeDirForm(PATH_SERVER, path)
     
     return render_to_response('filebrowser/makedir.html', {
-        'dir': dir_name,
-        'error': error,
+        'form': form,
         'query': query,
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, 'Make Directory'),
@@ -571,104 +568,3 @@ def rename(request, dir_name=None, file_name=None):
 rename = staff_member_required(never_cache(rename))
 
 
-# def snipshot_callback(request, dir_name=None):
-#     ''' Get file from snipshot and save it over existing file (also change thumbnail)
-#     '''
-#     
-#     path = _get_path(dir_name)
-#     query = _get_query(request.GET)
-#     alnum_name_re = re.compile(r'^[a-zA-Z0-9_-]+$')
-#     error = {}
-#     
-#     if request.FILES:
-#         for file in request.FILES.getlist('file'):
-#             filename = file['filename']
-#             # DELETE OLD FILE
-#             file_path = os.path.join(PATH_SERVER, path, filename)
-#             try:
-#                 os.unlink(file_path)
-#                 path_thumb = os.path.join(PATH_SERVER, path, THUMB_PREFIX + filename)
-#                 try:
-#                     os.unlink(path_thumb)
-#                 except OSError: # thumbnail does not exist
-#                     pass
-#             except OSError:
-#                 msg = OSError
-#             
-#             # UPLOAD NEW FILE
-#             file_path = os.path.join(PATH_SERVER, path, filename)
-#             f = open(file_path, 'wb')
-#             f.write(file['content'])
-#             os.chmod(file_path, 0664)
-#             f.close()
-#             
-#             # MAKE THUMBNAIL
-#             thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + filename)
-#             try:
-#                 im = Image.open(file_path)
-#                 im.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
-#                 im.save(thumb_path)
-#             except IOError:
-#                 pass
-#             
-#             # on redirect, sort by date desc to see the new file
-#             redirect_url = URL_ADMIN + path + "?&ot=desc&o=3&"
-#             return HttpResponseRedirect(redirect_url)
-#     else:
-#         return HttpResponseRedirect(URL_ADMIN + path)
-        
-#snipshot_callback = staff_member_required(never_cache(snipshot_callback))
-
-
-# def picnik_callback(request, dir_name=None):
-#     ''' Get file from snipshot and save it over existing file (also change thumbnail)
-#     '''
-#     
-#     path = _get_path(dir_name)
-#     query = _get_query(request.GET)
-#     alnum_name_re = re.compile(r'^[a-zA-Z0-9_-]+$')
-#     error = {}
-#     old_filename = ""
-#     
-#     if request.POST:
-#         old_filename = request.POST.get('_imageid')
-#     if request.FILES:
-#         for file in request.FILES.getlist('file'):
-#             filename = file['filename'].lstrip('images/')
-#             if old_filename:
-#                 filename = old_filename
-#                 # DELETE OLD FILE
-#                 file_path = os.path.join(PATH_SERVER, path, filename)
-#                 try:
-#                     os.unlink(file_path)
-#                     path_thumb = os.path.join(PATH_SERVER, path, THUMB_PREFIX + filename)
-#                     try:
-#                         os.unlink(path_thumb)
-#                     except OSError: # thumbnail does not exist
-#                         pass
-#                 except OSError:
-#                     msg = OSError
-#             
-#             # UPLOAD NEW FILE
-#             file_path = os.path.join(PATH_SERVER, path, filename)
-#             f = open(file_path, 'wb')
-#             f.write(file['content'])
-#             os.chmod(file_path, 0664)
-#             f.close()
-#             
-#             # MAKE THUMBNAIL
-#             thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + filename)
-#             try:
-#                 im = Image.open(file_path)
-#                 im.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
-#                 im.save(thumb_path)
-#             except IOError:
-#                 pass
-#             
-#             # on redirect, sort by date desc to see the new file
-#             redirect_url = SNIPSHOT_CALLBACK_URL + path + "?&ot=desc&o=3&"
-#             return HttpResponseRedirect(redirect_url)
-#     else:
-#         return HttpResponseRedirect(URL_ADMIN + path)
-        
-#picnik_callback = staff_member_required(never_cache(picnik_callback))
