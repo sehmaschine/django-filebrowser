@@ -12,7 +12,7 @@ from django import forms
 # get settings
 from filebrowser.fb_settings import *
 # get functions
-from filebrowser.functions import _get_path, _get_subdir_list, _get_dir_list, _get_breadcrumbs, _get_sub_query, _get_query, _get_filterdate, _get_filesize, _make_filedict, _get_settings_var
+from filebrowser.functions import _get_path, _get_subdir_list, _get_dir_list, _get_breadcrumbs, _get_sub_query, _get_query, _get_filterdate, _get_filesize, _make_filedict, _get_settings_var, _handle_file_upload, _get_file_type, _make_image_thumbnail
 # get forms
 from filebrowser.forms import MakeDirForm
 
@@ -193,192 +193,39 @@ def upload(request, dir_name=None):
     Multipe Upload.
     """
     
+    from django.forms.formsets import formset_factory
+    from filebrowser.forms import UploadForm, BaseUploadFormSet
+    
     path = _get_path(dir_name)
     query = _get_query(request.GET)
-    alnum_name_re = re.compile(r'^[a-zA-Z0-9._/-]+$')
+    UploadFormSet = formset_factory(UploadForm, formset=BaseUploadFormSet, extra=5)
     
-    # PIL's Fehler "Suspension not allowed here" work around:
+    # PIL's Error "Suspension not allowed here" work around:
     # s. http://mail.python.org/pipermail/image-sig/1999-August/000816.html
     import ImageFile
     ImageFile.MAXBLOCK = 1000000 # default is 64k
     
-    error_list = []
-    success_msg = ""
-    if request.GET.get('action') == 'upload':
-        if request.FILES:
-            checkbox_counter = 1
-            for file in request.FILES.getlist('file'):
-                filename = file['filename']
-                error_msg = ""
-                # CHECK IF FILE ALREADY EXISTS
-                file_exists = False
-                dir_list = os.listdir(os.path.join(PATH_SERVER, path))
-                for entry in dir_list:
-                    if filename == entry:
-                        file_exists = True
-                
-                if not file_exists:
-                    # CHECK FILENAME
-                    if alnum_name_re.search(filename):
-                        # CHECK EXTENSION / FILE_TYPE
-                        file_extension = os.path.splitext(filename)[1].lower()
-                        if file_extension == "":
-                            file_extension='unknown'
-                        file_type = ''
-                        for k,v in EXTENSIONS.iteritems():
-                            for extension in v:
-                                if file_extension == extension.lower():
-                                    file_type = k
-                        
-                        # UPLOAD
-                        if file_type != '':
-                            file = file['content']
-                            length = len(file)
-                            
-                            # CHECK FILESIZE
-                            if length < MAX_UPLOAD_SIZE:
-                                
-                                # UPLOAD FILE
-                                file_path = os.path.join(PATH_SERVER, path, filename)
-                                f = open(file_path, 'wb')
-                                f.write(file)
-                                os.chmod(file_path, 0664)
-                                f.close()
-                                
-                                # MAKE THUMBNAIL
-                                if file_type == 'Image':
-                                    thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + filename)
-                                    try:
-                                        im = Image.open(file_path)
-                                        im.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
-                                        im.save(thumb_path)
-                                    except IOError:
-                                        error_msg = "<b>%s:</b> %s" % (filename, _('Thumbnail creation failed.'))
-                                        error_list.append([error_msg])
-                                        
-                                # MAKE ADDITIONAL IMAGE VERSIONS
-                                versions_path = os.path.join(PATH_SERVER, path, filename.replace(".", "_").lower() + "_versions")
-                                os.mkdir(versions_path)
-                                os.chmod(versions_path, 0775)
-                                checkbox = "checkbox_" + str(checkbox_counter)
-                                use_image_generator = request.POST.get(checkbox)
-                                im = Image.open(file_path)
-                                if use_image_generator and (IMAGE_GENERATOR_LANDSCAPE != "" or IMAGE_GENERATOR_PORTRAIT != ""):
-                                    dimensions = im.size
-                                    current_width = dimensions[0]
-                                    current_height = dimensions[1]
-                                    if int(current_width) > int(current_height):
-                                        generator_to_use = IMAGE_GENERATOR_LANDSCAPE
-                                    else:
-                                        generator_to_use = IMAGE_GENERATOR_PORTRAIT
-                                    for prefix in generator_to_use: 
-                                        image_path = os.path.join(versions_path, prefix[0] + filename)
-                                        try:
-                                            # DIMENSIONS
-                                            ratio = decimal.Decimal(0)
-                                            ratio = decimal.Decimal(current_width)/decimal.Decimal(current_height)
-                                            new_size_width = prefix[1]
-                                            new_size_height = int(new_size_width/ratio)
-                                            new_size = (new_size_width, new_size_height)
-                                            # ONLY MAKE NEW IMAGE VERSION OF ORIGINAL IMAGE IS BIGGER THAN THE NEW VERSION
-                                            # OTHERWISE FAIL SILENTLY
-                                            if int(current_width) > int(new_size_width):
-                                                # NEW IMAGE
-                                                new_image = im.resize(new_size, Image.ANTIALIAS)
-                                                new_image.save(image_path, quality=90, optimize=1)
-                                                # MAKE THUMBNAILS FOR EACH IMAGE VERSION
-                                                thumb_path = os.path.join(versions_path, THUMB_PREFIX + prefix[0] + filename)
-                                                try:
-                                                    new_image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
-                                                    new_image.save(thumb_path)
-                                                except IOError:
-                                                    error_msg = "<b>%s:</b> %s" % (filename, _('Thumbnail creation failed.'))
-                                                    error_list.append([error_msg])
-                                        except IOError:
-                                            error_msg = "<b>%s:</b> %s" % (filename, _('Image creation failed.'))
-                                            error_list.append([error_msg])
-                                            
-                                # GENERATE CROPPED/RECTANGULAR IMAGE
-                                if use_image_generator and IMAGE_CROP_GENERATOR != "":
-                                    for prefix in IMAGE_CROP_GENERATOR:
-                                        image_path = os.path.join(versions_path, prefix[0] + filename)
-                                        try:
-                                            # DIMENSIONS
-                                            dimensions = im.size
-                                            current_width = dimensions[0]
-                                            current_height = dimensions[1]
-                                            ratio = decimal.Decimal(0)
-                                            ratio = decimal.Decimal(current_width)/decimal.Decimal(current_height)
-                                            # new_size
-                                            # either side of the img must be at least the crop_size_width
-                                            new_size_width = prefix[1]
-                                            new_size_height = int(new_size_width/ratio)
-                                            if new_size_width > new_size_height:
-                                                new_size_height = new_size_width
-                                                new_size_width = int(new_size_height*ratio) 
-                                            new_size = (new_size_width, new_size_height)                        
-                                            # crop_size
-                                            # trying to crop the middle of the img
-                                            crop_size_width = prefix[1]
-                                            if prefix[2]:
-                                                crop_size_height = prefix[2]
-                                            else:
-                                                crop_size_height = crop_size_width
-                                            upper_left_x = int((new_size_width-crop_size_width)/2)
-                                            upper_left_y = int((new_size_height-crop_size_height)/2)
-                                            crop_size = (upper_left_x, upper_left_y, upper_left_x+crop_size_width, upper_left_y+crop_size_height)
-                                            # NEW IMAGE
-                                            im = Image.open(file_path)
-                                            # resize img first
-                                            new_image = im.resize(new_size, Image.ANTIALIAS)
-                                            # then crop
-                                            cropped_image = new_image.crop(crop_size)
-                                            cropped_image.save(image_path, quality=90, optimize=1)
-                                            # MAKE THUMBNAILS FOR EACH IMAGE VERSION
-                                            thumb_path = os.path.join(versions_path, THUMB_PREFIX + prefix[0] + filename)
-                                            try:
-                                                cropped_image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
-                                                cropped_image.save(thumb_path)
-                                            except IOError:
-                                                error_msg = "<b>%s:</b> %s" % (filename, _('Thumbnail creation failed.'))
-                                                error_list.append([error_msg])
-                                        except IOError:
-                                            error_msg = "<b>%s:</b> %s" % (filename, _('Image creation failed.'))
-                                            error_list.append([error_msg])
-                            else:
-                                error_msg = "<b>%s:</b> %s" % (filename, _('Filesize exceeds allowed Upload Size.'))
-                                error_list.append([error_msg])
-                        else:
-                            error_msg = "<b>%s:</b> %s" % (filename, _('File extension is not allowed.'))
-                            error_list.append([error_msg])
-                    else:
-                        error_msg = "<b>%s:</b> %s" % (filename, _('Filename is not allowed.'))
-                        error_list.append([error_msg])
-                else:
-                    error_msg = "<b>%s:</b> %s" % (filename, _('File already exists.'))
-                    error_list.append([error_msg])
-                if error_msg == "":
-                    success_msg = success_msg + filename + ","
-                
-            success_msg = success_msg.rstrip(",")
-            if not error_list:
-                msg = "%s%s" % (_('Successfully uploaded '), success_msg)
+    if request.method == 'POST':
+        formset = UploadFormSet(data=request.POST, files=request.FILES, path_server=PATH_SERVER, path=path)
+        for form in formset.forms:
+            if form.is_valid():
+                # UPLOAD FILE
+                _handle_file_upload(PATH_SERVER, path, form.cleaned_data['file'])
+                # MAKE THUMBNAIL
+                if _get_file_type(form.cleaned_data['file'].name) == "Image":
+                    _make_image_thumbnail(PATH_SERVER, path, form.cleaned_data['file'])
+                # REDIRECT
+                msg = _('Upload successful.')
                 request.user.message_set.create(message=msg)
                 # on redirect, sort by date desc to see the uploaded files on top of the list
                 redirect_url = URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop']
                 return HttpResponseRedirect(redirect_url)
-            elif success_msg != "":
-                msg = "%s%s" % (_('Successfully uploaded '), success_msg)
-                request.user.message_set.create(message=msg)
-        else:
-            error_msg = _('At least one file must be chosen.')
-            error_list.append([error_msg])
-        checkbox_counter = checkbox_counter + 1
-            
+    else:
+        formset = UploadFormSet(path_server=PATH_SERVER, path=path)
     
     return render_to_response('filebrowser/upload.html', {
+        'formset': formset,
         'dir': dir_name,
-        'error_list': error_list,
         'query': _get_query(request.GET),
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, 'Multiple Upload'),

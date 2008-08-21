@@ -2,7 +2,8 @@
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from time import gmtime, strftime, localtime, mktime, time
-import os, re
+from django.core.files import File
+import os, re, Image
 
 # get settings
 from filebrowser.fb_settings import *
@@ -206,5 +207,37 @@ def _get_settings_var(http_post, path):
     settings_var['PICNIK_KEY'] = PICNIK_KEY
     settings_var['CALLBACK_URL'] = "http://" + http_post + URL_ADMIN + path
     return settings_var
+    
+    
+def _handle_file_upload(PATH_SERVER, path, file):
+    
+    file_path = os.path.join(PATH_SERVER, path, file.name)
+    destination = open(file_path, 'wb+')
+    for chunk in file.chunks():
+        destination.write(chunk)
+    
+
+def _get_file_type(filename):
+    file_extension = os.path.splitext(filename)[1].lower()
+    if file_extension == "":
+        file_extension='unknown'
+    file_type = ''
+    for k,v in EXTENSIONS.iteritems():
+        for extension in v:
+            if file_extension == extension.lower():
+                file_type = k
+    return file_type
+    
+
+def _make_image_thumbnail(PATH_SERVER, path, file):
+    file_path = os.path.join(PATH_SERVER, path, file.name)
+    thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + file.name)
+    try:
+        im = Image.open(file_path)
+        im.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+        im.save(thumb_path)
+    except IOError:
+        error_msg = "<b>%s:</b> %s" % (file.name, _('Thumbnail creation failed.'))
+        print error_msg
     
 
