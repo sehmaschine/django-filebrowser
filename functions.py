@@ -3,7 +3,7 @@ from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from time import gmtime, strftime, localtime, mktime, time
 from django.core.files import File
-import os, re, Image
+import os, re, Image, decimal
 
 # get settings
 from filebrowser.fb_settings import *
@@ -210,6 +210,9 @@ def _get_settings_var(http_post, path):
     
     
 def _handle_file_upload(PATH_SERVER, path, file):
+    """
+    Handle File Upload.
+    """
     
     file_path = os.path.join(PATH_SERVER, path, file.name)
     destination = open(file_path, 'wb+')
@@ -218,6 +221,10 @@ def _handle_file_upload(PATH_SERVER, path, file):
     
 
 def _get_file_type(filename):
+    """
+    Get file type as defined in EXTENSIONS.
+    """
+    
     file_extension = os.path.splitext(filename)[1].lower()
     if file_extension == "":
         file_extension='unknown'
@@ -229,15 +236,118 @@ def _get_file_type(filename):
     return file_type
     
 
-def _make_image_thumbnail(PATH_SERVER, path, file):
-    file_path = os.path.join(PATH_SERVER, path, file.name)
-    thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + file.name)
+def _make_image_thumbnail(PATH_SERVER, path, filename):
+    """
+    Make Thumbnail for an Image.
+    """
+    
+    file_path = os.path.join(PATH_SERVER, path, filename)
+    thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + filename)
+    msg = ""
     try:
         im = Image.open(file_path)
         im.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
         im.save(thumb_path)
     except IOError:
-        error_msg = "<b>%s:</b> %s" % (file.name, _('Thumbnail creation failed.'))
-        print error_msg
+        msg = "%s: %s" % (file.name, _('Thumbnail creation failed.'))
+    return msg
+    
+
+def _image_generator(PATH_SERVER, path, filename):
+    """
+    Generate Versions for an Image.
+    """
+    
+    file_path = os.path.join(PATH_SERVER, path, filename)
+    versions_path = os.path.join(PATH_SERVER, path, filename.replace(".", "_").lower() + "_versions")
+    if not os.path.isdir(versions_path):
+        os.mkdir(versions_path)
+        os.chmod(versions_path, 0775)
+    im = Image.open(file_path)
+    dimensions = im.size
+    current_width = dimensions[0]
+    current_height = dimensions[1]
+    msg = ""
+    if int(current_width) > int(current_height):
+        generator_to_use = IMAGE_GENERATOR_LANDSCAPE
+    else:
+        generator_to_use = IMAGE_GENERATOR_PORTRAIT
+    for prefix in generator_to_use: 
+        image_path = os.path.join(versions_path, prefix[0] + filename)
+        try:
+            # DIMENSIONS
+            ratio = decimal.Decimal(0)
+            ratio = decimal.Decimal(current_width)/decimal.Decimal(current_height)
+            new_size_width = prefix[1]
+            new_size_height = int(new_size_width/ratio)
+            new_size = (new_size_width, new_size_height)
+            # ONLY MAKE NEW IMAGE VERSION OF ORIGINAL IMAGE IS BIGGER THAN THE NEW VERSION
+            # OTHERWISE FAIL SILENTLY
+            if int(current_width) > int(new_size_width):
+                # NEW IMAGE
+                new_image = im.resize(new_size, Image.ANTIALIAS)
+                new_image.save(image_path, quality=90, optimize=1)
+                # MAKE THUMBNAIL
+                _make_image_thumbnail(PATH_SERVER, os.path.join(path, filename.replace(".", "_").lower() + "_versions"), prefix[0] + filename)
+        except IOError:
+            msg = "%s: %s" % (filename, _('Image creation failed.'))
+    return msg
+    
+
+def _image_crop_generator(PATH_SERVER, path, filename):
+    """
+    Generate Cropped Versions for an Image.
+    """
+    
+    file_path = os.path.join(PATH_SERVER, path, filename)
+    versions_path = os.path.join(PATH_SERVER, path, filename.replace(".", "_").lower() + "_versions")
+    if not os.path.isdir(versions_path):
+        os.mkdir(versions_path)
+        os.chmod(versions_path, 0775)
+    im = Image.open(file_path)
+    dimensions = im.size
+    current_width = dimensions[0]
+    current_height = dimensions[1]
+    msg = ""
+    for prefix in IMAGE_CROP_GENERATOR:
+        image_path = os.path.join(versions_path, prefix[0] + filename)
+        try:
+            # DIMENSIONS
+            dimensions = im.size
+            current_width = dimensions[0]
+            current_height = dimensions[1]
+            ratio = decimal.Decimal(0)
+            ratio = decimal.Decimal(current_width)/decimal.Decimal(current_height)
+            # new_size
+            # either side of the img must be at least the crop_size_width
+            new_size_width = prefix[1]
+            new_size_height = int(new_size_width/ratio)
+            if new_size_width > new_size_height:
+                new_size_height = new_size_width
+                new_size_width = int(new_size_height*ratio) 
+            new_size = (new_size_width, new_size_height)                        
+            # crop_size
+            # trying to crop the middle of the img
+            crop_size_width = prefix[1]
+            if prefix[2]:
+                crop_size_height = prefix[2]
+            else:
+                crop_size_height = crop_size_width
+            upper_left_x = int((new_size_width-crop_size_width)/2)
+            upper_left_y = int((new_size_height-crop_size_height)/2)
+            crop_size = (upper_left_x, upper_left_y, upper_left_x+crop_size_width, upper_left_y+crop_size_height)
+            # NEW IMAGE
+            im = Image.open(file_path)
+            # resize img first
+            new_image = im.resize(new_size, Image.ANTIALIAS)
+            # then crop
+            cropped_image = new_image.crop(crop_size)
+            cropped_image.save(image_path, quality=90, optimize=1)
+            # MAKE THUMBNAIL
+            _make_image_thumbnail(PATH_SERVER, os.path.join(path, filename.replace(".", "_").lower() + "_versions"), prefix[0] + filename)
+        except IOError:
+            msg = "%s: %s" % (filename, _('Image creation failed.'))
+    return msg
+    
     
 

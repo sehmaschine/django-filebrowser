@@ -12,9 +12,9 @@ from django import forms
 # get settings
 from filebrowser.fb_settings import *
 # get functions
-from filebrowser.functions import _get_path, _get_subdir_list, _get_dir_list, _get_breadcrumbs, _get_sub_query, _get_query, _get_filterdate, _get_filesize, _make_filedict, _get_settings_var, _handle_file_upload, _get_file_type, _make_image_thumbnail
+from filebrowser.functions import _get_path, _get_subdir_list, _get_dir_list, _get_breadcrumbs, _get_sub_query, _get_query, _get_filterdate, _get_filesize, _make_filedict, _get_settings_var, _handle_file_upload, _get_file_type, _make_image_thumbnail, _image_generator, _image_crop_generator
 # get forms
-from filebrowser.forms import MakeDirForm
+from filebrowser.forms import MakeDirForm, RenameForm, UploadForm, BaseUploadFormSet
 
 def index(request, dir_name=None):
     """
@@ -135,7 +135,6 @@ def index(request, dir_name=None):
         elif file['file_type'] == 'Folder' and file['flag_deletedir'] == True:
             results_var['delete_total'] = results_var['delete_total'] + 1
     
-    
     return render_to_response('filebrowser/index.html', {
         'dir': dir_name,
         'file_dict': file_dict,
@@ -154,11 +153,9 @@ def mkdir(request, dir_name=None):
     Make directory
     """
     
-    from filebrowser.forms import MakeDirForm
-    
     path = _get_path(dir_name)
     query = _get_query(request.GET)
-    error = {}
+    
     if request.method == 'POST':
         form = MakeDirForm(PATH_SERVER, path, request.POST)
         if form.is_valid():
@@ -166,6 +163,8 @@ def mkdir(request, dir_name=None):
             try:
                 os.mkdir(server_path)
                 os.chmod(server_path, 0775)
+                
+                # MESSAGE & REDIRECT
                 msg = _('The directory %s was successfully created.') % (form.cleaned_data['dir_name'].lower())
                 request.user.message_set.create(message=msg)
                 # on redirect, sort by date desc to see the new directory on top of the list
@@ -194,7 +193,6 @@ def upload(request, dir_name=None):
     """
     
     from django.forms.formsets import formset_factory
-    from filebrowser.forms import UploadForm, BaseUploadFormSet
     
     path = _get_path(dir_name)
     query = _get_query(request.GET)
@@ -211,10 +209,17 @@ def upload(request, dir_name=None):
             if form.is_valid():
                 # UPLOAD FILE
                 _handle_file_upload(PATH_SERVER, path, form.cleaned_data['file'])
-                # MAKE THUMBNAIL
                 if _get_file_type(form.cleaned_data['file'].name) == "Image":
-                    _make_image_thumbnail(PATH_SERVER, path, form.cleaned_data['file'])
-                # REDIRECT
+                    # MAKE THUMBNAIL
+                    _make_image_thumbnail(PATH_SERVER, path, form.cleaned_data['file'].name)
+                    # IMAGE GENERATOR
+                    if form.cleaned_data['use_image_generator'] and (IMAGE_GENERATOR_LANDSCAPE != "" or IMAGE_GENERATOR_PORTRAIT != ""):
+                        _image_generator(PATH_SERVER, path, form.cleaned_data['file'].name)
+                    # GENERATE CROPPED/RECTANGULAR IMAGE
+                    if form.cleaned_data['use_image_generator'] and IMAGE_CROP_GENERATOR != "":
+                        _image_crop_generator(PATH_SERVER, path, form.cleaned_data['file'].name)
+                
+                # MESSAGE & REDIRECT
                 msg = _('Upload successful.')
                 request.user.message_set.create(message=msg)
                 # on redirect, sort by date desc to see the uploaded files on top of the list
@@ -307,6 +312,7 @@ def delete(request, dir_name=None):
     Delete existing File/Directory.
         If file is an Image, also delete thumbnail.
         When trying to delete a directory, the directory has to be empty.
+        Image Versions (including the directory) are also deleted.
     """
     
     path = _get_path(dir_name)
@@ -317,25 +323,44 @@ def delete(request, dir_name=None):
         if request.GET.get('type') != "Folder":
             server_path = os.path.join(PATH_SERVER, path, request.GET.get('filename'))
             try:
+                
+                # DELETE FILE
                 os.unlink(server_path)
+                # TRY DELETING THUMBNAIL
                 path_thumb = os.path.join(PATH_SERVER, path, THUMB_PREFIX + request.GET.get('filename'))
                 try:
                     os.unlink(path_thumb)
-                except OSError: # thumbnail does not exist
+                except OSError:
                     pass
+                # TRY DELETING IMAGE_VERSIONS
+                versions_path = os.path.join(PATH_SERVER, path, request.GET.get('filename').replace(".", "_").lower() + "_versions")
+                try:
+                    dir_list = os.listdir(versions_path)
+                    for file in dir_list:
+                        file_path = os.path.join(versions_path, file)
+                        os.unlink(file_path)
+                    os.rmdir(versions_path)
+                except OSError:
+                    pass
+                
+                # MESSAGE & REDIRECT
                 msg = _('The file %s was successfully deleted.') % (request.GET.get('filename').lower())
                 request.user.message_set.create(message=msg)
                 return HttpResponseRedirect(URL_ADMIN + path + query['query_nodelete'])
             except OSError:
+                # todo: define error message
                 msg = OSError
         else:
             server_path = os.path.join(PATH_SERVER, path, request.GET.get('filename'))
             try:
                 os.rmdir(server_path)
+                
+                # MESSAGE & REDIRECT
                 msg = _('The directory %s was successfully deleted.') % (request.GET.get('filename').lower())
                 request.user.message_set.create(message=msg)
                 return HttpResponseRedirect(URL_ADMIN + path + query['query_nodelete'])
             except OSError:
+                # todo: define error message
                 msg = OSError
     
     if msg:
@@ -358,55 +383,47 @@ def rename(request, dir_name=None, file_name=None):
     
     path = _get_path(dir_name)
     query = _get_query(request.GET)
-    alnum_name_re = re.compile(r'^[a-zA-Z0-9_-]+$')
-    error = {}
     
     if os.path.isfile(os.path.join(PATH_SERVER, path, file_name)): # file
+        file_type = _get_file_type(file_name)
         file_extension = os.path.splitext(file_name)[1].lower()
-        for k,v in EXTENSIONS.iteritems():
-            for extension in v:
-                if file_extension == extension.lower():
-                    file_type = k
     else:
         file_extension = ""
         file_type = ""
     
-    if request.POST:
-        if request.POST.get('name'):
-            if not alnum_name_re.search(request.POST.get('name')):
-                error['headline'] = _('Please correct the errors below.')
-                error['error_msg'] = _('Only letters, numbers, underscores and hyphens are allowed.')
-            else:
-                old_path = os.path.join(PATH_SERVER, path, file_name)
-                new_path = os.path.join(PATH_SERVER, path, request.POST.get('name').lower() + file_extension)
-                if not os.path.isdir(new_path) and not os.path.isfile(new_path):
+    if request.method == 'POST':
+        form = RenameForm(PATH_SERVER, path, file_extension, request.POST)
+        if form.is_valid():
+            old_path = os.path.join(PATH_SERVER, path, file_name)
+            new_path = os.path.join(PATH_SERVER, path, request.POST.get('name').lower() + file_extension)
+            try:
+                os.rename(old_path, new_path)
+                
+                # RENAME IMAGE_THUMBNAILS
+                if file_type == 'Image':
+                    old_thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + file_name)
+                    new_thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + request.POST.get('name').lower() + file_extension)
                     try:
-                        os.rename(old_path, new_path)
-                        if file_type == 'Image':
-                            old_thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + file_name)
-                            new_thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + request.POST.get('name').lower() + file_extension)
-                            try:
-                                os.rename(old_thumb_path, new_thumb_path)
-                            except:
-                                pass
-                        msg = _('Renaming was successful.')
-                        request.user.message_set.create(message=msg)
-                        # on redirect, sort by date desc to see the new directory on top of the list
-                        return HttpResponseRedirect(URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop'])
+                        os.rename(old_thumb_path, new_thumb_path)
                     except OSError, (errno, strerror):
-                        pass
-                else:
-                    error['headline'] = _('Please correct the errors below.')
-                    error['error_msg'] = _('The new file/directory already exists.')
-        else:
-            error['headline'] = _('Please correct the errors below.')
-            error['error_msg'] = _('This field is required.')
+                        form.errors['name'] = forms.util.ErrorList([_('Error renaming Thumbnail.')])
+                
+                # TODO: RENAME IMAGE_VERSIONS
+                
+                # MESSAGE & REDIRECT
+                if not form.errors:
+                    msg = _('Renaming was successful.')
+                    request.user.message_set.create(message=msg)
+                    # on redirect, sort by date desc to see the new directory on top of the list
+                    return HttpResponseRedirect(URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop'])
+            except OSError, (errno, strerror):
+                form.errors['name'] = forms.util.ErrorList([_('Error.')])
+    else:
+        form = RenameForm(PATH_SERVER, path, file_extension)
     
     return render_to_response('filebrowser/rename.html', {
-        'dir': dir_name,
-        'error': error,
+        'form': form,
         'query': query,
-        'file_name': file_name,
         'file_extension': file_extension,
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),

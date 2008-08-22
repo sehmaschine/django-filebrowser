@@ -33,7 +33,30 @@ class MakeDirForm(forms.Form):
                 raise forms.ValidationError(_('The directory already exists.'))
         
         return self.cleaned_data['dir_name']
+    
+
+class RenameForm(forms.Form):
+
+    def __init__(self, path_server, path, file_extension, *args, **kwargs):
+        self.PATH_SERVER = path_server
+        self.path = path
+        self.file_extension = file_extension
+        super(RenameForm, self).__init__(*args, **kwargs)
+    
+    name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=u'Name', help_text=_('The name will automatically be converted to lowercase. Only letters, numbers, underscores and hyphens are allowed.'), required=True)
+    
+    def clean_name(self):
+    
+        if self.cleaned_data['name']:
+            # only letters, numbers and underscores are allowed.
+            if not alnum_name_re.search(self.cleaned_data['name']):
+                raise forms.ValidationError(_('Only letters, numbers, underscores and hyphens are allowed.'))
+            # file/directory must not already exist.
+            if os.path.isdir(os.path.join(self.PATH_SERVER, self.path, self.cleaned_data['name'].lower())) or os.path.isfile(os.path.join(self.PATH_SERVER, self.path, self.cleaned_data['name'].lower() + self.file_extension)):
+                raise forms.ValidationError(_('The file/directory already exists.'))
         
+        return self.cleaned_data['name']
+    
 
 class BaseUploadFormSet(BaseFormSet):
 
@@ -77,6 +100,8 @@ class UploadForm(forms.Form):
             dir_list = os.listdir(os.path.join(self.path_server, self.path))
             if filename in dir_list:
                 raise forms.ValidationError(_('File already exists.'))
+                
+            # TODO: CHECK IF VERSIONS_PATH EXISTS (IF USE_IMAGE_GENERATOR IS TRUE)
             
             # CHECK FILENAME
             if not alnum_name_re.search(filename):
