@@ -41,11 +41,3 @@ IMAGE_GENERATOR_PORTRAIT = getattr(settings, "FILEBROWSER_IMAGE_GENERATOR_PORTRA
 # if you do not need to save different image sizes
 # write IMAGE_GENERATOR = ""
 IMAGE_CROP_GENERATOR = getattr(settings, "FILEBROWSER_IMAGE_CROP_GENERATOR", [('cropped_',54,54),('croppedthumbnail_',134,134)])
-
-# WARNING: image-editing is experimental
-# NOTE: only ONE of the editing-flags below should be set to true
-# use snipshot for basic image-editing
-USE_SNIPSHOT = getattr(settings, "FILEBROWSER_USE_SNIPSHOT", False)
-# use picnik for advanced image-editing
-USE_PICNIK = getattr(settings, "FILEBROWSER_USE_PICNIK", False)
-PICNIK_KEY = getattr(settings, "FILEBROWSER_PICNIK_KEY", "")

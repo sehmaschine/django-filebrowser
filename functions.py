@@ -202,10 +202,6 @@ def _get_settings_var(http_post, path):
     settings_var['THUMBNAIL_SIZE'] = THUMBNAIL_SIZE
     settings_var['IMAGE_GENERATOR_LANDSCAPE'] = IMAGE_GENERATOR_LANDSCAPE
     settings_var['IMAGE_GENERATOR_PORTRAIT'] = IMAGE_GENERATOR_PORTRAIT
-    settings_var['USE_SNIPSHOT'] = USE_SNIPSHOT
-    settings_var['USE_PICNIK'] = USE_PICNIK
-    settings_var['PICNIK_KEY'] = PICNIK_KEY
-    settings_var['CALLBACK_URL'] = "http://" + http_post + URL_ADMIN + path
     return settings_var
     
     

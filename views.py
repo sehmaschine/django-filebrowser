@@ -46,7 +46,6 @@ def index(request, dir_name=None):
         thumb_dimensions = '' # (width, height)
         flag_makethumb = False # Boolean
         flag_deletedir = False # Boolean
-        snipshot_output_options = '' # JSON (Filename)
         
         # DON'T DISPLAY FILES STARTING WITH %THUMB_PREFIX%
         if re.compile(THUMB_PREFIX, re.M).search(file) or \
