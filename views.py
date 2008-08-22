@@ -195,35 +195,35 @@ def upload(request, dir_name=None):
     
     path = _get_path(dir_name)
     query = _get_query(request.GET)
-    UploadFormSet = formset_factory(UploadForm, formset=BaseUploadFormSet, extra=5)
     
     # PIL's Error "Suspension not allowed here" work around:
     # s. http://mail.python.org/pipermail/image-sig/1999-August/000816.html
     import ImageFile
     ImageFile.MAXBLOCK = 1000000 # default is 64k
     
+    UploadFormSet = formset_factory(UploadForm, formset=BaseUploadFormSet, extra=5)
     if request.method == 'POST':
         formset = UploadFormSet(data=request.POST, files=request.FILES, path_server=PATH_SERVER, path=path)
-        for form in formset.forms:
-            if form.is_valid():
-                # UPLOAD FILE
-                _handle_file_upload(PATH_SERVER, path, form.cleaned_data['file'])
-                if _get_file_type(form.cleaned_data['file'].name) == "Image":
-                    # MAKE THUMBNAIL
-                    _make_image_thumbnail(PATH_SERVER, path, form.cleaned_data['file'].name)
-                    # IMAGE GENERATOR
-                    if form.cleaned_data['use_image_generator'] and (IMAGE_GENERATOR_LANDSCAPE != "" or IMAGE_GENERATOR_PORTRAIT != ""):
-                        _image_generator(PATH_SERVER, path, form.cleaned_data['file'].name)
-                    # GENERATE CROPPED/RECTANGULAR IMAGE
-                    if form.cleaned_data['use_image_generator'] and IMAGE_CROP_GENERATOR != "":
-                        _image_crop_generator(PATH_SERVER, path, form.cleaned_data['file'].name)
-                
-                # MESSAGE & REDIRECT
-                msg = _('Upload successful.')
-                request.user.message_set.create(message=msg)
-                # on redirect, sort by date desc to see the uploaded files on top of the list
-                redirect_url = URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop']
-                return HttpResponseRedirect(redirect_url)
+        if formset.is_valid():
+            for cleaned_data in formset.cleaned_data:
+                if cleaned_data:
+                    # UPLOAD FILE
+                    _handle_file_upload(PATH_SERVER, path, cleaned_data['file'])
+                    if _get_file_type(cleaned_data['file'].name) == "Image":
+                        # MAKE THUMBNAIL
+                        _make_image_thumbnail(PATH_SERVER, path, cleaned_data['file'].name)
+                        # IMAGE GENERATOR
+                        if cleaned_data['use_image_generator'] and (IMAGE_GENERATOR_LANDSCAPE != "" or IMAGE_GENERATOR_PORTRAIT != ""):
+                            _image_generator(PATH_SERVER, path, cleaned_data['file'].name)
+                        # GENERATE CROPPED/RECTANGULAR IMAGE
+                        if cleaned_data['use_image_generator'] and IMAGE_CROP_GENERATOR != "":
+                            _image_crop_generator(PATH_SERVER, path, cleaned_data['file'].name)
+            # MESSAGE & REDIRECT
+            msg = _('Upload successful.')
+            request.user.message_set.create(message=msg)
+            # on redirect, sort by date desc to see the uploaded files on top of the list
+            redirect_url = URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop']
+            return HttpResponseRedirect(redirect_url)
     else:
         formset = UploadFormSet(path_server=PATH_SERVER, path=path)
     
