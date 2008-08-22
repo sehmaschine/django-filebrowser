@@ -18,17 +18,18 @@
 
 {% block content %}
 {% if query.pop %}<div class="fb_breadcrumbs">{{ breadcrumbs }}</div>{% endif %}
+
 <div id="content-main">
-    <form enctype="multipart/form-data" action="?{{ query.pop }}" method="post">
+    <form action="?{{ query.pop }}" method="post">
     <div>
-        {% if error %}<p class="errornote">{{ error.headline }}</p>{% endif %}
-        <fieldset class="module aligned ()">
-        {% if error %}<div class="form-row errors">{% else %}<div class="form-row">{% endif %}
-            {% if error.error_msg %}<ul class="errorlist"><li>{{ error.error_msg }}</li></ul>{% endif %}
-            <label for="id_name" class="required">{% trans "Name" %}</label>
-            <input type="text" id="id_name" class="vTextField required" name="name" size="50" value="" maxlength="30" />
+        {% if form.errors %}<p class="errornote">Please correct the following errors.</p>{% endif %}
+        <fieldset class="module aligned">
+        <div class="form-row {% if form.dir_name.errors %}errors{% endif %}">
+            {% if form.name.errors %}<ul class="errorlist">{{ form.name.errors }}</ul>{% endif %}
+            <label class="required" for="id_dir_name">{{ form.name.label }}</label>
+            {{ form.name }}
             {% if file_extension %}<b>{{ file_extension }}</b>{% endif %}
-            <p class="help">{% trans "The file/directory will automatically be converted to lowercase.<br />Only letters, numbers, underscores and hyphens are allowed." %}</p>
+            {% if form.name.help_text %}<p class="help">{{ form.name.help_text|safe }}</p>{% endif %}
         </div>
         </fieldset>
         <div class="submit-row">

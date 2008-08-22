@@ -32,9 +32,11 @@
         {% for form in formset.forms %}
         <div class="form-row">
             {% if form.file.errors %}{{ form.file.errors }}{% endif %}
-            <label>{{ form.file.label }}</label>
+            <label>{{ form.file.label }} {{ forloop.counter }}</label>
             {{ form.file }}
-            {% if settings_var.IMAGE_GENERATOR_LANDSCAPE or settings_var.IMAGE_GENERATOR_PORTRAIT %}{{ form.use_image_generator }}{% endif %}
+            {% if settings_var.IMAGE_GENERATOR_LANDSCAPE or settings_var.IMAGE_GENERATOR_PORTRAIT %}
+                <p class="help">{{ form.use_image_generator }} {{ form.use_image_generator.label }}</p>
+            {% endif %}
         </div>
         {% endfor %}
         </fieldset>

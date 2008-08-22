@@ -5,21 +5,25 @@
 {% block coltype %}colM{% endblock %}
 {% block bodyclass %}change-form{% endblock %}
 {% block stylesheet %}{% admin_media_prefix %}css/forms.css{% endblock %}
+
 {% block extrastyle %}
 <link rel="stylesheet" type="text/css" href="{{ settings_var.PATH_FILEBROWSER_MEDIA }}css/filebrowser.css" />
 {% if query.pop %}
+<!-- popup window: disable header and breadcrumbs -->
 <style type="text/css">
 #header { display: none; }
 .breadcrumbs { display: none; }
 </style>
 {% endif %}
 {% endblock %}
+
+<!-- breadcrumbs -->
 {% block breadcrumbs %}<div class="breadcrumbs">{% if not query.pop %}{{ breadcrumbs }}{% endif %}</div>{% endblock %}
 
 {% block content %}
 {% if query.pop %}<div class="fb_breadcrumbs">{{ breadcrumbs }}</div>{% endif %}
 <div id="content-main">
-    <form enctype="multipart/form-data" action="?{{ query.pop }}" method="post">
+    <form action="?{{ query.pop }}" method="post">
     <div>
         {% if form.errors %}<p class="errornote">Please correct the following errors.</p>{% endif %}
         <fieldset class="module aligned">
