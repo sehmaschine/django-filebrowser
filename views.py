@@ -249,53 +249,25 @@ def makethumb(request, dir_name=None, file_name=None):
     query = _get_query(request.GET)
     
     if file_name:
+        # MAKE THUMB FOR SINGLE IMAGE
         file_path = os.path.join(PATH_SERVER, path, file_name)
-        try:
-            im = Image.open(file_path)
-            im.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
-            try:
-                im.save(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file_name))
-                msg = _('The Thumbnail was succesfully created.')
-            except IOError:
-                msg = _('Thumbnail creation failed.')
-        except IOError:
-            msg = _('File does not exist.')
-        request.user.message_set.create(message=msg)
-        return HttpResponseRedirect(URL_ADMIN + path + query['query_str_total'])
+        if os.path.isfile(file_path):
+            _make_image_thumbnail(PATH_SERVER, path, file_name)
         
     else:
+        # MAKE THUMBS FOR WHOLE DIRECTORY
         dir_path = os.path.join(PATH_SERVER, path)
         dir_list = os.listdir(dir_path)
-        msg = ""
         for file in dir_list:
-            if re.compile(THUMB_PREFIX, re.M).search(file):
-                continue
-            else:
-                if os.path.isfile(os.path.join(PATH_SERVER, path, file)): # file
-                    file_extension = os.path.splitext(file)[1].lower()
-                else:
+            if os.path.isfile(os.path.join(PATH_SERVER, path, file)) and not os.path.isfile(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file)):
+                # EXCLUDE THUMBNAILS
+                if re.compile(THUMB_PREFIX, re.M).search(file):
                     continue
-                for k,v in EXTENSIONS.iteritems():
-                    for extension in v:
-                        if file_extension == extension.lower():
-                            file_type = k
-                            
-                if file_type == 'Image':
-                    if os.path.isfile(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file)):
-                        continue
-                    else:
-                        file_path = os.path.join(PATH_SERVER, path, file)
-                        thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + file)
-                        try:
-                            im = Image.open(file_path)
-                            im.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
-                            im.save(thumb_path)
-                            msg = _('The Thumbnails were succesfully created.')
-                        except IOError:
-                            pass
-        if msg:
-            request.user.message_set.create(message=msg)
-        return HttpResponseRedirect(URL_ADMIN + path + query['query_str_total'])
+                else:
+                    if _get_file_type(file) == "Image":
+                        _make_image_thumbnail(PATH_SERVER, path, file)
+    
+    return HttpResponseRedirect(URL_ADMIN + path + query['query_str_total'])
     
     return render_to_response('filebrowser/index.html', {
         'dir': dir_name,
@@ -406,14 +378,14 @@ def rename(request, dir_name=None, file_name=None):
                         os.rename(old_thumb_path, new_thumb_path)
                     except OSError, (errno, strerror):
                         form.errors['name'] = forms.util.ErrorList([_('Error renaming Thumbnail.')])
-                
-                # TODO: RENAME IMAGE_VERSIONS
+                    
+                    # RENAME IMAGE VERSIONS? TOO MUCH MAGIC?
                 
                 # MESSAGE & REDIRECT
                 if not form.errors:
                     msg = _('Renaming was successful.')
                     request.user.message_set.create(message=msg)
-                    # on redirect, sort by date desc to see the new directory on top of the list
+                    # on redirect, sort by date desc to see the new stuff on top of the list
                     return HttpResponseRedirect(URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop'])
             except OSError, (errno, strerror):
                 form.errors['name'] = forms.util.ErrorList([_('Error.')])
