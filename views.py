@@ -253,20 +253,18 @@ def makethumb(request, dir_name=None, file_name=None):
         file_path = os.path.join(PATH_SERVER, path, file_name)
         if os.path.isfile(file_path):
             _make_image_thumbnail(PATH_SERVER, path, file_name)
-        
+    
     else:
         # MAKE THUMBS FOR WHOLE DIRECTORY
         dir_path = os.path.join(PATH_SERVER, path)
         dir_list = os.listdir(dir_path)
         for file in dir_list:
-            if os.path.isfile(os.path.join(PATH_SERVER, path, file)) and not os.path.isfile(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file)):
-                # EXCLUDE THUMBNAILS
-                if re.compile(THUMB_PREFIX, re.M).search(file):
-                    continue
-                else:
-                    if _get_file_type(file) == "Image":
-                        _make_image_thumbnail(PATH_SERVER, path, file)
+            if os.path.isfile(os.path.join(PATH_SERVER, path, file)) and not os.path.isfile(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file)) and not re.compile(THUMB_PREFIX, re.M).search(file) and _get_file_type(file) == "Image":
+                _make_image_thumbnail(PATH_SERVER, path, file)
     
+    # MESSAGE & REDIRECT
+    msg = _('Thumbnail creation successful.')
+    request.user.message_set.create(message=msg)
     return HttpResponseRedirect(URL_ADMIN + path + query['query_str_total'])
     
     return render_to_response('filebrowser/index.html', {
@@ -283,7 +281,6 @@ def delete(request, dir_name=None):
     Delete existing File/Directory.
         If file is an Image, also delete thumbnail.
         When trying to delete a directory, the directory has to be empty.
-        Image Versions (including the directory) are also deleted.
     """
     
     path = _get_path(dir_name)
