@@ -1,45 +1,30 @@
-function FileSubmit(FileURL, ThumbURL) {
-    // window.name is the name of the input-field
-    // below is the construction of the preview:
-    // <label for="id_image_overview">Label:</label>
-    // INPUT-FIELD
-    // <input onchange='javscript:FileBrowser.fieldChange("id_...");' id="id_..." class="vTextField" name="..." value="" type="text">
-    // SEARCH ICON
-    // <a href='javascript:FileBrowser.show("id_...", "/");'><img src="/media/admin/filebrowser/img/icon_search.png"></a>
-    // IMAGE PREVIEW OR ICON (FOR OTHER DOCUMENT-TYPES)
-    // <p style="display: block;" class="help"><a target="_blank" href="link/to/image"><img src="/path/to/thumb" id="image_id_..."></a></p>
+function FileSubmit(FileURL, ThumbURL, FileType) {
     
-    var wname=window.name.split("___").join(".");
-    // get input field
-    elem = opener.document.getElementById(wname);
-    elem.value = FileURL;
-    // get ID for the preview-image
-    imgID = 'image_' + wname;
+    var input_id=window.name.split("___").join(".");
+    var preview_id = 'image_' + input_id;
+    var link_id = 'link_' + input_id;
+    var help_id = 'help_' + input_id;
+    input = opener.document.getElementById(input_id);
+    preview = opener.document.getElementById(preview_id);
+    link = opener.document.getElementById(link_id);
+    help = opener.document.getElementById(help_id);
+    // set new value for input field
+    input.value = FileURL;
     
-    p_elem = ""
-    p_elem = opener.document.getElementById(imgID).parentNode;
-    p_elem_fc = opener.document.getElementById(imgID).parentNode.firstChild;
-    if (p_elem.nodeName != "P") {
-        p_elem = opener.document.getElementById(imgID).parentNode.parentNode;
-        p_elem_fc = opener.document.getElementById(imgID).parentNode.parentNode.firstChild;
-    }
-    if (ThumbURL && ThumbURL != "/media/img/filebrowser/filebrowser_Thumb.gif") {
-        var temp_link = opener.document.createElement("a");
-        temp_link.setAttribute("href", FileURL);
-        temp_link.setAttribute("target", "_blank");
-        var temp_image = opener.document.createElement("img");
-        temp_image.setAttribute("id", imgID);
-        temp_image.setAttribute("class", "preview");
-        temp_image.setAttribute("src", ThumbURL);
-        temp_link.appendChild(temp_image);
-        p_elem.setAttribute("style", "display:block");
-        p_elem.removeChild(p_elem_fc);
-        p_elem.appendChild(temp_link);
-    } else if (ThumbURL == "/media/img/filebrowser/filebrowser_Thumb.gif") {
-        opener.document.getElementById(imgID).parentNode.setAttribute("style", "display:block");
-        opener.FileBrowser.removePreview(imgID);
+    if (ThumbURL && FileType != "") {
+        // selected file is an image and thumbnail is available:
+        // display the preview-image (thumbnail)
+        // link the preview-image to the original image
+        link.setAttribute("href", FileURL);
+        link.setAttribute("target", "_blank");
+        preview.setAttribute("src", ThumbURL);
+        help.setAttribute("style", "display:block");
     } else {
-        opener.document.getElementById(imgID).parentNode.setAttribute("style", "display:none");
+        // hide preview elements
+        link.setAttribute("href", "");
+        link.setAttribute("target", "");
+        preview.setAttribute("src", "");
+        help.setAttribute("style", "display:none");
     }
     this.close();
 }
