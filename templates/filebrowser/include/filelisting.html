@@ -4,7 +4,7 @@
     <!-- Fileselect for FileBrowseField -->
     {% ifequal query.pop 'pop=1' %}
     <td style="border-left: none !important; padding-top: 5px !important;">
-        <a href="javascript://" onclick="FileSubmit('{{ file.select_link }}', '{{ file.path_thumb }}');" class="fb_selectlink"></a>
+        <a href="javascript://" onclick="FileSubmit('{{ file.select_link }}', '{{ file.path_thumb }}', '{{ file.file_type }}');" class="fb_selectlink"></a>
     </td>
     {% endifequal %}
     <!-- Fileselect for RTE/TinyMCE -->
