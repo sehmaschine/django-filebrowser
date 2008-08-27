@@ -16,6 +16,7 @@ from filebrowser.functions import _get_path, _get_subdir_list, _get_dir_list, _g
 # get forms
 from filebrowser.forms import MakeDirForm, RenameForm, UploadForm, BaseUploadFormSet
 
+
 def index(request, dir_name=None):
     """
     Show list of files on a server-directory.
@@ -47,7 +48,7 @@ def index(request, dir_name=None):
         flag_makethumb = False # Boolean
         flag_deletedir = False # Boolean
         
-        # DON'T DISPLAY FILES STARTING WITH %THUMB_PREFIX%
+        # DON'T DISPLAY FILES STARTING WITH %THUMB_PREFIX% OR "."
         if re.compile(THUMB_PREFIX, re.M).search(file) or \
         file.startswith('.'): # ... or with a '.' \
             continue
@@ -73,12 +74,10 @@ def index(request, dir_name=None):
             if not os.listdir(os.path.join(PATH_SERVER, path, file)):
                 flag_deletedir = True
         
-        # FILETYPE / COUNTER
-        for k,v in EXTENSIONS.iteritems():
-            for extension in v:
-                if file_extension == extension.lower():
-                    file_type = k
-                    counter[k] = counter[k] + 1
+        # FILETYPE / COUNTER        
+        file_type = _get_file_type(file)
+        if file_type:
+            counter[file_type] = counter[file_type] + 1
         
         # DIMENSIONS / MAKETHUMB / SELECT
         if file_type == 'Image':
@@ -253,7 +252,6 @@ def makethumb(request, dir_name=None, file_name=None):
         file_path = os.path.join(PATH_SERVER, path, file_name)
         if os.path.isfile(file_path):
             _make_image_thumbnail(PATH_SERVER, path, file_name)
-    
     else:
         # MAKE THUMBS FOR WHOLE DIRECTORY
         dir_path = os.path.join(PATH_SERVER, path)
