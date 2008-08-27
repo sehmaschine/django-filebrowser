@@ -24,13 +24,14 @@ def index(request, dir_name=None):
     
     path = _get_path(dir_name)
     query = _get_query(request.GET)
+    
+    # INITIAL VARIABLES
     results_var = {'results_total': 0, 'results_current': 0, 'delete_total': 0, 'change_total': 0 }
     counter = {}
     for k,v in EXTENSIONS.iteritems():
         counter[k] = 0
     
     dir_list = os.listdir(os.path.join(PATH_SERVER, path))
-    
     file_list = []
     for file in dir_list:
         
@@ -40,9 +41,9 @@ def index(request, dir_name=None):
         date = '' # YYYY-MM-dd
         path_thumb = '' # path to thumbnail
         link = '' # link to file (using URL_WWW), link to folder (using URL_ADMIN)
-        select_link = '' # link to file (using URL_WWW)
+        select_link = '' # link to file (using URL_WWW); used by the filebrowsefield
         file_extension = '' # see EXTENSIONS in fb_settings.py
-        file_type = '' # Folder, Image, Video, Document, Sound, Code
+        file_type = '' # Folder, Image, Video, Document, Sound, Code, ...
         image_dimensions = '' # (width, height)
         thumb_dimensions = '' # (width, height)
         flag_makethumb = False # Boolean
@@ -53,7 +54,7 @@ def index(request, dir_name=None):
         file.startswith('.'): # ... or with a '.' \
             continue
         else:
-            results_var['results_total'] = results_var['results_total'] + 1
+            results_var['results_total'] += 1
         
         # SIZE
         filesize_long = os.path.getsize(os.path.join(PATH_SERVER, path, file))
@@ -66,18 +67,17 @@ def index(request, dir_name=None):
         # EXTENSION / FLAG_EMPTYDIR / DELETE_TOTAL
         if os.path.isfile(os.path.join(PATH_SERVER, path, file)): # file
             file_extension = os.path.splitext(file)[1].lower()
-            link = "%s%s%s" % (URL_WWW, path, file)
-            select_link = link
+            select_link = link = "%s%s%s" % (URL_WWW, path, file)
         elif os.path.isdir(os.path.join(PATH_SERVER, path, file)): # folder
             link = "%s%s%s" % (URL_ADMIN, path, file)
             select_link = "%s%s%s/" % (URL_WWW, path, file)
             if not os.listdir(os.path.join(PATH_SERVER, path, file)):
-                flag_deletedir = True
+                flag_deletedir = True # only empty directories are allowed to be deleted
         
-        # FILETYPE / COUNTER        
+        # FILETYPE / COUNTER
         file_type = _get_file_type(file)
         if file_type:
-            counter[file_type] = counter[file_type] + 1
+            counter[file_type] += 1
         
         # DIMENSIONS / MAKETHUMB / SELECT
         if file_type == 'Image':
@@ -127,11 +127,11 @@ def index(request, dir_name=None):
     results_var['results_current'] = len(file_list)
     for file in file_dict:
         if file['file_type'] == 'Image':
-            results_var['change_total'] = results_var['change_total'] + 1
+            results_var['change_total'] += 1
         if file['file_type'] != 'Folder':
-            results_var['delete_total'] = results_var['delete_total'] + 1
+            results_var['delete_total'] += 1
         elif file['file_type'] == 'Folder' and file['flag_deletedir'] == True:
-            results_var['delete_total'] = results_var['delete_total'] + 1
+            results_var['delete_total'] += 1
     
     return render_to_response('filebrowser/index.html', {
         'dir': dir_name,
