@@ -1,0 +1,22 @@
+<input id="{{ final_attrs.id }}" type="text" name="{{ final_attrs.name }}" value="{{ final_attrs.value}}" />
+<a href="javascript:FileBrowser.show('{{ final_attrs.id }}', '{{ final_attrs.initial_directory }}');">
+    <img src="http://skip.at/media/admin/filebrowser/img/icon_search.png"/>
+</a>
+{% if final_attrs.value %}
+<p class="help" id="help_{{ final_attrs.id }}">
+    <a href="{{ final_attrs.value }}" target="_blank" id="link_{{ final_attrs.id }}">
+        <img id="image_{{ final_attrs.id }}" class="preview" src="{{ final_attrs.thumbnail }}" />
+    </a>
+</p>
+{% else %}
+<p class="help" id="help_{{ final_attrs.id }}" style="display: none;">
+    <a href="javascript://" target="_self" id="link_{{ final_attrs.id }}">
+        <img id="image_{{ final_attrs.id }}" class="preview" src="" />
+    </a>
+</p>
+{% endif %}
+{% comment %}
+{% if final_attrs.extensions_allowed %}
+<p class="help">{% for extension in final_attrs.extensions_allowed %}{{ extension }} {% endfor %}</p>
+{% endif %}
+{% endcomment %}
