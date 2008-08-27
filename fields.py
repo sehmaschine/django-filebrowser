@@ -29,6 +29,7 @@ class FileBrowseFormField(forms.Field):
         self.max_length, self.min_length = max_length, min_length
         self.initial_directory = kwargs['initial_directory']
         self.extensions_allowed = kwargs['extensions_allowed']
+        print "kwargs: ", kwargs
         del kwargs['initial_directory']
         del kwargs['extensions_allowed']
         super(FileBrowseFormField, self).__init__(*args, **kwargs)
@@ -45,7 +46,7 @@ class FileBrowseFormField(forms.Field):
         if self.min_length is not None and value_length < self.min_length:
             raise forms.ValidationError(self.error_messages['min_length'] % {'min': self.min_length, 'length': value_length})
         file_extension = os.path.splitext(value)[1].lower()
-        if not file_extension in self.extensions_allowed:
+        if self.extensions_allowed and not file_extension in self.extensions_allowed:
             raise forms.ValidationError(self.error_messages['extension'] % {'ext': file_extension, 'allowed': ", ".join(self.extensions_allowed)})
         return value
     
