@@ -109,10 +109,16 @@ class FileBrowseField(Field):
         return super(FileBrowseField, self).formfield(**defaults)
     
     def __init__(self, *args, **kwargs):
-        self.initial_directory = kwargs['initial_directory']
-        self.extensions_allowed = kwargs['extensions_allowed']
-        del kwargs['initial_directory']
-        del kwargs['extensions_allowed']
+        try:
+            self.initial_directory = kwargs['initial_directory']
+            del kwargs['initial_directory']
+        except:
+            self.initial_directory = "/"
+        try:
+            self.extensions_allowed = kwargs['extensions_allowed']
+            del kwargs['extensions_allowed']
+        except:
+            self.extensions_allowed = ""
         return super(FileBrowseField, self).__init__(*args, **kwargs)
     
 
