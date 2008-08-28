@@ -57,6 +57,7 @@ def _get_breadcrumbs(query, dir_name, page):
     
     subdir_list = _get_subdir_list(dir_name)
     dir_list = _get_dir_list(dir_name)
+    
     breadcrumbs = ""
     if not query['pop']:
         breadcrumbs = '<a href="%s">%s</a>&nbsp;&rsaquo;&nbsp;' % (URL_HOME,_('Home'))
@@ -154,7 +155,7 @@ def _get_filesize(filesize_long):
         filesize_str = str(filesize_long/1000) + "&nbsp;kB"
     elif filesize_long >= 1000000:
         filesize_str = str(filesize_long/1000000) + "&nbsp;MB"
-    return filesize_str
+    return mark_safe(filesize_str)
     
 
 def _make_filedict(file_list):

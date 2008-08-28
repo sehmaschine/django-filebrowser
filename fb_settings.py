@@ -2,14 +2,14 @@ import os
 from django.conf import settings
 
 # your media-url
-URL_WWW = settings.MEDIA_URL + 'uploads/'
+URL_WWW = getattr(settings, "FILEBROWSER_URL_WWW", settings.MEDIA_URL + 'uploads/')
 # your filebrowser admin url
 URL_ADMIN = getattr(settings, "FILEBROWSER_URL_ADMIN", '/admin/filebrowser/')
 # home url
 URL_HOME = getattr(settings, "FILEBROWSER_URL_HOME", '/admin/')
 
 # paths
-PATH_SERVER = os.path.join(settings.MEDIA_ROOT, 'uploads')
+PATH_SERVER = getattr(settings, "FILEBROWSER_PATH_SERVER", os.path.join(settings.MEDIA_ROOT, 'uploads'))
 # path to your filebrowser media (img/js/css)
 PATH_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_PATH_MEDIA", "/media/admin/filebrowser/")
 # path to tinymce

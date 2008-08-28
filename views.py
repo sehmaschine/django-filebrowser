@@ -36,18 +36,18 @@ def index(request, dir_name=None):
     for file in dir_list:
         
         # VARIABLES
-        filesize_long = '' # filesize
-        filesize_str = '' # filesize in B, kB, MB
-        date = '' # YYYY-MM-dd
-        path_thumb = '' # path to thumbnail
-        link = '' # link to file (using URL_WWW), link to folder (using URL_ADMIN)
-        select_link = '' # link to file (using URL_WWW); used by the filebrowsefield
-        file_extension = '' # see EXTENSIONS in fb_settings.py
-        file_type = '' # Folder, Image, Video, Document, Sound, Code, ...
-        image_dimensions = '' # (width, height)
-        thumb_dimensions = '' # (width, height)
-        flag_makethumb = False # Boolean
-        flag_deletedir = False # Boolean
+        var_filesize_long = '' # filesize
+        var_filesize_str = '' # filesize in B, kB, MB
+        var_date = '' # YYYY-MM-dd
+        var_path_thumb = '' # path to thumbnail
+        var_link = '' # link to file (using URL_WWW), link to folder (using URL_ADMIN)
+        var_select_link = '' # link to file (using URL_WWW)
+        var_file_extension = '' # see EXTENSIONS in fb_settings.py
+        var_file_type = '' # Folder, Image, Video, Document, Sound, Code, ...
+        var_image_dimensions = '' # (width, height)
+        var_thumb_dimensions = '' # (width, height)
+        var_flag_makethumb = False # Boolean
+        var_flag_deletedir = False # Boolean
         
         # DON'T DISPLAY FILES STARTING WITH %THUMB_PREFIX% OR "."
         if re.compile(THUMB_PREFIX, re.M).search(file) or \
@@ -57,46 +57,44 @@ def index(request, dir_name=None):
             results_var['results_total'] += 1
         
         # SIZE
-        filesize_long = os.path.getsize(os.path.join(PATH_SERVER, path, file))
-        filesize_str = _get_filesize(filesize_long)
+        var_filesize_long = os.path.getsize(os.path.join(PATH_SERVER, path, file))
+        var_filesize_str = _get_filesize(var_filesize_long)
         
         # DATE / TIME
         date_time = os.path.getmtime(os.path.join(PATH_SERVER, path, file))
-        date = strftime("%Y-%m-%d", gmtime(date_time))
+        var_date = strftime("%Y-%m-%d", gmtime(date_time))
         
         # EXTENSION / FLAG_EMPTYDIR / DELETE_TOTAL
         if os.path.isfile(os.path.join(PATH_SERVER, path, file)): # file
-            file_extension = os.path.splitext(file)[1].lower()
-            select_link = link = "%s%s%s" % (URL_WWW, path, file)
+            var_file_extension = os.path.splitext(file)[1].lower()
+            var_select_link = var_link = "%s%s%s" % (URL_WWW, path, file)
         elif os.path.isdir(os.path.join(PATH_SERVER, path, file)): # folder
-            link = "%s%s%s" % (URL_ADMIN, path, file)
-            select_link = "%s%s%s/" % (URL_WWW, path, file)
+            var_link = "%s%s%s" % (URL_ADMIN, path, file)
+            var_select_link = "%s%s%s/" % (URL_WWW, path, file)
             if not os.listdir(os.path.join(PATH_SERVER, path, file)):
-                flag_deletedir = True # only empty directories are allowed to be deleted
+                var_flag_deletedir = True # only empty directories are allowed to be deleted
         
         # FILETYPE / COUNTER
-        file_type = _get_file_type(file)
-        if file_type:
-            counter[file_type] += 1
+        var_file_type = _get_file_type(file)
+        if var_file_type:
+            counter[var_file_type] += 1
         
         # DIMENSIONS / MAKETHUMB / SELECT
-        if file_type == 'Image':
+        if var_file_type == 'Image':
             try:
                 im = Image.open(os.path.join(PATH_SERVER, path, file))
-                image_dimensions = im.size
-                path_thumb = "%s%s%s%s" % (URL_WWW, path, THUMB_PREFIX, file)
+                var_image_dimensions = im.size
+                var_path_thumb = "%s%s%s%s" % (URL_WWW, path, THUMB_PREFIX, file)
                 try:
-                    thmb = Image.open(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file))
-                    thumb_dimensions = thmb.size
+                    thumb = Image.open(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file))
+                    var_thumb_dimensions = thumb.size
                 except:
-                    path_thumb = settings.ADMIN_MEDIA_PREFIX + 'filebrowser/img/filebrowser_Thumb.gif'
-                    flag_makethumb = True
+                    # if thumbnail does not exist, show makethumb-Icon instead.
+                    var_path_thumb = settings.ADMIN_MEDIA_PREFIX + 'filebrowser/img/filebrowser_Thumb.gif'
+                    var_flag_makethumb = True
             except:
                 # if image is corrupt, change filetype to not defined
-                file_type = ''
-                path_thumb = settings.ADMIN_MEDIA_PREFIX + 'filebrowser/img/filebrowser_' + file_type + '.gif'
-        else:
-            path_thumb = settings.ADMIN_MEDIA_PREFIX + 'filebrowser/img/filebrowser_' + file_type + '.gif'
+                var_file_type = ''
         
         # FILTER / SEARCH
         flag_extend = False
@@ -113,7 +111,7 @@ def index(request, dir_name=None):
         
         # APPEND FILE_LIST
         if flag_extend == True:
-            file_list.append([file, filesize_long, filesize_str, date, path_thumb, link, select_link, file_extension,file_type, image_dimensions, thumb_dimensions,file.lower(), flag_makethumb, flag_deletedir])
+            file_list.append([file, var_filesize_long, var_filesize_str, var_date, var_path_thumb, var_link, var_select_link, var_file_extension, var_file_type, var_image_dimensions, var_thumb_dimensions, file.lower(), var_flag_makethumb, var_flag_deletedir])
     
     # SORT LIST
     file_list.sort(lambda x, y: cmp(x[int(query['o'])], y[int(query['o'])]))
