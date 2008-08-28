@@ -201,6 +201,7 @@ def _get_settings_var(http_post, path):
     settings_var['MAX_UPLOAD_SIZE'] = _get_filesize(MAX_UPLOAD_SIZE)
     settings_var['THUMB_PREFIX'] = THUMB_PREFIX
     settings_var['THUMBNAIL_SIZE'] = THUMBNAIL_SIZE
+    settings_var['IMAGE_GENERATOR_DIRECTORY'] = IMAGE_GENERATOR_DIRECTORY
     settings_var['IMAGE_GENERATOR_LANDSCAPE'] = IMAGE_GENERATOR_LANDSCAPE
     settings_var['IMAGE_GENERATOR_PORTRAIT'] = IMAGE_GENERATOR_PORTRAIT
     return settings_var
@@ -254,7 +255,7 @@ def _image_generator(PATH_SERVER, path, filename):
     """
     
     file_path = os.path.join(PATH_SERVER, path, filename)
-    versions_path = os.path.join(PATH_SERVER, path, filename.replace(".", "_").lower() + "_versions")
+    versions_path = os.path.join(PATH_SERVER, path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY)
     if not os.path.isdir(versions_path):
         os.mkdir(versions_path)
         os.chmod(versions_path, 0775)
@@ -283,7 +284,7 @@ def _image_generator(PATH_SERVER, path, filename):
                 new_image = im.resize(new_size, Image.ANTIALIAS)
                 new_image.save(image_path, quality=90, optimize=1)
                 # MAKE THUMBNAIL
-                _make_image_thumbnail(PATH_SERVER, os.path.join(path, filename.replace(".", "_").lower() + "_versions"), prefix[0] + filename)
+                _make_image_thumbnail(PATH_SERVER, os.path.join(path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY), prefix[0] + filename)
         except IOError:
             msg = "%s: %s" % (filename, _('Image creation failed.'))
     return msg
@@ -295,7 +296,7 @@ def _image_crop_generator(PATH_SERVER, path, filename):
     """
     
     file_path = os.path.join(PATH_SERVER, path, filename)
-    versions_path = os.path.join(PATH_SERVER, path, filename.replace(".", "_").lower() + "_versions")
+    versions_path = os.path.join(PATH_SERVER, path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY)
     if not os.path.isdir(versions_path):
         os.mkdir(versions_path)
         os.chmod(versions_path, 0775)
@@ -339,7 +340,7 @@ def _image_crop_generator(PATH_SERVER, path, filename):
             cropped_image = new_image.crop(crop_size)
             cropped_image.save(image_path, quality=90, optimize=1)
             # MAKE THUMBNAIL
-            _make_image_thumbnail(PATH_SERVER, os.path.join(path, filename.replace(".", "_").lower() + "_versions"), prefix[0] + filename)
+            _make_image_thumbnail(PATH_SERVER, os.path.join(path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY), prefix[0] + filename)
         except IOError:
             msg = "%s: %s" % (filename, _('Image creation failed.'))
     return msg

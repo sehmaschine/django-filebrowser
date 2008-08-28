@@ -297,7 +297,7 @@ def delete(request, dir_name=None):
                 except OSError:
                     pass
                 # TRY DELETING IMAGE_VERSIONS
-                versions_path = os.path.join(PATH_SERVER, path, request.GET.get('filename').replace(".", "_").lower() + "_versions")
+                versions_path = os.path.join(PATH_SERVER, path, request.GET.get('filename').replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY)
                 try:
                     dir_list = os.listdir(versions_path)
                     for file in dir_list:
