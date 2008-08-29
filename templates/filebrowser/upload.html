@@ -34,7 +34,7 @@
             {% if form.file.errors %}{{ form.file.errors }}{% endif %}
             <label>{{ form.file.label }} {{ forloop.counter }}</label>
             {{ form.file }}
-            {% if settings_var.IMAGE_GENERATOR_LANDSCAPE or settings_var.IMAGE_GENERATOR_PORTRAIT %}
+            {% if settings_var.USE_IMAGE_GENERATOR %}
                 <p class="help">{{ form.use_image_generator }} {{ form.use_image_generator.label }}</p>
             {% endif %}
         </div>
