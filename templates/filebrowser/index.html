@@ -30,6 +30,7 @@
         <li><a href="mkdir/{{ query.query_str_total }}" class="addlink">{% trans "Make Directory" %}</a></li>
         <li><a href="upload/{{ query.query_str_total }}" class="addlink">{% trans "Multiple Upload" %}</a></li>
         <li><a href="makethumbs/{{ query.query_str_total }}" class="addlink">{% trans "Make Thumbs" %}</a></li>
+        {% if settings_var.USE_IMAGE_GENERATOR %}<li><a href="generateimages/{{ query.query_str_total }}" class="addlink">{% trans "Generate Images" %}</a></li>{% endif %}
     </ul>
     <div class="module filtered" id="changelist">
         {% include "filebrowser/include/toolbar.html" %}

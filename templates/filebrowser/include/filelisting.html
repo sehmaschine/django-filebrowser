@@ -44,6 +44,16 @@
     <td style="padding-top: 9px;">{{ file.date }}</td>
     <!-- Rename -->
     <td  style="padding: 5px !important;"><a href="rename/{{ file.filename }}/?{{ query.pop }}" class="fb_renamelink"></a></td>
+    <!-- Image Generator -->
+    {% if settings_var.USE_IMAGE_GENERATOR %}
+    {% ifnotequal counter.Image 0 %}
+    <td  style="padding: 5px !important;">
+        {% ifequal file.file_type 'Image' %}
+        <a href="generateimages/{{ file.filename }}/?{{ query.pop }}" class="fb_image_generator_link">generate images</a>
+        {% endifequal %}
+    </td>
+    {% endifnotequal %}
+    {% endif %}
     <!-- Delete -->
     {% if results_var.delete_total %}
     <td style="padding: 5px !important;">

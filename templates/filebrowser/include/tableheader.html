@@ -20,6 +20,8 @@
     {% ifnotequal query.o '3' %}<th><a href="?{{ query.query_nosort }}&amp;ot=asc&amp;o=3">{% trans 'Date' %}</a></th>{% endifnotequal %}
     <!-- RENAME -->
     <th>&nbsp;</th>
+    <!-- IMAGE GENERATOR -->
+    {% if settings_var.USE_IMAGE_GENERATOR %}{% ifnotequal counter.Image 0 %}{% if results_var.change_total %}<th>&nbsp;</th>{% endif %}{% endifnotequal %}{% endif %}
     <!-- DELETE -->
     {% if results_var.delete_total %}<th>&nbsp;</th>{% endif %}
     </tr>
