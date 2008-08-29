@@ -396,3 +396,47 @@ def rename(request, dir_name=None, file_name=None):
 rename = staff_member_required(never_cache(rename))
 
 
+def generateimages(request, dir_name=None, file_name=None):
+    """
+    Generate Image Versions for existing singe Image or a whole Directory.
+        This is useful if someone uploads images via FTP, not using the
+        upload functionality of the FileBrowser.
+    """
+    
+    path = _get_path(dir_name)
+    query = _get_query(request.GET)
+    
+    if file_name:
+        # GENERATE IMAGES
+        if IMAGE_GENERATOR_LANDSCAPE != "" or IMAGE_GENERATOR_PORTRAIT != "":
+            _image_generator(PATH_SERVER, path, file_name)
+        # GENERATE CROPPED/RECTANGULAR IMAGE
+        if IMAGE_CROP_GENERATOR != "":
+            _image_crop_generator(PATH_SERVER, path, file_name)
+    else:
+        # GENERATE IMAGES FOR WHOLE DIRECTORY
+        dir_path = os.path.join(PATH_SERVER, path)
+        dir_list = os.listdir(dir_path)
+        for file in dir_list:
+            if os.path.isfile(os.path.join(PATH_SERVER, path, file)) and not re.compile(THUMB_PREFIX, re.M).search(file) and _get_file_type(file) == "Image":
+                # GENERATE IMAGES
+                if IMAGE_GENERATOR_LANDSCAPE != "" or IMAGE_GENERATOR_PORTRAIT != "":
+                    _image_generator(PATH_SERVER, path, file)
+                # GENERATE CROPPED/RECTANGULAR IMAGE
+                if IMAGE_CROP_GENERATOR != "":
+                    _image_crop_generator(PATH_SERVER, path, file)
+    
+    # MESSAGE & REDIRECT
+    msg = _('Successfully generated Images.')
+    request.user.message_set.create(message=msg)
+    return HttpResponseRedirect(URL_ADMIN + path + query['query_str_total'])
+    
+    return render_to_response('filebrowser/index.html', {
+        'dir': dir_name,
+        'query': query,
+        'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
+        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, '')
+    }, context_instance=Context(request))
+makethumb = staff_member_required(never_cache(makethumb))
+
+

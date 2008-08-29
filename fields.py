@@ -29,7 +29,6 @@ class FileBrowseFormField(forms.Field):
         self.max_length, self.min_length = max_length, min_length
         self.initial_directory = kwargs['initial_directory']
         self.extensions_allowed = kwargs['extensions_allowed']
-        print "kwargs: ", kwargs
         del kwargs['initial_directory']
         del kwargs['extensions_allowed']
         super(FileBrowseFormField, self).__init__(*args, **kwargs)
@@ -55,6 +54,8 @@ class FileBrowseWidget(Input):
     input_type = 'text'
     
     def __init__(self, attrs=None):
+        #self.initial_directory = URL_ADMIN + attrs['initial_directory']
+        #print self.initial_directory
         self.initial_directory = attrs['initial_directory']
         self.extensions_allowed = attrs['extensions_allowed']
         if attrs is not None:

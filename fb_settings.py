@@ -34,6 +34,8 @@ MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 5000000)
 THUMB_PREFIX = getattr(settings, 'FILEBROWSER_THUMB_PREFIX', 'thumb_')
 THUMBNAIL_SIZE = getattr(settings, 'FILEBROWSER_THUMBNAIL_SIZE', (50, 150))
 
+# use image generator
+USE_IMAGE_GENERATOR = getattr(settings, 'FILEBROWSER_USE_IMAGE_GENERATOR', True)
 # image generator directory
 # the name of the directory (which contains the generated image vesions) is constructed like this:
 # image_name with dots replaced with underlines + IMAGE_GENERATOR_DIRECTORY

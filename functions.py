@@ -201,6 +201,7 @@ def _get_settings_var(http_post, path):
     settings_var['MAX_UPLOAD_SIZE'] = _get_filesize(MAX_UPLOAD_SIZE)
     settings_var['THUMB_PREFIX'] = THUMB_PREFIX
     settings_var['THUMBNAIL_SIZE'] = THUMBNAIL_SIZE
+    settings_var['USE_IMAGE_GENERATOR'] = USE_IMAGE_GENERATOR
     settings_var['IMAGE_GENERATOR_DIRECTORY'] = IMAGE_GENERATOR_DIRECTORY
     settings_var['IMAGE_GENERATOR_LANDSCAPE'] = IMAGE_GENERATOR_LANDSCAPE
     settings_var['IMAGE_GENERATOR_PORTRAIT'] = IMAGE_GENERATOR_PORTRAIT
