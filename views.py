@@ -100,7 +100,7 @@ def index(request, dir_name=None):
         flag_extend = False
         if query['filter_type'] != '' and query['filter_date'] != '' and file_type == query['filter_type'] and _get_filterdate(query['filter_date'], date_time):
             flag_extend = True
-        elif query['filter_type'] != '' and query['filter_date'] == '' and file_type == query['filter_type']:
+        elif query['filter_type'] != '' and query['filter_date'] == '' and var_file_type == query['filter_type']:
             flag_extend = True
         elif query['filter_type'] == '' and query['filter_date'] != '' and _get_filterdate(query['filter_date'], date_time):
             flag_extend = True

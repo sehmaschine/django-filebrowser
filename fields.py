@@ -15,7 +15,7 @@ from django.forms.fields import EMPTY_VALUES
 
 import os
 
-from filebrowser.functions import _get_file_type
+from filebrowser.functions import _get_file_type, _url_join
 from filebrowser.fb_settings import *
 
 class FileBrowseFormField(forms.Field):
@@ -54,8 +54,6 @@ class FileBrowseWidget(Input):
     input_type = 'text'
     
     def __init__(self, attrs=None):
-        #self.initial_directory = URL_ADMIN + attrs['initial_directory']
-        #print self.initial_directory
         self.initial_directory = attrs['initial_directory']
         self.extensions_allowed = attrs['extensions_allowed']
         if attrs is not None:
@@ -66,6 +64,7 @@ class FileBrowseWidget(Input):
     def render(self, name, value, attrs=None):
         if value is None: value = ''
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
+        final_attrs['initial_directory'] = _url_join(URL_ADMIN, final_attrs['initial_directory'])
         if value != '':
             # Only add the 'value' attribute if a value is non-empty.
             final_attrs['value'] = force_unicode(value)

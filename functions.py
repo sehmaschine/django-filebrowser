@@ -8,6 +8,17 @@ import os, re, Image, decimal
 # get settings
 from filebrowser.fb_settings import *
 
+
+def _url_join(*args):
+    url = "/"
+    for arg in args:
+        arg_split = arg.split("/")
+        for elem in arg_split:
+            if elem != "":
+                url = url + elem + "/"
+    return url
+    
+
 def _get_path(dir_name):
     """
     Get path.
