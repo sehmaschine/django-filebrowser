@@ -390,7 +390,7 @@ def rename(request, dir_name=None, file_name=None):
         'query': query,
         'file_extension': file_extension,
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
+        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, 'Rename'),
         'title': _('Rename "%s"') % file_name,
     }, context_instance=Context(request))
 rename = staff_member_required(never_cache(rename))
