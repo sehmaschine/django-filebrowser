@@ -23,7 +23,7 @@ var FileBrowser = {
         var id2=String(id).split(".").join("___");
         FBWindow = window.open(href, String(id2), 'height=600,width=840,resizable=yes,scrollbars=yes');
         FBWindow.focus();
-    },
+    }
 }
 
 addEvent(window, 'load', FileBrowser.init);
