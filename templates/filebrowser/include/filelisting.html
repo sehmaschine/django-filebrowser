@@ -26,7 +26,7 @@
         <img src="{{ settings_var.PATH_FILEBROWSER_MEDIA }}img/filebrowser_Thumb.gif" width="{{ thumbnail_size.0 }}" style="margin: 2px;" /></a>
         {% else %}
         {% ifequal file.file_type 'Image' %}
-        <a href="{{ file.link }}"><img src="{{ file.path_thumb }}" width="{{ thumbnail_size.0 }}" height="{{ file.thumb_dimensions.1 }}" style="margin: 2px;" /></a>
+        <a href="{{ file.link }}"><img src="{{ file.path_thumb }}" width="{{ file.thumb_dimensions.0 }}" height="{{ file.thumb_dimensions.1 }}" style="margin: 2px;" /></a>
         {% endifequal %}
         {% endif %}
     </td>
