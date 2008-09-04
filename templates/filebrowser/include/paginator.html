@@ -1,15 +1,13 @@
 <p class="paginator">
-<span style="color: #999;">
 {% if results_var.results_total %}
     {% if not results_var.results_current %}
-    <span style="color: #666;">No Files Found</span>&nbsp;
+    <span class="error">No Files Found</span>&nbsp;
     {% endif %}<strong>{{ results_var.results_total }} Fil{{ results_var.results_total|pluralize:"e,es" }}</strong>&nbsp;
     {% for count in counter.items %}
         {{ count.0 }}:
         <strong>{{ count.1 }}</strong>&nbsp;
     {% endfor %}
 {% else %}
-    <span style="color: #666;"><strong>No Files</strong></span>
+    <strong>No Files</strong>
 {% endif %}
-</span>
 </p>
