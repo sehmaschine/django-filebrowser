@@ -3,24 +3,24 @@
 <tr>
     <!-- Fileselect for FileBrowseField -->
     {% ifequal query.pop 'pop=1' %}
-    <td style="border-left: none !important; padding-top: 5px !important;">
+    <td class="fb_icon">
         <a href="javascript://" onclick="FileSubmit('{{ file.select_link }}', '{{ file.path_thumb }}', '{{ file.file_type }}');" class="fb_selectlink"></a>
     </td>
     {% endifequal %}
     <!-- Fileselect for RTE/TinyMCE -->
     {% ifequal query.pop 'pop=2' %}
-    <td style="border-left: none !important; padding-top: 5px !important;">
+    <td class="fb_icon">
         {% ifnotequal file.file_type 'Folder' %}
         <a href="javascript://" onclick="FileBrowserDialogue.fileSubmit('{{ file.link }}');" class="fb_selectlink"></a>
         {% endifnotequal %}
     </td>
     {% endifequal %}
     <!-- FileIcon -->
-    <td style="border-left: none !important; padding: 5px !important;"><img src="{{ settings_var.PATH_FILEBROWSER_MEDIA }}img/filebrowser_{{ file.file_type }}.gif" style="margin-top: 1px;" /></td>
-    <!-- Thumb -->
+    <td class="fb_icon"><img src="{{ settings_var.PATH_FILEBROWSER_MEDIA }}img/filebrowser_{{ file.file_type }}.gif" style="margin-top: 1px;" /></td>
+    <!-- Thumbnail or MakeThumbIcon -->
     {% ifnotequal counter.Image 0 %}
     {% if results_var.change_total %}
-    <td style="padding: 5px; border-left: collapse;">
+    <td class="fb_icon">
         {% if file.flag_makethumb %}
         <a href="makethumb/{{ file.filename }}/?{{ query.pop }}">
         <img src="{{ settings_var.PATH_FILEBROWSER_MEDIA }}img/filebrowser_Thumb.gif" width="{{ thumbnail_size.0 }}" style="margin: 2px;" /></a>
@@ -34,20 +34,20 @@
     {% endifnotequal %}
     <!-- Filename/Dimensions -->
     {% ifequal file.file_type 'Folder' %}
-    <td style="padding-top: 9px;"><b><a href="{{ file.link }}/{{ query.query_str_total }}">{{ file.filename }}</a></b></td>
+    <td><b><a href="{{ file.link }}/{{ query.query_str_total }}">{{ file.filename }}</a></b></td>
     {% else %}
-    <td style="padding-top: 9px;"><b><a href="{{ file.link }}">{{ file.filename }}</a></b>{% if file.image_dimensions %}<br /><span class="tiny">{{ file.image_dimensions.0 }} x {{ file.image_dimensions.1 }} px</span>{% endif %}</td>
+    <td><b><a href="{{ file.link }}">{{ file.filename }}</a></b>{% if file.image_dimensions %}<br /><span class="tiny">{{ file.image_dimensions.0 }} x {{ file.image_dimensions.1 }} px</span>{% endif %}</td>
     {% endifequal %}
     <!-- Size -->
-    <td style="padding-top: 9px;">{{ file.filesize_str|safe }}</td>
+    <td>{{ file.filesize_str|safe }}</td>
     <!-- Date -->
-    <td style="padding-top: 9px;">{{ file.date }}</td>
+    <td>{{ file.date }}</td>
     <!-- Rename -->
-    <td  style="padding: 5px !important;"><a href="rename/{{ file.filename }}/?{{ query.pop }}" class="fb_renamelink"></a></td>
+    <td class="fb_icon"><a href="rename/{{ file.filename }}/?{{ query.pop }}" class="fb_renamelink"></a></td>
     <!-- Image Generator -->
     {% if settings_var.USE_IMAGE_GENERATOR %}
     {% ifnotequal counter.Image 0 %}
-    <td  style="padding: 5px !important;">
+    <td class="fb_icon">
         {% ifequal file.file_type 'Image' %}
         <a href="generateimages/{{ file.filename }}/?{{ query.pop }}" class="fb_image_generator_link">generate images</a>
         {% endifequal %}
@@ -56,7 +56,7 @@
     {% endif %}
     <!-- Delete -->
     {% if results_var.delete_total %}
-    <td style="padding: 5px !important;">
+    <td class="fb_icon">
         {% ifnotequal file.file_type 'Folder' %}
         <a href="delete/{{ query.query_str_total }}&filename={{ file.filename }}&type={{ file.file_type }}" class="fb_deletelink" onclick="return confirm('Are you sure you want to delete this file?');"></a>
         {% else %}
