@@ -77,14 +77,14 @@ class FileBrowseWidget(Input):
                 if os.path.isfile(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file)):
                     path_thumb = os.path.join(os.path.split(value)[0], THUMB_PREFIX + file)
                 else:
-                    path_thumb = settings.ADMIN_MEDIA_PREFIX + 'filebrowser/img/filebrowser_Thumb.gif'
+                    path_thumb = PATH_FILEBROWSER_MEDIA + 'img/filebrowser_type_image.gif'
             elif file_type == "Folder":
                 path_thumb = ""
             else:
                 # if file is not an image, display file-icon (which is linked to the file) instead
-                path_thumb = settings.ADMIN_MEDIA_PREFIX + 'filebrowser/img/filebrowser_' + file_type + '.gif'
+                path_thumb = PATH_FILEBROWSER_MEDIA + 'img/filebrowser_type_' + file_type + '.gif'
             final_attrs['thumbnail'] = path_thumb
-        path_search_icon = settings.ADMIN_MEDIA_PREFIX + 'filebrowser/img/icon_search.png'
+        path_search_icon = PATH_FILEBROWSER_MEDIA + 'img/filebrowser_icon_show.gif'
         final_attrs['search_icon'] = path_search_icon
         return render_to_string("filebrowser/custom_field.html", locals())
     
