@@ -45,7 +45,7 @@
     <!-- Rename -->
     <td class="fb_icon"><a href="rename/{{ file.filename }}/?{{ query.pop }}" class="fb_renamelink"></a></td>
     <!-- Image Generator -->
-    {% if settings_var.USE_IMAGE_GENERATOR %}
+    {% if settings_var.USE_IMAGE_GENERATOR and not file.flag_imageversion %}
     {% ifnotequal counter.Image 0 %}
     <td class="fb_icon">
         {% ifequal file.file_type 'Image' %}
