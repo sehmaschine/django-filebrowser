@@ -12,7 +12,7 @@ from django import forms
 # get settings
 from filebrowser.fb_settings import *
 # get functions
-from filebrowser.functions import _get_path, _get_subdir_list, _get_dir_list, _get_breadcrumbs, _get_sub_query, _get_query, _get_filterdate, _get_filesize, _make_filedict, _get_settings_var, _handle_file_upload, _get_file_type, _make_image_thumbnail, _image_generator, _image_crop_generator
+from filebrowser.functions import _get_path, _get_subdir_list, _get_dir_list, _get_breadcrumbs, _get_sub_query, _get_query, _get_filterdate, _get_filesize, _make_filedict, _get_settings_var, _handle_file_upload, _get_file_type, _make_image_thumbnail, _image_generator, _image_crop_generator, _is_image_version
 # get forms
 from filebrowser.forms import MakeDirForm, RenameForm, UploadForm, BaseUploadFormSet
 
@@ -26,7 +26,7 @@ def index(request, dir_name=None):
     query = _get_query(request.GET)
     
     # INITIAL VARIABLES
-    results_var = {'results_total': 0, 'results_current': 0, 'delete_total': 0, 'change_total': 0 }
+    results_var = {'results_total': 0, 'results_current': 0, 'delete_total': 0, 'change_total': 0, 'imagegenerator_total': 0 }
     counter = {}
     for k,v in EXTENSIONS.iteritems():
         counter[k] = 0
@@ -44,10 +44,11 @@ def index(request, dir_name=None):
         var_select_link = '' # link to file (using URL_WWW)
         var_file_extension = '' # see EXTENSIONS in fb_settings.py
         var_file_type = '' # Folder, Image, Video, Document, Sound, Code, ...
-        var_image_dimensions = '' # (width, height)
-        var_thumb_dimensions = '' # (width, height)
-        var_flag_makethumb = False # Boolean
-        var_flag_deletedir = False # Boolean
+        var_image_dimensions = '' # Image Dimensions (width, height)
+        var_thumb_dimensions = '' # Thumbnail Dimensions (width, height)
+        var_flag_makethumb = False # True, if Image has no Thumbnail.
+        var_flag_deletedir = False # True, if Directory is empty.
+        var_image_version = False # True, if Image is generated with ImageGenerator.
         
         # DON'T DISPLAY FILES STARTING WITH %THUMB_PREFIX% OR "."
         if re.compile(THUMB_PREFIX, re.M).search(file) or \
@@ -95,6 +96,10 @@ def index(request, dir_name=None):
             except:
                 # if image is corrupt, change filetype to not defined
                 var_file_type = ''
+            # check, if image is generated with ImageGenerator
+            var_image_version = _is_image_version(file)
+            if var_image_version == False:
+                results_var['imagegenerator_total'] += 1
         
         # FILTER / SEARCH
         flag_extend = False
@@ -111,7 +116,7 @@ def index(request, dir_name=None):
         
         # APPEND FILE_LIST
         if flag_extend == True:
-            file_list.append([file, var_filesize_long, var_filesize_str, var_date, var_path_thumb, var_link, var_select_link, var_file_extension, var_file_type, var_image_dimensions, var_thumb_dimensions, file.lower(), var_flag_makethumb, var_flag_deletedir])
+            file_list.append([file, var_filesize_long, var_filesize_str, var_date, var_path_thumb, var_link, var_select_link, var_file_extension, var_file_type, var_image_dimensions, var_thumb_dimensions, file.lower(), var_flag_makethumb, var_flag_deletedir, var_image_version])
     
     # SORT LIST
     file_list.sort(lambda x, y: cmp(x[int(query['o'])], y[int(query['o'])]))

@@ -192,6 +192,7 @@ def _make_filedict(file_list):
         temp_list['filename_lower'] = item[11]
         temp_list['flag_makethumb'] = item[12]
         temp_list['flag_deletedir'] = item[13]
+        temp_list['flag_imageversion'] = item[14]
         file_dict.append(temp_list)
     return file_dict
     
@@ -358,4 +359,15 @@ def _image_crop_generator(PATH_SERVER, path, filename):
     return msg
     
     
-
+def _is_image_version(file):
+    image_version = False
+    for item in IMAGE_GENERATOR_LANDSCAPE:
+        if file.startswith(item[0]):
+            image_version = True
+    for item in IMAGE_GENERATOR_PORTRAIT:
+        if file.startswith(item[0]):
+            image_version = True
+    for item in IMAGE_CROP_GENERATOR:
+        if file.startswith(item[0]):
+            image_version = True
+    return image_version
