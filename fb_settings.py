@@ -15,6 +15,15 @@ URL_ADMIN = getattr(settings, "FILEBROWSER_URL_ADMIN", '/admin/filebrowser/')
 # The URL to your Admin Index-Site.
 URL_HOME = getattr(settings, "FILEBROWSER_URL_HOME", '/admin/')
 
+# The URL to your filebrowser media-files.
+# Note: You have to change this setting, if you install the media-files of the FileBrowser outside
+# your admin-media directory.
+URL_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_URL_FILEBROWSER_MEDIA", settings.ADMIN_MEDIA_PREFIX + "filebrowser/")
+
+# The URL to your TinyMCE Installation.
+# Note: You have to change this setting, if you install TinyMCE outside your admin-media directory.
+URL_TINYMCE = getattr(settings, "FILEBROWSER_URL_TINYMCE", settings.ADMIN_MEDIA_PREFIX + "tinymce/jscripts/tiny_mce/")
+
 # The server-path to media-files. This is the initial/root server-path for the FileBrowser.
 # Important: If you change this setting, you should also change URL_WWW.
 PATH_SERVER = getattr(settings, "FILEBROWSER_PATH_SERVER", os.path.join(settings.MEDIA_ROOT, 'uploads'))
@@ -22,11 +31,11 @@ PATH_SERVER = getattr(settings, "FILEBROWSER_PATH_SERVER", os.path.join(settings
 # The server-path to your filebrowser media-files.
 # Note: You have to change this setting, if you install the media-files of the FileBrowser outside
 # your admin-media directory. 
-PATH_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_PATH_MEDIA", "/media/admin/filebrowser/")
+PATH_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_PATH_FILEBROWSER_MEDIA", os.path.join(settings.MEDIA_ROOT, 'admin/filebrowser/'))
 
 # The server-path to your TinyMCE Installation.
 # Note: You have to change this setting, if you install TinyMCE outside your admin-media directory.
-PATH_TINYMCE = getattr(settings, "FILEBROWSER_PATH_TINYMCE", "/media/admin/tinymce/jscripts/tiny_mce/")
+PATH_TINYMCE = getattr(settings, "FILEBROWSER_PATH_TINYMCE", os.path.join(settings.MEDIA_ROOT, 'admin/tinymce/jscripts/tiny_mce/'))
 
 # Allowed Extensions for File Upload. Lower case is important.
 # Please be aware that there are Icons for the default extension settings.

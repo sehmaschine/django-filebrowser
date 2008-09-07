@@ -206,8 +206,10 @@ def _get_settings_var(http_post, path):
     settings_var['URL_WWW'] = URL_WWW
     settings_var['URL_ADMIN'] = URL_ADMIN
     settings_var['URL_HOME'] = URL_HOME
+    settings_var['URL_FILEBROWSER_MEDIA'] = URL_FILEBROWSER_MEDIA
+    settings_var['URL_TINYMCE'] = URL_TINYMCE
     settings_var['PATH_SERVER'] = PATH_SERVER
-    settings_var['PATH_FILEBROWSER_MEDIA'] = PATH_FILEBROWSER_MEDIA
+    #settings_var['PATH_FILEBROWSER_MEDIA'] = PATH_FILEBROWSER_MEDIA
     settings_var['PATH_TINYMCE'] = PATH_TINYMCE
     settings_var['EXTENSIONS'] = EXTENSIONS
     settings_var['MAX_UPLOAD_SIZE'] = _get_filesize(MAX_UPLOAD_SIZE)
