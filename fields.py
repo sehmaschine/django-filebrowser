@@ -77,7 +77,7 @@ class FileBrowseWidget(Input):
                 if os.path.isfile(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file)):
                     path_thumb = os.path.join(os.path.split(value)[0], THUMB_PREFIX + file)
                 else:
-                    path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_Image.gif'
+                    path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_image.gif'
             elif file_type == "Folder":
                 path_thumb = ""
             else:
