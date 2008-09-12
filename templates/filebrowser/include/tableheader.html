@@ -12,16 +12,16 @@
     <!-- FILENAME / DIMENSIONS  -->
     {% ifequal query.o '11' %}<th class="sorted {{ query.ot }}ending"><a href="?{{ query.query_nosort }}&amp;ot={{ query.ot_new }}&amp;o=11">{% trans 'Filename' %}</a></th>{% endifequal %}
     {% ifnotequal query.o '11' %}<th><a href="?{{ query.query_nosort }}&amp;ot=asc&amp;o=11">{% trans 'Filename' %}</a></th>{% endifnotequal %}
+    <!-- IMAGE GENERATOR -->
+    {% if settings_var.USE_IMAGE_GENERATOR and results_var.imagegenerator_total %}<th>&nbsp;</th>{% endif %}
+    <!-- RENAME -->
+    <th>&nbsp;</th>
     <!-- SIZE -->
     {% ifequal query.o '1' %}<th class="sorted {{ query.ot }}ending"><a href="?{{ query.query_nosort }}&amp;ot={{ query.ot_new }}&amp;o=1">{% trans 'Size' %}</a></th>{% endifequal %}
     {% ifnotequal query.o '1' %}<th><a href="?{{ query.query_nosort }}&amp;ot=asc&amp;o=1">{% trans 'Size' %}</a></th>{% endifnotequal %}
     <!-- DATE -->
     {% ifequal query.o '3' %}<th class="sorted {{ query.ot }}ending"><a href="?{{ query.query_nosort }}&amp;ot={{ query.ot_new }}&amp;o=3">{% trans 'Date' %}</a></th>{% endifequal %}
     {% ifnotequal query.o '3' %}<th><a href="?{{ query.query_nosort }}&amp;ot=asc&amp;o=3">{% trans 'Date' %}</a></th>{% endifnotequal %}
-    <!-- RENAME -->
-    <th>&nbsp;</th>
-    <!-- IMAGE GENERATOR -->
-    {% if settings_var.USE_IMAGE_GENERATOR and results_var.imagegenerator_total %}<th>&nbsp;</th>{% endif %}
     <!-- DELETE -->
     {% if results_var.delete_total %}<th>&nbsp;</th>{% endif %}
     </tr>
