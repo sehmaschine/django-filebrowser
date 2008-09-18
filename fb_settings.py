@@ -58,12 +58,12 @@ THUMB_PREFIX = getattr(settings, 'FILEBROWSER_THUMB_PREFIX', 'thumb_')
 
 # The size of your thumbnails for the Admin-Interface.
 # Note: This Thumbnail is for diplaying your Image within the Admin-Interface.
-# Because of the low quality, it´s not intended to use this Thumbnail on your Website.
+# Because of the low quality, it's not intended to use this Thumbnail on your Website.
 # For displaying Thumbnails on a Website, use "Image Generator" instead.
 THUMBNAIL_SIZE = getattr(settings, 'FILEBROWSER_THUMBNAIL_SIZE', (50, 150))
 
 # Whether or not to use the ImageGenerator.
-# When this is True, you´ll get a checkbox called "Use Image Generator" with every Upload-Field.
+# When this is True, you'll get a checkbox called "Use Image Generator" with every Upload-Field.
 # Moreover, every Image will have a button "Generate Images" to generate Image versions
 # (this is useful, if Images are uploaded using FTP and not the FileBrowser -
 # you can upload Images using FTP and generate the Image Versions afterwards). 
