@@ -7,14 +7,17 @@ var FileBrowserDialogue = {
     fileSubmit : function (FileURL) {
         var URL = FileURL;
         var win = tinyMCEPopup.getWindowArg("window");
-
+        
         // insert information now
         win.document.getElementById(tinyMCEPopup.getWindowArg("input")).value = URL;
-
+        
         // for image browsers: update image dimensions
-        // if (win.ImageDialog.getImageData) win.ImageDialog.getImageData();
-        // if (win.ImageDialog.showPreviewImage) win.ImageDialog.showPreviewImage(URL);
-
+        if (win.ImageDialog) {
+            img = new Image();
+            img.src = FileURL;
+            win.ImageDialog.updateImageData(img, '');
+        } 
+        
         // close popup window
         tinyMCEPopup.close();
     }
