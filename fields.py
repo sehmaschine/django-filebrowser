@@ -64,12 +64,18 @@ class FileBrowseWidget(Input):
     def render(self, name, value, attrs=None):
         if value is None: value = ''
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
-        final_attrs['initial_directory'] = _url_join(URL_ADMIN, final_attrs['initial_directory'])
+        if value == "":
+            final_attrs['initial_directory'] = _url_join(URL_ADMIN, final_attrs['initial_directory'])
+        else:
+            final_attrs['initial_directory'] = _url_join(URL_ADMIN, os.path.split(value)[0].replace(URL_WWW, ""))
         if value != '':
             # Only add the 'value' attribute if a value is non-empty.
             final_attrs['value'] = force_unicode(value)
             file = os.path.split(value)[1]
-            path = os.path.split(value)[0].replace(URL_WWW, "")
+            if len(URL_WWW) < len(os.path.split(value)[0]):
+                path = os.path.split(value)[0].replace(URL_WWW, "")
+            else:
+                path = ""
             file_type = _get_file_type(file)
             path_thumb = ""
             if file_type == 'Image':
@@ -79,7 +85,7 @@ class FileBrowseWidget(Input):
                 else:
                     path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_image.gif'
             elif file_type == "Folder":
-                path_thumb = ""
+                path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_folder.gif'
             else:
                 # if file is not an image, display file-icon (which is linked to the file) instead
                 path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_' + file_type + '.gif'
