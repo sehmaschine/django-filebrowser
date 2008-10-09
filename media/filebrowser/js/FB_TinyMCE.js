@@ -11,12 +11,11 @@ var FileBrowserDialogue = {
         // insert information now
         win.document.getElementById(tinyMCEPopup.getWindowArg("input")).value = URL;
         
-        // for image browsers: update image dimensions
-        if (win.ImageDialog) {
-            img = new Image();
-            img.src = FileURL;
-            win.ImageDialog.updateImageData(img, '');
-        } 
+        // change width/height & show preview
+        if (win.ImageDialog.getImageData)
+            win.ImageDialog.getImageData();
+        if (win.ImageDialog.showPreviewImage)
+            win.ImageDialog.showPreviewImage(URL);
         
         // close popup window
         tinyMCEPopup.close();
