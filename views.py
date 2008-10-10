@@ -91,7 +91,7 @@ def index(request, dir_name=None):
                     var_thumb_dimensions = thumb.size
                 except:
                     # if thumbnail does not exist, show makethumb-Icon instead.
-                    var_path_thumb = settings.ADMIN_MEDIA_PREFIX + 'filebrowser/img/filebrowser_Thumb.gif'
+                    var_path_thumb = settings.URL_FILEBROWSER_MEDIA + 'img/filebrowser_Thumb.gif'
                     var_flag_makethumb = True
             except:
                 # if image is corrupt, change filetype to not defined
