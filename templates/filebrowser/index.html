@@ -28,9 +28,9 @@
 <div id="content-main">
     <ul class="object-tools">
         <li><a href="mkdir/{{ query.query_str_total }}" class="fb_makedirectorylink">{% trans "Make Directory" %}</a></li>
-        <li><a href="upload/{{ query.query_str_total }}" class="fb_multipleuploadlink">{% trans "Multiple Upload" %}</a></li>
         <li><a href="makethumbs/{{ query.query_str_total }}" class="fb_makethumbslink">{% trans "Make Thumbs" %}</a></li>
         {% if settings_var.USE_IMAGE_GENERATOR and results_var.imagegenerator_total %}<li><a href="generateimages/{{ query.query_str_total }}" class="fb_imagegeneratorlink">{% trans "Generate Images" %}</a></li>{% endif %}
+        <li><a href="upload/{{ query.query_str_total }}" class="fb_multipleuploadlink">{% trans "Multiple Upload" %}</a></li>
     </ul>
     <div class="module filtered" id="changelist">
         {% include "filebrowser/include/toolbar.html" %}
