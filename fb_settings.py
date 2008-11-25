@@ -6,7 +6,7 @@ from django.conf import settings
 # Note: When you set URL_WWW to settings.MEDIA_URL you can use all your media-files with the FileBrowser.
 # Nevertheless, you may want to limit this to a subdirectory of settings.MEDIA_URL or a seperate media-server.
 # Important: If you change this setting, you should also change PATH_SERVER.
-URL_WWW = getattr(settings, "FILEBROWSER_URL_WWW", settings.MEDIA_URL + 'uploads/')
+URL_WWW = getattr(settings, "FILEBROWSER_URL_WWW", '/media/uploads/')
 
 # The FileBrowser Admin-URL.
 # Note: If you change this URL, you also have to change the file urls.py.
@@ -22,7 +22,7 @@ URL_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_URL_FILEBROWSER_MEDIA", s
 
 # The URL to your TinyMCE Installation.
 # Note: You have to change this setting, if you install TinyMCE outside your admin-media directory.
-URL_TINYMCE = getattr(settings, "FILEBROWSER_URL_TINYMCE", settings.ADMIN_MEDIA_PREFIX + "tinymce/jscripts/tiny_mce/")
+URL_TINYMCE = getattr(settings, "FILEBROWSER_URL_TINYMCE", settings.ADMIN_MEDIA_PREFIX + "tinymce_2/jscripts/tiny_mce/")
 
 # The server-path to media-files. This is the initial/root server-path for the FileBrowser.
 # Important: If you change this setting, you should also change URL_WWW.
@@ -35,7 +35,7 @@ PATH_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_PATH_FILEBROWSER_MEDIA",
 
 # The server-path to your TinyMCE Installation.
 # Note: You have to change this setting, if you install TinyMCE outside your admin-media directory.
-PATH_TINYMCE = getattr(settings, "FILEBROWSER_PATH_TINYMCE", os.path.join(settings.MEDIA_ROOT, 'admin/tinymce/jscripts/tiny_mce/'))
+PATH_TINYMCE = getattr(settings, "FILEBROWSER_PATH_TINYMCE", os.path.join(settings.MEDIA_ROOT, 'admin/tinymce_2/jscripts/tiny_mce/'))
 
 # Allowed Extensions for File Upload. Lower case is important.
 # Please be aware that there are Icons for the default extension settings.
@@ -52,18 +52,22 @@ EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
 # Max. Upload Size in Bytes.
 MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 5000000)
 
+# PIL's Error "Suspension not allowed here" work around:
+# s. http://mail.python.org/pipermail/image-sig/1999-August/000816.html
+IMAGE_MAXBLOCK = getattr(settings, 'FILEBROWSER_IMAGE_MAXBLOCK', 1024*1024)
+
 # The prefix for your thumbnails.
 # If you have an Image "myimage.jpg", your thumbnail will be "thumb_myimage.jpg" by default.
 THUMB_PREFIX = getattr(settings, 'FILEBROWSER_THUMB_PREFIX', 'thumb_')
 
 # The size of your thumbnails for the Admin-Interface.
 # Note: This Thumbnail is for diplaying your Image within the Admin-Interface.
-# Because of the low quality, it's not intended to use this Thumbnail on your Website.
+# Because of the low quality, it´s not intended to use this Thumbnail on your Website.
 # For displaying Thumbnails on a Website, use "Image Generator" instead.
 THUMBNAIL_SIZE = getattr(settings, 'FILEBROWSER_THUMBNAIL_SIZE', (50, 150))
 
 # Whether or not to use the ImageGenerator.
-# When this is True, you'll get a checkbox called "Use Image Generator" with every Upload-Field.
+# When this is True, you´ll get a checkbox called "Use Image Generator" with every Upload-Field.
 # Moreover, every Image will have a button "Generate Images" to generate Image versions
 # (this is useful, if Images are uploaded using FTP and not the FileBrowser -
 # you can upload Images using FTP and generate the Image Versions afterwards). 

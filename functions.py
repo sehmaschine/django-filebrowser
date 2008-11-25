@@ -213,6 +213,7 @@ def _get_settings_var(http_post, path):
     settings_var['PATH_TINYMCE'] = PATH_TINYMCE
     settings_var['EXTENSIONS'] = EXTENSIONS
     settings_var['MAX_UPLOAD_SIZE'] = _get_filesize(MAX_UPLOAD_SIZE)
+    settings_var['IMAGE_MAXBLOCK'] = IMAGE_MAXBLOCK
     settings_var['THUMB_PREFIX'] = THUMB_PREFIX
     settings_var['THUMBNAIL_SIZE'] = THUMBNAIL_SIZE
     settings_var['USE_IMAGE_GENERATOR'] = USE_IMAGE_GENERATOR
@@ -251,7 +252,7 @@ def _make_image_thumbnail(PATH_SERVER, path, filename):
     """
     Make Thumbnail for an Image.
     """
-    
+        
     file_path = os.path.join(PATH_SERVER, path, filename)
     thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + filename)
     msg = ""
@@ -268,6 +269,11 @@ def _image_generator(PATH_SERVER, path, filename):
     """
     Generate Versions for an Image.
     """
+    
+    # PIL's Error "Suspension not allowed here" work around:
+    # s. http://mail.python.org/pipermail/image-sig/1999-August/000816.html
+    import ImageFile
+    ImageFile.MAXBLOCK = IMAGE_MAXBLOCK # default is 64k
     
     file_path = os.path.join(PATH_SERVER, path, filename)
     versions_path = os.path.join(PATH_SERVER, path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY)
@@ -309,6 +315,11 @@ def _image_crop_generator(PATH_SERVER, path, filename):
     """
     Generate Cropped Versions for an Image.
     """
+    
+    # PIL's Error "Suspension not allowed here" work around:
+    # s. http://mail.python.org/pipermail/image-sig/1999-August/000816.html
+    import ImageFile
+    ImageFile.MAXBLOCK = IMAGE_MAXBLOCK # default is 64k
     
     file_path = os.path.join(PATH_SERVER, path, filename)
     versions_path = os.path.join(PATH_SERVER, path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY)

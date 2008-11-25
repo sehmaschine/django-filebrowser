@@ -201,7 +201,7 @@ def upload(request, dir_name=None):
     # PIL's Error "Suspension not allowed here" work around:
     # s. http://mail.python.org/pipermail/image-sig/1999-August/000816.html
     import ImageFile
-    ImageFile.MAXBLOCK = 1000000 # default is 64k
+    ImageFile.MAXBLOCK = IMAGE_MAXBLOCK # default is 64k
     
     UploadFormSet = formset_factory(UploadForm, formset=BaseUploadFormSet, extra=5)
     if request.method == 'POST':
