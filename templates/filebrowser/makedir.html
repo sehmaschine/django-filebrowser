@@ -4,12 +4,10 @@
 
 {% block coltype %}colM{% endblock %}
 {% block bodyclass %}change-form{% endblock %}
-{% block stylesheet %}{% admin_media_prefix %}css/forms.css{% endblock %}
-
 {% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
 <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
 {% if query.pop %}
-<!-- popup window: disable header and breadcrumbs -->
 <style type="text/css">
 #header { display: none; }
 </style>
