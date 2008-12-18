@@ -147,6 +147,7 @@ def index(request, dir_name=None):
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
         'title': _('FileBrowser'),
+        'root_path': URL_HOME,
     }, context_instance=Context(request))
 index = staff_member_required(never_cache(index))
 
@@ -186,6 +187,7 @@ def mkdir(request, dir_name=None):
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, 'Make Directory'),
         'title': _('Make directory'),
+        'root_path': URL_HOME,
     }, context_instance=Context(request))
 mkdir = staff_member_required(never_cache(mkdir))
 
@@ -238,6 +240,7 @@ def upload(request, dir_name=None):
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, 'Multiple Upload'),
         'title': _('Select files to upload'),
+        'root_path': URL_HOME,
     }, context_instance=Context(request))
 upload = staff_member_required(never_cache(upload))
 
@@ -274,7 +277,8 @@ def makethumb(request, dir_name=None, file_name=None):
         'dir': dir_name,
         'query': query,
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, '')
+        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
+        'root_path': URL_HOME,
     }, context_instance=Context(request))
 makethumb = staff_member_required(never_cache(makethumb))
 
@@ -342,7 +346,8 @@ def delete(request, dir_name=None):
         'file': request.GET.get('filename', ''),
         'query': query,
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, '')
+        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
+        'root_path': URL_HOME,
     }, context_instance=Context(request))
 delete = staff_member_required(never_cache(delete))
 
@@ -399,6 +404,7 @@ def rename(request, dir_name=None, file_name=None):
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, 'Rename'),
         'title': _('Rename "%s"') % file_name,
+        'root_path': URL_HOME,
     }, context_instance=Context(request))
 rename = staff_member_required(never_cache(rename))
 
@@ -442,7 +448,8 @@ def generateimages(request, dir_name=None, file_name=None):
         'dir': dir_name,
         'query': query,
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, '')
+        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
+        'root_path': URL_HOME,
     }, context_instance=Context(request))
 makethumb = staff_member_required(never_cache(makethumb))
 
