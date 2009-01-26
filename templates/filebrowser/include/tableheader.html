@@ -22,6 +22,9 @@
     <!-- DATE -->
     {% ifequal query.o '3' %}<th class="sorted {{ query.ot }}ending"><a href="?{{ query.query_nosort }}&amp;ot={{ query.ot_new }}&amp;o=3">{% trans 'Date' %}</a></th>{% endifequal %}
     {% ifnotequal query.o '3' %}<th><a href="?{{ query.query_nosort }}&amp;ot=asc&amp;o=3">{% trans 'Date' %}</a></th>{% endifnotequal %}
+    <!-- UPLOADER -->
+    {% ifequal query.o '16' %}<th class="sorted {{ query.ot }}ending"><a href="?{{ query.query_nosort }}&amp;ot={{ query.ot_new }}&amp;o=16">{% trans 'Uploader' %}</a></th>{% endifequal %}
+    {% ifnotequal query.o '16' %}<th><a href="?{{ query.query_nosort }}&amp;ot=asc&amp;o=16">{% trans 'Uploader' %}</a></th>{% endifnotequal %}
     <!-- DELETE -->
     {% if results_var.delete_total %}<th>&nbsp;</th>{% endif %}
     </tr>

@@ -22,35 +22,80 @@
 
 {% block content %}
 <div id="content-main">
-    <form enctype="multipart/form-data" action="?action=upload&{{ query.pop }}" method="post" name="FileForm">
+    <form enctype="multipart/form-data" action="./?action=upload&amp;{{ query.pop }}" method="post" name="FileForm">
     {{ formset.management_form }}
     <div>
-        {% if form.errors %}{{ form.errors }}{% endif %}
-        <fieldset class="module aligned ()">
-        {% for form in formset.forms %}
-        <div class="form-row">
-            {% if form.file.errors %}{{ form.file.errors }}{% endif %}
-            <label>{{ form.file.label }} {{ forloop.counter }}</label>
-            {{ form.file }}
-            {% if settings_var.USE_IMAGE_GENERATOR %}
-                <p class="help">{{ form.use_image_generator }} {{ form.use_image_generator.label }}</p>
-            {% endif %}
+        <div class="submit-row">
+            <input type="submit" value="Upload" class="default" />
         </div>
-        {% endfor %}
+        {% if form.errors %}{{ form.errors }}{% endif %}
+        <fieldset class="module aligned">
+            <h2 class="collapse-toggle">{% trans "Upload Settings" %}</h2>
+            <div class="form-row checkbox-row">
+                {{ form.rename_to_timestamp }}
+                <label for="id_{{ form.rename_to_timestamp.name }}" class="vCheckboxLabel">{{ form.rename_to_timestamp.label }}</label>
+                {{ form.rename_to_timestamp.errors }}
+            </div>
+            <div class="form-row checkbox-row">
+                {{ form.convert_to_lower_case }}
+                <label for="id_{{ form.convert_to_lower_case.name }}" class="vCheckboxLabel">{{ form.convert_to_lower_case.label }}</label>
+                {{ form.convert_to_lower_case.errors }}
+            </div>
+            <div class="form-row checkbox-row">
+                {{ form.change_spaces_to_underscores }}
+                <label for="id_{{ form.change_spaces_to_underscores.name }}" class="vCheckboxLabel">{{ form.change_spaces_to_underscores.label }}</label>
+                {{ form.change_spaces_to_underscores.errors }}
+            </div>
+            <div class="form-row checkbox-row">
+                {{ form.overwrite_existing }}
+                <label for="id_{{ form.overwrite_existing.name }}" class="vCheckboxLabel">{{ form.overwrite_existing.label }}</label>
+                {{ form.overwrite_existing.errors }}
+            </div>
+            <div class="form-row checkbox-row">
+                {{ form.extract_archives }}
+                <label for="id_{{ form.extract_archives.name }}" class="vCheckboxLabel">{{ form.extract_archives.label }}</label>
+                {{ form.extract_archives.errors }}
+            </div>
+            <div class="form-row">
+                <label for="id_{{ form.image_modifications.name }}"{% if form.image_modifications.required %} class="required"{% endif %}>{{ form.image_modifications.label }}</label>
+                {{ form.image_modifications }}
+                {{ form.image_modifications.errors }}
+            </div>
         </fieldset>
+        
+        {% for file_form in formset.forms %}
+            <fieldset class="module aligned {% if forloop.counter0 %}collapse{% else %}{% endif %}">
+                <h2>{% trans "File" %} {{ forloop.counter }}</h2>
+                <div class="form-row">
+                    <label for="id_{{ file_form.file.name }}"{% if file_form.file.required %} class="required"{% endif %}>{{ file_form.file.label }}</label>
+                    {{ file_form.file }}
+                    {{ file_form.file.errors }}
+                </div>
+                <div class="form-row">
+                    <label for="id_{{ file_form.title.name }}"{% if file_form.title.required %} class="required"{% endif %}>{{ file_form.title.label }}</label>
+                    {{ file_form.title }}
+                    {{ file_form.title.errors }}
+                </div>
+                <div class="form-row">
+                    <label for="id_{{ file_form.description.name }}"{% if file_form.description.required %} class="required"{% endif %}>{{ file_form.description.label }}</label>
+                    {{ file_form.description }}
+                    {{ file_form.description.errors }}
+                </div>
+            </fieldset>
+        {% endfor %}        
         
         <fieldset class="module aligned collapse">
         <h2>{% trans "Help" %}</h2>
         <div class="form-row" >
             {% for extension in settings_var.EXTENSIONS.items %}
             {% ifnotequal extension.0 'Folder' %}
-            <label for="id_body" class="required">{% if forloop.first %}{% trans "Allowed" %}:{% else %}&nbsp;{% endif %}</label> 
+            <label class="required">{% if forloop.first %}{% trans "Allowed" %}:{% else %}&nbsp;{% endif %}</label> 
             <p>{{ extension.0|safe }} ({{ extension.1|join:", "|safe }})</p>
             {% endifnotequal %}
             {% endfor %}
         </div>
         <div class="form-row" >
-            <label for="id_body" class="required">{% trans "Max. Filesize" %}:</label> 
+            <label class="required">{% trans "Max. Filesize" %}:</label> 
             <p class="help">{{ settings_var.MAX_UPLOAD_SIZE|safe }}</p>
         </div>
         </fieldset>

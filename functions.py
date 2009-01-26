@@ -1,14 +1,46 @@
 # coding: utf-8
 
+import os, re, Image, decimal, fnmatch
+from time import gmtime, strftime, localtime, mktime, time
+
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
-from time import gmtime, strftime, localtime, mktime, time
 from django.core.files import File
-import os, re, Image, decimal
 
 # get settings
 from filebrowser.fb_settings import *
 
+
+def path_exists(*args):
+    """
+    Make sure that a directory at specific path exists. If it doesn't exist, it will be created
+    
+    For example:
+    >>> path_exists("/path/to/directory")
+    '/path/to/directory'
+    >>> path_exists("/path/to", "another", "directory")
+    '/path/to/another/directory'
+    """
+    path = os.path.join(*args)
+    if not os.path.isdir(path):
+        os.makedirs(path)
+    return path
+
+def locate(pattern, root=os.curdir):
+    """
+    Locate all files matching supplied filename pattern in and below
+    supplied root directory.
+    
+    For example:
+    >>> for f in locate("*.html"):
+    ... f
+    '/path/to/myproject/templates/a.html'
+    '/path/to/myproject/templates/b.html'
+    '/path/to/myproject/templates/directory/c.html'
+    """
+    for path, dirs, files in os.walk(os.path.abspath(root)):
+        for filename in fnmatch.filter(files, pattern):
+            yield os.path.join(path, filename)
 
 def _url_join(*args):
     url = "/"
@@ -168,35 +200,6 @@ def _get_filesize(filesize_long):
     elif filesize_long >= 1000000:
         filesize_str = str(filesize_long/1000000) + "&nbsp;MB"
     return mark_safe(filesize_str)
-    
-
-def _make_filedict(file_list):
-    """
-    Make a dict out of the file_list.
-        This is for better readability in the templates.
-    """
-    
-    file_dict = []
-    for item in file_list:
-        temp_list = {}
-        temp_list['filename'] = item[0]
-        temp_list['filesize_long'] = item[1]
-        temp_list['filesize_str'] = item[2]
-        temp_list['date'] = item[3]
-        temp_list['path_thumb'] = item[4]
-        temp_list['link'] = item[5]
-        temp_list['select_link'] = item[6]
-        temp_list['file_extension'] = item[7]
-        temp_list['file_type'] = item[8]
-        temp_list['image_dimensions'] = item[9]
-        temp_list['thumb_dimensions'] = item[10]
-        temp_list['filename_lower'] = item[11]
-        temp_list['flag_makethumb'] = item[12]
-        temp_list['flag_deletedir'] = item[13]
-        temp_list['flag_imageversion'] = item[14]
-        file_dict.append(temp_list)
-    return file_dict
-    
 
 def _get_settings_var(http_post, path):
     """
@@ -255,10 +258,12 @@ def _make_image_thumbnail(PATH_SERVER, path, filename):
     """
         
     file_path = os.path.join(PATH_SERVER, path, filename)
-    thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + filename)
+    thumb_path = os.path.join(path_exists(PATH_SERVER, path, "_cache"), THUMB_PREFIX + filename + ".png")
     msg = ""
     try:
         im = Image.open(file_path)
+        if im.mode != "RGB":
+            im = im.convert("RGB")
         im.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
         im.save(thumb_path)
     except IOError:
@@ -385,3 +390,4 @@ def _is_image_version(file):
         if file.startswith(item[0]):
             image_version = True
     return image_version
+

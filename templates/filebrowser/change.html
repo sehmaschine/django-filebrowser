@@ -1,0 +1,108 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% load adminmedia %}
+
+{% block coltype %}colM{% endblock %}
+{% block bodyclass %}change-form{% endblock %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
+<link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+{% if query.pop %}
+<style type="text/css">
+#header { display: none; }
+</style>
+{% endif %}
+{% endblock %}
+{% block breadcrumbs %}<div class="breadcrumbs">{{ breadcrumbs }}</div>{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <form action="./?{{ query.pop }}" method="post">
+    <div>
+        <div class="submit-row">
+            <input type="submit" value="{% trans 'Submit' %}" class="default" />
+        </div>
+        {% if form.errors %}<p class="errornote">Please correct the following errors.</p>{% endif %}
+        <fieldset class="module aligned">
+        {% ifnotequal form.instance.file_type "Folder" %}
+            <div class="form-row">
+                <label>{{ form.instance.get_file_type_display }}</label> 
+                <p class="help">
+                <a href="{{ FILEBROWSER_URL_WWW }}{{ form.instance.path }}">
+                {% if form.instance.get_thumbnail_url %}
+                    <img src="{{ form.instance.get_thumbnail_url }}" alt="{{ form.instance.title|default:form.instance.path }}" />
+                {% else %}
+                    {{ form.instance.get_filename }}
+                {% endif %}
+                </a>
+                </p>
+            </div>
+        {% endifnotequal %}
+        <div class="form-row {% if form.name.errors %}errors{% endif %}">
+            {% if form.name.errors %}<ul class="errorlist">{{ form.name.errors }}</ul>{% endif %}
+            <label class="required" for="id_name">{{ form.name.label }}</label>
+            {{ form.name }}
+            {% if file_extension %}<b>{{ file_extension }}</b>{% endif %}
+            {% if form.filename.help_text %}<p class="help">{{ form.name.help_text|safe }}</p>{% endif %}
+        </div>
+        <div class="form-row {% if form.uploader.errors %}errors{% endif %}">
+            {% if form.uploader.errors %}<ul class="errorlist">{{ form.uploader.errors }}</ul>{% endif %}
+            <label for="id_uploader">{{ form.uploader.label }}</label>
+            {{ form.uploader }}
+            {% if form.uploader.help_text %}<p class="help">{{ form.uploader.help_text|safe }}</p>{% endif %}
+        </div>
+        <div class="form-row {% if form.title.errors %}errors{% endif %}">
+            {% if form.title.errors %}<ul class="errorlist">{{ form.title.errors }}</ul>{% endif %}
+            <label for="id_title">{{ form.title.label }}</label>
+            {{ form.title }}
+            {% if form.title.help_text %}<p class="help">{{ form.title.help_text|safe }}</p>{% endif %}
+        </div>
+        <div class="form-row {% if form.description.errors %}errors{% endif %}">
+            {% if form.description.errors %}<ul class="errorlist">{{ form.description.errors }}</ul>{% endif %}
+            <label for="id_description">{{ form.description.label }}</label>
+            {{ form.description }}
+            {% if form.description.help_text %}<p class="help">{{ form.description.help_text|safe }}</p>{% endif %}
+        </div>
+        {% if form.image_modifications %}
+            <div class="form-row {% if form.image_modifications.errors %}errors{% endif %}">
+                {% if form.image_modifications.errors %}<ul class="errorlist">{{ form.image_modifications.errors }}</ul>{% endif %}
+                <label for="id_image_modifications">{{ form.image_modifications.label }}</label>
+                {{ form.image_modifications }}
+                {% if form.image_modifications.help_text %}<p class="help">{{ form.image_modifications.help_text|safe }}</p>{% endif %}
+            </div>
+        {% endif %}
+        </fieldset>
+        <fieldset class="module aligned collapse">
+        <h2>{% trans "File Info" %}</h2>
+            {% ifnotequal form.instance.file_type "Folder" %}
+                {% if form.instance.width and form.instance.height %}
+                    <div class="form-row">
+                        <label>{% trans "Dimensions" %}</label> 
+                        <p>{{ form.instance.width }} × {{ form.instance.height }} px</p>
+                    </div>
+                {% endif %}
+                <div class="form-row">
+                    <label>{% trans "File Size" %}</label> 
+                    <p class="help">{{ form.instance.get_filesize }}</p>
+                </div>
+                <div class="form-row">
+                    <label>{% trans "Uploaded" %}</label> 
+                    <p class="help">{{ form.instance.uploaded }}</p>
+                </div>
+            {% endifnotequal %}
+            <div class="form-row">
+                <label>{% trans "Created" %}</label> 
+                <p class="help">{{ form.instance.created }}</p>
+            </div>
+            <div class="form-row">
+                <label>{% trans "Modified" %}</label> 
+                <p class="help">{{ form.instance.modified }}</p>
+            </div>
+        </fieldset>
+        <div class="submit-row">
+            <input type="submit" value="{% trans 'Submit' %}" class="default" />
+        </div>
+    </div>
+    </form>
+</div>
+{% endblock %}

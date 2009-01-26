@@ -1,4 +1,4 @@
-function FileSubmit(FileURL, ThumbURL, FileType) {
+function FileSubmit(URL_WWW, FileURL, ThumbURL, FileType) {
     
     var input_id=window.name.split("___").join(".");
     var preview_id = 'image_' + input_id;
@@ -15,7 +15,7 @@ function FileSubmit(FileURL, ThumbURL, FileType) {
         // selected file is an image and thumbnail is available:
         // display the preview-image (thumbnail)
         // link the preview-image to the original image
-        link.setAttribute("href", FileURL);
+        link.setAttribute("href", URL_WWW + FileURL);
         link.setAttribute("target", "_blank");
         preview.setAttribute("src", ThumbURL);
         help.setAttribute("style", "display:block");

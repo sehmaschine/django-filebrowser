@@ -12,7 +12,7 @@ URL_WWW = getattr(settings, "FILEBROWSER_URL_WWW", '/media/uploads/')
 
 # The FileBrowser Admin-URL.
 # Note: If you change this URL, you also have to change the file urls.py.
-URL_ADMIN = getattr(settings, "FILEBROWSER_URL_ADMIN", '/admin/filebrowser/')
+URL_ADMIN = getattr(settings, "FILEBROWSER_URL_ADMIN", '/admin/uploads/')
 
 # The URL to your Admin Index-Site.
 URL_HOME = getattr(settings, "FILEBROWSER_URL_HOME", '/admin/')
@@ -44,15 +44,16 @@ PATH_TINYMCE = getattr(settings, "FILEBROWSER_PATH_TINYMCE", os.path.join(settin
 # Therefore, if you add a category (e.g. "Misc"), you won't get an icon.
 EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
     'Folder':[''],
-    'Image':['.jpg', '.jpeg', '.gif','.png','.tif','.tiff'],
+    'Image':['.jpg', '.jpeg', '.gif','.png','.tif','.tiff', '.bmp'],
     'Video':['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
     'Document':['.pdf','.doc','.rtf','.txt','.xls','.csv'],
     'Sound':['.mp3','.mp4','.wav','.aiff','.midi'],
-    'Code':['.html','.py','.js','.css']
+    'Code':['.html','.py','.js','.css'],
+    'Archive': ['zip', 'rar', 'arj', 'gz', 'tar'],
 })
 
 # Max. Upload Size in Bytes.
-MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 5000000)
+MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 2147483648) # 2 GB
 
 # PIL's Error "Suspension not allowed here" work around:
 # s. http://mail.python.org/pipermail/image-sig/1999-August/000816.html

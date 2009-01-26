@@ -19,7 +19,7 @@
 
 {% block content %}
 <div id="content-main">
-    <form action="?{{ query.pop }}" method="post">
+    <form action="./?{{ query.pop }}" method="post">
     <div>
         {% if form.errors %}<p class="errornote">Please correct the following errors.</p>{% endif %}
         <fieldset class="module aligned">

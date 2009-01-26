@@ -4,7 +4,7 @@
 </a>
 {% if final_attrs.value %}
 <p class="help" id="help_{{ final_attrs.id }}">
-    <a href="{{ final_attrs.value }}" target="_blank" id="link_{{ final_attrs.id }}">
+    <a href="{{ final_attrs.URL_WWW }}{{ final_attrs.value }}" target="_blank" id="link_{{ final_attrs.id }}">
         <img id="image_{{ final_attrs.id }}" class="preview" src="{{ final_attrs.thumbnail }}" />
     </a>
 </p>
