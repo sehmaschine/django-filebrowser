@@ -26,7 +26,7 @@
         <a href="makethumb/{{ file.filename }}/?{{ query.pop }}" class="fb_makethumblink" title="{% trans 'Make Thumbnail' %}"></a>
         {% else %}
         {#<!--{% ifequal file.file_type 'Image' %}-->#}
-        <a href="{{ file.link }}"><img src="{{ file.path_thumb }}" width="{{ file.thumb_dimensions.0 }}" height="{{ file.thumb_dimensions.1 }}" title="{% trans 'View Image' %}" /></a>
+        <a href="{{ settings_var.URL_WWW }}{{ file.link }}"><img src="{{ file.path_thumb }}" width="{{ file.thumb_dimensions.0 }}" height="{{ file.thumb_dimensions.1 }}" title="{% trans 'View Image' %}" /></a>
         {#<!--{% endifequal %}-->#}
         {% endif %}
     </td>
@@ -40,7 +40,7 @@
         {% ifequal file.file_type 'Folder' %}
             <b><a href="{{ file.link }}/{{ query.query_str_total }}">{{ file.filename }}</a></b>
         {% else %}
-            <b><a href="{{ file.link }}">{{ file.filename }}</a></b>{% if file.image_dimensions %}<br /><span class="tiny">{{ file.image_dimensions.0 }} x {{ file.image_dimensions.1 }} px</span>{% endif %}
+            <b><a href="{{ settings_var.URL_WWW }}{{ file.link }}">{{ file.filename }}</a></b>{% if file.image_dimensions %}<br /><span class="tiny">{{ file.image_dimensions.0 }} x {{ file.image_dimensions.1 }} px</span>{% endif %}
         {% endifequal %}
         {% if file.obj.description %}
             <div class="file_desc tiny">{{ file.obj.description|safe }}</div>
