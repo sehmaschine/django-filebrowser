@@ -3,12 +3,13 @@
 import time
 import os, string, ftplib, re, Image, decimal
 from time import gmtime, strftime, localtime, mktime
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.shortcuts import render_to_response
 from django.template import loader, RequestContext as Context
-from django.http import HttpResponseRedirect, HttpResponseForbidden, Http404
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
 from django.contrib.admin.views.decorators import staff_member_required
+from django.views.generic.simple import direct_to_template
 from django.views.decorators.cache import never_cache
 from django.utils.datastructures import SortedDict
 from django.utils.translation import ugettext as _
@@ -716,4 +717,33 @@ def generateimages(request, dir_name=None, file_name=None):
     }, context_instance=Context(request))
 makethumb = staff_member_required(never_cache(makethumb))
 
+def direct_to_js_template(request, cache=True, *args, **kwargs):
+    response = direct_to_template(request, *args, **kwargs)
+    response['Content-Type'] = "application/x-javascript"
+    if cache:
+        #response['Cache-Control'] = "max-age=2678400" # cached for one month
+        now = datetime.utcnow()
+        response['Last-Modified'] = now.strftime('%a, %d %b %Y %H:%M:%S GMT')
+        expires = now + timedelta(0, 2678400)
+        response['Expires'] = expires.strftime('%a, %d %b %Y %H:%M:%S GMT')
+    else:
+        response['Pragma'] = "No-Cache"
+    return response
+
+def get_or_create_modified_path(request):
+    retval = ""
+    if request.POST:
+        file_path = request.POST.get('file_path', "")
+        absolute_path = False
+        if file_path.startswith(URL_WWW):
+            absolute_path = True
+            file_path = file_path[len(URL_WWW):]
+        mod_sysname = request.POST.get('mod_sysname', "")
+        retval = modified_path(file_path, mod_sysname)
+        if retval and absolute_path:
+            retval = URL_WWW + retval
+    response = HttpResponse(retval)
+    response['Content-Type'] = "application/x-javascript"
+    response['Pragma'] = "No-Cache"
+    return response
 

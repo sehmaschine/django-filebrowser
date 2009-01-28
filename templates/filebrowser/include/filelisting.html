@@ -12,7 +12,13 @@
     {% ifequal query.pop 'pop=2' %}
     <td class="fb_icon">
         {% ifnotequal file.file_type 'Folder' %}
-        <a href="javascript://" onclick="FileBrowserDialogue.fileSubmit('{{ file.link }}');" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
+            {% if query.type %}
+                {% ifequal query.type file.file_type %}
+                    <a href="javascript://" onclick="FileBrowserDialogue.fileSubmit('{{ FILEBROWSER_URL_WWW }}{{ file.link }}');" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
+                {% endifequal %}
+            {% else %}
+                <a href="javascript://" onclick="FileBrowserDialogue.fileSubmit('{{ FILEBROWSER_URL_WWW }}{{ file.link }}');" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
+            {% endif %}
         {% endifnotequal %}
     </td>
     {% endifequal %}

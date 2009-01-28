@@ -1,6 +1,9 @@
+var FILEBROWSER_URL_WWW = "/media/uploads/";
+var FILEBROWSER_URL_ADMIN = "/admin/uploads/";
+
 function CustomFileBrowser(field_name, url, type, win) {
 
-    var cmsURL = "/admin/uploads/?pop=2";
+    var cmsURL = FILEBROWSER_URL_ADMIN + "?pop=2";
     cmsURL = cmsURL + "&type=" + type;
     
     tinyMCE.activeEditor.windowManager.open({
@@ -71,6 +74,7 @@ tinyMCE.init({
     "h2[class<clearfix],h3[class<clearfix],h4[class<clearfix]," + 
     "ul[class<clearfix],ol[class<clearfix]," + 
     "div[class],",
+    FILEBROWSER_URL_ADMIN: FILEBROWSER_URL_ADMIN
 });
 
 

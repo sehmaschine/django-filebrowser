@@ -159,6 +159,7 @@ def _get_query(request_var):
         query['query_nodelete'] = ""
         query['pop'] = ""
         query['pop_toolbar'] = ""
+    query['type'] = request_var.get('type', None)
     query['ot'] = request_var.get('ot', 'desc')
     query['o'] = request_var.get('o', '3')
     query['filter_type'] = request_var.get('filter_type', '')
