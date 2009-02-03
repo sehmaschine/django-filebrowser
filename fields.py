@@ -95,7 +95,7 @@ class FileBrowseWidget(Input):
                 path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_folder.gif'
             else:
                 # if file is not an image, display file-icon (which is linked to the file) instead
-                path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_' + file_type + '.gif'
+                path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_' + file_type.lower() + '.gif'
             final_attrs['thumbnail'] = path_thumb
         path_search_icon = URL_FILEBROWSER_MEDIA + 'img/filebrowser_icon_show.gif'
         final_attrs['search_icon'] = path_search_icon
