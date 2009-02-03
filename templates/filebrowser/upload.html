@@ -2,14 +2,14 @@
 {% load i18n %}
 {% load adminmedia %}
 
-{% block extrahead %}
+{% block extrahead %}{{ block.super }}
 <script type="text/javascript" src="/admin/jsi18n/"></script>
 <script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
 <script type="text/javascript" src="{% admin_media_prefix %}js/admin/CollapsedFieldsets.js"></script>
 {% endblock %}
 {% block coltype %}colM{% endblock %}
 {% block bodyclass %}change-form{% endblock %}
-{% block extrastyle %}
+{% block extrastyle %}{{ block.super }}
 <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
 <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
 {% if query.pop %}

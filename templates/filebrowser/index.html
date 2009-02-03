@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load adminmedia %}
 
-{% block extrahead %}
+{% block extrahead %}{{ block.super }}
 {% ifequal query.pop 'pop=1' %} <!-- FileBrowseField -->
 <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_FileBrowseField.js"></script>
 {% endifequal %}
@@ -13,7 +13,7 @@
 {% endblock %}
 {% block coltype %}flex{% endblock %}
 {% block bodyclass %}change-list filebrowser{% endblock %}
-{% block extrastyle %}
+{% block extrastyle %}{{ block.super }}
 <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/changelists.css" />
 <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
 {% if query.pop %}
