@@ -33,7 +33,11 @@
             <label>{{ form.file.label }} {{ forloop.counter }}</label>
             {{ form.file }}
             {% if settings_var.USE_IMAGE_GENERATOR %}
-                <p class="help">{{ form.use_image_generator }} {{ form.use_image_generator.label }}</p>
+                {% if settings_var.FORCE_GENERATOR %}
+                    <p class="help">Will use image generator</p>
+                {% else %}
+                    <p class="help">{{ form.use_image_generator }} {{ form.use_image_generator.label }}</p>
+                {% endif %}
             {% endif %}
         </div>
         {% endfor %}

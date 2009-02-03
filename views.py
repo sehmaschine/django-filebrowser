@@ -219,10 +219,10 @@ def upload(request, dir_name=None):
                         # MAKE THUMBNAIL
                         _make_image_thumbnail(PATH_SERVER, path, cleaned_data['file'].name)
                         # IMAGE GENERATOR
-                        if cleaned_data['use_image_generator'] and (IMAGE_GENERATOR_LANDSCAPE != "" or IMAGE_GENERATOR_PORTRAIT != ""):
+                        if FORCE_GENERATOR or (cleaned_data['use_image_generator'] and (IMAGE_GENERATOR_LANDSCAPE != "" or IMAGE_GENERATOR_PORTRAIT != "")):
                             _image_generator(PATH_SERVER, path, cleaned_data['file'].name)
                         # GENERATE CROPPED/RECTANGULAR IMAGE
-                        if cleaned_data['use_image_generator'] and IMAGE_CROP_GENERATOR != "":
+                        if FORCE_GENERATOR or (cleaned_data['use_image_generator'] and IMAGE_CROP_GENERATOR != ""):
                             _image_crop_generator(PATH_SERVER, path, cleaned_data['file'].name)
             # MESSAGE & REDIRECT
             msg = _('Upload successful.')

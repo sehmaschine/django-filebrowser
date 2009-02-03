@@ -16,6 +16,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.forms.fields import EMPTY_VALUES
 
 import os
+import re
 
 from filebrowser.functions import _get_file_type, _url_join
 from filebrowser.fb_settings import *
@@ -64,7 +65,11 @@ class FileBrowseWidget(Input):
             self.attrs = {}
     
     def render(self, name, value, attrs=None):
-        if value is None: value = ''
+        #if value is None: value = ''
+        if value is None:
+            value = ''
+        elif not isinstance(value, (str, unicode)):
+            value = value.original
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
         if value == "":
             final_attrs['initial_directory'] = _url_join(URL_ADMIN, final_attrs['initial_directory'])
@@ -97,8 +102,81 @@ class FileBrowseWidget(Input):
         return render_to_string("filebrowser/custom_field.html", locals())
     
 
+class FileBrowserImageSize(object):
+    
+    def __init__(self, image_type, original):
+        self.image_type = image_type
+        self.original = original
+        
+    def __unicode__(self):
+        return u'%s' % (self._get_image())
+        
+    def _get_image(self):
+        if not hasattr(self, '_image_cache'):
+            self._image_cache = self._get_image_name()
+        return self._image_cache
+
+    def _get_image_name(self):
+        arg = self.image_type
+        value = self.original
+        value_re = re.compile(r'^(%s)' % (URL_WWW))
+        value_path = value_re.sub('', value)
+        filename = os.path.split(value_path)[1]
+        if CHECK_EXISTS:
+            path = os.path.split(value_path)[0]
+            if os.path.isfile(os.path.join(PATH_SERVER, path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY, arg + filename)):
+                img_value = os.path.join(os.path.split(value)[0], filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY, arg + filename)
+                return u'%s' % (img_value)
+            else:
+                return u''
+        else:
+            img_value = os.path.join(os.path.split(value)[0], filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY, arg + filename)
+            return u'%s' % (img_value)
+        
+
+class FileBrowserImageType(object):
+    
+    def __init__(self, original, image_list):
+        for image_type in image_list:
+            setattr(self, image_type[0].rstrip('_'), FileBrowserImageSize(image_type, original))
+        
+
+class FileBrowserFile(object):
+    
+    def __init__(self, value):
+        self.original = value
+        self._add_image_types()
+    
+    def _add_image_types(self):
+        all_prefixes = []
+        for imgtype in IMAGE_GENERATOR_LANDSCAPE:
+            if imgtype[0] not in all_prefixes:
+                all_prefixes.append(imgtype[0])
+                setattr(self, imgtype[0].rstrip('_'), FileBrowserImageSize(imgtype[0], self.original))
+        for imgtype in IMAGE_GENERATOR_PORTRAIT:
+            if imgtype[0] not in all_prefixes:
+                all_prefixes.append(imgtype[0])
+                setattr(self, imgtype[0].rstrip('_'), FileBrowserImageSize(imgtype[0], self.original))
+    
+    def __unicode__(self):
+        return self.original
+    
+    def crop(self):
+        if not hasattr(self, '_crop_cache'):
+            self._crop_cache = FileBrowserImageType(self.original, IMAGE_CROP_GENERATOR)
+        return self._crop_cache
+
+
 class FileBrowseField(Field):
     __metaclass__ = models.SubfieldBase
+    
+    def to_python(self, value):
+        if isinstance(value, FileBrowserFile):
+            return value
+        return FileBrowserFile(value)
+    
+    def get_db_prep_value(self, value):
+        return value.original
     
     def get_manipulator_field_objs(self):
         return [oldforms.TextField]

@@ -221,6 +221,7 @@ def _get_settings_var(http_post, path):
     settings_var['IMAGE_GENERATOR_DIRECTORY'] = IMAGE_GENERATOR_DIRECTORY
     settings_var['IMAGE_GENERATOR_LANDSCAPE'] = IMAGE_GENERATOR_LANDSCAPE
     settings_var['IMAGE_GENERATOR_PORTRAIT'] = IMAGE_GENERATOR_PORTRAIT
+    settings_var['FORCE_GENERATOR'] = FORCE_GENERATOR
     return settings_var
     
     
@@ -306,6 +307,9 @@ def _image_generator(PATH_SERVER, path, filename):
                 new_image = im.resize(new_size, Image.ANTIALIAS)
                 new_image.save(image_path, quality=90, optimize=1)
                 # MAKE THUMBNAIL
+                _make_image_thumbnail(PATH_SERVER, os.path.join(path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY), prefix[0] + filename)
+            elif FORCE_GENERATOR_RUN:
+                im.save(image_path)
                 _make_image_thumbnail(PATH_SERVER, os.path.join(path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY), prefix[0] + filename)
         except IOError:
             msg = "%s: %s" % (filename, _('Image creation failed.'))
