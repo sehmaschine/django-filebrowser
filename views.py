@@ -44,6 +44,7 @@ def index(request, dir_name=None):
         var_path_thumb = '' # path to thumbnail
         var_link = '' # link to file (using URL_WWW), link to folder (using URL_ADMIN)
         var_select_link = '' # link to file (using URL_WWW)
+        var_save_path = '' # Path to file relative to MEDIA_ROOT
         var_file_extension = '' # see EXTENSIONS in fb_settings.py
         var_file_type = '' # Folder, Image, Video, Document, Sound, Code, ...
         var_image_dimensions = '' # Image Dimensions (width, height)
@@ -68,14 +69,19 @@ def index(request, dir_name=None):
         var_date = strftime("%Y-%m-%d", gmtime(date_time))
         
         # EXTENSION / FLAG_EMPTYDIR / DELETE_TOTAL
-        if os.path.isfile(os.path.join(PATH_SERVER, path, file)): # file
+        fn = os.path.join(PATH_SERVER, path, file)
+        var_select_link = var_link = "%s%s%s" % (URL_WWW, path, file)
+        if os.path.isfile(fn): # file
             var_file_extension = os.path.splitext(file)[1].lower()
-            var_select_link = var_link = "%s%s%s" % (URL_WWW, path, file)
-        elif os.path.isdir(os.path.join(PATH_SERVER, path, file)): # folder
+        elif os.path.isdir(fn): # folder
             var_link = "%s%s%s" % (URL_ADMIN, path, file)
-            var_select_link = "%s%s%s/" % (URL_WWW, path, file)
             if not os.listdir(os.path.join(PATH_SERVER, path, file)):
                 var_flag_deletedir = True # only empty directories are allowed to be deleted
+        
+        # DETERMINE MEDIA SAVE PATH 
+        var_save_path = var_select_link
+        if not SAVE_FULL_URL:
+            var_save_path = var_save_path.replace(settings.MEDIA_URL, '').lstrip('/')
         
         # FILETYPE / COUNTER
         var_file_type = _get_file_type(file)
@@ -118,7 +124,8 @@ def index(request, dir_name=None):
         
         # APPEND FILE_LIST
         if flag_extend == True:
-            file_list.append([file, var_filesize_long, var_filesize_str, var_date, var_path_thumb, var_link, var_select_link, var_file_extension, var_file_type, var_image_dimensions, var_thumb_dimensions, file.lower(), var_flag_makethumb, var_flag_deletedir, var_image_version])
+            file_list.append([file, var_filesize_long, var_filesize_str, var_date, var_path_thumb, var_link, var_select_link, var_save_path, var_file_extension, var_file_type, var_image_dimensions, var_thumb_dimensions, file.lower(), var_flag_makethumb, var_flag_deletedir, var_image_version])
+    
     
     # SORT LIST
     file_list.sort(lambda x, y: cmp(x[int(query['o'])], y[int(query['o'])]))

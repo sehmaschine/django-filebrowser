@@ -26,6 +26,10 @@ URL_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_URL_FILEBROWSER_MEDIA", s
 # Note: You have to change this setting, if you install TinyMCE outside your admin-media directory.
 URL_TINYMCE = getattr(settings, "FILEBROWSER_URL_TINYMCE", settings.ADMIN_MEDIA_PREFIX + "tinymce_2/jscripts/tiny_mce/")
 
+# Save full domain-relative URLs to your model fields,
+# or False (default) to save paths relative to settings.MEDIA_ROOT.
+SAVE_FULL_URL = getattr(settings, "FILEBROWSER_SAVE_FULL_URL", True)
+
 # The server-path to media-files. This is the initial/root server-path for the FileBrowser.
 # Important: If you change this setting, you should also change URL_WWW.
 PATH_SERVER = getattr(settings, "FILEBROWSER_PATH_SERVER", os.path.join(settings.MEDIA_ROOT, 'uploads'))

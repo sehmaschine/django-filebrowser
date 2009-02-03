@@ -14,6 +14,7 @@ from django.utils.encoding import StrAndUnicode, force_unicode, smart_unicode, s
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 from django.forms.fields import EMPTY_VALUES
+from django.conf import settings
 
 import os
 import re
@@ -71,10 +72,14 @@ class FileBrowseWidget(Input):
         elif not isinstance(value, (str, unicode)):
             value = value.original
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
-        if value == "":
-            final_attrs['initial_directory'] = _url_join(URL_ADMIN, final_attrs['initial_directory'])
-        else:
-            final_attrs['initial_directory'] = _url_join(URL_ADMIN, os.path.split(value)[0].replace(URL_WWW, ""))
+        init = final_attrs['initial_directory']
+        if value != "":
+            # Open filebrowser to same foldar as currently selected media
+            init = os.path.split(value)[0].replace(URL_WWW, "")
+            if value[0] != '/':
+                init = os.path.join(settings.MEDIA_ROOT, value).replace(PATH_SERVER, '')
+                init = os.path.split(init)[0].lstrip('/')
+            final_attrs['initial_directory'] = _url_join(URL_ADMIN, init)
         if value != '':
             # Only add the 'value' attribute if a value is non-empty.
             final_attrs['value'] = force_unicode(value)
@@ -96,6 +101,8 @@ class FileBrowseWidget(Input):
             else:
                 # if file is not an image, display file-icon (which is linked to the file) instead
                 path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_' + file_type.lower() + '.gif'
+            if path_thumb[0] != '/':
+                path_thumb = os.path.join(settings.MEDIA_URL, path_thumb)
             final_attrs['thumbnail'] = path_thumb
         path_search_icon = URL_FILEBROWSER_MEDIA + 'img/filebrowser_icon_show.gif'
         final_attrs['search_icon'] = path_search_icon

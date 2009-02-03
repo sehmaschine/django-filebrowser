@@ -186,14 +186,15 @@ def _make_filedict(file_list):
         temp_list['path_thumb'] = item[4]
         temp_list['link'] = item[5]
         temp_list['select_link'] = item[6]
-        temp_list['file_extension'] = item[7]
-        temp_list['file_type'] = item[8]
-        temp_list['image_dimensions'] = item[9]
-        temp_list['thumb_dimensions'] = item[10]
-        temp_list['filename_lower'] = item[11]
-        temp_list['flag_makethumb'] = item[12]
-        temp_list['flag_deletedir'] = item[13]
-        temp_list['flag_imageversion'] = item[14]
+        temp_list['save_path'] = item[7]
+        temp_list['file_extension'] = item[8]
+        temp_list['file_type'] = item[9]
+        temp_list['image_dimensions'] = item[10]
+        temp_list['thumb_dimensions'] = item[11]
+        temp_list['filename_lower'] = item[12]
+        temp_list['flag_makethumb'] = item[13]
+        temp_list['flag_deletedir'] = item[14]
+        temp_list['flag_imageversion'] = item[15]
         file_dict.append(temp_list)
     return file_dict
     
