@@ -145,7 +145,7 @@ class FileBrowserImageType(object):
     
     def __init__(self, original, image_list):
         for image_type in image_list:
-            setattr(self, image_type[0].rstrip('_'), FileBrowserImageSize(image_type, original))
+            setattr(self, image_type[0].rstrip('_'), FileBrowserImageSize(image_type[0], original))
         
 
 class FileBrowserFile(object):
