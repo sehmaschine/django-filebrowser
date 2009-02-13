@@ -1,0 +1,329 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-13 18:24+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: fb_settings.py:60
+msgid "Folder"
+msgstr ""
+
+#: fb_settings.py:61
+msgid "Image"
+msgstr ""
+
+#: fb_settings.py:62
+msgid "Video"
+msgstr ""
+
+#: fb_settings.py:63
+msgid "Document"
+msgstr ""
+
+#: fb_settings.py:64
+msgid "Sound"
+msgstr ""
+
+#: fb_settings.py:65
+msgid "Code"
+msgstr ""
+
+#: fields.py:27
+#, python-format
+msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
+msgstr ""
+
+#: fields.py:28
+#, python-format
+msgid "Ensure this value has at least %(min)d characters (it has %(length)d)."
+msgstr ""
+
+#: fields.py:29
+#, python-format
+msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
+msgstr ""
+
+#: forms.py:23
+msgid "Directory"
+msgstr ""
+
+#: forms.py:23
+msgid ""
+"The directory will automatically be converted to lowercase. Only letters, "
+"numbers, underscores and hyphens are allowed."
+msgstr ""
+
+#: forms.py:30 forms.py:53
+msgid "Only letters, numbers, underscores and hyphens are allowed."
+msgstr ""
+
+#: forms.py:33
+msgid "The directory already exists."
+msgstr ""
+
+#: forms.py:46
+msgid "New Name"
+msgstr ""
+
+#: forms.py:46
+msgid ""
+"The Name will automatically be converted to lowercase. Only letters, "
+"numbers, underscores and hyphens are allowed."
+msgstr ""
+
+#: forms.py:56
+msgid "The file/directory already exists."
+msgstr ""
+
+#: forms.py:92
+msgid "File"
+msgstr ""
+
+#: forms.py:93
+msgid "Use Image Generator"
+msgstr ""
+
+#: forms.py:102
+msgid "File already exists."
+msgstr ""
+
+#: forms.py:108
+msgid "Filename is not allowed."
+msgstr ""
+
+#: forms.py:113
+msgid "File extension is not allowed."
+msgstr ""
+
+#: forms.py:118
+msgid "Filesize exceeds allowed Upload Size."
+msgstr ""
+
+#: functions.py:75
+msgid "Home"
+msgstr ""
+
+#: functions.py:267
+msgid "Thumbnail creation failed."
+msgstr ""
+
+#: functions.py:316 functions.py:377
+msgid "Image creation failed."
+msgstr ""
+
+#: views.py:156
+msgid "FileBrowser"
+msgstr ""
+
+#: views.py:179
+#, python-format
+msgid "The directory %s was successfully created."
+msgstr ""
+
+#: views.py:185
+msgid "Permission denied."
+msgstr ""
+
+#: views.py:187
+msgid "Error creating directory."
+msgstr ""
+
+#: views.py:195 views.py:196 templates/filebrowser/index.html:30
+msgid "New Folder"
+msgstr ""
+
+#: views.py:235
+msgid "Upload successful."
+msgstr ""
+
+#: views.py:248 templates/filebrowser/index.html:33
+#: templates/filebrowser/upload.html:62
+msgid "Upload"
+msgstr ""
+
+#: views.py:249
+msgid "Select files to upload"
+msgstr ""
+
+#: views.py:279
+msgid "Thumbnail creation successful."
+msgstr ""
+
+#: views.py:329
+#, python-format
+msgid "The file %s was successfully deleted."
+msgstr ""
+
+#: views.py:341
+#, python-format
+msgid "The directory %s was successfully deleted."
+msgstr ""
+
+#: views.py:392
+msgid "Error renaming Thumbnail."
+msgstr ""
+
+#: views.py:398
+msgid "Renaming was successful."
+msgstr ""
+
+#: views.py:403
+msgid "Error."
+msgstr ""
+
+#: views.py:412 templates/filebrowser/include/filelisting.html:52
+msgid "Rename"
+msgstr ""
+
+#: views.py:413
+#, python-format
+msgid "Rename \"%s\""
+msgstr ""
+
+#: views.py:450
+msgid "Successfully generated Images."
+msgstr ""
+
+#: templates/filebrowser/index.html:31
+msgid "Make Thumbs"
+msgstr ""
+
+#: templates/filebrowser/index.html:32
+msgid "Generate Images"
+msgstr ""
+
+#: templates/filebrowser/makedir.html:24 templates/filebrowser/rename.html:22
+msgid "Please correct the following errors."
+msgstr ""
+
+#: templates/filebrowser/makedir.html:34 templates/filebrowser/rename.html:33
+msgid "Submit"
+msgstr ""
+
+#: templates/filebrowser/upload.html:37
+msgid "Will use image generator."
+msgstr ""
+
+#: templates/filebrowser/upload.html:47
+msgid "Help"
+msgstr ""
+
+#: templates/filebrowser/upload.html:51
+msgid "Allowed"
+msgstr ""
+
+#: templates/filebrowser/upload.html:57
+msgid "Max. Filesize"
+msgstr ""
+
+#: templates/filebrowser/include/filelisting.html:8
+msgid "Select"
+msgstr ""
+
+#: templates/filebrowser/include/filelisting.html:15
+msgid "Select File"
+msgstr ""
+
+#: templates/filebrowser/include/filelisting.html:26
+msgid "Make Thumbnail"
+msgstr ""
+
+#: templates/filebrowser/include/filelisting.html:29
+msgid "View Image"
+msgstr ""
+
+#: templates/filebrowser/include/filelisting.html:46
+msgid "Generate Image Versions"
+msgstr ""
+
+#: templates/filebrowser/include/filelisting.html:61
+msgid "Delete File"
+msgstr ""
+
+#: templates/filebrowser/include/filelisting.html:64
+msgid "Delete Folder"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:15
+msgid "Filter"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:21
+msgid "By Date"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:23
+msgid "Any Date"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:25
+msgid "Today"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:27
+msgid "Past 7 days"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:29
+msgid "Past 30 days"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:31
+msgid "This year"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:39
+msgid "By Type"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:41
+msgid "All"
+msgstr ""
+
+#: templates/filebrowser/include/paginator.html:6
+msgid "No Items Found."
+msgstr ""
+
+#: templates/filebrowser/include/paginator.html:9
+#, python-format
+msgid ""
+"\n"
+"        %(counter)s Item\n"
+"        "
+msgid_plural ""
+"\n"
+"        %(counter)s Items\n"
+"        "
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/filebrowser/include/paginator.html:20
+msgid "No Items."
+msgstr ""
+
+#: templates/filebrowser/include/tableheader.html:13
+#: templates/filebrowser/include/tableheader.html:14
+msgid "Filename"
+msgstr ""
+
+#: templates/filebrowser/include/tableheader.html:20
+#: templates/filebrowser/include/tableheader.html:21
+msgid "Size"
+msgstr ""
+
+#: templates/filebrowser/include/tableheader.html:23
+#: templates/filebrowser/include/tableheader.html:24
+msgid "Date"
+msgstr ""
