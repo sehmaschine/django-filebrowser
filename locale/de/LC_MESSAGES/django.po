@@ -43,230 +43,230 @@ msgstr ""
 
 #: forms.py:33
 msgid "The directory already exists."
-msgstr ""
+msgstr "Das Verzeichnis existiert bereits."
 
 #: forms.py:46
 msgid ""
 "The name will automatically be converted to lowercase. Only letters, "
 "numbers, underscores and hyphens are allowed."
-msgstr ""
+msgstr "Der Name wird automatisch in Kleinbuchstaben umgewandelt. Nur Buchstaben, Zahlen, Unterstriche und Bindestriche sind erlaubt."
 
 #: forms.py:56
 msgid "The file/directory already exists."
-msgstr ""
+msgstr "Die Datei bzw. das Verzeichnis existiert bereits."
 
 #: forms.py:93
 msgid "Use Image Generator."
-msgstr ""
+msgstr "Bild-Generator verwenden."
 
 #: forms.py:102
 msgid "File already exists."
-msgstr ""
+msgstr "Die Datei existiert bereits."
 
 #: forms.py:108
 msgid "Filename is not allowed."
-msgstr ""
+msgstr "Der Dateiname ist nicht erlaubt."
 
 #: forms.py:113
 msgid "File extension is not allowed."
-msgstr ""
+msgstr "Die Dateierweiterung ist nicht erlaubt."
 
 #: forms.py:118
 msgid "Filesize exceeds allowed Upload Size."
-msgstr ""
+msgstr "Die maximale Dateigröße wurde überschritten."
 
 #: functions.py:75
 msgid "Home"
-msgstr ""
+msgstr "Start"
 
 #: functions.py:267
 msgid "Thumbnail creation failed."
-msgstr ""
+msgstr "Fehler bei der Erstellung des Thumbnails."
 
 #: functions.py:316 functions.py:377
 msgid "Image creation failed."
-msgstr ""
+msgstr "Fehler bei der Erstellung der Bild-Versionen."
 
 #: views.py:156
 msgid "FileBrowser"
-msgstr ""
+msgstr "FileBrowser"
 
 #: views.py:179
 #, python-format
 msgid "The directory %s was successfully created."
-msgstr ""
+msgstr "Das Verzeichnis %s wurde erstellt."
 
 #: views.py:185
 msgid "Permission denied."
-msgstr ""
+msgstr "Fehlende Zugriffsberechtigungen."
 
 #: views.py:187
 msgid "Error creating directory."
-msgstr ""
+msgstr "Fehler beim Erstellen des Verezeichnis."
 
 #: views.py:196
 msgid "Make directory"
-msgstr ""
+msgstr "Neues Verzeichnis"
 
 #: views.py:235
 msgid "Upload successful."
-msgstr ""
+msgstr "Upload erfolgreich"
 
 #: views.py:249
 msgid "Select files to upload"
-msgstr ""
+msgstr "Dateien zum Upload auswählen"
 
 #: views.py:279
 msgid "Thumbnail creation successful."
-msgstr ""
+msgstr "Thumbnails wurden erfolgreich erstellt."
 
 #: views.py:329
 #, python-format
 msgid "The file %s was successfully deleted."
-msgstr ""
+msgstr "Die Datei %s wurde gelöscht."
 
 #: views.py:341
 #, python-format
 msgid "The directory %s was successfully deleted."
-msgstr ""
+msgstr "Das Verzeichnis %s wurde gelöscht."
 
 #: views.py:392
 msgid "Error renaming Thumbnail."
-msgstr ""
+msgstr "Fehler beim Umbenennen des Thumbnail."
 
 #: views.py:398
 msgid "Renaming was successful."
-msgstr ""
+msgstr "Umbenennen erfolgreich."
 
 #: views.py:403
 msgid "Error."
-msgstr ""
+msgstr "Fehler."
 
 #: views.py:413
 #, python-format
 msgid "Rename \"%s\""
-msgstr ""
+msgstr "\"%s\" umbenennen"
 
 #: views.py:450
 msgid "Successfully generated Images."
-msgstr ""
+msgstr "Bild-Versionen wurden erfolgreich generiert."
 
 #: templates/filebrowser/index.html:30
 msgid "Make Directory"
-msgstr ""
+msgstr "Neues Verzeichnis"
 
 #: templates/filebrowser/index.html:31
 msgid "Make Thumbs"
-msgstr ""
+msgstr "Thumbnails erstellen"
 
 #: templates/filebrowser/index.html:32
 msgid "Generate Images"
-msgstr ""
+msgstr "Bild-Versionen erstellen"
 
 #: templates/filebrowser/index.html:33
 msgid "Multiple Upload"
-msgstr ""
+msgstr "Upload"
 
 #: templates/filebrowser/makedir.html:34 templates/filebrowser/rename.html:33
 msgid "Submit"
-msgstr ""
+msgstr "Abschicken"
 
 #: templates/filebrowser/upload.html:47
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"
 
 #: templates/filebrowser/upload.html:51
 msgid "Allowed"
-msgstr ""
+msgstr "Erlaubt"
 
 #: templates/filebrowser/upload.html:57
 msgid "Max. Filesize"
-msgstr ""
+msgstr "Max. Dateigröße"
 
 #: templates/filebrowser/include/filelisting.html:8
 #: templates/filebrowser/include/filelisting.html:15
 msgid "Select File"
-msgstr ""
+msgstr "Datei auswählen"
 
 #: templates/filebrowser/include/filelisting.html:26
 msgid "Make Thumbnail"
-msgstr ""
+msgstr "Thumbnail erstellen"
 
 #: templates/filebrowser/include/filelisting.html:29
 msgid "View Image"
-msgstr ""
+msgstr "Bild anschauen"
 
 #: templates/filebrowser/include/filelisting.html:46
 msgid "Generate Image Versions"
-msgstr ""
+msgstr "Versionen generieren"
 
 #: templates/filebrowser/include/filelisting.html:52
 msgid "Rename File"
-msgstr ""
+msgstr "Datei umbenennen"
 
 #: templates/filebrowser/include/filelisting.html:61
 msgid "Delete File"
-msgstr ""
+msgstr "Datei löschen"
 
 #: templates/filebrowser/include/filelisting.html:64
 msgid "Delete Folder"
-msgstr ""
+msgstr "Verzeichnis löschen"
 
 #: templates/filebrowser/include/filter.html:15
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 #: templates/filebrowser/include/filter.html:21
 msgid "By Date"
-msgstr ""
+msgstr "Nach Datum"
 
 #: templates/filebrowser/include/filter.html:23
 msgid "Any Date"
-msgstr ""
+msgstr "Alle"
 
 #: templates/filebrowser/include/filter.html:25
 msgid "Today"
-msgstr ""
+msgstr "Heute"
 
 #: templates/filebrowser/include/filter.html:27
 msgid "Past 7 days"
-msgstr ""
+msgstr "Letzte Woche"
 
 #: templates/filebrowser/include/filter.html:29
 msgid "Past 30 days"
-msgstr ""
+msgstr "Letzter Monat"
 
 #: templates/filebrowser/include/filter.html:31
 msgid "This year"
-msgstr ""
+msgstr "Letztes Jahr"
 
 #: templates/filebrowser/include/filter.html:39
 msgid "By Type"
-msgstr ""
+msgstr "Nach Typ"
 
 #: templates/filebrowser/include/filter.html:41
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: templates/filebrowser/include/paginator.html:6
 msgid "No Files Found"
-msgstr ""
+msgstr "Keine Dateien gefunden"
 
 #: templates/filebrowser/include/paginator.html:13
 msgid "No Files"
-msgstr ""
+msgstr "Keine Dateien"
 
 #: templates/filebrowser/include/tableheader.html:13
 #: templates/filebrowser/include/tableheader.html:14
 msgid "Filename"
-msgstr ""
+msgstr "Dateiname"
 
 #: templates/filebrowser/include/tableheader.html:20
 #: templates/filebrowser/include/tableheader.html:21
 msgid "Size"
-msgstr ""
+msgstr "Größe"
 
 #: templates/filebrowser/include/tableheader.html:23
 #: templates/filebrowser/include/tableheader.html:24
 msgid "Date"
-msgstr ""
+msgstr "Datum"
