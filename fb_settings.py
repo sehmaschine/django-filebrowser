@@ -3,6 +3,15 @@
 import os
 from django.conf import settings
 
+# settings for django-tinymce
+try:
+    import tinymce.settings
+    DEFAULT_URL_TINYMCE = tinymce.settings.JS_BASE_URL + '/'
+    DEFAULT_PATH_TINYMCE = tinymce.settings.JS_ROOT + '/'
+except ImportError:
+    DEFAULT_URL_TINYMCE = settings.ADMIN_MEDIA_PREFIX + "tinymce_2/jscripts/tiny_mce/"
+    DEFAULT_PATH_TINYMCE = os.path.join(settings.MEDIA_ROOT, 'admin/tinymce_2/jscripts/tiny_mce/')
+
 # The location of your media-files.
 # This is the base URL for all your media-files accessible for the FileBrowser.
 # Note: When you set URL_WWW to settings.MEDIA_URL you can use all your media-files with the FileBrowser.
@@ -24,7 +33,7 @@ URL_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_URL_FILEBROWSER_MEDIA", s
 
 # The URL to your TinyMCE Installation.
 # Note: You have to change this setting, if you install TinyMCE outside your admin-media directory.
-URL_TINYMCE = getattr(settings, "FILEBROWSER_URL_TINYMCE", settings.ADMIN_MEDIA_PREFIX + "tinymce_2/jscripts/tiny_mce/")
+URL_TINYMCE = getattr(settings, "FILEBROWSER_URL_TINYMCE", DEFAULT_URL_TINYMCE)
 
 # Save full domain-relative URLs to your model fields,
 # or False (default) to save paths relative to settings.MEDIA_ROOT.
@@ -41,7 +50,7 @@ PATH_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_PATH_FILEBROWSER_MEDIA",
 
 # The server-path to your TinyMCE Installation.
 # Note: You have to change this setting, if you install TinyMCE outside your admin-media directory.
-PATH_TINYMCE = getattr(settings, "FILEBROWSER_PATH_TINYMCE", os.path.join(settings.MEDIA_ROOT, 'admin/tinymce_2/jscripts/tiny_mce/'))
+PATH_TINYMCE = getattr(settings, "FILEBROWSER_PATH_TINYMCE", DEFAULT_PATH_TINYMCE)
 
 # Allowed Extensions for File Upload. Lower case is important.
 # Please be aware that there are Icons for the default extension settings.
