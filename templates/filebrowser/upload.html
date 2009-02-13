@@ -34,7 +34,7 @@
             {{ form.file }}
             {% if settings_var.USE_IMAGE_GENERATOR %}
                 {% if settings_var.FORCE_GENERATOR %}
-                    <p class="help">Will use image generator</p>
+                    <p class="help">{% trans 'Will use image generator.' %}</p>
                 {% else %}
                     <p class="help">{{ form.use_image_generator }} {{ form.use_image_generator.label }}</p>
                 {% endif %}
@@ -59,7 +59,7 @@
         </div>
         </fieldset>
         <div class="submit-row">
-            <input type="submit" value="Upload" class="default" />
+            <input type="submit" value="{% trans 'Upload' %}" class="default" />
         </div>
     </div>
     </form>

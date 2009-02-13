@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-13 17:02+0000\n"
+"POT-Creation-Date: 2009-02-13 17:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,6 +32,11 @@ msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
 msgstr ""
 
 #: forms.py:23
+#, fuzzy
+msgid "Directory"
+msgstr "Neues Verzeichnis"
+
+#: forms.py:23
 msgid ""
 "The directory will automatically be converted to lowercase. Only letters, "
 "numbers, underscores and hyphens are allowed."
@@ -46,17 +51,30 @@ msgid "The directory already exists."
 msgstr "Das Verzeichnis existiert bereits."
 
 #: forms.py:46
+msgid "New Name"
+msgstr ""
+
+#: forms.py:46
+#, fuzzy
 msgid ""
-"The name will automatically be converted to lowercase. Only letters, "
+"The Name will automatically be converted to lowercase. Only letters, "
 "numbers, underscores and hyphens are allowed."
-msgstr "Der Name wird automatisch in Kleinbuchstaben umgewandelt. Nur Buchstaben, Zahlen, Unterstriche und Bindestriche sind erlaubt."
+msgstr ""
+"Der Name wird automatisch in Kleinbuchstaben umgewandelt. Nur Buchstaben, "
+"Zahlen, Unterstriche und Bindestriche sind erlaubt."
 
 #: forms.py:56
 msgid "The file/directory already exists."
 msgstr "Die Datei bzw. das Verzeichnis existiert bereits."
 
+#: forms.py:92
+#, fuzzy
+msgid "File"
+msgstr "Filter"
+
 #: forms.py:93
-msgid "Use Image Generator."
+#, fuzzy
+msgid "Use Image Generator"
 msgstr "Bild-Generator verwenden."
 
 #: forms.py:102
@@ -104,13 +122,19 @@ msgstr "Fehlende Zugriffsberechtigungen."
 msgid "Error creating directory."
 msgstr "Fehler beim Erstellen des Verezeichnis."
 
-#: views.py:196
-msgid "Make directory"
-msgstr "Neues Verzeichnis"
+#: views.py:195 views.py:196
+#, fuzzy
+msgid "New Folder"
+msgstr "Verzeichnis löschen"
 
 #: views.py:235
 msgid "Upload successful."
 msgstr "Upload erfolgreich"
+
+#: views.py:248 templates/filebrowser/index.html:33
+#: templates/filebrowser/upload.html:62
+msgid "Upload"
+msgstr ""
 
 #: views.py:249
 msgid "Select files to upload"
@@ -142,6 +166,11 @@ msgstr "Umbenennen erfolgreich."
 msgid "Error."
 msgstr "Fehler."
 
+#: views.py:412 templates/filebrowser/include/filelisting.html:52
+#, fuzzy
+msgid "Rename"
+msgstr "Dateiname"
+
 #: views.py:413
 #, python-format
 msgid "Rename \"%s\""
@@ -152,7 +181,8 @@ msgid "Successfully generated Images."
 msgstr "Bild-Versionen wurden erfolgreich generiert."
 
 #: templates/filebrowser/index.html:30
-msgid "Make Directory"
+#, fuzzy
+msgid "New Directory"
 msgstr "Neues Verzeichnis"
 
 #: templates/filebrowser/index.html:31
@@ -163,13 +193,18 @@ msgstr "Thumbnails erstellen"
 msgid "Generate Images"
 msgstr "Bild-Versionen erstellen"
 
-#: templates/filebrowser/index.html:33
-msgid "Multiple Upload"
-msgstr "Upload"
+#: templates/filebrowser/makedir.html:24 templates/filebrowser/rename.html:22
+msgid "Please correct the following errors."
+msgstr ""
 
 #: templates/filebrowser/makedir.html:34 templates/filebrowser/rename.html:33
 msgid "Submit"
 msgstr "Abschicken"
+
+#: templates/filebrowser/upload.html:37
+#, fuzzy
+msgid "Will use image generator."
+msgstr "Bild-Generator verwenden."
 
 #: templates/filebrowser/upload.html:47
 msgid "Help"
@@ -184,6 +219,10 @@ msgid "Max. Filesize"
 msgstr "Max. Dateigröße"
 
 #: templates/filebrowser/include/filelisting.html:8
+#, fuzzy
+msgid "Select"
+msgstr "Datei auswählen"
+
 #: templates/filebrowser/include/filelisting.html:15
 msgid "Select File"
 msgstr "Datei auswählen"
@@ -199,10 +238,6 @@ msgstr "Bild anschauen"
 #: templates/filebrowser/include/filelisting.html:46
 msgid "Generate Image Versions"
 msgstr "Versionen generieren"
-
-#: templates/filebrowser/include/filelisting.html:52
-msgid "Rename File"
-msgstr "Datei umbenennen"
 
 #: templates/filebrowser/include/filelisting.html:61
 msgid "Delete File"
@@ -270,3 +305,12 @@ msgstr "Größe"
 #: templates/filebrowser/include/tableheader.html:24
 msgid "Date"
 msgstr "Datum"
+
+#~ msgid "Make directory"
+#~ msgstr "Neues Verzeichnis"
+
+#~ msgid "Multiple Upload"
+#~ msgstr "Upload"
+
+#~ msgid "Rename File"
+#~ msgstr "Datei umbenennen"

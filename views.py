@@ -153,7 +153,7 @@ def index(request, dir_name=None):
         'counter': counter,
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
-        'title': _('FileBrowser'),
+        'title': _(u'FileBrowser'),
         'root_path': URL_HOME,
     }, context_instance=Context(request))
 index = staff_member_required(never_cache(index))
@@ -192,8 +192,8 @@ def mkdir(request, dir_name=None):
         'form': form,
         'query': query,
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, 'Make Directory'),
-        'title': _('Make directory'),
+        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, _(u'New Folder')),
+        'title': _(u'New Folder'),
         'root_path': URL_HOME,
     }, context_instance=Context(request))
 mkdir = staff_member_required(never_cache(mkdir))
@@ -245,8 +245,8 @@ def upload(request, dir_name=None):
         'dir': dir_name,
         'query': _get_query(request.GET),
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, 'Multiple Upload'),
-        'title': _('Select files to upload'),
+        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, _(u'Upload')),
+        'title': _(u'Select files to upload'),
         'root_path': URL_HOME,
     }, context_instance=Context(request))
 upload = staff_member_required(never_cache(upload))
@@ -409,8 +409,8 @@ def rename(request, dir_name=None, file_name=None):
         'query': query,
         'file_extension': file_extension,
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, 'Rename'),
-        'title': _('Rename "%s"') % file_name,
+        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, _(u'Rename')),
+        'title': _(u'Rename "%s"') % file_name,
         'root_path': URL_HOME,
     }, context_instance=Context(request))
 rename = staff_member_required(never_cache(rename))
