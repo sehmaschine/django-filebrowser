@@ -73,13 +73,13 @@ class FileBrowseWidget(Input):
             value = value.original
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
         init = final_attrs['initial_directory']
+        final_attrs['initial_directory'] = _url_join(URL_ADMIN, init)
         if value != "":
             # Open filebrowser to same foldar as currently selected media
             init = os.path.split(value)[0].replace(URL_WWW, "")
             if value[0] != '/':
                 init = os.path.join(settings.MEDIA_ROOT, value).replace(PATH_SERVER, '')
                 init = os.path.split(init)[0].lstrip('/')
-            final_attrs['initial_directory'] = _url_join(URL_ADMIN, init)
         if value != '':
             # Only add the 'value' attribute if a value is non-empty.
             final_attrs['value'] = force_unicode(value)
@@ -132,12 +132,12 @@ class FileBrowserImageSize(object):
         if CHECK_EXISTS:
             path = os.path.split(value_path)[0]
             if os.path.isfile(os.path.join(PATH_SERVER, path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY, arg + filename)):
-                img_value = os.path.join(os.path.split(value)[0], filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY, arg + filename)
+                img_value = '/'.join(os.path.split(value)[0], filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY, arg + filename)
                 return u'%s' % (img_value)
             else:
                 return u''
         else:
-            img_value = os.path.join(os.path.split(value)[0], filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY, arg + filename)
+            img_value = '/'.join(os.path.split(value)[0], filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY, arg + filename)
             return u'%s' % (img_value)
         
 
