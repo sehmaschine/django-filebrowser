@@ -75,11 +75,14 @@ class FileBrowseWidget(Input):
         init = final_attrs['initial_directory']
         final_attrs['initial_directory'] = _url_join(URL_ADMIN, init)
         if value != "":
-            # Open filebrowser to same foldar as currently selected media
+            # Open filebrowser to same folder as currently selected media
             init = os.path.split(value)[0].replace(URL_WWW, "")
             if value[0] != '/':
                 init = os.path.join(settings.MEDIA_ROOT, value).replace(PATH_SERVER, '')
                 init = os.path.split(init)[0].lstrip('/')
+                final_attrs['initial_directory'] = _url_join(URL_ADMIN, init)
+            else:
+                final_attrs['initial_directory'] = _url_join(URL_ADMIN, init)
         if value != '':
             # Only add the 'value' attribute if a value is non-empty.
             final_attrs['value'] = force_unicode(value)
