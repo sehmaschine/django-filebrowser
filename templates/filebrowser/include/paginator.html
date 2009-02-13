@@ -3,13 +3,20 @@
 <p class="paginator">
 {% if results_var.results_total %}
     {% if not results_var.results_current %}
-    <span class="error">{% trans "No Files Found" %}</span>&nbsp;
-    {% endif %}<strong>{{ results_var.results_total }} Fil{{ results_var.results_total|pluralize:"e,es" }}</strong>&nbsp;
+    <span class="error">{% trans "No Items Found." %}</span>&nbsp;
+    {% endif %}
+    <strong>
+        {% blocktrans count results_var.results_total as counter %}
+        {{ counter }} Item
+        {% plural %}
+        {{ counter }} Items
+        {% endblocktrans %}
+    </strong>&nbsp;
     {% for count in counter.items %}
         {{ count.0 }}:
         <strong>{{ count.1 }}</strong>&nbsp;
     {% endfor %}
 {% else %}
-    <strong>{% trans "No Files" %}</strong>
+    <strong>{% trans "No Items." %}</strong>
 {% endif %}
 </p>
