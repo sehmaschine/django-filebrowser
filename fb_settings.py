@@ -57,12 +57,12 @@ PATH_TINYMCE = getattr(settings, "FILEBROWSER_PATH_TINYMCE", DEFAULT_PATH_TINYMC
 # Please be aware that there are Icons for the default extension settings.
 # Therefore, if you add a category (e.g. "Misc"), you won't get an icon.
 EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
-    _(u'Folder'):[''],
-    _(u'Image'):['.jpg', '.jpeg', '.gif','.png','.tif','.tiff'],
-    _(u'Video'):['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
-    _(u'Document'):['.pdf','.doc','.rtf','.txt','.xls','.csv'],
-    _(u'Sound'):['.mp3','.mp4','.wav','.aiff','.midi'],
-    _(u'Code'):['.html','.py','.js','.css']
+    'Folder':[''],
+    'Image':['.jpg', '.jpeg', '.gif','.png','.tif','.tiff'],
+    'Video':['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
+    'Document':['.pdf','.doc','.rtf','.txt','.xls','.csv'],
+    'Sound':['.mp3','.mp4','.wav','.aiff','.midi'],
+    'Code':['.html','.py','.js','.css']
 })
 
 # Max. Upload Size in Bytes.

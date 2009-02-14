@@ -176,7 +176,7 @@ def mkdir(request, dir_name=None):
                 os.chmod(server_path, 0775)
                 
                 # MESSAGE & REDIRECT
-                msg = _('The directory %s was successfully created.') % (form.cleaned_data['dir_name'].lower())
+                msg = _('The Folder %s was successfully created.') % (form.cleaned_data['dir_name'].lower())
                 request.user.message_set.create(message=msg)
                 # on redirect, sort by date desc to see the new directory on top of the list
                 return HttpResponseRedirect(URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop'])

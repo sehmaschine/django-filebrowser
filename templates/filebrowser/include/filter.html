@@ -40,7 +40,7 @@ if (typeof jQuery != 'undefined') {
     <ul id="Type">
         {% if query.filter_type %}<li>{% else %}<li class="selected">{% endif %}<a href="?{{ query.query_nofiltertype }}">{% trans "All" %}</a></li>
         {% for extension in settings_var.EXTENSIONS %}
-        {% ifequal query.filter_type extension %}<li class="selected">{% else %}<li>{% endifequal %}<a href="?{{ query.query_nofiltertype }}&amp;filter_type={{ extension }}">{{ extension }}</a></li>
+        {% ifequal query.filter_type extension %}<li class="selected">{% else %}<li>{% endifequal %}<a href="?{{ query.query_nofiltertype }}&amp;filter_type={{ extension }}">{% trans extension %}</a></li>
         {% endfor %}
     </ul>
     </div>

@@ -20,7 +20,7 @@ class MakeDirForm(forms.Form):
         self.path = path
         super(MakeDirForm, self).__init__(*args, **kwargs)
     
-    dir_name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Directory'), help_text=_(u'The directory will automatically be converted to lowercase. Only letters, numbers, underscores and hyphens are allowed.'), required=True)
+    dir_name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Name'), help_text=_(u'The Name will automatically be converted to lowercase. Only letters, numbers, underscores and hyphens are allowed.'), required=True)
                      
     def clean_dir_name(self):
         
@@ -30,7 +30,7 @@ class MakeDirForm(forms.Form):
                 raise forms.ValidationError(_(u'Only letters, numbers, underscores and hyphens are allowed.'))
             # directory must not already exist.
             if os.path.isdir(os.path.join(self.PATH_SERVER, self.path, self.cleaned_data['dir_name'].lower())):
-                raise forms.ValidationError(_(u'The directory already exists.'))
+                raise forms.ValidationError(_(u'The Folder already exists.'))
         
         return self.cleaned_data['dir_name']
     
@@ -53,7 +53,7 @@ class RenameForm(forms.Form):
                 raise forms.ValidationError(_(u'Only letters, numbers, underscores and hyphens are allowed.'))
             # file/directory must not already exist.
             if os.path.isdir(os.path.join(self.PATH_SERVER, self.path, self.cleaned_data['name'].lower())) or os.path.isfile(os.path.join(self.PATH_SERVER, self.path, self.cleaned_data['name'].lower() + self.file_extension)):
-                raise forms.ValidationError(_(u'The file/directory already exists.'))
+                raise forms.ValidationError(_(u'The File/Folder already exists.'))
         
         return self.cleaned_data['name']
     
