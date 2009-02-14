@@ -1,17 +1,17 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# PATRICK KRANZLMUELLER <PATRICK@VONAUTOMATISCH.AT>, 2009.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-14 13:04+0000\n"
+"POT-Creation-Date: 2009-02-14 13:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Last-Translator: PATRICK KRANZLMUELLER <PATRICK@VONAUTOMATISCH.AT>\n"
+"Language-Team: GERMAN <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,310 +20,301 @@ msgstr ""
 #, python-format
 msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
 msgstr ""
+"Es sind maximal %(max)d Zeichen erlaubt (der eingegebene Wert hat %(length)"
+"d) Zeichen)."
 
 #: fields.py:28
 #, python-format
 msgid "Ensure this value has at least %(min)d characters (it has %(length)d)."
 msgstr ""
+"Es müssen mindestens %(min)d Zeichen eingegeben werden (der eingegebene Wert "
+"hat %(length)d Zeichen)."
 
 #: fields.py:29
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
 msgstr ""
+"Die Dateierweiterung %(ext)s ist nicht erlaubt. Erlaubt sind folgende "
+"Dateierweiterungen: %(allowed)s."
 
 #: forms.py:23
 msgid "Name"
-msgstr ""
+msgstr "Bezeichnung"
 
 #: forms.py:23 forms.py:46
 msgid ""
 "The Name will automatically be converted to lowercase. Only letters, "
 "numbers, underscores and hyphens are allowed."
 msgstr ""
+"Die Bezeichnung wird automatisch in Kleinbuchstaben umgewandelt. Nur "
+"Buchstaben, Zahlen, Unterstriche und Bindestriche sind erlaubt."
 
 #: forms.py:30 forms.py:53
 msgid "Only letters, numbers, underscores and hyphens are allowed."
-msgstr ""
+msgstr "Nur Buchstaben, Zahlen, Unterstriche und Bindestriche sind erlaubt."
 
 #: forms.py:33
 msgid "The Folder already exists."
-msgstr ""
+msgstr "Der Ordner existiert bereits."
 
 #: forms.py:46
 msgid "New Name"
-msgstr ""
+msgstr "Neue Bezeichnung"
 
 #: forms.py:56
 msgid "The File/Folder already exists."
 msgstr ""
+"Es existiert bereits eine Datei bzw. ein Ordner mit dieser Bezeichnung."
 
 #: forms.py:92
 msgid "File"
-msgstr ""
+msgstr "Datei"
 
 #: forms.py:93
 msgid "Use Image Generator"
-msgstr ""
+msgstr "Bildversionen erstellen"
 
 #: forms.py:102
 msgid "File already exists."
-msgstr ""
+msgstr "Die Datei existiert bereits."
 
 #: forms.py:108
 msgid "Filename is not allowed."
-msgstr ""
+msgstr "Der Dateiname ist nicht erlaubt."
 
 #: forms.py:113
 msgid "File extension is not allowed."
-msgstr ""
+msgstr "Die Dateierweiterung ist nicht erlaubt."
 
 #: forms.py:118
 msgid "Filesize exceeds allowed Upload Size."
-msgstr ""
+msgstr "Die Dateigröße überschreitet den erlaubten Maximalwert."
 
 #: functions.py:75
 msgid "Home"
-msgstr ""
+msgstr "Start"
 
 #: functions.py:267
 msgid "Thumbnail creation failed."
-msgstr ""
+msgstr "Fehler bei der Thumbnail-Generierung."
 
 #: functions.py:316 functions.py:377
 msgid "Image creation failed."
-msgstr ""
+msgstr "Fehler bei der Bildversion-Generierung."
 
 #: views.py:156
 msgid "FileBrowser"
-msgstr ""
+msgstr "FileBrowser"
 
 #: views.py:179
 #, python-format
 msgid "The Folder %s was successfully created."
-msgstr ""
+msgstr "Der Ordner %s wurde erfolgreich angelegt."
 
 #: views.py:185
 msgid "Permission denied."
-msgstr ""
+msgstr "Fehlende Zugriffsberechtigung."
 
 #: views.py:187
 msgid "Error creating directory."
-msgstr ""
+msgstr "Fehler beim Erstellen des Ordners."
 
 #: views.py:195 views.py:196 templates/filebrowser/index.html:30
 msgid "New Folder"
-msgstr ""
+msgstr "Neuer Ordner"
 
 #: views.py:235
 msgid "Upload successful."
-msgstr ""
+msgstr "Upload erfolgreich."
 
 #: views.py:248 templates/filebrowser/index.html:33
 #: templates/filebrowser/upload.html:62
 msgid "Upload"
-msgstr ""
+msgstr "Upload"
 
 #: views.py:249
 msgid "Select files to upload"
-msgstr ""
+msgstr "Dateien zum Upload auswählen"
 
 #: views.py:279
 msgid "Thumbnail creation successful."
-msgstr ""
+msgstr "Die Thumbnails wurden erfolgreich erstellt."
 
 #: views.py:329
 #, python-format
 msgid "The file %s was successfully deleted."
-msgstr ""
+msgstr "Die Datei %s wurde gelöscht."
 
 #: views.py:341
 #, python-format
 msgid "The directory %s was successfully deleted."
-msgstr ""
+msgstr "Der Ordner %s wurde gelöscht."
 
 #: views.py:392
 msgid "Error renaming Thumbnail."
-msgstr ""
+msgstr "Fehler beim Umbenennen des Thumbnails."
 
 #: views.py:398
 msgid "Renaming was successful."
-msgstr ""
+msgstr "Umbenennung erfolgreich."
 
 #: views.py:403
 msgid "Error."
-msgstr ""
+msgstr "Fehler."
 
 #: views.py:412 templates/filebrowser/include/filelisting.html:52
 msgid "Rename"
-msgstr ""
+msgstr "Umbenennen"
 
 #: views.py:413
 #, python-format
 msgid "Rename \"%s\""
-msgstr ""
+msgstr "\"%s\" umbenennen"
 
 #: views.py:450
 msgid "Successfully generated Images."
-msgstr ""
+msgstr "Die Bildversionen wurden erfolgreich generiert."
 
 #: templates/filebrowser/index.html:31
 msgid "Make Thumbs"
-msgstr ""
+msgstr "Thumbnails erstellen"
 
 #: templates/filebrowser/index.html:32
 msgid "Generate Images"
-msgstr ""
+msgstr "Bildversionen generieren"
 
 #: templates/filebrowser/makedir.html:24 templates/filebrowser/rename.html:22
 msgid "Please correct the following errors."
-msgstr ""
+msgstr "Bitte die folgenden Fehler beheben."
 
 #: templates/filebrowser/makedir.html:34 templates/filebrowser/rename.html:33
 msgid "Submit"
-msgstr ""
+msgstr "Abschicken"
 
 #: templates/filebrowser/upload.html:37
 msgid "Will use image generator."
-msgstr ""
+msgstr "Bildversionen werden erstellt."
 
 #: templates/filebrowser/upload.html:47
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"
 
 #: templates/filebrowser/upload.html:51
 msgid "Allowed"
-msgstr ""
+msgstr "Erlaubt"
 
 #: templates/filebrowser/upload.html:57
 msgid "Max. Filesize"
-msgstr ""
+msgstr "Max. Dateigröße"
 
 #: templates/filebrowser/include/filelisting.html:8
 msgid "Select"
-msgstr ""
+msgstr "Auswählen"
 
 #: templates/filebrowser/include/filelisting.html:15
 msgid "Select File"
-msgstr ""
+msgstr "Datei auswählen"
 
 #: templates/filebrowser/include/filelisting.html:26
 msgid "Make Thumbnail"
-msgstr ""
+msgstr "Thumbnail erstellen"
 
 #: templates/filebrowser/include/filelisting.html:29
 msgid "View Image"
-msgstr ""
+msgstr "Bild anschauen"
 
 #: templates/filebrowser/include/filelisting.html:46
 msgid "Generate Image Versions"
-msgstr ""
+msgstr "Bildversionen generieren"
 
 #: templates/filebrowser/include/filelisting.html:61
 msgid "Delete File"
-msgstr ""
+msgstr "Datei löschen"
 
 #: templates/filebrowser/include/filelisting.html:64
 msgid "Delete Folder"
-msgstr ""
+msgstr "Ordner löschen"
 
 #: templates/filebrowser/include/filter.html:15
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 #: templates/filebrowser/include/filter.html:21
 msgid "By Date"
-msgstr ""
+msgstr "Nach Datum"
 
 #: templates/filebrowser/include/filter.html:23
 msgid "Any Date"
-msgstr ""
+msgstr "Alle"
 
 #: templates/filebrowser/include/filter.html:25
 msgid "Today"
-msgstr ""
+msgstr "Heute"
 
 #: templates/filebrowser/include/filter.html:27
 msgid "Past 7 days"
-msgstr ""
+msgstr "Letzte Woche"
 
 #: templates/filebrowser/include/filter.html:29
 msgid "Past 30 days"
-msgstr ""
+msgstr "Letzter Monat"
 
 #: templates/filebrowser/include/filter.html:31
 msgid "This year"
-msgstr ""
+msgstr "Letztes Jahr"
 
 #: templates/filebrowser/include/filter.html:39
 msgid "By Type"
-msgstr ""
+msgstr "Nach Typ"
 
 #: templates/filebrowser/include/filter.html:41
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: templates/filebrowser/include/paginator.html:5
 msgid "No Items Found."
-msgstr ""
+msgstr "Keine Objekte gefunden."
 
-#: templates/filebrowser/include/paginator.html:11
+#: templates/filebrowser/include/paginator.html:10
 #, python-format
-msgid ""
-"\n"
-"        %(counter)s Item\n"
-"        "
-msgid_plural ""
-"\n"
-"        %(counter)s Items\n"
-"        "
-msgstr[0] ""
-msgstr[1] ""
+msgid "%(counter)s Item"
+msgid_plural "%(counter)s Items"
+msgstr[0] "%(counter)s Objekt"
+msgstr[1] "%(counter)s Objekte"
 
-#: templates/filebrowser/include/paginator.html:22
+#: templates/filebrowser/include/paginator.html:16
 msgid "No Items."
-msgstr ""
+msgstr "Keine Objekte."
 
 #: templates/filebrowser/include/tableheader.html:13
 #: templates/filebrowser/include/tableheader.html:14
 msgid "Filename"
-msgstr ""
+msgstr "Dateiname"
 
 #: templates/filebrowser/include/tableheader.html:20
 #: templates/filebrowser/include/tableheader.html:21
 msgid "Size"
-msgstr ""
+msgstr "Größe"
 
 #: templates/filebrowser/include/tableheader.html:23
 #: templates/filebrowser/include/tableheader.html:24
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: templates/filebrowser/include/toolbar.html:14
 msgid "Go"
-msgstr ""
+msgstr "Suchen"
+
+#: templates/filebrowser/include/toolbar.html:16
+#, python-format
+msgid "%(counter)s Item found"
+msgid_plural "%(counter)s Items found"
+msgstr[0] "%(counter)s Objekt gefunden"
+msgstr[1] "%(counter)s Objekte gefunden"
 
 #: templates/filebrowser/include/toolbar.html:17
 #, python-format
-msgid ""
-"\n"
-"            %(counter)s Item found\n"
-"            "
-msgid_plural ""
-"\n"
-"            %(counter)s Items found\n"
-"            "
-msgstr[0] ""
-msgstr[1] ""
-
-#: templates/filebrowser/include/toolbar.html:23
-#, python-format
-msgid ""
-"\n"
-"            %(counter)s Item total\n"
-"            "
-msgid_plural ""
-"\n"
-"            %(counter)s Items total\n"
-"            "
-msgstr[0] ""
-msgstr[1] ""
+msgid "%(counter)s Item total"
+msgid_plural "%(counter)s Items total"
+msgstr[0] "%(counter)s Objekt insgesamt"
+msgstr[1] "%(counter)s Objekte insgesamt"

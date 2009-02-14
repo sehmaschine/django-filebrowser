@@ -13,20 +13,8 @@
         {% if query.pop %}<input type="hidden" name="pop" value="{{ query.pop }}" />{% endif %}
         <input type="submit" value="{% trans "Go" %}" />
         {% if query.filter_type or query.filter_date or query.q %}
-        <span class="small quiet">
-            {% blocktrans count results_var.results_current as counter %}
-            {{ counter }} Item found
-            {% plural %}
-            {{ counter }} Items found
-            {% endblocktrans %}
-            (<strong><a href="?{{ query.pop }}">
-            {% blocktrans count results_var.results_total as counter %}
-            {{ counter }} Item total
-            {% plural %}
-            {{ counter }} Items total
-            {% endblocktrans %}
-            </a></strong>)
-        </span>
+        <span class="small quiet">{% blocktrans count results_var.results_current as counter %}{{ counter }} Item found{% plural %}{{ counter }} Items found{% endblocktrans %}
+        (<strong><a href="?{{ query.pop }}">{% blocktrans count results_var.results_total as counter %}{{ counter }} Item total{% plural %}{{ counter }} Items total{% endblocktrans %}</a></strong>)</span>
         {% endif %}
         </div>
     </form>
