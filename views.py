@@ -8,7 +8,7 @@ from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from time import gmtime, strftime, localtime, mktime, time
-import os, string, ftplib, re, Image, decimal
+import os, string, ftplib, re, decimal
 from django import forms
 
 # get settings
@@ -17,6 +17,15 @@ from filebrowser.fb_settings import *
 from filebrowser.functions import _get_path, _get_subdir_list, _get_dir_list, _get_breadcrumbs, _get_sub_query, _get_query, _get_filterdate, _get_filesize, _make_filedict, _get_settings_var, _handle_file_upload, _get_file_type, _make_image_thumbnail, _image_generator, _image_crop_generator, _is_image_version
 # get forms
 from filebrowser.forms import MakeDirForm, RenameForm, UploadForm, BaseUploadFormSet
+
+# PIL import
+if STRICT_PIL:
+    from PIL import Image
+else:
+    try:
+        from PIL import Image
+    except ImportError:
+        import Image
 
 
 def index(request, dir_name=None):
@@ -211,7 +220,13 @@ def upload(request, dir_name=None):
     
     # PIL's Error "Suspension not allowed here" work around:
     # s. http://mail.python.org/pipermail/image-sig/1999-August/000816.html
-    import ImageFile
+    if STRICT_PIL:
+        from PIL import ImageFile
+    else:
+        try:
+            from PIL import ImageFile
+        except ImportError:
+            import ImageFile
     ImageFile.MAXBLOCK = IMAGE_MAXBLOCK # default is 64k
     
     UploadFormSet = formset_factory(UploadForm, formset=BaseUploadFormSet, extra=5)

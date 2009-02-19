@@ -113,3 +113,7 @@ FORCE_GENERATOR = getattr(settings, 'FILEBROWSER_FORCE_GENERATOR', False)
 # If set True, Image Generator will copy the image if the dimensions are smaller than the
 # specified dimensions.
 FORCE_GENERATOR_RUN = getattr(settings, 'FILEBROWSER_FORCE_GENERATOR_RUN', False)
+
+# if set True, then FileBrowser will not try to import a mis-installed PIL
+STRICT_PIL = getattr(settings, 'FILEBROWSER_STRICT_PIL', False)
+

@@ -4,10 +4,19 @@ from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from time import gmtime, strftime, localtime, mktime, time
 from django.core.files import File
-import os, re, Image, decimal
+import os, re, decimal
 
 # get settings
 from filebrowser.fb_settings import *
+
+# PIL import
+if STRICT_PIL:
+    from PIL import Image
+else:
+    try:
+        from PIL import Image
+    except ImportError:
+        import Image
 
 
 def _url_join(*args):
@@ -275,7 +284,13 @@ def _image_generator(PATH_SERVER, path, filename):
     
     # PIL's Error "Suspension not allowed here" work around:
     # s. http://mail.python.org/pipermail/image-sig/1999-August/000816.html
-    import ImageFile
+    if STRICT_PIL:
+        from PIL import ImageFile
+    else:
+        try:
+            from PIL import ImageFile
+        except ImportError:
+            import ImageFile
     ImageFile.MAXBLOCK = IMAGE_MAXBLOCK # default is 64k
     
     file_path = os.path.join(PATH_SERVER, path, filename)
@@ -324,7 +339,13 @@ def _image_crop_generator(PATH_SERVER, path, filename):
     
     # PIL's Error "Suspension not allowed here" work around:
     # s. http://mail.python.org/pipermail/image-sig/1999-August/000816.html
-    import ImageFile
+    if STRICT_PIL:
+        from PIL import ImageFile
+    else:
+        try:
+            from PIL import ImageFile
+        except ImportError:
+            import ImageFile
     ImageFile.MAXBLOCK = IMAGE_MAXBLOCK # default is 64k
     
     file_path = os.path.join(PATH_SERVER, path, filename)
@@ -353,7 +374,7 @@ def _image_crop_generator(PATH_SERVER, path, filename):
             if new_size_width > new_size_height:
                 new_size_height = new_size_width
                 new_size_width = int(new_size_height*ratio) 
-            new_size = (new_size_width, new_size_height)                        
+            new_size = (new_size_width, new_size_height)
             # crop_size
             # trying to crop the middle of the img
             crop_size_width = prefix[1]
@@ -377,7 +398,7 @@ def _image_crop_generator(PATH_SERVER, path, filename):
             msg = "%s: %s" % (filename, _('Image creation failed.'))
     return msg
     
-    
+
 def _is_image_version(file):
     image_version = False
     for item in IMAGE_GENERATOR_LANDSCAPE:
@@ -390,3 +411,5 @@ def _is_image_version(file):
         if file.startswith(item[0]):
             image_version = True
     return image_version
+    
+
