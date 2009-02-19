@@ -1,0 +1,274 @@
+# translation of django.po to
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Alberto BOTTARINI <alberto.bottarini@gmail.com>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: django\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-04 12:47+0100\n"
+"PO-Revision-Date: 2009-02-04 14:02+0100\n"
+"Last-Translator: Alberto BOTTARINI <alberto.bottarini@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: fields.py:23
+#, python-format
+msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
+msgstr "Assicurati che il testo abbia al massimo %(max)d  caratteri (ora sono %(length)d)"
+
+#: fields.py:24
+#, python-format
+msgid "Ensure this value has at least %(min)d characters (it has %(length)d)."
+msgstr "Assicurati che il testo abbia come minimo %(min)d caratteri (ora sono %(length)d)"
+
+#: fields.py:25
+#, python-format
+msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
+msgstr "L'estensione %(ext)s è vietata. Sono accettate: %(allowed)s"
+
+#: forms.py:23
+msgid ""
+"The directory will automatically be converted to lowercase. Only letters, "
+"numbers, underscores and hyphens are allowed."
+msgstr "Il nome della cartella verrà sostituito con le lettere minuscole."
+"Sono accettati solo lettere. numeri, underscore e accenti."
+
+#: forms.py:30 forms.py:53
+msgid "Only letters, numbers, underscores and hyphens are allowed."
+msgstr "Sono accettati solo lettere. numeri, underscore e accenti."
+
+#: forms.py:33
+msgid "The directory already exists."
+msgstr "La cartella esiste già"
+
+#: forms.py:46
+msgid ""
+"The name will automatically be converted to lowercase. Only letters, "
+"numbers, underscores and hyphens are allowed."
+msgstr "Il nome del file verrà sostituito con le lettere minuscole."
+"Sono accettati solo lettere. numeri, underscore e accenti."
+
+#: forms.py:56
+msgid "The file/directory already exists."
+msgstr "Il file/cartella esiste già"
+
+#: forms.py:93
+msgid "Use Image Generator."
+msgstr "Usa il generatore di immagini"
+
+#: forms.py:102
+msgid "File already exists."
+msgstr "Il file esiste già"
+
+#: forms.py:108
+msgid "Filename is not allowed."
+msgstr "Filename non permesso"
+
+#: forms.py:113
+msgid "File extension is not allowed."
+msgstr "Estensione non permessa"
+
+#: forms.py:118
+msgid "Filesize exceeds allowed Upload Size."
+msgstr "Il file eccede il limite"
+
+#: functions.py:74
+msgid "Home"
+msgstr "Home"
+
+#: functions.py:263
+msgid "Thumbnail creation failed."
+msgstr "Errore nella creazione delle thumbnail"
+
+#: functions.py:304 functions.py:360
+msgid "Image creation failed."
+msgstr "Errore nella creazione dell'immagine"
+
+#: views.py:149
+msgid "FileBrowser"
+msgstr "FileBrowser"
+
+#: views.py:171
+#, python-format
+msgid "The directory %s was successfully created."
+msgstr "Cartella %s creata con successo"
+
+#: views.py:177
+msgid "Permission denied."
+msgstr "Permesso negato"
+
+#: views.py:179
+msgid "Error creating directory."
+msgstr "Errore nella creazione della cartella"
+
+#: views.py:188
+msgid "Make directory"
+msgstr "Nuova cartella"
+
+#: views.py:226
+msgid "Upload successful."
+msgstr "Upload effettuato con successo"
+
+#: views.py:240
+msgid "Select files to upload"
+msgstr "Seleziona i file da uploadare"
+
+#: views.py:269
+msgid "Thumbnail creation successful."
+msgstr "Creazione thumbnail effettuata con successo"
+
+#: views.py:318
+#, python-format
+msgid "The file %s was successfully deleted."
+msgstr "Eliminazione di %s effettuata con successo"
+
+#: views.py:330
+#, python-format
+msgid "The directory %s was successfully deleted."
+msgstr "Eliminazione di %s effettuata con successo"
+
+#: views.py:380
+msgid "Error renaming Thumbnail."
+msgstr "Errore nella rinominazione delle thumbnail"
+
+#: views.py:386
+msgid "Renaming was successful."
+msgstr "Rinominazione effettuata con successo"
+
+#: views.py:391
+msgid "Error."
+msgstr "Errore"
+
+#: views.py:401
+#, python-format
+msgid "Rename \"%s\""
+msgstr "Rinomina \"%s\""
+
+#: views.py:437
+msgid "Successfully generated Images."
+msgstr "Immagini generate con successo"
+
+#: templates/filebrowser/index.html:30
+msgid "Make Directory"
+msgstr "Nuova cartella"
+
+#: templates/filebrowser/index.html:31
+msgid "Multiple Upload"
+msgstr "Chargement de fichiers"
+
+#: templates/filebrowser/index.html:32
+msgid "Make Thumbs"
+msgstr "Genera le thumbnail"
+
+#: templates/filebrowser/index.html:33
+msgid "Generate Images"
+msgstr "Genera le immagini"
+
+#: templates/filebrowser/makedir.html:36 templates/filebrowser/rename.html:33
+msgid "Submit"
+msgstr "Invia"
+
+#: templates/filebrowser/upload.html:43
+msgid "Help"
+msgstr "Aiuto"
+
+#: templates/filebrowser/upload.html:47
+msgid "Allowed"
+msgstr "Accettate"
+
+#: templates/filebrowser/upload.html:53
+msgid "Max. Filesize"
+msgstr "Dimensione massima"
+
+#: templates/filebrowser/include/filelisting.html:8
+#: templates/filebrowser/include/filelisting.html:15
+msgid "Select File"
+msgstr "Seleziona un file"
+
+#: templates/filebrowser/include/filelisting.html:26
+msgid "Make Thumbnail"
+msgstr "Genera la thumbnail"
+
+#: templates/filebrowser/include/filelisting.html:29
+msgid "View Image"
+msgstr "Guarda immagine"
+
+#: templates/filebrowser/include/filelisting.html:46
+msgid "Generate Image Versions"
+msgstr "Genera le immagini"
+
+#: templates/filebrowser/include/filelisting.html:52
+msgid "Rename File"
+msgstr "Rinomina il file"
+
+#: templates/filebrowser/include/filelisting.html:61
+msgid "Delete File"
+msgstr "Elimina il file"
+
+#: templates/filebrowser/include/filelisting.html:64
+msgid "Delete Folder"
+msgstr "Elimina la cartella"
+
+#: templates/filebrowser/include/filter.html:3
+msgid "Filter"
+msgstr "Filtro"
+
+#: templates/filebrowser/include/filter.html:4
+msgid "By Date"
+msgstr "Per data"
+
+#: templates/filebrowser/include/filter.html:6
+msgid "Any Date"
+msgstr "Qualsiasi data"
+
+#: templates/filebrowser/include/filter.html:8
+msgid "Today"
+msgstr "Oggi"
+
+#: templates/filebrowser/include/filter.html:10
+msgid "Past 7 days"
+msgstr "Ultimi 7 giorni"
+
+#: templates/filebrowser/include/filter.html:12
+msgid "Past 30 days"
+msgstr "Questo mese"
+
+#: templates/filebrowser/include/filter.html:14
+msgid "This year"
+msgstr "Quest'anno"
+
+#: templates/filebrowser/include/filter.html:16
+msgid "By Type"
+msgstr "Per tipo"
+
+#: templates/filebrowser/include/filter.html:18
+msgid "All"
+msgstr "Tutti"
+
+#: templates/filebrowser/include/paginator.html:6
+msgid "No Files Found"
+msgstr "Nessun file trovato"
+
+#: templates/filebrowser/include/paginator.html:13
+msgid "No Files"
+msgstr "Nessun file"
+
+#: templates/filebrowser/include/tableheader.html:13
+#: templates/filebrowser/include/tableheader.html:14
+msgid "Filename"
+msgstr "Nome del file"
+
+#: templates/filebrowser/include/tableheader.html:20
+#: templates/filebrowser/include/tableheader.html:21
+msgid "Size"
+msgstr "Dimensione"
+
+#: templates/filebrowser/include/tableheader.html:23
+#: templates/filebrowser/include/tableheader.html:24
+msgid "Date"
+msgstr "Data"
+
