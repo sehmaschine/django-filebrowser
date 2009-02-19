@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: filebrowser 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-10 13:44+0800\n"
+"POT-Creation-Date: 2009-02-19 21:24+0000\n"
 "PO-Revision-Date: 2009-02-10 13:45+0800\n"
 "Last-Translator: jane.eyre <isoemail@163.com>\n"
 "Language-Team: freeren <isoemail@163.com>\n"
@@ -36,28 +36,42 @@ msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
 msgstr "扩展名 %(ext)s 是不允许的。只允许 %(allowed)s 。"
 
 #: forms.py:23
-msgid "The directory will automatically be converted to lowercase. Only letters, numbers, underscores and hyphens are allowed."
-msgstr "这个目录将自动转换为小写。只允许字母、数字、下划线和连字符。"
+msgid "Name"
+msgstr ""
 
-#: forms.py:30
-#: forms.py:53
+#: forms.py:23 forms.py:46
+#, fuzzy
+msgid ""
+"The Name will automatically be converted to lowercase. Only letters, "
+"numbers, underscores and hyphens are allowed."
+msgstr "这个名称将自动转换为小写。只允许字母、数字、下划线和连字符。"
+
+#: forms.py:30 forms.py:53
 msgid "Only letters, numbers, underscores and hyphens are allowed."
 msgstr "只允许字母、数字、下划线和连字符。"
 
 #: forms.py:33
-msgid "The directory already exists."
+#, fuzzy
+msgid "The Folder already exists."
 msgstr "这个目录已经存在。"
 
 #: forms.py:46
-msgid "The name will automatically be converted to lowercase. Only letters, numbers, underscores and hyphens are allowed."
-msgstr "这个名称将自动转换为小写。只允许字母、数字、下划线和连字符。"
+msgid "New Name"
+msgstr ""
 
 #: forms.py:56
-msgid "The file/directory already exists."
+#, fuzzy
+msgid "The File/Folder already exists."
 msgstr "这个文件/目录已经存在。"
 
+#: forms.py:92
+#, fuzzy
+msgid "File"
+msgstr "过滤器"
+
 #: forms.py:93
-msgid "Use Image Generator."
+#, fuzzy
+msgid "Use Image Generator"
 msgstr "使用图像生成器。"
 
 #: forms.py:102
@@ -76,87 +90,92 @@ msgstr "文件扩展名不允许。"
 msgid "Filesize exceeds allowed Upload Size."
 msgstr "超出允许的上传大小。"
 
-#: functions.py:75
+#: functions.py:84
 msgid "Home"
 msgstr "首页"
 
-#: functions.py:267
+#: functions.py:276
 msgid "Thumbnail creation failed."
 msgstr "缩略图创建失败。"
 
-#: functions.py:316
-#: functions.py:377
+#: functions.py:331 functions.py:398
 msgid "Image creation failed."
 msgstr "图像创建失败。"
 
-#: views.py:156
-#: templates/filebrowser/include/append.html:6
+#: views.py:165
 msgid "FileBrowser"
 msgstr "文件浏览器"
 
-#: views.py:179
-#, python-format
-msgid "The directory %s was successfully created."
+#: views.py:188
+#, fuzzy, python-format
+msgid "The Folder %s was successfully created."
 msgstr "目录 \"%s\" 创建成功。"
 
-#: views.py:185
+#: views.py:194
 msgid "Permission denied."
 msgstr "权限被拒绝。"
 
-#: views.py:187
+#: views.py:196
 msgid "Error creating directory."
 msgstr "创建目录错误"
 
-#: views.py:196
-msgid "Make directory"
-msgstr "创建目录"
+#: views.py:204 views.py:205 templates/filebrowser/index.html:30
+#, fuzzy
+msgid "New Folder"
+msgstr "删除目录"
 
-#: views.py:235
+#: views.py:250
 msgid "Upload successful."
 msgstr "上传成功。"
 
-#: views.py:249
+#: views.py:263 templates/filebrowser/index.html:33
+#: templates/filebrowser/upload.html:62
+msgid "Upload"
+msgstr ""
+
+#: views.py:264
 msgid "Select files to upload"
 msgstr "选择上传文件"
 
-#: views.py:279
+#: views.py:294
 msgid "Thumbnail creation successful."
 msgstr "缩略图创建成功。"
 
-#: views.py:329
+#: views.py:344
 #, python-format
 msgid "The file %s was successfully deleted."
 msgstr "文件 \"%s\" 删除成功。"
 
-#: views.py:341
+#: views.py:356
 #, python-format
 msgid "The directory %s was successfully deleted."
 msgstr "目录 \"%s\" 删除成功。"
 
-#: views.py:392
+#: views.py:407
 msgid "Error renaming Thumbnail."
 msgstr "重命名缩略图错误。"
 
-#: views.py:398
+#: views.py:413
 msgid "Renaming was successful."
 msgstr "重命名成功。"
 
-#: views.py:403
+#: views.py:418
 msgid "Error."
 msgstr "错误。"
 
-#: views.py:413
+#: views.py:427 templates/filebrowser/include/filelisting.html:52
+#, fuzzy
+msgid "Rename"
+msgstr "文件名"
+
+#: views.py:428
 #, python-format
 msgid "Rename \"%s\""
 msgstr "重命名 \"%s\""
 
-#: views.py:450
+#: views.py:465
 msgid "Successfully generated Images."
 msgstr "成功地生成图像。"
-
-#: templates/filebrowser/index.html:30
-msgid "Make Directory"
-msgstr "创建目录"
 
 #: templates/filebrowser/index.html:31
 msgid "Make Thumbs"
@@ -166,14 +185,18 @@ msgstr "创建缩略图"
 msgid "Generate Images"
 msgstr "生成图像"
 
-#: templates/filebrowser/index.html:33
-msgid "Multiple Upload"
-msgstr "多文件上传"
+#: templates/filebrowser/makedir.html:24 templates/filebrowser/rename.html:22
+msgid "Please correct the following errors."
+msgstr ""
 
-#: templates/filebrowser/makedir.html:34
-#: templates/filebrowser/rename.html:33
+#: templates/filebrowser/makedir.html:34 templates/filebrowser/rename.html:33
 msgid "Submit"
 msgstr "保存"
+
+#: templates/filebrowser/upload.html:37
+#, fuzzy
+msgid "Will use image generator."
+msgstr "使用图像生成器。"
 
 #: templates/filebrowser/upload.html:47
 msgid "Help"
@@ -187,15 +210,11 @@ msgstr "允许"
 msgid "Max. Filesize"
 msgstr "最大文件大小"
 
-#: templates/filebrowser/include/append.html:7
-msgid "Add"
-msgstr ""
-
-#: templates/filebrowser/include/append.html:8
-msgid "Change"
-msgstr ""
-
 #: templates/filebrowser/include/filelisting.html:8
+#, fuzzy
+msgid "Select"
+msgstr "选择文件"
+
 #: templates/filebrowser/include/filelisting.html:15
 msgid "Select File"
 msgstr "选择文件"
@@ -212,18 +231,18 @@ msgstr "查看图像"
 msgid "Generate Image Versions"
 msgstr "生成图像版本"
 
-#: templates/filebrowser/include/filelisting.html:52
-msgid "Rename File"
-msgstr "重命名文件"
-
 #: templates/filebrowser/include/filelisting.html:61
-#: templates/filebrowser/include/filelisting.html:64
 msgid "Are you sure you want to delete this file?"
 msgstr "你确定要删除这个文件？"
 
 #: templates/filebrowser/include/filelisting.html:61
 msgid "Delete File"
 msgstr "删除文件"
+
+#: templates/filebrowser/include/filelisting.html:64
+#, fuzzy
+msgid "Are you sure you want to delete this Folder?"
+msgstr "你确定要删除这个文件？"
 
 #: templates/filebrowser/include/filelisting.html:64
 msgid "Delete Folder"
@@ -265,13 +284,20 @@ msgstr "以 类型"
 msgid "All"
 msgstr "全部"
 
-#: templates/filebrowser/include/paginator.html:6
-msgid "No Files Found"
+#: templates/filebrowser/include/paginator.html:5
+#, fuzzy
+msgid "No Items Found."
 msgstr "没有找到文件"
 
-#: templates/filebrowser/include/paginator.html:13
-msgid "No Files"
-msgstr "没有文件"
+#: templates/filebrowser/include/paginator.html:10
+#, python-format
+msgid "%(counter)s Item"
+msgid_plural "%(counter)s Items"
+msgstr[0] ""
+
+#: templates/filebrowser/include/paginator.html:16
+msgid "No Items."
+msgstr ""
 
 #: templates/filebrowser/include/tableheader.html:13
 #: templates/filebrowser/include/tableheader.html:14
@@ -288,3 +314,38 @@ msgstr "大小"
 msgid "Date"
 msgstr "日期"
 
+#: templates/filebrowser/include/toolbar.html:14
+msgid "Go"
+msgstr ""
+
+#: templates/filebrowser/include/toolbar.html:16
+#, python-format
+msgid "%(counter)s Item found"
+msgid_plural "%(counter)s Items found"
+msgstr[0] ""
+
+#: templates/filebrowser/include/toolbar.html:17
+#, python-format
+msgid "%(counter)s Item total"
+msgid_plural "%(counter)s Items total"
+msgstr[0] ""
+
+#~ msgid ""
+#~ "The directory will automatically be converted to lowercase. Only letters, "
+#~ "numbers, underscores and hyphens are allowed."
+#~ msgstr "这个目录将自动转换为小写。只允许字母、数字、下划线和连字符。"
+
+#~ msgid "Make directory"
+#~ msgstr "创建目录"
+
+#~ msgid "Make Directory"
+#~ msgstr "创建目录"
+
+#~ msgid "Multiple Upload"
+#~ msgstr "多文件上传"
+
+#~ msgid "Rename File"
+#~ msgstr "重命名文件"
+
+#~ msgid "No Files"
+#~ msgstr "没有文件"

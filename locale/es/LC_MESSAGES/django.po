@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-14 13:53+0000\n"
+"POT-Creation-Date: 2009-02-19 21:24+0000\n"
 "PO-Revision-Date: 2009-02-15 19:14+0100\n"
 "Last-Translator: Antoni Aloy <antoni.aloy@trespams.com>\n"
 "Language-Team: Spanish\n"
@@ -20,17 +20,23 @@ msgstr ""
 #: fields.py:27
 #, python-format
 msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
-msgstr "Compruebe que este valor tiene como máximo %(max)d carácters (tiene %(length)d)."
+msgstr ""
+"Compruebe que este valor tiene como máximo %(max)d carácters (tiene %(length)"
+"d)."
 
 #: fields.py:28
 #, python-format
 msgid "Ensure this value has at least %(min)d characters (it has %(length)d)."
-msgstr "Compruebe que este valor tiene como mínimo %(min)d carácteres (tiene %(length)d)."
+msgstr ""
+"Compruebe que este valor tiene como mínimo %(min)d carácteres (tiene %"
+"(length)d)."
 
 #: fields.py:29
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
-msgstr "La extensión %(ext)s no está permitida. Sólo se permiten las extensiones %(allowed)s."
+msgstr ""
+"La extensión %(ext)s no está permitida. Sólo se permiten las extensiones %"
+"(allowed)s."
 
 #: forms.py:23
 msgid "Name"
@@ -40,7 +46,9 @@ msgstr "Nombre"
 msgid ""
 "The Name will automatically be converted to lowercase. Only letters, "
 "numbers, underscores and hyphens are allowed."
-msgstr "El nombre se convertirá automáticamente a minúsculas. Sólo se permiten letras, números, subrayado y guiones."
+msgstr ""
+"El nombre se convertirá automáticamente a minúsculas. Sólo se permiten "
+"letras, números, subrayado y guiones."
 
 #: forms.py:30 forms.py:53
 msgid "Only letters, numbers, underscores and hyphens are allowed."
@@ -82,88 +90,88 @@ msgstr "Extensión de archivo no permitida."
 msgid "Filesize exceeds allowed Upload Size."
 msgstr "El tamaño del archivo excede el máximo permitido."
 
-#: functions.py:75
+#: functions.py:84
 msgid "Home"
 msgstr "Inicio"
 
-#: functions.py:267
+#: functions.py:276
 msgid "Thumbnail creation failed."
 msgstr "Falló la creación de la miniatura."
 
-#: functions.py:316 functions.py:377
+#: functions.py:331 functions.py:398
 msgid "Image creation failed."
 msgstr "Falló la creación de la Imagen."
 
-#: views.py:156
+#: views.py:165
 msgid "FileBrowser"
 msgstr "Visor de archivos"
 
-#: views.py:179
+#: views.py:188
 #, python-format
 msgid "The Folder %s was successfully created."
 msgstr "La carpeta %s se creó con éxito."
 
-#: views.py:185
+#: views.py:194
 msgid "Permission denied."
 msgstr "Permiso denegado."
 
-#: views.py:187
+#: views.py:196
 msgid "Error creating directory."
 msgstr "Error creando el directorio."
 
-#: views.py:195 views.py:196 templates/filebrowser/index.html:30
+#: views.py:204 views.py:205 templates/filebrowser/index.html:30
 msgid "New Folder"
 msgstr "Nueva carpeta."
 
-#: views.py:235
+#: views.py:250
 msgid "Upload successful."
 msgstr "Subida completada."
 
-#: views.py:248 templates/filebrowser/index.html:33
+#: views.py:263 templates/filebrowser/index.html:33
 #: templates/filebrowser/upload.html:62
 msgid "Upload"
 msgstr "Subir"
 
-#: views.py:249
+#: views.py:264
 msgid "Select files to upload"
 msgstr "Seleccione archivos a subir."
 
-#: views.py:279
+#: views.py:294
 msgid "Thumbnail creation successful."
 msgstr "Se creó la miniatura con éxito."
 
-#: views.py:329
+#: views.py:344
 #, python-format
 msgid "The file %s was successfully deleted."
 msgstr "El archivo %s se eliminó con éxito."
 
-#: views.py:341
+#: views.py:356
 #, python-format
 msgid "The directory %s was successfully deleted."
 msgstr "El directorio %s se eliminó con éxito."
 
-#: views.py:392
+#: views.py:407
 msgid "Error renaming Thumbnail."
 msgstr "Error renombrando la miniatura."
 
-#: views.py:398
+#: views.py:413
 msgid "Renaming was successful."
 msgstr "Renombrado satisfactorio."
 
-#: views.py:403
+#: views.py:418
 msgid "Error."
 msgstr "Error."
 
-#: views.py:412 templates/filebrowser/include/filelisting.html:52
+#: views.py:427 templates/filebrowser/include/filelisting.html:52
 msgid "Rename"
 msgstr "Renombrar"
 
-#: views.py:413
+#: views.py:428
 #, python-format
 msgid "Rename \"%s\""
 msgstr "Renombrar \"%s\""
 
-#: views.py:450
+#: views.py:465
 msgid "Successfully generated Images."
 msgstr "Las imágenes se generaron satisfactoriamente."
 
@@ -220,8 +228,16 @@ msgid "Generate Image Versions"
 msgstr "Generar versiones de la imagen"
 
 #: templates/filebrowser/include/filelisting.html:61
+msgid "Are you sure you want to delete this file?"
+msgstr ""
+
+#: templates/filebrowser/include/filelisting.html:61
 msgid "Delete File"
 msgstr "Borrar archivo"
+
+#: templates/filebrowser/include/filelisting.html:64
+msgid "Are you sure you want to delete this Folder?"
+msgstr ""
 
 #: templates/filebrowser/include/filelisting.html:64
 msgid "Delete Folder"
@@ -310,4 +326,3 @@ msgid "%(counter)s Item total"
 msgid_plural "%(counter)s Items total"
 msgstr[0] "total %(counter)s item"
 msgstr[1] "total %(counter)s items"
-
