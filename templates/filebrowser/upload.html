@@ -29,8 +29,30 @@
             <input type="submit" value="Upload" class="default" />
         </div>
         {% if form.errors %}{{ form.errors }}{% endif %}
-        <fieldset class="module aligned">
-            <h2 class="collapse-toggle">{% trans "Upload Settings" %}</h2>
+        
+        {% for file_form in formset.forms %}
+            <fieldset class="module aligned {% if forloop.counter0 %}collapse{% else %}{% endif %}">
+                <h2>{% trans "File" %} {{ forloop.counter }}</h2>
+                <div class="form-row">
+                    <label for="id_{{ file_form.file.name }}"{% if file_form.file.required %} class="required"{% endif %}>{{ file_form.file.label }}</label>
+                    {{ file_form.file }}
+                    {{ file_form.file.errors }}
+                </div>
+                <div class="form-row">
+                    <label for="id_{{ file_form.title.name }}"{% if file_form.title.required %} class="required"{% endif %}>{{ file_form.title.label }}</label>
+                    {{ file_form.title }}
+                    {{ file_form.title.errors }}
+                </div>
+                <div class="form-row">
+                    <label for="id_{{ file_form.description.name }}"{% if file_form.description.required %} class="required"{% endif %}>{{ file_form.description.label }}</label>
+                    {{ file_form.description }}
+                    {{ file_form.description.errors }}
+                </div>
+            </fieldset>
+        {% endfor %}        
+
+        <fieldset class="module aligned collapse">
+            <h2>{% trans "Upload Settings" %}</h2>
             <div class="form-row checkbox-row">
                 {{ form.rename_to_timestamp }}
                 <label for="id_{{ form.rename_to_timestamp.name }}" class="vCheckboxLabel">{{ form.rename_to_timestamp.label }}</label>
@@ -63,41 +85,20 @@
             </div>
         </fieldset>
         
-        {% for file_form in formset.forms %}
-            <fieldset class="module aligned {% if forloop.counter0 %}collapse{% else %}{% endif %}">
-                <h2>{% trans "File" %} {{ forloop.counter }}</h2>
-                <div class="form-row">
-                    <label for="id_{{ file_form.file.name }}"{% if file_form.file.required %} class="required"{% endif %}>{{ file_form.file.label }}</label>
-                    {{ file_form.file }}
-                    {{ file_form.file.errors }}
-                </div>
-                <div class="form-row">
-                    <label for="id_{{ file_form.title.name }}"{% if file_form.title.required %} class="required"{% endif %}>{{ file_form.title.label }}</label>
-                    {{ file_form.title }}
-                    {{ file_form.title.errors }}
-                </div>
-                <div class="form-row">
-                    <label for="id_{{ file_form.description.name }}"{% if file_form.description.required %} class="required"{% endif %}>{{ file_form.description.label }}</label>
-                    {{ file_form.description }}
-                    {{ file_form.description.errors }}
-                </div>
-            </fieldset>
-        {% endfor %}        
-        
         <fieldset class="module aligned collapse">
-        <h2>{% trans "Help" %}</h2>
-        <div class="form-row" >
-            {% for extension in settings_var.EXTENSIONS.items %}
-            {% ifnotequal extension.0 'Folder' %}
-            <label class="required">{% if forloop.first %}{% trans "Allowed" %}:{% else %}&nbsp;{% endif %}</label> 
-            <p>{{ extension.0|safe }} ({{ extension.1|join:", "|safe }})</p>
-            {% endifnotequal %}
-            {% endfor %}
-        </div>
-        <div class="form-row" >
-            <label class="required">{% trans "Max. Filesize" %}:</label> 
-            <p class="help">{{ settings_var.MAX_UPLOAD_SIZE|safe }}</p>
-        </div>
+            <h2>{% trans "Help" %}</h2>
+            <div class="form-row" >
+                {% for extension in settings_var.EXTENSIONS.items %}
+                {% ifnotequal extension.0 'Folder' %}
+                <label class="required">{% if forloop.first %}{% trans "Allowed" %}:{% else %}&nbsp;{% endif %}</label> 
+                <p>{{ extension.0|safe }} ({{ extension.1|join:", "|safe }})</p>
+                {% endifnotequal %}
+                {% endfor %}
+            </div>
+            <div class="form-row" >
+                <label class="required">{% trans "Max. Filesize" %}:</label> 
+                <p class="help">{{ settings_var.MAX_UPLOAD_SIZE|safe }}</p>
+            </div>
         </fieldset>
         <div class="submit-row">
             <input type="submit" value="Upload" class="default" />

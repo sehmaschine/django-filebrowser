@@ -53,6 +53,7 @@
         {% endif %}
     </td>
     <!-- Image Generator -->
+    {% comment %}<!--
     {% if settings_var.USE_IMAGE_GENERATOR and not file.flag_imageversion %}
     {% ifnotequal counter.Image 0 %}
     <td class="fb_icon">
@@ -62,6 +63,7 @@
     </td>
     {% endifnotequal %}
     {% endif %}
+    -->{% endcomment %}
     <!-- Change -->
     <td class="fb_icon"><a href="change/{{ file.filename }}/?{{ query.pop }}" class="fb_renamelink" title="{% trans 'Change File Properties' %}"></a></td>
     <!-- Size -->
