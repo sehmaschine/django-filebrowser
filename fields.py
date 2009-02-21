@@ -22,44 +22,16 @@ import re
 from filebrowser.functions import _get_file_type, _url_join
 from filebrowser.fb_settings import *
 
-class FileBrowseFormField(forms.Field):
-    default_error_messages = {
-        'max_length': _(u'Ensure this value has at most %(max)d characters (it has %(length)d).'),
-        'min_length': _(u'Ensure this value has at least %(min)d characters (it has %(length)d).'),
-        'extension': _(u'Extension %(ext)s is not allowed. Only %(allowed)s is allowed.'),
-    }
-    
-    def __init__(self, max_length=None, min_length=None, *args, **kwargs):
-        self.max_length, self.min_length = max_length, min_length
-        self.initial_directory = kwargs['initial_directory']
-        self.extensions_allowed = kwargs['extensions_allowed']
-        del kwargs['initial_directory']
-        del kwargs['extensions_allowed']
-        super(FileBrowseFormField, self).__init__(*args, **kwargs)
-    
-    def clean(self, value):
-        "Validates max_length and min_length. Returns a Unicode object. Validates extension ..."
-        super(FileBrowseFormField, self).clean(value)
-        if value in EMPTY_VALUES:
-            return u''
-        value = smart_unicode(value)
-        value_length = len(value)
-        if self.max_length is not None and value_length > self.max_length:
-            raise forms.ValidationError(self.error_messages['max_length'] % {'max': self.max_length, 'length': value_length})
-        if self.min_length is not None and value_length < self.min_length:
-            raise forms.ValidationError(self.error_messages['min_length'] % {'min': self.min_length, 'length': value_length})
-        file_extension = os.path.splitext(value)[1].lower()
-        if self.extensions_allowed and not file_extension in self.extensions_allowed:
-            raise forms.ValidationError(self.error_messages['extension'] % {'ext': file_extension, 'allowed': ", ".join(self.extensions_allowed)})
-        return value
-    
-
 class FileBrowseWidget(Input):
     input_type = 'text'
     
+    class Media:
+        js = (os.path.join(URL_FILEBROWSER_MEDIA, 'js/AddFileBrowser.js'), )
+    
     def __init__(self, attrs=None):
-        self.initial_directory = attrs['initial_directory']
-        self.extensions_allowed = attrs['extensions_allowed']
+        self.initial_directory = attrs.get('initial_directory')
+        self.extensions_allowed = attrs.get('extensions_allowed')
+        self.format = attrs.get('format') or ''
         if attrs is not None:
             self.attrs = attrs.copy()
         else:
@@ -84,8 +56,12 @@ class FileBrowseWidget(Input):
             else:
                 final_attrs['initial_directory'] = _url_join(URL_ADMIN, init)
         if value != '':
-            # Only add the 'value' attribute if a value is non-empty.
+            # Add the 'value' and 'preview' attribute if a value is non-empty.
             final_attrs['value'] = force_unicode(value)
+            final_attrs['preview'] = final_attrs['value']
+            if value[0] != '/':
+                final_attrs['preview'] = os.path.join(settings.MEDIA_URL, value)
+            # Now sort out the thumbnail
             file = os.path.split(value)[1]
             if len(URL_WWW) < len(os.path.split(value)[0]):
                 path = os.path.split(value)[0].replace(URL_WWW, "")
@@ -109,7 +85,36 @@ class FileBrowseWidget(Input):
             final_attrs['thumbnail'] = path_thumb
         path_search_icon = URL_FILEBROWSER_MEDIA + 'img/filebrowser_icon_show.gif'
         final_attrs['search_icon'] = path_search_icon
+        final_attrs['format'] = self.format
         return render_to_string("filebrowser/custom_field.html", locals())
+    
+
+class FileBrowseFormField(forms.CharField):
+    widget = FileBrowseWidget
+    
+    default_error_messages = {
+    'extension': _(u'Extension %(ext)s is not allowed. Only %(allowed)s is allowed.'),
+    }
+    
+    def __init__(self, max_length=None, min_length=None,
+                 initial_directory=None, extensions_allowed=None, format=None,
+                 *args, **kwargs):
+        self.max_length, self.min_length = max_length, min_length
+        self.initial_directory = initial_directory
+        self.extensions_allowed = extensions_allowed
+        if format:
+            self.format = format or ''
+            self.extensions_allowed = extensions_allowed or EXTENSIONS.get(format)
+        super(FileBrowseFormField, self).__init__(*args, **kwargs)
+    
+    def clean(self, value):
+        value = super(FileBrowseFormField, self).clean(value)
+        if value == '':
+            return value
+        file_extension = os.path.splitext(value)[1].lower()
+        if self.extensions_allowed and not file_extension in self.extensions_allowed:
+            raise forms.ValidationError(self.error_messages['extension'] % {'ext': file_extension, 'allowed': ", ".join(self.extensions_allowed)})
+        return value
     
 
 class FileBrowserImageSize(object):
@@ -180,13 +185,19 @@ class FileBrowserFile(object):
 class FileBrowseField(Field):
     __metaclass__ = models.SubfieldBase
     
+    def __init__(self, verbose_name=None, initial_directory=None, extensions_allowed=None, format=None, *args, **kwargs):
+        self.initial_directory = initial_directory or '/'
+        self.extensions_allowed = extensions_allowed or ''
+        self.format = format or ''
+        return super(FileBrowseField, self).__init__(verbose_name=verbose_name, *args, **kwargs)
+    
     def to_python(self, value):
-        if isinstance(value, FileBrowserFile):
+        if not value or isinstance(value, FileBrowserFile):
             return value
         return FileBrowserFile(value)
     
     def get_db_prep_value(self, value):
-        return value.original
+        return getattr(value, 'original', value)
     
     def get_manipulator_field_objs(self):
         return [oldforms.TextField]
@@ -198,25 +209,13 @@ class FileBrowseField(Field):
         attrs = {}
         attrs["initial_directory"] = self.initial_directory
         attrs["extensions_allowed"] = self.extensions_allowed
+        attrs["format"] = self.format
         defaults = {'max_length': self.max_length}
         defaults['form_class'] = FileBrowseFormField
         defaults['widget'] = FileBrowseWidget(attrs=attrs)
-        kwargs['initial_directory'] = self.initial_directory
-        kwargs['extensions_allowed'] = self.extensions_allowed
-        defaults.update(kwargs)
+        defaults['initial_directory'] = self.initial_directory
+        defaults['extensions_allowed'] = self.extensions_allowed
+        defaults['format'] = self.format
         return super(FileBrowseField, self).formfield(**defaults)
-    
-    def __init__(self, *args, **kwargs):
-        try:
-            self.initial_directory = kwargs['initial_directory']
-            del kwargs['initial_directory']
-        except:
-            self.initial_directory = "/"
-        try:
-            self.extensions_allowed = kwargs['extensions_allowed']
-            del kwargs['extensions_allowed']
-        except:
-            self.extensions_allowed = ""
-        return super(FileBrowseField, self).__init__(*args, **kwargs)
     
 

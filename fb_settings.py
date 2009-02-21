@@ -72,6 +72,10 @@ MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 5000000)
 # s. http://mail.python.org/pipermail/image-sig/1999-August/000816.html
 IMAGE_MAXBLOCK = getattr(settings, 'FILEBROWSER_IMAGE_MAXBLOCK', 1024*1024)
 
+# Exclude files matching any of the following regular expressions
+# Default is to exclude 'sorl-thumbnail' style naming of jpg, png, or gif thumbnails
+EXCLUDE = (r'_(jpg|png|gif)_.*_q\d{1,3}\.(jpg|png|gif)', )
+
 # The prefix for your thumbnails.
 # If you have an Image "myimage.jpg", your thumbnail will be "thumb_myimage.jpg" by default.
 THUMB_PREFIX = getattr(settings, 'FILEBROWSER_THUMB_PREFIX', 'thumb_')

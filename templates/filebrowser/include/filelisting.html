@@ -3,16 +3,16 @@
 
 <tr>
     <!-- Fileselect for FileBrowseField -->
-    {% ifequal query.pop 'pop=1' %}
+    {% ifequal popmode '1' %}
     <td class="fb_icon">
         <a href="javascript://" onclick="FileSubmit('{{ file.save_path }}', '{{ file.path_thumb }}', '{{ file.file_type }}');" class="fb_selectlink" title="{% trans 'Select' %}"></a>
     </td>
     {% endifequal %}
     <!-- Fileselect for RTE/TinyMCE -->
-    {% ifequal query.pop 'pop=2' %}
+    {% ifequal popmode '2' %}
     <td class="fb_icon">
         {% ifnotequal file.file_type 'Folder' %}
-        <a href="javascript://" onclick="FileBrowserDialogue.fileSubmit('{{ file.link }}');" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
+            <a href="javascript:FileBrowserDialogue.fileSubmit('{{ file.link }}');" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
         {% endifnotequal %}
     </td>
     {% endifequal %}

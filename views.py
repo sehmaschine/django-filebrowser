@@ -1,5 +1,8 @@
 # coding: utf-8
 
+import os, string, ftplib, re, Image, decimal
+from time import gmtime, strftime, localtime, mktime, time
+
 from django.shortcuts import render_to_response
 from django.template import RequestContext as Context
 from django.http import HttpResponseRedirect
@@ -7,8 +10,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
-from time import gmtime, strftime, localtime, mktime, time
-import os, string, ftplib, re, decimal
+from django.conf import settings
 from django import forms
 
 # get settings
@@ -27,6 +29,11 @@ else:
     except ImportError:
         import Image
 
+# Precompile regular expressions
+filter_re = [ re.compile(THUMB_PREFIX, re.M) ]
+for exp in EXCLUDE:
+    filter_re.append(re.compile(exp))
+    
 
 def index(request, dir_name=None):
     """
@@ -62,12 +69,14 @@ def index(request, dir_name=None):
         var_flag_deletedir = False # True, if Directory is empty.
         var_image_version = False # True, if Image is generated with ImageGenerator.
         
-        # DON'T DISPLAY FILES STARTING WITH %THUMB_PREFIX% OR "."
-        if re.compile(THUMB_PREFIX, re.M).search(file) or \
-        file.startswith('.'): # ... or with a '.' \
+        # EXCLUDE FILES MATCHING THUMB_PREFIX OR ANY OF THE EXCLUDE PATTERNS
+        filtered = file.startswith('.')
+        for re in filter_re:
+            if re.search(file):
+                filtered = True
+        if filtered:
             continue
-        else:
-            results_var['results_total'] += 1
+        results_var['results_total'] += 1
         
         # SIZE
         var_filesize_long = os.path.getsize(os.path.join(PATH_SERVER, path, file))
@@ -164,6 +173,7 @@ def index(request, dir_name=None):
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
         'title': _(u'FileBrowser'),
         'root_path': URL_HOME,
+        'popmode': request.GET.get('pop'),
     }, context_instance=Context(request))
 index = staff_member_required(never_cache(index))
 
