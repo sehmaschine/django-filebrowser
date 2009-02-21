@@ -16,6 +16,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: extension translation
+msgid "Folder"
+msgstr "Ordner"
+msgid "Image"
+msgstr "Bild"
+msgid "Document"
+msgstr "Dokument"
+msgid "Code"
+msgstr "Code"
+msgid "Sound"
+msgstr "Sound"
+
 #: fields.py:27
 #, python-format
 msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
