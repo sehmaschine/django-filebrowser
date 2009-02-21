@@ -117,7 +117,7 @@ def _get_query(request_var):
     if request_var:
         query['query_str_total'] = "?"
         for k,v in request_var.items():
-            if k in ['o', 'ot', 'q', 'filter_date', 'filter_type', 'pop']:
+            if k in ['o', 'ot', 'q', 'filter_date', 'filter_type', 'pop', 'mce_rdomain']:
                 query['query_str_total'] = query['query_str_total'] + "&" + k + "=" + v
         #query['query_str_total'] = "?" + "&".join(["%s=%s" % (k, v) for k, v in request_var.items()])
         query['query_nofilterdate'] = _get_sub_query(request_var.items(), 'filter_date', '', '')
@@ -128,6 +128,8 @@ def _get_query(request_var):
         if request_var.get('pop'):
             query['pop'] = "pop=" + request_var.get('pop')
             query['pop_toolbar'] = request_var.get('pop')
+            if query['pop'] == 2 and 'mce_rdomain' in request_var:
+                query['pop'] = "%s&mce_rdomain=%s" % (query['pop'], request_var['mce_rdomain'])
         else:
             query['pop'] = ''
             query['pop_toolbar'] = ""
