@@ -1,0 +1,319 @@
+# Dutch translation for django-filebrowser.
+# Copyright (C) 2009 Patrick Kranzlmueller
+# This file is distributed under the same license as the django-filebrowser package.
+# Joost Cassee <joost@cassee.net>, 2009.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-16 13:51+0100\n"
+"PO-Revision-Date: 2009-02-20 22:53+0100\n"
+"Last-Translator: Joost Cassee <joost@cassee.net>\n"
+"Language-Team: Dutch <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: fields.py:27
+#, python-format
+msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
+msgstr ""
+"Dit veld mag maximaal %(max)d karakters bevatten (de huidige lengte is "
+"%(length)d)."
+
+#: fields.py:28
+#, python-format
+msgid "Ensure this value has at least %(min)d characters (it has %(length)d)."
+msgstr ""
+"Dit veld moet minstens %(min)d karakters bevatten (de huidige lengte is "
+"%(length)d)."
+
+#: fields.py:29
+#, python-format
+msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
+msgstr "Extensie %(ext)s is niet toegestaand. Toegestaan zijn: %(allowed)s."
+
+#: forms.py:23
+msgid "Name"
+msgstr "Naam"
+
+#: forms.py:23 forms.py:46
+msgid ""
+"The Name will automatically be converted to lowercase. Only letters, "
+"numbers, underscores and hyphens are allowed."
+msgstr ""
+"De naam wordt automatisch geconverteerd naar kleine letters. Alleen letters, "
+"nummers, liggende streepjes en verbindingstreepjes zijn toegestaan."
+
+#: forms.py:30 forms.py:53
+msgid "Only letters, numbers, underscores and hyphens are allowed."
+msgstr ""
+"Alleen letters, nummers, liggende streepjes en verbindingstreepjes zijn "
+"toegestaan."
+
+#: forms.py:33
+msgid "The Folder already exists."
+msgstr "Deze map bestaat reeds."
+
+#: forms.py:46
+msgid "New Name"
+msgstr "Nieuwe naam"
+
+#: forms.py:56
+msgid "The File/Folder already exists."
+msgstr "Een map of bestand met deze naam bestaat reeds."
+
+#: forms.py:92
+msgid "File"
+msgstr "Bestand"
+
+#: forms.py:93
+msgid "Use Image Generator"
+msgstr "Maak afbeeldingsversies"
+
+#: forms.py:102
+msgid "File already exists."
+msgstr "Bestand bestaat reeds."
+
+#: forms.py:108
+msgid "Filename is not allowed."
+msgstr "Bestandsnaam is niet toegestaan."
+
+#: forms.py:113
+msgid "File extension is not allowed."
+msgstr "Bestandsextensie is niet toegestaand"
+
+#: forms.py:118
+msgid "Filesize exceeds allowed Upload Size."
+msgstr "Het bestand overschreidt de maximale upload grootte."
+
+#: functions.py:75
+msgid "Home"
+msgstr "Start"
+
+#: functions.py:267
+msgid "Thumbnail creation failed."
+msgstr "Fout bij het aanmaken van de voorbeeldafbeeldingen."
+
+#: functions.py:316 functions.py:377
+msgid "Image creation failed."
+msgstr "Fout bij het aanmaken van de afbeeldingsversies."
+
+#: views.py:156
+msgid "FileBrowser"
+msgstr "FileBrowser"
+
+#: views.py:179
+#, python-format
+msgid "The Folder %s was successfully created."
+msgstr "De map %s is aangemaakt."
+
+#: views.py:185
+msgid "Permission denied."
+msgstr "Geen toestemming."
+
+#: views.py:187
+msgid "Error creating directory."
+msgstr "Fout bij het aanmaken van de map."
+
+#: views.py:195 views.py:196 templates/filebrowser/index.html:30
+msgid "New Folder"
+msgstr "Nieuwe map"
+
+#: views.py:235
+msgid "Upload successful."
+msgstr "Upload geslaagd."
+
+#: views.py:248 templates/filebrowser/index.html:33
+#: templates/filebrowser/upload.html:62
+msgid "Upload"
+msgstr "Uploaden"
+
+#: views.py:249
+msgid "Select files to upload"
+msgstr "Selecteer bestanden voor upload"
+
+#: views.py:279
+msgid "Thumbnail creation successful."
+msgstr "Voorbeeldafbeeldingen aangemaakt."
+
+#: views.py:329
+#, python-format
+msgid "The file %s was successfully deleted."
+msgstr "Bestand %s verwijderd."
+
+#: views.py:341
+#, python-format
+msgid "The directory %s was successfully deleted."
+msgstr "Map %s verwijderd."
+
+#: views.py:392
+msgid "Error renaming Thumbnail."
+msgstr "Fout bij het hernoemen van de voorbeeldafbeelding."
+
+#: views.py:398
+msgid "Renaming was successful."
+msgstr "Hernoemen geslaagd."
+
+#: views.py:403
+msgid "Error."
+msgstr "Fout."
+
+#: views.py:412 templates/filebrowser/include/filelisting.html:52
+msgid "Rename"
+msgstr "Hernoemen"
+
+#: views.py:413
+#, python-format
+msgid "Rename \"%s\""
+msgstr "Hernoem \"%s\""
+
+#: views.py:450
+msgid "Successfully generated Images."
+msgstr "Afbeeldingsversies aangemaakt."
+
+#: templates/filebrowser/index.html:31
+msgid "Make Thumbs"
+msgstr "Voorbeeldafbeeldingen aanmaken"
+
+#: templates/filebrowser/index.html:32
+msgid "Generate Images"
+msgstr "Afbeeldingsversies aanmaken"
+
+#: templates/filebrowser/makedir.html:24 templates/filebrowser/rename.html:22
+msgid "Please correct the following errors."
+msgstr "Corrigeer onderstaande fouten."
+
+#: templates/filebrowser/makedir.html:34 templates/filebrowser/rename.html:33
+msgid "Submit"
+msgstr "OK"
+
+#: templates/filebrowser/upload.html:37
+msgid "Will use image generator."
+msgstr "Afbeeldingsversies zullen worden aangemaakt."
+
+#: templates/filebrowser/upload.html:47
+msgid "Help"
+msgstr "Help"
+
+#: templates/filebrowser/upload.html:51
+msgid "Allowed"
+msgstr "Toegestaan"
+
+#: templates/filebrowser/upload.html:57
+msgid "Max. Filesize"
+msgstr "Max. bestandsgrootte"
+
+#: templates/filebrowser/include/filelisting.html:8
+msgid "Select"
+msgstr "Selecteren"
+
+#: templates/filebrowser/include/filelisting.html:15
+msgid "Select File"
+msgstr "Selecteer bestand"
+
+#: templates/filebrowser/include/filelisting.html:26
+msgid "Make Thumbnail"
+msgstr "Maak voorbeeldafbeelding"
+
+#: templates/filebrowser/include/filelisting.html:29
+msgid "View Image"
+msgstr "Afbeelding tonen"
+
+#: templates/filebrowser/include/filelisting.html:46
+msgid "Generate Image Versions"
+msgstr "Afbeeldingsversies aanmaken"
+
+#: templates/filebrowser/include/filelisting.html:61
+msgid "Delete File"
+msgstr "Bestand verwijderen"
+
+#: templates/filebrowser/include/filelisting.html:64
+msgid "Delete Folder"
+msgstr "Verwijder map"
+
+#: templates/filebrowser/include/filter.html:15
+msgid "Filter"
+msgstr "Filter"
+
+#: templates/filebrowser/include/filter.html:21
+msgid "By Date"
+msgstr "Op datum"
+
+#: templates/filebrowser/include/filter.html:23
+msgid "Any Date"
+msgstr "Alle"
+
+#: templates/filebrowser/include/filter.html:25
+msgid "Today"
+msgstr "Vandaag"
+
+#: templates/filebrowser/include/filter.html:27
+msgid "Past 7 days"
+msgstr "Afgelopen 7 dagen"
+
+#: templates/filebrowser/include/filter.html:29
+msgid "Past 30 days"
+msgstr "Afgelopen 30 dagen"
+
+#: templates/filebrowser/include/filter.html:31
+msgid "This year"
+msgstr "Dit jaar"
+
+#: templates/filebrowser/include/filter.html:39
+msgid "By Type"
+msgstr "Op type"
+
+#: templates/filebrowser/include/filter.html:41
+msgid "All"
+msgstr "Alle"
+
+#: templates/filebrowser/include/paginator.html:5
+msgid "No Items Found."
+msgstr "Geen objecten gevonden"
+
+#: templates/filebrowser/include/paginator.html:10
+#, python-format
+msgid "%(counter)s Item"
+msgid_plural "%(counter)s Items"
+msgstr[0] "%(counter)s object"
+msgstr[1] "(counter)s objecten"
+
+#: templates/filebrowser/include/paginator.html:16
+msgid "No Items."
+msgstr "Geen objecten."
+
+#: templates/filebrowser/include/tableheader.html:13
+#: templates/filebrowser/include/tableheader.html:14
+msgid "Filename"
+msgstr "Bestandsnaam"
+
+#: templates/filebrowser/include/tableheader.html:20
+#: templates/filebrowser/include/tableheader.html:21
+msgid "Size"
+msgstr "Grootte"
+
+#: templates/filebrowser/include/tableheader.html:23
+#: templates/filebrowser/include/tableheader.html:24
+msgid "Date"
+msgstr "Datum"
+
+#: templates/filebrowser/include/toolbar.html:14
+msgid "Go"
+msgstr "Ga"
+
+#: templates/filebrowser/include/toolbar.html:16
+#, python-format
+msgid "%(counter)s Item found"
+msgid_plural "%(counter)s Items found"
+msgstr[0] "%(counter)s object gevonden"
+msgstr[1] "%(counter)s objecten gevonden"
+
+#: templates/filebrowser/include/toolbar.html:17
+#, python-format
+msgid "%(counter)s Item total"
+msgid_plural "%(counter)s Items total"
+msgstr[0] "Totaal %(counter)s object"
+msgstr[1] "Totaal %(counter)s objecten"
