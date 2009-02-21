@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: filebrowser 2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-17 10:35+0800\n"
-"PO-Revision-Date: 2009-02-17 11:09+0800\n"
+"PO-Revision-Date: 2009-02-17 11:07+0800\n"
 "Last-Translator: jane.eyre <isoemail@163.com>\n"
 "Language-Team: freeren <isoemail@163.com>\n"
 "MIME-Version: 1.0\n"
@@ -23,43 +23,43 @@ msgstr ""
 #: fields.py:27
 #, python-format
 msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
-msgstr "确保该值最多为 %(max)d  个字符（其长度为 %(length)d）。"
+msgstr "確保該值最多為%(max)d個字符（其長度為%(length)d）。"
 
 #: fields.py:28
 #, python-format
 msgid "Ensure this value has at least %(min)d characters (it has %(length)d)."
-msgstr "确保该值最少为 %(min)d 个字符（其长度为 %(length)d）。"
+msgstr "確保該值最少為%(min)d個字符（其長度為%(length)d）。"
 
 #: fields.py:29
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
-msgstr "扩展名 %(ext)s 是不允许的。只允许 %(allowed)s 。"
+msgstr "擴展名%(ext)s是不允許的。只允許%(allowed)s 。"
 
 #: forms.py:23
 msgid "Name"
-msgstr "名称"
+msgstr "名稱"
 
 #: forms.py:23
 #: forms.py:46
 msgid "The Name will automatically be converted to lowercase. Only letters, numbers, underscores and hyphens are allowed."
-msgstr "这个名称将自动转换为小写。只允许字母、数字、下划线和连字符。"
+msgstr "這個名稱將自動轉換為小寫。只允許字母、數字、下劃線和連字符。"
 
 #: forms.py:30
 #: forms.py:53
 msgid "Only letters, numbers, underscores and hyphens are allowed."
-msgstr "只允许字母、数字、下划线和连字符。"
+msgstr "只允許字母、數字、下劃線和連字符。"
 
 #: forms.py:33
 msgid "The Folder already exists."
-msgstr "这个文件夹已经存在。"
+msgstr "這個文件夾已經存在。"
 
 #: forms.py:46
 msgid "New Name"
-msgstr "新名称"
+msgstr "新名稱"
 
 #: forms.py:56
 msgid "The File/Folder already exists."
-msgstr "这个文件/文件夹已经存在。"
+msgstr "這個文件/文件夾已經存在。"
 
 #: forms.py:92
 msgid "File"
@@ -67,64 +67,64 @@ msgstr "文件"
 
 #: forms.py:93
 msgid "Use Image Generator"
-msgstr "使用图像生成器"
+msgstr "使用圖像生成器"
 
 #: forms.py:102
 msgid "File already exists."
-msgstr "文件已经存在。"
+msgstr "文件已經存在。"
 
 #: forms.py:108
 msgid "Filename is not allowed."
-msgstr "文件名不允许。"
+msgstr "文件名不允許。"
 
 #: forms.py:113
 msgid "File extension is not allowed."
-msgstr "文件扩展名不允许。"
+msgstr "文件擴展名不允許。"
 
 #: forms.py:118
 msgid "Filesize exceeds allowed Upload Size."
-msgstr "超出允许的上传大小。"
+msgstr "超出允許的上傳大小。"
 
 #: functions.py:75
 msgid "Home"
-msgstr "首页"
+msgstr "首頁"
 
 #: functions.py:267
 msgid "Thumbnail creation failed."
-msgstr "缩略图创建失败。"
+msgstr "縮略圖創建失敗。"
 
 #: functions.py:316
 #: functions.py:377
 msgid "Image creation failed."
-msgstr "图像创建失败。"
+msgstr "圖像創建失敗。"
 
 #: views.py:156
 #: templates/filebrowser/include/append.html:6
 msgid "FileBrowser"
-msgstr "文件浏览器"
+msgstr "文件瀏覽器"
 
 #: views.py:179
 #, python-format
 msgid "The Folder %s was successfully created."
-msgstr "文件夹 \"%s\" 创建成功。"
+msgstr "文件夾\"%s\"創建成功。"
 
 #: views.py:185
 msgid "Permission denied."
-msgstr "权限被拒绝。"
+msgstr "權限被拒絕。"
 
 #: views.py:187
 msgid "Error creating directory."
-msgstr "创建目录错误。"
+msgstr "創建目錄錯誤。"
 
 #: views.py:195
 #: views.py:196
 #: templates/filebrowser/index.html:30
 msgid "New Folder"
-msgstr "新文件夹"
+msgstr "新文件夾"
 
 #: views.py:235
 msgid "Upload successful."
-msgstr "上传成功。"
+msgstr "上傳成功。"
 
 #: views.py:248
 #: templates/filebrowser/index.html:33
@@ -134,25 +134,25 @@ msgstr "上传"
 
 #: views.py:249
 msgid "Select files to upload"
-msgstr "选择上传文件"
+msgstr "選擇上傳文件"
 
 #: views.py:279
 msgid "Thumbnail creation successful."
-msgstr "缩略图创建成功。"
+msgstr "縮略圖創建成功。"
 
 #: views.py:329
 #, python-format
 msgid "The file %s was successfully deleted."
-msgstr "文件 \"%s\" 删除成功。"
+msgstr "文件\"%s\"刪除成功。"
 
 #: views.py:341
 #, python-format
 msgid "The directory %s was successfully deleted."
-msgstr "目录 \"%s\" 删除成功。"
+msgstr "目錄\"%s\"刪除成功。"
 
 #: views.py:392
 msgid "Error renaming Thumbnail."
-msgstr "重命名缩略图错误。"
+msgstr "重命名縮略圖錯誤。"
 
 #: views.py:398
 msgid "Renaming was successful."
@@ -160,7 +160,7 @@ msgstr "重命名成功。"
 
 #: views.py:403
 msgid "Error."
-msgstr "错误。"
+msgstr "錯誤。"
 
 #: views.py:412
 #: templates/filebrowser/include/filelisting.html:52
@@ -174,20 +174,20 @@ msgstr "重命名 \"%s\""
 
 #: views.py:450
 msgid "Successfully generated Images."
-msgstr "生成图像成功。"
+msgstr "生成圖像成功。"
 
 #: templates/filebrowser/index.html:31
 msgid "Make Thumbs"
-msgstr "创建缩略图"
+msgstr "創建縮略圖"
 
 #: templates/filebrowser/index.html:32
 msgid "Generate Images"
-msgstr "生成图像"
+msgstr "生成圖像"
 
 #: templates/filebrowser/makedir.html:24
 #: templates/filebrowser/rename.html:22
 msgid "Please correct the following errors."
-msgstr "请修正下面的错误。"
+msgstr "請修正下面的錯誤。"
 
 #: templates/filebrowser/makedir.html:34
 #: templates/filebrowser/rename.html:33
@@ -196,15 +196,15 @@ msgstr "保存"
 
 #: templates/filebrowser/upload.html:37
 msgid "Will use image generator."
-msgstr "使用图像生成器。"
+msgstr "使用圖像生成器。"
 
 #: templates/filebrowser/upload.html:47
 msgid "Help"
-msgstr "帮助"
+msgstr "幫助"
 
 #: templates/filebrowser/upload.html:51
 msgid "Allowed"
-msgstr "允许"
+msgstr "允許"
 
 #: templates/filebrowser/upload.html:57
 msgid "Max. Filesize"
@@ -220,27 +220,27 @@ msgstr "修改"
 
 #: templates/filebrowser/include/filelisting.html:8
 msgid "Select"
-msgstr "选择"
+msgstr "選擇"
 
 #: templates/filebrowser/include/filelisting.html:15
 msgid "Select File"
-msgstr "选择文件"
+msgstr "選擇文件"
 
 #: templates/filebrowser/include/filelisting.html:26
 msgid "Make Thumbnail"
-msgstr "创建缩略图"
+msgstr "創建縮略圖"
 
 #: templates/filebrowser/include/filelisting.html:29
 msgid "View Image"
-msgstr "查看图像"
+msgstr "查看圖像"
 
 #: templates/filebrowser/include/filelisting.html:46
 msgid "Generate Image Versions"
-msgstr "生成图像版本"
+msgstr "生成圖像版本"
 
 #: templates/filebrowser/include/filelisting.html:61
 msgid "Are you sure you want to delete this file?"
-msgstr "你确定要删除这个文件？"
+msgstr "你確定要刪除這個文件？"
 
 #: templates/filebrowser/include/filelisting.html:61
 msgid "Delete File"
@@ -248,15 +248,15 @@ msgstr "删除文件"
 
 #: templates/filebrowser/include/filelisting.html:64
 msgid "Are you sure you want to delete this Folder?"
-msgstr "你确定要删除这个文件夹？"
+msgstr "你確定要刪除這個文件夾？"
 
 #: templates/filebrowser/include/filelisting.html:64
 msgid "Delete Folder"
-msgstr "删除文件夹"
+msgstr "刪除文件夾"
 
 #: templates/filebrowser/include/filter.html:15
 msgid "Filter"
-msgstr "过滤器"
+msgstr "過濾器"
 
 #: templates/filebrowser/include/filter.html:21
 msgid "By Date"
@@ -284,7 +284,7 @@ msgstr "本年"
 
 #: templates/filebrowser/include/filter.html:39
 msgid "By Type"
-msgstr "以 类型"
+msgstr "以 類型"
 
 #: templates/filebrowser/include/filter.html:41
 msgid "All"
@@ -292,17 +292,17 @@ msgstr "全部"
 
 #: templates/filebrowser/include/paginator.html:5
 msgid "No Items Found."
-msgstr "没有找到。"
+msgstr "沒有找到。"
 
 #: templates/filebrowser/include/paginator.html:10
 #, python-format
 msgid "%(counter)s Item"
 msgid_plural "%(counter)s Items"
-msgstr[0] "%(counter)s 项"
+msgstr[0] "%(counter)s 項"
 
 #: templates/filebrowser/include/paginator.html:16
 msgid "No Items."
-msgstr "没有项。"
+msgstr "沒有項"
 
 #: templates/filebrowser/include/tableheader.html:13
 #: templates/filebrowser/include/tableheader.html:14
@@ -321,17 +321,17 @@ msgstr "日期"
 
 #: templates/filebrowser/include/toolbar.html:14
 msgid "Go"
-msgstr "执行"
+msgstr "執行"
 
 #: templates/filebrowser/include/toolbar.html:16
 #, python-format
 msgid "%(counter)s Item found"
 msgid_plural "%(counter)s Items found"
-msgstr[0] "找到 %(counter)s 项"
+msgstr[0] "找到 %(counter)s 項"
 
 #: templates/filebrowser/include/toolbar.html:17
 #, python-format
 msgid "%(counter)s Item total"
 msgid_plural "%(counter)s Items total"
-msgstr[0] "共 %(counter)s 项"
+msgstr[0] "共 %(counter)s 項"
 
