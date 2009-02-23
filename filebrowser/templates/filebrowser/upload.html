@@ -1,0 +1,68 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% load adminmedia %}
+
+{% block extrahead %}{{ block.super }}
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}js/admin/CollapsedFieldsets.js"></script>
+{% endblock %}
+{% block coltype %}colM{% endblock %}
+{% block bodyclass %}change-form{% endblock %}
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
+<link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+{% if query.pop %}
+<style type="text/css">
+#header { display: none; }
+</style>
+{% endif %}
+{% endblock %}
+{% block breadcrumbs %}<div class="breadcrumbs">{{ breadcrumbs }}</div>{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <form enctype="multipart/form-data" action="?action=upload&{{ query.pop }}" method="post" name="FileForm">
+    {{ formset.management_form }}
+    <div>
+        {% if form.errors %}{{ form.errors }}{% endif %}
+        <fieldset class="module aligned ()">
+        {% for form in formset.forms %}
+        <div class="form-row">
+            {% if form.file.errors %}{{ form.file.errors }}{% endif %}
+            <label>{{ form.file.label }} {{ forloop.counter }}</label>
+            {{ form.file }}
+            {% if settings_var.USE_IMAGE_GENERATOR %}
+                {% if settings_var.FORCE_GENERATOR %}
+                    <p class="help">{% trans 'Will use image generator.' %}</p>
+                {% else %}
+                    <p class="help">{{ form.use_image_generator }} {{ form.use_image_generator.label }}</p>
+                {% endif %}
+            {% endif %}
+        </div>
+        {% endfor %}
+        </fieldset>
+        
+        <fieldset class="module aligned collapse">
+        <h2>{% trans "Help" %}</h2>
+        <div class="form-row" >
+            {% for extension in settings_var.EXTENSIONS.items %}
+            {% ifnotequal extension.0 'Folder' %}
+            <label for="id_body" class="required">{% if forloop.first %}{% trans "Allowed" %}:{% else %}&nbsp;{% endif %}</label> 
+            <p>{{ extension.0|safe }} ({{ extension.1|join:", "|safe }})</p>
+            {% endifnotequal %}
+            {% endfor %}
+        </div>
+        <div class="form-row" >
+            <label for="id_body" class="required">{% trans "Max. Filesize" %}:</label> 
+            <p class="help">{{ settings_var.MAX_UPLOAD_SIZE|safe }}</p>
+        </div>
+        </fieldset>
+        <div class="submit-row">
+            <input type="submit" value="{% trans 'Upload' %}" class="default" /><br class="clear" />
+        </div>
+    </div>
+    </form>
+    
+</div>
+{% endblock %}
