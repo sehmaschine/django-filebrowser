@@ -32,7 +32,7 @@ class FileBrowseFormField(forms.Field):
         self.initial_directory = kwargs['initial_directory']
         path_exists(os.path.join(
             PATH_SERVER,
-            *self.initial_directory.split("/").
+            *self.initial_directory.split("/")
             ))
         self.extensions_allowed = kwargs['extensions_allowed']
         del kwargs['initial_directory']
