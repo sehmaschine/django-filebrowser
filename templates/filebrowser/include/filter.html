@@ -1,13 +1,15 @@
 {% load i18n %}
 <script type="text/javascript">
-if (window.jQuery) { 
-    $(document).ready(function(){
-       $('.filterset h3').click(function() {
-           $(this).parent().toggleClass('collapse-closed');
-           $(this).parent().toggleClass('collapse-open');
-           $(this).next().next().toggle();
-       });
-    });
+if (window.jQuery) {
+    (function($) {
+        $(document).ready(function(){
+           $('.filterset h3').click(function() {
+               $(this).parent().toggleClass('collapse-closed');
+               $(this).parent().toggleClass('collapse-open');
+               $(this).next().next().toggle();
+           });
+        });
+    })(jQuery);
 }
 </script>
 
