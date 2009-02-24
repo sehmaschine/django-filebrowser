@@ -8,7 +8,7 @@ from django.conf import settings
 # Note: When you set URL_WWW to settings.MEDIA_URL you can use all your media-files with the FileBrowser.
 # Nevertheless, you may want to limit this to a subdirectory of settings.MEDIA_URL or a seperate media-server.
 # Important: If you change this setting, you should also change PATH_SERVER.
-URL_WWW = getattr(settings, "FILEBROWSER_URL_WWW", '/media/uploads/')
+URL_WWW = getattr(settings, "FILEBROWSER_URL_WWW", '/uploads/')
 
 # The FileBrowser Admin-URL.
 # Note: If you change this URL, you also have to change the file urls.py.
@@ -24,11 +24,11 @@ URL_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_URL_FILEBROWSER_MEDIA", s
 
 # The URL to your TinyMCE Installation.
 # Note: You have to change this setting, if you install TinyMCE outside your admin-media directory.
-URL_TINYMCE = getattr(settings, "FILEBROWSER_URL_TINYMCE", settings.ADMIN_MEDIA_PREFIX + "tinymce_2/jscripts/tiny_mce/")
+URL_TINYMCE = getattr(settings, "FILEBROWSER_URL_TINYMCE", settings.ADMIN_MEDIA_PREFIX + "tiny_mce/")
 
 # The server-path to media-files. This is the initial/root server-path for the FileBrowser.
 # Important: If you change this setting, you should also change URL_WWW.
-PATH_SERVER = getattr(settings, "FILEBROWSER_PATH_SERVER", os.path.join(settings.MEDIA_ROOT, 'uploads'))
+PATH_SERVER = getattr(settings, "FILEBROWSER_PATH_SERVER", os.path.join(settings.MEDIA_ROOT, '..', 'uploads'))
 
 # The server-path to your filebrowser media-files.
 # Note: You have to change this setting, if you install the media-files of the FileBrowser outside
@@ -37,7 +37,7 @@ PATH_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_PATH_FILEBROWSER_MEDIA",
 
 # The server-path to your TinyMCE Installation.
 # Note: You have to change this setting, if you install TinyMCE outside your admin-media directory.
-PATH_TINYMCE = getattr(settings, "FILEBROWSER_PATH_TINYMCE", os.path.join(settings.MEDIA_ROOT, 'admin/tinymce_2/jscripts/tiny_mce/'))
+PATH_TINYMCE = getattr(settings, "FILEBROWSER_PATH_TINYMCE", os.path.join(settings.MEDIA_ROOT, 'admin/tiny_mce/'))
 
 # Allowed Extensions for File Upload. Lower case is important.
 # Please be aware that there are Icons for the default extension settings.
