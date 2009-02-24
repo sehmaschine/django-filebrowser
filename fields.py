@@ -17,7 +17,7 @@ from django.forms.fields import EMPTY_VALUES
 
 import os
 
-from filebrowser.functions import _get_file_type, _url_join
+from filebrowser.functions import _get_file_type, _url_join, path_exists
 from filebrowser.fb_settings import *
 
 class FileBrowseFormField(forms.Field):
@@ -30,6 +30,10 @@ class FileBrowseFormField(forms.Field):
     def __init__(self, max_length=None, min_length=None, *args, **kwargs):
         self.max_length, self.min_length = max_length, min_length
         self.initial_directory = kwargs['initial_directory']
+        path_exists(os.path.join(
+            PATH_SERVER,
+            *self.initial_directory.split("/").
+            ))
         self.extensions_allowed = kwargs['extensions_allowed']
         del kwargs['initial_directory']
         del kwargs['extensions_allowed']

@@ -359,6 +359,7 @@ class ImageModification(models.Model):
         self.delete_cached_images()
 
     def modified_path(self, path):
+        path = path.replace("\\", "/")
         if "/" in path:
             dir_name, filename = path.rsplit("/", 1)
             dir_name += "/"
