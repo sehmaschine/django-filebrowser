@@ -13,7 +13,11 @@
     <td class="fb_icon">
         {% ifnotequal file.file_type 'Folder' %}
             {% if query.type %}
-                {% ifequal query.type file.file_type %}
+                {% ifequal query.type "image" %}
+                    {% ifequal file.file_type "Image" %}
+                        <a href="javascript://" onclick="FileBrowserDialogue.fileSubmit('{{ FILEBROWSER_URL_WWW }}{{ file.link }}');" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
+                    {% endifequal %}
+                {% else %}    
                     <a href="javascript://" onclick="FileBrowserDialogue.fileSubmit('{{ FILEBROWSER_URL_WWW }}{{ file.link }}');" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
                 {% endifequal %}
             {% else %}
