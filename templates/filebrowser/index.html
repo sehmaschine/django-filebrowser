@@ -3,6 +3,7 @@
 {% load adminmedia %}
 
 {% block extrahead %}
+{{ block.super }}
 {% ifequal query.pop 'pop=1' %} <!-- FileBrowseField -->
 <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_FileBrowseField.js"></script>
 {% endifequal %}
