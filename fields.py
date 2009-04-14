@@ -3,6 +3,7 @@
 """
 A custom FileBrowseField.
 """
+import re
 
 from django.db import models
 from django import forms
@@ -68,6 +69,7 @@ class FileBrowseWidget(Input):
             self.attrs = {}
     
     def render(self, name, value, attrs=None):
+        regex = re.compile(r"/{2,}") # regex for duplicated slashes
         if value is None: value = ''
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
         if value == "":
@@ -82,18 +84,14 @@ class FileBrowseWidget(Input):
             path_thumb = ""
             # check if thumbnail exists
             if os.path.isfile(os.path.join(PATH_SERVER, path, "_cache", THUMB_PREFIX + file + ".png")):
-                path_thumb = "".join([part for part in (URL_WWW, os.path.split(value)[0], "_cache/", THUMB_PREFIX + file + ".png") if part])
+                path_thumb = regex.sub("/", "".join((URL_WWW, os.path.split(value)[0], "/_cache/", THUMB_PREFIX, file, ".png")))
             elif file_type == 'Image':
                 try:
                     _make_image_thumbnail(PATH_SERVER, path, file)
                 except:
                     pass
                 else:
-                    path_thumb = "".join([
-                        part
-                        for part in (URL_WWW, os.path.split(value)[0], "_cache/", THUMB_PREFIX + file + ".png")
-                        if part
-                        ])
+                    path_thumb = regex.sub("/", "".join((URL_WWW, os.path.split(value)[0], "/_cache/", THUMB_PREFIX, file, ".png")))
                     
             if not path_thumb:
                 if file_type == 'Image':

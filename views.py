@@ -464,11 +464,8 @@ def makethumb(request, dir_name=None, file_name=None):
             if os.path.isfile(os.path.join(PATH_SERVER, path, file)) and not os.path.isfile(os.path.join(PATH_SERVER, path, "_cache", THUMB_PREFIX + file)) and not re.compile(THUMB_PREFIX, re.M).search(file) and _get_file_type(file) == "Image":
                 _make_image_thumbnail(PATH_SERVER, path, file)
     if "ajax" in request.GET and file_name:
-        thumb_path = "".join([
-            part
-            for part in (URL_WWW, dir_name, "_cache/", THUMB_PREFIX, file_name, ".png")
-            if part
-            ])
+        regex = re.compile(r"/{2,}") # regex for duplicated slashes
+        thumb_path = regex.sub("/", "".join([s for s in (URL_WWW, dir_name, "/_cache/", THUMB_PREFIX, file_name, ".png") if s]))
         return HttpResponse(thumb_path)
     # MESSAGE & REDIRECT
     msg = _('Thumbnail creation successful.')
