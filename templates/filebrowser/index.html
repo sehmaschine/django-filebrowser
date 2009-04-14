@@ -11,6 +11,8 @@
 <script language="javascript" type="text/javascript" src="{{ settings_var.URL_TINYMCE }}tiny_mce_popup.js"></script>
 <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_TinyMCE.js"></script>
 {% endifequal %}
+<script language="javascript" type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
+<script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_MakeThumbs.js"></script>
 {% endblock %}
 {% block coltype %}flex{% endblock %}
 {% block bodyclass %}change-list filebrowser{% endblock %}

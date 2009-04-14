@@ -17,7 +17,7 @@ from django.forms.fields import EMPTY_VALUES
 
 import os
 
-from filebrowser.functions import _get_file_type, _url_join, path_exists
+from filebrowser.functions import _get_file_type, _url_join, _make_image_thumbnail, path_exists
 from filebrowser.fb_settings import *
 
 class FileBrowseFormField(forms.Field):
@@ -82,14 +82,27 @@ class FileBrowseWidget(Input):
             path_thumb = ""
             # check if thumbnail exists
             if os.path.isfile(os.path.join(PATH_SERVER, path, "_cache", THUMB_PREFIX + file + ".png")):
-                path_thumb = "/".join([URL_WWW, os.path.split(value)[0], "_cache", THUMB_PREFIX + file + ".png"])
+                path_thumb = "".join([part for part in (URL_WWW, os.path.split(value)[0], "_cache/", THUMB_PREFIX + file + ".png") if part])
             elif file_type == 'Image':
-                path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_image.gif'
-            elif file_type == "Folder":
-                path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_folder.gif'
-            else:
-                # if file is not an image, display file-icon (which is linked to the file) instead
-                path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_' + file_type + '.gif'
+                try:
+                    _make_image_thumbnail(PATH_SERVER, path, file)
+                except:
+                    pass
+                else:
+                    path_thumb = "".join([
+                        part
+                        for part in (URL_WWW, os.path.split(value)[0], "_cache/", THUMB_PREFIX + file + ".png")
+                        if part
+                        ])
+                    
+            if not path_thumb:
+                if file_type == 'Image':
+                    path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_image.gif'
+                elif file_type == "Folder":
+                    path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_folder.gif'
+                else:
+                    # if file is not an image, display file-icon (which is linked to the file) instead
+                    path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_' + file_type + '.gif'
             final_attrs['thumbnail'] = path_thumb
             final_attrs['URL_WWW'] = URL_WWW
         path_search_icon = URL_FILEBROWSER_MEDIA + 'img/filebrowser_icon_show.gif'

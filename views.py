@@ -463,19 +463,17 @@ def makethumb(request, dir_name=None, file_name=None):
         for file in dir_list:
             if os.path.isfile(os.path.join(PATH_SERVER, path, file)) and not os.path.isfile(os.path.join(PATH_SERVER, path, "_cache", THUMB_PREFIX + file)) and not re.compile(THUMB_PREFIX, re.M).search(file) and _get_file_type(file) == "Image":
                 _make_image_thumbnail(PATH_SERVER, path, file)
-    
+    if "ajax" in request.GET and file_name:
+        thumb_path = "".join([
+            part
+            for part in (URL_WWW, dir_name, "_cache/", THUMB_PREFIX, file_name, ".png")
+            if part
+            ])
+        return HttpResponse(thumb_path)
     # MESSAGE & REDIRECT
     msg = _('Thumbnail creation successful.')
     request.user.message_set.create(message=msg)
     return HttpResponseRedirect(URL_ADMIN + path + query['query_str_total'])
-    
-    return render_to_response('filebrowser/index.html', {
-        'dir': dir_name,
-        'query': query,
-        'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
-        'root_path': URL_HOME,
-    }, context_instance=Context(request))
 makethumb = staff_member_required(never_cache(makethumb))
 
 
