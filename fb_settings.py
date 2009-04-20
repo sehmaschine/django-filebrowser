@@ -49,7 +49,7 @@ EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
     'Document':['.pdf','.doc','.rtf','.txt','.xls','.csv'],
     'Sound':['.mp3','.mp4','.wav','.aiff','.midi'],
     'Code':['.html','.py','.js','.css'],
-    'Archive': ['zip', 'rar', 'arj', 'gz', 'tar'],
+    'Archive': ['.zip', '.rar', '.arj', '.gz', '.tar'],
 })
 
 # Max. Upload Size in Bytes.
