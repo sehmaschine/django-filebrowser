@@ -335,6 +335,26 @@ def _image_generator(PATH_SERVER, path, filename):
     return msg
     
 
+def scale_and_crop(im, requested_size, opts):
+    x, y   = [float(v) for v in im.size]
+    xr, yr = [float(v) for v in requested_size]
+    
+    if 'crop' in opts:
+        r = max(xr/x, yr/y)
+    else:
+        r = min(xr/x, yr/y)
+    
+    if r < 1.0 or (r > 1.0 and 'upscale' in opts):
+        im = im.resize((int(x*r), int(y*r)), resample=Image.ANTIALIAS)
+    
+    if 'crop' in opts:
+        x, y   = [float(v) for v in im.size]
+        ex, ey = (x-min(x, xr))/2, (y-min(y, yr))/2
+        if ex or ey:
+            im = im.crop((int(ex), int(ey), int(x-ex), int(y-ey)))
+    return im
+    
+
 def _image_crop_generator(PATH_SERVER, path, filename):
     """
     Generate Cropped Versions for an Image.
@@ -357,43 +377,11 @@ def _image_crop_generator(PATH_SERVER, path, filename):
         os.mkdir(versions_path)
         os.chmod(versions_path, 0775)
     im = Image.open(file_path)
-    dimensions = im.size
-    current_width = dimensions[0]
-    current_height = dimensions[1]
     msg = ""
     for prefix in IMAGE_CROP_GENERATOR:
         image_path = os.path.join(versions_path, prefix[0] + filename)
         try:
-            # DIMENSIONS
-            dimensions = im.size
-            current_width = dimensions[0]
-            current_height = dimensions[1]
-            ratio = decimal.Decimal(0)
-            ratio = decimal.Decimal(current_width)/decimal.Decimal(current_height)
-            # new_size
-            # either side of the img must be at least the crop_size_width
-            new_size_width = prefix[1]
-            new_size_height = int(new_size_width/ratio)
-            if new_size_width > new_size_height:
-                new_size_height = new_size_width
-                new_size_width = int(new_size_height*ratio) 
-            new_size = (new_size_width, new_size_height)
-            # crop_size
-            # trying to crop the middle of the img
-            crop_size_width = prefix[1]
-            if prefix[2]:
-                crop_size_height = prefix[2]
-            else:
-                crop_size_height = crop_size_width
-            upper_left_x = int((new_size_width-crop_size_width)/2)
-            upper_left_y = int((new_size_height-crop_size_height)/2)
-            crop_size = (upper_left_x, upper_left_y, upper_left_x+crop_size_width, upper_left_y+crop_size_height)
-            # NEW IMAGE
-            im = Image.open(file_path)
-            # resize img first
-            new_image = im.resize(new_size, Image.ANTIALIAS)
-            # then crop
-            cropped_image = new_image.crop(crop_size)
+            cropped_image = scale_and_crop(im, (prefix[1], prefix[2]), ['crop'])
             cropped_image.save(image_path, quality=90, optimize=1)
             # MAKE THUMBNAIL
             _make_image_thumbnail(PATH_SERVER, os.path.join(path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY), prefix[0] + filename)
