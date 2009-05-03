@@ -140,7 +140,8 @@ class FileBrowserImageSize(object):
         if CHECK_EXISTS:
             path = os.path.split(value_path)[0]
             if os.path.isfile(os.path.join(PATH_SERVER, path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY, arg + filename)):
-                img_value = '/'.join(os.path.split(value)[0], filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY, arg + filename)
+                #img_value = '/'.join(os.path.split(value)[0], filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY, arg + filename)
+                img_value = '/'.join((os.path.split(value)[0], filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY, arg + filename))
                 return u'%s' % (img_value)
             else:
                 return u''
