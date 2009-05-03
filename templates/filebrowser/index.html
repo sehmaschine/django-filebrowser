@@ -3,13 +3,16 @@
 {% load adminmedia %}
 
 {% block extrahead %}{{ block.super }}
-{% ifequal query.pop 'pop=1' %} <!-- FileBrowseField -->
+{% with query.pop|slice:":5" as pop %}
+{% ifequal pop 'pop=1' %} <!-- FileBrowseField -->
 <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_FileBrowseField.js"></script>
 {% endifequal %}
-{% ifequal query.pop 'pop=2' %} <!-- TinyMCE -->
+{% ifequal pop 'pop=2' %} <!-- TinyMCE -->
 <script language="javascript" type="text/javascript" src="{{ settings_var.URL_TINYMCE }}tiny_mce_popup.js"></script>
 <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_TinyMCE.js"></script>
+{% if query.mce_rdomain %}<script language="javascript">document.domain = "{{ query.mce_rdomain }}"</script>{% endif %}
 {% endifequal %}
+{% endwith %}
 {% endblock %}
 {% block coltype %}flex{% endblock %}
 {% block bodyclass %}change-list filebrowser{% endblock %}

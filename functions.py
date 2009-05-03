@@ -128,7 +128,8 @@ def _get_query(request_var):
         if request_var.get('pop'):
             query['pop'] = "pop=" + request_var.get('pop')
             query['pop_toolbar'] = request_var.get('pop')
-            if query['pop'] == 2 and 'mce_rdomain' in request_var:
+            if query['pop'] == 'pop=2' and 'mce_rdomain' in request_var:
+                query['mce_rdomain'] = request_var['mce_rdomain']
                 query['pop'] = "%s&mce_rdomain=%s" % (query['pop'], request_var['mce_rdomain'])
         else:
             query['pop'] = ''
