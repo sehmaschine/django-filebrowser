@@ -31,6 +31,9 @@ class MakeDirForm(forms.Form):
             # directory must not already exist.
             if os.path.isdir(os.path.join(self.PATH_SERVER, self.path, self.cleaned_data['dir_name'].lower())):
                 raise forms.ValidationError(_(u'The Folder already exists.'))
+            # check banned folder names
+            if self.cleaned_data['dir_name'] in DISALLOWED_FOLDER_NAMES:
+                raise forms.ValidationError(_(u'Disallowed Folder Name.'))
         
         return self.cleaned_data['dir_name']
     

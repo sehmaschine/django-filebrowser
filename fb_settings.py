@@ -121,3 +121,6 @@ FORCE_GENERATOR_RUN = getattr(settings, 'FILEBROWSER_FORCE_GENERATOR_RUN', False
 # if set True, then FileBrowser will not try to import a mis-installed PIL
 STRICT_PIL = getattr(settings, 'FILEBROWSER_STRICT_PIL', False)
 
+# list of names not allowed for folders
+DISALLOWED_FOLDER_NAMES = getattr(settings, "FILEBROWSER_DISALLOWED_FOLDER_NAMES", ['mkdir', 'makethumbs', 'upload', 'rename', 'delete'])
+
