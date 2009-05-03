@@ -146,7 +146,7 @@ class FileBrowserImageSize(object):
             else:
                 return u''
         else:
-            img_value = '/'.join(os.path.split(value)[0], filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY, arg + filename)
+            img_value = '/'.join((os.path.split(value)[0], filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY, arg + filename))
             return u'%s' % (img_value)
         
 
