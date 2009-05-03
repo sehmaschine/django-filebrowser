@@ -1,6 +1,7 @@
 function FileSubmit(FileURL, ThumbURL, FileType) {
     
-    var input_id=window.name.split("___").join(".");
+    // var input_id=window.name.split("___").join(".");
+    var input_id=window.name.replace(/____/g,'-').split("___").join(".");
     var preview_id = 'image_' + input_id;
     var link_id = 'link_' + input_id;
     var help_id = 'help_' + input_id;
