@@ -71,8 +71,8 @@ def index(request, dir_name=None):
         
         # EXCLUDE FILES MATCHING THUMB_PREFIX OR ANY OF THE EXCLUDE PATTERNS
         filtered = file.startswith('.')
-        for re in filter_re:
-            if re.search(file):
+        for re_prefix in filter_re:
+            if re_prefix.search(file):
                 filtered = True
         if filtered:
             continue
