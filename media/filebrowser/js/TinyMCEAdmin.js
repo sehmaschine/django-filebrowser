@@ -10,11 +10,11 @@ function CustomFileBrowser(field_name, url, type, win) {
         resizable: "yes",
         scrollbars: "yes",
         inline: "no",  // This parameter only has an effect if you use the inlinepopups plugin!
-        close_previous: "no",
+        close_previous: "no"
     }, {
         window: win,
         input: field_name,
-        editor_id: tinyMCE.selectedInstance.editorId,
+        editor_id: tinyMCE.selectedInstance.editorId
     });
     return false;
 }
@@ -70,7 +70,7 @@ tinyMCE.init({
     "-p[class<clearfix?summary?code]," + 
     "h2[class<clearfix],h3[class<clearfix],h4[class<clearfix]," + 
     "ul[class<clearfix],ol[class<clearfix]," + 
-    "div[class],",
+    "div[class],"
 });
 
 
