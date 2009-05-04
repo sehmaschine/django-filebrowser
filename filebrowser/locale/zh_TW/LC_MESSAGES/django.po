@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: filebrowser 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-17 23:43+0800\n"
-"PO-Revision-Date: 2009-04-17 23:57+0800\n"
-"Last-Translator: jane.eyre <gnugit@gmail.com>\n"
+"POT-Creation-Date: 2009-05-04 00:06+0800\n"
+"PO-Revision-Date: 2009-05-04 00:11+0800\n"
+"Last-Translator: freeRen <gnugit@gmail.com>\n"
 "Language-Team: freeren.org <gnumap@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,12 +30,12 @@ msgid "Name"
 msgstr "名稱"
 
 #: forms.py:23
-#: forms.py:46
+#: forms.py:49
 msgid "The Name will automatically be converted to lowercase. Only letters, numbers, underscores and hyphens are allowed."
 msgstr "這個名稱將自動轉換為小寫。只允許字母、數字、下劃線和連字符。"
 
 #: forms.py:30
-#: forms.py:53
+#: forms.py:56
 msgid "Only letters, numbers, underscores and hyphens are allowed."
 msgstr "只允許字母、數字、下劃線和連字符。"
 
@@ -43,35 +43,39 @@ msgstr "只允許字母、數字、下劃線和連字符。"
 msgid "The Folder already exists."
 msgstr "這個文件夾已經存在。"
 
-#: forms.py:46
+#: forms.py:36
+msgid "Disallowed Folder Name."
+msgstr "不允許文件夾名稱。"
+
+#: forms.py:49
 msgid "New Name"
 msgstr "新名稱"
 
-#: forms.py:56
+#: forms.py:59
 msgid "The File/Folder already exists."
 msgstr "這個文件/文件夾已經存在。"
 
-#: forms.py:92
+#: forms.py:95
 msgid "File"
 msgstr "文件"
 
-#: forms.py:93
+#: forms.py:96
 msgid "Use Image Generator"
 msgstr "使用圖像生成器"
 
-#: forms.py:102
+#: forms.py:105
 msgid "File already exists."
 msgstr "文件已經存在。"
 
-#: forms.py:108
+#: forms.py:111
 msgid "Filename is not allowed."
 msgstr "文件名不允許。"
 
-#: forms.py:113
+#: forms.py:116
 msgid "File extension is not allowed."
 msgstr "文件擴展名不允許。"
 
-#: forms.py:118
+#: forms.py:121
 msgid "Filesize exceeds allowed Upload Size."
 msgstr "超出允許的上傳大小。"
 
@@ -79,12 +83,12 @@ msgstr "超出允許的上傳大小。"
 msgid "Home"
 msgstr "首頁"
 
-#: functions.py:278
+#: functions.py:279
 msgid "Thumbnail creation failed."
 msgstr "縮略圖創建失敗。"
 
-#: functions.py:333
-#: functions.py:400
+#: functions.py:334
+#: functions.py:389
 msgid "Image creation failed."
 msgstr "圖像創建失敗。"
 
@@ -107,7 +111,7 @@ msgstr "創建目錄錯誤。"
 
 #: views.py:214
 #: views.py:215
-#: templates/filebrowser/index.html:30
+#: templates/filebrowser/index.html:33
 msgid "New Folder"
 msgstr "創建文件夾"
 
@@ -116,7 +120,7 @@ msgid "Upload successful."
 msgstr "上傳成功。"
 
 #: views.py:273
-#: templates/filebrowser/index.html:33
+#: templates/filebrowser/index.html:36
 #: templates/filebrowser/upload.html:62
 msgid "Upload"
 msgstr "上传"
@@ -165,11 +169,17 @@ msgstr "重命名 \"%s\""
 msgid "Successfully generated Images."
 msgstr "生成圖像成功。"
 
-#: templates/filebrowser/index.html:31
+#: templates/filebrowser/append.html:4
+#: templates/filebrowser/append.html:6
+#, fuzzy
+msgid "File-Browser"
+msgstr "文件瀏覽器"
+
+#: templates/filebrowser/index.html:34
 msgid "Make Thumbs"
 msgstr "創建縮略圖"
 
-#: templates/filebrowser/index.html:32
+#: templates/filebrowser/index.html:35
 msgid "Generate Images"
 msgstr "生成圖像"
 
@@ -316,7 +326,6 @@ msgid "%(counter)s Item total"
 msgid_plural "%(counter)s Items total"
 msgstr[0] "共 %(counter)s 項"
 
-#: extension translation
 msgid "Folder"
 msgstr "目錄"
 
@@ -329,6 +338,9 @@ msgstr "文檔"
 msgid "Code"
 msgstr "代碼"
 
+msgid "Video"
+msgstr "視頻"
+
 msgid "Sound"
-msgstr "聲音"
+msgstr "音頻"
 
