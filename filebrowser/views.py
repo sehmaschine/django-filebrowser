@@ -1,6 +1,6 @@
 # coding: utf-8
 
-import os, string, ftplib, re, Image, decimal
+import os, string, ftplib, re, decimal
 from time import gmtime, strftime, localtime, mktime, time
 
 from django.shortcuts import render_to_response
