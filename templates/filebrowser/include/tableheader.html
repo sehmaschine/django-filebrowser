@@ -10,8 +10,8 @@
     <!-- THUMB -->
     {% ifnotequal counter.Image 0 %}{% if results_var.change_total %}<th>&nbsp;</th>{% endif %}{% endifnotequal %}
     <!-- FILENAME / DIMENSIONS  -->
-    {% ifequal query.o '11' %}<th class="sorted {{ query.ot }}ending"><a href="?{{ query.query_nosort }}&amp;ot={{ query.ot_new }}&amp;o=11">{% trans 'Filename' %}</a></th>{% endifequal %}
-    {% ifnotequal query.o '11' %}<th><a href="?{{ query.query_nosort }}&amp;ot=asc&amp;o=11">{% trans 'Filename' %}</a></th>{% endifnotequal %}
+    {% ifequal query.o '11' %}<th class="sorted {{ query.ot }}ending"><a href="?{{ query.query_nosort }}&amp;ot={{ query.ot_new }}&amp;o=12">{% trans 'Filename' %}</a></th>{% endifequal %}
+    {% ifnotequal query.o '11' %}<th><a href="?{{ query.query_nosort }}&amp;ot=asc&amp;o=12">{% trans 'Filename' %}</a></th>{% endifnotequal %}
     <!-- IMAGE GENERATOR -->
     {% if settings_var.USE_IMAGE_GENERATOR and results_var.imagegenerator_total %}<th>&nbsp;</th>{% endif %}
     <!-- RENAME -->
