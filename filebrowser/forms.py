@@ -10,7 +10,7 @@ from filebrowser.fb_settings import *
 # get functions
 from filebrowser.functions import _get_file_type
 
-alnum_name_re = re.compile(r'^[a-zA-Z0-9._/-]+$')
+alnum_name_re = re.compile(r'^[\sa-zA-Z0-9._/-]+$')
 
 
 class MakeDirForm(forms.Form):
@@ -119,6 +119,8 @@ class UploadForm(forms.Form):
             filesize = self.cleaned_data['file'].size
             if filesize > MAX_UPLOAD_SIZE:
                 raise forms.ValidationError(_(u'Filesize exceeds allowed Upload Size.'))
+                
+            self.cleaned_data['file'].name = self.cleaned_data['file'].name.replace(' ', '_')
         return self.cleaned_data['file']
         
 
