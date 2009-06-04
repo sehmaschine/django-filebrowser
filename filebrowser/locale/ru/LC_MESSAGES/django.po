@@ -1,0 +1,317 @@
+# Russian translation
+# This file is distributed under the same license as the django-filebrowser package.
+# Ivan Gromov <summer.is.gone@gmail.com>, 2009.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: summer.is.gone@gmail.com\n"
+"POT-Creation-Date: 2009-05-19 03:17+0600\n"
+"PO-Revision-Date: 2009-05-19 03:52\n"
+"Last-Translator: IVAN GROMOV <SUMMER.IS.GONE@GMAIL.COM>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: fields.py:96
+#, python-format
+msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
+msgstr "Расширение %(ext)s запрещено. Разрешено только %(allowed)s."
+
+#: forms.py:23
+msgid "Name"
+msgstr "Имя"
+
+#: forms.py:23 forms.py:49
+msgid ""
+"The Name will automatically be converted to lowercase. Only letters, "
+"numbers, underscores and hyphens are allowed."
+msgstr ""
+"Имя будет автоматически переведено в нижний регистр"
+"Допускается вводить буквы, цифры, символы подчерка и дефиса."
+
+#: forms.py:30 forms.py:56
+msgid "Only letters, numbers, underscores and hyphens are allowed."
+msgstr "Допускается вводить буквы, цифры, символы подчерка и дефиса."
+
+#: forms.py:33
+msgid "The Folder already exists."
+msgstr "Папка уже существует."
+
+#: forms.py:36
+msgid "Disallowed Folder Name."
+msgstr "Недопустимое имя папки."
+
+#: forms.py:49
+msgid "New Name"
+msgstr "Новое имя"
+
+#: forms.py:59
+msgid "The File/Folder already exists."
+msgstr "Файл/папка уже существуют."
+
+#: forms.py:95
+msgid "File"
+msgstr "Файл"
+
+#: forms.py:96
+msgid "Use Image Generator"
+msgstr "Использовать генератор изображений"
+
+#: forms.py:105
+msgid "File already exists."
+msgstr "Файл уже существует."
+
+#: forms.py:111
+msgid "Filename is not allowed."
+msgstr "Недопустимое имя файла."
+
+#: forms.py:116
+msgid "File extension is not allowed."
+msgstr "Недопустимое расширение файла."
+
+#: forms.py:121
+msgid "Filesize exceeds allowed Upload Size."
+msgstr "Размер файла превышает допустимый размер загрузки."
+
+#: functions.py:84
+msgid "Home"
+msgstr "Начало"
+
+#: functions.py:279
+msgid "Thumbnail creation failed."
+msgstr "Ошибка создания миниатюр."
+
+#: functions.py:334 functions.py:389
+msgid "Image creation failed."
+msgstr "Ошибка создания изображений."
+
+#: views.py:174
+msgid "FileBrowser"
+msgstr "Файловый менеджер"
+
+#: views.py:198
+#, python-format
+msgid "The Folder %s was successfully created."
+msgstr "Папка %s успешно создана."
+
+#: views.py:204
+msgid "Permission denied."
+msgstr "Доступ запрещен."
+
+#: views.py:206
+msgid "Error creating directory."
+msgstr "Ошибка создания папки."
+
+#: views.py:214 views.py:215 templates/filebrowser/index.html:33
+msgid "New Folder"
+msgstr "Новая папка"
+
+#: views.py:260
+msgid "Upload successful."
+msgstr "Загрузка завершена успешно."
+
+#: views.py:273 templates/filebrowser/index.html:36
+#: templates/filebrowser/upload.html:62
+msgid "Upload"
+msgstr "Загрузить"
+
+#: views.py:274
+msgid "Select files to upload"
+msgstr "Выберите файлы для загрузки"
+
+#: views.py:304
+msgid "Thumbnail creation successful."
+msgstr "Миниатюры созданы."
+
+#: views.py:354
+#, python-format
+msgid "The file %s was successfully deleted."
+msgstr "Файл %s удален."
+
+#: views.py:366
+#, python-format
+msgid "The directory %s was successfully deleted."
+msgstr "Папка %s удалена."
+
+#: views.py:417
+msgid "Error renaming Thumbnail."
+msgstr "Ошибка переименования миниатюры."
+
+#: views.py:423
+msgid "Renaming was successful."
+msgstr "Переименовано."
+
+#: views.py:428
+msgid "Error."
+msgstr "Ошибка."
+
+#: views.py:437 templates/filebrowser/include/filelisting.html:52
+msgid "Rename"
+msgstr "Переименовать"
+
+#: views.py:438
+#, python-format
+msgid "Rename \"%s\""
+msgstr "Переименовать \"%s\""
+
+#: views.py:475
+msgid "Successfully generated Images."
+msgstr "Изображения созданы."
+
+#: templates/filebrowser/append.html:5 templates/filebrowser/append.html:7
+msgid "File-Browser"
+msgstr "Файловый менеджер"
+
+#: templates/filebrowser/index.html:34
+msgid "Make Thumbs"
+msgstr "Создать миниатюры"
+
+#: templates/filebrowser/index.html:35
+msgid "Generate Images"
+msgstr "Сгенерировать изображения"
+
+#: templates/filebrowser/makedir.html:24 templates/filebrowser/rename.html:22
+msgid "Please correct the following errors."
+msgstr "Пожалуйста, исправьте ошибки."
+
+#: templates/filebrowser/makedir.html:34 templates/filebrowser/rename.html:33
+msgid "Submit"
+msgstr "Отправить"
+
+#: templates/filebrowser/upload.html:37
+msgid "Will use image generator."
+msgstr "Будет использован генератор изображений."
+
+#: templates/filebrowser/upload.html:47
+msgid "Help"
+msgstr "Справка"
+
+#: templates/filebrowser/upload.html:51
+msgid "Allowed"
+msgstr "Разрешено"
+
+#: templates/filebrowser/upload.html:57
+msgid "Max. Filesize"
+msgstr "Макс. размер"
+
+#: templates/filebrowser/include/filelisting.html:8
+msgid "Select"
+msgstr "Выберите"
+
+#: templates/filebrowser/include/filelisting.html:15
+msgid "Select File"
+msgstr "Выберите файл"
+
+#: templates/filebrowser/include/filelisting.html:26
+msgid "Make Thumbnail"
+msgstr "Создать миниатюры"
+
+#: templates/filebrowser/include/filelisting.html:29
+msgid "View Image"
+msgstr "Просмотреть изображение"
+
+#: templates/filebrowser/include/filelisting.html:46
+msgid "Generate Image Versions"
+msgstr "Создать миниатюры"
+
+#: templates/filebrowser/include/filelisting.html:61
+msgid "Are you sure you want to delete this file?"
+msgstr "Вы уверены, что хотите удалить этот файл?"
+
+#: templates/filebrowser/include/filelisting.html:61
+msgid "Delete File"
+msgstr "Удалить файл"
+
+#: templates/filebrowser/include/filelisting.html:64
+msgid "Are you sure you want to delete this Folder?"
+msgstr "Вы уверены, что хотите удалить эту папку?"
+
+#: templates/filebrowser/include/filelisting.html:64
+msgid "Delete Folder"
+msgstr "Удалить папку"
+
+#: templates/filebrowser/include/filter.html:15
+msgid "Filter"
+msgstr "Фильтр"
+
+#: templates/filebrowser/include/filter.html:21
+msgid "By Date"
+msgstr "По дате"
+
+#: templates/filebrowser/include/filter.html:23
+msgid "Any Date"
+msgstr "За любое число"
+
+#: templates/filebrowser/include/filter.html:25
+msgid "Today"
+msgstr "Сегодня"
+
+#: templates/filebrowser/include/filter.html:27
+msgid "Past 7 days"
+msgstr "Последние 7 дней"
+
+#: templates/filebrowser/include/filter.html:29
+msgid "Past 30 days"
+msgstr "Последние 30 дней"
+
+#: templates/filebrowser/include/filter.html:31
+msgid "This year"
+msgstr "Этот год"
+
+#: templates/filebrowser/include/filter.html:39
+msgid "By Type"
+msgstr "По типу"
+
+#: templates/filebrowser/include/filter.html:41
+msgid "All"
+msgstr "Все"
+
+#: templates/filebrowser/include/paginator.html:5
+msgid "No Items Found."
+msgstr "Не найдено"
+
+#: templates/filebrowser/include/paginator.html:10
+#, python-format
+msgid "%(counter)s Item"
+msgid_plural "%(counter)s Items"
+msgstr[0] "%(counter)s элемент"
+msgstr[1] "Элементов: %(counter)s"
+
+#: templates/filebrowser/include/paginator.html:16
+msgid "No Items."
+msgstr "Ничего нет"
+
+#: templates/filebrowser/include/tableheader.html:13
+#: templates/filebrowser/include/tableheader.html:14
+msgid "Filename"
+msgstr "Имя файла"
+
+#: templates/filebrowser/include/tableheader.html:20
+#: templates/filebrowser/include/tableheader.html:21
+msgid "Size"
+msgstr "Размер"
+
+#: templates/filebrowser/include/tableheader.html:23
+#: templates/filebrowser/include/tableheader.html:24
+msgid "Date"
+msgstr "Дата"
+
+#: templates/filebrowser/include/toolbar.html:14
+msgid "Go"
+msgstr "Вперед"
+
+#: templates/filebrowser/include/toolbar.html:16
+#, python-format
+msgid "%(counter)s Item found"
+msgid_plural "%(counter)s Items found"
+msgstr[0] "%(counter)s элемент найден"
+msgstr[1] "%(counter)s элементов найдено"
+
+#: templates/filebrowser/include/toolbar.html:17
+#, python-format
+msgid "%(counter)s Item total"
+msgid_plural "%(counter)s Items total"
+msgstr[0] "%(counter)s элемент всего"
+msgstr[1] "%(counter)s элементов всего"
