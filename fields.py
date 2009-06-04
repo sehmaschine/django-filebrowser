@@ -173,6 +173,10 @@ class FileBrowserFile(object):
             if imgtype[0] not in all_prefixes:
                 all_prefixes.append(imgtype[0])
                 setattr(self, imgtype[0].rstrip('_'), FileBrowserImageSize(imgtype[0], self.original))
+        for imgtype in IMAGE_CROP_GENERATOR:
+            if imgtype[0] not in all_prefixes:
+                all_prefixes.append(imgtype[0])
+                setattr(self, imgtype[0].rstrip('_'), FileBrowserImageSize(imgtype[0], self.original))
     
     def __unicode__(self):
         return self.original
