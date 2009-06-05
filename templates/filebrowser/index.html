@@ -12,6 +12,9 @@
 <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_TinyMCE.js"></script>
 {% if query.mce_rdomain %}<script language="javascript">document.domain = "{{ query.mce_rdomain }}"</script>{% endif %}
 {% endifequal %}
+{% ifequal pop 'pop=3' %} <!-- CKeditor (former "FCKeditor") -->
+<script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_CKeditor.js"></script>
+{% endifequal %}
 {% endwith %}
 {% endblock %}
 {% block coltype %}flex{% endblock %}
