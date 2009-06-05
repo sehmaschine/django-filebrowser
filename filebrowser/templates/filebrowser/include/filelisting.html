@@ -16,6 +16,14 @@
         {% endifnotequal %}
     </td>
     {% endifequal %}
+    <!-- Fileselect for CKeditor (former "FCKeditor") -->
+    {% ifequal popmode '3' %}
+    <td class="fb_icon">
+        {% ifnotequal file.file_type 'Folder' %}
+            <a href="#" onclick="OpenFile(ProtectPath('{{ file.save_path }}'));return false;" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
+        {% endifnotequal %}
+    </td>
+    {% endifequal %}
     <!-- FileIcon -->
     <td class="fb_icon"><img src="{{ settings_var.URL_FILEBROWSER_MEDIA }}img/filebrowser_type_{{ file.file_type|lower }}.gif" /></td>
     <!-- Thumbnail or MakeThumbIcon -->
