@@ -1,11 +1,12 @@
+{% load thumbnail %}
 <input id="{{ final_attrs.id }}" type="text" name="{{ final_attrs.name }}" value="{{ final_attrs.value }}" />
-<a href="javascript:FileBrowser.show('{{ final_attrs.id }}', '{{ final_attrs.initial_directory }}?pop=1&filter_type={{ final_attrs.format }}');" class="fb_show">
+<a href="javascript:FileBrowser.show('{{ final_attrs.id }}', '{{ final_attrs.initial_directory }}?pop=1{% if final_attrs.format %}&amp;type={{ final_attrs.format }}{% endif %}');" class="fb_show">
     <img src="{{ final_attrs.search_icon }}" alt="" />
 </a>
-{% if final_attrs.value %}
+{% if final_attrs.file %}
 <p class="help" id="help_{{ final_attrs.id }}">
-    <a href="{{ final_attrs.preview }}" target="_blank" id="link_{{ final_attrs.id }}">
-        <img id="image_{{ final_attrs.id }}" alt="" class="preview" src="{{ final_attrs.thumbnail }}" />
+    <a href="{{ final_attrs.file.link }}" target="_blank" id="link_{{ final_attrs.id }}">
+        <img id="image_{{ final_attrs.id }}" src="{% thumbnail final_attrs.file.path_relative final_attrs.file.thumbnail_size crop %}" class="preview" />
     </a>
 </p>
 {% else %}

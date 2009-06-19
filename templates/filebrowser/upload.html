@@ -1,6 +1,7 @@
 {% extends "admin/base_site.html" %}
 {% load i18n %}
 {% load adminmedia %}
+{% load fb_tags %}
 
 {% block extrahead %}{{ block.super }}
 <script type="text/javascript" src="/admin/jsi18n/"></script>
@@ -18,11 +19,11 @@
 </style>
 {% endif %}
 {% endblock %}
-{% block breadcrumbs %}<div class="breadcrumbs">{{ breadcrumbs }}</div>{% endblock %}
+{% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
 
 {% block content %}
 <div id="content-main">
-    <form enctype="multipart/form-data" action="?action=upload&{{ query.pop }}" method="post" name="FileForm">
+    <form enctype="multipart/form-data" action="{% query_string "action=upload" "filter_date,filter_type,q" %}" method="post" name="FileForm">
     {{ formset.management_form }}
     <div>
         {% if form.errors %}{{ form.errors }}{% endif %}
@@ -55,7 +56,7 @@
         </div>
         <div class="form-row" >
             <label for="id_body" class="required">{% trans "Max. Filesize" %}:</label> 
-            <p class="help">{{ settings_var.MAX_UPLOAD_SIZE|safe }}</p>
+            <p class="help">{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p>
         </div>
         </fieldset>
         <div class="submit-row">

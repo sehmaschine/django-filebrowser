@@ -1,6 +1,7 @@
 {% extends "admin/base_site.html" %}
 {% load i18n %}
 {% load adminmedia %}
+{% load fb_tags %}
 
 {% block coltype %}colM{% endblock %}
 {% block bodyclass %}change-form{% endblock %}
@@ -13,11 +14,11 @@
 </style>
 {% endif %}
 {% endblock %}
-{% block breadcrumbs %}<div class="breadcrumbs">{{ breadcrumbs }}</div>{% endblock %}
+{% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
 
 {% block content %}
 <div id="content-main">
-    <form action="?{{ query.pop }}" method="post">
+    <form action="{% query_string "" "filter_date,filter_type,q" %}" method="post">
     <div>
         {% if form.errors %}<p class="errornote">{% trans 'Please correct the following errors.' %}</p>{% endif %}
         <fieldset class="module aligned">
