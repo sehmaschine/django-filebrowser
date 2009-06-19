@@ -1,0 +1,4 @@
+{% load fb_tags %}
+<div class="breadcrumbs">
+    {% for item in breadcrumbs %}{% if not forloop.last %}<a href="{{ item.1 }}{% if item.2 %}{% query_string %}{% endif %}">{{ item.0 }}</a> &rsaquo; {% else %}{{ item.0 }}{% endif %}{% endfor %}
+</div>
