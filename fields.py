@@ -21,6 +21,27 @@ import re
 
 from filebrowser.functions import _get_file_type, _url_join
 from filebrowser.fb_settings import *
+from filebrowser.views import FileObject
+
+
+def dir_from_url(url):
+    """
+    Get the relative server directory from a URL.
+        e.g. /media/uploads/blog/2009/myphoto.jpg
+        returns /blog/2009/
+        e.g. uploads/blog/2009/06/
+        return /blog/2009/
+    """
+    
+    rel_from_media_url = URL_WWW.replace(settings.MEDIA_URL, "", 1)
+    if url.startswith(URL_WWW):
+        value = os.path.split(url)[0].replace(URL_WWW, "", 1)
+    elif url.startswith(rel_from_media_url):
+        value = os.path.split(url)[0].replace(rel_from_media_url, "", 1)
+    else:
+        value = URL_WWW
+    return value
+    
 
 class FileBrowseWidget(Input):
     input_type = 'text'
@@ -38,54 +59,22 @@ class FileBrowseWidget(Input):
             self.attrs = {}
     
     def render(self, name, value, attrs=None):
-        #if value is None: value = ''
         if value is None:
             value = ''
         elif not isinstance(value, (str, unicode)):
             value = value.original
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
-        init = final_attrs['initial_directory']
-        final_attrs['initial_directory'] = _url_join(URL_ADMIN, init)
-        if value != "":
-            # Open filebrowser to same folder as currently selected media
-            init = os.path.split(value)[0].replace(URL_WWW, "")
-            if value[0] != '/':
-                init = os.path.join(settings.MEDIA_ROOT, value).replace(PATH_SERVER, '')
-                init = os.path.split(init)[0].lstrip('/')
-                final_attrs['initial_directory'] = _url_join(URL_ADMIN, init)
-            else:
-                final_attrs['initial_directory'] = _url_join(URL_ADMIN, init)
-        if value != '':
-            # Add the 'value' and 'preview' attribute if a value is non-empty.
-            final_attrs['value'] = force_unicode(value)
-            final_attrs['preview'] = final_attrs['value']
-            if value[0] != '/':
-                final_attrs['preview'] = os.path.join(settings.MEDIA_URL, value)
-            # Now sort out the thumbnail
-            file = os.path.split(value)[1]
-            if len(URL_WWW) < len(os.path.split(value)[0]):
-                path = os.path.split(value)[0].replace(URL_WWW, "")
-            else:
-                path = ""
-            file_type = _get_file_type(file)
-            path_thumb = ""
-            if file_type == 'Image':
-                # check if thumbnail exists
-                if os.path.isfile(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file)):
-                    path_thumb = os.path.join(os.path.split(value)[0], THUMB_PREFIX + file)
-                else:
-                    path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_image.gif'
-            elif file_type == "Folder":
-                path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_folder.gif'
-            else:
-                # if file is not an image, display file-icon (which is linked to the file) instead
-                path_thumb = URL_FILEBROWSER_MEDIA + 'img/filebrowser_type_' + file_type.lower() + '.gif'
-            if path_thumb[0] != '/':
-                path_thumb = os.path.join(settings.MEDIA_URL, path_thumb)
-            final_attrs['thumbnail'] = path_thumb
-        path_search_icon = URL_FILEBROWSER_MEDIA + 'img/filebrowser_icon_show.gif'
-        final_attrs['search_icon'] = path_search_icon
+        final_attrs['search_icon'] = URL_FILEBROWSER_MEDIA + 'img/filebrowser_icon_show.gif'
         final_attrs['format'] = self.format
+        if value != "":
+            final_attrs['initial_directory'] = _url_join(URL_ADMIN, dir_from_url(value))
+            final_attrs['value'] = force_unicode(value)
+            try:
+                final_attrs['file'] = FileObject(os.path.split(value)[1], dir_from_url(value))
+            except:
+                pass
+        else:
+            final_attrs['initial_directory'] = _url_join(URL_ADMIN, final_attrs['initial_directory'])
         return render_to_string("filebrowser/custom_field.html", locals())
     
 
@@ -130,7 +119,7 @@ class FileBrowserImageSize(object):
         if not hasattr(self, '_image_cache'):
             self._image_cache = self._get_image_name()
         return self._image_cache
-
+        
     def _get_image_name(self):
         arg = self.image_type
         value = self.original
@@ -185,7 +174,7 @@ class FileBrowserFile(object):
         if not hasattr(self, '_crop_cache'):
             self._crop_cache = FileBrowserImageType(self.original, IMAGE_CROP_GENERATOR)
         return self._crop_cache
-
+    
 
 class FileBrowseField(Field):
     __metaclass__ = models.SubfieldBase

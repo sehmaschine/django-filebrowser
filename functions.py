@@ -19,6 +19,28 @@ else:
         import Image
 
 
+def _sort_by_attr(seq, attr):
+    """Sort the sequence of objects by object's attribute
+    
+    Arguments:
+    seq  - the list or any sequence (including immutable one) of objects to sort.
+    attr - the name of attribute to sort by
+    
+    Returns:
+    the sorted list of objects.
+    """
+    import operator
+    
+    # Use the "Schwartzian transform"
+    # Create the auxiliary list of tuples where every i-th tuple has form
+    # (seq[i].attr, i, seq[i]) and sort it. The second item of tuple is needed not
+    # only to provide stable sorting, but mainly to eliminate comparison of objects
+    # (which can be expensive or prohibited) in case of equal attribute values.
+    intermed = map(None, map(getattr, seq, (attr,)*len(seq)), xrange(len(seq)), seq)
+    intermed.sort()
+    return map(operator.getitem, intermed, (-1,) * len(intermed))
+    
+
 def _url_join(*args):
     url = "/"
     for arg in args:
@@ -74,81 +96,28 @@ def _get_dir_list(dir_name):
 def _get_breadcrumbs(query, dir_name, page):
     """
     Get breadcrumbs.
+        Format: [Name,Link,AddQueryString]
     """
     
     subdir_list = _get_subdir_list(dir_name)
     dir_list = _get_dir_list(dir_name)
     
-    breadcrumbs = ""
-    if not query['pop']:
-        breadcrumbs = '<a href="%s">%s</a>&nbsp;&rsaquo;&nbsp;' % (URL_HOME,_('Home'))
-    breadcrumbs = breadcrumbs + '<a href="%s%s">%s</a>' % (URL_ADMIN, query['query_str_total'], 'FileBrowser')
+    breadcrumbs = []
+    if not query.get('pop'):
+        breadcrumbs.append([_('Home'),URL_HOME,False])
+    breadcrumbs.append([_('FileBrowser'),URL_ADMIN,True])
     if subdir_list:
         for item in subdir_list:
-            breadcrumbs = breadcrumbs + '&nbsp;&rsaquo;&nbsp;<a href="%s%s%s">%s</a>' % (URL_ADMIN, item[1], query['query_str_total'], item[0])
+            breadcrumbs.append([item[0],_url_join(URL_ADMIN, item[1]),True])
     if page:
         if dir_list:
-            breadcrumbs = breadcrumbs + '&nbsp;&rsaquo;&nbsp;<a href="%s%s/%s">%s</a>&nbsp;&rsaquo;&nbsp;%s' % (URL_ADMIN, dir_list[1], query['query_str_total'], dir_list[0], _(page))
+            breadcrumbs.append([dir_list[0],_url_join(URL_ADMIN, dir_list[1]),True])
+            breadcrumbs.append([page,"",False])
         else:
-            breadcrumbs = breadcrumbs + '&nbsp;&rsaquo;&nbsp;%s' % (_(page))
+            breadcrumbs.append([page,"",False])
     elif dir_list:
-        breadcrumbs = breadcrumbs + '&nbsp;&rsaquo;&nbsp;%s' % (dir_list[0])
-    return mark_safe(breadcrumbs)
-    
-
-def _get_sub_query(items, var_1, var_2, var_3):
-    """
-    Get subquery.
-    """
-    
-    querystring= ''
-    for k,v in items:
-        if k != var_1 and k != var_2 and k != var_3:
-            querystring = querystring + "&" + k + "=" + v
-    return querystring
-    
-
-def _get_query(request_var):
-    """
-    Construct query.
-    """
-    
-    query = {}
-    if request_var:
-        query['query_str_total'] = "?"
-        for k,v in request_var.items():
-            if k in ['o', 'ot', 'q', 'filter_date', 'filter_type', 'pop', 'mce_rdomain']:
-                query['query_str_total'] = query['query_str_total'] + "&" + k + "=" + v
-        #query['query_str_total'] = "?" + "&".join(["%s=%s" % (k, v) for k, v in request_var.items()])
-        query['query_nofilterdate'] = _get_sub_query(request_var.items(), 'filter_date', '', '')
-        query['query_nofiltertype'] = _get_sub_query(request_var.items(), 'filter_type', '', '')
-        query['query_nosearch'] = _get_sub_query(request_var.items(), 'q', '', '')
-        query['query_nosort'] = _get_sub_query(request_var.items(), 'o', 'ot', '')
-        query['query_nodelete'] = "?" + _get_sub_query(request_var.items(), 'filename', 'type', '')
-        if request_var.get('pop'):
-            query['pop'] = "pop=" + request_var.get('pop')
-            query['pop_toolbar'] = request_var.get('pop')
-            if query['pop'] == 'pop=2' and 'mce_rdomain' in request_var:
-                query['mce_rdomain'] = request_var['mce_rdomain']
-                query['pop'] = "%s&mce_rdomain=%s" % (query['pop'], request_var['mce_rdomain'])
-        else:
-            query['pop'] = ''
-            query['pop_toolbar'] = ""
-    else:
-        query['query_str_total'] = "?"
-        query['query_nodelete'] = ""
-        query['pop'] = ""
-        query['pop_toolbar'] = ""
-    query['ot'] = request_var.get('ot', 'desc')
-    query['o'] = request_var.get('o', '3')
-    query['filter_type'] = request_var.get('filter_type', '')
-    query['q'] = request_var.get('q', '')
-    query['filter_date'] = request_var.get('filter_date', '')
-    if query['ot'] == 'asc':
-        query['ot_new'] = 'desc'
-    elif query['ot'] == 'desc':
-        query['ot_new'] = 'asc'
-    return query
+        breadcrumbs.append([dir_list[0],"",False])
+    return breadcrumbs
     
 
 def _get_filterdate(filterDate, dateTime):
@@ -164,22 +133,8 @@ def _get_filterdate(filterDate, dateTime):
     elif filterDate == 'thismonth' and dateTime >= time()-2592000: returnvalue = 'true'
     elif filterDate == 'thisyear' and int(dateYear) == int(localtime()[0]): returnvalue = 'true'
     elif filterDate == 'past7days' and dateTime >= time()-604800: returnvalue = 'true'
+    elif filterDate == '': returnvalue = 'true'
     return returnvalue
-    
-
-def _get_filesize(filesize_long):
-    """
-    Get filesize in a readable format.
-    """
-    
-    filesize_str = ''
-    if filesize_long < 1000:
-        filesize_str = str(filesize_long) + "&nbsp;B"
-    elif filesize_long >= 1000 and filesize_long < 1000000:
-        filesize_str = str(filesize_long/1000) + "&nbsp;kB"
-    elif filesize_long >= 1000000:
-        filesize_str = str(filesize_long/1000000) + "&nbsp;MB"
-    return mark_safe(filesize_str)
     
 
 def _make_filedict(file_list):
@@ -192,26 +147,25 @@ def _make_filedict(file_list):
     for item in file_list:
         temp_list = {}
         temp_list['filename'] = item[0]
-        temp_list['filesize_long'] = item[1]
-        temp_list['filesize_str'] = item[2]
+        temp_list['filename_lower'] = item[1]
+        temp_list['filesize'] = item[2]
         temp_list['date'] = item[3]
-        temp_list['path_thumb'] = item[4]
-        temp_list['link'] = item[5]
-        temp_list['select_link'] = item[6]
-        temp_list['save_path'] = item[7]
-        temp_list['file_extension'] = item[8]
-        temp_list['file_type'] = item[9]
-        temp_list['image_dimensions'] = item[10]
-        temp_list['thumb_dimensions'] = item[11]
-        temp_list['filename_lower'] = item[12]
-        temp_list['flag_makethumb'] = item[13]
-        temp_list['flag_deletedir'] = item[14]
-        temp_list['flag_imageversion'] = item[15]
+        temp_list['path_full'] = item[4] # full file path
+        temp_list['path_relative'] = item[5] # relative to MEDIA_ROOT
+        temp_list['url_full'] = item[6] # domain relative URL
+        temp_list['url_relative'] = item[7] # URL relative to MEDIA_URL
+        temp_list['url_save'] = item[8] # URL relative to MEDIA_URL
+        temp_list['link'] = item[9]
+        temp_list['file_extension'] = item[10]
+        temp_list['file_type'] = item[11]
+        temp_list['image_dimensions'] = item[12] # width/height
+        temp_list['flag_deletedir'] = item[13] # true, if directory is empty
+        temp_list['flag_imageversion'] = item[14] # true, if image is generated
         file_dict.append(temp_list)
     return file_dict
     
 
-def _get_settings_var(http_post, path):
+def _get_settings_var():
     """
     Get all settings variables.
     """
@@ -226,7 +180,7 @@ def _get_settings_var(http_post, path):
     #settings_var['PATH_FILEBROWSER_MEDIA'] = PATH_FILEBROWSER_MEDIA
     settings_var['PATH_TINYMCE'] = PATH_TINYMCE
     settings_var['EXTENSIONS'] = EXTENSIONS
-    settings_var['MAX_UPLOAD_SIZE'] = _get_filesize(MAX_UPLOAD_SIZE)
+    settings_var['MAX_UPLOAD_SIZE'] = MAX_UPLOAD_SIZE
     settings_var['IMAGE_MAXBLOCK'] = IMAGE_MAXBLOCK
     settings_var['THUMB_PREFIX'] = THUMB_PREFIX
     settings_var['THUMBNAIL_SIZE'] = THUMBNAIL_SIZE
@@ -263,21 +217,18 @@ def _get_file_type(filename):
     return file_type
     
 
-def _make_image_thumbnail(PATH_SERVER, path, filename):
+def _is_selectable(filename, selecttype):
     """
-    Make Thumbnail for an Image.
+    Get select type as defined in FORMATS.
     """
-        
-    file_path = os.path.join(PATH_SERVER, path, filename)
-    thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + filename)
-    msg = ""
-    try:
-        im = Image.open(file_path)
-        im.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
-        im.save(thumb_path)
-    except IOError:
-        msg = "%s: %s" % (file.name, _('Thumbnail creation failed.'))
-    return msg
+    
+    file_extension = os.path.splitext(filename)[1].lower()
+    select_types = []
+    for k,v in SELECT_FORMATS.iteritems():
+        for extension in v:
+            if file_extension == extension.lower():
+                select_types.append(k)
+    return select_types
     
 
 def _image_generator(PATH_SERVER, path, filename):
@@ -324,12 +275,20 @@ def _image_generator(PATH_SERVER, path, filename):
             if int(current_width) > int(new_size_width):
                 # NEW IMAGE
                 new_image = im.resize(new_size, Image.ANTIALIAS)
-                new_image.save(image_path, quality=90, optimize=1)
-                # MAKE THUMBNAIL
-                _make_image_thumbnail(PATH_SERVER, os.path.join(path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY), prefix[0] + filename)
+                if im.format == 'GIF':
+                    try:
+                        transparency = im.info['transparency'] 
+                    except KeyError:
+                        new_image.save(image_path)
+                    else:
+                        new_image.save(image_path, transparency=transparency)
+                else:
+                    try:
+                        new_image.save(image_path, quality=90, optimize=1)
+                    except IOError:
+                        new_image.save(image_path)
             elif FORCE_GENERATOR_RUN:
                 im.save(image_path)
-                _make_image_thumbnail(PATH_SERVER, os.path.join(path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY), prefix[0] + filename)
         except IOError:
             msg = "%s: %s" % (filename, _('Image creation failed.'))
     return msg
@@ -383,8 +342,6 @@ def _image_crop_generator(PATH_SERVER, path, filename):
         try:
             cropped_image = scale_and_crop(im, (prefix[1], prefix[2]), ['crop'])
             cropped_image.save(image_path, quality=90, optimize=1)
-            # MAKE THUMBNAIL
-            _make_image_thumbnail(PATH_SERVER, os.path.join(path, filename.replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY), prefix[0] + filename)
         except IOError:
             msg = "%s: %s" % (filename, _('Image creation failed.'))
     return msg
