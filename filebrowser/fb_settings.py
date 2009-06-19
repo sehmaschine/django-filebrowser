@@ -37,7 +37,8 @@ URL_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_URL_FILEBROWSER_MEDIA", s
 URL_TINYMCE = getattr(settings, "FILEBROWSER_URL_TINYMCE", DEFAULT_URL_TINYMCE)
 
 # Save full domain-relative URLs to your model fields,
-# or False (default) to save paths relative to settings.MEDIA_ROOT.
+# or False (default) to save paths relative to settings.MEDIA_URL.
+# Used in conjunction with the FileBrowseField.
 SAVE_FULL_URL = getattr(settings, "FILEBROWSER_SAVE_FULL_URL", True)
 
 # The server-path to media-files. This is the initial/root server-path for the FileBrowser.
@@ -64,6 +65,13 @@ EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
     'Sound':['.mp3','.mp4','.wav','.aiff','.midi'],
     'Code':['.html','.py','.js','.css']
 })
+# Define different formats for allowed selections.
+# This has to be a subset of EXTENSIONS
+SELECT_FORMATS = getattr(settings, "FILEBROWSER_SELECT_FORMATS", {
+    'File':['Folder','Document'],
+    'Image':['Image'],
+    'Media':['Video','Sound']
+})
 
 # Max. Upload Size in Bytes.
 MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 5000000)
@@ -84,7 +92,7 @@ THUMB_PREFIX = getattr(settings, 'FILEBROWSER_THUMB_PREFIX', 'thumb_')
 # Note: This Thumbnail is for diplaying your Image within the Admin-Interface.
 # Because of the low quality, it´s not intended to use this Thumbnail on your Website.
 # For displaying Thumbnails on a Website, use "Image Generator" instead.
-THUMBNAIL_SIZE = getattr(settings, 'FILEBROWSER_THUMBNAIL_SIZE', (50, 150))
+THUMBNAIL_SIZE = getattr(settings, 'FILEBROWSER_THUMBNAIL_SIZE', '50x50')
 
 # Whether or not to use the ImageGenerator.
 # When this is True, you´ll get a checkbox called "Use Image Generator" with every Upload-Field.
@@ -122,5 +130,5 @@ FORCE_GENERATOR_RUN = getattr(settings, 'FILEBROWSER_FORCE_GENERATOR_RUN', False
 STRICT_PIL = getattr(settings, 'FILEBROWSER_STRICT_PIL', False)
 
 # list of names not allowed for folders
-DISALLOWED_FOLDER_NAMES = getattr(settings, "FILEBROWSER_DISALLOWED_FOLDER_NAMES", ['mkdir', 'makethumbs', 'upload', 'rename', 'delete'])
+DISALLOWED_FOLDER_NAMES = getattr(settings, "FILEBROWSER_DISALLOWED_FOLDER_NAMES", ['mkdir', 'upload', 'rename', 'delete'])
 

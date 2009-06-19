@@ -16,7 +16,8 @@ from django import forms
 # get settings
 from filebrowser.fb_settings import *
 # get functions
-from filebrowser.functions import _get_path, _get_subdir_list, _get_dir_list, _get_breadcrumbs, _get_sub_query, _get_query, _get_filterdate, _get_filesize, _make_filedict, _get_settings_var, _handle_file_upload, _get_file_type, _make_image_thumbnail, _image_generator, _image_crop_generator, _is_image_version
+from filebrowser.functions import _sort_by_attr, _get_path, _get_subdir_list, _get_dir_list, _get_breadcrumbs, _get_filterdate, _make_filedict, _get_settings_var, _handle_file_upload, _get_file_type, _image_generator, _image_crop_generator, _is_image_version, _url_join, _is_selectable
+from filebrowser.templatetags.fb_tags import query_helper
 # get forms
 from filebrowser.forms import MakeDirForm, RenameForm, UploadForm, BaseUploadFormSet
 
@@ -35,39 +36,106 @@ for exp in EXCLUDE:
     filter_re.append(re.compile(exp))
     
 
+class FileObject(object):
+    def __init__(self, filename, path, selecttype=None):
+        self.filename = filename
+        self.filename_lower = filename.lower() # important for sorting
+        self.path = path
+        self.filesize = os.path.getsize(os.path.join(PATH_SERVER, path, filename))
+        self.date = os.path.getmtime(os.path.join(PATH_SERVER, path, filename))
+        self.filetype = _get_file_type(filename)
+        if not selecttype or self.filetype in SELECT_FORMATS[selecttype.capitalize()]:
+            self.selectable = True
+    
+    def _filetype_checked(self):
+        if self.filetype == "Folder" and os.path.isdir(self.path_full()):
+            return self.filetype
+        elif self.filetype != "Folder" and os.path.isfile(self.path_full()):
+            return self.filetype
+        else:
+            return ""
+    filetype_checked = property(_filetype_checked)
+    
+    def icon_url(self):
+        icon = "filebrowser_type_" + self.filetype_checked.lower() + ".gif"
+        return u"%s%s" % (_url_join(URL_FILEBROWSER_MEDIA, "img"), icon)
+    
+    def path_full(self):
+        return u"%s" % os.path.join(PATH_SERVER, self.path, self.filename)
+    
+    def path_relative(self):
+        return u"%s" % self.path_full().replace(settings.MEDIA_ROOT, '').lstrip('/')
+    
+    def url_full(self):
+        if self.filetype == "Folder":
+            return u"%s" % _url_join(URL_WWW, self.path, self.filename)
+        else:
+            return u"%s%s" % (_url_join(URL_WWW, self.path), self.filename)
+    
+    def url_relative(self):
+        return u"%s" % self.url_full().replace(settings.MEDIA_URL, '').lstrip('/')
+    
+    def url_save(self):
+        if SAVE_FULL_URL:
+            return self.url_full()
+        else:
+            return self.url_relative()
+    
+    def link(self):
+        if self.filetype_checked == "Folder":
+            return u"%s%s" % (_url_join(URL_ADMIN, self.path), self.filename)
+        else:
+            return u"%s%s" % (_url_join(URL_WWW, self.path), self.filename)
+    
+    def date_formatted(self):
+        return u"%s" % strftime("%Y-%m-%d", gmtime(self.date))
+        
+    def image_dimensions(self):
+        if self.filetype == 'Image':
+            try:
+                im = Image.open(os.path.join(PATH_SERVER, path, self.filename))
+                return im.size
+            except:
+                pass
+        else:
+            return False
+    
+    def image_is_generated(self):
+        if self.filetype == 'Image':
+            return _is_image_version(self.filename)
+        else:
+            return False
+    
+    def folder_is_empty(self):
+        if os.path.isdir(self.path_full()):
+            if not os.listdir(self.path_full()):
+                return True
+            else:
+                return False
+        else:
+            return False
+    
+    def thumbnail_size(self):
+        return THUMBNAIL_SIZE
+    
+
 def index(request, dir_name=None):
     """
     Show list of files on a server-directory.
     """
     
     path = _get_path(dir_name)
-    query = _get_query(request.GET)
+    query = request.GET
     
     # INITIAL VARIABLES
-    results_var = {'results_total': 0, 'results_current': 0, 'delete_total': 0, 'change_total': 0, 'imagegenerator_total': 0 }
+    results_var = {'results_total': 0, 'results_current': 0, 'delete_total': 0, 'thumbs_total': 0, 'generator_total': 0, 'select_total': 0 }
     counter = {}
     for k,v in EXTENSIONS.iteritems():
         counter[k] = 0
     
     dir_list = os.listdir(os.path.join(PATH_SERVER, path))
-    file_list = []
+    files = []
     for file in dir_list:
-        
-        # VARIABLES
-        var_filesize_long = '' # filesize
-        var_filesize_str = '' # filesize in B, kB, MB
-        var_date = '' # YYYY-MM-dd
-        var_path_thumb = '' # path to thumbnail
-        var_link = '' # link to file (using URL_WWW), link to folder (using URL_ADMIN)
-        var_select_link = '' # link to file (using URL_WWW)
-        var_save_path = '' # Path to file relative to MEDIA_ROOT
-        var_file_extension = '' # see EXTENSIONS in fb_settings.py
-        var_file_type = '' # Folder, Image, Video, Document, Sound, Code, ...
-        var_image_dimensions = '' # Image Dimensions (width, height)
-        var_thumb_dimensions = '' # Thumbnail Dimensions (width, height)
-        var_flag_makethumb = False # True, if Image has no Thumbnail.
-        var_flag_deletedir = False # True, if Directory is empty.
-        var_image_version = False # True, if Image is generated with ImageGenerator.
         
         # EXCLUDE FILES MATCHING THUMB_PREFIX OR ANY OF THE EXCLUDE PATTERNS
         filtered = file.startswith('.')
@@ -76,104 +144,51 @@ def index(request, dir_name=None):
                 filtered = True
         if filtered:
             continue
+        # only increment results_total if file is not filtered
         results_var['results_total'] += 1
         
-        # SIZE
-        var_filesize_long = os.path.getsize(os.path.join(PATH_SERVER, path, file))
-        var_filesize_str = _get_filesize(var_filesize_long)
+        # CREATE FILEOBJECT
+        fileobject = FileObject(file, path, request.GET.get('type', ''))
         
-        # DATE / TIME
-        date_time = os.path.getmtime(os.path.join(PATH_SERVER, path, file))
-        var_date = strftime("%Y-%m-%d", gmtime(date_time))
-        
-        # EXTENSION / FLAG_EMPTYDIR / DELETE_TOTAL
-        fn = os.path.join(PATH_SERVER, path, file)
-        var_select_link = var_link = "%s%s%s" % (URL_WWW, path, file)
-        if os.path.isfile(fn): # file
-            var_file_extension = os.path.splitext(file)[1].lower()
-        elif os.path.isdir(fn): # folder
-            var_link = "%s%s%s" % (URL_ADMIN, path, file)
-            if not os.listdir(os.path.join(PATH_SERVER, path, file)):
-                var_flag_deletedir = True # only empty directories are allowed to be deleted
-        
-        # DETERMINE MEDIA SAVE PATH 
-        var_save_path = var_select_link
-        if not SAVE_FULL_URL:
-            var_save_path = var_save_path.replace(settings.MEDIA_URL, '').lstrip('/')
-        
-        # FILETYPE / COUNTER
-        var_file_type = _get_file_type(file)
-        if var_file_type:
-            counter[var_file_type] += 1
-        
-        # DIMENSIONS / MAKETHUMB / SELECT
-        if var_file_type == 'Image':
-            try:
-                im = Image.open(os.path.join(PATH_SERVER, path, file))
-                var_image_dimensions = im.size
-                var_path_thumb = "%s%s%s%s" % (URL_WWW, path, THUMB_PREFIX, file)
-                try:
-                    thumb = Image.open(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file))
-                    var_thumb_dimensions = thumb.size
-                except:
-                    # if thumbnail does not exist, show makethumb-Icon instead.
-                    var_path_thumb = settings.URL_FILEBROWSER_MEDIA + 'img/filebrowser_Thumb.gif'
-                    var_flag_makethumb = True
-            except:
-                # if image is corrupt, change filetype to not defined
-                var_file_type = ''
-            # check, if image is generated with ImageGenerator
-            var_image_version = _is_image_version(file)
-            if var_image_version == False:
-                results_var['imagegenerator_total'] += 1
+        # COUNTER/RESULTS
+        if fileobject.filetype:
+            counter[fileobject.filetype] += 1
+        if fileobject.filetype == 'Image' and fileobject.image_is_generated() == False:
+            results_var['generator_total'] += 1
+        if fileobject.filetype == 'Image':
+            results_var['thumbs_total'] += 1
+        if fileobject.filetype != 'Folder':
+            results_var['delete_total'] += 1
+        elif fileobject.filetype == 'Folder' and fileobject.folder_is_empty():
+            results_var['delete_total'] += 1
         
         # FILTER / SEARCH
-        flag_extend = False
-        if query['filter_type'] != '' and query['filter_date'] != '' and var_file_type == query['filter_type'] and _get_filterdate(query['filter_date'], date_time):
-            flag_extend = True
-        elif query['filter_type'] != '' and query['filter_date'] == '' and var_file_type == query['filter_type']:
-            flag_extend = True
-        elif query['filter_type'] == '' and query['filter_date'] != '' and _get_filterdate(query['filter_date'], date_time):
-            flag_extend = True
-        elif query['filter_type'] == '' and query['filter_date'] == '':
-            flag_extend = True
-        if query['q'] and not re.compile(query['q'].lower(), re.M).search(file.lower()):
-            flag_extend = False
+        append = False
+        if fileobject.filetype == request.GET.get('filter_type', fileobject.filetype) and _get_filterdate(request.GET.get('filter_date', ''), fileobject.date):
+            append = True
+        if request.GET.get('q') and not re.compile(request.GET.get('q').lower(), re.M).search(file.lower()):
+            append = False
         
         # APPEND FILE_LIST
-        if flag_extend == True:
-            file_list.append([file, var_filesize_long, var_filesize_str, var_date, var_path_thumb, var_link, var_select_link, var_save_path, var_file_extension, var_file_type, var_image_dimensions, var_thumb_dimensions, file.lower(), var_flag_makethumb, var_flag_deletedir, var_image_version])
+        if append:
+            files.append(fileobject)
+            results_var['results_current'] += 1
     
-    
-    # SORT LIST
-    file_list.sort(lambda x, y: cmp(x[int(query['o'])], y[int(query['o'])]))
-    if query['ot'] == "desc":
-       file_list.reverse()
-    
-    # MAKE DICTIONARY (for better readability in the templates)
-    file_dict = _make_filedict(file_list)
-    
-    # RESULTS
-    results_var['results_current'] = len(file_list)
-    for file in file_dict:
-        if file['file_type'] == 'Image':
-            results_var['change_total'] += 1
-        if file['file_type'] != 'Folder':
-            results_var['delete_total'] += 1
-        elif file['file_type'] == 'Folder' and file['flag_deletedir'] == True:
-            results_var['delete_total'] += 1
+    # SORTING
+    files = _sort_by_attr(files, request.GET.get('o', 'date'))
+    if request.GET.get('ot') == "desc":
+        files.reverse()
     
     return render_to_response('filebrowser/index.html', {
         'dir': dir_name,
-        'file_dict': file_dict,
+        'files': files,
         'results_var': results_var,
         'query': query,
         'counter': counter,
-        'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
+        'settings_var': _get_settings_var(),
+        'breadcrumbs': _get_breadcrumbs(query, dir_name, ''),
         'title': _(u'FileBrowser'),
         'root_path': URL_HOME,
-        'popmode': request.GET.get('pop'),
     }, context_instance=Context(request))
 index = staff_member_required(never_cache(index))
 
@@ -184,7 +199,7 @@ def mkdir(request, dir_name=None):
     """
     
     path = _get_path(dir_name)
-    query = _get_query(request.GET)
+    query = request.GET
     
     if request.method == 'POST':
         form = MakeDirForm(PATH_SERVER, path, request.POST)
@@ -193,12 +208,12 @@ def mkdir(request, dir_name=None):
             try:
                 os.mkdir(server_path)
                 os.chmod(server_path, 0775)
-                
                 # MESSAGE & REDIRECT
                 msg = _('The Folder %s was successfully created.') % (form.cleaned_data['dir_name'].lower())
                 request.user.message_set.create(message=msg)
                 # on redirect, sort by date desc to see the new directory on top of the list
-                return HttpResponseRedirect(URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop'])
+                # remove filter in order to actually _see_ the new folder
+                return HttpResponseRedirect(URL_ADMIN + path + query_helper(query, "ot=desc,o=3", "ot,o,filter_type,filter_data"))
             except OSError, (errno, strerror):
                 if errno == 13:
                     form.errors['dir_name'] = forms.util.ErrorList([_('Permission denied.')])
@@ -210,8 +225,8 @@ def mkdir(request, dir_name=None):
     return render_to_response('filebrowser/makedir.html', {
         'form': form,
         'query': query,
-        'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, _(u'New Folder')),
+        'settings_var': _get_settings_var(),
+        'breadcrumbs': _get_breadcrumbs(query, dir_name, _(u'New Folder')),
         'title': _(u'New Folder'),
         'root_path': URL_HOME,
     }, context_instance=Context(request))
@@ -226,7 +241,7 @@ def upload(request, dir_name=None):
     from django.forms.formsets import formset_factory
     
     path = _get_path(dir_name)
-    query = _get_query(request.GET)
+    query = request.GET
     
     # PIL's Error "Suspension not allowed here" work around:
     # s. http://mail.python.org/pipermail/image-sig/1999-August/000816.html
@@ -248,8 +263,6 @@ def upload(request, dir_name=None):
                     # UPLOAD FILE
                     _handle_file_upload(PATH_SERVER, path, cleaned_data['file'])
                     if _get_file_type(cleaned_data['file'].name) == "Image":
-                        # MAKE THUMBNAIL
-                        _make_image_thumbnail(PATH_SERVER, path, cleaned_data['file'].name)
                         # IMAGE GENERATOR
                         if FORCE_GENERATOR or (cleaned_data['use_image_generator'] and (IMAGE_GENERATOR_LANDSCAPE != "" or IMAGE_GENERATOR_PORTRAIT != "")):
                             _image_generator(PATH_SERVER, path, cleaned_data['file'].name)
@@ -268,77 +281,31 @@ def upload(request, dir_name=None):
     return render_to_response('filebrowser/upload.html', {
         'formset': formset,
         'dir': dir_name,
-        'query': _get_query(request.GET),
-        'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, _(u'Upload')),
+        'query': query,
+        'settings_var': _get_settings_var(),
+        'breadcrumbs': _get_breadcrumbs(query, dir_name, _(u'Upload')),
         'title': _(u'Select files to upload'),
         'root_path': URL_HOME,
     }, context_instance=Context(request))
 upload = staff_member_required(never_cache(upload))
 
 
-def makethumb(request, dir_name=None, file_name=None):
-    """
-    Make Thumbnail(s) for existing Image or Directory
-        This is useful if someone uploads images via FTP, not using the
-        upload functionality of the FileBrowser.
-    """
-    
-    path = _get_path(dir_name)
-    query = _get_query(request.GET)
-    
-    if file_name:
-        # MAKE THUMB FOR SINGLE IMAGE
-        file_path = os.path.join(PATH_SERVER, path, file_name)
-        if os.path.isfile(file_path):
-            _make_image_thumbnail(PATH_SERVER, path, file_name)
-    else:
-        # MAKE THUMBS FOR WHOLE DIRECTORY
-        dir_path = os.path.join(PATH_SERVER, path)
-        dir_list = os.listdir(dir_path)
-        for file in dir_list:
-            if os.path.isfile(os.path.join(PATH_SERVER, path, file)) and not os.path.isfile(os.path.join(PATH_SERVER, path, THUMB_PREFIX + file)) and not re.compile(THUMB_PREFIX, re.M).search(file) and _get_file_type(file) == "Image":
-                _make_image_thumbnail(PATH_SERVER, path, file)
-    
-    # MESSAGE & REDIRECT
-    msg = _('Thumbnail creation successful.')
-    request.user.message_set.create(message=msg)
-    return HttpResponseRedirect(URL_ADMIN + path + query['query_str_total'])
-    
-    return render_to_response('filebrowser/index.html', {
-        'dir': dir_name,
-        'query': query,
-        'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
-        'root_path': URL_HOME,
-    }, context_instance=Context(request))
-makethumb = staff_member_required(never_cache(makethumb))
-
-
 def delete(request, dir_name=None):
     """
     Delete existing File/Directory.
-        If file is an Image, also delete thumbnail.
         When trying to delete a directory, the directory has to be empty.
     """
     
     path = _get_path(dir_name)
-    query = _get_query(request.GET)
+    query = request.GET
     msg = ""
     
     if request.GET:
-        if request.GET.get('type') != "Folder":
+        if request.GET.get('filetype') != "Folder":
             server_path = os.path.join(PATH_SERVER, path, request.GET.get('filename'))
             try:
-                
                 # DELETE FILE
                 os.unlink(server_path)
-                # TRY DELETING THUMBNAIL
-                path_thumb = os.path.join(PATH_SERVER, path, THUMB_PREFIX + request.GET.get('filename'))
-                try:
-                    os.unlink(path_thumb)
-                except OSError:
-                    pass
                 # TRY DELETING IMAGE_VERSIONS
                 versions_path = os.path.join(PATH_SERVER, path, request.GET.get('filename').replace(".", "_").lower() + IMAGE_GENERATOR_DIRECTORY)
                 try:
@@ -353,7 +320,7 @@ def delete(request, dir_name=None):
                 # MESSAGE & REDIRECT
                 msg = _('The file %s was successfully deleted.') % (request.GET.get('filename').lower())
                 request.user.message_set.create(message=msg)
-                return HttpResponseRedirect(URL_ADMIN + path + query['query_nodelete'])
+                return HttpResponseRedirect(URL_ADMIN + path + query_helper(query, "", "filename,filetype"))
             except OSError:
                 # todo: define error message
                 msg = OSError
@@ -365,7 +332,7 @@ def delete(request, dir_name=None):
                 # MESSAGE & REDIRECT
                 msg = _('The directory %s was successfully deleted.') % (request.GET.get('filename').lower())
                 request.user.message_set.create(message=msg)
-                return HttpResponseRedirect(URL_ADMIN + path + query['query_nodelete'])
+                return HttpResponseRedirect(URL_ADMIN + path + query_helper(query, "", "filename,filetype"))
             except OSError:
                 # todo: define error message
                 msg = OSError
@@ -377,8 +344,8 @@ def delete(request, dir_name=None):
         'dir': dir_name,
         'file': request.GET.get('filename', ''),
         'query': query,
-        'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
+        'settings_var': _get_settings_var(),
+        'breadcrumbs': _get_breadcrumbs(query, dir_name, ''),
         'root_path': URL_HOME,
     }, context_instance=Context(request))
 delete = staff_member_required(never_cache(delete))
@@ -390,7 +357,7 @@ def rename(request, dir_name=None, file_name=None):
     """
     
     path = _get_path(dir_name)
-    query = _get_query(request.GET)
+    query = request.GET
     
     if os.path.isfile(os.path.join(PATH_SERVER, path, file_name)): # file
         file_type = _get_file_type(file_name)
@@ -406,24 +373,13 @@ def rename(request, dir_name=None, file_name=None):
             new_path = os.path.join(PATH_SERVER, path, request.POST.get('name').lower() + file_extension)
             try:
                 os.rename(old_path, new_path)
-                
-                # RENAME IMAGE_THUMBNAILS
-                if file_type == 'Image':
-                    old_thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + file_name)
-                    new_thumb_path = os.path.join(PATH_SERVER, path, THUMB_PREFIX + request.POST.get('name').lower() + file_extension)
-                    try:
-                        os.rename(old_thumb_path, new_thumb_path)
-                    except OSError, (errno, strerror):
-                        form.errors['name'] = forms.util.ErrorList([_('Error renaming Thumbnail.')])
-                    
-                    # RENAME IMAGE VERSIONS? TOO MUCH MAGIC?
+                # RENAME IMAGE VERSIONS? TOO MUCH MAGIC?
                 
                 # MESSAGE & REDIRECT
-                if not form.errors:
-                    msg = _('Renaming was successful.')
-                    request.user.message_set.create(message=msg)
-                    # on redirect, sort by date desc to see the new stuff on top of the list
-                    return HttpResponseRedirect(URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop'])
+                msg = _('Renaming was successful.')
+                request.user.message_set.create(message=msg)
+                # on redirect, sort by date desc to see the new stuff on top of the list
+                return HttpResponseRedirect(URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop'])
             except OSError, (errno, strerror):
                 form.errors['name'] = forms.util.ErrorList([_('Error.')])
     else:
@@ -433,8 +389,8 @@ def rename(request, dir_name=None, file_name=None):
         'form': form,
         'query': query,
         'file_extension': file_extension,
-        'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, _(u'Rename')),
+        'settings_var': _get_settings_var(),
+        'breadcrumbs': _get_breadcrumbs(query, dir_name, _(u'Rename')),
         'title': _(u'Rename "%s"') % file_name,
         'root_path': URL_HOME,
     }, context_instance=Context(request))
@@ -449,7 +405,7 @@ def generateimages(request, dir_name=None, file_name=None):
     """
     
     path = _get_path(dir_name)
-    query = _get_query(request.GET)
+    query = request.GET
     
     if file_name:
         # GENERATE IMAGES
@@ -463,7 +419,7 @@ def generateimages(request, dir_name=None, file_name=None):
         dir_path = os.path.join(PATH_SERVER, path)
         dir_list = os.listdir(dir_path)
         for file in dir_list:
-            if os.path.isfile(os.path.join(PATH_SERVER, path, file)) and not re.compile(THUMB_PREFIX, re.M).search(file) and _get_file_type(file) == "Image":
+            if os.path.isfile(os.path.join(PATH_SERVER, path, file)) and _get_file_type(file) == "Image":
                 # GENERATE IMAGES
                 if IMAGE_GENERATOR_LANDSCAPE != "" or IMAGE_GENERATOR_PORTRAIT != "":
                     _image_generator(PATH_SERVER, path, file)
@@ -479,10 +435,10 @@ def generateimages(request, dir_name=None, file_name=None):
     return render_to_response('filebrowser/index.html', {
         'dir': dir_name,
         'query': query,
-        'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
-        'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
+        'settings_var': _get_settings_var(),
+        'breadcrumbs': _get_breadcrumbs(query, dir_name, ''),
         'root_path': URL_HOME,
     }, context_instance=Context(request))
-makethumb = staff_member_required(never_cache(makethumb))
+generateimages = staff_member_required(never_cache(generateimages))
 
 
