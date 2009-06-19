@@ -1,4 +1,6 @@
 {% load i18n %}
+{% load fb_tags %}
+
 <script type="text/javascript">
 if (typeof jQuery != 'undefined') {
     $(document).ready(function(){
@@ -20,15 +22,15 @@ if (typeof jQuery != 'undefined') {
     {% endif %}
     <h3>{% trans "By Date" %}</h3>
     <ul id="Date">
-         {% if query.filter_date %}<li>{% else %}<li class="selected">{% endif %}<a href="?{{ query.query_nofilterdate }}">{% trans "Any Date" %}</a></li>
+         {% if query.filter_date %}<li>{% else %}<li class="selected">{% endif %}<a href="{% query_string "" "filter_date" %}">{% trans "Any Date" %}</a></li>
          {% ifequal query.filter_date 'today' %}<li class="selected">{% else %}<li>{% endifequal %}
-         <a href="?{{ query.query_nofilterdate }}&amp;filter_date=today">{% trans "Today" %}</a></li>
+         <a href="{% query_string "" "filter_date" %}&amp;filter_date=today">{% trans "Today" %}</a></li>
          {% ifequal query.filter_date 'past7days' %}<li class="selected">{% else %}<li>{% endifequal %}
-         <a href="?{{ query.query_nofilterdate }}&amp;filter_date=past7days">{% trans "Past 7 days" %}</a></li>
+         <a href="{% query_string "" "filter_date" %}&amp;filter_date=past7days">{% trans "Past 7 days" %}</a></li>
          {% ifequal query.filter_date 'thismonth' %}<li class="selected">{% else %}<li>{% endifequal %}
-         <a href="?{{ query.query_nofilterdate }}&amp;filter_date=thismonth">{% trans "Past 30 days" %}</a></li>
+         <a href="{% query_string "" "filter_date" %}&amp;filter_date=thismonth">{% trans "Past 30 days" %}</a></li>
          {% ifequal query.filter_date 'thisyear' %}<li class="selected">{% else %}<li>{% endifequal %}
-         <a href="?{{ query.query_nofilterdate }}&amp;filter_date=thisyear">{% trans "This year" %}</a></li>
+         <a href="{% query_string "" "filter_date" %}&amp;filter_date=thisyear">{% trans "This year" %}</a></li>
     </ul>
     </div>
     {% if query.filter_type %}
@@ -38,9 +40,9 @@ if (typeof jQuery != 'undefined') {
     {% endif %}
     <h3>{% trans "By Type" %}</h3>
     <ul id="Type">
-        {% if query.filter_type %}<li>{% else %}<li class="selected">{% endif %}<a href="?{{ query.query_nofiltertype }}">{% trans "All" %}</a></li>
+        {% if query.filter_type %}<li>{% else %}<li class="selected">{% endif %}<a href="{% query_string "" "filter_type" %}">{% trans "All" %}</a></li>
         {% for extension in settings_var.EXTENSIONS %}
-        {% ifequal query.filter_type extension %}<li class="selected">{% else %}<li>{% endifequal %}<a href="?{{ query.query_nofiltertype }}&amp;filter_type={{ extension }}">{% trans extension %}</a></li>
+        {% ifequal query.filter_type extension %}<li class="selected">{% else %}<li>{% endifequal %}<a href="{% query_string "" "filter_type" %}&amp;filter_type={{ extension }}">{% trans extension %}</a></li>
         {% endfor %}
     </ul>
     </div>
