@@ -213,7 +213,7 @@ def mkdir(request, dir_name=None):
                 request.user.message_set.create(message=msg)
                 # on redirect, sort by date desc to see the new directory on top of the list
                 # remove filter in order to actually _see_ the new folder
-                return HttpResponseRedirect(URL_ADMIN + path + query_helper(query, "ot=desc,o=3", "ot,o,filter_type,filter_data"))
+                return HttpResponseRedirect(URL_ADMIN + path + query_helper(query, "ot=desc,o=date", "ot,o,filter_type,filter_data"))
             except OSError, (errno, strerror):
                 if errno == 13:
                     form.errors['dir_name'] = forms.util.ErrorList([_('Permission denied.')])
@@ -273,8 +273,8 @@ def upload(request, dir_name=None):
             msg = _('Upload successful.')
             request.user.message_set.create(message=msg)
             # on redirect, sort by date desc to see the uploaded files on top of the list
-            redirect_url = URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop']
-            return HttpResponseRedirect(redirect_url)
+            # remove filter in order to actually _see_ the uploaded file(s)
+            return HttpResponseRedirect(URL_ADMIN + path + query_helper(query, "ot=desc,o=date", "ot,o,filter_type,filter_data"))
     else:
         formset = UploadFormSet(path_server=PATH_SERVER, path=path)
     
@@ -378,8 +378,7 @@ def rename(request, dir_name=None, file_name=None):
                 # MESSAGE & REDIRECT
                 msg = _('Renaming was successful.')
                 request.user.message_set.create(message=msg)
-                # on redirect, sort by date desc to see the new stuff on top of the list
-                return HttpResponseRedirect(URL_ADMIN + path + "?&ot=desc&o=3&" + query['pop'])
+                return HttpResponseRedirect(URL_ADMIN + path + query_helper(query, "", ""))
             except OSError, (errno, strerror):
                 form.errors['name'] = forms.util.ErrorList([_('Error.')])
     else:
