@@ -16,7 +16,7 @@
     {% ifequal query.o 'filename_lower' %}<th class="sorted {{ query.ot }}ending"><a href="{% query_string "" "o,ot" %}&amp;ot={% ifequal query.ot 'desc' %}asc{% else %}desc{% endifequal %}&amp;o=filename_lower">{% trans 'Filename' %}</a></th>{% endifequal %}
     {% ifnotequal query.o 'filename_lower' %}<th><a href="{% query_string "" "o,ot" %}&amp;ot=asc&amp;o=filename_lower">{% trans 'Filename' %}</a></th>{% endifnotequal %}
     <!-- IMAGE GENERATOR -->
-    {% if settings_var.USE_IMAGE_GENERATOR and results_var.images_total and results_var.generator_total %}<th>&nbsp;</th>{% endif %}
+    {% if settings_var.USE_IMAGE_GENERATOR and results_var.generator_total %}<th>&nbsp;</th>{% endif %}
     <!-- RENAME -->
     <th>&nbsp;</th>
     <!-- SIZE -->
