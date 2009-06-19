@@ -1,75 +1,81 @@
 {% load adminmedia %}
 {% load i18n %}
+{% load thumbnail %}
+{% load fb_tags %}
 
 <tr>
     <!-- Fileselect for FileBrowseField -->
-    {% ifequal popmode '1' %}
+    {{ file.selecttype }}
+    {% ifequal query.pop '1' %}
     <td class="fb_icon">
-        <a href="javascript://" onclick="FileSubmit('{{ file.save_path }}', '{{ file.path_thumb }}', '{{ file.file_type }}');" class="fb_selectlink" title="{% trans 'Select' %}"></a>
+        {% thumbnail file.path_relative settings_var.THUMBNAIL_SIZE crop as thumbnail %}
+        {% if file.selectable %}
+        <a href="javascript://" onclick="FileSubmit('{{ file.url_save }}', '{{ thumbnail }}', '{{ file.filetype }}');" class="fb_selectlink" title="{% trans 'Select' %}"></a>
+        {% else %}
+        <img src="{{ settings_var.URL_FILEBROWSER_MEDIA }}img/filebrowser_icon_select_disabled.gif" width="23" height="17" />
+        {% endif %}
     </td>
     {% endifequal %}
     <!-- Fileselect for RTE/TinyMCE -->
-    {% ifequal popmode '2' %}
+    {% ifequal query.pop '2' %}
     <td class="fb_icon">
-        {% ifnotequal file.file_type 'Folder' %}
-            <a href="javascript:FileBrowserDialogue.fileSubmit('{{ file.link }}');" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
-        {% endifnotequal %}
+        {% if file.selectable %}
+        <a href="javascript:FileBrowserDialogue.fileSubmit('{{ file.url_save }}');" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
+        {% else %}
+        <img src="{{ settings_var.URL_FILEBROWSER_MEDIA }}img/filebrowser_icon_select_disabled.gif" width="23" height="17" />
+        {% endif %}
     </td>
     {% endifequal %}
     <!-- Fileselect for CKeditor (former "FCKeditor") -->
-    {% ifequal popmode '3' %}
+    {% ifequal query.pop '3' %}
     <td class="fb_icon">
-        {% ifnotequal file.file_type 'Folder' %}
-            <a href="#" onclick="OpenFile(ProtectPath('{{ file.save_path }}'));return false;" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
-        {% endifnotequal %}
+        {% if file.selectable %}
+        <a href="#" onclick="OpenFile(ProtectPath('{{ file.url_save }}'));return false;" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
+        {% else %}
+        <img src="{{ settings_var.URL_FILEBROWSER_MEDIA }}img/filebrowser_icon_select_disabled.gif" width="23" height="17" />
+        {% endif %}
     </td>
     {% endifequal %}
     <!-- FileIcon -->
-    <td class="fb_icon"><img src="{{ settings_var.URL_FILEBROWSER_MEDIA }}img/filebrowser_type_{{ file.file_type|lower }}.gif" /></td>
+    <td class="fb_icon"><img src="{{ file.icon_url }}" /></td>
     <!-- Thumbnail or MakeThumbIcon -->
-    {% ifnotequal counter.Image 0 %}
-    {% if results_var.change_total %}
+    {% if results_var.thumbs_total %}
     <td class="fb_icon">
-        {% if file.flag_makethumb %}
-        <a href="makethumb/{{ file.filename }}/?{{ query.pop }}" class="fb_makethumblink" title="{% trans 'Make Thumbnail' %}"></a>
-        {% else %}
-        {% ifequal file.file_type 'Image' %}
-        <a href="{{ file.link }}"><img src="{{ file.path_thumb }}" width="{{ file.thumb_dimensions.0 }}" height="{{ file.thumb_dimensions.1 }}" title="{% trans 'View Image' %}" /></a>
+        {% ifequal file.filetype 'Image' %}
+        <a href="{{ file.link }}"><img src="{% thumbnail file.path_relative settings_var.THUMBNAIL_SIZE crop %}" title="{% trans 'View Image' %}" /></a>
         {% endifequal %}
-        {% endif %}
     </td>
     {% endif %}
-    {% endifnotequal %}
     <!-- Filename/Dimensions -->
-    {% ifequal file.file_type 'Folder' %}
-    <td><b><a href="{{ file.link }}/{{ query.query_str_total }}">{{ file.filename }}</a></b></td>
+    {% ifequal file.filetype 'Folder' %}
+    <td><b><a href="{{ file.link }}/{% query_string %}">{{ file.filename }}</a></b></td>
     {% else %}
     <td><b><a href="{{ file.link }}">{{ file.filename }}</a></b>{% if file.image_dimensions %}<br /><span class="tiny">{{ file.image_dimensions.0 }} x {{ file.image_dimensions.1 }} px</span>{% endif %}</td>
     {% endifequal %}
     <!-- Image Generator -->
-    {% if settings_var.USE_IMAGE_GENERATOR and not file.flag_imageversion %}
-    {% ifnotequal counter.Image 0 %}
+    {% if settings_var.USE_IMAGE_GENERATOR and results_var.generator_total and results_var.images_total %}
     <td class="fb_icon">
-        {% ifequal file.file_type 'Image' %}
-        <a href="generateimages/{{ file.filename }}/?{{ query.pop }}" class="fb_imagegeneratorlink" title="{% trans 'Generate Image Versions' %}"></a>
+        {% ifequal file.filetype 'Image' %}
+        {% if not file.image_is_generated %}
+        <a href="generateimages/{{ file.filename }}/{% query_string %}" class="fb_imagegeneratorlink" title="{% trans 'Generate Image Versions' %}"></a>
+        {% endif %}
         {% endifequal %}
     </td>
-    {% endifnotequal %}
     {% endif %}
     <!-- Rename -->
-    <td class="fb_icon"><a href="rename/{{ file.filename }}/?{{ query.pop }}" class="fb_renamelink" title="{% trans 'Rename' %}"></a></td>
+    <td class="fb_icon"><a href="rename/{{ file.filename }}/{% query_string %}" class="fb_renamelink" title="{% trans 'Rename' %}"></a></td>
     <!-- Size -->
-    <td>{{ file.filesize_str|safe }}</td>
+    <td>{{ file.filesize|filesizeformat }}</td>
     <!-- Date -->
-    <td>{{ file.date }}</td>
+    <td>{{ file.date_formatted }}</td>
     <!-- Delete -->
     {% if results_var.delete_total %}
     <td class="fb_icon">
-        {% ifnotequal file.file_type 'Folder' %}
-        <a href="delete/{{ query.query_str_total }}&filename={{ file.filename }}&type={{ file.file_type }}" class="fb_deletelink" onclick="return confirm('{% trans "Are you sure you want to delete this file?" %}');" title="{% trans 'Delete File' %}"></a>
+        {% ifnotequal file.filetype 'Folder' %}
+        <a href="delete/{% query_string %}&amp;filename={{ file.filename }}&amp;filetype={{ file.filetype }}" class="fb_deletelink" onclick="return confirm('{% trans "Are you sure you want to delete this file?" %}');" title="{% trans 'Delete File' %}"></a>
         {% else %}
-        {% if file.flag_deletedir %}
-        <a href="delete/{{ query.query_str_total }}&filename={{ file.filename }}&type={{ file.file_type }}" class="fb_deletelink" onclick="return confirm('{% trans "Are you sure you want to delete this Folder?" %}');" title="{% trans 'Delete Folder' %}"></a>
+        {% if file.folder_is_empty %}
+        <a href="delete/{% query_string %}&amp;filename={{ file.filename }}&amp;filetype={{ file.filetype }}" class="fb_deletelink" onclick="return confirm('{% trans "Are you sure you want to delete this Folder?" %}');" title="{% trans 'Delete Folder' %}"></a>
         {% endif %}
         {% endifnotequal %}
     </td>
