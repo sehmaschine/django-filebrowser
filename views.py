@@ -429,7 +429,7 @@ def generateimages(request, dir_name=None, file_name=None):
     # MESSAGE & REDIRECT
     msg = _('Successfully generated Images.')
     request.user.message_set.create(message=msg)
-    return HttpResponseRedirect(URL_ADMIN + path + query['query_str_total'])
+    return HttpResponseRedirect(URL_ADMIN + path + query_helper(query, "", ""))
     
     return render_to_response('filebrowser/index.html', {
         'dir': dir_name,

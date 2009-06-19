@@ -5,7 +5,6 @@
 
 <tr>
     <!-- Fileselect for FileBrowseField -->
-    {{ file.selecttype }}
     {% ifequal query.pop '1' %}
     <td class="fb_icon">
         {% thumbnail file.path_relative settings_var.THUMBNAIL_SIZE crop as thumbnail %}
@@ -53,7 +52,7 @@
     <td><b><a href="{{ file.link }}">{{ file.filename }}</a></b>{% if file.image_dimensions %}<br /><span class="tiny">{{ file.image_dimensions.0 }} x {{ file.image_dimensions.1 }} px</span>{% endif %}</td>
     {% endifequal %}
     <!-- Image Generator -->
-    {% if settings_var.USE_IMAGE_GENERATOR and results_var.generator_total and results_var.images_total %}
+    {% if settings_var.USE_IMAGE_GENERATOR and results_var.generator_total %}
     <td class="fb_icon">
         {% ifequal file.filetype 'Image' %}
         {% if not file.image_is_generated %}
