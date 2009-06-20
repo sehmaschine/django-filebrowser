@@ -16,7 +16,7 @@ from django import forms
 # get settings
 from filebrowser.fb_settings import *
 # get functions
-from filebrowser.functions import _sort_by_attr, _get_path, _get_subdir_list, _get_dir_list, _get_breadcrumbs, _get_filterdate, _make_filedict, _get_settings_var, _handle_file_upload, _get_file_type, _image_generator, _image_crop_generator, _is_image_version, _url_join, _is_selectable
+from filebrowser.functions import _sort_by_attr, _get_path, _get_subdir_list, _get_dir_list, _get_breadcrumbs, _get_filterdate,_get_settings_var, _handle_file_upload, _get_file_type, _image_generator, _image_crop_generator, _is_image_version, _url_join, _is_selectable
 from filebrowser.templatetags.fb_tags import query_helper
 # get forms
 from filebrowser.forms import MakeDirForm, RenameForm, UploadForm, BaseUploadFormSet
