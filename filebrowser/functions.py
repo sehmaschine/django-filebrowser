@@ -137,34 +137,6 @@ def _get_filterdate(filterDate, dateTime):
     return returnvalue
     
 
-def _make_filedict(file_list):
-    """
-    Make a dict out of the file_list.
-        This is for better readability in the templates.
-    """
-    
-    file_dict = []
-    for item in file_list:
-        temp_list = {}
-        temp_list['filename'] = item[0]
-        temp_list['filename_lower'] = item[1]
-        temp_list['filesize'] = item[2]
-        temp_list['date'] = item[3]
-        temp_list['path_full'] = item[4] # full file path
-        temp_list['path_relative'] = item[5] # relative to MEDIA_ROOT
-        temp_list['url_full'] = item[6] # domain relative URL
-        temp_list['url_relative'] = item[7] # URL relative to MEDIA_URL
-        temp_list['url_save'] = item[8] # URL relative to MEDIA_URL
-        temp_list['link'] = item[9]
-        temp_list['file_extension'] = item[10]
-        temp_list['file_type'] = item[11]
-        temp_list['image_dimensions'] = item[12] # width/height
-        temp_list['flag_deletedir'] = item[13] # true, if directory is empty
-        temp_list['flag_imageversion'] = item[14] # true, if image is generated
-        file_dict.append(temp_list)
-    return file_dict
-    
-
 def _get_settings_var():
     """
     Get all settings variables.
