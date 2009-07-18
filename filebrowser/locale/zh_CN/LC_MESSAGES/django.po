@@ -1,0 +1,345 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: filebrowser 2.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-05-04 00:05+0800\n"
+"PO-Revision-Date: 2009-05-04 00:11+0800\n"
+"Last-Translator: freeRen <gnugit@gmail.com>\n"
+"Language-Team: freeren.org <gnumap@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: CHINA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Bookmarks: 0,1,-1,-1,-1,-1,-1,-1,-1,-1\n"
+
+#: fields.py:96
+#, python-format
+msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
+msgstr "扩展名 %(ext)s 是不允许的。只允许 %(allowed)s 。"
+
+#: forms.py:23
+msgid "Name"
+msgstr "名称"
+
+#: forms.py:23
+#: forms.py:49
+msgid "The Name will automatically be converted to lowercase. Only letters, numbers, underscores and hyphens are allowed."
+msgstr "这个名称将自动转换为小写。只允许字母、数字、下划线和连字符。"
+
+#: forms.py:30
+#: forms.py:56
+msgid "Only letters, numbers, underscores and hyphens are allowed."
+msgstr "只允许字母、数字、下划线和连字符。"
+
+#: forms.py:33
+msgid "The Folder already exists."
+msgstr "这个文件夹已经存在。"
+
+#: forms.py:36
+msgid "Disallowed Folder Name."
+msgstr "不允许的文件夹名称。"
+
+#: forms.py:49
+msgid "New Name"
+msgstr "新名称"
+
+#: forms.py:59
+msgid "The File/Folder already exists."
+msgstr "这个文件/文件夹已经存在。"
+
+#: forms.py:95
+msgid "File"
+msgstr "文件"
+
+#: forms.py:96
+msgid "Use Image Generator"
+msgstr "使用图像生成器"
+
+#: forms.py:105
+msgid "File already exists."
+msgstr "文件已经存在。"
+
+#: forms.py:111
+msgid "Filename is not allowed."
+msgstr "文件名不允许。"
+
+#: forms.py:116
+msgid "File extension is not allowed."
+msgstr "文件扩展名不允许。"
+
+#: forms.py:121
+msgid "Filesize exceeds allowed Upload Size."
+msgstr "超出允许的上传大小。"
+
+#: functions.py:84
+msgid "Home"
+msgstr "首页"
+
+#: functions.py:279
+msgid "Thumbnail creation failed."
+msgstr "缩略图创建失败。"
+
+#: functions.py:334
+#: functions.py:389
+msgid "Image creation failed."
+msgstr "图像创建失败。"
+
+#: views.py:174
+msgid "FileBrowser"
+msgstr "文件浏览器"
+
+#: views.py:198
+#, python-format
+msgid "The Folder %s was successfully created."
+msgstr "文件夹 \"%s\" 创建成功。"
+
+#: views.py:204
+msgid "Permission denied."
+msgstr "权限被拒绝。"
+
+#: views.py:206
+msgid "Error creating directory."
+msgstr "创建目录错误。"
+
+#: views.py:214
+#: views.py:215
+#: templates/filebrowser/index.html:33
+msgid "New Folder"
+msgstr "创建文件夹"
+
+#: views.py:260
+msgid "Upload successful."
+msgstr "上传成功。"
+
+#: views.py:273
+#: templates/filebrowser/index.html:36
+#: templates/filebrowser/upload.html:62
+msgid "Upload"
+msgstr "上传"
+
+#: views.py:274
+msgid "Select files to upload"
+msgstr "选择上传文件"
+
+#: views.py:304
+msgid "Thumbnail creation successful."
+msgstr "缩略图创建成功。"
+
+#: views.py:354
+#, python-format
+msgid "The file %s was successfully deleted."
+msgstr "文件 \"%s\" 删除成功。"
+
+#: views.py:366
+#, python-format
+msgid "The directory %s was successfully deleted."
+msgstr "目录 \"%s\" 删除成功。"
+
+#: views.py:417
+msgid "Error renaming Thumbnail."
+msgstr "重命名缩略图错误。"
+
+#: views.py:423
+msgid "Renaming was successful."
+msgstr "重命名成功。"
+
+#: views.py:428
+msgid "Error."
+msgstr "错误。"
+
+#: views.py:437
+#: templates/filebrowser/include/filelisting.html:52
+msgid "Rename"
+msgstr "重命名"
+
+#: views.py:438
+#, python-format
+msgid "Rename \"%s\""
+msgstr "重命名 \"%s\""
+
+#: views.py:475
+msgid "Successfully generated Images."
+msgstr "生成图像成功。"
+
+#: templates/filebrowser/append.html:4
+#: templates/filebrowser/append.html:6
+msgid "File-Browser"
+msgstr "文件浏览器"
+
+#: templates/filebrowser/index.html:34
+msgid "Make Thumbs"
+msgstr "创建缩略图"
+
+#: templates/filebrowser/index.html:35
+msgid "Generate Images"
+msgstr "生成图像"
+
+#: templates/filebrowser/makedir.html:24
+#: templates/filebrowser/rename.html:22
+msgid "Please correct the following errors."
+msgstr "请修正下面的错误。"
+
+#: templates/filebrowser/makedir.html:34
+#: templates/filebrowser/rename.html:33
+msgid "Submit"
+msgstr "保存"
+
+#: templates/filebrowser/upload.html:37
+msgid "Will use image generator."
+msgstr "使用图像生成器。"
+
+#: templates/filebrowser/upload.html:47
+msgid "Help"
+msgstr "帮助"
+
+#: templates/filebrowser/upload.html:51
+msgid "Allowed"
+msgstr "允许"
+
+#: templates/filebrowser/upload.html:57
+msgid "Max. Filesize"
+msgstr "最大文件大小"
+
+#: templates/filebrowser/include/filelisting.html:8
+msgid "Select"
+msgstr "选择"
+
+#: templates/filebrowser/include/filelisting.html:15
+msgid "Select File"
+msgstr "选择文件"
+
+#: templates/filebrowser/include/filelisting.html:26
+msgid "Make Thumbnail"
+msgstr "创建缩略图"
+
+#: templates/filebrowser/include/filelisting.html:29
+msgid "View Image"
+msgstr "查看图像"
+
+#: templates/filebrowser/include/filelisting.html:46
+msgid "Generate Image Versions"
+msgstr "生成图像版本"
+
+#: templates/filebrowser/include/filelisting.html:61
+msgid "Are you sure you want to delete this file?"
+msgstr "你确定要删除这个文件？"
+
+#: templates/filebrowser/include/filelisting.html:61
+msgid "Delete File"
+msgstr "删除文件"
+
+#: templates/filebrowser/include/filelisting.html:64
+msgid "Are you sure you want to delete this Folder?"
+msgstr "你确定要删除这个文件夹？"
+
+#: templates/filebrowser/include/filelisting.html:64
+msgid "Delete Folder"
+msgstr "删除文件夹"
+
+#: templates/filebrowser/include/filter.html:15
+msgid "Filter"
+msgstr "过滤器"
+
+#: templates/filebrowser/include/filter.html:21
+msgid "By Date"
+msgstr "以 日期"
+
+#: templates/filebrowser/include/filter.html:23
+msgid "Any Date"
+msgstr "任意日期"
+
+#: templates/filebrowser/include/filter.html:25
+msgid "Today"
+msgstr "今天"
+
+#: templates/filebrowser/include/filter.html:27
+msgid "Past 7 days"
+msgstr "前7天"
+
+#: templates/filebrowser/include/filter.html:29
+msgid "Past 30 days"
+msgstr "本月"
+
+#: templates/filebrowser/include/filter.html:31
+msgid "This year"
+msgstr "本年"
+
+#: templates/filebrowser/include/filter.html:39
+msgid "By Type"
+msgstr "以 类型"
+
+#: templates/filebrowser/include/filter.html:41
+msgid "All"
+msgstr "全部"
+
+#: templates/filebrowser/include/paginator.html:5
+msgid "No Items Found."
+msgstr "没有找到。"
+
+#: templates/filebrowser/include/paginator.html:10
+#, python-format
+msgid "%(counter)s Item"
+msgid_plural "%(counter)s Items"
+msgstr[0] "%(counter)s 项"
+
+#: templates/filebrowser/include/paginator.html:16
+msgid "No Items."
+msgstr "没有项。"
+
+#: templates/filebrowser/include/tableheader.html:13
+#: templates/filebrowser/include/tableheader.html:14
+msgid "Filename"
+msgstr "文件名"
+
+#: templates/filebrowser/include/tableheader.html:20
+#: templates/filebrowser/include/tableheader.html:21
+msgid "Size"
+msgstr "大小"
+
+#: templates/filebrowser/include/tableheader.html:23
+#: templates/filebrowser/include/tableheader.html:24
+msgid "Date"
+msgstr "日期"
+
+#: templates/filebrowser/include/toolbar.html:14
+msgid "Go"
+msgstr "执行"
+
+#: templates/filebrowser/include/toolbar.html:16
+#, python-format
+msgid "%(counter)s Item found"
+msgid_plural "%(counter)s Items found"
+msgstr[0] "找到 %(counter)s 项"
+
+#: templates/filebrowser/include/toolbar.html:17
+#, python-format
+msgid "%(counter)s Item total"
+msgid_plural "%(counter)s Items total"
+msgstr[0] "共 %(counter)s 项"
+
+msgid "Folder"
+msgstr "目录"
+
+msgid "Image"
+msgstr "图片"
+
+msgid "Document"
+msgstr "文档"
+
+msgid "Code"
+msgstr "代码"
+
+msgid "Video"
+msgstr "视频"
+
+msgid "Sound"
+msgstr "音频"
+

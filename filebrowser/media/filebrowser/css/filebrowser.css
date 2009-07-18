@@ -1,0 +1,29 @@
+.filebrowser table td { font-size: 10px; }
+.filebrowser table a { font-size: 11px; }
+.filebrowser thead th.sorted a { padding-right: 13px; }
+.filebrowser td { padding: 9px 10px 7px 10px !important; }
+.filebrowser td.fb_icon { padding: 6px 5px 5px 5px !important; }
+
+table a.fb_deletelink, table a.fb_renamelink, table a.fb_selectlink, table a.fb_showversionslink {
+    cursor: pointer;
+    display: block; padding: 0; margin: 0;
+    width: 23px; height: 17px;
+    background-color: transparent;
+    background-position: 0 center;
+    background-repeat: no-repeat;
+}
+
+table .fb_deletelink:link, table .fb_deletelink:visited {
+    width: 15px;
+    background-image: url('../img/filebrowser_icon_delete.gif');
+}
+table .fb_deletelink:hover, table .fb_deletelink:active { background-image: url('../img/filebrowser_icon_delete_hover.gif'); }
+table .fb_renamelink:link, table .fb_renamelink:visited {
+    width: 14px;
+    background-image: url('../img/filebrowser_icon_rename.gif');
+}
+table .fb_renamelink:hover, table .fb_renamelink:active { background-image: url('../img/filebrowser_icon_rename_hover.gif'); }
+table .fb_selectlink:link, table .fb_selectlink:visited { background-image: url('../img/filebrowser_icon_select.gif'); }
+table .fb_selectlink:hover, table .fb_selectlink:active { background-image: url('../img/filebrowser_icon_select_hover.gif'); }
+table .fb_showversionslink:link, table .fb_showversionslink:visited { background-image: url('../img/filebrowser_icon_showversions.gif'); }
+table .fb_showversionslink:hover, table .fb_showversionslink:active { background-image: url('../img/filebrowser_icon_showversions_hover.gif'); }

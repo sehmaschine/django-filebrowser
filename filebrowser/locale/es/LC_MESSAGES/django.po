@@ -1,0 +1,328 @@
+# translation of django.po to Spanish
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# PATRICK KRANZLMUELLER <PATRICK@VONAUTOMATISCH.AT>, 2009.
+# Antoni Aloy <antoni.aloy@trespams.com>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: django\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-19 21:24+0000\n"
+"PO-Revision-Date: 2009-02-15 19:14+0100\n"
+"Last-Translator: Antoni Aloy <antoni.aloy@trespams.com>\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: fields.py:27
+#, python-format
+msgid "Ensure this value has at most %(max)d characters (it has %(length)d)."
+msgstr ""
+"Compruebe que este valor tiene como máximo %(max)d carácters (tiene %(length)"
+"d)."
+
+#: fields.py:28
+#, python-format
+msgid "Ensure this value has at least %(min)d characters (it has %(length)d)."
+msgstr ""
+"Compruebe que este valor tiene como mínimo %(min)d carácteres (tiene %"
+"(length)d)."
+
+#: fields.py:29
+#, python-format
+msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
+msgstr ""
+"La extensión %(ext)s no está permitida. Sólo se permiten las extensiones %"
+"(allowed)s."
+
+#: forms.py:23
+msgid "Name"
+msgstr "Nombre"
+
+#: forms.py:23 forms.py:46
+msgid ""
+"The Name will automatically be converted to lowercase. Only letters, "
+"numbers, underscores and hyphens are allowed."
+msgstr ""
+"El nombre se convertirá automáticamente a minúsculas. Sólo se permiten "
+"letras, números, subrayado y guiones."
+
+#: forms.py:30 forms.py:53
+msgid "Only letters, numbers, underscores and hyphens are allowed."
+msgstr "Sólo se permiten letras, números, subrayado y guiones."
+
+#: forms.py:33
+msgid "The Folder already exists."
+msgstr "La carpeta ya existe."
+
+#: forms.py:46
+msgid "New Name"
+msgstr "Nuevo nombre"
+
+#: forms.py:56
+msgid "The File/Folder already exists."
+msgstr "El archivo/carpeta ya existe."
+
+#: forms.py:92
+msgid "File"
+msgstr "Archivo"
+
+#: forms.py:93
+msgid "Use Image Generator"
+msgstr "Emplear el generador de imágenes"
+
+#: forms.py:102
+msgid "File already exists."
+msgstr "El archivo ya existe."
+
+#: forms.py:108
+msgid "Filename is not allowed."
+msgstr "Nombre de archivo no permitido."
+
+#: forms.py:113
+msgid "File extension is not allowed."
+msgstr "Extensión de archivo no permitida."
+
+#: forms.py:118
+msgid "Filesize exceeds allowed Upload Size."
+msgstr "El tamaño del archivo excede el máximo permitido."
+
+#: functions.py:84
+msgid "Home"
+msgstr "Inicio"
+
+#: functions.py:276
+msgid "Thumbnail creation failed."
+msgstr "Falló la creación de la miniatura."
+
+#: functions.py:331 functions.py:398
+msgid "Image creation failed."
+msgstr "Falló la creación de la Imagen."
+
+#: views.py:165
+msgid "FileBrowser"
+msgstr "Visor de archivos"
+
+#: views.py:188
+#, python-format
+msgid "The Folder %s was successfully created."
+msgstr "La carpeta %s se creó con éxito."
+
+#: views.py:194
+msgid "Permission denied."
+msgstr "Permiso denegado."
+
+#: views.py:196
+msgid "Error creating directory."
+msgstr "Error creando el directorio."
+
+#: views.py:204 views.py:205 templates/filebrowser/index.html:30
+msgid "New Folder"
+msgstr "Nueva carpeta."
+
+#: views.py:250
+msgid "Upload successful."
+msgstr "Subida completada."
+
+#: views.py:263 templates/filebrowser/index.html:33
+#: templates/filebrowser/upload.html:62
+msgid "Upload"
+msgstr "Subir"
+
+#: views.py:264
+msgid "Select files to upload"
+msgstr "Seleccione archivos a subir."
+
+#: views.py:294
+msgid "Thumbnail creation successful."
+msgstr "Se creó la miniatura con éxito."
+
+#: views.py:344
+#, python-format
+msgid "The file %s was successfully deleted."
+msgstr "El archivo %s se eliminó con éxito."
+
+#: views.py:356
+#, python-format
+msgid "The directory %s was successfully deleted."
+msgstr "El directorio %s se eliminó con éxito."
+
+#: views.py:407
+msgid "Error renaming Thumbnail."
+msgstr "Error renombrando la miniatura."
+
+#: views.py:413
+msgid "Renaming was successful."
+msgstr "Renombrado satisfactorio."
+
+#: views.py:418
+msgid "Error."
+msgstr "Error."
+
+#: views.py:427 templates/filebrowser/include/filelisting.html:52
+msgid "Rename"
+msgstr "Renombrar"
+
+#: views.py:428
+#, python-format
+msgid "Rename \"%s\""
+msgstr "Renombrar \"%s\""
+
+#: views.py:465
+msgid "Successfully generated Images."
+msgstr "Las imágenes se generaron satisfactoriamente."
+
+#: templates/filebrowser/index.html:31
+msgid "Make Thumbs"
+msgstr "Crear miniaturas"
+
+#: templates/filebrowser/index.html:32
+msgid "Generate Images"
+msgstr "Generar imágenes"
+
+#: templates/filebrowser/makedir.html:24 templates/filebrowser/rename.html:22
+msgid "Please correct the following errors."
+msgstr "Por favor, corrija los siguientes errores."
+
+#: templates/filebrowser/makedir.html:34 templates/filebrowser/rename.html:33
+msgid "Submit"
+msgstr "Enviar"
+
+#: templates/filebrowser/upload.html:37
+msgid "Will use image generator."
+msgstr "Usa el generador de imágenes."
+
+#: templates/filebrowser/upload.html:47
+msgid "Help"
+msgstr "Ayuda"
+
+#: templates/filebrowser/upload.html:51
+msgid "Allowed"
+msgstr "Permitido"
+
+#: templates/filebrowser/upload.html:57
+msgid "Max. Filesize"
+msgstr "Tamaño máx."
+
+#: templates/filebrowser/include/filelisting.html:8
+msgid "Select"
+msgstr "Selecciona"
+
+#: templates/filebrowser/include/filelisting.html:15
+msgid "Select File"
+msgstr "Selecciona archivo"
+
+#: templates/filebrowser/include/filelisting.html:26
+msgid "Make Thumbnail"
+msgstr "Crear miniatura"
+
+#: templates/filebrowser/include/filelisting.html:29
+msgid "View Image"
+msgstr "Ver imagen"
+
+#: templates/filebrowser/include/filelisting.html:46
+msgid "Generate Image Versions"
+msgstr "Generar versiones de la imagen"
+
+#: templates/filebrowser/include/filelisting.html:61
+msgid "Are you sure you want to delete this file?"
+msgstr ""
+
+#: templates/filebrowser/include/filelisting.html:61
+msgid "Delete File"
+msgstr "Borrar archivo"
+
+#: templates/filebrowser/include/filelisting.html:64
+msgid "Are you sure you want to delete this Folder?"
+msgstr ""
+
+#: templates/filebrowser/include/filelisting.html:64
+msgid "Delete Folder"
+msgstr "Borrar carpeta"
+
+#: templates/filebrowser/include/filter.html:15
+msgid "Filter"
+msgstr "Filtrar"
+
+#: templates/filebrowser/include/filter.html:21
+msgid "By Date"
+msgstr "Por fecha"
+
+#: templates/filebrowser/include/filter.html:23
+msgid "Any Date"
+msgstr "Cualquier fecha"
+
+#: templates/filebrowser/include/filter.html:25
+msgid "Today"
+msgstr "Hoy"
+
+#: templates/filebrowser/include/filter.html:27
+msgid "Past 7 days"
+msgstr "Hace 7 días"
+
+#: templates/filebrowser/include/filter.html:29
+msgid "Past 30 days"
+msgstr "Hace 30 días"
+
+#: templates/filebrowser/include/filter.html:31
+msgid "This year"
+msgstr "Este año"
+
+#: templates/filebrowser/include/filter.html:39
+msgid "By Type"
+msgstr "Por tipo"
+
+#: templates/filebrowser/include/filter.html:41
+msgid "All"
+msgstr "Todo"
+
+#: templates/filebrowser/include/paginator.html:5
+msgid "No Items Found."
+msgstr "No se encontraron items"
+
+#: templates/filebrowser/include/paginator.html:10
+#, python-format
+msgid "%(counter)s Item"
+msgid_plural "%(counter)s Items"
+msgstr[0] "%(counter)s item"
+msgstr[1] "%(counter)s items"
+
+#: templates/filebrowser/include/paginator.html:16
+msgid "No Items."
+msgstr "No hay items."
+
+#: templates/filebrowser/include/tableheader.html:13
+#: templates/filebrowser/include/tableheader.html:14
+msgid "Filename"
+msgstr "Nombre de archivo"
+
+#: templates/filebrowser/include/tableheader.html:20
+#: templates/filebrowser/include/tableheader.html:21
+msgid "Size"
+msgstr "Tamaño"
+
+#: templates/filebrowser/include/tableheader.html:23
+#: templates/filebrowser/include/tableheader.html:24
+msgid "Date"
+msgstr "Fecha"
+
+#: templates/filebrowser/include/toolbar.html:14
+msgid "Go"
+msgstr "Ir"
+
+#: templates/filebrowser/include/toolbar.html:16
+#, python-format
+msgid "%(counter)s Item found"
+msgid_plural "%(counter)s Items found"
+msgstr[0] "encontrado %(counter)s Item"
+msgstr[1] "encontrados %(counter)s Items"
+
+#: templates/filebrowser/include/toolbar.html:17
+#, python-format
+msgid "%(counter)s Item total"
+msgid_plural "%(counter)s Items total"
+msgstr[0] "total %(counter)s item"
+msgstr[1] "total %(counter)s items"
