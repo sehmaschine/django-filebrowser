@@ -80,7 +80,7 @@ def browse(request):
         
         # FILTER / SEARCH
         append = False
-        if fileobject.filetype == request.GET.get('filter_type', fileobject.filetype) and _get_filterdate(request.GET.get('filter_date', ''), fileobject.time):
+        if fileobject.filetype == request.GET.get('filter_type', fileobject.filetype) and _get_filterdate(request.GET.get('filter_date', ''), fileobject.date):
             append = True
         if request.GET.get('q') and not re.compile(request.GET.get('q').lower(), re.M).search(file.lower()):
             append = False
@@ -91,7 +91,7 @@ def browse(request):
             results_var['results_current'] += 1
     
     # SORTING
-    files = _sort_by_attr(files, request.GET.get('o', 'time'))
+    files = _sort_by_attr(files, request.GET.get('o', 'date'))
     if request.GET.get('ot') == "desc":
         files.reverse()
     

@@ -41,14 +41,14 @@ class FileObject(object):
         return ""
     filesize = property(_filesize)
         
-    def _time(self):
+    def _date(self):
         """
-        Time.
+        Date.
         """
         if os.path.isfile(os.path.join(MEDIA_ROOT, self.path)) or os.path.isdir(os.path.join(MEDIA_ROOT, self.path)):
             return os.path.getmtime(os.path.join(MEDIA_ROOT, self.path))
         return ""
-    time = property(_time)
+    date = property(_date)
     
     def _datetime(self):
         """
