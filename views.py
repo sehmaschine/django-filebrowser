@@ -6,7 +6,7 @@ from time import gmtime, strftime, localtime, mktime
 from datetime import datetime, timedelta
 
 from django.shortcuts import render_to_response
-from django.template import loader, RequestContext as Context
+from django.template import loader, RequestContext
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic.simple import direct_to_template
@@ -511,7 +511,7 @@ def delete(request, dir_name=""):
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
         'root_path': URL_HOME,
-    }, context_instance=Context(request))
+    }, context_instance=RequestContext(request))
 delete = staff_member_required(never_cache(delete))
 
 
@@ -605,7 +605,7 @@ def change(request, dir_name="", file_name=""):
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, 'Change File Properties'),
         'title': _('Change Properties for "%s"') % file_name,
         'root_path': URL_HOME,
-    }, context_instance=Context(request))
+    }, context_instance=RequestContext(request))
 change = staff_member_required(never_cache(change))
 
 def rename(request, dir_name=None, file_name=None):
@@ -664,7 +664,7 @@ def rename(request, dir_name=None, file_name=None):
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, 'Rename'),
         'title': _('Rename "%s"') % file_name,
         'root_path': URL_HOME,
-    }, context_instance=Context(request))
+    }, context_instance=RequestContext(request))
 rename = staff_member_required(never_cache(rename))
 
 
@@ -709,7 +709,7 @@ def generateimages(request, dir_name=None, file_name=None):
         'settings_var': _get_settings_var(request.META['HTTP_HOST'], path),
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
         'root_path': URL_HOME,
-    }, context_instance=Context(request))
+    }, context_instance=RequestContext(request))
 makethumb = staff_member_required(never_cache(makethumb))
 
 def direct_to_js_template(request, cache=True, *args, **kwargs):
