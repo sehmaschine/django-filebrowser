@@ -200,7 +200,7 @@ def index(request, dir_name=""):
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, ''),
         'title': _('FileBrowser'),
         'root_path': URL_HOME,
-    }, context_instance=Context(request))
+    }, context_instance=RequestContext(request))
 index = staff_member_required(never_cache(index))
 
 
@@ -243,7 +243,7 @@ def mkdir(request, dir_name=None):
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, 'Make Directory'),
         'title': _('Make directory'),
         'root_path': URL_HOME,
-    }, context_instance=Context(request))
+    }, context_instance=RequestContext(request))
 mkdir = staff_member_required(never_cache(mkdir))
 
 
@@ -434,7 +434,7 @@ def upload(request, dir_name=""):
         'breadcrumbs': _get_breadcrumbs(_get_query(request.GET), dir_name, 'Multiple Upload'),
         'title': _('Select files to upload'),
         'root_path': URL_HOME,
-    }, context_instance=Context(request))
+    }, context_instance=RequestContext(request))
 upload = staff_member_required(never_cache(upload))
 
 
