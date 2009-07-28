@@ -143,7 +143,7 @@ def _get_breadcrumbs(query, path, title):
     breadcrumbs = []
     dir_query = ""
     if path:
-        for item in path.split('/'):
+        for item in path.split(os.sep):
             dir_query = os.path.join(dir_query,item)
             breadcrumbs.append([item,dir_query])
     if title:
