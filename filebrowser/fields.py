@@ -92,7 +92,10 @@ class FileBrowseField(Field):
         return FileObject(_url_to_path(value))
     
     def get_db_prep_value(self, value):
-        return value
+        if value is None:
+            return None
+        return unicode(value)
+        
     
     def get_manipulator_field_objs(self):
         return [oldforms.TextField]
