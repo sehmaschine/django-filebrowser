@@ -15,7 +15,7 @@ $(document).ready(function(){
         $.ajax({
             type: "POST",
             datatype: "HTML",
-            url: "{{ settings_var.URL_ADMIN}}ajax/checkfilename/",
+            url: "../ajax/checkfilename/",
             data: "filename=" + filename + "&dir=" + dir,
             timeout: 5000,
             async: false,
