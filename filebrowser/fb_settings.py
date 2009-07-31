@@ -92,3 +92,4 @@ EXCLUDE = (r'_(jpg|png|gif)_.*_q\d{1,3}\.(jpg|png|gif)', )
 # Max. Upload Size in Bytes.
 MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 10485760)
 
+

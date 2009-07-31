@@ -1,63 +1,65 @@
 {% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
 {% load i18n adminmedia fb_tags %}
 
-{% block extrahead %}{{ block.super }}
-<script type="text/javascript" src="/admin/jsi18n/"></script>
-<script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
-<script type="text/javascript" src="{% admin_media_prefix %}js/admin/CollapsedFieldsets.js"></script>
-<script type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/jquery-1.3.2.min.js"></script>
-<script>
-$(document).ready(function(){
-    var dir = "{{ query.dir }}";
-    $('input').bind("change", function(){
-        var checkbox = $(this).next();
-        var filename = $(this).val();
-        $.ajax({
-            type: "POST",
-            datatype: "HTML",
-            url: "../ajax/checkfilename/",
-            data: "filename=" + filename + "&dir=" + dir,
-            timeout: 5000,
-            async: false,
-            success: function(data){
-                if (data == "exists") {
-                    checkbox.show();
-                }
-            }
+<!-- EXTRAHEAD -->
+{% block extrahead %}
+    {{ block.super }}
+    <script type="text/javascript" src="../../jsi18n/"></script>
+    <script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
+    <script type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/jquery.uploadify.v2.0.2.js"></script>
+    <script type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/swfobject.js"></script>
+    <script type="text/javascript" src="{% admin_media_prefix %}js/admin/CollapsedFieldsets.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#id_file').uploadify({
+            'uploader'      : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/uploadify.swf',
+            'script'        : '{% url fb_do_upload %}',
+            'checkScript'   : '{% url fb_check %}',
+            'cancelImg'     : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/cancel.png',
+            'auto'          : false,
+            'folder'        : '{{ query.dir }}',
+            'multi'         : true,
+            'fileExt'       : '{% for extension in settings_var.EXTENSIONS.items %}{% ifnotequal extension.0 'Folder' %}{% for item in extension.1 %}*{{ item|safe }};{% endfor %}{% endifnotequal %}{% endfor %}',
+            'sizeLimit'     : {{ settings_var.MAX_UPLOAD_SIZE }},
+        });
+        $('input:submit').click(function(){
+            $('#id_file').uploadifyUpload();
         });
     });
-});
-</script>
+    </script>
 {% endblock %}
+
+<!-- COLTYPE/BODYCLASS -->
 {% block coltype %}colM{% endblock %}
 {% block bodyclass %}change-form{% endblock %}
-{% block extrastyle %}{{ block.super }}
-<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
-<link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
-{% if query.pop %}
-<style type="text/css">
-#header { display: none; }
-</style>
-{% endif %}
+
+<!-- EXTRASTYLE -->
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
+    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/uploadify.css" />
+    {% if query.pop %}
+    <style type="text/css">
+    #header { display: none; }
+    </style>
+    {% endif %}
 {% endblock %}
+
+<!-- BREADCRUMBS -->
 {% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
 
+<!-- CONTENT -->
 {% block content %}
 <div id="content-main">
-    <form enctype="multipart/form-data" action="{% query_string %}" method="post" name="FileForm">
-    {{ formset.management_form }}
     <div>
-        {% if form.errors %}{{ form.errors }}{% endif %}
-        <fieldset class="module aligned ()">
-        {% for form in formset.forms %}
+        <fieldset class="module aligned">
         <div class="form-row">
-            {% if form.file.errors %}{{ form.file.errors }}{% endif %}
-            {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
-            <label>{{ form.file.label }} {{ forloop.counter }}</label>
-            {{ form.file }}
-            <p class="help overwrite" style="display: none;">{{ form.overwrite }} {{ form.overwrite.label }}</p>
+            <input type="File" id="id_file" />
         </div>
-        {% endfor %}
         </fieldset>
         
         <fieldset class="module aligned collapse">
@@ -75,11 +77,14 @@ $(document).ready(function(){
             <p class="help">{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p>
         </div>
         </fieldset>
+        
         <div class="submit-row">
-            <input type="submit" value="{% trans 'Upload' %}" class="default" /><br class="clear" />
+            <p class="deletelink-box">
+                <a class="deletelink" href="javascript:$('#id_file').uploadifyClearQueue()">{% trans "Clear Queue" %}</a>
+            </p>
+            <input class="default" type="submit" name="_save" value='{% trans "Upload" %}' />
         </div>
+        
     </div>
-    </form>
-    
 </div>
 {% endblock %}

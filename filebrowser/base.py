@@ -54,7 +54,7 @@ class FileObject(object):
         """
         Datetime Object.
         """
-        return datetime.datetime.fromtimestamp(self.time)
+        return datetime.datetime.fromtimestamp(self.date)
     datetime = property(_datetime)
     
     def _extension(self):

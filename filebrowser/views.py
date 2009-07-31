@@ -3,7 +3,7 @@
 import os, re
 from time import gmtime, strftime
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, HttpResponse
 from django.template import RequestContext as Context
 from django.http import HttpResponseRedirect
 from django.contrib.admin.views.decorators import staff_member_required
@@ -160,10 +160,6 @@ def upload(request):
     Multipe File Upload.
     """
     
-    from filebrowser.forms import UploadForm, BaseUploadFormSet
-    from django.forms.formsets import formset_factory
-    from django.core.files.move import file_move_safe
-    
     # QUERY / PATH CHECK
     query = request.GET
     path = _get_path(query.get('dir', ''))
@@ -171,39 +167,58 @@ def upload(request):
         msg = _('Directory/File does not exist.')
         request.user.message_set.create(message=msg)
         return HttpResponseRedirect(reverse("fb_browse"))
-    abs_path = os.path.join(settings.MEDIA_ROOT, DIRECTORY, path)
-    
-    UploadFormSet = formset_factory(UploadForm, formset=BaseUploadFormSet, extra=5)
-    if request.method == 'POST':
-        formset = UploadFormSet(data=request.POST, files=request.FILES, path=abs_path)
-        if formset.is_valid():
-            for cleaned_data in formset.cleaned_data:
-                if cleaned_data:
-                    uploadedfile = _handle_file_upload(abs_path, cleaned_data['file'])
-                    if cleaned_data['overwrite']:
-                        # for overwriting, we use file_move_safe
-                        old_file = os.path.join(abs_path, cleaned_data['file'].name)
-                        new_file = os.path.join(abs_path, uploadedfile)
-                        file_move_safe(new_file, old_file)
-                    # change permissions
-                    # ???
-            msg = _('Upload successful.')
-            request.user.message_set.create(message=msg)
-            # on redirect, sort by date desc to see the uploaded files on top of the list
-            # remove filter in order to actually _see_ the uploaded file(s)
-            redirect_url = reverse("fb_browse") + query_helper(query, "ot=desc,o=date", "ot,o,filter_type,filter_data,filename")
-            return HttpResponseRedirect(redirect_url)
-    else:
-        formset = UploadFormSet(path=abs_path)
+    abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
     
     return render_to_response('filebrowser/upload.html', {
-        'formset': formset,
         'query': query,
         'title': _(u'Select files to upload'),
         'settings_var': _get_settings_var(),
         'breadcrumbs': _get_breadcrumbs(query, path, _(u'Upload')),
     }, context_instance=Context(request))
 upload = staff_member_required(never_cache(upload))
+
+
+def _check_file(request):
+    """
+    Check if file already exists on the server.
+    """
+    
+    from django.utils import simplejson
+    
+    folder = request.POST.get('folder')
+    fb_uploadurl_re = re.compile(r'^(%s)' % reverse("fb_upload"))
+    folder = fb_uploadurl_re.sub('', folder)
+    
+    fileArray = {}
+    if request.method == 'POST':
+        for k,v in request.POST.items():
+            if k != "folder":
+                if os.path.isfile(os.path.join(MEDIA_ROOT, DIRECTORY, folder, v)):
+                    fileArray[k] = v
+    
+    return HttpResponse(simplejson.dumps(fileArray))
+
+
+def _upload_file(request):
+    """
+    Upload file to the server.
+    """
+    
+    from django.core.files.move import file_move_safe
+    
+    if request.method == 'POST':
+        folder = request.POST.get('folder')
+        fb_uploadurl_re = re.compile(r'^(%s)' % reverse("fb_upload"))
+        folder = fb_uploadurl_re.sub('', folder)
+        abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, folder)
+        if request.FILES:
+            filedata = request.FILES['Filedata']
+            uploadedfile = _handle_file_upload(abs_path, filedata)
+            if os.path.isfile(os.path.join(MEDIA_ROOT, DIRECTORY, folder, filedata.name)):
+                old_file = os.path.join(abs_path, filedata.name)
+                new_file = os.path.join(abs_path, uploadedfile)
+                file_move_safe(new_file, old_file)
+    return HttpResponse(True)
 
 
 def delete(request):

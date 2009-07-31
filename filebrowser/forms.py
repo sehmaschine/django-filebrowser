@@ -57,37 +57,18 @@ class RenameForm(forms.Form):
         return self.cleaned_data['name']
     
 
-class BaseUploadFormSet(BaseFormSet):
-    
-    # this is just for passing the parameters (path) to the uploadform.
-    # overly complicated, but necessary for the clean-methods in UploadForm.
-    # DO NOT CHANGE ANYTHING HERE.
-    # if you need to make modifications to the uploadform - use UploadForm below.
-    
-    def __init__(self, **kwargs):
-        self.path = kwargs['path']
-        del kwargs['path']
-        super(BaseUploadFormSet, self).__init__(**kwargs)
-    
-    def _construct_form(self, i, **kwargs):
-        # this works because BaseFormSet._construct_form() passes **kwargs
-        # to the form's __init__()
-        kwargs["path"] = self.path
-        return super(BaseUploadFormSet, self)._construct_form(i, **kwargs)
-    
-
 class UploadForm(forms.Form):
     """
     Form for Uploading Files.
     """
     
-    def __init__(self, *args, **kwargs):
-        self.path = kwargs['path']
-        del kwargs['path']
-        super(UploadForm, self).__init__(*args, **kwargs)
+    # def __init__(self, *args, **kwargs):
+    #     self.path = kwargs['path']
+    #     del kwargs['path']
+    #     super(UploadForm, self).__init__(*args, **kwargs)
     
     file = forms.FileField(label=_(u'File'))
-    overwrite = forms.BooleanField(label=_(u'A File with the same name already exists. Click to Overwrite.'), required=False)
+    # overwrite = forms.BooleanField(label=_(u'A File with the same name already exists. Click to Overwrite.'), required=False)
     
     def clean_file(self):
         if self.cleaned_data['file']:
@@ -103,9 +84,9 @@ class UploadForm(forms.Form):
                 raise forms.ValidationError(_(u'File extension is not allowed.'))
             
             # CHECK FILESIZE
-            filesize = self.cleaned_data['file'].size
-            if filesize > MAX_UPLOAD_SIZE:
-                raise forms.ValidationError(_(u'Filesize exceeds allowed Upload Size.'))
+            # filesize = self.cleaned_data['file'].size
+            # if filesize > MAX_UPLOAD_SIZE:
+            #     raise forms.ValidationError(_(u'Filesize exceeds allowed Upload Size.'))
             
             # Convert spaces to underscores
             self.cleaned_data['file'].name = self.cleaned_data['file'].name.replace(' ', '_')
