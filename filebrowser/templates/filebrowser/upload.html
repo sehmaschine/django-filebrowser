@@ -15,18 +15,29 @@
     <script type="text/javascript">
     $(document).ready(function() {
         $('#id_file').uploadify({
-            'uploader'      : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/uploadify.swf',
-            'script'        : '{% url fb_do_upload %}',
-            'checkScript'   : '{% url fb_check %}',
-            'cancelImg'     : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/cancel.png',
-            'auto'          : false,
-            'folder'        : '{{ query.dir }}',
-            'multi'         : true,
-            'fileDesc'      : '{% for extension in settings_var.EXTENSIONS.items %}{% ifnotequal extension.0 'Folder' %}{% for item in extension.1 %}*{{ item|safe }};{% endfor %}{% endifnotequal %}{% endfor %}',
-            'fileExt'       : '{% for extension in settings_var.EXTENSIONS.items %}{% ifnotequal extension.0 'Folder' %}{% for item in extension.1 %}*{{ item|safe }};{% endfor %}{% endifnotequal %}{% endfor %}',
-            'sizeLimit'     : {{ settings_var.MAX_UPLOAD_SIZE }},
-            'scriptAccess'  : 'sameDomain',
-            'queueSizeLimit': 50,
+            'uploader'          : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/uploadify.swf',
+            'script'            : '{% url fb_do_upload %}',
+            'checkScript'       : '{% url fb_check %}',
+            'cancelImg'         : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/cancel.png',
+            'auto'              : false,
+            'folder'            : '{{ query.dir }}',
+            'multi'             : true,
+            'fileDesc'          : '{% for extension in settings_var.EXTENSIONS.items %}{% ifnotequal extension.0 'Folder' %}{% for item in extension.1 %}*{{ item|safe }};{% endfor %}{% endifnotequal %}{% endfor %}',
+            'fileExt'           : '{% for extension in settings_var.EXTENSIONS.items %}{% ifnotequal extension.0 'Folder' %}{% for item in extension.1 %}*{{ item|safe }};{% endfor %}{% endifnotequal %}{% endfor %}',
+            'sizeLimit'         : {{ settings_var.MAX_UPLOAD_SIZE }},
+            'scriptAccess'      : 'sameDomain',
+            'queueSizeLimit'    : 50,
+            'simUploadLimit'    : 1,
+            'width'             : 300,
+            'height'            : 30,
+            translations        : {
+                                  browseButton: '{% trans "BROWSE" %}',
+                                  error: '{% trans "An Error occured" %}',
+                                  completed: '{% trans "Completed" %}',
+                                  replaceFile: '{% trans "Do you want to replace the file" %}',
+                                  unitKb: '{% trans "KB" %}',
+                                  unitMb: '{% trans "MB" %}'
+            }
         });
         $('input:submit').click(function(){
             $('#id_file').uploadifyUpload();
