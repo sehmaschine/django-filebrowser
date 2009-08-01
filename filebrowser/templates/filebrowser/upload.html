@@ -25,6 +25,8 @@
             'fileDesc'      : '{% for extension in settings_var.EXTENSIONS.items %}{% ifnotequal extension.0 'Folder' %}{% for item in extension.1 %}*{{ item|safe }};{% endfor %}{% endifnotequal %}{% endfor %}',
             'fileExt'       : '{% for extension in settings_var.EXTENSIONS.items %}{% ifnotequal extension.0 'Folder' %}{% for item in extension.1 %}*{{ item|safe }};{% endfor %}{% endifnotequal %}{% endfor %}',
             'sizeLimit'     : {{ settings_var.MAX_UPLOAD_SIZE }},
+            'scriptAccess'  : 'sameDomain',
+            'queueSizeLimit': 50,
         });
         $('input:submit').click(function(){
             $('#id_file').uploadifyUpload();
