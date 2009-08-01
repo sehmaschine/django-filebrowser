@@ -28,7 +28,10 @@ THE SOFTWARE.
 	background-color: #F5F5F5;
 	margin-top: 5px;
 	padding: 10px;
-	width: 350px;
+	width: 700px;
+}
+.completed {
+	background-color: #ffffcc;
 }
 .uploadifyError {
 	border: 2px solid #FBCBBC !important;
