@@ -8,7 +8,7 @@ from django.utils.translation import ugettext as _
 
 # filebrowser imports
 from filebrowser.fb_settings import MAX_UPLOAD_SIZE
-from filebrowser.functions import _get_file_type
+from filebrowser.functions import _get_file_type, _convert_filename
 
 alnum_name_re = re.compile(r'^[\sa-zA-Z0-9._/-]+$')
 
@@ -21,17 +21,17 @@ class MakeDirForm(forms.Form):
         self.path = path
         super(MakeDirForm, self).__init__(*args, **kwargs)
         
-    dir_name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Name'), help_text=_(u'The Name will automatically be converted to lowercase. Only letters, numbers, underscores and hyphens are allowed.'), required=True)
+    dir_name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Name'), help_text=_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'), required=True)
     
-    def clean_dir_name(self):
+    def clean_dir_name(self):   
         if self.cleaned_data['dir_name']:
-            # only letters, numbers and underscores are allowed.
+            # only letters, numbers, underscores, spaces and hyphens are allowed.
             if not alnum_name_re.search(self.cleaned_data['dir_name']):
-                raise forms.ValidationError(_(u'Only letters, numbers, underscores and hyphens are allowed.'))
+                raise forms.ValidationError(_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'))
             # directory must not already exist.
-            if os.path.isdir(os.path.join(self.path, self.cleaned_data['dir_name'].lower())):
+            if os.path.isdir(os.path.join(self.path, _convert_filename(self.cleaned_data['dir_name']))):
                 raise forms.ValidationError(_(u'The Folder already exists.'))
-        return self.cleaned_data['dir_name']
+        return _convert_filename(self.cleaned_data['dir_name'])
     
 
 class RenameForm(forms.Form):
@@ -44,53 +44,16 @@ class RenameForm(forms.Form):
         self.file_extension = file_extension
         super(RenameForm, self).__init__(*args, **kwargs)
     
-    name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'New Name'), help_text=_('The Name will automatically be converted to lowercase. Only letters, numbers, underscores and hyphens are allowed.'), required=True)
+    name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'New Name'), help_text=_('Only letters, numbers, underscores, spaces and hyphens are allowed.'), required=True)
     
     def clean_name(self):
         if self.cleaned_data['name']:
-            # only letters, numbers and underscores are allowed.
+            # only letters, numbers, underscores, spaces and hyphens are allowed.
             if not alnum_name_re.search(self.cleaned_data['name']):
-                raise forms.ValidationError(_(u'Only letters, numbers, underscores and hyphens are allowed.'))
+                raise forms.ValidationError(_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'))
             # file/directory must not already exist.
-            if os.path.isdir(os.path.join(self.path, self.cleaned_data['name'].lower())) or os.path.isfile(os.path.join(self.path, self.cleaned_data['name'].lower() + self.file_extension)):
+            if os.path.isdir(os.path.join(self.path, _convert_filename(self.cleaned_data['name']))) or os.path.isfile(os.path.join(self.path, _convert_filename(self.cleaned_data['name']) + self.file_extension)):
                 raise forms.ValidationError(_(u'The File/Folder already exists.'))
-        return self.cleaned_data['name']
+        return _convert_filename(self.cleaned_data['name'])
     
-
-class UploadForm(forms.Form):
-    """
-    Form for Uploading Files.
-    """
-    
-    # def __init__(self, *args, **kwargs):
-    #     self.path = kwargs['path']
-    #     del kwargs['path']
-    #     super(UploadForm, self).__init__(*args, **kwargs)
-    
-    file = forms.FileField(label=_(u'File'))
-    # overwrite = forms.BooleanField(label=_(u'A File with the same name already exists. Click to Overwrite.'), required=False)
-    
-    def clean_file(self):
-        if self.cleaned_data['file']:
-            filename = self.cleaned_data['file'].name
-            
-            # CHECK FILENAME
-            if not alnum_name_re.search(filename):
-                raise forms.ValidationError(_(u'Filename is not allowed.'))
-            
-            # CHECK EXTENSION / FILE_TYPE
-            file_type = _get_file_type(filename)
-            if not file_type:
-                raise forms.ValidationError(_(u'File extension is not allowed.'))
-            
-            # CHECK FILESIZE
-            # filesize = self.cleaned_data['file'].size
-            # if filesize > MAX_UPLOAD_SIZE:
-            #     raise forms.ValidationError(_(u'Filesize exceeds allowed Upload Size.'))
-            
-            # Convert spaces to underscores
-            self.cleaned_data['file'].name = self.cleaned_data['file'].name.replace(' ', '_')
-            
-        return self.cleaned_data['file']
-        
 

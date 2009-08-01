@@ -15,7 +15,7 @@ from django.core.urlresolvers import reverse
 
 # filebrowser imports
 from filebrowser.fb_settings import *
-from filebrowser.functions import _url_to_path, _path_to_url, _sort_by_attr, _get_path, _get_file, _get_version_path, _get_breadcrumbs, _get_filterdate, _get_settings_var, _handle_file_upload, _get_file_type, _url_join
+from filebrowser.functions import _url_to_path, _path_to_url, _sort_by_attr, _get_path, _get_file, _get_version_path, _get_breadcrumbs, _get_filterdate, _get_settings_var, _handle_file_upload, _get_file_type, _url_join, _convert_filename
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileObject
 
@@ -127,11 +127,11 @@ def mkdir(request):
     if request.method == 'POST':
         form = MakeDirForm(abs_path, request.POST)
         if form.is_valid():
-            server_path = os.path.join(abs_path, form.cleaned_data['dir_name'].lower())
+            server_path = os.path.join(abs_path, form.cleaned_data['dir_name'])
             try:
                 os.mkdir(server_path)
                 os.chmod(server_path, 0775)
-                msg = _('The Folder %s was successfully created.') % (form.cleaned_data['dir_name'].lower())
+                msg = _('The Folder %s was successfully created.') % (form.cleaned_data['dir_name'])
                 request.user.message_set.create(message=msg)
                 # on redirect, sort by date desc to see the new directory on top of the list
                 # remove filter in order to actually _see_ the new folder
@@ -193,6 +193,7 @@ def _check_file(request):
     if request.method == 'POST':
         for k,v in request.POST.items():
             if k != "folder":
+                v = _convert_filename(v)
                 if os.path.isfile(os.path.join(MEDIA_ROOT, DIRECTORY, folder, v)):
                     fileArray[k] = v
     
@@ -213,6 +214,7 @@ def _upload_file(request):
         abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, folder)
         if request.FILES:
             filedata = request.FILES['Filedata']
+            filedata.name = _convert_filename(filedata.name)
             uploadedfile = _handle_file_upload(abs_path, filedata)
             if os.path.isfile(os.path.join(MEDIA_ROOT, DIRECTORY, folder, filedata.name)):
                 old_file = os.path.join(abs_path, filedata.name)
@@ -306,7 +308,7 @@ def rename(request):
         form = RenameForm(abs_path, file_extension, request.POST)
         if form.is_valid():
             relative_server_path = os.path.join(DIRECTORY, path, filename)
-            new_relative_server_path = os.path.join(DIRECTORY, path, request.POST.get('name').lower() + file_extension)
+            new_relative_server_path = os.path.join(DIRECTORY, path, form.cleaned_data['name'] + file_extension)
             try:
                 # DELETE IMAGE VERSIONS/THUMBNAILS
                 # regenerating versions/thumbs will be done automatically

@@ -195,6 +195,8 @@ def _get_settings_var():
     settings_var['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
     # FileBrowser Options
     settings_var['MAX_UPLOAD_SIZE'] = MAX_UPLOAD_SIZE
+    # Convert Filenames
+    settings_var['CONVERT_FILENAME'] = CONVERT_FILENAME
     return settings_var
     
 
@@ -297,4 +299,13 @@ def scale_and_crop(im, width, height, opts):
             im = im.crop((int(ex), int(ey), int(x-ex), int(y-ey)))
     return im
 scale_and_crop.valid_options = ('crop', 'upscale')
+
+
+def _convert_filename(value):
+    if CONVERT_FILENAME:
+        return value.replace(" ", "_").lower()
+    else:
+        return value
+        
+    
 

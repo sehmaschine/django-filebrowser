@@ -3,6 +3,14 @@
 <!-- LOADING -->
 {% load i18n adminmedia fb_tags %}
 
+<!-- EXTRAHEAD -->
+{% block extrahead %}
+    {{ block.super }}
+    <script type="text/javascript" src="../../jsi18n/"></script>
+    <script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
+    <script type="text/javascript" src="{% admin_media_prefix %}js/admin/CollapsedFieldsets.js"></script>
+{% endblock %}
+
 <!-- COLTYPE/BODYCLASS -->
 {% block coltype %}colM{% endblock %}
 {% block bodyclass %}change-form{% endblock %}
@@ -34,7 +42,16 @@
             <label class="required" for="id_dir_name">{{ form.name.label }}</label>
             {{ form.name }}
             {% if file_extension %}<b>{{ file_extension }}</b>{% endif %}
-            {% if form.name.help_text %}<p class="help">{{ form.name.help_text|safe }}</p>{% endif %}
+        </div>
+        </fieldset>
+        <fieldset class="module aligned collapse">
+        <h2>{% trans "Help" %}</h2>
+        <div class="form-row" >
+            <label class="required">&nbsp;</label> 
+            <p>
+                {{ form.name.help_text|safe }}
+                {% if settings_var.CONVERT_FILENAME %}<br />{% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}{% endif %}
+            </p>
         </div>
         </fieldset>
         <div class="submit-row">

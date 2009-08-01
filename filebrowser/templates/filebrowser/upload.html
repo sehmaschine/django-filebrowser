@@ -81,15 +81,23 @@
         <div class="form-row" >
             {% for extension in settings_var.EXTENSIONS.items %}
             {% ifnotequal extension.0 'Folder' %}
-            <label for="id_body" class="required">{% if forloop.first %}{% trans "Allowed" %}:{% else %}&nbsp;{% endif %}</label> 
+            <label class="required">{% if forloop.first %}{% trans "Allowed" %}:{% else %}&nbsp;{% endif %}</label> 
             <p>{{ extension.0|safe }} ({{ extension.1|join:", "|safe }})</p>
             {% endifnotequal %}
             {% endfor %}
         </div>
         <div class="form-row" >
-            <label for="id_body" class="required">{% trans "Max. Filesize" %}:</label> 
-            <p class="help">{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p>
+            <label class="required">{% trans "Max. Filesize" %}:</label>
+            <p>{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p>
         </div>
+        {% if settings_var.CONVERT_FILENAME %}
+        <div class="form-row" >
+            <label class="required">&nbsp;</label>
+            <p>
+                {% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}
+            </p>
+        </div>
+        {% endif %}
         </fieldset>
         
         <div class="submit-row">

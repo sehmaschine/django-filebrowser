@@ -91,5 +91,6 @@ IMAGE_MAXBLOCK = getattr(settings, 'FILEBROWSER_IMAGE_MAXBLOCK', 1024*1024)
 EXCLUDE = getattr(settings, 'FILEBROWSER_EXCLUDE', (r'_(jpg|png|gif)_.*_q\d{1,3}\.(jpg|png|gif)', ))
 # Max. Upload Size in Bytes.
 MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 10485760)
-
+# Convert Filename (replace spaces and convert to lowercase)
+CONVERT_FILENAME = getattr(settings, "FILEBROWSER_CONVERT_FILENAME", True)
 
