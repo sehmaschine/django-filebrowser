@@ -72,9 +72,9 @@ VERSIONS = getattr(settings, "FILEBROWSER_VERSIONS", {
     'croppedthumbnail': {'verbose_name': 'Cropped Thumbnail (140x140px)', 'width': 140, 'height': 140, 'opts': 'crop'},
 })
 # Versions available within the Admin-Interface.
-ADMIN_VERSIONS = ['thumbnail','small', 'medium','big']
+ADMIN_VERSIONS = getattr(settings, 'FILEBROWSER_ADMIN_VERSIONS', ['thumbnail','small', 'medium','big'])
 # Which Version should be used as Admin-thumbnail.
-ADMIN_THUMBNAIL = 'fb_thumb'
+ADMIN_THUMBNAIL = getattr(settings, 'FILEBROWSER_ADMIN_THUMBNAIL', 'fb_thumb')
 
 # EXTRA SETTINGS
 # True to save the URL including MEDIA_URL to your model fields
@@ -88,7 +88,7 @@ STRICT_PIL = getattr(settings, 'FILEBROWSER_STRICT_PIL', False)
 IMAGE_MAXBLOCK = getattr(settings, 'FILEBROWSER_IMAGE_MAXBLOCK', 1024*1024)
 # Exclude files matching any of the following regular expressions
 # Default is to exclude 'sorl-thumbnail' style naming of jpg, png, or gif thumbnails
-EXCLUDE = (r'_(jpg|png|gif)_.*_q\d{1,3}\.(jpg|png|gif)', )
+EXCLUDE = getattr(settings, 'FILEBROWSER_EXCLUDE', (r'_(jpg|png|gif)_.*_q\d{1,3}\.(jpg|png|gif)', ))
 # Max. Upload Size in Bytes.
 MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 10485760)
 
