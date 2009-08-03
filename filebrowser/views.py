@@ -12,6 +12,7 @@ from django.utils.translation import ugettext as _
 from django.conf import settings
 from django import forms
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ImproperlyConfigured
 
 # filebrowser imports
 from filebrowser.fb_settings import *
@@ -36,9 +37,14 @@ def browse(request):
     # QUERY / PATH CHECK
     query = request.GET
     path = _get_path(query.get('dir', ''))
+    directory = _get_path('')
+    
     if path is None:
         msg = _('Directory/File does not exist.')
         request.user.message_set.create(message=msg)
+        if directory is None:
+            # The DIRECTORY does not exist, raise an error to prevent eternal redirecting.
+            raise ImproperlyConfigured, _("Error finding upload directory. Maybe it does not exist?")
         return HttpResponseRedirect(reverse("fb_browse"))
     abs_path = os.path.join(settings.MEDIA_ROOT, DIRECTORY, path)
     
