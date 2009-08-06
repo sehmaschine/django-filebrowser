@@ -226,7 +226,7 @@ def _upload_file(request):
                 old_file = os.path.join(abs_path, filedata.name)
                 new_file = os.path.join(abs_path, uploadedfile)
                 file_move_safe(new_file, old_file)
-    return HttpResponse(True)
+    return HttpResponse('True')
 
 
 def delete(request):
