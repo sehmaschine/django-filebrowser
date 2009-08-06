@@ -105,6 +105,7 @@ def _url_join(*args):
     else:
         url = "/"
     for arg in args:
+        arg = str(arg).replace("\\", "/")
         arg_split = arg.split("/")
         for elem in arg_split:
             if elem != "" and elem != "http:":
