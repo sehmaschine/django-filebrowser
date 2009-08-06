@@ -35,13 +35,13 @@ class VersionNode(Node):
             except VariableDoesNotExist:
                 return None
         try:
-            version_path = _get_version_path(_url_to_path(source), version_prefix)
+            version_path = _get_version_path(_url_to_path(str(source)), version_prefix)
             if not os.path.isfile(os.path.join(MEDIA_ROOT, version_path)):
                 # create version
-                version_path = _version_generator(_url_to_path(source), version_prefix)
-            elif os.path.getmtime(os.path.join(MEDIA_ROOT, _url_to_path(source))) > os.path.getmtime(os.path.join(MEDIA_ROOT, version_path)):
+                version_path = _version_generator(_url_to_path(str(source)), version_prefix)
+            elif os.path.getmtime(os.path.join(MEDIA_ROOT, _url_to_path(str(source)))) > os.path.getmtime(os.path.join(MEDIA_ROOT, version_path)):
                 # recreate version if original image was updated
-                version_path = _version_generator(_url_to_path(source), version_prefix, force=True)
+                version_path = _version_generator(_url_to_path(str(source)), version_prefix, force=True)
             return _path_to_url(version_path)
         except:
             return ""
@@ -90,13 +90,13 @@ class VersionObjectNode(Node):
             except VariableDoesNotExist:
                 return None
         try:
-            version_path = _get_version_path(_url_to_path(source), version_prefix)
+            version_path = _get_version_path(_url_to_path(str(source)), version_prefix)
             if not os.path.isfile(os.path.join(MEDIA_ROOT, version_path)):
                 # create version
-                version_path = _version_generator(_url_to_path(source), version_prefix)
-            elif os.path.getmtime(os.path.join(MEDIA_ROOT, _url_to_path(source))) > os.path.getmtime(os.path.join(MEDIA_ROOT, version_path)):
+                version_path = _version_generator(_url_to_path(str(source)), version_prefix)
+            elif os.path.getmtime(os.path.join(MEDIA_ROOT, _url_to_path(str(source)))) > os.path.getmtime(os.path.join(MEDIA_ROOT, version_path)):
                 # recreate version if original image was updated
-                version_path = _version_generator(_url_to_path(source), version_prefix, force=True)
+                version_path = _version_generator(_url_to_path(str(source)), version_prefix, force=True)
             context[self.var_name] = FileObject(version_path)
         except:
             context[self.var_name] = ""
