@@ -45,7 +45,8 @@ def browse(request):
         if directory is None:
             # The DIRECTORY does not exist, raise an error to prevent eternal redirecting.
             raise ImproperlyConfigured, _("Error finding upload directory. Maybe it does not exist?")
-        return HttpResponseRedirect(reverse("fb_browse"))
+        redirect_url = reverse("fb_browse") + query_helper(query, "", "dir")
+        return HttpResponseRedirect(redirect_url)
     abs_path = os.path.join(settings.MEDIA_ROOT, DIRECTORY, path)
     
     # INITIAL VARIABLES
