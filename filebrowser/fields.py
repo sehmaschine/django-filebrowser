@@ -87,7 +87,7 @@ class FileBrowseField(Field):
         return super(FileBrowseField, self).__init__(*args, **kwargs)
     
     def to_python(self, value):
-        if not value or isinstance(_url_to_path(value), FileObject):
+        if not value or isinstance(value, FileObject):
             return value
         return FileObject(_url_to_path(value))
     
