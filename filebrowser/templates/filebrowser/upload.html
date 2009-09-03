@@ -41,6 +41,7 @@
         });
         $('input:submit').click(function(){
             $('#id_file').uploadifyUpload();
+            return false;
         });
     });
     </script>
@@ -69,6 +70,7 @@
 <!-- CONTENT -->
 {% block content %}
 <div id="content-main">
+    <form>
     <div>
         <fieldset class="module aligned">
         <div class="form-row">
@@ -108,5 +110,6 @@
         </div>
         
     </div>
+    </form>
 </div>
 {% endblock %}
