@@ -192,7 +192,7 @@ class FileObject(object):
     def __str__(self):
         return u"%s" % self.url_save
     
-    def __unicode(self):
+    def __unicode__(self):
         return u"%s" % self.url_save
     
 
