@@ -1,8 +1,10 @@
 # coding: utf-8
 
+# general imports
 import os, re
 from time import gmtime, strftime
 
+# django imports
 from django.shortcuts import render_to_response, HttpResponse
 from django.template import RequestContext as Context
 from django.http import HttpResponseRedirect
@@ -13,12 +15,14 @@ from django.conf import settings
 from django import forms
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ImproperlyConfigured
+from django.dispatch import Signal
 
 # filebrowser imports
 from filebrowser.fb_settings import *
 from filebrowser.functions import _url_to_path, _path_to_url, _sort_by_attr, _get_path, _get_file, _get_version_path, _get_breadcrumbs, _get_filterdate, _get_settings_var, _handle_file_upload, _get_file_type, _url_join, _convert_filename
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileObject
+from filebrowser.decorators import flash_login_required
 
 # Precompile regular expressions
 filter_re = []
@@ -27,7 +31,7 @@ for exp in EXCLUDE:
 for k,v in VERSIONS.iteritems():
     exp = (r'_%s.(jpg|png|gif)') % k
     filter_re.append(re.compile(exp))
-    
+
 
 def browse(request):
     """
@@ -167,6 +171,8 @@ def upload(request):
     Multipe File Upload.
     """
     
+    from django.http import parse_cookie
+    
     # QUERY / PATH CHECK
     query = request.GET
     path = _get_path(query.get('dir', ''))
@@ -176,11 +182,17 @@ def upload(request):
         return HttpResponseRedirect(reverse("fb_browse"))
     abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
     
+    # SESSION (used for flash-uploading)
+    cookie_dict = parse_cookie(request.META.get('HTTP_COOKIE', ''))
+    engine = __import__(settings.SESSION_ENGINE, {}, {}, [''])
+    session_key = cookie_dict.get(settings.SESSION_COOKIE_NAME, None)
+    
     return render_to_response('filebrowser/upload.html', {
         'query': query,
         'title': _(u'Select files to upload'),
         'settings_var': _get_settings_var(),
         'breadcrumbs': _get_breadcrumbs(query, path, _(u'Upload')),
+        'session_key': session_key,
     }, context_instance=Context(request))
 upload = staff_member_required(never_cache(upload))
 
@@ -207,6 +219,10 @@ def _check_file(request):
     return HttpResponse(simplejson.dumps(fileArray))
 
 
+# upload signals
+upload_started = Signal(providing_args=["folder", "path", "file"])
+upload_finished = Signal(providing_args=["folder", "path", "file"])
+
 def _upload_file(request):
     """
     Upload file to the server.
@@ -222,12 +238,15 @@ def _upload_file(request):
         if request.FILES:
             filedata = request.FILES['Filedata']
             filedata.name = _convert_filename(filedata.name)
+            upload_started.send(sender=request, folder=folder, path=abs_path, file=filedata)
             uploadedfile = _handle_file_upload(abs_path, filedata)
             if os.path.isfile(os.path.join(MEDIA_ROOT, DIRECTORY, folder, filedata.name)):
                 old_file = os.path.join(abs_path, filedata.name)
                 new_file = os.path.join(abs_path, uploadedfile)
                 file_move_safe(new_file, old_file)
+            upload_finished.send(sender=request, folder=folder, path=abs_path, file=FileObject(os.path.join(DIRECTORY, folder, filedata.name)))
     return HttpResponse('True')
+_upload_file = flash_login_required(_upload_file)
 
 
 def delete(request):
