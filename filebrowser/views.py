@@ -119,6 +119,10 @@ def browse(request):
 browse = staff_member_required(never_cache(browse))
 
 
+# mkdir signals
+filebrowser_pre_createdir = Signal(providing_args=["path", "dirname"])
+filebrowser_post_createdir = Signal(providing_args=["path", "dirname"])
+
 def mkdir(request):
     """
     Make Directory.
@@ -140,8 +144,14 @@ def mkdir(request):
         if form.is_valid():
             server_path = os.path.join(abs_path, form.cleaned_data['dir_name'])
             try:
+                # PRE CREATE SIGNAL
+                filebrowser_pre_createdir.send(sender=request, path=path, dirname=form.cleaned_data['dir_name'])
+                # CREATE FOLDER
                 os.mkdir(server_path)
                 os.chmod(server_path, 0775)
+                # POST CREATE SIGNAL
+                filebrowser_post_createdir.send(sender=request, path=path, dirname=form.cleaned_data['dir_name'])
+                # MESSAGE & REDIRECT
                 msg = _('The Folder %s was successfully created.') % (form.cleaned_data['dir_name'])
                 request.user.message_set.create(message=msg)
                 # on redirect, sort by date desc to see the new directory on top of the list
@@ -220,8 +230,8 @@ def _check_file(request):
 
 
 # upload signals
-upload_started = Signal(providing_args=["folder", "path", "file"])
-upload_finished = Signal(providing_args=["folder", "path", "file"])
+filebrowser_pre_upload = Signal(providing_args=["path", "file"])
+filebrowser_post_upload = Signal(providing_args=["path", "file"])
 
 def _upload_file(request):
     """
@@ -238,16 +248,25 @@ def _upload_file(request):
         if request.FILES:
             filedata = request.FILES['Filedata']
             filedata.name = _convert_filename(filedata.name)
-            upload_started.send(sender=request, folder=folder, path=abs_path, file=filedata)
+            # PRE UPLOAD SIGNAL
+            filebrowser_pre_upload.send(sender=request, path=request.POST.get('folder'), file=filedata)
+            # HANDLE UPLOAD
             uploadedfile = _handle_file_upload(abs_path, filedata)
+            # MOVE UPLOADED FILE
+            # if file already exists
             if os.path.isfile(os.path.join(MEDIA_ROOT, DIRECTORY, folder, filedata.name)):
                 old_file = os.path.join(abs_path, filedata.name)
                 new_file = os.path.join(abs_path, uploadedfile)
                 file_move_safe(new_file, old_file)
-            upload_finished.send(sender=request, folder=folder, path=abs_path, file=FileObject(os.path.join(DIRECTORY, folder, filedata.name)))
+            # POST UPLOAD SIGNAL
+            filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(os.path.join(DIRECTORY, folder, filedata.name)))
     return HttpResponse('True')
 _upload_file = flash_login_required(_upload_file)
 
+
+# delete signals
+filebrowser_pre_delete = Signal(providing_args=["path", "filename"])
+filebrowser_post_delete = Signal(providing_args=["path", "filename"])
 
 def delete(request):
     """
@@ -271,6 +290,8 @@ def delete(request):
         if request.GET.get('filetype') != "Folder":
             relative_server_path = os.path.join(DIRECTORY, path, filename)
             try:
+                # PRE DELETE SIGNAL
+                filebrowser_pre_delete.send(sender=request, path=path, filename=filename)
                 # DELETE IMAGE VERSIONS/THUMBNAILS
                 for version in VERSIONS:
                     try:
@@ -279,6 +300,9 @@ def delete(request):
                         pass
                 # DELETE FILE
                 os.unlink(os.path.join(abs_path, filename))
+                # POST DELETE SIGNAL
+                filebrowser_post_delete.send(sender=request, path=path, filename=filename)
+                # MESSAGE & REDIRECT
                 msg = _('The file %s was successfully deleted.') % (filename.lower())
                 request.user.message_set.create(message=msg)
                 redirect_url = reverse("fb_browse") + query_helper(query, "", "filename,filetype")
@@ -288,7 +312,13 @@ def delete(request):
                 msg = OSError
         else:
             try:
+                # PRE DELETE SIGNAL
+                filebrowser_pre_delete.send(sender=request, path=path, filename=filename)
+                # DELETE FOLDER
                 os.rmdir(os.path.join(abs_path, filename))
+                # POST DELETE SIGNAL
+                filebrowser_post_delete.send(sender=request, path=path, filename=filename)
+                # MESSAGE & REDIRECT
                 msg = _('The directory %s was successfully deleted.') % (filename.lower())
                 request.user.message_set.create(message=msg)
                 redirect_url = reverse("fb_browse") + query_helper(query, "", "filename,filetype")
@@ -309,6 +339,10 @@ def delete(request):
     }, context_instance=Context(request))
 delete = staff_member_required(never_cache(delete))
 
+
+# delete signals
+filebrowser_pre_rename = Signal(providing_args=["path", "filename"])
+filebrowser_post_rename = Signal(providing_args=["path", "filename"])
 
 def rename(request):
     """
@@ -336,6 +370,8 @@ def rename(request):
             relative_server_path = os.path.join(DIRECTORY, path, filename)
             new_relative_server_path = os.path.join(DIRECTORY, path, form.cleaned_data['name'] + file_extension)
             try:
+                # PRE RENAME SIGNAL
+                filebrowser_pre_delete.send(sender=request, path=path, filename=filename)
                 # DELETE IMAGE VERSIONS/THUMBNAILS
                 # regenerating versions/thumbs will be done automatically
                 for version in VERSIONS:
@@ -345,6 +381,9 @@ def rename(request):
                         pass
                 # RENAME ORIGINAL
                 os.rename(os.path.join(MEDIA_ROOT, relative_server_path), os.path.join(MEDIA_ROOT, new_relative_server_path))
+                # POST RENAME SIGNAL
+                filebrowser_post_delete.send(sender=request, path=path, filename=filename)
+                # MESSAGE & REDIRECT
                 msg = _('Renaming was successful.')
                 request.user.message_set.create(message=msg)
                 redirect_url = reverse("fb_browse") + query_helper(query, "", "filename")
