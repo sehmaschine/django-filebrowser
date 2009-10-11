@@ -26,8 +26,8 @@ MEDIA_URL = getattr(settings, "FILEBROWSER_MEDIA_URL", settings.MEDIA_URL)
 DIRECTORY = getattr(settings, "FILEBROWSER_DIRECTORY", 'uploads/')
 
 # The URL/PATH to your filebrowser media-files.
-URL_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_URL_FILEBROWSER_MEDIA", settings.ADMIN_MEDIA_PREFIX + "filebrowser/")
-PATH_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_PATH_FILEBROWSER_MEDIA", os.path.join(settings.MEDIA_ROOT, 'admin/filebrowser/'))
+URL_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_URL_FILEBROWSER_MEDIA", "/media/filebrowser/")
+PATH_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_PATH_FILEBROWSER_MEDIA", os.path.join(settings.MEDIA_ROOT, 'filebrowser/'))
 
 # The URL/PATH to your TinyMCE Installation.
 URL_TINYMCE = getattr(settings, "FILEBROWSER_URL_TINYMCE", DEFAULT_URL_TINYMCE)
@@ -59,7 +59,7 @@ SELECT_FORMATS = getattr(settings, "FILEBROWSER_SELECT_FORMATS", {
 
 # Directory to Save Image Versions (and Thumbnails). Relative to MEDIA_ROOT.
 # If no directory is given, versions are stored within the Image directory.
-# VERSION URL: VERSIONS_BASEDIR/ogiginal_path/originalfilename_versionprefix.extension
+# VERSION URL: VERSIONS_BASEDIR/original_path/originalfilename_versionsuffix.extension
 VERSIONS_BASEDIR = getattr(settings, 'FILEBROWSER_VERSIONS_BASEDIR', '')
 # Versions Format. Available Attributes: verbose_name, width, height, opts
 VERSIONS = getattr(settings, "FILEBROWSER_VERSIONS", {
@@ -87,8 +87,11 @@ STRICT_PIL = getattr(settings, 'FILEBROWSER_STRICT_PIL', False)
 # s. http://mail.python.org/pipermail/image-sig/1999-August/000816.html
 IMAGE_MAXBLOCK = getattr(settings, 'FILEBROWSER_IMAGE_MAXBLOCK', 1024*1024)
 # Exclude files matching any of the following regular expressions
-# Default is to exclude 'sorl-thumbnail' style naming of jpg, png, or gif thumbnails
-EXCLUDE = getattr(settings, 'FILEBROWSER_EXCLUDE', (r'_(jpg|png|gif)_.*_q\d{1,3}\.(jpg|png|gif)', ))
+# Default is to exclude 'thumbnail' style naming of image-thumbnails.
+EXTENSION_LIST = []
+for exts in EXTENSIONS.values():
+    EXTENSION_LIST += exts
+EXCLUDE = getattr(settings, 'FILEBROWSER_EXCLUDE', (r'_(%(exts)s)_.*_q\d{1,3}\.(%(exts)s)' % {'exts': ('|'.join(EXTENSION_LIST))},))
 # Max. Upload Size in Bytes.
 MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 10485760)
 # Convert Filename (replace spaces and convert to lowercase)
