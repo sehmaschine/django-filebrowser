@@ -17,6 +17,7 @@
         $('#id_file').uploadify({
             'uploader'          : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/uploadify.swf',
             'script'            : '{% url fb_do_upload %}',
+            'scriptData'        : {'session_key': '{{session_key}}'},
             'checkScript'       : '{% url fb_check %}',
             'cancelImg'         : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/cancel.png',
             'auto'              : false,

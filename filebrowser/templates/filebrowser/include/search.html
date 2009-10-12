@@ -16,6 +16,8 @@
         {% if query.ot %}<input type="hidden" name="ot" value="{{ query.ot }}" />{% endif %}
         {% if query.pop %}<input type="hidden" name="pop" value="{{ query.pop }}" />{% endif %}
         {% if query.type %}<input type="hidden" name="type" value="{{ query.type }}" />{% endif %}
+        {% if query.format %}<input type="hidden" name="format" value="{{ query.format }}" />{% endif %}
+        {% if query.dir %}<input type="hidden" name="dir" value="{{ query.dir }}" />{% endif %}
         <input type="submit" value="{% trans "Go" %}" />
         
         <p class="help"><strong>Search for:</strong> Filename</p>
