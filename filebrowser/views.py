@@ -75,20 +75,6 @@ def browse(request):
         # CREATE FILEOBJECT
         fileobject = FileObject(os.path.join(DIRECTORY, path, file))
         
-        # COUNTER/RESULTS
-        if fileobject.filetype:
-            counter[fileobject.filetype] += 1
-        if fileobject.filetype == 'Image':
-            results_var['images_total'] += 1
-        if fileobject.filetype != 'Folder':
-            results_var['delete_total'] += 1
-        elif fileobject.filetype == 'Folder' and fileobject.is_empty:
-            results_var['delete_total'] += 1
-        if query.get('type') and query.get('type') in SELECT_FORMATS and fileobject.filetype in SELECT_FORMATS[query.get('type')]:
-            results_var['select_total'] += 1
-        elif not query.get('type'):
-            results_var['select_total'] += 1
-        
         # FILTER / SEARCH
         append = False
         if fileobject.filetype == request.GET.get('filter_type', fileobject.filetype) and _get_filterdate(request.GET.get('filter_date', ''), fileobject.date):
@@ -100,6 +86,21 @@ def browse(request):
         if append:
             files.append(fileobject)
             results_var['results_current'] += 1
+            # COUNTER/RESULTS
+            if fileobject.filetype == 'Image':
+                results_var['images_total'] += 1
+            if fileobject.filetype != 'Folder':
+                results_var['delete_total'] += 1
+            elif fileobject.filetype == 'Folder' and fileobject.is_empty:
+                results_var['delete_total'] += 1
+            if query.get('type') and query.get('type') in SELECT_FORMATS and fileobject.filetype in SELECT_FORMATS[query.get('type')]:
+                results_var['select_total'] += 1
+            elif not query.get('type'):
+                results_var['select_total'] += 1
+        
+        # COUNTER/RESULTS
+        if fileobject.filetype:
+            counter[fileobject.filetype] += 1
     
     # SORTING
     files = _sort_by_attr(files, request.GET.get('o', 'date'))
