@@ -97,3 +97,13 @@ MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 10485760)
 # Convert Filename (replace spaces and convert to lowercase)
 CONVERT_FILENAME = getattr(settings, "FILEBROWSER_CONVERT_FILENAME", True)
 
+# EXTRA TRANSLATION STRINGS
+# The following strings are not availabe within views or templates
+_('Folder')
+_('Image')
+_('Video')
+_('Document')
+_('Sound')
+_('Code')
+
+
