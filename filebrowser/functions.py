@@ -121,7 +121,7 @@ def _get_path(path):
     Get Path.
     """
     
-    if not os.path.isdir(os.path.join(MEDIA_ROOT, DIRECTORY, path)):
+    if os.path.isabs(path) or not os.path.isdir(os.path.join(MEDIA_ROOT, DIRECTORY, path)):
         return None
     return path
     
