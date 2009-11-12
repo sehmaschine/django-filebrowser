@@ -1,0 +1,330 @@
+# Copyright (C) 2009 Janos Guljas
+# This file is distributed under the same license as the django-filebrowser package.
+# Janos Guljas <janos@janos.in.rs>, 2009.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-05-06 21:43+0200\n"
+"PO-Revision-Date: 2009-05-06 22:18+0200\n"
+"Last-Translator: Janos Guljas <janos@janos.in.rs>\n"
+"Language-Team: Serbian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: extension translation
+msgid "Folder"
+msgstr "Фолдер"
+msgid "Image"
+msgstr "Слика"
+msgid "Document"
+msgstr "Документ"
+msgid "Code"
+msgstr "Код"
+msgid "Sound"
+msgstr "Звук"
+
+#: fields.py:96
+#, python-format
+msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
+msgstr "Фајлови са екстензијом %(ext)s нису дозвољени. Само %(allowed)s екстензије су дозвољене."
+
+#: forms.py:23
+msgid "Name"
+msgstr "Назив"
+
+#: forms.py:23 forms.py:49
+msgid ""
+"The Name will automatically be converted to lowercase. Only letters, "
+"numbers, underscores and hyphens are allowed."
+msgstr ""
+"Слова у називу ће аутоматски бити конвертована у мала. Само слова, цифре, "
+"доња црта и црта су дозвољени карактери."
+
+#: forms.py:30 forms.py:56
+msgid "Only letters, numbers, underscores and hyphens are allowed."
+msgstr "Само слова, цифре, доња црта и црта су дозвољени карактери."
+
+#: forms.py:33
+msgid "The Folder already exists."
+msgstr "Фолдер већ постоји."
+
+#: forms.py:36
+msgid "Disallowed Folder Name."
+msgstr "Тај назив фолдера није дозвољен."
+
+#: forms.py:49
+msgid "New Name"
+msgstr "Нови назив"
+
+#: forms.py:59
+msgid "The File/Folder already exists."
+msgstr "Фајл/фолдер већ постоји."
+
+#: forms.py:95
+msgid "File"
+msgstr "Фајл"
+
+#: forms.py:96
+msgid "Use Image Generator"
+msgstr "Користи генератор слика"
+
+#: forms.py:105
+msgid "File already exists."
+msgstr "Фајл већ постоји."
+
+#: forms.py:111
+msgid "Filename is not allowed."
+msgstr "Назив фајла није дозвољен."
+
+#: forms.py:116
+msgid "File extension is not allowed."
+msgstr "Екстензија фајла није дозвиљена."
+
+#: forms.py:121
+msgid "Filesize exceeds allowed Upload Size."
+msgstr "Величина фајла прелази дозвољену вредност."
+
+#: functions.py:84
+msgid "Home"
+msgstr "Почетни фолдер"
+
+#: functions.py:279
+msgid "Thumbnail creation failed."
+msgstr "Генерисање умањеног приказа слике није успело."
+
+#: functions.py:334 functions.py:389
+msgid "Image creation failed."
+msgstr "Генерисање слике није успело."
+
+#: views.py:174
+msgid "FileBrowser"
+msgstr "Фајл брузер"
+
+#: views.py:198
+#, python-format
+msgid "The Folder %s was successfully created."
+msgstr "Фолдер %s је успешно направљен."
+
+#: views.py:204
+msgid "Permission denied."
+msgstr "Одбијен приступ."
+
+#: views.py:206
+msgid "Error creating directory."
+msgstr "Грешка при креирању директоријума."
+
+#: views.py:214 views.py:215 templates/filebrowser/index.html:33
+msgid "New Folder"
+msgstr "Нови фолдер"
+
+#: views.py:260
+msgid "Upload successful."
+msgstr "Пренос фајла се успешно завршио."
+
+#: views.py:273 templates/filebrowser/index.html:36
+#: templates/filebrowser/upload.html:62
+msgid "Upload"
+msgstr "Пренос фајла"
+
+#: views.py:274
+msgid "Select files to upload"
+msgstr "Изаберите фајлове за пренос"
+
+#: views.py:304
+msgid "Thumbnail creation successful."
+msgstr "Генерисање умањеног приказа слике је успело."
+
+#: views.py:354
+#, python-format
+msgid "The file %s was successfully deleted."
+msgstr "Фајл %s је супешно обрисан."
+
+#: views.py:366
+#, python-format
+msgid "The directory %s was successfully deleted."
+msgstr "Директоријум %s је супешно обрисан."
+
+#: views.py:417
+msgid "Error renaming Thumbnail."
+msgstr "Грешка при промени назива умањеног приказа слике."
+
+#: views.py:423
+msgid "Renaming was successful."
+msgstr "Успешна промена назива."
+
+#: views.py:428
+msgid "Error."
+msgstr "Грешка."
+
+#: views.py:437 templates/filebrowser/include/filelisting.html:52
+msgid "Rename"
+msgstr "Промени назив"
+
+#: views.py:438
+#, python-format
+msgid "Rename \"%s\""
+msgstr "Промени назив: „%s“"
+
+#: views.py:475
+msgid "Successfully generated Images."
+msgstr "Слике су успешно генерисане."
+
+#: templates/filebrowser/append.html:5 templates/filebrowser/append.html:7
+msgid "File-Browser"
+msgstr "Фајл-браузер"
+
+#: templates/filebrowser/index.html:34
+msgid "Make Thumbs"
+msgstr "Генериши умањене приказе"
+
+#: templates/filebrowser/index.html:35
+msgid "Generate Images"
+msgstr "Генериши слике"
+
+#: templates/filebrowser/makedir.html:24 templates/filebrowser/rename.html:22
+msgid "Please correct the following errors."
+msgstr "Исправите следеће грешке."
+
+#: templates/filebrowser/makedir.html:34 templates/filebrowser/rename.html:33
+msgid "Submit"
+msgstr "Изврши"
+
+#: templates/filebrowser/upload.html:37
+msgid "Will use image generator."
+msgstr "Користи генератор слика."
+
+#: templates/filebrowser/upload.html:47
+msgid "Help"
+msgstr "Помоћ"
+
+#: templates/filebrowser/upload.html:51
+msgid "Allowed"
+msgstr "Дозвољено"
+
+#: templates/filebrowser/upload.html:57
+msgid "Max. Filesize"
+msgstr "Највећа величина фајла"
+
+#: templates/filebrowser/include/filelisting.html:8
+msgid "Select"
+msgstr "Изаберите"
+
+#: templates/filebrowser/include/filelisting.html:15
+msgid "Select File"
+msgstr "Изаберите фајл"
+
+#: templates/filebrowser/include/filelisting.html:26
+msgid "Make Thumbnail"
+msgstr "Направи умењени приказ"
+
+#: templates/filebrowser/include/filelisting.html:29
+msgid "View Image"
+msgstr "Преглед слике"
+
+#: templates/filebrowser/include/filelisting.html:46
+msgid "Generate Image Versions"
+msgstr "Генериши верзије слика"
+
+#: templates/filebrowser/include/filelisting.html:61
+msgid "Are you sure you want to delete this file?"
+msgstr "Да ли сте сигурни да желите да избришете овај фајл?"
+
+#: templates/filebrowser/include/filelisting.html:61
+msgid "Delete File"
+msgstr "Избриши фајл"
+
+#: templates/filebrowser/include/filelisting.html:64
+msgid "Are you sure you want to delete this Folder?"
+msgstr "Да ли сте сигурни да желите да избришете овај фолдер?"
+
+#: templates/filebrowser/include/filelisting.html:64
+msgid "Delete Folder"
+msgstr "Избриши фолдер"
+
+#: templates/filebrowser/include/filter.html:15
+msgid "Filter"
+msgstr "Филтер"
+
+#: templates/filebrowser/include/filter.html:21
+msgid "By Date"
+msgstr "По датуму"
+
+#: templates/filebrowser/include/filter.html:23
+msgid "Any Date"
+msgstr "Сви датуми"
+
+#: templates/filebrowser/include/filter.html:25
+msgid "Today"
+msgstr "Данас"
+
+#: templates/filebrowser/include/filter.html:27
+msgid "Past 7 days"
+msgstr "Последњих 7 дана"
+
+#: templates/filebrowser/include/filter.html:29
+msgid "Past 30 days"
+msgstr "Последњих 30 дана"
+
+#: templates/filebrowser/include/filter.html:31
+msgid "This year"
+msgstr "Ове године"
+
+#: templates/filebrowser/include/filter.html:39
+msgid "By Type"
+msgstr "По типу"
+
+#: templates/filebrowser/include/filter.html:41
+msgid "All"
+msgstr "Сви"
+
+#: templates/filebrowser/include/paginator.html:5
+msgid "No Items Found."
+msgstr "Ниједна слика није пронађена."
+
+#: templates/filebrowser/include/paginator.html:10
+#, python-format
+msgid "%(counter)s Item"
+msgid_plural "%(counter)s Items"
+msgstr[0] "%(counter)s ставка"
+msgstr[1] "%(counter)s ставки"
+
+#: templates/filebrowser/include/paginator.html:16
+msgid "No Items."
+msgstr "Ниједна ставка"
+
+#: templates/filebrowser/include/tableheader.html:13
+#: templates/filebrowser/include/tableheader.html:14
+msgid "Filename"
+msgstr "Назив фајла"
+
+#: templates/filebrowser/include/tableheader.html:20
+#: templates/filebrowser/include/tableheader.html:21
+msgid "Size"
+msgstr "Величина"
+
+#: templates/filebrowser/include/tableheader.html:23
+#: templates/filebrowser/include/tableheader.html:24
+msgid "Date"
+msgstr "Датум"
+
+#: templates/filebrowser/include/toolbar.html:14
+msgid "Go"
+msgstr "Иди"
+
+#: templates/filebrowser/include/toolbar.html:16
+#, python-format
+msgid "%(counter)s Item found"
+msgid_plural "%(counter)s Items found"
+msgstr[0] "%(counter)s ставка нађена"
+msgstr[1] "%(counter)s ставки нађено"
+
+#: templates/filebrowser/include/toolbar.html:17
+#, python-format
+msgid "%(counter)s Item total"
+msgid_plural "%(counter)s Items total"
+msgstr[0] "%(counter)s ставка укупно"
+msgstr[1] "%(counter)s ставки укупно"
