@@ -1,21 +1,23 @@
 {% extends "admin/base_site.html" %}
-{% load i18n %}
-{% load adminmedia %}
-{% load fb_tags %}
 
-{% block coltype %}colM{% endblock %}
-{% block bodyclass %}change-form{% endblock %}
-{% block extrastyle %}{{ block.super }}
-<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
-<link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
-{% if query.pop %}
-<style type="text/css">
-#header { display: none; }
-</style>
-{% endif %}
+<!-- LOADING -->
+{% load i18n adminmedia fb_tags %}
+
+<!-- STYLESHEETS -->
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
+    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
 {% endblock %}
+
+<!-- COLTYPE/BODYCLASS -->
+{% block coltype %}colM{% endblock %}
+{% block bodyclass %}change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+
+<!-- BREADCRUMBS -->
 {% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
 
+<!-- CONTENT -->
 {% block content %}
 <div id="content-main">
     <form action="{% query_string "" "filter_date,filter_type,q" %}" method="post">

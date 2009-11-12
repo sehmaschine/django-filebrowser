@@ -1,6 +1,6 @@
 function CustomFileBrowser(field_name, url, type, win) {
 
-    var cmsURL = "/admin/filebrowser/?pop=2";
+    var cmsURL = "/admin/filebrowser/browse/?pop=2";
     cmsURL = cmsURL + "&type=" + type;
     
     tinyMCE.activeEditor.windowManager.open({
@@ -34,12 +34,11 @@ tinyMCE.init({
     theme_advanced_toolbar_location: "top",
     theme_advanced_toolbar_align: "left",
     theme_advanced_statusbar_location: "none",
-    theme_advanced_buttons1: "formatselect,styleselect,bold,italic,underline,bullist,numlist,undo,redo,link,unlink,image,code,template,visualchars,fullscreen,pasteword,media,search,replace,charmap",
+    theme_advanced_buttons1: "formatselect,bold,italic,underline,bullist,numlist,undo,redo,link,unlink,image,code,fullscreen,pasteword,media,charmap",
     theme_advanced_buttons2: "",
     theme_advanced_buttons3: "",
     theme_advanced_path: false,
-    theme_advanced_blockformats: "p,h2,h3,h4,div,code,pre",
-    theme_advanced_styles: "[all] clearfix=clearfix;[p] summary=summary;[div] code=code;[img] img_left=img_left;[img] img_left_nospacetop=img_left_nospacetop;[img] img_right=img_right;[img] img_right_nospacetop=img_right_nospacetop;[img] img_block=img_block;[img] img_block_nospacetop=img_block_nospacetop;[div] column span-2=column span-2;[div] column span-4=column span-4;[div] column span-8=column span-8",
+    theme_advanced_blockformats: "p,h2,h3,h4,h5,h6",
     width: '700',
     height: '200',
     plugins: "advimage,advlink,fullscreen,visualchars,paste,media,template,searchreplace",
