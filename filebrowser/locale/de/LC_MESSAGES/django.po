@@ -1,0 +1,384 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-11-12 13:17+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: fields.py:58
+#, python-format
+msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
+msgstr ""
+"Die Dateierweiterung %(ext)s ist nicht erlaubt. Nur die Dateierweiterungen %"
+"(allowed)s sind erlaubt."
+
+#: forms.py:27 templates/filebrowser/versions.html:64
+msgid "Name"
+msgstr "Name"
+
+#: forms.py:27 forms.py:33 forms.py:50 forms.py:56
+msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
+msgstr ""
+"Nur Buchstaben, Zahlen, Unterstriche, Leerzeichen und Bindestriche sind "
+"erlaubt."
+
+#: forms.py:36 forms.py:59
+msgid "The Folder already exists."
+msgstr "Der Ordner existiert bereits."
+
+#: forms.py:50
+msgid "New Name"
+msgstr "Neuer Name"
+
+#: forms.py:61
+msgid "The File already exists."
+msgstr "Die Datei existiert bereits."
+
+#: settings.py:105
+msgid "Folder"
+msgstr "Ordner"
+
+#: settings.py:106
+msgid "Image"
+msgstr "Bild"
+
+#: settings.py:107
+msgid "Video"
+msgstr "Video"
+
+#: settings.py:108
+msgid "Document"
+msgstr "Dokument"
+
+#: settings.py:109
+msgid "Audio"
+msgstr "Audio"
+
+#: settings.py:110
+msgid "Code"
+msgstr "Code"
+
+#: views.py:47 views.py:138 views.py:191 views.py:285 views.py:366
+#: views.py:426
+#, fuzzy
+msgid "The requested Folder does not exist."
+msgstr "Der Ordner existiert bereits."
+
+#: views.py:51
+msgid "Error finding Upload-Folder. Maybe it does not exist?"
+msgstr "Der Upload-Folder wurde nicht gefunden. Bitte die settings überprüfen."
+
+#: views.py:116 templates/filebrowser/append.html:5
+#: templates/filebrowser/append.html:7
+#: templates/filebrowser/include/breadcrumbs.html:7
+#: templates/filebrowser/include/breadcrumbs.html:9
+msgid "FileBrowser"
+msgstr "FileBrowser"
+
+#: views.py:156
+#, python-format
+msgid "The Folder %s was successfully created."
+msgstr "Der Ordner %s wurde erfolgreich erstellt."
+
+#: views.py:164
+msgid "Permission denied."
+msgstr "Fehlende Zugriffsberechtigungen."
+
+#: views.py:166
+msgid "Error creating folder."
+msgstr "Fehler beim Erstellen des Ordners."
+
+#: views.py:173 views.py:175 templates/filebrowser/index.html:57
+msgid "New Folder"
+msgstr "Neuer Ordner"
+
+#: views.py:203
+msgid "Select files to upload"
+msgstr "Dateien zum Upload auswählen"
+
+#: views.py:205 templates/filebrowser/index.html:58
+#: templates/filebrowser/upload.html:106
+msgid "Upload"
+msgstr "Upload"
+
+#: views.py:287 views.py:368 views.py:428
+msgid "The requested File does not exist."
+msgstr "Die gewünschte Datei existiert nicht."
+
+#: views.py:310
+#, python-format
+msgid "The file %s was successfully deleted."
+msgstr "Die Datei %s wurde erfolgreich gelöscht."
+
+#: views.py:326
+#, python-format
+msgid "The folder %s was successfully deleted."
+msgstr "Der Ordner %s wurde erfolgreich gelöscht."
+
+#: views.py:395
+msgid "Renaming was successful."
+msgstr "Das Umbenennen war erfolgreich."
+
+#: views.py:400
+msgid "Error."
+msgstr "Fehler."
+
+#: views.py:408
+#, python-format
+msgid "Rename \"%s\""
+msgstr "\"%s\" umbenennen"
+
+#: views.py:410 templates/filebrowser/include/filelisting.html:73
+msgid "Rename"
+msgstr "Umbenennen"
+
+#: views.py:436 views.py:438
+#, python-format
+msgid "Versions for \"%s\""
+msgstr "Bildversionen für \"%s\""
+
+#: templates/filebrowser/makedir.html:25 templates/filebrowser/rename.html:25
+msgid "Please correct the following errors."
+msgstr "Bitte die angeführten Fehler korrigieren."
+
+#: templates/filebrowser/makedir.html:33 templates/filebrowser/upload.html:96
+msgid ""
+"The Name will be converted to lowercase. Spaces will be replaced with "
+"underscores."
+msgstr ""
+"Der Name wird automatisch in Kleinbuchstaben konvertiert. Leerzeichen werden "
+"durch Unterstriche ersetzt."
+
+#: templates/filebrowser/makedir.html:38 templates/filebrowser/rename.html:36
+msgid "Submit"
+msgstr "Abschicken"
+
+#: templates/filebrowser/upload.html:44
+msgid "BROWSE"
+msgstr "BROWSE"
+
+#: templates/filebrowser/upload.html:45
+msgid "An Error occured"
+msgstr "Es sind Fehler aufgetreten"
+
+#: templates/filebrowser/upload.html:46
+msgid "Completed"
+msgstr "Abgeschlossen"
+
+#: templates/filebrowser/upload.html:47
+msgid "Do you want to replace the file"
+msgstr "Wollen Sie die Datei ersetzen"
+
+#: templates/filebrowser/upload.html:48
+msgid "KB"
+msgstr "KB"
+
+#: templates/filebrowser/upload.html:49
+msgid "MB"
+msgstr "MB"
+
+#: templates/filebrowser/upload.html:79
+msgid "Help"
+msgstr "Hilfe"
+
+#: templates/filebrowser/upload.html:83
+msgid "Allowed"
+msgstr "Erlaubt"
+
+#: templates/filebrowser/upload.html:89
+msgid "Max. Filesize"
+msgstr "Max. Dateigröße"
+
+#: templates/filebrowser/upload.html:104
+msgid "Clear Queue"
+msgstr "Stapel entfernen"
+
+#: templates/filebrowser/versions.html:67
+msgid "Image Version"
+msgstr "Bildversion"
+
+#: templates/filebrowser/versions.html:70
+msgid "Debug"
+msgstr "Debug"
+
+#: templates/filebrowser/versions.html:84
+#: templates/filebrowser/include/filelisting.html:10
+msgid "Select"
+msgstr "Auswählen"
+
+#: templates/filebrowser/versions.html:96
+#: templates/filebrowser/versions.html:108
+#: templates/filebrowser/include/filelisting.html:24
+#: templates/filebrowser/include/filelisting.html:38
+msgid "Select File"
+msgstr "Datei auswählen"
+
+#: templates/filebrowser/versions.html:119
+msgid "Width"
+msgstr "Breite"
+
+#: templates/filebrowser/versions.html:120
+msgid "Height"
+msgstr "Höhe"
+
+#: templates/filebrowser/include/breadcrumbs.html:4
+msgid "Home"
+msgstr "Start"
+
+#: templates/filebrowser/include/filelisting.html:49
+msgid "Show Versions"
+msgstr "Bildversionen anzeigen"
+
+#: templates/filebrowser/include/filelisting.html:60
+msgid "View Image"
+msgstr "Originalbild anzeigen"
+
+#: templates/filebrowser/include/filelisting.html:85
+msgid "Are you sure you want to delete this file?"
+msgstr "Sind Sie sicher, dass Sie die Datei löschen wollen?"
+
+#: templates/filebrowser/include/filelisting.html:85
+msgid "Delete File"
+msgstr "Datei löschen"
+
+#: templates/filebrowser/include/filelisting.html:88
+msgid "Are you sure you want to delete this Folder?"
+msgstr "Sind Sie sicher, dass Sie den Ordner löschen wollen?"
+
+#: templates/filebrowser/include/filelisting.html:88
+msgid "Delete Folder"
+msgstr "Ordner löschen"
+
+#: templates/filebrowser/include/filter.html:3
+msgid "Filter"
+msgstr "Filter"
+
+#: templates/filebrowser/include/filter.html:9
+msgid "By Date"
+msgstr "Nach Datum"
+
+#: templates/filebrowser/include/filter.html:11
+msgid "Any Date"
+msgstr "Alle"
+
+#: templates/filebrowser/include/filter.html:13
+msgid "Today"
+msgstr "Heute"
+
+#: templates/filebrowser/include/filter.html:15
+msgid "Past 7 days"
+msgstr "Letzte Woche"
+
+#: templates/filebrowser/include/filter.html:17
+msgid "Past 30 days"
+msgstr "Letzter Monat"
+
+#: templates/filebrowser/include/filter.html:19
+msgid "This year"
+msgstr "Dieses Jahr"
+
+#: templates/filebrowser/include/filter.html:27
+msgid "By Type"
+msgstr "Nach Typ"
+
+#: templates/filebrowser/include/filter.html:29
+msgid "All"
+msgstr "Alle"
+
+#: templates/filebrowser/include/paginator.html:4
+msgid "No Items Found"
+msgstr "Keine Dateien gefunden"
+
+#: templates/filebrowser/include/paginator.html:9
+#, python-format
+msgid "%(counter)s Item"
+msgid_plural "%(counter)s Items"
+msgstr[0] "%(counter)s Datei"
+msgstr[1] "%(counter)s Dateien"
+
+#: templates/filebrowser/include/paginator.html:15
+msgid "No Items"
+msgstr "Keine Dateien"
+
+#: templates/filebrowser/include/search.html:3
+#, python-format
+msgid "1 result"
+msgid_plural "%(counter)s results"
+msgstr[0] "1 Suchergebnis"
+msgstr[1] "%(counter)s Suchergebnisse"
+
+#: templates/filebrowser/include/search.html:4
+#: templates/filebrowser/include/toolbar.html:9
+#, python-format
+msgid "%(full_result_count)s total"
+msgstr "%(full_result_count)s insgesamt"
+
+#: templates/filebrowser/include/search.html:5
+msgid "Clear Restrictions"
+msgstr ""
+
+#: templates/filebrowser/include/search.html:7
+#: templates/filebrowser/include/toolbar.html:16
+msgid "Search"
+msgstr "Suche"
+
+#: templates/filebrowser/include/search.html:19
+msgid "Go"
+msgstr "Los"
+
+#: templates/filebrowser/include/search.html:24
+#, python-format
+msgid "%(counter)s Item found"
+msgid_plural "%(counter)s Items found"
+msgstr[0] "%(counter)s Datei gefunden"
+msgstr[1] "%(counter)s Dateien gefunden"
+
+#: templates/filebrowser/include/search.html:25
+#, python-format
+msgid "%(counter)s Item total"
+msgid_plural "%(counter)s Items total"
+msgstr[0] "%(counter)s Datei insgesamt"
+msgstr[1] "%(counter)s Dateien insgesamt"
+
+#: templates/filebrowser/include/tableheader.html:16
+#: templates/filebrowser/include/tableheader.html:17
+msgid "Filename"
+msgstr "Dateiname"
+
+#: templates/filebrowser/include/tableheader.html:21
+#: templates/filebrowser/include/tableheader.html:22
+msgid "Size"
+msgstr "Größe"
+
+#: templates/filebrowser/include/tableheader.html:24
+#: templates/filebrowser/include/tableheader.html:25
+msgid "Date"
+msgstr "Datum"
+
+#: templates/filebrowser/include/toolbar.html:6
+msgid "Results"
+msgstr "Resultate"
+
+#: templates/filebrowser/include/toolbar.html:8
+#, python-format
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] "%(counter)s Resultat"
+msgstr[1] "%(counter)s Resultate"
+
+#~ msgid "No Items Found."
+#~ msgstr "Keine Dateien gefunden."
+
+#~ msgid "No Items."
+#~ msgstr "Keine Dateien."
