@@ -7,7 +7,7 @@ from django.conf import settings
 from django.utils.encoding import force_unicode
 
 # filebrowser imports
-from filebrowser.fb_settings import MEDIA_ROOT, MEDIA_URL, VERSIONS
+from filebrowser.settings import MEDIA_ROOT, MEDIA_URL, VERSIONS
 from filebrowser.functions import _url_to_path, _path_to_url, _get_version_path, _version_generator
 from filebrowser.base import FileObject
 
@@ -49,7 +49,7 @@ class VersionNode(Node):
 
 def version(parser, token):
     """
-    Displaying a version of an existing Image according to the predefined VERSIONS settings (see fb_settings).
+    Displaying a version of an existing Image according to the predefined VERSIONS settings (see filebrowser settings).
     {% version field_name version_prefix %}
     
     Use {% version my_image 'medium' %} in order to display the medium-size

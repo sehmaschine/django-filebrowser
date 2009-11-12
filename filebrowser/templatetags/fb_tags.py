@@ -4,7 +4,7 @@ from django import template
 from django.utils.encoding import smart_unicode
 from django.utils.safestring import mark_safe
 
-from filebrowser.fb_settings import SELECT_FORMATS
+from filebrowser.settings import SELECT_FORMATS
 
 register = template.Library()
 

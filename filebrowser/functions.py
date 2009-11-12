@@ -9,7 +9,7 @@ import os, re, decimal
 from urlparse import urlparse
 
 # filebrowser imports
-from filebrowser.fb_settings import *
+from filebrowser.settings import *
 
 # PIL import
 if STRICT_PIL:

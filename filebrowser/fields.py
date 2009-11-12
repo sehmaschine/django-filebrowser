@@ -13,7 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 
 # filebrowser imports
 from filebrowser.functions import _url_to_path, _dir_from_url, _get_version_path, _url_join
-from filebrowser.fb_settings import *
+from filebrowser.settings import *
 from filebrowser.base import FileObject
 
 class FileBrowseWidget(Input):

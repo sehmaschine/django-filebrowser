@@ -5,7 +5,7 @@ from time import gmtime, strftime
 from django.conf import settings
 
 # filebrowser imports
-from filebrowser.fb_settings import *
+from filebrowser.settings import *
 from filebrowser.functions import _get_file_type, _url_join, _is_selectable, _get_version_path
 
 # PIL import

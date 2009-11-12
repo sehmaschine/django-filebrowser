@@ -9,7 +9,7 @@ from django.forms.formsets import BaseFormSet
 from django.utils.translation import ugettext as _
 
 # filebrowser imports
-from filebrowser.fb_settings import MAX_UPLOAD_SIZE
+from filebrowser.settings import MAX_UPLOAD_SIZE
 from filebrowser.functions import _get_file_type, _convert_filename
 
 alnum_name_re = re.compile(r'^[\sa-zA-Z0-9._/-]+$')
