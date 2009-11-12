@@ -1,0 +1,70 @@
+{% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
+{% load i18n adminmedia fb_tags %}
+
+<!-- EXTRAHEAD -->
+{% block extrahead %}
+    {{ block.super }}
+    <!-- FileBrowseField -->
+    {% ifequal query.pop '1' %}
+    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_FileBrowseField.js"></script>
+    {% endifequal %}
+    <!-- TinyMCE -->
+    {% ifequal query.pop '2' %}
+    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_TINYMCE }}tiny_mce_popup.js"></script>
+    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_TinyMCE.js"></script>
+    {% if query.mce_rdomain %}<script language="javascript">document.domain = "{{ query.mce_rdomain }}"</script>{% endif %}
+    {% endifequal %}
+    <!-- CKeditor (former "FCKeditor") -->
+    {% ifequal query.pop '3' %}
+    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_CKeditor.js"></script>
+    {% endifequal %}
+    {{ media }}
+{% endblock %}
+
+<!-- COLTYPE/BODYCLASS -->
+{% block coltype %}flex{% endblock %}
+{% block bodyclass %}change-list filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+
+<!-- EXTRASTYLE -->
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/changelists.css" />
+    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+    {% if query.pop %}
+    <style type="text/css">
+    #header { display: none; }
+    </style>
+{% endif %}
+{% endblock %}
+
+<!-- BREADCRUMBS -->
+{% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+<div id="content-main">
+    {% block object-tools %}
+    <ul class="object-tools">
+        <li><a href="{% url fb_mkdir %}{% query_string %}">{% trans "New Folder" %}</a></li>
+        <li><a href="{% url fb_upload %}{% query_string %}" class="focus">{% trans "Upload" %}</a></li>
+    </ul>
+    {% endblock %}
+    <div class="module filtered" id="changelist">
+        {% include "filebrowser/include/toolbar.html" %}
+        {% include "filebrowser/include/filter.html" %}
+        <table cellspacing="0">
+            {% if results_var.results_current %}
+                {% include "filebrowser/include/tableheader.html" %}
+            {% endif %}
+            <tbody>
+            {% for file in files %}
+                {% include "filebrowser/include/filelisting.html" %}
+            {% endfor %}
+            </tbody>
+        </table>
+        {% include "filebrowser/include/paginator.html" %}
+    </div>
+</div>
+{% endblock %}
