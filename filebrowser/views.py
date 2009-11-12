@@ -19,7 +19,7 @@ from django.dispatch import Signal
 
 # filebrowser imports
 from filebrowser.settings import *
-from filebrowser.functions import _url_to_path, _path_to_url, _sort_by_attr, _get_path, _get_file, _get_version_path, _get_breadcrumbs, _get_filterdate, _get_settings_var, _handle_file_upload, _get_file_type, _url_join, _convert_filename
+from filebrowser.functions import path_to_url, sort_by_attr, get_path, get_file, get_version_path, get_breadcrumbs, get_filterdate, get_settings_var, handle_file_upload, convert_filename
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileObject
 from filebrowser.decorators import flash_login_required
@@ -40,8 +40,8 @@ def browse(request):
     
     # QUERY / PATH CHECK
     query = request.GET
-    path = _get_path(query.get('dir', ''))
-    directory = _get_path('')
+    path = get_path(query.get('dir', ''))
+    directory = get_path('')
     
     if path is None:
         msg = _('Error: The requested Folder does not exist.')
@@ -77,7 +77,7 @@ def browse(request):
         
         # FILTER / SEARCH
         append = False
-        if fileobject.filetype == request.GET.get('filter_type', fileobject.filetype) and _get_filterdate(request.GET.get('filter_date', ''), fileobject.date):
+        if fileobject.filetype == request.GET.get('filter_type', fileobject.filetype) and get_filterdate(request.GET.get('filter_date', ''), fileobject.date):
             append = True
         if request.GET.get('q') and not re.compile(request.GET.get('q').lower(), re.M).search(file.lower()):
             append = False
@@ -103,7 +103,7 @@ def browse(request):
             counter[fileobject.filetype] += 1
     
     # SORTING
-    files = _sort_by_attr(files, request.GET.get('o', 'date'))
+    files = sort_by_attr(files, request.GET.get('o', 'date'))
     if request.GET.get('ot') == "desc":
         files.reverse()
     
@@ -114,8 +114,8 @@ def browse(request):
         'counter': counter,
         'query': query,
         'title': _(u'FileBrowser'),
-        'settings_var': _get_settings_var(),
-        'breadcrumbs': _get_breadcrumbs(query, path, ''),
+        'settings_var': get_settings_var(),
+        'breadcrumbs': get_breadcrumbs(query, path, ''),
     }, context_instance=Context(request))
 browse = staff_member_required(never_cache(browse))
 
@@ -133,7 +133,7 @@ def mkdir(request):
     
     # QUERY / PATH CHECK
     query = request.GET
-    path = _get_path(query.get('dir', ''))
+    path = get_path(query.get('dir', ''))
     if path is None:
         msg = _('Error: The requested Folder does not exist.')
         request.user.message_set.create(message=msg)
@@ -171,8 +171,8 @@ def mkdir(request):
         'form': form,
         'query': query,
         'title': _(u'New Folder'),
-        'settings_var': _get_settings_var(),
-        'breadcrumbs': _get_breadcrumbs(query, path, _(u'New Folder')),
+        'settings_var': get_settings_var(),
+        'breadcrumbs': get_breadcrumbs(query, path, _(u'New Folder')),
     }, context_instance=Context(request))
 mkdir = staff_member_required(never_cache(mkdir))
 
@@ -186,7 +186,7 @@ def upload(request):
     
     # QUERY / PATH CHECK
     query = request.GET
-    path = _get_path(query.get('dir', ''))
+    path = get_path(query.get('dir', ''))
     if path is None:
         msg = _('Error: The requested Folder does not exist.')
         request.user.message_set.create(message=msg)
@@ -201,8 +201,8 @@ def upload(request):
     return render_to_response('filebrowser/upload.html', {
         'query': query,
         'title': _(u'Select files to upload'),
-        'settings_var': _get_settings_var(),
-        'breadcrumbs': _get_breadcrumbs(query, path, _(u'Upload')),
+        'settings_var': get_settings_var(),
+        'breadcrumbs': get_breadcrumbs(query, path, _(u'Upload')),
         'session_key': session_key,
     }, context_instance=Context(request))
 upload = staff_member_required(never_cache(upload))
@@ -223,7 +223,7 @@ def _check_file(request):
     if request.method == 'POST':
         for k,v in request.POST.items():
             if k != "folder":
-                v = _convert_filename(v)
+                v = convert_filename(v)
                 if os.path.isfile(os.path.join(MEDIA_ROOT, DIRECTORY, folder, v)):
                     fileArray[k] = v
     
@@ -248,11 +248,11 @@ def _upload_file(request):
         abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, folder)
         if request.FILES:
             filedata = request.FILES['Filedata']
-            filedata.name = _convert_filename(filedata.name)
+            filedata.name = convert_filename(filedata.name)
             # PRE UPLOAD SIGNAL
             filebrowser_pre_upload.send(sender=request, path=request.POST.get('folder'), file=filedata)
             # HANDLE UPLOAD
-            uploadedfile = _handle_file_upload(abs_path, filedata)
+            uploadedfile = handle_file_upload(abs_path, filedata)
             # MOVE UPLOADED FILE
             # if file already exists
             if os.path.isfile(os.path.join(MEDIA_ROOT, DIRECTORY, folder, filedata.name)):
@@ -278,8 +278,8 @@ def delete(request):
     
     # QUERY / PATH CHECK
     query = request.GET
-    path = _get_path(query.get('dir', ''))
-    filename = _get_file(query.get('dir', ''), query.get('filename', ''))
+    path = get_path(query.get('dir', ''))
+    filename = get_file(query.get('dir', ''), query.get('filename', ''))
     if path is None or filename is None:
         if path is None:
             msg = _('Error: The requested Folder does not exist.')
@@ -299,7 +299,7 @@ def delete(request):
                 # DELETE IMAGE VERSIONS/THUMBNAILS
                 for version in VERSIONS:
                     try:
-                        os.unlink(os.path.join(MEDIA_ROOT, _get_version_path(relative_server_path, version)))
+                        os.unlink(os.path.join(MEDIA_ROOT, get_version_path(relative_server_path, version)))
                     except:
                         pass
                 # DELETE FILE
@@ -338,8 +338,8 @@ def delete(request):
         'dir': dir_name,
         'file': request.GET.get('filename', ''),
         'query': query,
-        'settings_var': _get_settings_var(),
-        'breadcrumbs': _get_breadcrumbs(query, dir_name, ''),
+        'settings_var': get_settings_var(),
+        'breadcrumbs': get_breadcrumbs(query, dir_name, ''),
     }, context_instance=Context(request))
 delete = staff_member_required(never_cache(delete))
 
@@ -359,8 +359,8 @@ def rename(request):
     
     # QUERY / PATH CHECK
     query = request.GET
-    path = _get_path(query.get('dir', ''))
-    filename = _get_file(query.get('dir', ''), query.get('filename', ''))
+    path = get_path(query.get('dir', ''))
+    filename = get_file(query.get('dir', ''), query.get('filename', ''))
     if path is None or filename is None:
         if path is None:
             msg = _('Error: The requested Folder does not exist.')
@@ -384,7 +384,7 @@ def rename(request):
                 # regenerating versions/thumbs will be done automatically
                 for version in VERSIONS:
                     try:
-                        os.unlink(os.path.join(MEDIA_ROOT, _get_version_path(relative_server_path, version)))
+                        os.unlink(os.path.join(MEDIA_ROOT, get_version_path(relative_server_path, version)))
                     except:
                         pass
                 # RENAME ORIGINAL
@@ -406,8 +406,8 @@ def rename(request):
         'query': query,
         'file_extension': file_extension,
         'title': _(u'Rename "%s"') % filename,
-        'settings_var': _get_settings_var(),
-        'breadcrumbs': _get_breadcrumbs(query, path, _(u'Rename')),
+        'settings_var': get_settings_var(),
+        'breadcrumbs': get_breadcrumbs(query, path, _(u'Rename')),
     }, context_instance=Context(request))
 rename = staff_member_required(never_cache(rename))
 
@@ -419,8 +419,8 @@ def versions(request):
     
     # QUERY / PATH CHECK
     query = request.GET
-    path = _get_path(query.get('dir', ''))
-    filename = _get_file(query.get('dir', ''), query.get('filename', ''))
+    path = get_path(query.get('dir', ''))
+    filename = get_file(query.get('dir', ''), query.get('filename', ''))
     if path is None or filename is None:
         if path is None:
             msg = _('Error: The requested Folder does not exist.')
@@ -431,11 +431,11 @@ def versions(request):
     abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
     
     return render_to_response('filebrowser/versions.html', {
-        'original': _path_to_url(os.path.join(DIRECTORY, path, filename)),
+        'original': path_to_url(os.path.join(DIRECTORY, path, filename)),
         'query': query,
         'title': _(u'Versions for "%s"') % filename,
-        'settings_var': _get_settings_var(),
-        'breadcrumbs': _get_breadcrumbs(query, path, _(u'Versions for "%s"') % filename),
+        'settings_var': get_settings_var(),
+        'breadcrumbs': get_breadcrumbs(query, path, _(u'Versions for "%s"') % filename),
     }, context_instance=Context(request))
 versions = staff_member_required(never_cache(versions))
 

@@ -1,6 +1,9 @@
 # coding: utf-8
 
+# imports
 import os
+
+# django imports
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 

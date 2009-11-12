@@ -1,12 +1,15 @@
 # coding: utf-8
 
+# imports
 import os, re, datetime
 from time import gmtime, strftime
+
+# django imports
 from django.conf import settings
 
 # filebrowser imports
 from filebrowser.settings import *
-from filebrowser.functions import _get_file_type, _url_join, _is_selectable, _get_version_path
+from filebrowser.functions import get_file_type, url_join, is_selectable, get_version_path
 
 # PIL import
 if STRICT_PIL:
@@ -16,7 +19,7 @@ else:
         from PIL import Image
     except ImportError:
         import Image
-    
+
 
 class FileObject(object):
     """
@@ -30,7 +33,7 @@ class FileObject(object):
         self.head = os.path.split(path)[0]
         self.filename = os.path.split(path)[1]
         self.filename_lower = self.filename.lower() # important for sorting
-        self.filetype = _get_file_type(self.filename)
+        self.filetype = get_file_type(self.filename)
     
     def _filesize(self):
         """
@@ -40,7 +43,7 @@ class FileObject(object):
             return os.path.getsize(os.path.join(MEDIA_ROOT, self.path))
         return ""
     filesize = property(_filesize)
-        
+    
     def _date(self):
         """
         Date.
@@ -101,7 +104,7 @@ class FileObject(object):
         """
         Full URL including MEDIA_URL.
         """
-        return u"%s" % _url_join(MEDIA_URL, self.path)
+        return u"%s" % url_join(MEDIA_URL, self.path)
     url_full = property(_url_full)
     
     def _url_save(self):
@@ -119,7 +122,7 @@ class FileObject(object):
         Thumbnail URL.
         """
         if self.filetype == "Image":
-            return u"%s" % _url_join(MEDIA_URL, _get_version_path(self.path, 'fb_thumb'))
+            return u"%s" % url_join(MEDIA_URL, get_version_path(self.path, 'fb_thumb'))
         else:
             return ""
     url_thumbnail = property(_url_thumbnail)
@@ -130,7 +133,7 @@ class FileObject(object):
             value = directory_re.sub('', self.path)
             return u"%s" % value
         else:
-            return u"%s" % _url_join(MEDIA_URL, self.path)
+            return u"%s" % url_join(MEDIA_URL, self.path)
     
     def _dimensions(self):
         """
@@ -194,6 +197,5 @@ class FileObject(object):
     
     def __unicode__(self):
         return u"%s" % self.url_save
-    
 
 

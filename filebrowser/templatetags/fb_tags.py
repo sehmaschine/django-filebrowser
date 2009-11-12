@@ -1,12 +1,15 @@
 # coding: utf-8
 
+# django imports
 from django import template
 from django.utils.encoding import smart_unicode
 from django.utils.safestring import mark_safe
 
+# filebrowser imports
 from filebrowser.settings import SELECT_FORMATS
 
 register = template.Library()
+
 
 @register.inclusion_tag('filebrowser/include/_response.html', takes_context=True)
 def query_string(context, add=None, remove=None):
@@ -20,28 +23,31 @@ def query_string(context, add=None, remove=None):
     http://www.url.com/{% query_string "" "filter" %}filter={{new_filter}}
     http://www.url.com/{% query_string "sort=value" "sort" %}
     """
+    
     # Written as an inclusion tag to simplify getting the context.
     add = string_to_dict(add)
     remove = string_to_list(remove)
     params = context['query'].copy()
     response = get_query_string(params, add, remove)
     return {'response': response }
-    
+
 
 def query_helper(query, add=None, remove=None):
     """
     Helper Function for use within views.
     """
+    
     add = string_to_dict(add)
     remove = string_to_list(remove)
     params = query.copy()
     return get_query_string(params, add, remove)
-    
+
 
 def get_query_string(p, new_params=None, remove=None):
     """
     Add and remove query parameters. From `django.contrib.admin`.
     """
+    
     if new_params is None: new_params = {}
     if remove is None: remove = []
     for r in remove:
@@ -54,16 +60,16 @@ def get_query_string(p, new_params=None, remove=None):
         elif v is not None:
             p[k] = v
     return mark_safe('?' + '&'.join([u'%s=%s' % (k, v) for k, v in p.items()]).replace(' ', '%20'))
-    
+
 
 def string_to_dict(string):
     """
-    Usage::
-    
+    Usage:
         {{ url|thumbnail:"width=10,height=20" }}
         {{ url|thumbnail:"width=10" }}
         {{ url|thumbnail:"height=20" }}
     """
+    
     kwargs = {}
     if string:
         string = str(string)
@@ -76,14 +82,14 @@ def string_to_dict(string):
             kw, val = arg.split('=', 1)
             kwargs[kw] = val
     return kwargs
-    
+
 
 def string_to_list(string):
     """
-    Usage::
-    
+    Usage:
         {{ url|thumbnail:"width,height" }}
     """
+    
     args = []
     if string:
         string = str(string)
@@ -95,7 +101,7 @@ def string_to_list(string):
             if arg == '': continue
             args.append(arg)
     return args
-    
+
 
 class SelectableNode(template.Node):
     def __init__(self, filetype, format):
@@ -119,7 +125,7 @@ class SelectableNode(template.Node):
             selectable = True
         context['selectable'] = selectable
         return ''
-    
+
 
 def selectable(parser, token):
     

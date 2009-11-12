@@ -1,17 +1,21 @@
 # coding: utf-8
 
+# imports
 import os, re
 from time import gmtime
+
+# django imports
 from django.template import Library, Node, Variable, VariableDoesNotExist, TemplateSyntaxError
 from django.conf import settings
 from django.utils.encoding import force_unicode
 
 # filebrowser imports
 from filebrowser.settings import MEDIA_ROOT, MEDIA_URL, VERSIONS
-from filebrowser.functions import _url_to_path, _path_to_url, _get_version_path, _version_generator
+from filebrowser.functions import url_to_path, path_to_url, get_version_path, version_generator
 from filebrowser.base import FileObject
 
 register = Library()
+
 
 class VersionNode(Node):
     def __init__(self, src, version_prefix):
@@ -35,17 +39,17 @@ class VersionNode(Node):
             except VariableDoesNotExist:
                 return None
         try:
-            version_path = _get_version_path(_url_to_path(str(source)), version_prefix)
+            version_path = get_version_path(url_to_path(str(source)), version_prefix)
             if not os.path.isfile(os.path.join(MEDIA_ROOT, version_path)):
                 # create version
-                version_path = _version_generator(_url_to_path(str(source)), version_prefix)
-            elif os.path.getmtime(os.path.join(MEDIA_ROOT, _url_to_path(str(source)))) > os.path.getmtime(os.path.join(MEDIA_ROOT, version_path)):
+                version_path = version_generator(url_to_path(str(source)), version_prefix)
+            elif os.path.getmtime(os.path.join(MEDIA_ROOT, url_to_path(str(source)))) > os.path.getmtime(os.path.join(MEDIA_ROOT, version_path)):
                 # recreate version if original image was updated
-                version_path = _version_generator(_url_to_path(str(source)), version_prefix, force=True)
-            return _path_to_url(version_path)
+                version_path = version_generator(url_to_path(str(source)), version_prefix, force=True)
+            return path_to_url(version_path)
         except:
             return ""
-    
+
 
 def version(parser, token):
     """
@@ -65,7 +69,7 @@ def version(parser, token):
     if (version_prefix[0] == version_prefix[-1] and version_prefix[0] in ('"', "'")) and version_prefix.lower()[1:-1] not in VERSIONS:
         raise TemplateSyntaxError, "%s tag received bad version_prefix %s" % (tag, version_prefix)
     return VersionNode(src, version_prefix)
-    
+
 
 class VersionObjectNode(Node):
     def __init__(self, src, version_prefix, var_name):
@@ -90,18 +94,18 @@ class VersionObjectNode(Node):
             except VariableDoesNotExist:
                 return None
         try:
-            version_path = _get_version_path(_url_to_path(str(source)), version_prefix)
+            version_path = get_version_path(url_to_path(str(source)), version_prefix)
             if not os.path.isfile(os.path.join(MEDIA_ROOT, version_path)):
                 # create version
-                version_path = _version_generator(_url_to_path(str(source)), version_prefix)
-            elif os.path.getmtime(os.path.join(MEDIA_ROOT, _url_to_path(str(source)))) > os.path.getmtime(os.path.join(MEDIA_ROOT, version_path)):
+                version_path = version_generator(url_to_path(str(source)), version_prefix)
+            elif os.path.getmtime(os.path.join(MEDIA_ROOT, url_to_path(str(source)))) > os.path.getmtime(os.path.join(MEDIA_ROOT, version_path)):
                 # recreate version if original image was updated
-                version_path = _version_generator(_url_to_path(str(source)), version_prefix, force=True)
+                version_path = version_generator(url_to_path(str(source)), version_prefix, force=True)
             context[self.var_name] = FileObject(version_path)
         except:
             context[self.var_name] = ""
         return ''
-        
+
 
 def version_object(parser, token):
     """
@@ -128,7 +132,7 @@ def version_object(parser, token):
     if (version_prefix[0] == version_prefix[-1] and version_prefix[0] in ('"', "'")) and version_prefix.lower()[1:-1] not in VERSIONS:
         raise TemplateSyntaxError, "%s tag received bad version_prefix %s" % (tag, version_prefix)
     return VersionObjectNode(src, version_prefix, var_name)
-    
+
 
 class VersionSettingNode(Node):
     def __init__(self, version_prefix):
@@ -148,7 +152,7 @@ class VersionSettingNode(Node):
                 return None
         context['version_setting'] = VERSIONS[version_prefix]
         return ''
-        
+
 
 def version_setting(parser, token):
     """
@@ -162,7 +166,7 @@ def version_setting(parser, token):
     if (version_prefix[0] == version_prefix[-1] and version_prefix[0] in ('"', "'")) and version_prefix.lower()[1:-1] not in VERSIONS:
         raise TemplateSyntaxError, "%s tag received bad version_prefix %s" % (tag, version_prefix)
     return VersionSettingNode(version_prefix)
-    
+
 
 register.tag(version)
 register.tag(version_object)

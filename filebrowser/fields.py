@@ -1,5 +1,6 @@
 # coding: utf-8
 
+# imports
 import os
 
 # django imports
@@ -12,9 +13,10 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
 # filebrowser imports
-from filebrowser.functions import _url_to_path, _dir_from_url, _get_version_path, _url_join
 from filebrowser.settings import *
 from filebrowser.base import FileObject
+from filebrowser.functions import url_to_path
+
 
 class FileBrowseWidget(Input):
     input_type = 'text'
@@ -47,7 +49,7 @@ class FileBrowseWidget(Input):
             except:
                 pass
         return render_to_string("filebrowser/custom_field.html", locals())
-    
+
 
 class FileBrowseFormField(forms.CharField):
     widget = FileBrowseWidget
@@ -75,7 +77,7 @@ class FileBrowseFormField(forms.CharField):
         if self.extensions and not file_extension in self.extensions:
             raise forms.ValidationError(self.error_messages['extension'] % {'ext': file_extension, 'allowed': ", ".join(self.extensions)})
         return value
-    
+
 
 class FileBrowseField(Field):
     __metaclass__ = models.SubfieldBase
@@ -89,7 +91,7 @@ class FileBrowseField(Field):
     def to_python(self, value):
         if not value or isinstance(value, FileObject):
             return value
-        return FileObject(_url_to_path(value))
+        return FileObject(url_to_path(value))
     
     def get_db_prep_value(self, value):
         if value is None:
@@ -117,5 +119,5 @@ class FileBrowseField(Field):
         }
         defaults.update(kwargs)
         return super(FileBrowseField, self).formfield(**defaults)
-    
+
 

@@ -12,5 +12,5 @@ urlpatterns = patterns('',
     
     url(r'^check_file/$', 'filebrowser.views._check_file', name="fb_check"),
     url(r'^upload_file/$', 'filebrowser.views._upload_file', name="fb_do_upload"),
-
+    
 )

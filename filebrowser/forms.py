@@ -10,9 +10,10 @@ from django.utils.translation import ugettext as _
 
 # filebrowser imports
 from filebrowser.settings import MAX_UPLOAD_SIZE
-from filebrowser.functions import _get_file_type, _convert_filename
+from filebrowser.functions import convert_filename
 
 alnum_name_re = re.compile(r'^[\sa-zA-Z0-9._/-]+$')
+
 
 class MakeDirForm(forms.Form):
     """
@@ -25,15 +26,15 @@ class MakeDirForm(forms.Form):
         
     dir_name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Name'), help_text=_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'), required=True)
     
-    def clean_dir_name(self):   
+    def clean_dir_name(self):
         if self.cleaned_data['dir_name']:
             # only letters, numbers, underscores, spaces and hyphens are allowed.
             if not alnum_name_re.search(self.cleaned_data['dir_name']):
                 raise forms.ValidationError(_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'))
             # Folder must not already exist.
-            if os.path.isdir(os.path.join(self.path, _convert_filename(self.cleaned_data['dir_name']))):
+            if os.path.isdir(os.path.join(self.path, convert_filename(self.cleaned_data['dir_name']))):
                 raise forms.ValidationError(_(u'The Folder already exists.'))
-        return _convert_filename(self.cleaned_data['dir_name'])
+        return convert_filename(self.cleaned_data['dir_name'])
 
 
 class RenameForm(forms.Form):
@@ -54,10 +55,10 @@ class RenameForm(forms.Form):
             if not alnum_name_re.search(self.cleaned_data['name']):
                 raise forms.ValidationError(_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'))
             #  folder/file must not already exist.
-            if os.path.isdir(os.path.join(self.path, _convert_filename(self.cleaned_data['name']))):
+            if os.path.isdir(os.path.join(self.path, convert_filename(self.cleaned_data['name']))):
                 raise forms.ValidationError(_(u'The Folder already exists.'))
-            elif os.path.isfile(os.path.join(self.path, _convert_filename(self.cleaned_data['name']) + self.file_extension)):
+            elif os.path.isfile(os.path.join(self.path, convert_filename(self.cleaned_data['name']) + self.file_extension)):
                 raise forms.ValidationError(_(u'The File already exists.'))
-        return _convert_filename(self.cleaned_data['name'])
+        return convert_filename(self.cleaned_data['name'])
 
 

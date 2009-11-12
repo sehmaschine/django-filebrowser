@@ -1,12 +1,15 @@
 # coding: utf-8
 
+# imports
+import os, re, decimal
+from time import gmtime, strftime, localtime, mktime, time
+from urlparse import urlparse
+
+# django imports
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
-from time import gmtime, strftime, localtime, mktime, time
 from django.core.files import File
 from django.core.files.storage import default_storage
-import os, re, decimal
-from urlparse import urlparse
 
 # filebrowser imports
 from filebrowser.settings import *
@@ -21,31 +24,33 @@ else:
         import Image
 
 
-def _url_to_path(value):
+def url_to_path(value):
     """
     Change URL to PATH.
     Value has to be an URL relative to MEDIA URL or a full URL (including MEDIA_URL).
     
     Returns a PATH relative to MEDIA_ROOT.
     """
+    
     mediaurl_re = re.compile(r'^(%s)' % (MEDIA_URL))
     value = mediaurl_re.sub('', value)
     return value
-    
 
-def _path_to_url(value):
+
+def path_to_url(value):
     """
     Change PATH to URL.
     Value has to be a PATH relative to MEDIA_ROOT.
     
     Return an URL relative to MEDIA_ROOT.
     """
+    
     mediaroot_re = re.compile(r'^(%s)' % (MEDIA_ROOT))
     value = mediaroot_re.sub('', value)
-    return _url_join(MEDIA_URL, value)
-    
+    return url_join(MEDIA_URL, value)
 
-def _dir_from_url(value):
+
+def dir_from_url(value):
     """
     Get the relative server directory from a URL.
     URL has to be an absolute URL including MEDIA_URL or
@@ -57,9 +62,9 @@ def _dir_from_url(value):
     directory_re = re.compile(r'^(%s)' % (DIRECTORY))
     value = directory_re.sub('', value)
     return os.path.split(value)[0]
-    
 
-def _get_version_path(value, version_prefix):
+
+def get_version_path(value, version_prefix):
     """
     Construct the PATH to an Image version.
     Value has to be server-path, relative to MEDIA_ROOT.
@@ -67,6 +72,7 @@ def _get_version_path(value, version_prefix):
     version_filename = filename + version_prefix + ext
     Returns a path relative to MEDIA_ROOT.
     """
+    
     if os.path.isfile(os.path.join(MEDIA_ROOT, value)):
         path, filename = os.path.split(value)
         filename, ext = os.path.splitext(filename)
@@ -74,9 +80,9 @@ def _get_version_path(value, version_prefix):
         return os.path.join(VERSIONS_BASEDIR, path, version_filename)
     else:
         return None
-    
 
-def _sort_by_attr(seq, attr):
+
+def sort_by_attr(seq, attr):
     """
     Sort the sequence of objects by object's attribute
     
@@ -97,9 +103,13 @@ def _sort_by_attr(seq, attr):
     intermed = map(None, map(getattr, seq, (attr,)*len(seq)), xrange(len(seq)), seq)
     intermed.sort()
     return map(operator.getitem, intermed, (-1,) * len(intermed))
-    
 
-def _url_join(*args):
+
+def url_join(*args):
+    """
+    URL join routine.
+    """
+    
     if args[0].startswith("http://"):
         url = "http://"
     else:
@@ -114,9 +124,9 @@ def _url_join(*args):
     if os.path.splitext(args[-1])[1]:
         url = url.rstrip("/")
     return url
-    
 
-def _get_path(path):
+
+def get_path(path):
     """
     Get Path.
     """
@@ -124,9 +134,9 @@ def _get_path(path):
     if os.path.isabs(path) or not os.path.isdir(os.path.join(MEDIA_ROOT, DIRECTORY, path)):
         return None
     return path
-    
 
-def _get_file(path, filename):
+
+def get_file(path, filename):
     """
     Get File.
     """
@@ -134,9 +144,9 @@ def _get_file(path, filename):
     if not os.path.isfile(os.path.join(MEDIA_ROOT, DIRECTORY, path, filename)) and not os.path.isdir(os.path.join(MEDIA_ROOT, DIRECTORY, path, filename)):
         return None
     return filename
-    
 
-def _get_breadcrumbs(query, path, title):
+
+def get_breadcrumbs(query, path, title):
     """
     Get breadcrumbs.
     """
@@ -150,9 +160,9 @@ def _get_breadcrumbs(query, path, title):
     if title:
         breadcrumbs.append([title,''])
     return breadcrumbs
-    
 
-def _get_filterdate(filterDate, dateTime):
+
+def get_filterdate(filterDate, dateTime):
     """
     Get filterdate.
     """
@@ -167,9 +177,9 @@ def _get_filterdate(filterDate, dateTime):
     elif filterDate == 'past7days' and dateTime >= time()-604800: returnvalue = 'true'
     elif filterDate == '': returnvalue = 'true'
     return returnvalue
-    
 
-def _get_settings_var():
+
+def get_settings_var():
     """
     Get settings variables used for FileBrowser listing.
     """
@@ -199,9 +209,9 @@ def _get_settings_var():
     # Convert Filenames
     settings_var['CONVERT_FILENAME'] = CONVERT_FILENAME
     return settings_var
-    
 
-def _handle_file_upload(path, file):
+
+def handle_file_upload(path, file):
     """
     Handle File Upload.
     """
@@ -209,9 +219,9 @@ def _handle_file_upload(path, file):
     file_path = os.path.join(path, file.name)
     uploadedfile = default_storage.save(file_path, file)
     return uploadedfile
-    
 
-def _get_file_type(filename):
+
+def get_file_type(filename):
     """
     Get file type as defined in EXTENSIONS.
     """
@@ -223,9 +233,9 @@ def _get_file_type(filename):
             if file_extension == extension.lower():
                 file_type = k
     return file_type
-    
 
-def _is_selectable(filename, selecttype):
+
+def is_selectable(filename, selecttype):
     """
     Get select type as defined in FORMATS.
     """
@@ -237,9 +247,9 @@ def _is_selectable(filename, selecttype):
             if file_extension == extension.lower():
                 select_types.append(k)
     return select_types
-    
 
-def _version_generator(value, version_prefix, force=None):
+
+def version_generator(value, version_prefix, force=None):
     """
     Generate Version for an Image.
     value has to be a serverpath relative to MEDIA_ROOT.
@@ -258,7 +268,7 @@ def _version_generator(value, version_prefix, force=None):
     
     try:
         im = Image.open(os.path.join(MEDIA_ROOT, value))
-        version_path = _get_version_path(value, version_prefix)
+        version_path = get_version_path(value, version_prefix)
         absolute_version_path = os.path.join(MEDIA_ROOT, version_path)
         version_dir = os.path.split(absolute_version_path)[0]
         if not os.path.isdir(version_dir):
@@ -272,9 +282,13 @@ def _version_generator(value, version_prefix, force=None):
         return version_path
     except:
         return None
-    
+
 
 def scale_and_crop(im, width, height, opts):
+    """
+    Scale and Crop.
+    """
+    
     x, y   = [float(v) for v in im.size]
     if width:
         xr = float(width)
@@ -302,11 +316,14 @@ def scale_and_crop(im, width, height, opts):
 scale_and_crop.valid_options = ('crop', 'upscale')
 
 
-def _convert_filename(value):
+def convert_filename(value):
+    """
+    Convert Filename.
+    """
+    
     if CONVERT_FILENAME:
         return value.replace(" ", "_").lower()
     else:
         return value
-        
-    
+
 
