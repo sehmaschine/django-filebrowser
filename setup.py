@@ -13,7 +13,7 @@ setup(
         'templates/filebrowser/include/*',
         'templatetags/*',
         'locale/*/LC_MESSAGES/*',
-        'media/*/*/*']},
+        'media/*/*/*/*/*/*/*/*']},
     zip_safe=False,
     classifiers=[
         'Development Status :: 4 - Beta',
