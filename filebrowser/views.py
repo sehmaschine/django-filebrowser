@@ -44,7 +44,7 @@ def browse(request):
     directory = get_path('')
     
     if path is None:
-        msg = _('Error: The requested Folder does not exist.')
+        msg = _('The requested Folder does not exist.')
         request.user.message_set.create(message=msg)
         if directory is None:
             # The DIRECTORY does not exist, raise an error to prevent eternal redirecting.
@@ -135,7 +135,7 @@ def mkdir(request):
     query = request.GET
     path = get_path(query.get('dir', ''))
     if path is None:
-        msg = _('Error: The requested Folder does not exist.')
+        msg = _('The requested Folder does not exist.')
         request.user.message_set.create(message=msg)
         return HttpResponseRedirect(reverse("fb_browse"))
     abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
@@ -188,7 +188,7 @@ def upload(request):
     query = request.GET
     path = get_path(query.get('dir', ''))
     if path is None:
-        msg = _('Error: The requested Folder does not exist.')
+        msg = _('The requested Folder does not exist.')
         request.user.message_set.create(message=msg)
         return HttpResponseRedirect(reverse("fb_browse"))
     abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
@@ -282,9 +282,9 @@ def delete(request):
     filename = get_file(query.get('dir', ''), query.get('filename', ''))
     if path is None or filename is None:
         if path is None:
-            msg = _('Error: The requested Folder does not exist.')
+            msg = _('The requested Folder does not exist.')
         else:
-            msg = _('Error: The requested File does not exist.')
+            msg = _('The requested File does not exist.')
         request.user.message_set.create(message=msg)
         return HttpResponseRedirect(reverse("fb_browse"))
     abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
@@ -363,9 +363,9 @@ def rename(request):
     filename = get_file(query.get('dir', ''), query.get('filename', ''))
     if path is None or filename is None:
         if path is None:
-            msg = _('Error: The requested Folder does not exist.')
+            msg = _('The requested Folder does not exist.')
         else:
-            msg = _('Error: The requested File does not exist.')
+            msg = _('The requested File does not exist.')
         request.user.message_set.create(message=msg)
         return HttpResponseRedirect(reverse("fb_browse"))
     abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
@@ -423,9 +423,9 @@ def versions(request):
     filename = get_file(query.get('dir', ''), query.get('filename', ''))
     if path is None or filename is None:
         if path is None:
-            msg = _('Error: The requested Folder does not exist.')
+            msg = _('The requested Folder does not exist.')
         else:
-            msg = _('Error: The requested File does not exist.')
+            msg = _('The requested File does not exist.')
         request.user.message_set.create(message=msg)
         return HttpResponseRedirect(reverse("fb_browse"))
     abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
