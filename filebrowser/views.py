@@ -109,7 +109,7 @@ def browse(request):
     
     return render_to_response('filebrowser/index.html', {
         'dir': path,
-        'files': files,
+        'files': files[:MAX_ITEMS],
         'results_var': results_var,
         'counter': counter,
         'query': query,

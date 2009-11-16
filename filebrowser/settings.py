@@ -99,6 +99,10 @@ EXCLUDE = getattr(settings, 'FILEBROWSER_EXCLUDE', (r'_(%(exts)s)_.*_q\d{1,3}\.(
 MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 10485760)
 # Convert Filename (replace spaces and convert to lowercase)
 CONVERT_FILENAME = getattr(settings, "FILEBROWSER_CONVERT_FILENAME", True)
+# Max. Entries per Page
+# Loading a Sever-Directory with lots of files might take a while
+# Use this setting to limit the items shown
+MAX_ITEMS = 1000
 
 # EXTRA TRANSLATION STRINGS
 # The following strings are not availabe within views or templates
