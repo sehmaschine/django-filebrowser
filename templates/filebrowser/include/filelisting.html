@@ -44,7 +44,7 @@
     {% endifequal %}
     
     <!-- SHOW VERSIONS -->
-    {% if results_var.images_total %}
+    {% if results_var.images_total and settings_var.ADMIN_VERSIONS %}
     <td class="fb_icon">
         {% ifequal file.filetype 'Image' %}<a href="{% url fb_versions %}{% query_string %}&amp;filename={{ file.filename }}" class="fb_showversionslink" title="{% trans 'Show Versions' %}"></a>{% endifequal %}
     </td>
