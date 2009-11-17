@@ -84,32 +84,37 @@ def browse(request):
         
         # APPEND FILE_LIST
         if append:
-            files.append(fileobject)
-            results_var['results_current'] += 1
-            # COUNTER/RESULTS
-            if fileobject.filetype == 'Image':
-                results_var['images_total'] += 1
-            if fileobject.filetype != 'Folder':
-                results_var['delete_total'] += 1
-            elif fileobject.filetype == 'Folder' and fileobject.is_empty:
-                results_var['delete_total'] += 1
-            if query.get('type') and query.get('type') in SELECT_FORMATS and fileobject.filetype in SELECT_FORMATS[query.get('type')]:
-                results_var['select_total'] += 1
-            elif not query.get('type'):
-                results_var['select_total'] += 1
+            try:
+                # COUNTER/RESULTS
+                if fileobject.filetype == 'Image':
+                    results_var['images_total'] += 1
+                if fileobject.filetype != 'Folder':
+                    results_var['delete_total'] += 1
+                elif fileobject.filetype == 'Folder' and fileobject.is_empty:
+                    results_var['delete_total'] += 1
+                if query.get('type') and query.get('type') in SELECT_FORMATS and fileobject.filetype in SELECT_FORMATS[query.get('type')]:
+                    results_var['select_total'] += 1
+                elif not query.get('type'):
+                    results_var['select_total'] += 1
+            except OSError:
+                # Ignore items that have problems
+                continue
+            else:
+                files.append(fileobject)
+                results_var['results_current'] += 1
         
         # COUNTER/RESULTS
         if fileobject.filetype:
             counter[fileobject.filetype] += 1
     
     # SORTING
-    files = sort_by_attr(files, request.GET.get('o', 'date'))
+    files = sort_by_attr(files, request.GET.get('o', 'filename_lower'))
     if request.GET.get('ot') == "desc":
         files.reverse()
     
     return render_to_response('filebrowser/index.html', {
         'dir': path,
-        'files': files[:MAX_ITEMS],
+        'files': files,
         'results_var': results_var,
         'counter': counter,
         'query': query,
