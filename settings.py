@@ -102,7 +102,7 @@ CONVERT_FILENAME = getattr(settings, "FILEBROWSER_CONVERT_FILENAME", True)
 # Max. Entries per Page
 # Loading a Sever-Directory with lots of files might take a while
 # Use this setting to limit the items shown
-LIMIT_PER_PAGE = getattr(settings, "FILEBROWSER_LIMIT_PER_PAGE", 50)
+LIST_PER_PAGE = getattr(settings, "FILEBROWSER_LIST_PER_PAGE", 50)
 
 # EXTRA TRANSLATION STRINGS
 # The following strings are not availabe within views or templates
