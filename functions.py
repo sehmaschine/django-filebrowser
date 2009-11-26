@@ -146,7 +146,7 @@ def get_file(path, filename):
     return filename
 
 
-def get_breadcrumbs(query, path, title):
+def get_breadcrumbs(query, path):
     """
     Get breadcrumbs.
     """
@@ -157,8 +157,6 @@ def get_breadcrumbs(query, path, title):
         for item in path.split(os.sep):
             dir_query = os.path.join(dir_query,item)
             breadcrumbs.append([item,dir_query])
-    if title:
-        breadcrumbs.append([title,''])
     return breadcrumbs
 
 
@@ -208,8 +206,6 @@ def get_settings_var():
     settings_var['MAX_UPLOAD_SIZE'] = MAX_UPLOAD_SIZE
     # Convert Filenames
     settings_var['CONVERT_FILENAME'] = CONVERT_FILENAME
-    # Max Items
-    settings_var['MAX_ITEMS'] = MAX_ITEMS
     return settings_var
 
 

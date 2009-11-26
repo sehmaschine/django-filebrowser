@@ -1,4 +1,6 @@
 {% load i18n adminmedia fb_tags fb_versions %}
+
+{% for file in page.object_list %}
 <tr class="{% cycle 'row1' 'row2' %}">
     
     <!-- FILESELECT FOR FILEBROWSEFIELD -->
@@ -46,7 +48,7 @@
     <!-- SHOW VERSIONS -->
     {% if results_var.images_total and settings_var.ADMIN_VERSIONS %}
     <td class="fb_icon">
-        {% ifequal file.filetype 'Image' %}<a href="{% url fb_versions %}{% query_string %}&amp;filename={{ file.filename }}" class="fb_showversionslink" title="{% trans 'Show Versions' %}"></a>{% endifequal %}
+        {% ifequal file.filetype 'Image' %}<a href="{% url fb_versions %}{% query_string "" "p" %}&amp;filename={{ file.filename }}" class="fb_showversionslink" title="{% trans 'Show Versions' %}"></a>{% endifequal %}
     </td>
     {% endif %}
     
@@ -64,7 +66,7 @@
     
     <!-- FILENAME/DIMENSIONS -->
     {% ifequal file.filetype 'Folder' %}
-    <td><b><a href="{% url fb_browse %}{% query_string "" "dir" %}&amp;dir={{ file.path_relative_directory|urlencode }}">{{ file.filename }}</a></b></td>
+    <td><b><a href="{% url fb_browse %}{% query_string "" "q,dir,p" %}&amp;dir={{ file.path_relative_directory|urlencode }}">{{ file.filename }}</a></b></td>
     {% else %}
     <td><b><a href="{{ file.url_full }}">{{ file.filename }}</a></b>{% if file.dimensions %}<br /><span class="tiny">{{ file.dimensions.0 }} x {{ file.dimensions.1 }} px</span>{% endif %}</td>
     {% endifequal %}
@@ -119,4 +121,6 @@
     {% endif %}
     
 </tr>
+{% endfor %}
+
  

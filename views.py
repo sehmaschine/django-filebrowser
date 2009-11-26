@@ -16,6 +16,7 @@ from django import forms
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ImproperlyConfigured
 from django.dispatch import Signal
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 # filebrowser imports
 from filebrowser.settings import *
@@ -108,19 +109,31 @@ def browse(request):
             counter[fileobject.filetype] += 1
     
     # SORTING
-    files = sort_by_attr(files, request.GET.get('o', 'filename_lower'))
+    files = sort_by_attr(files, request.GET.get('o', 'date'))
     if request.GET.get('ot') == "desc":
         files.reverse()
     
+    p = Paginator(files, LIST_PER_PAGE)
+    try:
+        page_nr = request.GET.get('p', '1')
+    except:
+        page_nr = 1
+    try:
+        page = p.page(page_nr)
+    except (EmptyPage, InvalidPage):
+        page = p.page(p.num_pages)
+    
     return render_to_response('filebrowser/index.html', {
         'dir': path,
-        'files': files,
+        'p': p,
+        'page': page,
         'results_var': results_var,
         'counter': counter,
         'query': query,
         'title': _(u'FileBrowser'),
         'settings_var': get_settings_var(),
-        'breadcrumbs': get_breadcrumbs(query, path, ''),
+        'breadcrumbs': get_breadcrumbs(query, path),
+        'breadcrumbs_title': ""
     }, context_instance=Context(request))
 browse = staff_member_required(never_cache(browse))
 
@@ -162,7 +175,8 @@ def mkdir(request):
                 request.user.message_set.create(message=msg)
                 # on redirect, sort by date desc to see the new directory on top of the list
                 # remove filter in order to actually _see_ the new folder
-                redirect_url = reverse("fb_browse") + query_helper(query, "ot=desc,o=date", "ot,o,filter_type,filter_date,q")
+                # remove pagination
+                redirect_url = reverse("fb_browse") + query_helper(query, "ot=desc,o=date", "ot,o,filter_type,filter_date,q,p")
                 return HttpResponseRedirect(redirect_url)
             except OSError, (errno, strerror):
                 if errno == 13:
@@ -177,7 +191,8 @@ def mkdir(request):
         'query': query,
         'title': _(u'New Folder'),
         'settings_var': get_settings_var(),
-        'breadcrumbs': get_breadcrumbs(query, path, _(u'New Folder')),
+        'breadcrumbs': get_breadcrumbs(query, path),
+        'breadcrumbs_title': _(u'New Folder')
     }, context_instance=Context(request))
 mkdir = staff_member_required(never_cache(mkdir))
 
@@ -207,8 +222,9 @@ def upload(request):
         'query': query,
         'title': _(u'Select files to upload'),
         'settings_var': get_settings_var(),
-        'breadcrumbs': get_breadcrumbs(query, path, _(u'Upload')),
         'session_key': session_key,
+        'breadcrumbs': get_breadcrumbs(query, path),
+        'breadcrumbs_title': _(u'Upload')
     }, context_instance=Context(request))
 upload = staff_member_required(never_cache(upload))
 
@@ -344,7 +360,8 @@ def delete(request):
         'file': request.GET.get('filename', ''),
         'query': query,
         'settings_var': get_settings_var(),
-        'breadcrumbs': get_breadcrumbs(query, dir_name, ''),
+        'breadcrumbs': get_breadcrumbs(query, dir_name),
+        'breadcrumbs_title': ""
     }, context_instance=Context(request))
 delete = staff_member_required(never_cache(delete))
 
@@ -412,7 +429,8 @@ def rename(request):
         'file_extension': file_extension,
         'title': _(u'Rename "%s"') % filename,
         'settings_var': get_settings_var(),
-        'breadcrumbs': get_breadcrumbs(query, path, _(u'Rename')),
+        'breadcrumbs': get_breadcrumbs(query, path),
+        'breadcrumbs_title': _(u'Rename')
     }, context_instance=Context(request))
 rename = staff_member_required(never_cache(rename))
 
@@ -440,7 +458,8 @@ def versions(request):
         'query': query,
         'title': _(u'Versions for "%s"') % filename,
         'settings_var': get_settings_var(),
-        'breadcrumbs': get_breadcrumbs(query, path, _(u'Versions for "%s"') % filename),
+        'breadcrumbs': get_breadcrumbs(query, path),
+        'breadcrumbs_title': _(u'Versions for "%s"') % filename
     }, context_instance=Context(request))
 versions = staff_member_required(never_cache(versions))
 
