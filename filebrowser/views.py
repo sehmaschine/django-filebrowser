@@ -40,7 +40,7 @@ def browse(request):
     """
     
     # QUERY / PATH CHECK
-    query = request.GET
+    query = request.GET.copy()
     path = get_path(query.get('dir', ''))
     directory = get_path('')
     
@@ -109,8 +109,10 @@ def browse(request):
             counter[fileobject.filetype] += 1
     
     # SORTING
-    files = sort_by_attr(files, request.GET.get('o', 'date'))
-    if request.GET.get('ot') == "desc":
+    query['o'] = request.GET.get('o', DEFAULT_SORTING_BY)
+    query['ot'] = request.GET.get('ot', DEFAULT_SORTING_ORDER)
+    files = sort_by_attr(files, request.GET.get('o', DEFAULT_SORTING_BY))
+    if not request.GET.get('ot') and DEFAULT_SORTING_ORDER == "desc" or request.GET.get('ot') == "desc":
         files.reverse()
     
     p = Paginator(files, LIST_PER_PAGE)
