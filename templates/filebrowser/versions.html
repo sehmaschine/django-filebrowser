@@ -105,7 +105,7 @@
                 <td class="fb_icon">
                     {% selectable image_version.filetype query.type %}
                     {% if selectable %}
-                    <a href="#" onclick="OpenFile(ProtectPath('{{ image_version.url_save }}'));return false;" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
+                    <a href="#" onclick="OpenFile(ProtectPath('{{ image_version.url_save|escapejs }}'));return false;" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
                     {% else %}
                     <img src="{{ settings_var.URL_FILEBROWSER_MEDIA }}img/filebrowser_icon_select_disabled.gif" width="23" height="17" />
                     {% endif %}
