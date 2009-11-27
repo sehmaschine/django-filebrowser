@@ -23,7 +23,7 @@
     <td class="fb_icon">
         {% selectable file.filetype query.type %}
         {% if selectable %}
-        <a href="javascript:FileBrowserDialogue.fileSubmit('{{ file.url_save }}');" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
+        <a href="javascript:FileBrowserDialogue.fileSubmit('{{ file.url_save|escapejs }}');" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
         {% else %}
         <img src="{{ settings_var.URL_FILEBROWSER_MEDIA }}img/filebrowser_icon_select_disabled.gif" width="23" height="17" />
         {% endif %}
@@ -37,7 +37,7 @@
     <td class="fb_icon">
         {% selectable file.filetype query.type %}
         {% if selectable %}
-        <a href="#" onclick="OpenFile(ProtectPath('{{ file.url_save }}'));return false;" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
+        <a href="#" onclick="OpenFile(ProtectPath('{{ file.url_save|escapejs }}'));return false;" class="fb_selectlink" title="{% trans 'Select File' %}"></a>
         {% else %}
         <img src="{{ settings_var.URL_FILEBROWSER_MEDIA }}img/filebrowser_icon_select_disabled.gif" width="23" height="17" />
         {% endif %}
