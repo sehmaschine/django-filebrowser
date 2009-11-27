@@ -103,6 +103,11 @@ CONVERT_FILENAME = getattr(settings, "FILEBROWSER_CONVERT_FILENAME", True)
 # Loading a Sever-Directory with lots of files might take a while
 # Use this setting to limit the items shown
 LIST_PER_PAGE = getattr(settings, "FILEBROWSER_LIST_PER_PAGE", 50)
+# Default Sorting
+# Options: date, filesize, filename_lower, filetype_checked
+DEFAULT_SORTING_BY = getattr(settings, "FILEBROWSER_DEFAULT_SORTING_BY", "date")
+# Sorting Order: asc, desc
+DEFAULT_SORTING_ORDER = getattr(settings, "FILEBROWSER_DEFAULT_SORTING_ORDER", "desc")
 
 # EXTRA TRANSLATION STRINGS
 # The following strings are not availabe within views or templates
