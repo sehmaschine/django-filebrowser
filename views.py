@@ -17,6 +17,12 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ImproperlyConfigured
 from django.dispatch import Signal
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+try:
+    # django SVN
+    from django.views.decorators.csrf import csrf_exempt
+except:
+    # django 1.1
+    from django.contrib.csrf.middleware import csrf_exempt
 
 # filebrowser imports
 from filebrowser.settings import *
@@ -230,7 +236,7 @@ def upload(request):
     }, context_instance=Context(request))
 upload = staff_member_required(never_cache(upload))
 
-
+@csrf_exempt
 def _check_file(request):
     """
     Check if file already exists on the server.
@@ -257,6 +263,8 @@ def _check_file(request):
 filebrowser_pre_upload = Signal(providing_args=["path", "file"])
 filebrowser_post_upload = Signal(providing_args=["path", "file"])
 
+@csrf_exempt
+@flash_login_required
 def _upload_file(request):
     """
     Upload file to the server.
@@ -285,7 +293,7 @@ def _upload_file(request):
             # POST UPLOAD SIGNAL
             filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(os.path.join(DIRECTORY, folder, filedata.name)))
     return HttpResponse('True')
-_upload_file = flash_login_required(_upload_file)
+#_upload_file = flash_login_required(_upload_file)
 
 
 # delete signals
