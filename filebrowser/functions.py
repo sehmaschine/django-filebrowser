@@ -274,7 +274,7 @@ def version_generator(value, version_prefix, force=None):
             os.chmod(version_dir, 0775)
         version = scale_and_crop(im, VERSIONS[version_prefix]['width'], VERSIONS[version_prefix]['height'], VERSIONS[version_prefix]['opts'])
         try:
-            version.save(absolute_version_path, quality=90, optimize=1)
+            version.save(absolute_version_path, quality=90, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
         except IOError:
             version.save(absolute_version_path, quality=90)
         return version_path
