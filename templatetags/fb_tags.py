@@ -52,7 +52,8 @@ def get_query_string(p, new_params=None, remove=None):
     if remove is None: remove = []
     for r in remove:
         for k in p.keys():
-            if k.startswith(r):
+            #if k.startswith(r):
+            if k == r:
                 del p[k]
     for k, v in new_params.items():
         if k in p and v is None:
