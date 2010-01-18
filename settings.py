@@ -109,6 +109,9 @@ DEFAULT_SORTING_BY = getattr(settings, "FILEBROWSER_DEFAULT_SORTING_BY", "date")
 # Sorting Order: asc, desc
 DEFAULT_SORTING_ORDER = getattr(settings, "FILEBROWSER_DEFAULT_SORTING_ORDER", "desc")
 
+# Default upload frontend is uploadify, raither use simple
+UPLOAD_FRONTEND = getattr(settings, "FILEBROWSER_UPLOAD_FRONTEND", "uploadify")
+
 # EXTRA TRANSLATION STRINGS
 # The following strings are not availabe within views or templates
 _('Folder')

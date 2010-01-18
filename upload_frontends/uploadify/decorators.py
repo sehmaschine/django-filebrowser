@@ -26,5 +26,3 @@ def flash_login_required(function):
         request.user = get_object_or_404(User, pk=user_id)
         return function(request, *args, **kwargs)
     return decorator
-
-

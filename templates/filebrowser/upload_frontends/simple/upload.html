@@ -1,0 +1,72 @@
+{% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
+{% load i18n adminmedia fb_tags %}
+
+<!-- STYLESHEETS -->
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
+    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+{% endblock %}
+
+<!-- JAVASCRIPTS -->
+{% block extrahead %}
+    {{ block.super }}
+    <script type="text/javascript" src="../../jsi18n/"></script>
+    <script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
+    <script type="text/javascript" src="{% admin_media_prefix %}js/admin/CollapsedFieldsets.js"></script>
+{% endblock %}
+
+<!-- COLTYPE/BODYCLASS -->
+{% block coltype %}colM{% endblock %}
+{% block bodyclass %}change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+
+<!-- BREADCRUMBS -->
+{% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+<div id="content-main">
+    <form action="/admin/filebrowser/upload_file/" enctype="multipart/form-data" method="post">
+    <div>
+        <fieldset class="module aligned">
+        <div class="form-row">
+            <input type="file" id="id_file"  name="Filedata" />
+            <input type="hidden" name="folder" value="{{ query.dir }}" />
+            <input type="hidden" name="get_query" value="{{ get_query }}" />
+        </div>
+        </fieldset>
+        
+        <fieldset class="module aligned collapse-closed">
+        <h2>{% trans "Help" %}</h2>
+        <div class="form-row" >
+            {% for extension in settings_var.EXTENSIONS.items %}
+            {% ifnotequal extension.0 'Folder' %}
+            <label class="required">{% if forloop.first %}{% trans "Allowed" %}:{% else %}&nbsp;{% endif %}</label> 
+            <p>{{ extension.0|safe }} ({{ extension.1|join:", "|safe }})</p>
+            {% endifnotequal %}
+            {% endfor %}
+        </div>
+        <div class="form-row" >
+            <label class="required">{% trans "Max. Filesize" %}:</label>
+            <p>{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p>
+        </div>
+        {% if settings_var.CONVERT_FILENAME %}
+        <div class="form-row" >
+            <label class="required">&nbsp;</label>
+            <p>
+                {% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}
+            </p>
+        </div>
+        {% endif %}
+        </fieldset>
+        
+        <div class="submit-row">
+            <input class="default" type="submit" name="_save" value='{% trans "Upload" %}' />
+        </div>
+        
+    </div>
+    </form>
+</div>
+{% endblock %}
