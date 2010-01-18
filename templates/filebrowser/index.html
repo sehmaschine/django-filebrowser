@@ -4,14 +4,14 @@
 {% load i18n adminmedia fb_tags fb_pagination %}
 
 <!-- STYLESHEETS -->
-{% block stylesheets %}
+{% block extrastyle %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/changelist.css" />
+    <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/changelists.css" />
     <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
 {% endblock %}
 
 <!-- JAVASCRIPTS -->
-{% block javascripts %}
+{% block extrahead %}
     {{ block.super }}
     
     {% ifequal query.pop '1' %} <!-- FileBrowseField -->
@@ -29,8 +29,6 @@
     {% endifequal %}
     
     {{ media }}
-    
-    <script type="text/javascript" src="{% admin_media_prefix %}js/admin/Changelist.js"></script>
     
     {% if not actions_on_top and not actions_on_bottom %}
     <style>

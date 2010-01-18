@@ -14,7 +14,7 @@
             <a href="{% url fb_browse %}{% query_string "" "dir,filename,p" %}&amp;dir={{ item.1 }}">{{ item.0 }}</a> &rsaquo;
         {% else %}
             {% if breadcrumbs_title %}
-                <a href="{% url fb_browse %}{% query_string "" "dir,filename,p" %}&amp;dir={{ item.1 }}">{{ item.0 }}</a> &rsaquo;
+                <a href="{% url fb_browse %}{% query_string "" "dir,filename,p" %}&amp;dir={{ item.1 }}">{{ item.0 }}</a> 
             {% else %}
                 {{ item.0 }}
             {% endif %}
