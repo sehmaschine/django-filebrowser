@@ -1,0 +1,378 @@
+# Slovenian translation of django-filebrowser.
+# Copyright (C) 2010
+# This file is distributed under the same license as the django-filebrowser package.
+# Matjaž Črnko <matjaz.crnko@gmail.com>, 2010.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-01-15 12:30+0100\n"
+"PO-Revision-Date: 2010-01-15 12:35+0100\n"
+"Last-Translator: Matjaž Črnko <matjaz.crnko@gmail.com>\n"
+"Language-Team: Slovenian <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: fields.py:58
+#, python-format
+msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
+msgstr "Končnica %(ext)s ni dovoljena. Dovoljene so končnice %(allowed)s"
+
+#: forms.py:27 templates/filebrowser/versions.html:64
+msgid "Name"
+msgstr "Ime"
+
+#: forms.py:27 forms.py:33 forms.py:50 forms.py:56
+msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
+msgstr "Dovoljene so samo črke, števila, podčrtaji, presledki in apostofi"
+
+#: forms.py:36 forms.py:59
+msgid "The Folder already exists."
+msgstr "Mapa že obstaja."
+
+#: forms.py:50
+msgid "New Name"
+msgstr "Novo ime"
+
+#: forms.py:61
+msgid "The File already exists."
+msgstr "Datoteka že obstaja."
+
+#: settings.py:119
+msgid "Folder"
+msgstr "Mapa"
+
+#: settings.py:120
+msgid "Image"
+msgstr "Slika"
+
+#: settings.py:121
+msgid "Video"
+msgstr "Video"
+
+#: settings.py:122
+msgid "Document"
+msgstr "Dokument"
+
+#: settings.py:123
+msgid "Audio"
+msgstr "Avdio"
+
+#: settings.py:124
+msgid "Code"
+msgstr "Koda"
+
+#: views.py:53 views.py:163 views.py:224 views.py:306 views.py:367
+#: upload_frontends/simple/views.py:28 upload_frontends/uploadify/views.py:36
+msgid "The requested Folder does not exist."
+msgstr "Ta mapa ne obstaja"
+
+#: views.py:57
+msgid "Error finding Upload-Folder. Maybe it does not exist?"
+msgstr "Napaka pri iskanju mape za nalaganje. Mogoče ne obstaja?"
+
+#: views.py:140 templates/filebrowser/append.html:5
+#: templates/filebrowser/append.html:7
+#: templates/filebrowser/include/breadcrumbs.html:8
+#: templates/filebrowser/include/breadcrumbs.html:10
+msgid "FileBrowser"
+msgstr "Raziskovalec"
+
+#: views.py:181
+#, python-format
+msgid "The Folder %s was successfully created."
+msgstr "Mapa %s je bila uspešno ustvarjena."
+
+#: views.py:190
+msgid "Permission denied."
+msgstr "Nimate ustreznih dovoljenj."
+
+#: views.py:192
+msgid "Error creating folder."
+msgstr "Napaka pri ustvarjanju mape."
+
+#: views.py:199 views.py:202 templates/filebrowser/index.html:52
+msgid "New Folder"
+msgstr "Nova mapa"
+
+#: views.py:226 views.py:308 views.py:369
+msgid "The requested File does not exist."
+msgstr "Ta datoteka ne obstaja."
+
+#: views.py:249
+#, python-format
+msgid "The file %s was successfully deleted."
+msgstr "Datoteka %s je bila uspešno izbrisana."
+
+#: views.py:265
+#, python-format
+msgid "The folder %s was successfully deleted."
+msgstr "Mapa %s je bila uspešno izbrisana."
+
+#: views.py:335
+msgid "Renaming was successful."
+msgstr "Ime je bilo uspešno spremenjeno"
+
+#: views.py:340
+msgid "Error."
+msgstr "Napaka."
+
+#: views.py:348
+#, python-format
+msgid "Rename \"%s\""
+msgstr "Preimenuj \"%s\""
+
+#: views.py:351 templates/filebrowser/include/filelisting.html:75
+msgid "Rename"
+msgstr "Preimenuj"
+
+#: views.py:377 views.py:380
+#, python-format
+msgid "Versions for \"%s\""
+msgstr "Različice \"%s\""
+
+#: templates/filebrowser/index.html:53
+#: templates/filebrowser/upload_frontends/simple/upload.html:66
+#: templates/filebrowser/upload_frontends/uploadify/upload.html:108
+#: upload_frontends/simple/views.py:39 upload_frontends/uploadify/views.py:53
+msgid "Upload"
+msgstr "Naloži"
+
+#: templates/filebrowser/makedir.html:25 templates/filebrowser/rename.html:25
+msgid "Please correct the following errors."
+msgstr "Prosim popravite naslednje napake."
+
+#: templates/filebrowser/makedir.html:33
+#: templates/filebrowser/upload_frontends/simple/upload.html:59
+#: templates/filebrowser/upload_frontends/uploadify/upload.html:98
+msgid ""
+"The Name will be converted to lowercase. Spaces will be replaced with "
+"underscores."
+msgstr "Ime datoteke bo normalizirano na male črke. Presledki bodo zamenjani z podčrtaji."
+
+#: templates/filebrowser/makedir.html:38 templates/filebrowser/rename.html:36
+msgid "Submit"
+msgstr "Pošlji"
+
+#: templates/filebrowser/versions.html:67
+msgid "Image Version"
+msgstr "Različica slike"
+
+#: templates/filebrowser/versions.html:70
+msgid "Debug"
+msgstr "Razhroščevanje"
+
+#: templates/filebrowser/versions.html:84
+#: templates/filebrowser/include/filelisting.html:12
+msgid "Select"
+msgstr "Izberi"
+
+#: templates/filebrowser/versions.html:96
+#: templates/filebrowser/versions.html:108
+#: templates/filebrowser/include/filelisting.html:26
+#: templates/filebrowser/include/filelisting.html:40
+msgid "Select File"
+msgstr "Izberi datoteko"
+
+#: templates/filebrowser/versions.html:119
+msgid "Width"
+msgstr "Širina"
+
+#: templates/filebrowser/versions.html:120
+msgid "Height"
+msgstr "Višina"
+
+#: templates/filebrowser/include/breadcrumbs.html:5
+msgid "Home"
+msgstr "Domov"
+
+#: templates/filebrowser/include/filelisting.html:51
+msgid "Show Versions"
+msgstr "Prikaži različice"
+
+#: templates/filebrowser/include/filelisting.html:62
+msgid "View Image"
+msgstr "Poglej sliko"
+
+#: templates/filebrowser/include/filelisting.html:87
+msgid "Are you sure you want to delete this file?"
+msgstr "Ste prepričani da želite izbrisati to datoteko?"
+
+#: templates/filebrowser/include/filelisting.html:87
+msgid "Delete File"
+msgstr "Izbriši datoteko"
+
+#: templates/filebrowser/include/filelisting.html:90
+msgid "Are you sure you want to delete this Folder?"
+msgstr "Ste prepričani da želite izbrisati to mapo?"
+
+#: templates/filebrowser/include/filelisting.html:90
+msgid "Delete Folder"
+msgstr "Izbriši mapo"
+
+#: templates/filebrowser/include/filter.html:3
+msgid "Filter"
+msgstr "Filter"
+
+#: templates/filebrowser/include/filter.html:9
+msgid "By Date"
+msgstr "Po datumu"
+
+#: templates/filebrowser/include/filter.html:11
+msgid "Any Date"
+msgstr "Katerkoli datum"
+
+#: templates/filebrowser/include/filter.html:13
+msgid "Today"
+msgstr "Danes"
+
+#: templates/filebrowser/include/filter.html:15
+msgid "Past 7 days"
+msgstr "Zadnjih 7 dni"
+
+#: templates/filebrowser/include/filter.html:17
+msgid "Past 30 days"
+msgstr "Zadnjih 30 dni"
+
+#: templates/filebrowser/include/filter.html:19
+msgid "This year"
+msgstr "To leto"
+
+#: templates/filebrowser/include/filter.html:27
+msgid "By Type"
+msgstr "Po tipu"
+
+#: templates/filebrowser/include/filter.html:29
+msgid "All"
+msgstr "Vsi"
+
+#: templates/filebrowser/include/paginator.html:5
+msgid "No Items Found"
+msgstr "Ni ustreznih datotek"
+
+#: templates/filebrowser/include/paginator.html:11
+#, python-format
+msgid "%(counter)s Item"
+msgid_plural "%(counter)s Items"
+msgstr[0] "%(counter)s objekt"
+msgstr[1] "%(counter)s objektov"
+
+#: templates/filebrowser/include/paginator.html:26
+msgid "No Items"
+msgstr "Ni objektov"
+
+#: templates/filebrowser/include/search.html:3
+#, python-format
+msgid "1 result"
+msgid_plural "%(counter)s results"
+msgstr[0] "1 rezultat"
+msgstr[1] "%(counter)s rezultatov"
+
+#: templates/filebrowser/include/search.html:4
+#: templates/filebrowser/include/toolbar.html:9
+#, python-format
+msgid "%(full_result_count)s x rezultat"
+msgstr "Skupno: %(full_result_count)s"
+
+#: templates/filebrowser/include/search.html:5
+msgid "Clear Restrictions"
+msgstr "Pobriši filtre"
+
+#: templates/filebrowser/include/search.html:7
+#: templates/filebrowser/include/toolbar.html:16
+msgid "Search"
+msgstr "Iskanje"
+
+#: templates/filebrowser/include/search.html:19
+msgid "Go"
+msgstr "Pojdi"
+
+#: templates/filebrowser/include/search.html:24
+#, python-format
+msgid "%(counter)s Item found"
+msgid_plural "%(counter)s Items found"
+msgstr[0] "%(counter)s objekt najden"
+msgstr[1] "%(counter)s objektov najdenih"
+
+#: templates/filebrowser/include/search.html:25
+#, python-format
+msgid "%(counter)s Item total"
+msgid_plural "%(counter)s Items total"
+msgstr[0] "%(counter)s objekt najden"
+msgstr[1] "%(counter)s objektov najdenih"
+
+#: templates/filebrowser/include/tableheader.html:16
+#: templates/filebrowser/include/tableheader.html:17
+msgid "Filename"
+msgstr "Ime datoteke"
+
+#: templates/filebrowser/include/tableheader.html:21
+#: templates/filebrowser/include/tableheader.html:22
+msgid "Size"
+msgstr "Velikost"
+
+#: templates/filebrowser/include/tableheader.html:24
+#: templates/filebrowser/include/tableheader.html:25
+msgid "Date"
+msgstr "Datum"
+
+#: templates/filebrowser/include/toolbar.html:6
+msgid "Results"
+msgstr "Rezultati"
+
+#: templates/filebrowser/include/toolbar.html:8
+#, python-format
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] "%(counter)s rezultat"
+msgstr[1] "Rezultatov: %(counter)s"
+
+#: templates/filebrowser/upload_frontends/simple/upload.html:42
+#: templates/filebrowser/upload_frontends/uploadify/upload.html:81
+msgid "Help"
+msgstr "Pomoč"
+
+#: templates/filebrowser/upload_frontends/simple/upload.html:46
+#: templates/filebrowser/upload_frontends/uploadify/upload.html:85
+msgid "Allowed"
+msgstr "Dovoljeno"
+
+#: templates/filebrowser/upload_frontends/simple/upload.html:52
+#: templates/filebrowser/upload_frontends/uploadify/upload.html:91
+msgid "Max. Filesize"
+msgstr "Največja velikost"
+
+#: templates/filebrowser/upload_frontends/uploadify/upload.html:46
+msgid "BROWSE"
+msgstr "Brskaj"
+
+#: templates/filebrowser/upload_frontends/uploadify/upload.html:47
+msgid "An Error occured"
+msgstr "Zgodila se je napaka"
+
+#: templates/filebrowser/upload_frontends/uploadify/upload.html:48
+msgid "Completed"
+msgstr "Končano"
+
+#: templates/filebrowser/upload_frontends/uploadify/upload.html:49
+msgid "Do you want to replace the file"
+msgstr "Želite zamenjati datoteko"
+
+#: templates/filebrowser/upload_frontends/uploadify/upload.html:50
+msgid "KB"
+msgstr "KB"
+
+#: templates/filebrowser/upload_frontends/uploadify/upload.html:51
+msgid "MB"
+msgstr "MB"
+
+#: templates/filebrowser/upload_frontends/uploadify/upload.html:106
+msgid "Clear Queue"
+msgstr "Pobriši čakalno vrsto"
+
+#: upload_frontends/simple/views.py:36 upload_frontends/uploadify/views.py:49
+msgid "Select files to upload"
+msgstr "Izberi datoteke za nalaganje"
