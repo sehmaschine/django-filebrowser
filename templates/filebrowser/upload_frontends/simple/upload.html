@@ -28,7 +28,7 @@
 <!-- CONTENT -->
 {% block content %}
 <div id="content-main">
-    <form action="/admin/filebrowser/upload_file/" enctype="multipart/form-data" method="post">
+    <form action="{% url fb_do_upload  %}" enctype="multipart/form-data" method="post">
     <div>
         <fieldset class="module aligned">
         <div class="form-row">

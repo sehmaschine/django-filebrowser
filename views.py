@@ -130,7 +130,7 @@ def browse(request):
     except (EmptyPage, InvalidPage):
         page = p.page(p.num_pages)
     
-    return render_to_response('filebrowser/index.html', {
+    return render_to_response('filebrowser/%s/index.html' % SKIN, {
         'dir': path,
         'p': p,
         'page': page,
@@ -193,7 +193,7 @@ def mkdir(request):
     else:
         form = MakeDirForm(abs_path)
     
-    return render_to_response('filebrowser/makedir.html', {
+    return render_to_response('filebrowser/%s/makedir.html' % SKIN, {
         'form': form,
         'query': query,
         'title': _(u'New Folder'),
@@ -273,7 +273,7 @@ def delete(request):
     if msg:
         request.user.message_set.create(message=msg)
     
-    return render_to_response('filebrowser/index.html', {
+    return render_to_response('filebrowser/%s/index.html' % SKIN, {
         'dir': dir_name,
         'file': request.GET.get('filename', ''),
         'query': query,
@@ -341,7 +341,7 @@ def rename(request):
     else:
         form = RenameForm(abs_path, file_extension)
     
-    return render_to_response('filebrowser/rename.html', {
+    return render_to_response('filebrowser/%s/rename.html' % SKIN, {
         'form': form,
         'query': query,
         'file_extension': file_extension,
@@ -371,7 +371,7 @@ def versions(request):
         return HttpResponseRedirect(reverse("fb_browse"))
     abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
     
-    return render_to_response('filebrowser/versions.html', {
+    return render_to_response('filebrowser/%s/versions.html' % SKIN, {
         'original': path_to_url(os.path.join(DIRECTORY, path, filename)),
         'query': query,
         'title': _(u'Versions for "%s"') % filename,
