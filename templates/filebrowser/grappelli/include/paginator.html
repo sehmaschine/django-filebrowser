@@ -1,0 +1,28 @@
+{% load i18n fb_tags %}
+
+{% if results_var.results_total and not results_var.results_current %}
+<p class="paginator">
+    <strong>{% trans "No Items Found" %}</strong>
+</p>
+{% endif %}
+
+<p class="paginator">
+{% if results_var.results_total %}
+    <strong>{% blocktrans count results_var.results_total as counter %}{{ counter }} Item{% plural %}{{ counter }} Items{% endblocktrans %}</strong>&nbsp;
+    {% if page_range %}
+        {% for i in page_range %}
+            {% ifequal i "." %}
+                ...
+            {% else %}
+                {% ifequal i page_num %}
+                    <span class="this-page">{{ i|add:"1" }}</span>
+                {% else %}
+                    <a href="{% query_string '' 'p' %}&amp;p={{ i|add:"1" }}">{{ i|add:"1" }}</a>
+                {% endifequal %}
+            {% endifequal %}
+        {% endfor %}
+    {% endif %}
+{% else %}
+    <strong>{% trans "No Items" %}</strong>
+{% endif %}
+</p>
