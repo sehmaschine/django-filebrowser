@@ -8,12 +8,7 @@ setup(
     author_email='patrick@vonautomatisch.at',
     url='http://code.google.com/p/django-filebrowser/',
     packages=find_packages(),
-    package_data = {'filebrowser': [
-        'templates/filebrowser/*.html',
-        'templates/filebrowser/include/*',
-        'templatetags/*',
-        'locale/*/LC_MESSAGES/*',
-        'media/*/*/*/*/*/*/*/*']},
+    include_package_data=True,
     zip_safe=False,
     classifiers=[
         'Development Status :: 4 - Beta',
