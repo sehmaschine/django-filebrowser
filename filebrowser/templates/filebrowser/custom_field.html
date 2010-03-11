@@ -1,6 +1,6 @@
 {% load fb_versions %}
 <input id="{{ final_attrs.id }}" type="text" class="vFileBrowseField" name="{{ final_attrs.name }}" value="{{ value }}" />
-<a href="javascript:FileBrowser.show('{{ final_attrs.id }}', '{% url fb_browse %}?pop=1{% if final_attrs.directory %}&amp;dir={{ final_attrs.directory }}{% endif %}{% if final_attrs.format %}&amp;type={{ final_attrs.format }}{% endif %}');" class="fb_show">
+<a href="javascript:FileBrowser.show('{{ final_attrs.id }}', '{% url fb_browse %}?pop=1{% if final_attrs.directory %}&amp;dir={{ final_attrs.directory }}{% endif %}{% if final_attrs.format %}&amp;filter_type={{ final_attrs.format }}{% endif %}');" class="fb_show">
     <img src="{{ final_attrs.search_icon }}" alt="" />
 </a>
 {% ifequal value.filetype "Image" %}
