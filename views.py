@@ -245,7 +245,7 @@ def _check_file(request):
     from django.utils import simplejson
     
     folder = request.POST.get('folder')
-    fb_uploadurl_re = re.compile(r'^(%s)' % reverse("fb_upload"))
+    fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("fb_upload"))
     folder = fb_uploadurl_re.sub('', folder)
     
     fileArray = {}
@@ -274,7 +274,7 @@ def _upload_file(request):
     
     if request.method == 'POST':
         folder = request.POST.get('folder')
-        fb_uploadurl_re = re.compile(r'^(%s)' % reverse("fb_upload"))
+        fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("fb_upload"))
         folder = fb_uploadurl_re.sub('', folder)
         abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, folder)
         if request.FILES:
