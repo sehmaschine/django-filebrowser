@@ -42,7 +42,7 @@
 {% block bodyclass %}change-list filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
 
 <!-- BREADCRUMBS -->
-{% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
+{% block breadcrumbs %}{% include "filebrowser/default/include/breadcrumbs.html" %}{% endblock %}
 
 <!-- CONTENT -->
 {% block content %}
@@ -59,9 +59,9 @@
                 {% if results_var.results_current %}
                 <div class="result-list">
                     <table cellspacing="0">
-                        {% include "filebrowser/include/tableheader.html" %}
+                        {% include "filebrowser/default/include/tableheader.html" %}
                         <tbody>
-                        {% include "filebrowser/include/filelisting.html" %}
+                        {% include "filebrowser/default/include/filelisting.html" %}
                         </tbody>
                     </table>
                 </div>
@@ -70,9 +70,9 @@
             </div>
         </div>
         <div id="changelist-filter">
-            {% include "filebrowser/include/toolbar.html" %}
+            {% include "filebrowser/default/include/toolbar.html" %}
             <div class="module filter">
-                {% include "filebrowser/include/filter.html" %}
+                {% include "filebrowser/default/include/filter.html" %}
             </div>
         </div>
     </div>
