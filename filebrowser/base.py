@@ -30,6 +30,7 @@ class FileObject(object):
     
     def __init__(self, path):
         self.path = path
+        self.url_rel = path.replace("\\","/")
         self.head = os.path.split(path)[0]
         self.filename = os.path.split(path)[1]
         self.filename_lower = self.filename.lower() # important for sorting
@@ -97,14 +98,14 @@ class FileObject(object):
     path_relative_directory = property(_path_relative_directory)
     
     def _url_relative(self):
-        return self.path
+        return self.url_rel
     url_relative = property(_url_relative)
     
     def _url_full(self):
         """
         Full URL including MEDIA_URL.
         """
-        return u"%s" % url_join(MEDIA_URL, self.path)
+        return u"%s" % url_join(MEDIA_URL, self.url_rel)
     url_full = property(_url_full)
     
     def _url_save(self):
@@ -114,7 +115,7 @@ class FileObject(object):
         if SAVE_FULL_URL:
             return self.url_full
         else:
-            return self.path
+            return self.url_rel
     url_save = property(_url_save)
     
     def _url_thumbnail(self):
