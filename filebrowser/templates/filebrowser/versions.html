@@ -33,24 +33,23 @@
     
     {% ifequal query.pop '3' %}
     <!-- CKeditor (former "FCKeditor") -->
-    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_CKEditor.js"></script>
+    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_CKeditor.js"></script>
     {% endifequal %}
     
     {{ media }}
 {% endblock %}
 
 <!-- COLTYPE/BODYCLASS -->
-{% block coltype %}colM{% endblock %}
 {% block bodyclass %}change-list filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+{% block content-class %}content-flexible{% endblock %}
 
 <!-- BREADCRBUMBS -->
 {% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
 
 <!-- CONTENT -->
 {% block content %}
-<div id="content-main">
-    <div class="module" id="changelist">
-        <div class="changelist-content">
+<div id="changelist" class="container-full">
+    <div class="module changelist-results">
         <table cellspacing="0">
             <thead>
                 <tr>
@@ -152,7 +151,6 @@
             {% endfor %}
             </tbody>
         </table>
-        </div>
     </div>
 </div>
 {% endblock %}

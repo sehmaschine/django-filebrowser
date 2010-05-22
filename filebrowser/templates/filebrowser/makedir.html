@@ -21,23 +21,25 @@
 {% block content %}
 <div id="content-main">
     <form action="{% query_string '' 'p' %}" method="post">{% fb_csrf_token %}
-    <div>
         {% if form.errors %}<p class="errornote">{% trans 'Please correct the following errors.' %}</p>{% endif %}
         <fieldset class="module aligned">
-        <div class="form-row {% if form.dir_name.errors %}errors{% endif %}">
-            {% if form.dir_name.errors %}<ul class="errorlist">{{ form.dir_name.errors }}</ul>{% endif %}
-            <label class="required" for="id_dir_name">{{ form.dir_name.label }}</label>
-            {{ form.dir_name }}
-            <p class="help">
-                {{ form.dir_name.help_text|safe }}
-                {% if settings_var.CONVERT_FILENAME %}<br />{% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}{% endif %}
-            </p>
-        </div>
+            <div class="row {% if form.dir_name.errors %}errors{% endif %}">
+                <div class="column span-4"><label class="required" for="id_dir_name">{{ form.dir_name.label }}</label></div>
+                <div class="column span-flexible">
+                    {{ form.dir_name }}
+                    {% if form.dir_name.errors %}<ul class="errorlist">{{ form.dir_name.errors }}</ul>{% endif %}
+                    <p class="help">
+                        {{ form.dir_name.help_text|safe }}
+                        {% if settings_var.CONVERT_FILENAME %}<br />{% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}{% endif %}
+                    </p>
+                </div>
+            </div>
         </fieldset>
-        <div class="submit-row">
-            <input type="submit" value="{% trans 'Submit' %}" class="default" /><br class="clear" />
+        <div class="module submit-row">
+            <ul class="submit-row">
+                <li class="submit-button-container"><input type="submit" value="{% trans 'Submit' %}" class="default" /></li>
+            </ul>
         </div>
-    </div>
     </form>
 </div>
 {% endblock %}

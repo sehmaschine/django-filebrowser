@@ -21,21 +21,23 @@
 {% block content %}
 <div id="content-main">
     <form action="{% query_string "" "filter_date,filter_type,q,p" %}" method="post">{% fb_csrf_token %}
-    <div>
         {% if form.errors %}<p class="errornote">{% trans 'Please correct the following errors.' %}</p>{% endif %}
         <fieldset class="module aligned">
-        <div class="form-row {% if form.dir_name.errors %}errors{% endif %}">
-            {% if form.name.errors %}<ul class="errorlist">{{ form.name.errors }}</ul>{% endif %}
-            <label class="required" for="id_dir_name">{{ form.name.label }}</label>
-            {{ form.name }}
-            {% if file_extension %}<b>{{ file_extension }}</b>{% endif %}
-            {% if form.name.help_text %}<p class="help">{{ form.name.help_text|safe }}</p>{% endif %}
-        </div>
+            <div class="row {% if form.dir_name.errors %}errors{% endif %}">
+                <div class="column span-4"><label class="required" for="id_dir_name">{{ form.name.label }}</label></div>
+                <div class="column span-flexible">
+                    {{ form.name }}
+                    {% if file_extension %}<b>{{ file_extension }}</b>{% endif %}
+                    {% if form.name.errors %}<ul class="errorlist">{{ form.name.errors }}</ul>{% endif %}
+                    {% if form.name.help_text %}<p class="help">{{ form.name.help_text|safe }}</p>{% endif %}
+                </div>
+            </div>
         </fieldset>
-        <div class="submit-row">
-            <input type="submit" value="{% trans 'Submit' %}" class="default" />
+        <div class="module submit-row">
+            <ul class="submit-row">
+                <li class="submit-button-container"><input type="submit" value="{% trans 'Submit' %}" class="default" /></li>
+            </ul>
         </div>
-    </div>
     </form>
 </div>
 {% endblock %}

@@ -2,28 +2,179 @@
 .filebrowser table a { font-size: 11px; }
 .filebrowser thead th.sorted a { padding-right: 13px; }
 .filebrowser td { padding: 9px 10px 7px 10px !important; }
-.filebrowser td.fb_icon { padding: 6px 5px 5px 5px !important; }
+.filebrowser td.fb_icon {
+/*    padding: 5px 10px 1px !important;*/
+/*    font-size: 0;*/
+/*    line-height: 13px !important;*/
+}
+.filebrowser td.fb_icon a {
+/*    font-size: 0;*/
+/*    line-height: 0;*/
+}
 
-table a.fb_deletelink, table a.fb_renamelink, table a.fb_selectlink, table a.fb_showversionslink {
+.filebrowser td.fb_thumbnail {
+    line-height: 11px;
+    padding-bottom: 0 !important;
+}
+
+.filebrowser .fb_preview_container {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    margin-top: -10px;
+    margin-left: -6px;
+    
+    margin-top: 25px;
+    margin-left: 0;
+    
+    padding: 5px 5px 3px;
+    
+    padding: 5px 5px 1px;
+    
+    border: 1px solid #bdbdbd;
+    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 10px 50px #333; -moz-box-shadow: 0 10px 50px #333; -webkit-box-shadow: 0 10px 50px #333;
+}
+.filebrowser img.fb_preview {
+    max-width: 400px;
+    max-height: 400px;
+}
+
+/*table a.fb_deletelink, table a.fb_renamelink, table a.fb_selectlink, table a.fb_showversionslink {
     cursor: pointer;
     display: block; padding: 0; margin: 0;
     width: 23px; height: 17px;
     background-color: transparent;
     background-position: 0 center;
     background-repeat: no-repeat;
+}*/
+
+a.button.fb_showversions {
+    margin-left: 0;
+    padding-left: 20px;
+    background: 10px 50% no-repeat scroll
+}
+a.button.fb_showversions:link, a.button.fb_showversions:visited {
+    background-image: url('../img/icon-showversions.png');
+}
+a.button.fb_showversions:hover, a.button.fb_showversions:active {
+    background-image: url('../img/icon-showversions-hover.png');
 }
 
-table .fb_deletelink:link, table .fb_deletelink:visited {
-    width: 15px;
-    background-image: url('../img/filebrowser_icon_delete.gif');
+.filebrowser a.preview, 
+.filebrowser a.internal {
+/*    float: right;*/
+    display: block;
+    margin-top: 8px;
+    padding-left: 8px;
+    line-height: 16px;
+    background-position: 0 50%;
 }
-table .fb_deletelink:hover, table .fb_deletelink:active { background-image: url('../img/filebrowser_icon_delete_hover.gif'); }
-table .fb_renamelink:link, table .fb_renamelink:visited {
-    width: 14px;
-    background-image: url('../img/filebrowser_icon_rename.gif');
+.filebrowser a.preview {
+    float: left;
+/*    margin-top: 4px;*/
 }
-table .fb_renamelink:hover, table .fb_renamelink:active { background-image: url('../img/filebrowser_icon_rename_hover.gif'); }
-table .fb_selectlink:link, table .fb_selectlink:visited { background-image: url('../img/filebrowser_icon_select.gif'); }
-table .fb_selectlink:hover, table .fb_selectlink:active { background-image: url('../img/filebrowser_icon_select_hover.gif'); }
-table .fb_showversionslink:link, table .fb_showversionslink:visited { background-image: url('../img/filebrowser_icon_showversions.gif'); }
-table .fb_showversionslink:hover, table .fb_showversionslink:active { background-image: url('../img/filebrowser_icon_showversions_hover.gif'); }
+.filebrowser a.internal {
+   float: right;
+/*   margin-top: -2px;*/
+}
+
+a.fb_viewlink, 
+button.fb_selectlink {
+    position: relative;
+    top: -4px !important;
+    margin-bottom: -6px !important;
+}
+
+a.fb_viewlink {
+    display: inline;
+    margin-bottom: -16px !important;
+    font-size: 0; line-height: 0;
+}
+
+span.fb_type {
+    display: inline-block;
+    margin: 0 0;
+    padding: 1px 0;
+    color: #999;
+    font-size: 11px;
+    font-weight: bold;
+    font-style: italic;
+    border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;
+/*    background: #ddd;*/
+}
+span.fb_type.folder {
+    color: #666;
+    font-weight: bold;
+/*    background: #999;*/
+}
+
+
+.pulldown-actions-container {
+    position: relative;
+}
+tr .pulldown-actions-container {
+/*    margin: -5px 0 -3px;*/
+}
+.pulldown-actions-handler {
+    display: block;
+    width: 27px;
+    height: 17px;
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;*/
+}
+.pulldown-actions-handler:link, .pulldown-actions-handler:visited {
+    background: #e1f0f5 url('../img/icon-pulldown-actions.png') 50% 50% no-repeat scroll;
+    background: transparent url('../img/icon-pulldown-actions.png') 50% 50% no-repeat scroll;
+}
+.pulldown-actions-handler:hover, .pulldown-actions-handler:active {
+    background: #e1f0f5 url('../img/icon-pulldown-actions-hover.png') 50% 50% no-repeat scroll;
+    background: transparent url('../img/icon-pulldown-actions-hover.png') 50% 50% no-repeat scroll;
+}
+.open .pulldown-actions-handler {
+/*    border-bottom-left-radius: 0; -moz-border-radius-bottomleft: 0; -webkit-border-bottom-left-radius: 0;*/
+/*    border-bottom-right-radius: 0; -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0;*/
+    background: #e1f0f5 url('../img/icon-pulldown-actions-active.png') 50% 50% no-repeat scroll;
+    background: transparent url('../img/icon-pulldown-actions-active.png') 50% 50% no-repeat scroll;
+}
+ul.pulldown-actions {
+    display: none;
+}
+.open ul.pulldown-actions {
+    display: block;
+    position: absolute;
+    right: 0;
+    z-index: 1000;
+    margin: -1px 0;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-top-left-radius: 5px; -moz-border-radius-topleft: 5px; -webkit-border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px; -moz-border-radius-bottomleft: 5px; -webkit-border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px; -moz-border-radius-bottomright: 5px; -webkit-border-bottom-right-radius: 5px;
+    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+    background: #eee;
+    box-shadow: 0 0 50px #333; -moz-box-shadow: 0 0 50px #333; -webkit-box-shadow: 0 0 50px #333;
+}
+ul.pulldown-actions li {
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #d4d4d4;
+}
+ul.pulldown-actions li:first-child {
+    border-top: 0;
+}
+ul.pulldown-actions li:last-child {
+    border-bottom: 0;
+}
+ul.pulldown-actions a {
+    display: block;
+    padding: 5px 30px 5px 10px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+ul.pulldown-actions a:link, ul.pulldown-actions a:visited {
+/*    color: #fff;*/
+}
+ul.pulldown-actions a:hover, ul.pulldown-actions a:active {
+/*    color: #444;*/
+}
