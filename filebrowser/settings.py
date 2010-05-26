@@ -58,6 +58,7 @@ SELECT_FORMATS = getattr(settings, "FILEBROWSER_SELECT_FORMATS", {
     # for TinyMCE we can also define lower-case items
     'image': ['Image'],
     'file': ['Folder','Image','Document',],
+    'media': ['Video','Sound'],
 })
 
 # Directory to Save Image Versions (and Thumbnails). Relative to MEDIA_ROOT.
