@@ -40,8 +40,9 @@ class FileObject(object):
         """
         Filesize.
         """
-        if os.path.isfile(os.path.join(MEDIA_ROOT, self.path)) or os.path.isdir(os.path.join(MEDIA_ROOT, self.path)):
-            return os.path.getsize(os.path.join(MEDIA_ROOT, self.path))
+        path = self.path.encode('utf8')
+        if os.path.isfile(os.path.join(MEDIA_ROOT, path)) or os.path.isdir(os.path.join(MEDIA_ROOT, path)):
+            return os.path.getsize(os.path.join(MEDIA_ROOT, path))
         return ""
     filesize = property(_filesize)
     
