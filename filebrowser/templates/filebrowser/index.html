@@ -30,7 +30,6 @@
     <script type="text/javascript" charset="utf-8">
         (function($) {
             $(document).ready(function() {
-                
                 {% if is_popup %}
                     // UGLY HACK: REMOVE ACTIONS and LIST_EDITABLES FOR POPUPS
                     // shouldn't be there in the first place, see
@@ -45,9 +44,9 @@
                     $('.related-lookup, .add-another').attr("onClick", "return false;");
                     $('.vDateField').datepicker("disable");
                 {% endif %}
-                
                 $("a.pulldown-actions-handler").bind("click", function() {
                     if (!$(this).parent().hasClass("open")) {
+                        $("tr").removeClass("selected");
                         $(".pulldown-actions-container").removeClass("open");
                         $(this).parent().addClass("open");
                         $(this).parent().parent().parent().addClass("selected");
@@ -57,14 +56,24 @@
                     }
                 });
                 $("a.fb_showpreview").bind("click", function() {
-                    // $(this).parent().prev().children(".fb_preview_container").show();
                     $(this).next(".fb_preview_container").show();
                 });
-                $(".fb_preview_container").mouseout(function() {
-                    $(this).hide();
-                });
-                
                 $('body').change_list();
+            });
+            $(document).mousedown(function(evt) {
+                if ($(".pulldown-actions-container").is(":visible")) {
+                    var $target = $(evt.target);
+                    if (!$(evt.target).hasClass("pulldown-actions-container") && $target.parents(".pulldown-actions-container").length == 0) {
+                        $(".pulldown-actions-container").removeClass("open");
+                        $(".pulldown-actions-container").parent().parent().removeClass("selected");
+                    }
+                }
+                if ($(".fb_preview_container").is(":visible")) {
+                    var $target = $(evt.target);
+                    if (!$(evt.target).hasClass("fb_preview_container") && $target.parents(".fb_preview_container").length == 0) {
+                        $(".fb_preview_container").hide();
+                    }
+                }
             });
         })(jQuery.noConflict());
     </script>

@@ -1,17 +1,16 @@
 {% load i18n adminmedia fb_tags fb_versions %}
 
 {% for file in page.object_list %}
-    <tr class="{% cycle 'row1' 'row2' %}">
+    <tr class="{% cycle 'row1' 'row2' %}{% if file.filetype == "Folder" %} fb_folder{% endif %}">
         
         <!-- FILESELECT FOR FILEBROWSEFIELD -->
         {% if query.pop == "1" and results_var.select_total %}
             <td class="fb_icon">
                 {% selectable file.filetype query.type %}
                 {% if selectable %}
-                    {% comment %}<a href="javascript://" onclick="FileSubmit('{{ file.url_save }}', '{{ file.url_thumbnail }}', '{{ file.filetype }}');" class="fb_selectlink" title="{% trans 'Select' %}">{% trans 'Select' %}</a>{% endcomment %}
                     <button class="button fb_selectlink" onclick="FileSubmit('{{ file.url_save }}', '{{ file.url_thumbnail }}', '{{ file.filetype }}');">{% trans "Select" %}</button>
                 {% else %}
-                    {% trans 'Select' %}
+                    &nbsp;
                 {% endif %}
             </td>
         {% endif %}
@@ -21,9 +20,9 @@
             <td class="fb_icon">
                 {% selectable file.filetype query.type %}
                 {% if selectable %}
-                    <a href="javascript:FileBrowserDialogue.fileSubmit('{{ file.url_save|escapejs }}');" class="fb_selectlink" title="{% trans 'Select File' %}">{% trans 'Select' %}</a>
+                    <button class="button fb_selectlink" onclick="FileBrowserDialogue.fileSubmit('{{ file.url_save|escapejs }}');">{% trans "Select" %}</button>
                 {% else %}
-                    {% trans 'Select' %}
+                    &nbsp;
                 {% endif %}
             </td>
         {% endif %}
@@ -33,31 +32,29 @@
             <td class="fb_icon">
                 {% selectable file.filetype query.type %}
                 {% if selectable %}
-                    <a href="#" onclick="OpenFile(ProtectPath('{{ file.url_save|escapejs }}'));return false;" class="fb_selectlink" title="{% trans 'Select File' %}">{% trans 'Select' %}</a>
+                    <button class="button fb_selectlink" onclick="OpenFile(ProtectPath('{{ file.url_save|escapejs }}'));return false;">{% trans "Select" %}</button>
                 {% else %}
-                    {% trans 'Select' %}
+                    &nbsp;
                 {% endif %}
             </td>
         {% endif %}
         
         <!-- FILEICON -->
-        {% comment %}<td class="fb_icon"><img src="{{ settings_var.URL_FILEBROWSER_MEDIA }}img/filebrowser_type_{{ file.filetype|lower }}.gif" /></td>{% endcomment %}
         <td>
+            {% comment %}<img src="{{ settings_var.URL_FILEBROWSER_MEDIA }}img/filebrowser_type_{{ file.filetype|lower }}.gif" />{% endcomment %}
             <span class="fb_type {{ file.filetype|lower }}">{{ file.filetype }}</span>
-            
         </td>
         
         <!-- THUMBNAIL -->
         <td class="fb_thumbnail">
             {% if file.filetype == "Image" %}
-                
                 <a href="{{ file.url_full }}" class="fb_viewlink"><img src="{% version file.path settings_var.ADMIN_THUMBNAIL %}" title="{% trans 'View Image' %}" /></a>
             {% endif %}
         </td>
         
         <!-- FILENAME/DIMENSIONS -->
         {% if file.filetype == "Folder" %}
-            <td><b><a href="{% url fb_browse %}{% query_string "" "q,dir,p" %}&amp;dir={{ file.path_relative_directory|urlencode }}">{{ file.filename }}</a></b></td>
+            <td><a href="{% url fb_browse %}{% query_string "" "q,dir,p" %}&amp;dir={{ file.path_relative_directory|urlencode }}"><strong>{{ file.filename }}</strong></a></td>
         {% else %}
             <td>
                 <b><a href="{{ file.url_full }}">{{ file.filename }}</a></b>
@@ -67,7 +64,7 @@
                 {% if file.filetype == "Image" %}
                     <a class="preview fb_showpreview" href="javascript://" title="{% trans 'Preview' %}">{% trans 'Preview' %}</a>
                     <div class="fb_preview_container">
-                        <a href="{{ file.url_full }}"><img src="{% version file.path settings_var.ADMIN_VERSIONS.1 %}" title="{% trans 'View Image' %}" class="fb_preview" /></a>
+                        <a href="{{ file.url_full }}" class="fb_view_image external" target="_blank"><span>{% trans 'View Image' %}</span><img src="{% version file.path settings_var.ADMIN_VERSIONS.1 %}" title="{% trans 'View Image' %}" class="fb_preview" /></a>
                     </div>
                 {% endif %}
                 {% if results_var.images_total and settings_var.ADMIN_VERSIONS and file.filetype == "Image" %}
