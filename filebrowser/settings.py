@@ -13,8 +13,8 @@ try:
     DEFAULT_URL_TINYMCE = tinymce.settings.JS_BASE_URL + '/'
     DEFAULT_PATH_TINYMCE = tinymce.settings.JS_ROOT + '/'
 except ImportError:
-    DEFAULT_URL_TINYMCE = settings.ADMIN_MEDIA_PREFIX + "jquery/tinymce/jscripts/tiny_mce/"
-    DEFAULT_PATH_TINYMCE = os.path.join(settings.MEDIA_ROOT, 'admin/jquery/tinymce/jscripts/tiny_mce/')
+    DEFAULT_URL_TINYMCE = settings.ADMIN_MEDIA_PREFIX + "tinymce/jscripts/tiny_mce/"
+    DEFAULT_PATH_TINYMCE = os.path.join(settings.MEDIA_ROOT, 'admin/tinymce/jscripts/tiny_mce/')
 
 # Set to True in order to see the FileObject when Browsing.
 DEBUG = getattr(settings, "FILEBROWSER_DEBUG", False)
