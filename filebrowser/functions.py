@@ -10,6 +10,7 @@ from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.core.files import File
 from django.core.files.storage import default_storage
+from django.utils.encoding import smart_str
 
 # filebrowser imports
 from filebrowser.settings import *
@@ -159,7 +160,9 @@ def get_file(path, filename):
     Get File.
     """
     
-    if not os.path.isfile(os.path.join(MEDIA_ROOT, DIRECTORY, path, filename)) and not os.path.isdir(os.path.join(MEDIA_ROOT, DIRECTORY, path, filename)):
+    converted_path = smart_str(os.path.join(MEDIA_ROOT, DIRECTORY, path, filename))
+    
+    if not os.path.isfile(converted_path) and not os.path.isdir(converted_path):
         return None
     return filename
 
