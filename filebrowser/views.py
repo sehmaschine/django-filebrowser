@@ -336,7 +336,7 @@ def delete(request):
                     except:
                         pass
                 # DELETE FILE
-                os.unlink(os.path.join(abs_path, filename))
+                os.unlink(smart_str(os.path.join(abs_path, filename)))
                 # POST DELETE SIGNAL
                 filebrowser_post_delete.send(sender=request, path=path, filename=filename)
                 # MESSAGE & REDIRECT
