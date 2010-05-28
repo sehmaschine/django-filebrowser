@@ -251,6 +251,7 @@ def _check_file(request):
     fileArray = {}
     if request.method == 'POST':
         for k,v in request.POST.items():
+            v = unicode(v)
             if k != "folder":
                 v = convert_filename(v)
                 if os.path.isfile(os.path.join(MEDIA_ROOT, DIRECTORY, folder, v)):
