@@ -17,6 +17,8 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ImproperlyConfigured
 from django.dispatch import Signal
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.utils.encoding import smart_str
+
 try:
     # django SVN
     from django.views.decorators.csrf import csrf_exempt
@@ -251,10 +253,9 @@ def _check_file(request):
     fileArray = {}
     if request.method == 'POST':
         for k,v in request.POST.items():
-            v = unicode(v)
             if k != "folder":
                 v = convert_filename(v)
-                if os.path.isfile(os.path.join(MEDIA_ROOT, DIRECTORY, folder, v)):
+                if os.path.isfile(smart_str(os.path.join(MEDIA_ROOT, DIRECTORY, folder, v))):
                     fileArray[k] = v
     
     return HttpResponse(simplejson.dumps(fileArray))
