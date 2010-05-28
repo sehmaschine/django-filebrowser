@@ -286,9 +286,9 @@ def version_generator(value, version_prefix, force=None):
     ImageFile.MAXBLOCK = IMAGE_MAXBLOCK # default is 64k
     
     try:
-        im = Image.open(os.path.join(MEDIA_ROOT, value))
+        im = Image.open(smart_str(os.path.join(MEDIA_ROOT, value)))
         version_path = get_version_path(value, version_prefix)
-        absolute_version_path = os.path.join(MEDIA_ROOT, version_path)
+        absolute_version_path = smart_str(os.path.join(MEDIA_ROOT, version_path))
         version_dir = os.path.split(absolute_version_path)[0]
         if not os.path.isdir(version_dir):
             os.makedirs(version_dir)
