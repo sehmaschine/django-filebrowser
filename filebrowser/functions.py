@@ -74,7 +74,7 @@ def get_version_path(value, version_prefix):
     Returns a path relative to MEDIA_ROOT.
     """
     
-    if os.path.isfile(os.path.join(MEDIA_ROOT, value)):
+    if os.path.isfile(smart_str(os.path.join(MEDIA_ROOT, value))):
         path, filename = os.path.split(value)
         filename, ext = os.path.splitext(filename)
         
@@ -86,7 +86,7 @@ def get_version_path(value, version_prefix):
             # so we strip the suffix (aka. version_perfix)
             new_filename = filename.replace("_" + tmp[len(tmp)-1], "")
             # check if the version exists when we use the new_filename
-            if os.path.isfile(os.path.join(MEDIA_ROOT, path, new_filename + "_" + version_prefix + ext)):
+            if os.path.isfile(smart_str(os.path.join(MEDIA_ROOT, path, new_filename + "_" + version_prefix + ext))):
                 # our "original" filename seem to be filename_<version> construct
                 # so we replace it with the new_filename
                 filename = new_filename
