@@ -8,6 +8,7 @@ from time import gmtime
 from django.template import Library, Node, Variable, VariableDoesNotExist, TemplateSyntaxError
 from django.conf import settings
 from django.utils.encoding import force_unicode
+from django.utils.encoding import smart_str
 
 # filebrowser imports
 from filebrowser.settings import MEDIA_ROOT, MEDIA_URL, VERSIONS
@@ -41,7 +42,7 @@ class VersionNode(Node):
         try:
             source = force_unicode(source)
             version_path = get_version_path(url_to_path(source), version_prefix)
-            if not os.path.isfile(os.path.join(MEDIA_ROOT, version_path)):
+            if not os.path.isfile(smart_str(os.path.join(MEDIA_ROOT, version_path))):
                 # create version
                 version_path = version_generator(url_to_path(source), version_prefix)
             elif os.path.getmtime(os.path.join(MEDIA_ROOT, url_to_path(source))) > os.path.getmtime(os.path.join(MEDIA_ROOT, version_path)):
@@ -97,7 +98,7 @@ class VersionObjectNode(Node):
         try:
             source = force_unicode(source)
             version_path = get_version_path(url_to_path(source), version_prefix)
-            if not os.path.isfile(os.path.join(MEDIA_ROOT, version_path)):
+            if not os.path.isfile(smart_str(os.path.join(MEDIA_ROOT, version_path))):
                 # create version
                 version_path = version_generator(url_to_path(source), version_prefix)
             elif os.path.getmtime(os.path.join(MEDIA_ROOT, url_to_path(source))) > os.path.getmtime(os.path.join(MEDIA_ROOT, version_path)):
