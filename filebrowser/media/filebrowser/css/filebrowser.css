@@ -110,6 +110,7 @@ button.fb_selectlink {
     display: none;
     position: absolute;
     z-index: 1000;
+    margin-top: 25px;
     padding: 5px 5px 1px;
     border: 1px solid #bdbdbd;
     border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
@@ -169,7 +170,7 @@ ul.pulldown-actions {
     position: absolute;
     right: 0;
     z-index: 1000;
-    margin: -1px 0;
+    margin: 3px 0 0;
     padding: 0;
     border: 1px solid #ccc;
     border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;

@@ -56,24 +56,31 @@
                     }
                 });
                 $("a.fb_showpreview").bind("click", function() {
-                    $(this).next(".fb_preview_container").show();
+                    $(this).next(".fb_preview_container").toggle();
                 });
                 $('body').change_list();
-            });
-            $(document).mousedown(function(evt) {
-                if ($(".pulldown-actions-container").is(":visible")) {
-                    var $target = $(evt.target);
-                    if (!$(evt.target).hasClass("pulldown-actions-container") && $target.parents(".pulldown-actions-container").length == 0) {
-                        $(".pulldown-actions-container").removeClass("open");
+                $(document).keypress(function(evt) {
+                    if (evt.keyCode == '27') {
+                        $(".pulldown-actions-container:visible").removeClass("open");
                         $(".pulldown-actions-container").parent().parent().removeClass("selected");
+                        $(".fb_preview_container:visible").hide();
                     }
-                }
-                if ($(".fb_preview_container").is(":visible")) {
-                    var $target = $(evt.target);
-                    if (!$(evt.target).hasClass("fb_preview_container") && $target.parents(".fb_preview_container").length == 0) {
-                        $(".fb_preview_container").hide();
+                });
+                $(document).mousedown(function(evt) {
+                    if ($(".pulldown-actions-container").is(":visible")) {
+                        var $target = $(evt.target);
+                        if (!$(evt.target).hasClass("pulldown-actions-container") && $target.parents(".pulldown-actions-container").length == 0) {
+                            $(".pulldown-actions-container").removeClass("open");
+                            $(".pulldown-actions-container").parent().parent().removeClass("selected");
+                        }
                     }
-                }
+                    if ($(".fb_preview_container").is(":visible")) {
+                        var $target = $(evt.target);
+                        if (!$(evt.target).is("a.fb_showpreview") &&! $(evt.target).hasClass("fb_preview_container") && $target.parents(".fb_preview_container").length == 0) {
+                            $(".fb_preview_container").hide();
+                        }
+                    }
+                });
             });
         })(jQuery.noConflict());
     </script>
