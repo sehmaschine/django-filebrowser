@@ -11,8 +11,8 @@
 {% endblock %}
 
 <!-- COLTYPE/BODYCLASS -->
-{% block coltype %}colM{% endblock %}
 {% block bodyclass %}change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+{% block content-class %}content-flexible{% endblock %}
 
 <!-- BREADCRUMBS -->
 {% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </fieldset>
-        <div class="module submit-row">
+        <div class="module footer">
             <ul class="submit-row">
                 <li class="submit-button-container"><input type="submit" value="{% trans 'Submit' %}" class="default" /></li>
             </ul>
