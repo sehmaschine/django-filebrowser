@@ -68,9 +68,9 @@ span.fb_type.folder {
 .filebrowser a.fb_showpreview {
     float: left;
 }
-.filebrowser a.fb_showversions {
+/*.filebrowser a.fb_showversions {
    float: right;
-}
+}*/
 .filebrowser a.fb_showpreview {
     padding-left: 16px;
     background: 0 50% no-repeat scroll;
