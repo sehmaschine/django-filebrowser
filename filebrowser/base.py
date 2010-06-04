@@ -10,6 +10,7 @@ from django.conf import settings
 # filebrowser imports
 from filebrowser.settings import *
 from filebrowser.functions import get_file_type, url_join, is_selectable, get_version_path
+from django.utils.encoding import force_unicode
 
 # PIL import
 if STRICT_PIL:
@@ -106,7 +107,7 @@ class FileObject(object):
         """
         Full URL including MEDIA_URL.
         """
-        return u"%s" % url_join(MEDIA_URL, self.url_rel)
+        return force_unicode(url_join(MEDIA_URL, self.url_rel))
     url_full = property(_url_full)
     
     def _url_save(self):

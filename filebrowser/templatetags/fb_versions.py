@@ -7,8 +7,7 @@ from time import gmtime
 # django imports
 from django.template import Library, Node, Variable, VariableDoesNotExist, TemplateSyntaxError
 from django.conf import settings
-from django.utils.encoding import force_unicode
-from django.utils.encoding import smart_str
+from django.utils.encoding import force_unicode, smart_str
 
 # filebrowser imports
 from filebrowser.settings import MEDIA_ROOT, MEDIA_URL, VERSIONS
