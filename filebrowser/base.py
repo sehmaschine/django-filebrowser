@@ -41,7 +41,7 @@ class FileObject(object):
         """
         Filesize.
         """
-        path = self.path.encode('utf8')
+        path = force_unicode(self.path)
         if os.path.isfile(os.path.join(MEDIA_ROOT, path)) or os.path.isdir(os.path.join(MEDIA_ROOT, path)):
             return os.path.getsize(os.path.join(MEDIA_ROOT, path))
         return ""
@@ -83,7 +83,7 @@ class FileObject(object):
         """
         Full server PATH including MEDIA_ROOT.
         """
-        return u"%s" % os.path.join(MEDIA_ROOT, self.path)
+        return os.path.join(MEDIA_ROOT, self.path)
     path_full = property(_path_full)
     
     def _path_relative(self):
@@ -193,12 +193,12 @@ class FileObject(object):
     is_empty = property(_is_empty)
     
     def __repr__(self):
-        return u"%s" % self.url_save
+        return force_unicode(self.url_save)
     
     def __str__(self):
-        return u"%s" % self.url_save
+        return force_unicode(self.url_save)
     
     def __unicode__(self):
-        return u"%s" % self.url_save
+        return force_unicode(self.url_save)
 
 
