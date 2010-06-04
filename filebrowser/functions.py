@@ -223,6 +223,7 @@ def get_settings_var():
     settings_var['VERSIONS'] = VERSIONS
     settings_var['ADMIN_VERSIONS'] = ADMIN_VERSIONS
     settings_var['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
+    settings_var['PREVIEW_VERSION'] = PREVIEW_VERSION
     # FileBrowser Options
     settings_var['MAX_UPLOAD_SIZE'] = MAX_UPLOAD_SIZE
     # Convert Filenames

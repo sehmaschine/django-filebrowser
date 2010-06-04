@@ -61,12 +61,14 @@
                 {% if file.dimensions %}
                     <br /><span class="tiny">{{ file.dimensions.0 }} x {{ file.dimensions.1 }} px</span><br clear="all" />
                 {% endif %}
+                {% comment %}
                 {% if file.filetype == "Image" %}
                     <a class="preview fb_showpreview" href="javascript://" title="{% trans 'Preview' %}">{% trans 'Preview' %}</a>
                     <div class="fb_preview_container">
-                        <a href="{{ file.url_full }}" class="fb_view_image external" target="_blank"><span>{% trans 'View Image' %}</span><img src="{% version file.path settings_var.ADMIN_VERSIONS.1 %}" title="{% trans 'View Image' %}" class="fb_preview" /></a>
+                        <a href="{{ file.url_full }}" class="fb_view_image external" target="_blank"><span>{% trans 'View Image' %}</span><img src="{% version file.path settings_var.PREVIEW_VERSION %}" title="{% trans 'View Image' %}" class="fb_preview" /></a>
                     </div>
                 {% endif %}
+                {% endcomment %}
                 {% if results_var.images_total and settings_var.ADMIN_VERSIONS and file.filetype == "Image" %}
                     <a class="internal fb_showversions" href="{% url fb_versions %}{% query_string "" "p" %}&amp;filename={{ file.filename }}" title="{% trans 'Versions' %}">{% trans 'Versions' %}</a>
                 {% endif %}
@@ -98,31 +100,31 @@
         
         <!-- DEBUG -->
         {% if settings_var.DEBUG %}
-            <td>
-                <strong>Filename</strong> {{ file.filename }}<br />
-                <strong>Filetype</strong> {{ file.filetype }}<br />
-                <strong>Filesize</strong> {{ file.filesize }}<br />
-                <strong>Extension</strong> {{ file.extension }}<br />
-                <strong>Date</strong> {{ file.date }}<br />
-                <strong>Datetime Object</strong> {{ file.datetime }}<br /><br />
-                <strong>Relative Path</strong> {{ file.path_relative }}<br />
-                <strong>Full Path</strong> {{ file.path_full }}<br />
-                <strong>Relative URL</strong> {{ file.url_relative }}<br />
-                <strong>Full URL</strong> {{ file.url_full }}<br /><br />
-                <strong>URL for FileBrowseField</strong> {{ file.url_save }}<br />
-                <strong>Thumbnail URL</strong> {{ file.url_thumbnail }}
-                {% if file.filetype == "Image" %}
-                    <br /><br />
-                    <strong>Dimensions</strong> {{ file.dimensions }}<br />
-                    <strong>Width</strong> {{ file.width }}<br />
-                    <strong>Height</strong> {{ file.height }}<br />
-                    <strong>Orientation</strong> {{ file.orientation }}
-                {% endif %}
-                {% if file.filetype == "Folder" %}
-                    <br /><br />
-                    <strong>Is Empty</strong> {{ file.is_empty }}
-                {% endif %}
-            </td>
+        <td>
+            <strong>Filename</strong> {{ file.filename }}<br />
+            <strong>Filetype</strong> {{ file.filetype }}<br />
+            <strong>Filesize</strong> {{ file.filesize }}<br />
+            <strong>Extension</strong> {{ file.extension }}<br />
+            <strong>Date</strong> {{ file.date }}<br />
+            <strong>Datetime Object</strong> {{ file.datetime }}<br /><br />
+            <strong>Relative Path</strong> {{ file.path_relative }}<br />
+            <strong>Full Path</strong> {{ file.path_full }}<br />
+            <strong>Relative URL</strong> {{ file.url_relative }}<br />
+            <strong>Full URL</strong> {{ file.url_full }}<br /><br />
+            <strong>URL for FileBrowseField</strong> {{ file.url_save }}<br />
+            <strong>Thumbnail URL</strong> {{ file.url_thumbnail }}
+            {% if file.filetype == "Image" %}
+                <br /><br />
+                <strong>Dimensions</strong> {{ file.dimensions }}<br />
+                <strong>Width</strong> {{ file.width }}<br />
+                <strong>Height</strong> {{ file.height }}<br />
+                <strong>Orientation</strong> {{ file.orientation }}
+            {% endif %}
+            {% if file.filetype == "Folder" %}
+                <br /><br />
+                <strong>Is Empty</strong> {{ file.is_empty }}
+            {% endif %}
+        </td>
         {% endif %}
         
     </tr>

@@ -79,6 +79,8 @@ VERSIONS = getattr(settings, "FILEBROWSER_VERSIONS", {
 ADMIN_VERSIONS = getattr(settings, 'FILEBROWSER_ADMIN_VERSIONS', ['thumbnail','small', 'medium','big'])
 # Which Version should be used as Admin-thumbnail.
 ADMIN_THUMBNAIL = getattr(settings, 'FILEBROWSER_ADMIN_THUMBNAIL', 'fb_thumb')
+# Preview Version
+PREVIEW_VERSION = getattr(settings, 'FILEBROWSER_PREVIEW_VERSION', 'small')
 
 # EXTRA SETTINGS
 # True to save the URL including MEDIA_URL to your model fields

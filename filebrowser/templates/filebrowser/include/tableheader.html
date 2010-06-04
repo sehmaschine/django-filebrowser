@@ -19,8 +19,9 @@
         <!-- DATE -->
         {% ifequal query.o "date" %}<th class="sorted {{ query.ot }}ending"><a href="{% query_string "" "o,ot,p" %}&amp;ot={% ifequal query.ot "desc" %}asc{% else %}desc{% endifequal %}&amp;o=date">{% trans "Date" %}</a></th>{% endifequal %}
         {% ifnotequal query.o "date" %}<th><a href="{% query_string "" "o,ot,p" %}&amp;ot=asc&amp;o=date">{% trans "Date" %}</a></th>{% endifnotequal %}
-        {% if settings_var.DEBUG %}<th>Debug</th>{% endif %}
         <!-- ACTIONS -->
         <th>&nbsp;</th>
+        <!-- DEBUG -->
+        {% if settings_var.DEBUG %}<th>Debug</th>{% endif %}
     </tr>
 </thead>

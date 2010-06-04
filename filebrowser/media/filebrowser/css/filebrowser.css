@@ -117,10 +117,10 @@ button.fb_selectlink {
     background: #fff;
     box-shadow: 0 10px 50px #333; -moz-box-shadow: 0 10px 50px #333; -webkit-box-shadow: 0 10px 50px #333;
 }
-.filebrowser img.fb_preview {
+/*.filebrowser img.fb_preview {
     max-width: 400px;
     max-height: 400px;
-}
+}*/
 
 a.fb_view_image span {
     display: none;
