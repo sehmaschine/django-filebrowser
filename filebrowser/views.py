@@ -238,6 +238,7 @@ def upload(request):
     }, context_instance=Context(request))
 upload = staff_member_required(never_cache(upload))
 
+
 @csrf_exempt
 def _check_file(request):
     """
