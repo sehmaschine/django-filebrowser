@@ -50,8 +50,12 @@
                                       unitMb: '{% trans "MB" %}'
                 }
             });
-            $('input:submit').click(function(){
+            $('input:submit').click(function(evt){
                 $('#id_file').uploadifyUpload();
+                return false;
+            });
+            $('a.cancel-link').click(function(evt){
+                $('#id_file').uploadifyClearQueue();
                 return false;
             });
         });
@@ -60,8 +64,8 @@
 {% endblock %}
 
 <!-- COLTYPE/BODYCLASS -->
-{% block coltype %}colM{% endblock %}
 {% block bodyclass %}change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+{% block content-class %}content-flexible{% endblock %}
 
 <!-- BREADCRUMBS -->
 {% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
@@ -75,8 +79,7 @@
                 <input type="File" id="id_file" />
             </div>
         </fieldset>
-        
-        <fieldset class="module aligned collapse-closed">
+        <fieldset class="module aligned collapse closed">
             <h2>{% trans "Help" %}</h2>
             <div class="row">
                 {% for extension in settings_var.EXTENSIONS.items %}
@@ -98,19 +101,12 @@
                 </div>
             {% endif %}
         </fieldset>
-        <div class="module submit-row">
+        <div class="module footer">
             <ul class="submit-row">
-                <li class="left cancel-link-container"><a class="cancel-link" href="javascript:$('#id_file').uploadifyClearQueue()">{% trans "Clear Queue" %}</a></li>
+                <li class="left cancel-link-container"><a class="cancel-link" href="javascript://">{% trans "Clear Queue" %}</a></li>
                 <li class="submit-button-container"><input class="default" type="submit" name="_save" value='{% trans "Upload" %}' /></li>
             </ul>
         </div>
-        {% comment %}
-        <p class="deletelink-box">
-            <a class="deletelink" href="javascript:$('#id_file').uploadifyClearQueue()">{% trans "Clear Queue" %}</a>
-        </p>
-        <input class="default" type="submit" name="_save" value='{% trans "Upload" %}' />
-        {% endcomment %}
-
     </form>
 </div>
 {% endblock %}
