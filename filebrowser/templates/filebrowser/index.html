@@ -126,16 +126,16 @@
     </div>
     <div id="changelist" class="container-full">
         <!-- RESULTS -->
+        {% if results_var.results_current %}
         <div class="module changelist-results">
-            {% if results_var.results_current %}
             <table cellspacing="0">
                 {% include "filebrowser/include/tableheader.html" %}
                 <tbody>
                 {% include "filebrowser/include/filelisting.html" %}
                 </tbody>
             </table>
-            {% endif %}
         </div>
+        {% endif %}
         <!-- PAGINATION -->
         {% pagination %}
     </div>
