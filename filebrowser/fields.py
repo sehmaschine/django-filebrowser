@@ -120,4 +120,8 @@ class FileBrowseField(Field):
         defaults.update(kwargs)
         return super(FileBrowseField, self).formfield(**defaults)
 
-
+try:
+    from south.modelsinspector import add_introspection_rules
+    add_introspection_rules([], ["^filebrowser\.fields\.FileBrowseField"])
+except:
+    pass
