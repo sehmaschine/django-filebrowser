@@ -74,7 +74,7 @@ msgid "The requested Folder does not exist."
 msgstr "Der Ordner existiert bereits."
 
 #: views.py:60
-msgid "Error finding Upload-Folder. Maybe it does not exist?"
+msgid "Error finding Upload-Folder (MEDIA_ROOT + FILEBROWSER_DIRECTORY). Maybe it does not exist?"
 msgstr "Der Upload-Folder wurde nicht gefunden. Bitte die settings überprüfen."
 
 #: views.py:143 templates/filebrowser/append.html:5

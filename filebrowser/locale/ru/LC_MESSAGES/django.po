@@ -80,7 +80,7 @@ msgid "The requested Folder does not exist."
 msgstr "Запрашиваемой папки не существует."
 
 #: views.py:59
-msgid "Error finding Upload-Folder. Maybe it does not exist?"
+msgid "Error finding Upload-Folder (MEDIA_ROOT + FILEBROWSER_DIRECTORY). Maybe it does not exist?"
 msgstr "Ошибка при поиска папки для загрузки файлов. Быть может, ее не существует?"
 
 #: views.py:142
