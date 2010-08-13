@@ -35,7 +35,11 @@ class FileObject(object):
         self.head = os.path.split(path)[0]
         self.filename = os.path.split(path)[1]
         self.filename_lower = self.filename.lower() # important for sorting
-        self.filetype = get_file_type(self.filename)
+        # ABP: fix for dotted folder names
+        if os.path.isdir(self.path_full):
+           self.filetype = 'Folder'
+        else:
+            self.filetype = get_file_type(self.filename)
     
     def _filesize(self):
         """
