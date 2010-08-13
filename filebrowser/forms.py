@@ -12,7 +12,7 @@ from django.utils.translation import ugettext as _
 from filebrowser.settings import MAX_UPLOAD_SIZE, FOLDER_REGEX
 from filebrowser.functions import convert_filename
 
-alnum_name_re = re.compile(FOLDER_REGEX)
+alnum_name_re = re.compile(FOLDER_REGEX, re.U)
 
 class MakeDirForm(forms.Form):
     """

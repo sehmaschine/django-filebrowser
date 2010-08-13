@@ -60,7 +60,7 @@ def browse(request):
             raise ImproperlyConfigured, _("Error finding Upload-Folder (MEDIA_ROOT + FILEBROWSER_DIRECTORY). Maybe it does not exist?")
         redirect_url = reverse("fb_browse") + query_helper(query, "", "dir")
         return HttpResponseRedirect(redirect_url)
-    abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
+    abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, path)
     
     # INITIAL VARIABLES
     results_var = {'results_total': 0, 'results_current': 0, 'delete_total': 0, 'images_total': 0, 'select_total': 0 }
@@ -166,7 +166,7 @@ def mkdir(request):
         msg = _('The requested Folder does not exist.')
         request.user.message_set.create(message=msg)
         return HttpResponseRedirect(reverse("fb_browse"))
-    abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
+    abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, path)
     
     if request.method == 'POST':
         form = MakeDirForm(abs_path, request.POST)
@@ -221,7 +221,7 @@ def upload(request):
         msg = _('The requested Folder does not exist.')
         request.user.message_set.create(message=msg)
         return HttpResponseRedirect(reverse("fb_browse"))
-    abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
+    abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, path)
     
     # SESSION (used for flash-uploading)
     cookie_dict = parse_cookie(request.META.get('HTTP_COOKIE', ''))
@@ -321,7 +321,7 @@ def delete(request):
             msg = _('The requested File does not exist.')
         request.user.message_set.create(message=msg)
         return HttpResponseRedirect(reverse("fb_browse"))
-    abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
+    abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, path)
     
     msg = ""
     if request.GET:
@@ -403,7 +403,7 @@ def rename(request):
             msg = _('The requested File does not exist.')
         request.user.message_set.create(message=msg)
         return HttpResponseRedirect(reverse("fb_browse"))
-    abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
+    abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, path)
     file_extension = os.path.splitext(filename)[1].lower()
     
     if request.method == 'POST':
@@ -464,7 +464,7 @@ def versions(request):
             msg = _('The requested File does not exist.')
         request.user.message_set.create(message=msg)
         return HttpResponseRedirect(reverse("fb_browse"))
-    abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, path)
+    abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, path)
     
     return render_to_response('filebrowser/versions.html', {
         'original': path_to_url(os.path.join(DIRECTORY, path, filename)),
