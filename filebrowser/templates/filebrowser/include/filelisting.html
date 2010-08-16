@@ -75,6 +75,9 @@
             </td>
         {% endif %}
         
+        <!-- FOLDER -->
+        {% if q %}<td>{{ file.folder }}</td>{% endif %}
+        
         <!-- SIZE -->
         <td>{{ file.filesize|filesizeformat }}</td>
         

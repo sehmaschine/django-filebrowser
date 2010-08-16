@@ -142,6 +142,11 @@ class FileObject(object):
         else:
             return u"%s" % url_join(MEDIA_URL, self.path)
     
+    def _folder(self):
+        directory_re = re.compile(r'^(%s)' % (DIRECTORY.rstrip('/')))
+        return u"%s/" % directory_re.sub('', self.head)
+    folder = property(_folder)
+    
     def _dimensions(self):
         """
         Image Dimensions.

@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # general imports
-import os, re
+import itertools, os, re
 from time import gmtime, strftime
 
 # django imports
@@ -51,6 +51,7 @@ def browse(request):
     query = request.GET.copy()
     path = get_path(query.get('dir', ''))
     directory = get_path('')
+    q = request.GET.get('q')
     
     if path is None:
         msg = _('The requested Folder does not exist.')
@@ -68,10 +69,19 @@ def browse(request):
     for k,v in EXTENSIONS.iteritems():
         counter[k] = 0
     
-    dir_list = os.listdir(abs_path)
+    if q:
+        m_root = os.path.normpath(MEDIA_ROOT)
+        dirs = [
+            [(os.path.normpath(root)[len(m_root)+1:], f) for f in filenames]
+            for root, _subdirs, filenames in os.walk(abs_path)
+        ]
+        dir_list = itertools.chain(*dirs)
+    else:
+        root = os.path.join(DIRECTORY, path)
+        dir_list = ((root, f) for f in os.listdir(abs_path))
+    
     files = []
-    for file in dir_list:
-        
+    for file_dir, file in dir_list:
         # EXCLUDE FILES MATCHING VERSIONS_PREFIX OR ANY OF THE EXCLUDE PATTERNS
         filtered = file.startswith('.')
         for re_prefix in filter_re:
@@ -82,13 +92,13 @@ def browse(request):
         results_var['results_total'] += 1
         
         # CREATE FILEOBJECT
-        fileobject = FileObject(os.path.join(DIRECTORY, path, file))
+        fileobject = FileObject(os.path.join(file_dir, file))
         
         # FILTER / SEARCH
         append = False
-        if fileobject.filetype == request.GET.get('filter_type', fileobject.filetype) and get_filterdate(request.GET.get('filter_date', ''), fileobject.date):
+        if fileobject.filetype == request.GET.get('filter_type', fileobject.filetype) and get_filterdate(request.GET.get('filter_date', ''), fileobject.date or 0):
             append = True
-        if request.GET.get('q') and not re.compile(request.GET.get('q').lower(), re.M).search(file.lower()):
+        if q and not re.compile(q.lower(), re.M).search(file.lower()):
             append = False
         
         # APPEND FILE_LIST
@@ -136,6 +146,7 @@ def browse(request):
     return render_to_response('filebrowser/index.html', {
         'dir': path,
         'p': p,
+        'q': q,
         'page': page,
         'results_var': results_var,
         'counter': counter,
