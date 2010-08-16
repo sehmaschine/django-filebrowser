@@ -292,7 +292,7 @@ def _upload_file(request):
             if os.path.isfile(smart_str(os.path.join(MEDIA_ROOT, DIRECTORY, folder, filedata.name))):
                 old_file = smart_str(os.path.join(abs_path, filedata.name))
                 new_file = smart_str(os.path.join(abs_path, uploadedfile))
-                file_move_safe(new_file, old_file)
+                file_move_safe(new_file, old_file, allow_overwrite=True)
             # POST UPLOAD SIGNAL
             filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_str(os.path.join(DIRECTORY, folder, filedata.name))))
     return HttpResponse('True')
