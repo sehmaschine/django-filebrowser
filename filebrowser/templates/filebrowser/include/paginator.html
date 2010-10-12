@@ -5,7 +5,7 @@
         <li class="results"><span>{{ results_var.results_current }} {% ifequal results_var.results_current 1 %}{% trans 'result' %}{% else %}{% trans 'results' %}{% endifequal %}</span></li>
         {% endif %}
         <li class="results">
-            {% if results_var.results_total != results_var.results_current %}
+            {% if query.q or results_var.results_total != results_var.results_current %}
             <a href="{% query_string "" "filter_date,filter_type,p,q" %}" class="total">{{ results_var.results_total }} {% trans 'total' %}</a>
             {% else %}
             <span>{{ results_var.results_total }} {% trans "total" %}</span>
