@@ -72,7 +72,6 @@ class Command(BaseCommand):
             for current_file in files:
                 self.stdout.write('%s\n' % current_file)
         
-        
         # no files...done
         if len(files) == 0:
             self.stdout.write('0 files removed.\n\n')
@@ -91,7 +90,7 @@ class Command(BaseCommand):
                 os.remove(current_file)
             self.stdout.write('%d file(s) removed.\n\n' % len(files))
         else:
-            self.stdout.write('No files removed.\n\n' % len(files))
+            self.stdout.write('No files removed.\n\n')
         return
         
     
