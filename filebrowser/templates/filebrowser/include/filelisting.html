@@ -76,7 +76,7 @@
         {% endif %}
         
         <!-- FOLDER -->
-        {% if q %}<td>{{ file.folder }}</td>{% endif %}
+        {% if q %}<td><a href="{% url fb_browse %}{% query_string "" "dir,p" %}&amp;dir={{ file.folder_for_link|urlencode }}"><strong>{{ file.folder }}</strong></a></td>{% endif %}
         
         <!-- SIZE -->
         <td>{{ file.filesize|filesizeformat }}</td>

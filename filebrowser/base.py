@@ -148,6 +148,11 @@ class FileObject(object):
         return u"%s/" % directory_re.sub('', self.head)
     folder = property(_folder)
     
+    def _folder_for_link(self):
+        directory_re = re.compile(r'^(%s)' % (DIRECTORY.rstrip('/')))
+        return u"%s" % directory_re.sub('', self.head)[1:]
+    folder_for_link = property(_folder_for_link)
+    
     def _dimensions(self):
         """
         Image Dimensions.
