@@ -93,7 +93,7 @@ class FileBrowseField(Field):
             return value
         return FileObject(url_to_path(value))
     
-    def get_db_prep_value(self, value):
+    def get_db_prep_value(self, value, connection, prepared=False):
         if value is None:
             return None
         return unicode(value)
