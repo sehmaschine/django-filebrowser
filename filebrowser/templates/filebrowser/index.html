@@ -58,7 +58,7 @@
                 $("a.fb_showpreview").bind("click", function() {
                     $(this).next(".fb_preview_container").toggle();
                 });
-                $('body').change_list();
+                $('body').grp_change_list();
                 $(document).keypress(function(evt) {
                     if (evt.keyCode == '27') {
                         $(".pulldown-actions-container:visible").removeClass("open");
