@@ -64,7 +64,11 @@
 {% block bodyclass %}change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
 
 <!-- BREADCRUMBS -->
-{% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
+{% block breadcrumbs %}
+    {% with "filebrowser/"|add:settings_var.SKIN|add:"/include/breadcrumbs.html" as breadcrumbs_template %}
+        {% include  breadcrumbs_template %}
+    {% endwith %}
+{% endblock %}
 
 <!-- CONTENT -->
 {% block content %}
@@ -105,7 +109,7 @@
             <p class="deletelink-box">
                 <a class="deletelink" href="javascript:$('#id_file').uploadifyClearQueue()">{% trans "Clear Queue" %}</a>
             </p>
-         <!--   <input class="default" type="submit" name="_save" value='{% trans "Upload" %}' /> -->
+         <input class="default" type="submit" name="_save" value='{% trans "Upload" %}' /> 
         </div>
         
     </div>

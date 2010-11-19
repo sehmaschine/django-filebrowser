@@ -8,6 +8,12 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.cache import never_cache
 from django.dispatch import Signal
 from django.utils.translation import ugettext as _
+try:
+    # django 1.2+
+    from django.views.decorators.csrf import csrf_exempt
+except:
+    # django 1.1
+    from django.contrib.csrf.middleware import csrf_exempt
 
 from filebrowser.functions import *
 from filebrowser.functions import convert_filename, handle_file_upload, get_path, get_breadcrumbs
@@ -44,6 +50,7 @@ upload = staff_member_required(never_cache(upload))
 filebrowser_pre_upload = Signal(providing_args=["path", "file"])
 filebrowser_post_upload = Signal(providing_args=["path", "file"])
 
+@csrf_exempt
 def _upload_file(request):
     """
     Upload file to the server.

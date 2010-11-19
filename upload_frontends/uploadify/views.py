@@ -10,7 +10,7 @@ from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
 from django.dispatch import Signal
 try:
-    # django SVN
+    # django 1.2+
     from django.views.decorators.csrf import csrf_exempt
 except:
     # django 1.1
