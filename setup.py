@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
 setup(
@@ -7,7 +8,7 @@ setup(
     author='Patrick Kranzlmueller',
     author_email='patrick@vonautomatisch.at',
     contributors=[
-        ['Matjaž Črnko', 'matjaz.crnko@gmail.com', 'no-grappelli work'],
+        ['Matjaz Crnko', 'matjaz.crnko@gmail.com', 'no-grappelli work'],
     ]
     url='http://code.google.com/p/django-filebrowser/',
     packages=find_packages(),
