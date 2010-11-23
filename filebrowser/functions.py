@@ -299,10 +299,14 @@ def version_generator(value, version_prefix, force=None):
             os.makedirs(version_dir)
             os.chmod(version_dir, 0775)
         version = scale_and_crop(im, VERSIONS[version_prefix]['width'], VERSIONS[version_prefix]['height'], VERSIONS[version_prefix]['opts'])
-        try:
-            version.save(absolute_version_path, quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
-        except IOError:
-            version.save(absolute_version_path, quality=VERSION_QUALITY)
+        if version:
+            try:
+                version.save(absolute_version_path, quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
+            except IOError:
+                version.save(absolute_version_path, quality=VERSION_QUALITY)
+        else:
+            # version wasn't created
+            pass
         return version_path
     except:
         return None
@@ -314,6 +318,12 @@ def scale_and_crop(im, width, height, opts):
     """
     
     x, y   = [float(v) for v in im.size]
+    
+    if 'upscale' not in opts and x < width:
+        # version would be bigger than original
+        # no need to create this version, because "upscale" isn't defined.
+        return False
+    
     if width:
         xr = float(width)
     else:
