@@ -130,7 +130,7 @@ class FileObject(object):
         Thumbnail URL.
         """
         if self.filetype == "Image":
-            return u"%s" % url_join(MEDIA_URL, get_version_path(self.path, 'fb_thumb'))
+            return u"%s" % url_join(MEDIA_URL, get_version_path(self.path, ADMIN_THUMBNAIL))
         else:
             return ""
     url_thumbnail = property(_url_thumbnail)
