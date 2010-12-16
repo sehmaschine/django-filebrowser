@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-filebrowser',
-    version='3.0',
+    version='development',
     description='Media-Management with the Django Admin-Interface.',
     author='Patrick Kranzlmueller',
     author_email='patrick@vonautomatisch.at',
