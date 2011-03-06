@@ -21,6 +21,22 @@
     <script type="text/javascript">
     (function($){
         $(document).ready(function() {
+            $("div#content .collapse").grp_collapsible({
+                on_init: function(elem, options) {
+                    // open collapse (and all collapse parents) in case of errors
+                    if (elem.find("ul.errorlist").length > 0) {
+                        elem.removeClass("closed")
+                            .addClass("open");
+                        elem.parents(".collapse")
+                            .removeClass("closed")
+                            .addClass("open");
+                    }
+                }
+            });
+        });
+    })(django.jQuery);
+    (function($){
+        $(document).ready(function() {
             $('#id_file').uploadify({
                 'uploader'          : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/uploadify.swf',
                 'script'            : '{% url fb_do_upload %}',
@@ -72,41 +88,43 @@
 
 <!-- CONTENT -->
 {% block content %}
-<div id="content-main">
-    <form>
-        <fieldset class="module aligned">
-            <div class="row">
-                <input type="File" id="id_file" />
-            </div>
-        </fieldset>
-        <fieldset class="module collapse closed">
-            <h2 class="collapse-handler">{% trans "Help" %}</h2>
-            <div class="row">
-                {% for extension in settings_var.EXTENSIONS.items %}
-                    {% ifnotequal extension.0 'Folder' %}
-                        <div class="column span-4"><label class="required">{% if forloop.first %}{% trans "Allowed" %}:{% else %}&nbsp;{% endif %}</label></div>
-                        <div class="column span-12 last"><p>{{ extension.0|safe }} ({{ extension.1|join:", "|safe }})</p></div><br clear="all" />
-                    {% endifnotequal %}
-                {% endfor %}
-            </div>
-            <div class="row">
-                <div class="column span-4"><label class="required">{% trans "Max. Filesize" %}:</label></div>
-                <div class="column span-12 last"><p>{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p></div><br clear="all" />
-            </div>
-            {% if settings_var.CONVERT_FILENAME %}
+<div class="container-flexible">
+    <div class="form-container">
+        <form>
+            <fieldset class="module aligned">
                 <div class="row">
-                    <div class="column span-16 last"><p>
-                        {% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}
-                    </p></div><br clear="all" />
+                    <input type="File" id="id_file" />
                 </div>
-            {% endif %}
-        </fieldset>
-        <div class="module footer">
-            <ul class="submit-row">
-                <li class="left cancel-link-container"><a class="cancel-link" href="javascript://">{% trans "Clear Queue" %}</a></li>
-                <li class="submit-button-container"><input class="default" type="submit" name="_save" value='{% trans "Upload" %}' /></li>
-            </ul>
-        </div>
-    </form>
+            </fieldset>
+            <fieldset class="module collapse closed">
+                <h2 class="collapse-handler">{% trans "Help" %}</h2>
+                <div class="row">
+                    {% for extension in settings_var.EXTENSIONS.items %}
+                        {% ifnotequal extension.0 'Folder' %}
+                            <div class="column span-4"><label class="required">{% if forloop.first %}{% trans "Allowed" %}:{% else %}&nbsp;{% endif %}</label></div>
+                            <div class="column span-12 last"><p>{{ extension.0|safe }} ({{ extension.1|join:", "|safe }})</p></div><br clear="all" />
+                        {% endifnotequal %}
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <div class="column span-4"><label class="required">{% trans "Max. Filesize" %}:</label></div>
+                    <div class="column span-12 last"><p>{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p></div><br clear="all" />
+                </div>
+                {% if settings_var.CONVERT_FILENAME %}
+                    <div class="row">
+                        <div class="column span-16 last"><p>
+                            {% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}
+                        </p></div><br clear="all" />
+                    </div>
+                {% endif %}
+            </fieldset>
+            <div class="module footer">
+                <ul class="submit-row">
+                    <li class="left cancel-link-container"><a class="cancel-link" href="javascript://">{% trans "Clear Queue" %}</a></li>
+                    <li class="submit-button-container"><input class="default" type="submit" name="_save" value='{% trans "Upload" %}' /></li>
+                </ul>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
