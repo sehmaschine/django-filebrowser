@@ -1,0 +1,136 @@
+{% load i18n adminmedia fb_tags fb_versions %}
+
+{% for fileobject in page.object_list %}
+    
+    <!-- THUMBNAIL-VERSION FOR IMAGE-OBJECT -->
+    {% if fileobject.filetype == "Image" %}
+        {% version_object fileobject.path settings_var.ADMIN_THUMBNAIL as thumbnail_version %}
+    {% endif %}
+    
+    <tr class="{% cycle 'row1' 'row2' %}{% if fileobject.filetype == "Folder" %} fb_folder{% endif %}">
+        
+        <!-- FILESELECT FOR FILEBROWSEFIELD -->
+        {% if query.pop == "1" %}
+            <td class="fb_icon">
+                {% selectable fileobject.filetype query.type %}
+                {% if selectable %}
+                    <!-- select original -->
+                    <button class="button fb_selectlink" onclick="FileSubmit('{{ fileobject.url_save }}', '{{ thumbnail_version.url }}', '{{ fileobject.filetype }}');">{% trans "Select" %}</button>
+                    <!-- select versions -->
+                    {% if fileobject.filetype == "Image" and settings_var.ADMIN_VERSIONS %}
+                    <div class="pulldown-actions-container">
+                        <a href="javascript://" class="pulldown-actions-handler">&nbsp;</a>
+                        <ul class="pulldown-actions">
+                            {% for version in settings_var.ADMIN_VERSIONS %}
+                            {% version_setting version %}
+                            <li><a href="{% url fb_version %}{% query_string '' 'filename' %}&amp;filename={{ fileobject.filename }}&amp;version={{ version }}" title="">{{ version_setting.verbose_name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                {% else %}
+                    &nbsp;
+                {% endif %}
+            </td>
+        {% endif %}
+        
+        <!-- FILESELECT FOR RTE/TINYMCE -->
+        <!-- we need to use the absolute url here -->
+        {% if query.pop == "2" and filelisting.select_total %}
+            <td class="fb_icon">
+                {% selectable fileobject.filetype query.type %}
+                {% if selectable %}
+                    <!-- select original -->
+                    <button class="button fb_selectlink" onclick="FileBrowserDialogue.fileSubmit('{{ fileobject.url|escapejs }}');">{% trans "Select" %}</button>
+                    <!-- select versions -->
+                    {% if fileobject.filetype == "Image" and settings_var.ADMIN_VERSIONS %}
+                    <div class="pulldown-actions-container">
+                        <a href="javascript://" class="pulldown-actions-handler">&nbsp;</a>
+                        <ul class="pulldown-actions">
+                            {% for version in settings_var.ADMIN_VERSIONS  %}
+                            {% version_setting version %}
+                            <li><a href="{% url fb_version %}{% query_string '' 'filename' %}&amp;filename={{ fileobject.filename }}&amp;version={{ version }}" title="">{{ version_setting.verbose_name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                {% else %}
+                    &nbsp;
+                {% endif %}
+            </td>
+        {% endif %}
+        
+        <!-- FILEICON -->
+        <td>
+            {% if fileobject.filetype %}
+            <span class="fb_type {{ fileobject.filetype|lower }}">{% trans fileobject.filetype %}</span>
+            {% else %}
+            <span class="fb_type none">&mdash;</span>
+            {% endif %}
+        </td>
+        
+        <!-- THUMBNAIL -->
+        <td class="fb_thumbnail">
+            {% if fileobject.filetype == "Image" %}
+                <a href="{{ fileobject.url_full }}" class="fb_viewlink"><img src="{{ thumbnail_version.url }}" title="{% trans 'View Image' %}" /></a>
+            {% endif %}
+        </td>
+        
+        <!-- FILENAME/DIMENSIONS -->
+        {% if fileobject.filetype == "Folder" %}
+            <td><a href="{% url fb_browse %}{% query_string "" "q,dir,p" %}&amp;dir={{ fileobject.directory|urlencode }}"><strong>{{ fileobject.filename }}</strong></a></td>
+        {% else %}
+            <td>
+                <b>{{ fileobject.filename }}</b>
+                {% if fileobject.dimensions %}
+                    <br /><span class="tiny">{{ fileobject.dimensions.0 }} x {{ fileobject.dimensions.1 }} px</span><br clear="all" />
+                {% endif %}
+            </td>
+        {% endif %}
+        
+        <!-- FOLDER -->
+        {% if query.q and settings_var.SEARCH_TRAVERSE %}<td><a href="{% url fb_browse %}{% query_string "" "dir,p" %}&amp;dir={{ fileobject.folder|urlencode }}"><strong>{{ fileobject.folder }}</strong></a></td>{% endif %}
+        
+        <!-- SIZE -->
+        <td>{% if fileobject.filesize %}{{ fileobject.filesize|filesizeformat }}{% else %}&mdash;{% endif %}</td>
+        
+        <!-- DATE -->
+        <td>{{ fileobject.datetime|date:"N j, Y" }}</td>
+        
+        <!-- EDIT -->
+        <td><a href="{% url fb_detail %}{% query_string "" "p" %}&amp;filename={{ fileobject.filename }}">{% trans "edit" %}</a></td>
+        
+        <!-- DEBUG -->
+        {% if settings_var.DEBUG %}
+        <td>
+            <strong>Filename</strong> {{ fileobject.filename }}<br />
+            {{ fileobject.directory }}<br />
+            <strong>Filetype</strong> {{ fileobject.filetype }}<br />
+            <strong>Mimetype</strong> {{ fileobject.mimetype }}<br />
+            <strong>Filesize</strong> {{ fileobject.filesize }}<br />
+            <strong>Extension</strong> {{ fileobject.extension }}<br />
+            <strong>Date</strong> {{ fileobject.date }}<br />
+            <strong>Datetime Object</strong> {{ fileobject.datetime }}<br /><br />
+            <strong>Path</strong> {{ fileobject.path }}<br />
+            <strong>Path relative</strong> {{ fileobject.path_relative }}<br />
+            <strong>URL</strong> {{ fileobject.url }}<br />
+            <strong>URL relative</strong> {{ fileobject.url_relative }}<br />
+            <strong>URL for FileBrowseField</strong> {{ fileobject.url_save }}
+            {% if fileobject.filetype == "Image" %}
+                <br /><br />
+                <strong>Dimensions</strong> {{ fileobject.dimensions }}<br />
+                <strong>Width</strong> {{ fileobject.width }}<br />
+                <strong>Height</strong> {{ fileobject.height }}<br />
+                <strong>Orientation</strong> {{ fileobject.orientation }}
+            {% endif %}
+            {% if fileobject.filetype == "Folder" %}
+                <br /><br />
+                <strong>Is Empty</strong> {{ fileobject.is_empty }}
+            {% endif %}
+        </td>
+        {% endif %}
+        
+    </tr>
+{% endfor %}
+
+ 

@@ -1,0 +1,376 @@
+# Copyright (C) 2009 Janos Guljas
+# This file is distributed under the same license as the django-filebrowser package.
+# Janos Guljas <janos@janos.in.rs>, 2009.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: django-filebrowser 3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-11-12 18:14+0100\n"
+"PO-Revision-Date: 2009-05-06 22:18+0200\n"
+"Last-Translator: Janos Guljas <janos@janos.in.rs>\n"
+"Language-Team: Serbian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: fields.py:58
+#, python-format
+msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
+msgstr ""
+"Фајлови са екстензијом %(ext)s нису дозвољени. Само %(allowed)s екстензије "
+"су дозвољене."
+
+#: forms.py:27 templates/filebrowser/versions.html:64
+msgid "Name"
+msgstr "Назив"
+
+#: forms.py:27 forms.py:33 forms.py:50 forms.py:56
+msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
+msgstr "Само слова, цифре, доња црта и црта су дозвољени карактери."
+
+#: forms.py:36 forms.py:59
+msgid "The Folder already exists."
+msgstr "Фолдер већ постоји."
+
+#: forms.py:50
+msgid "New Name"
+msgstr "Нови назив"
+
+#: forms.py:61
+msgid "The File already exists."
+msgstr "Фајл већ постоји."
+
+#: settings.py:105
+msgid "Folder"
+msgstr "Фолдер"
+
+#: settings.py:106
+msgid "Image"
+msgstr "Слика"
+
+#: settings.py:107
+msgid "Video"
+msgstr "Видео"
+
+#: settings.py:108
+msgid "Document"
+msgstr "Документ"
+
+#: settings.py:109
+msgid "Audio"
+msgstr "Аудио"
+
+#: settings.py:110
+msgid "Code"
+msgstr "Код"
+
+#: views.py:47 views.py:138 views.py:191 views.py:285 views.py:366
+#: views.py:426
+msgid "The requested Folder does not exist."
+msgstr "Тражен фолдер не постоји."
+
+#: views.py:51
+msgid "Error finding Upload-Folder (MEDIA_ROOT + FILEBROWSER_DIRECTORY). Maybe it does not exist?"
+msgstr "Фолдер за постављање фајлова не постоји."
+
+#: views.py:116 templates/filebrowser/append.html:5
+#: templates/filebrowser/append.html:7
+#: templates/filebrowser/include/breadcrumbs.html:7
+#: templates/filebrowser/include/breadcrumbs.html:9
+msgid "FileBrowser"
+msgstr "Фајл брузер"
+
+#: views.py:156
+#, python-format
+msgid "The Folder %s was successfully created."
+msgstr "Фолдер %s је успешно направљен."
+
+#: views.py:164
+msgid "Permission denied."
+msgstr "Одбијен приступ."
+
+#: views.py:166
+msgid "Error creating folder."
+msgstr "Грешка при креирању фолдера."
+
+#: views.py:173 views.py:175 templates/filebrowser/index.html:57
+msgid "New Folder"
+msgstr "Нови фолдер"
+
+#: views.py:203
+msgid "Select files to upload"
+msgstr "Изаберите фајлове за пренос"
+
+#: views.py:205 templates/filebrowser/index.html:58
+#: templates/filebrowser/upload.html:106
+msgid "Upload"
+msgstr "Пренос фајла"
+
+#: views.py:287 views.py:368 views.py:428
+msgid "The requested File does not exist."
+msgstr "Тражен фајл не постоји"
+
+#: views.py:310
+#, python-format
+msgid "The file %s was successfully deleted."
+msgstr "Фајл %s је супешно обрисан."
+
+#: views.py:326
+#, python-format
+msgid "The folder %s was successfully deleted."
+msgstr "Фолдер %s је супешно обрисан."
+
+#: views.py:395
+msgid "Renaming was successful."
+msgstr "Успешна промена назива."
+
+#: views.py:400
+msgid "Error."
+msgstr "Грешка."
+
+#: views.py:408
+#, python-format
+msgid "Rename \"%s\""
+msgstr "Промени назив: „%s“"
+
+#: views.py:410 templates/filebrowser/include/filelisting.html:73
+msgid "Rename"
+msgstr "Промени назив"
+
+#: views.py:436 views.py:438
+#, python-format
+msgid "Versions for \"%s\""
+msgstr "Верзије за „%s“"
+
+#: templates/filebrowser/makedir.html:25 templates/filebrowser/rename.html:25
+msgid "Please correct the following errors."
+msgstr "Исправите следеће грешке."
+
+#: templates/filebrowser/makedir.html:33 templates/filebrowser/upload.html:96
+msgid ""
+"The Name will be converted to lowercase. Spaces will be replaced with "
+"underscores."
+msgstr ""
+"Слова у називу ће аутоматски бити конвертована у мала. Празна поља ће бити "
+"замењена доњим цртама."
+
+#: templates/filebrowser/makedir.html:38 templates/filebrowser/rename.html:36
+msgid "Submit"
+msgstr "Изврши"
+
+#: templates/filebrowser/upload.html:44
+msgid "BROWSE"
+msgstr "БИРАЈ"
+
+#: templates/filebrowser/upload.html:45
+msgid "An Error occured"
+msgstr "Грешка се десила"
+
+#: templates/filebrowser/upload.html:46
+msgid "Completed"
+msgstr "Завршено"
+
+#: templates/filebrowser/upload.html:47
+msgid "Do you want to replace the file"
+msgstr "Да ли желите да замените овај фајл?"
+
+#: templates/filebrowser/upload.html:48
+msgid "KB"
+msgstr "KB"
+
+#: templates/filebrowser/upload.html:49
+msgid "MB"
+msgstr "MB"
+
+#: templates/filebrowser/upload.html:79
+msgid "Help"
+msgstr "Помоћ"
+
+#: templates/filebrowser/upload.html:83
+msgid "Allowed"
+msgstr "Дозвољено"
+
+#: templates/filebrowser/upload.html:89
+msgid "Max. Filesize"
+msgstr "Највећа величина фајла"
+
+#: templates/filebrowser/upload.html:104
+msgid "Clear Queue"
+msgstr "Очисти листу"
+
+#: templates/filebrowser/versions.html:67
+msgid "Image Version"
+msgstr "Верзија слике"
+
+#: templates/filebrowser/versions.html:70
+msgid "Debug"
+msgstr "Исправљање грешака"
+
+#: templates/filebrowser/versions.html:84
+#: templates/filebrowser/include/filelisting.html:10
+msgid "Select"
+msgstr "Изаберите"
+
+#: templates/filebrowser/versions.html:96
+#: templates/filebrowser/versions.html:108
+#: templates/filebrowser/include/filelisting.html:24
+#: templates/filebrowser/include/filelisting.html:38
+msgid "Select File"
+msgstr "Изаберите фајл"
+
+#: templates/filebrowser/versions.html:119
+msgid "Width"
+msgstr "Висина"
+
+#: templates/filebrowser/versions.html:120
+msgid "Height"
+msgstr "Ширина"
+
+#: templates/filebrowser/include/breadcrumbs.html:4
+msgid "Home"
+msgstr "Почетни фолдер"
+
+#: templates/filebrowser/include/filelisting.html:49
+msgid "Show Versions"
+msgstr "Прикажи верзије"
+
+#: templates/filebrowser/include/filelisting.html:60
+msgid "View Image"
+msgstr "Преглед слике"
+
+#: templates/filebrowser/include/filelisting.html:85
+msgid "Are you sure you want to delete this file?"
+msgstr "Да ли сте сигурни да желите да избришете овај фајл?"
+
+#: templates/filebrowser/include/filelisting.html:85
+msgid "Delete File"
+msgstr "Избриши фајл"
+
+#: templates/filebrowser/include/filelisting.html:88
+msgid "Are you sure you want to delete this Folder?"
+msgstr "Да ли сте сигурни да желите да избришете овај фолдер?"
+
+#: templates/filebrowser/include/filelisting.html:88
+msgid "Delete Folder"
+msgstr "Избриши фолдер"
+
+#: templates/filebrowser/include/filter.html:3
+msgid "Filter"
+msgstr "Филтер"
+
+#: templates/filebrowser/include/filter.html:9
+msgid "By Date"
+msgstr "По датуму"
+
+#: templates/filebrowser/include/filter.html:11
+msgid "Any Date"
+msgstr "Сви датуми"
+
+#: templates/filebrowser/include/filter.html:13
+msgid "Today"
+msgstr "Данас"
+
+#: templates/filebrowser/include/filter.html:15
+msgid "Past 7 days"
+msgstr "Последњих 7 дана"
+
+#: templates/filebrowser/include/filter.html:17
+msgid "Past 30 days"
+msgstr "Последњих 30 дана"
+
+#: templates/filebrowser/include/filter.html:19
+msgid "This year"
+msgstr "Ове године"
+
+#: templates/filebrowser/include/filter.html:27
+msgid "By Type"
+msgstr "По типу"
+
+#: templates/filebrowser/include/filter.html:29
+msgid "All"
+msgstr "Сви"
+
+#: templates/filebrowser/include/paginator.html:4
+msgid "No Items Found"
+msgstr "Ништа није пронађено."
+
+#: templates/filebrowser/include/paginator.html:9
+#, python-format
+msgid "%(counter)s Item"
+msgid_plural "%(counter)s Items"
+msgstr[0] "%(counter)s ставка"
+msgstr[1] "%(counter)s ставки"
+
+#: templates/filebrowser/include/paginator.html:15
+msgid "No Items"
+msgstr "Ниједна ставка"
+
+#: templates/filebrowser/include/search.html:3
+#, python-format
+msgid "1 result"
+msgid_plural "%(counter)s results"
+msgstr[0] "1 резултат"
+msgstr[1] "%(counter)s резултата"
+
+#: templates/filebrowser/include/search.html:4
+#: templates/filebrowser/include/toolbar.html:9
+#, python-format
+msgid "%(full_result_count)s total"
+msgstr "%(full_result_count)s укупно"
+
+#: templates/filebrowser/include/search.html:5
+msgid "Clear Restrictions"
+msgstr "Очисти забране"
+
+#: templates/filebrowser/include/search.html:7
+#: templates/filebrowser/include/toolbar.html:16
+msgid "Search"
+msgstr "Претрага"
+
+#: templates/filebrowser/include/search.html:19
+msgid "Go"
+msgstr "Иди"
+
+#: templates/filebrowser/include/search.html:24
+#, python-format
+msgid "%(counter)s Item found"
+msgid_plural "%(counter)s Items found"
+msgstr[0] "%(counter)s ставка нађена"
+msgstr[1] "%(counter)s ставки нађено"
+
+#: templates/filebrowser/include/search.html:25
+#, python-format
+msgid "%(counter)s Item total"
+msgid_plural "%(counter)s Items total"
+msgstr[0] "%(counter)s ставка укупно"
+msgstr[1] "%(counter)s ставки укупно"
+
+#: templates/filebrowser/include/tableheader.html:16
+#: templates/filebrowser/include/tableheader.html:17
+msgid "Filename"
+msgstr "Назив фајла"
+
+#: templates/filebrowser/include/tableheader.html:21
+#: templates/filebrowser/include/tableheader.html:22
+msgid "Size"
+msgstr "Величина"
+
+#: templates/filebrowser/include/tableheader.html:24
+#: templates/filebrowser/include/tableheader.html:25
+msgid "Date"
+msgstr "Датум"
+
+#: templates/filebrowser/include/toolbar.html:6
+msgid "Results"
+msgstr "Резултати"
+
+#: templates/filebrowser/include/toolbar.html:8
+#, python-format
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] "%(counter)s резултат"
+msgstr[1] "%(counter)s резултата"

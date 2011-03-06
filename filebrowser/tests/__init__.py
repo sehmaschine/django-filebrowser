@@ -1,0 +1,1 @@
+from filebrowser.tests.settings import SettingsTests
