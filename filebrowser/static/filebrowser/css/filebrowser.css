@@ -5,7 +5,7 @@
 ------------------------------------------------------------------------------------------------------ */
 
 .filebrowser table td {
-    font-size: 10px;
+    font-size: 11px;
 }
 .filebrowser table a {
     font-size: 11px;
@@ -30,7 +30,7 @@
 }*/
 .filebrowser td.fb_thumbnail {
     line-height: 11px;
-    padding-bottom: 0 !important;
+    padding-bottom: 4px !important;
 }
 
 
@@ -88,6 +88,7 @@ a.fb_showpreview:hover, a.fb_showpreview:active {
 a.fb_viewlink, 
 button.fb_selectlink {
     position: relative;
+    float: left;
     top: -4px !important;
     margin-bottom: -5px !important;
 }
@@ -144,52 +145,83 @@ a.fb_view_image:hover span {
 /*  Filebrowser Pulldown Actions
 ------------------------------------------------------------------------------------------------------ */
 
-.pulldown-actions-container {
+.pulldown-versions-container {
     position: relative;
+    float: left;
 }
-.pulldown-actions-handler {
+.pulldown-versions-handler {
+    position: relative;
     display: block;
-    width: 27px;
-    height: 17px;
-    background: transparent 50% 50% no-repeat scroll;
+    top: -4px;
+    margin-left: 2px;
+    width: 24px;
+    height: 24px;
+    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
 }
-.pulldown-actions-handler:link, .pulldown-actions-handler:visited {
-    background-image: url('../img/icon-pulldown-actions.png');
+.pulldown-versions-handler:link, .pulldown-versions-handler:visited {
+    background: #309bbf url('../img/icon-pulldown-versions.png') 50% 10px no-repeat scroll;
+    background: url('../img/icon-pulldown-versions.png') 50% 10px no-repeat scroll, 
+                -moz-linear-gradient(top, #33a6cc, #309bbf);
+    background: url('../img/icon-pulldown-versions.png') 50% 10px no-repeat scroll, 
+                -webkit-gradient(linear, left top, left bottom, from(#33a6cc), to(#309bbf));
 }
-.pulldown-actions-handler:hover, .pulldown-actions-handler:active {
-    background-image: url('../img/icon-pulldown-actions-hover.png');
+.pulldown-versions-handler:hover, .pulldown-versions-handler:active {
+    background: #666 url('../img/icon-pulldown-versions-hover.png') 50% 10px no-repeat scroll;
+    background: url('../img/icon-pulldown-versions-hover.png') 50% 10px no-repeat scroll, 
+                -moz-linear-gradient(top, #555, #444);
+    background: url('../img/icon-pulldown-versions-hover.png') 50% 10px no-repeat scroll, 
+                -webkit-gradient(linear, left top, left bottom, from(#555), to(#444));
 }
-.open .pulldown-actions-handler {
-    background-image: url('../img/icon-pulldown-actions-active.png');
+.open .pulldown-versions-handler {
+    background: #666 url('../img/icon-pulldown-versions-active.png') 50% 9px no-repeat scroll;
+    background: url('../img/icon-pulldown-versions-active.png') 50% 9px no-repeat scroll, 
+                -moz-linear-gradient(top, #555, #444);
+    background: url('../img/icon-pulldown-versions-active.png') 50% 9px no-repeat scroll, 
+                -webkit-gradient(linear, left top, left bottom, from(#555), to(#444));
 }
-ul.pulldown-actions {
+ul.pulldown-versions {
     display: none;
 }
-.open ul.pulldown-actions {
+.open ul.pulldown-versions {
     display: block;
     position: absolute;
-    right: 0;
     z-index: 1000;
-    margin: 3px 0 0;
+    margin: -2px 0 0 2px;
     padding: 0;
-    border: 1px solid #ccc;
     border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
     background: #eee;
+    background: #309bbf;
     box-shadow: 0 0 50px #333; -moz-box-shadow: 0 0 50px #333; -webkit-box-shadow: 0 0 50px #333;
 }
-ul.pulldown-actions li {
-    border-top: 1px solid #fff;
-    border-bottom: 1px solid #d4d4d4;
+ul.pulldown-versions li {
+    border-top: 1px solid #3da8cc;
+    border-bottom: 1px solid #2987a6;
 }
-ul.pulldown-actions li:first-child {
+ul.pulldown-versions li:first-child {
     border-top: 0;
 }
-ul.pulldown-actions li:last-child {
+ul.pulldown-versions li:last-child {
     border-bottom: 0;
 }
-ul.pulldown-actions a {
+ul.pulldown-versions a {
     display: block;
     padding: 5px 30px 5px 10px;
     font-weight: bold;
     white-space: nowrap;
+}
+ul.pulldown-versions li:first-child a {
+    border-top-left-radius: 5px; -moz-border-radius-topleft: 5px; -webkit-border-top-left-radius: 5px;
+    border-top-right-radius: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-right-radius: 5px;
+}
+ul.pulldown-versions li.last a {
+    border-bottom-left-radius: 5px; -moz-border-radius-bottomleft: 5px; -webkit-border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px; -moz-border-radius-bottomright: 5px; -webkit-border-bottom-right-radius: 5px;
+}
+ul.pulldown-versions a:link, ul.pulldown-versions a:visited {
+    color: #fff;
+    background: #309bbf;
+}
+ul.pulldown-versions a:hover, ul.pulldown-versions a:active {
+    color: #fff;
+    background: #444;
 }
