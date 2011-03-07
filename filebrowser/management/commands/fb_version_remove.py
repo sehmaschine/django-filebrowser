@@ -1,19 +1,19 @@
 # coding: utf-8
 
-# Python
+# PYTHON IMPORTS
 import os, re
 
-# Django
+# DJANGO IMPORTS
 from django.core.management.base import BaseCommand, CommandError
 
-# Filebrowser
+# FILEBROWSER IMPORTS
 from filebrowser.settings import EXTENSION_LIST, EXCLUDE, MEDIA_ROOT, DIRECTORY, VERSIONS, EXTENSIONS
 
 
 class Command(BaseCommand):
     args = '<media_path>'
     help = "Remove version files of a specific version in MEDIA_ROOT or subdirectory of MEDIA_ROOT"
-
+    
     def handle(self, *args, **options):
         
         media_path = ""
@@ -130,3 +130,5 @@ class Command(BaseCommand):
                         file_list.append(os.path.join(dirpath, filename))
         
         return file_list
+
+

@@ -1,19 +1,20 @@
 # coding: utf-8
 
-# Python
+# PYTHON IMPORTS
 import os, re
 
-# Django
+# DJANGO IMPORTS
 from django.core.management.base import BaseCommand, CommandError
 
-# filebrowser
+# FILEBROWSER IMPORTS
 from filebrowser.settings import EXTENSION_LIST, EXCLUDE, MEDIA_ROOT, DIRECTORY, VERSIONS, EXTENSIONS
 from filebrowser.functions import version_generator
+
 
 class Command(BaseCommand):
     args = '<media_path>'
     help = "(Re)Generate versions of Images within the FILEBROWSER_DIRECTORY or a "
-
+    
     def handle(self, *args, **options):
         media_path = ""
         
@@ -82,3 +83,5 @@ class Command(BaseCommand):
             self.stdout.write('generating all versions for: %s\n' % path)
             for version in VERSIONS:
                 version_generator(path, version, True)
+
+
