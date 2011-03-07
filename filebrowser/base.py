@@ -93,9 +93,7 @@ class FileObject():
         from filebrowser.settings import MEDIA_ROOT, DIRECTORY
         from filebrowser.base import FileObject
         
-        fileobject = FileObject(os.path.join(MEDIA_ROOT, DIRECTORY), sorting_by='date', sorting_order='desc')
-        filelisting.files_total()
-        filelisting.results_total()
+        fileobject = FileObject(os.path.join(MEDIA_ROOT, DIRECTORY))
     """
     
     def __init__(self, path, relative=False):
@@ -248,6 +246,14 @@ class FileObject():
                 #version_list.append(FileObject(os.path.join(self.versions_basedir, self.version_name(version))))
         return version_list
     
+    def version(self, version_prefix):
+        version_path = get_version_path(self.path, version_prefix)
+        if not os.path.isfile(version_path):
+            version_path = version_generator(self.path, version_prefix)
+        elif os.path.getmtime(self.path) > os.path.getmtime(version_path):
+            version_path = version_generator(self.path, version_prefix, force=True)
+        return FileObject(version_path)
+    
     # FUNCTIONS
     
     def delete(self):
@@ -269,16 +275,5 @@ class FileObject():
                 os.remove(version)
             except:
                 pass
-
-
-class FileObjectVersion(FileObject):
-    """
-    The FileObject represents an image version.
-    
-    path is either an absolute path
-    or relative to MEDIA_ROOT (set relative=True for this one)
-    """
-    
-    pass
 
 

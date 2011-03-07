@@ -2,16 +2,17 @@
 
 # DJANGO IMPORTS
 from django.template.loader import render_to_string
-from django.forms.widgets import FileInput, ClearableFileInput, CheckboxInput
+from django.forms.widgets import FileInput, ClearableFileInput as DjangoClearableFileInput, CheckboxInput
 from django.forms.fields import FilePathField
 from django.utils.translation import ugettext, ugettext_lazy
 from django.utils.safestring import mark_safe
 
 # FILEBROWSER IMPORTS
 from filebrowser.base import FileObject
+from filebrowser.settings import ADMIN_THUMBNAIL
 
 
-class FBClearableFileInput(ClearableFileInput):
+class ClearableFileInput(DjangoClearableFileInput):
     """
     A FileField Widget that shows its current value if it has one.
     If value is an Image, a thumbnail is shown.
@@ -33,7 +34,7 @@ class FBClearableFileInput(ClearableFileInput):
             'clear_checkbox_label': self.clear_checkbox_label,
         }
         template = u'%(input)s'
-        substitutions['input'] = super(ClearableFileInput, self).render(name, value, attrs)
+        substitutions['input'] = super(DjangoClearableFileInput, self).render(name, value, attrs)
         
         if value and hasattr(value, "url"):
             template = self.template_with_initial
@@ -47,9 +48,9 @@ class FBClearableFileInput(ClearableFileInput):
                 substitutions['clear_template'] = self.template_with_clear % substitutions
         
         if value and hasattr(value, "url"):
-            preview_template = render_to_string('filebrowser/widgets/filewidget.html', {
-                'value': value,
-                'ADMIN_THUMBNAIL': "fb_thumb",
+            preview_template = render_to_string('filebrowser/widgets/clearablefileinput.html', {
+                'value': FileObject(value.path),
+                'ADMIN_THUMBNAIL': ADMIN_THUMBNAIL,
             })
             substitutions["preview"] = preview_template
         

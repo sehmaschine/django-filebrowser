@@ -21,7 +21,7 @@ var FileBrowser = {
     show: function(id, href, close_func) {
         // var id2=String(id).split(".").join("___");
         var id2=String(id).replace(/\-/g,"____").split(".").join("___");
-        FBWindow = window.open(href, String(id2), 'height=600,width=960,resizable=yes,scrollbars=yes');
+        FBWindow = window.open(href, String(id2), 'height=600,width=980,resizable=yes,scrollbars=yes');
         FBWindow.focus();
         if (close_func) {
             FBWindow.onbeforeunload = close_func;
