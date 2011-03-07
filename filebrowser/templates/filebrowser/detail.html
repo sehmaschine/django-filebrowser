@@ -39,83 +39,79 @@
                 </div>
             </fieldset>
             {% if fileobject.filetype == "Folder" %}
-            <fieldset class="module collapse open">
-                <h2 class="collapse-handler">{% trans "Folder Information" %}</h2>
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "Date" %}</label></div>
-                    <div class="column span-flexible">
-                        <p style="padding: 0 0 6px; font-size: 11px; line-height: 15px; margin: 5px 0 -5px;">
-                            {{ fileobject.datetime|date:"N j, Y" }}
-                        </p>
+                <fieldset class="module collapse open">
+                    <h2 class="collapse-handler">{% trans "Folder Information" %}</h2>
+                    <div class="row">
+                        <div class="column span-4"><label>{% trans "Date" %}</label></div>
+                        <div class="column span-flexible">
+                            <p class="readonly">
+                                {{ fileobject.datetime|date:"N j, Y" }}
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </fieldset>
+                </fieldset>
             {% endif %}
             {% if fileobject.filetype != "Folder" %}
-            <fieldset class="module collapse open">
-                <h2 class="collapse-handler">{% trans "File Information" %}</h2>
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "URL" %}</label></div>
-                    <div class="column span-flexible">
-                        <p style="padding: 0 0 6px; font-size: 11px; line-height: 15px; margin: 5px 0 -5px;">
-                            <a href="{{ fileobject.url }}">{{ fileobject.url }}</a>
-                        </p>
+                <fieldset class="module collapse open">
+                    <h2 class="collapse-handler">{% trans "File Information" %}</h2>
+                    <div class="row">
+                        <div class="column span-4"><label>{% trans "URL" %}</label></div>
+                        <div class="column span-flexible">
+                            <p class="readonly">
+                                <a href="{{ fileobject.url }}">{{ fileobject.url }}</a>
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "Filesize" %}</label></div>
-                    <div class="column span-flexible">
-                        <p style="padding: 0 0 6px; font-size: 11px; line-height: 15px; margin: 5px 0 -5px;">
-                            {{ fileobject.filesize|filesizeformat }}
-                        </p>
+                    <div class="row">
+                        <div class="column span-4"><label>{% trans "Filesize" %}</label></div>
+                        <div class="column span-flexible">
+                            <p class="readonly">
+                                {{ fileobject.filesize|filesizeformat }}
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "Date" %}</label></div>
-                    <div class="column span-flexible">
-                        <p style="padding: 0 0 6px; font-size: 11px; line-height: 15px; margin: 5px 0 -5px;">
-                            {{ fileobject.datetime|date:"N j, Y" }}
-                        </p>
+                    <div class="row">
+                        <div class="column span-4"><label>{% trans "Date" %}</label></div>
+                        <div class="column span-flexible">
+                            <p class="readonly">
+                                {{ fileobject.datetime|date:"N j, Y" }}
+                            </p>
+                        </div>
                     </div>
-                </div>
-                {% if fileobject.filetype == "Image" %}
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "Size" %}</label></div>
-                    <div class="column span-flexible">
-                        <p style="padding: 0 0 6px; font-size: 11px; line-height: 15px; margin: 5px 0 -5px;">
-                            {{ fileobject.width }} x {{ fileobject.height }} px
-                        </p>
-                    </div>
-                </div>
-                {% endif %}
-            </fieldset>
+                    {% if fileobject.filetype == "Image" %}
+                        <div class="row">
+                            <div class="column span-4"><label>{% trans "Size" %}</label></div>
+                            <div class="column span-flexible">
+                                <p class="readonly">
+                                    {{ fileobject.width }} x {{ fileobject.height }} px
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </fieldset>
             {% endif %}
             {% if fileobject.filetype == "Image" %}
-            <fieldset class="module collapse open">
-                <h2 class="collapse-handler">{% trans "Image Information" %}</h2>
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "Thumbnail" %}</label></div>
-                    <div class="column span-flexible">
-                        <p style="padding: 0 0 6px; font-size: 11px; line-height: 15px; margin: 5px 0 -5px;">
+                <fieldset class="module collapse open">
+                    <h2 class="collapse-handler">{% trans "Image Information" %}</h2>
+                    <div class="row">
+                        <div class="column span-4"><label>{% trans "Thumbnail" %}</label></div>
+                        <div class="column span-flexible">
                             <img src="{% version fileobject.path settings_var.ADMIN_THUMBNAIL %}" title="{% trans 'View Image' %}" />
-                        </p>
+                        </div>
                     </div>
-                </div>
-                {% if settings_var.ADMIN_VERSIONS %}
-                {% for version in settings_var.ADMIN_VERSIONS %}
-                {% version_object fileobject.path version as image_version %}
-                {% version_setting version %}
-                <div class="row">
-                    <div class="column span-4"><label>{{ version_setting.verbose_name }}</label></div>
-                    <div class="column span-flexible">
-                        <p style="padding: 0 0 6px; font-size: 11px; line-height: 15px; margin: 5px 0 -5px;">
-                            <img src="{{ image_version.url }}" />
-                        </p>
-                    </div>
-                </div>
-                {% endfor %}
-                {% endif %}
-            </fieldset>
+                    {% if settings_var.ADMIN_VERSIONS %}
+                        {% for version in settings_var.ADMIN_VERSIONS %}
+                            {% version_object fileobject.path version as image_version %}
+                            {% version_setting version %}
+                            <div class="row">
+                                <div class="column span-4"><label>{{ version_setting.verbose_name }}</label></div>
+                                <div class="column span-flexible">
+                                    <img src="{{ image_version.url }}" />
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </fieldset>
             {% endif %}
             <div class="module footer">
                 <ul class="submit-row">

@@ -31,11 +31,11 @@
             <ul class="rte">{{ fileobject }}</ul>
         </div>
         {% if filelisting %}
-        <div class="row">
-            {% for item in filelisting %}
-            <ul class="rte">{{ item }}</ul>
-            {% endfor %}
-        </div>
+            <div class="row">
+                {% for item in filelisting %}
+                    <ul class="rte">{{ item }}</ul>
+                {% endfor %}
+            </div>
         {% endif %}
     </div>
     <div class="module footer">

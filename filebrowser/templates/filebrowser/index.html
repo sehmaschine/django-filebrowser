@@ -105,32 +105,32 @@
     <div id="changelist" class="container-full">
         <!-- RESULTS -->
         {% if filelisting.results_filtered %}
-        <div class="module changelist-results">
-            <table cellspacing="0">
-                {% include "filebrowser/include/tableheader.html" %}
-                <tbody>
-                {% include "filebrowser/include/filelisting.html" %}
-                </tbody>
-            </table>
-        </div>
+            <div class="module changelist-results">
+                <table cellspacing="0">
+                    {% include "filebrowser/include/tableheader.html" %}
+                    <tbody>
+                    {% include "filebrowser/include/filelisting.html" %}
+                    </tbody>
+                </table>
+            </div>
         {% endif %}
         <!-- PAGINATION -->
         {% pagination %}
     </div>
     {% comment %}
     {% if not query.pop %}
-    <div class="module footer" id="submit">
-        <div class="changelist-actions">
-            <select name="action" autocomplete="off">
-                <option selected="selected" value="">---------</option>
-                <option value="delete_selected">{% trans "Delete selected Files/Folders" %}</option>
-            </select><input type="hidden" name="select_across" value="0" class="select-across">
-            <script type="text/javascript">var _actions_icnt="5";</script>
-            <ul>
-                <li class="action-counter"><span class="action-counter">0 von 5 ausgewählt</span></li>
-            </ul>
+        <div class="module footer" id="submit">
+            <div class="changelist-actions">
+                <select name="action" autocomplete="off">
+                    <option selected="selected" value="">---------</option>
+                    <option value="delete_selected">{% trans "Delete selected Files/Folders" %}</option>
+                </select><input type="hidden" name="select_across" value="0" class="select-across">
+                <script type="text/javascript">var _actions_icnt="5";</script>
+                <ul>
+                    <li class="action-counter"><span class="action-counter">0 von 5 ausgewählt</span></li>
+                </ul>
+            </div>
         </div>
-    </div>
     {% endif %}
     {% endcomment %}
 {% endblock %}

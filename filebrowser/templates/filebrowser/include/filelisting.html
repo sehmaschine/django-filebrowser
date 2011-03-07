@@ -89,7 +89,9 @@
         {% endif %}
         
         <!-- FOLDER -->
-        {% if query.q and settings_var.SEARCH_TRAVERSE %}<td><a href="{% url fb_browse %}{% query_string "" "dir,p" %}&amp;dir={{ fileobject.folder|urlencode }}"><strong>{{ fileobject.folder }}</strong></a></td>{% endif %}
+        {% if query.q and settings_var.SEARCH_TRAVERSE %}
+            <td><a href="{% url fb_browse %}{% query_string "" "dir,p" %}&amp;dir={{ fileobject.folder|urlencode }}"><strong>{{ fileobject.folder }}</strong></a></td>
+        {% endif %}
         
         <!-- SIZE -->
         <td><span class="small">{% if fileobject.filesize %}{{ fileobject.filesize|filesizeformat }}{% else %}&mdash;{% endif %}</span></td>
