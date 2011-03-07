@@ -12,6 +12,24 @@
 <!-- JAVASCRIPTS -->
 {% block javascripts %}
     {{ block.super }}
+    <script type="text/javascript">
+    (function($){
+        $(document).ready(function() {
+            $("div#content .collapse").grp_collapsible({
+                on_init: function(elem, options) {
+                    // open collapse (and all collapse parents) in case of errors
+                    if (elem.find("ul.errorlist").length > 0) {
+                        elem.removeClass("closed")
+                            .addClass("open");
+                        elem.parents(".collapse")
+                            .removeClass("closed")
+                            .addClass("open");
+                    }
+                }
+            });
+        });
+    })(django.jQuery);
+    </script>
     {{ media }}
 {% endblock %}
 
@@ -38,6 +56,7 @@
                     </div>
                 </div>
             </fieldset>
+            {% if fileobject.filetype == "Image" %}
             <fieldset class="module collapse open">
                 <h2 class="collapse-handler">{% trans "Functions" %}</h2>
                 <div class="row {% if form.transpose.errors %}errors{% endif %}">
@@ -49,82 +68,83 @@
                     </div>
                 </div>
             </fieldset>
+            {% endif %}
             {% if fileobject.filetype == "Folder" %}
-                <fieldset class="module collapse open">
-                    <h2 class="collapse-handler">{% trans "Folder Information" %}</h2>
-                    <div class="row">
-                        <div class="column span-4"><label>{% trans "Date" %}</label></div>
-                        <div class="column span-flexible">
-                            <p class="readonly">
-                                {{ fileobject.datetime|date:"N j, Y" }}
-                            </p>
-                        </div>
+            <fieldset class="module collapse open">
+                <h2 class="collapse-handler">{% trans "Folder Information" %}</h2>
+                <div class="row">
+                    <div class="column span-4"><label>{% trans "Date" %}</label></div>
+                    <div class="column span-flexible">
+                        <p class="readonly">
+                            {{ fileobject.datetime|date:"N j, Y" }}
+                        </p>
                     </div>
-                </fieldset>
+                </div>
+            </fieldset>
             {% endif %}
             {% if fileobject.filetype != "Folder" %}
-                <fieldset class="module collapse open">
-                    <h2 class="collapse-handler">{% trans "File Information" %}</h2>
+            <fieldset class="module collapse open">
+                <h2 class="collapse-handler">{% trans "File Information" %}</h2>
+                <div class="row">
+                    <div class="column span-4"><label>{% trans "URL" %}</label></div>
+                    <div class="column span-flexible">
+                        <p class="readonly">
+                            <a href="{{ fileobject.url }}">{{ fileobject.url }}</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column span-4"><label>{% trans "Filesize" %}</label></div>
+                    <div class="column span-flexible">
+                        <p class="readonly">
+                            {{ fileobject.filesize|filesizeformat }}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column span-4"><label>{% trans "Date" %}</label></div>
+                    <div class="column span-flexible">
+                        <p class="readonly">
+                            {{ fileobject.datetime|date:"N j, Y" }}
+                        </p>
+                    </div>
+                </div>
+                {% if fileobject.filetype == "Image" %}
                     <div class="row">
-                        <div class="column span-4"><label>{% trans "URL" %}</label></div>
+                        <div class="column span-4"><label>{% trans "Size" %}</label></div>
                         <div class="column span-flexible">
                             <p class="readonly">
-                                <a href="{{ fileobject.url }}">{{ fileobject.url }}</a>
+                                {{ fileobject.width }} x {{ fileobject.height }} px
                             </p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="column span-4"><label>{% trans "Filesize" %}</label></div>
-                        <div class="column span-flexible">
-                            <p class="readonly">
-                                {{ fileobject.filesize|filesizeformat }}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="column span-4"><label>{% trans "Date" %}</label></div>
-                        <div class="column span-flexible">
-                            <p class="readonly">
-                                {{ fileobject.datetime|date:"N j, Y" }}
-                            </p>
-                        </div>
-                    </div>
-                    {% if fileobject.filetype == "Image" %}
-                        <div class="row">
-                            <div class="column span-4"><label>{% trans "Size" %}</label></div>
-                            <div class="column span-flexible">
-                                <p class="readonly">
-                                    {{ fileobject.width }} x {{ fileobject.height }} px
-                                </p>
-                            </div>
-                        </div>
-                    {% endif %}
-                </fieldset>
+                {% endif %}
+            </fieldset>
             {% endif %}
             {% if fileobject.filetype == "Image" %}
-                <fieldset class="module collapse open">
-                    <h2 class="collapse-handler">{% trans "Image Versions" %}</h2>
-                    {% if settings_var.ADMIN_THUMBNAIL %}
-                    <div class="row">
-                        <div class="column span-4"><label>{% trans "Thumbnail" %}</label></div>
-                        <div class="column span-flexible">
-                            <img src="{% version fileobject.path settings_var.ADMIN_THUMBNAIL %}" title="{% trans 'View Image' %}" />
-                        </div>
+            <fieldset class="module collapse closed">
+                <h2 class="collapse-handler">{% trans "Image Versions" %}</h2>
+                {% if settings_var.ADMIN_THUMBNAIL %}
+                <div class="row">
+                    <div class="column span-4"><label>{% trans "Thumbnail" %}</label></div>
+                    <div class="column span-flexible">
+                        <img src="{% version fileobject.path settings_var.ADMIN_THUMBNAIL %}" title="{% trans 'View Image' %}" />
                     </div>
-                    {% endif %}
-                    {% if settings_var.ADMIN_VERSIONS %}
-                        {% for version in settings_var.ADMIN_VERSIONS %}
-                            {% version_object fileobject.path version as image_version %}
-                            {% version_setting version %}
-                            <div class="row">
-                                <div class="column span-4"><label>{{ version_setting.verbose_name }}</label></div>
-                                <div class="column span-flexible">
-                                    <img src="{{ image_version.url }}" />
-                                </div>
+                </div>
+                {% endif %}
+                {% if settings_var.ADMIN_VERSIONS %}
+                    {% for version in settings_var.ADMIN_VERSIONS %}
+                        {% version_object fileobject.path version as image_version %}
+                        {% version_setting version %}
+                        <div class="row">
+                            <div class="column span-4"><label>{{ version_setting.verbose_name }}</label></div>
+                            <div class="column span-flexible">
+                                <img src="{{ image_version.url }}" />
                             </div>
-                        {% endfor %}
-                    {% endif %}
-                </fieldset>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </fieldset>
             {% endif %}
             <div class="module footer">
                 <ul class="submit-row">
