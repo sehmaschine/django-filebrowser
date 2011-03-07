@@ -43,7 +43,6 @@ class RenameForm(forms.Form):
     
     def __init__(self, *args, **kwargs):
         self.path = kwargs.pop("path", None)
-        self.file_extension = kwargs.pop("file_extension", None)
         super(RenameForm, self).__init__(*args, **kwargs)
     
     name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Name'), help_text=_('Only letters, numbers, underscores, spaces and hyphens are allowed.'), required=True)
@@ -56,7 +55,7 @@ class RenameForm(forms.Form):
             #  folder/file must not already exist.
             if os.path.isdir(os.path.join(self.path, convert_filename(self.cleaned_data['name']))):
                 raise forms.ValidationError(_(u'The Folder already exists.'))
-            elif os.path.isfile(os.path.join(self.path, convert_filename(self.cleaned_data['name']) + self.file_extension)):
+            elif os.path.isfile(os.path.join(self.path, convert_filename(self.cleaned_data['name']))):
                 raise forms.ValidationError(_(u'The File already exists.'))
         return convert_filename(self.cleaned_data['name'])
 

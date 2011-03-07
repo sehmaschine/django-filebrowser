@@ -304,9 +304,9 @@ def detail(request):
     fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')))
     
     if request.method == 'POST':
-        form = RenameForm(request.POST, path=fileobject.path, file_extension=fileobject.extension)
+        form = RenameForm(request.POST, path=fileobject.path)
         if form.is_valid():
-            new_name = form.cleaned_data['name'] + fileobject.extension
+            new_name = form.cleaned_data['name']
             try:
                 filebrowser_pre_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
                 fileobject.delete_versions()
@@ -321,7 +321,7 @@ def detail(request):
             except OSError, (errno, strerror):
                 form.errors['name'] = forms.util.ErrorList([_('Error.')])
     else:
-        form = RenameForm(initial={"name": fileobject.filename}, path=fileobject.path, file_extension=fileobject.extension)
+        form = RenameForm(initial={"name": fileobject.filename}, path=fileobject.path)
     
     return render_to_response('filebrowser/detail.html', {
         'form': form,
