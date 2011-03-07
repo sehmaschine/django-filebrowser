@@ -41,7 +41,7 @@
     <div class="module footer">
         <ul class="submit-row" {% if is_popup %}style="overflow: auto;"{% endif %}>
             <li class="left cancel-button-container"><a href="{% url fb_detail %}{% query_string %}" class="cancel-link">{% trans "Cancel" %}</a></li>
-            <li class="submit-button-container"><a href="{% url fb_delete %}{% query_string %}" class="default">{% trans "Yes, I'm sure" %}</a></li>
+            <li class="submit-button-container"><a href="{% url fb_delete %}{% query_string %}" class="submit-link">{% trans "Yes, I'm sure" %}</a></li>
         </ul>
     </div>
 </div>
