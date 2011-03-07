@@ -28,7 +28,5 @@
         {% if query.o != "date" %}<th><a href="{% query_string "" "o,ot,p" %}&amp;ot=asc&amp;o=date">{% trans "Date" %}</a></th>{% endif %}
         <!-- EDIT -->
         <th>&nbsp;</th>
-        <!-- DEBUG -->
-        {% if settings_var.DEBUG %}<th>Debug</th>{% endif %}
     </tr>
 </thead>

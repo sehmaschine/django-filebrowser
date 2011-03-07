@@ -202,7 +202,6 @@ def get_settings_var():
     
     settings_var = {}
     # Main
-    settings_var['DEBUG'] = DEBUG
     settings_var['MEDIA_ROOT'] = MEDIA_ROOT
     settings_var['MEDIA_URL'] = MEDIA_URL
     settings_var['DIRECTORY'] = DIRECTORY

@@ -16,9 +16,6 @@ except ImportError:
     DEFAULT_URL_TINYMCE = settings.ADMIN_MEDIA_PREFIX + "tinymce/jscripts/tiny_mce/"
     DEFAULT_PATH_TINYMCE = os.path.join(settings.STATIC_ROOT, 'admin/tinymce/jscripts/tiny_mce/')
 
-# Set to True in order to see the FileObject when Browsing.
-DEBUG = getattr(settings, "FILEBROWSER_DEBUG", False)
-
 # PATH AND URL SETTINGS
 # Main Media Settings
 MEDIA_ROOT = getattr(settings, "FILEBROWSER_MEDIA_ROOT", settings.MEDIA_ROOT)

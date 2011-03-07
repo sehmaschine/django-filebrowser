@@ -106,36 +106,6 @@
             </ul>
         </td>
         
-        <!-- DEBUG -->
-        {% if settings_var.DEBUG %}
-            <td>
-                <strong>Filename</strong> {{ fileobject.filename }}<br />
-                {{ fileobject.directory }}<br />
-                <strong>Filetype</strong> {{ fileobject.filetype }}<br />
-                <strong>Mimetype</strong> {{ fileobject.mimetype }}<br />
-                <strong>Filesize</strong> {{ fileobject.filesize }}<br />
-                <strong>Extension</strong> {{ fileobject.extension }}<br />
-                <strong>Date</strong> {{ fileobject.date }}<br />
-                <strong>Datetime Object</strong> {{ fileobject.datetime }}<br /><br />
-                <strong>Path</strong> {{ fileobject.path }}<br />
-                <strong>Path relative</strong> {{ fileobject.path_relative }}<br />
-                <strong>URL</strong> {{ fileobject.url }}<br />
-                <strong>URL relative</strong> {{ fileobject.url_relative }}<br />
-                <strong>URL for FileBrowseField</strong> {{ fileobject.url_save }}
-                {% if fileobject.filetype == "Image" %}
-                    <br /><br />
-                    <strong>Dimensions</strong> {{ fileobject.dimensions }}<br />
-                    <strong>Width</strong> {{ fileobject.width }}<br />
-                    <strong>Height</strong> {{ fileobject.height }}<br />
-                    <strong>Orientation</strong> {{ fileobject.orientation }}
-                {% endif %}
-                {% if fileobject.filetype == "Folder" %}
-                    <br /><br />
-                    <strong>Is Empty</strong> {{ fileobject.is_empty }}
-                {% endif %}
-            </td>
-        {% endif %}
-        
     </tr>
 {% endfor %}
 
