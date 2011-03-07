@@ -4,10 +4,7 @@
 /*  Filebrowser Table
 ------------------------------------------------------------------------------------------------------ */
 
-.filebrowser table td {
-    font-size: 11px;
-}
-.filebrowser table a {
+.filebrowser table {
     font-size: 11px;
 }
 .filebrowser thead th.sorted a {
@@ -19,18 +16,8 @@
 .filebrowser td {
     padding: 9px 10px 6px 10px !important;
 }
-/*.filebrowser tr.fb_folder {
-    background: #e8e8e8;
-    background: -moz-linear-gradient(top, #ededed, #e8e8e8);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#e8e8e8));
-}
-.filebrowser tr.fb_folder td {
-    border-top-color: #fff !important;
-    background: transparent !important;
-}*/
 .filebrowser td.fb_thumbnail {
     line-height: 11px;
-    padding-bottom: 4px !important;
 }
 
 
@@ -54,35 +41,6 @@ span.fb_type.folder {
 }
 
 
-/*  Filebrowser Show-Preview-Link & Show-Versions-Link (uses Grappellis a.internal) ......................................... */
-
-.filebrowser a.fb_showpreview, 
-.filebrowser a.fb_showversions {
-    display: block;
-    margin-top: 8px;
-    padding-left: 8px;
-    line-height: 16px;
-    white-space: nowrap;
-    background-position: 0 50%;
-}
-.filebrowser a.fb_showpreview {
-    float: left;
-}
-/*.filebrowser a.fb_showversions {
-   float: right;
-}*/
-.filebrowser a.fb_showpreview {
-    padding-left: 16px;
-    background: 0 50% no-repeat scroll;
-}
-a.fb_showpreview:link, a.fb_showpreview:visited {
-    background-image: url('../img/icon-fb-preview.png');
-}
-a.fb_showpreview:hover, a.fb_showpreview:active {
-    background-image: url('../img/icon-fb-preview-hover.png');
-}
-
-
 /*  Filebrowser View-Link (contains thumbnail) & Select-Link......................................... */
 
 a.fb_viewlink, 
@@ -102,42 +60,6 @@ button.fb_selectlink {
     button.fb_selectlink {
         padding-top: 4px;
     }
-}
-
-
-/*  Filebrowser Image Preview ......................................... */
-
-.filebrowser .fb_preview_container {
-    display: none;
-    position: absolute;
-    z-index: 1000;
-    margin-top: 25px;
-    padding: 5px 5px 1px;
-    border: 1px solid #bdbdbd;
-    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
-    background: #fff;
-    box-shadow: 0 10px 50px #333; -moz-box-shadow: 0 10px 50px #333; -webkit-box-shadow: 0 10px 50px #333;
-}
-/*.filebrowser img.fb_preview {
-    max-width: 400px;
-    max-height: 400px;
-}*/
-
-a.fb_view_image span {
-    display: none;
-    position: absolute;
-    top: 1px;
-    right: 0;
-    padding: 5px 10px 5px 20px;
-    width: auto;
-    line-height: 11px;
-    font-weight: bold;
-    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
-}
-a.fb_view_image:hover span {
-    display: block;
-    color: #83c3d9;
-    background: #fff url('../img/icon-fb-view-image-hover.png') 8px 7px no-repeat scroll;
 }
 
 
