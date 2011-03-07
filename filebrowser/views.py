@@ -335,12 +335,13 @@ def detail(request):
                     messages.add_message(request, messages.SUCCESS, _('Renaming was successful.'))
                 if transpose:
                     im = Image.open(fileobject.path)
-                    fileobject.delete_versions()
                     new_image = im.transpose(int(transpose))
                     try:
                         new_image.save(fileobject.path, quality=VERSION_QUALITY, optimize=(os.path.splitext(fileobject.path)[1].lower() != '.gif'))
                     except IOError:
                         new_image.save(fileobject.path, quality=VERSION_QUALITY)
+                    fileobject.delete_versions()
+                    messages.add_message(request, messages.SUCCESS, _('Transposing was successful.'))
                 if "_continue" in request.POST:
                     redirect_url = reverse("fb_detail") + query_helper(query, "filename="+new_name, "filename")
                 else:
