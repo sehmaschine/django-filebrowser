@@ -44,7 +44,7 @@
                 'checkScript'       : '{% url fb_check %}',
                 'cancelImg'         : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/cancel.png',
                 'auto'              : false,
-                'folder'            : '{{ query.dir }}',
+                'folder'            : '{{ query.dir|escapejs }}',
                 'multi'             : true,
                 'fileDesc'          : '{% for extension in settings_var.EXTENSIONS.items %}{% for item in extension.1 %}*{{ item|safe }};{% endfor %}{% endfor %}',
                 'fileExt'           : '{% for extension in settings_var.EXTENSIONS.items %}{% for item in extension.1 %}*{{ item|safe }};{% endfor %}{% endfor %}',
