@@ -27,6 +27,24 @@ from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileListing, FileObject
 from filebrowser.decorators import flash_login_required, path_exists, file_exists
 
+# PIL import
+if STRICT_PIL:
+    from PIL import Image
+else:
+    try:
+        from PIL import Image
+    except ImportError:
+        import Image
+
+# CHOICES
+TRANSPOSE_CHOICES = (
+    ("0", u"-----"),
+    ("1", Image.FLIP_LEFT_RIGHT),
+    ("2", Image.FLIP_TOP_BOTTOM),
+    ("3", Image.ROTATE_90),
+    ("4", Image.ROTATE_180),
+    ("5", Image.ROTATE_270),
+)
 
 filter_re = []
 for exp in EXCLUDE:
@@ -298,21 +316,31 @@ def detail(request):
     
     Rename existing File/Directory (deletes existing Image Versions/Thumbnails).
     """
-    from filebrowser.forms import RenameForm
+    from filebrowser.forms import ChangeForm
     query = request.GET
     abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, query.get('dir', ''))
     fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')))
     
     if request.method == 'POST':
-        form = RenameForm(request.POST, path=fileobject.path)
+        form = ChangeForm(request.POST, path=fileobject.path)
         if form.is_valid():
             new_name = form.cleaned_data['name']
+            transpose = form.cleaned_data['transpose']
             try:
-                filebrowser_pre_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
-                fileobject.delete_versions()
-                os.rename(fileobject.path, os.path.join(fileobject.head, new_name))
-                filebrowser_post_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
-                messages.add_message(request, messages.SUCCESS, _('Renaming was successful.'))
+                if new_name != fileobject.filename:
+                    filebrowser_pre_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
+                    fileobject.delete_versions()
+                    os.rename(fileobject.path, os.path.join(fileobject.head, new_name))
+                    filebrowser_post_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
+                    messages.add_message(request, messages.SUCCESS, _('Renaming was successful.'))
+                if transpose:
+                    im = Image.open(fileobject.path)
+                    fileobject.delete_versions()
+                    new_image = im.transpose(int(transpose))
+                    try:
+                        new_image.save(fileobject.path, quality=VERSION_QUALITY, optimize=(os.path.splitext(fileobject.path)[1].lower() != '.gif'))
+                    except IOError:
+                        new_image.save(fileobject.path, quality=VERSION_QUALITY)
                 if "_continue" in request.POST:
                     redirect_url = reverse("fb_detail") + query_helper(query, "filename="+new_name, "filename")
                 else:
@@ -321,7 +349,7 @@ def detail(request):
             except OSError, (errno, strerror):
                 form.errors['name'] = forms.util.ErrorList([_('Error.')])
     else:
-        form = RenameForm(initial={"name": fileobject.filename}, path=fileobject.path)
+        form = ChangeForm(initial={"name": fileobject.filename}, path=fileobject.path)
     
     return render_to_response('filebrowser/detail.html', {
         'form': form,

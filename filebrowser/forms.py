@@ -14,6 +14,17 @@ from filebrowser.functions import convert_filename
 
 alnum_name_re = re.compile(FOLDER_REGEX, re.U)
 
+# CHOICES
+TRANSPOSE_CHOICES = (
+    ("", u"-----"),
+    ("0", u"Flip left right"),
+    ("1", u"Flip top bottom"),
+    ("2", u"Rotate 90°"),
+    ("3", u"Rotate 180°"),
+    ("4", u"Rotate 270°"),
+)
+
+
 class CreateDirForm(forms.Form):
     """
     Form for creating a folder.
@@ -36,16 +47,17 @@ class CreateDirForm(forms.Form):
         return convert_filename(self.cleaned_data['name'])
 
 
-class RenameForm(forms.Form):
+class ChangeForm(forms.Form):
     """
     Form for renaming a file/folder.
     """
     
     def __init__(self, *args, **kwargs):
         self.path = kwargs.pop("path", None)
-        super(RenameForm, self).__init__(*args, **kwargs)
+        super(ChangeForm, self).__init__(*args, **kwargs)
     
-    name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Name'), help_text=_('Only letters, numbers, underscores, spaces and hyphens are allowed.'), required=True)
+    name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Name'), help_text=_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'), required=True)
+    transpose = forms.ChoiceField(choices=TRANSPOSE_CHOICES, label=_(u'Transpose'), required=False)
     
     def clean_name(self):
         if self.cleaned_data['name']:
