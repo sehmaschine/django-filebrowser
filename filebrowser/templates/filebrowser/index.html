@@ -32,10 +32,10 @@
     <script type="text/javascript" charset="utf-8">
         (function($) {
             $(document).ready(function() {
-                $("a.pulldown-actions-handler").bind("click", function() {
+                $("a.pulldown-versions-handler").bind("click", function() {
                     if (!$(this).parent().hasClass("open")) {
                         $("tr").removeClass("selected");
-                        $(".pulldown-actions-container").removeClass("open");
+                        $(".pulldown-versions-container").removeClass("open");
                         $(this).parent().addClass("open");
                         $(this).parent().parent().parent().addClass("selected");
                     } else {
@@ -45,16 +45,16 @@
                 });
                 $(document).keypress(function(evt) {
                     if (evt.keyCode == '27') {
-                        $(".pulldown-actions-container:visible").removeClass("open");
-                        $(".pulldown-actions-container").parent().parent().removeClass("selected");
+                        $(".pulldown-versions-container:visible").removeClass("open");
+                        $(".pulldown-versions-container").parent().parent().removeClass("selected");
                     }
                 });
                 $(document).mousedown(function(evt) {
-                    if ($(".pulldown-actions-container").is(":visible")) {
+                    if ($(".pulldown-versions-container").is(":visible")) {
                         var $target = $(evt.target);
-                        if (!$(evt.target).hasClass("pulldown-actions-container") && $target.parents(".pulldown-actions-container").length == 0) {
-                            $(".pulldown-actions-container").removeClass("open");
-                            $(".pulldown-actions-container").parent().parent().removeClass("selected");
+                        if (!$(evt.target).hasClass("pulldown-versions-container") && $target.parents(".pulldown-versions-container").length == 0) {
+                            $(".pulldown-versions-container").removeClass("open");
+                            $(".pulldown-versions-container").parent().parent().removeClass("selected");
                         }
                     }
                 });
