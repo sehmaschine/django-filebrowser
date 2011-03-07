@@ -38,21 +38,18 @@ PATH_TINYMCE = getattr(settings, "FILEBROWSER_PATH_TINYMCE", DEFAULT_PATH_TINYMC
 # Allowed Extensions for File Upload. Lower case is important.
 EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
     'Image': ['.jpg','.jpeg','.gif','.png','.tif','.tiff'],
-    'Video': ['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
     'Document': ['.pdf','.doc','.rtf','.txt','.xls','.csv'],
+    'Video': ['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
     'Audio': ['.mp3','.mp4','.wav','.aiff','.midi','.m4p']
 })
 # Define different formats for allowed selections.
 # This has to be a subset of EXTENSIONS.
+# e.g., add ?type=image to the browse-URL ...
 SELECT_FORMATS = getattr(settings, "FILEBROWSER_SELECT_FORMATS", {
-    'File': ['Folder','Document',],
-    'Image': ['Image'],
-    'Media': ['Video','Sound'],
-    'Document': ['Document'],
-    # for TinyMCE we can also define lower-case items
+    'file': ['Folder','Image','Document','Video','Audio'],
     'image': ['Image'],
-    'file': ['Folder','Image','Document',],
-    'media': ['Video','Sound'],
+    'document': ['Document'],
+    'media': ['Video','Audio'],
 })
 
 # VERSIONS
@@ -62,20 +59,19 @@ SELECT_FORMATS = getattr(settings, "FILEBROWSER_SELECT_FORMATS", {
 VERSIONS_BASEDIR = getattr(settings, 'FILEBROWSER_VERSIONS_BASEDIR', '')
 # Versions Format. Available Attributes: verbose_name, width, height, opts
 VERSIONS = getattr(settings, "FILEBROWSER_VERSIONS", {
-    'fb_thumb': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop upscale'},
-    'thumbnail': {'verbose_name': 'Thumbnail (140px)', 'width': 140, 'height': '', 'opts': ''},
-    'small': {'verbose_name': 'Small (300px)', 'width': 300, 'height': '', 'opts': ''},
-    'medium': {'verbose_name': 'Medium (460px)', 'width': 460, 'height': '', 'opts': ''},
-    'big': {'verbose_name': 'Big (620px)', 'width': 620, 'height': '', 'opts': ''},
-    'cropped': {'verbose_name': 'Cropped (60x60px)', 'width': 60, 'height': 60, 'opts': 'crop'},
-    'croppedthumbnail': {'verbose_name': 'Cropped Thumbnail (140x140px)', 'width': 140, 'height': 140, 'opts': 'crop'},
+    'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
+    'thumbnail': {'verbose_name': 'Thumbnail (1 col)', 'width': 60, 'height': 60, 'opts': 'crop'},
+    'small': {'verbose_name': 'Small (2 col)', 'width': 140, 'height': '', 'opts': ''},
+    'medium': {'verbose_name': 'Medium (4col )', 'width': 300, 'height': '', 'opts': ''},
+    'big': {'verbose_name': 'Big (6 col)', 'width': 460, 'height': '', 'opts': ''},
+    'large': {'verbose_name': 'Large (8 col)', 'width': 680, 'height': '', 'opts': ''},
 })
 # Quality of saved versions
 VERSION_QUALITY = getattr(settings, 'FILEBROWSER_VERSION_QUALITY', 90)
 # Versions available within the Admin-Interface.
-ADMIN_VERSIONS = getattr(settings, 'FILEBROWSER_ADMIN_VERSIONS', ['thumbnail','small', 'medium','big'])
+ADMIN_VERSIONS = getattr(settings, 'FILEBROWSER_ADMIN_VERSIONS', ['thumbnail', 'small', 'medium', 'big', 'large'])
 # Which Version should be used as Admin-thumbnail.
-ADMIN_THUMBNAIL = getattr(settings, 'FILEBROWSER_ADMIN_THUMBNAIL', 'fb_thumb')
+ADMIN_THUMBNAIL = getattr(settings, 'FILEBROWSER_ADMIN_THUMBNAIL', 'admin_thumbnail')
 
 # EXTRA SETTINGS
 # True to save the URL including MEDIA_URL to your model fields
