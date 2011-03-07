@@ -1,0 +1,59 @@
+.. |grappelli| replace:: Grappelli
+.. |filebrowser| replace:: FileBrowser
+
+.. _templatetags:
+
+Templatetags
+============
+
+In order to generate versions, you have two different tags to choose from: ``version`` and ``version_object``. With either using the version-tag or the version_object-tag, the Image-version will be generated "on the fly" if the version doesn´t already exist OR if the original Image is newer than the version. This means that if you´d like to update an Image, you just overwrite the original Image - the versions will be re-generated automatically (as you request them within your template).
+
+A Model example::
+
+    from filebrowser.fields import FileBrowseField
+
+    class MyModel(models.Model):
+        image = FileBrowseField("Image", max_length=200, blank=True, null=True)
+
+First you need to load the templatetags with::
+
+    {% load fb_versions %}
+
+You have two different tags to choose from: ``version`` and ``version_object``.
+
+.. note::
+    With both templatetags, ``version_prefix`` can either be a string or a variable. If ``version_prefix`` is a string, use quotes.
+
+version
+^^^^^^^
+
+**Generate a version and retrieve the URL**::
+
+    {% version model.field_name version_prefix %}
+
+With the above Model, in order to generate a version you type::
+
+    {% version blogentry.image 'medium' %}
+
+Since you retrieve the URL, you can display the image with::
+
+    <img src="{% version blogentry.image 'medium' %}" />
+
+version_object
+^^^^^^^^^^^^^^
+
+**Generate a version and retrieve the FileObject**::
+
+    {% version_object model.field_name version_prefix as variable %}
+
+With the above Model, in order to generate a version you type::
+
+    {% version_object blogentry.image 'medium' as version_medium %} 
+
+Since you retrieve a ``FileObject``, you can use all attributes::
+
+    {{ version_medium.width }}
+
+or just::
+
+    <img src="{{ version_medium }}" />

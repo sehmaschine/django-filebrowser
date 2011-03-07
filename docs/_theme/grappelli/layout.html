@@ -1,0 +1,57 @@
+{% extends "basic/layout.html" %}
+
+{%- macro secondnav() %}
+    {%- if prev %}
+        <a href="{{ prev.link|e }}" title="{{ prev.title|e }}">previous</a>
+        {{ reldelim2 }}
+    {%- endif %}
+    {%- if parents %}
+        <a href="{{ parents.0.link|e }}" title="{{ parents.0.title|e }}" accesskey="U">up</a>
+    {%- else %}
+        <a title="{{ docstitle }}" href="{{ pathto('index') }}" accesskey="U">up</a>
+    {%- endif %}
+    {%- if next %}
+        {{ reldelim2 }}
+        <a href="{{ next.link|e }}" title="{{ next.title|e }}">next</a>
+    {%- endif %}
+{%- endmacro %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="_static/screen.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" media="print" /> 
+    <!--[if lt IE 8]>
+        <link rel="stylesheet" href="_static/ie.css" type="text/css" media="screen, projection" />
+    <![endif]-->
+    <link rel="stylesheet" href="_static/grappelli.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" media="screen, projection" />
+{% endblock %}
+
+{% block document %}
+<div class="container">
+    <div id="topnav" class="column span-24 last">
+        <div class="column span-12">
+            <a title="Home page" href="{{ pathto('index') }}">Home</a> {{ reldelim2 }}
+            <a title="Table of contents" href="{{ pathto('contents') }}">Table of contents</a> {{ reldelim2 }}
+            <a title="Global index" href="{{ pathto('genindex') }}">Index</a> {{ reldelim2 }}
+            <a title="Module index" href="{{ pathto('py-modindex') }}">Modules</a>
+        </div>
+        <div class="column span-12 last">
+            {{ secondnav() }}
+        </div>
+    </div>
+    <div id="header" class="column span-24 last">
+        <h1><a href="{{ pathto('index') }}">{{ docstitle }}</a></h1>
+    </div>
+    <div id="content" class="column span-24 last">
+        <div class="me-margin-left-largex me-margin-right-largex">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+ </div>
+{% endblock %}
+
+{% block relbar1 %}{% endblock %}
+{% block relbar2 %}{% endblock %}
+{% block sidebar1 %}{% endblock %}
+{% block sidebar2 %}{% endblock %}
+{% block footer %}{% endblock %}

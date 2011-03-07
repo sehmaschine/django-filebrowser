@@ -1,0 +1,227 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Signals &mdash; Django FileBrowser v3.2 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '3.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Django FileBrowser v3.2 documentation" href="index.html" />
+    <link rel="next" title="FAQ" href="faq.html" />
+    <link rel="prev" title="FileObject" href="fileobject.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="faq.html" title="FAQ"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="fileobject.html" title="FileObject"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Django FileBrowser v3.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="signals">
+<span id="id1"></span><h1>Signals<a class="headerlink" href="#signals" title="Permalink to this headline">¶</a></h1>
+<p>The FileBrowser sends a couple of different signals:</p>
+<div class="section" id="filebrowser-pre-upload">
+<span id="id2"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_pre_upload</span></tt><a class="headerlink" href="#filebrowser-pre-upload" title="Permalink to this headline">¶</a></h2>
+<p>Sent before a an Upload starts. kwargs: path, file</p>
+</div>
+<div class="section" id="filebrowser-post-upload">
+<span id="id3"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_post_upload</span></tt><a class="headerlink" href="#filebrowser-post-upload" title="Permalink to this headline">¶</a></h2>
+<p>Sent after an Upload has finished. kwargs: path, file</p>
+</div>
+<div class="section" id="filebrowser-pre-delete">
+<span id="id4"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_pre_delete</span></tt><a class="headerlink" href="#filebrowser-pre-delete" title="Permalink to this headline">¶</a></h2>
+<p>Sent before an Item (File, Folder) is deleted.</p>
+<dl class="docutils">
+<dt><strong>path</strong></dt>
+<dd>Absolute server path to the file/folder</dd>
+<dt><strong>name</strong></dt>
+<dd>Name of the file/folder</dd>
+</dl>
+</div>
+<div class="section" id="filebrowser-post-delete">
+<span id="id5"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_post_delete</span></tt><a class="headerlink" href="#filebrowser-post-delete" title="Permalink to this headline">¶</a></h2>
+<p>Sent after an Item (File, Folder) has been deleted.</p>
+<dl class="docutils">
+<dt><strong>path</strong></dt>
+<dd>Absolute server path to the file/folder</dd>
+<dt><strong>name</strong></dt>
+<dd>Name of the file/folder</dd>
+</dl>
+</div>
+<div class="section" id="filebrowser-pre-createdir">
+<span id="id6"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_pre_createdir</span></tt><a class="headerlink" href="#filebrowser-pre-createdir" title="Permalink to this headline">¶</a></h2>
+<p>Sent before a new Folder is created. Arguments:</p>
+<dl class="docutils">
+<dt><strong>path</strong></dt>
+<dd>Absolute server path to the folder</dd>
+<dt><strong>name</strong></dt>
+<dd>Name of the new folder</dd>
+</dl>
+</div>
+<div class="section" id="filebrowser-post-createdir">
+<span id="id7"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_post_createdir</span></tt><a class="headerlink" href="#filebrowser-post-createdir" title="Permalink to this headline">¶</a></h2>
+<p>Sent after a new Folder has been created. Arguments:</p>
+<dl class="docutils">
+<dt><strong>path</strong></dt>
+<dd>Absolute server path to the folder</dd>
+<dt><strong>name</strong></dt>
+<dd>Name of the new folder</dd>
+</dl>
+</div>
+<div class="section" id="filebrowser-pre-rename">
+<span id="id8"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_pre_rename</span></tt><a class="headerlink" href="#filebrowser-pre-rename" title="Permalink to this headline">¶</a></h2>
+<p>Sent before an Item (File, Folder) is renamed.</p>
+<dl class="docutils">
+<dt><strong>path</strong></dt>
+<dd>Absolute server path to the file/folder</dd>
+<dt><strong>name</strong></dt>
+<dd>Name of the file/folder</dd>
+<dt><strong>new_name</strong></dt>
+<dd>New name of the file/folder</dd>
+</dl>
+</div>
+<div class="section" id="filebrowser-post-rename">
+<span id="id9"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_post_rename</span></tt><a class="headerlink" href="#filebrowser-post-rename" title="Permalink to this headline">¶</a></h2>
+<p>Sent after an Item (File, Folder) has been renamed.</p>
+<dl class="docutils">
+<dt><strong>path</strong></dt>
+<dd>Absolute server path to the file/folder</dd>
+<dt><strong>name</strong></dt>
+<dd>Name of the file/folder</dd>
+<dt><strong>new_name</strong></dt>
+<dd>New name of the file/folder</dd>
+</dl>
+</div>
+<div class="section" id="example-for-using-these-signals">
+<h2>Example for using these Signals<a class="headerlink" href="#example-for-using-these-signals" title="Permalink to this headline">¶</a></h2>
+<p>Here&#8217;s a small example for using the above Signals:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">filebrowser.views</span> <span class="kn">import</span> <span class="n">filebrowser_pre_upload</span><span class="p">,</span> <span class="n">filebrowser_post_upload</span>
+
+<span class="k">def</span> <span class="nf">pre_upload_callback</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Receiver function called before an upload starts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;Pre Upload Callback&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;kwargs:&quot;</span><span class="p">,</span> <span class="n">kwargs</span>
+<span class="n">filebrowser_pre_upload</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">pre_upload_callback</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">post_upload_callback</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Receiver function called each time an upload has finished.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;Post Upload Callback&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;kwargs:&quot;</span><span class="p">,</span> <span class="n">kwargs</span>
+    <span class="c"># You can use all attributes available with the FileObject</span>
+    <span class="c"># This is just an example ...</span>
+    <span class="k">print</span> <span class="s">&quot;Filesize:&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">filesize</span>
+    <span class="k">print</span> <span class="s">&quot;Orientation:&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">orientation</span>
+    <span class="k">print</span> <span class="s">&quot;Extension:&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">extension</span>
+<span class="n">filebrowser_post_upload</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">post_upload_callback</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Another example is here (it´s a contribution by a user, so I haven´t checked the code): <a class="reference external" href="http://www.djangosnippets.org/snippets/1893/">http://www.djangosnippets.org/snippets/1893/</a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Signals</a><ul>
+<li><a class="reference internal" href="#filebrowser-pre-upload"><tt class="docutils literal"><span class="pre">filebrowser_pre_upload</span></tt></a></li>
+<li><a class="reference internal" href="#filebrowser-post-upload"><tt class="docutils literal"><span class="pre">filebrowser_post_upload</span></tt></a></li>
+<li><a class="reference internal" href="#filebrowser-pre-delete"><tt class="docutils literal"><span class="pre">filebrowser_pre_delete</span></tt></a></li>
+<li><a class="reference internal" href="#filebrowser-post-delete"><tt class="docutils literal"><span class="pre">filebrowser_post_delete</span></tt></a></li>
+<li><a class="reference internal" href="#filebrowser-pre-createdir"><tt class="docutils literal"><span class="pre">filebrowser_pre_createdir</span></tt></a></li>
+<li><a class="reference internal" href="#filebrowser-post-createdir"><tt class="docutils literal"><span class="pre">filebrowser_post_createdir</span></tt></a></li>
+<li><a class="reference internal" href="#filebrowser-pre-rename"><tt class="docutils literal"><span class="pre">filebrowser_pre_rename</span></tt></a></li>
+<li><a class="reference internal" href="#filebrowser-post-rename"><tt class="docutils literal"><span class="pre">filebrowser_post_rename</span></tt></a></li>
+<li><a class="reference internal" href="#example-for-using-these-signals">Example for using these Signals</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="fileobject.html"
+                        title="previous chapter">FileObject</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="faq.html"
+                        title="next chapter">FAQ</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/signals.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="faq.html" title="FAQ"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="fileobject.html" title="FileObject"
+             >previous</a> |</li>
+        <li><a href="index.html">Django FileBrowser v3.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Patrick Kranzlmueller.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

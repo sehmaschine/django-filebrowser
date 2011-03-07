@@ -1,0 +1,137 @@
+.. |grappelli| replace:: Grappelli
+.. |filebrowser| replace:: FileBrowser
+
+.. _signals:
+
+Signals
+=======
+
+The FileBrowser sends a couple of different signals:
+
+.. _filebrowser_pre_upload:
+
+``filebrowser_pre_upload``
+--------------------------
+
+Sent before a an Upload starts. kwargs: path, file 
+
+.. _filebrowser_post_upload:
+
+``filebrowser_post_upload``
+---------------------------
+
+Sent after an Upload has finished. kwargs: path, file 
+
+.. _filebrowser_pre_delete:
+
+``filebrowser_pre_delete``
+--------------------------
+
+Sent before an Item (File, Folder) is deleted.
+
+**path**
+    Absolute server path to the file/folder
+
+**name**
+    Name of the file/folder
+
+.. _filebrowser_post_delete:
+
+``filebrowser_post_delete``
+---------------------------
+
+Sent after an Item (File, Folder) has been deleted.
+
+**path**
+    Absolute server path to the file/folder
+
+**name**
+    Name of the file/folder
+
+.. _filebrowser_pre_createdir:
+
+``filebrowser_pre_createdir``
+-----------------------------
+
+Sent before a new Folder is created. Arguments:
+
+**path**
+    Absolute server path to the folder
+
+**name**
+    Name of the new folder
+
+.. _filebrowser_post_createdir:
+
+``filebrowser_post_createdir``
+------------------------------
+
+Sent after a new Folder has been created. Arguments:
+
+**path**
+    Absolute server path to the folder
+
+**name**
+    Name of the new folder
+
+.. _filebrowser_pre_rename:
+
+``filebrowser_pre_rename``
+--------------------------
+
+Sent before an Item (File, Folder) is renamed.
+
+**path**
+    Absolute server path to the file/folder
+
+**name**
+    Name of the file/folder
+
+**new_name**
+    New name of the file/folder
+
+.. _filebrowser_post_rename:
+
+``filebrowser_post_rename``
+---------------------------
+
+Sent after an Item (File, Folder) has been renamed.
+
+**path**
+    Absolute server path to the file/folder
+
+**name**
+    Name of the file/folder
+
+**new_name**
+    New name of the file/folder
+
+Example for using these Signals
+-------------------------------
+
+Here's a small example for using the above Signals::
+
+    from filebrowser.views import filebrowser_pre_upload, filebrowser_post_upload
+
+    def pre_upload_callback(sender, **kwargs):
+        """
+        Receiver function called before an upload starts.
+        """
+        print "Pre Upload Callback"
+        print "kwargs:", kwargs
+    filebrowser_pre_upload.connect(pre_upload_callback)
+
+    def post_upload_callback(sender, **kwargs):
+        """
+        Receiver function called each time an upload has finished.
+        """
+        print "Post Upload Callback"
+        print "kwargs:", kwargs
+        # You can use all attributes available with the FileObject
+        # This is just an example ...
+        print "Filesize:", kwargs['file'].filesize
+        print "Orientation:", kwargs['file'].orientation
+        print "Extension:", kwargs['file'].extension
+    filebrowser_post_upload.connect(post_upload_callback)
+
+Another example is here (it´s a contribution by a user, so I haven´t checked the code): http://www.djangosnippets.org/snippets/1893/

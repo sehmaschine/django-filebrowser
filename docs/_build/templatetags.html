@@ -1,0 +1,142 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Templatetags &mdash; Django FileBrowser v3.2 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '3.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Django FileBrowser v3.2 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="index.html">Django FileBrowser v3.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="templatetags">
+<span id="id1"></span><h1>Templatetags<a class="headerlink" href="#templatetags" title="Permalink to this headline">¶</a></h1>
+<p>In order to generate versions, you have two different tags to choose from: <tt class="docutils literal"><span class="pre">version</span></tt> and <tt class="docutils literal"><span class="pre">version_object</span></tt>. With either using the version-tag or the version_object-tag, the Image-version will be generated &#8220;on the fly&#8221; if the version doesn´t already exist OR if the original Image is newer than the version. This means that if you´d like to update an Image, you just overwrite the original Image - the versions will be re-generated automatically (as you request them within your template).</p>
+<p>A Model example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">filebrowser.fields</span> <span class="kn">import</span> <span class="n">FileBrowseField</span>
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">FileBrowseField</span><span class="p">(</span><span class="s">&quot;Image&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>First you need to load the templatetags with:</p>
+<div class="highlight-python"><pre>{% load fb_versions %}</pre>
+</div>
+<p>You have two different tags to choose from: <tt class="docutils literal"><span class="pre">version</span></tt> and <tt class="docutils literal"><span class="pre">version_object</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">With both templatetags, <tt class="docutils literal"><span class="pre">version_prefix</span></tt> can either be a string or a variable. If <tt class="docutils literal"><span class="pre">version_prefix</span></tt> is a string, use quotes.</p>
+</div>
+<div class="section" id="version">
+<h2>version<a class="headerlink" href="#version" title="Permalink to this headline">¶</a></h2>
+<p><strong>Generate a version and retrieve the URL</strong>:</p>
+<div class="highlight-python"><pre>{% version model.field_name version_prefix %}</pre>
+</div>
+<p>With the above Model, in order to generate a version you type:</p>
+<div class="highlight-python"><pre>{% version blogentry.image 'medium' %}</pre>
+</div>
+<p>Since you retrieve the URL, you can display the image with:</p>
+<div class="highlight-python"><pre>&lt;img src="{% version blogentry.image 'medium' %}" /&gt;</pre>
+</div>
+</div>
+<div class="section" id="version-object">
+<h2>version_object<a class="headerlink" href="#version-object" title="Permalink to this headline">¶</a></h2>
+<p><strong>Generate a version and retrieve the FileObject</strong>:</p>
+<div class="highlight-python"><pre>{% version_object model.field_name version_prefix as variable %}</pre>
+</div>
+<p>With the above Model, in order to generate a version you type:</p>
+<div class="highlight-python"><pre>{% version_object blogentry.image 'medium' as version_medium %}</pre>
+</div>
+<p>Since you retrieve a <tt class="docutils literal"><span class="pre">FileObject</span></tt>, you can use all attributes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{{</span> <span class="n">version_medium</span><span class="o">.</span><span class="n">width</span> <span class="p">}}</span>
+</pre></div>
+</div>
+<p>or just:</p>
+<div class="highlight-python"><pre>&lt;img src="{{ version_medium }}" /&gt;</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Templatetags</a><ul>
+<li><a class="reference internal" href="#version">version</a></li>
+<li><a class="reference internal" href="#version-object">version_object</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/templatetags.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="index.html">Django FileBrowser v3.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Patrick Kranzlmueller.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

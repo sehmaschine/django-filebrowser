@@ -1,0 +1,531 @@
+/*** setup ***/
+
+html {
+    background: #10343F;
+    background: #fff;
+}
+
+body {
+    font: 16px/16px Georgia, "Helvetica Neue",Arial,sans-serif;
+	background: #10343F;
+	background: #fff;
+	color: #333;
+	margin-bottom: 32px;
+	border-top: 10px solid #10343F;
+}
+
+/*container*/
+#topnav {
+    margin-top: 10px;
+}
+
+#content {
+    background: #fff;
+}
+
+/*** links ***/
+
+a {
+	font-family: "Helvetica Neue",Arial,sans-serif;
+    text-decoration: none;
+}
+
+a img {
+    border: none;
+}
+
+a:link, a:visited {
+    color: #309BBF;
+	font-weight: bold;
+}
+
+a:hover {
+    color: #ffe761;
+}
+
+h2 a, h3 a, h4 a {
+    text-decoration: none !important;
+}
+
+h1 a:link, h1 a:visited {
+    color: #309BBF;
+}
+
+a.reference em {
+    font-style: normal;
+}
+
+/*** basic styles ***/
+
+dd {
+    margin-left: 15px;
+}
+
+h1,h2,h3,h4 {
+	font-family: Georgia, "Helvetica Neue",Arial,sans-serif;
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 48px;
+	line-height: 48px;
+	color: #10343F;
+	font-weight: normal;
+	margin: 0 0 32px -2px;
+}
+
+#header h1 {
+    margin: 32px 0 0 -2px;
+}
+
+h2 {
+    font-size: 32px;
+	line-height: 32px;
+	color: #10343F;
+	font-weight: normal;
+	margin: 32px 0 0 -2px;
+}
+
+h3 {
+    font-size: 24px;
+	line-height: 24px;
+	color: #10343F;
+	font-weight: normal;
+	margin: 24px 0 0 -1px;
+}
+
+h4 {
+    font-size: 12px;
+	line-height: 12px;
+	color: #309BBF;
+}
+
+/*#content h1 {
+	font-size: 32px;
+	line-height: 32px;
+    margin: 0 0 16px -20px;
+    background: #309BBF;
+    padding: 20px;
+    width: 900px;
+}*/
+
+div.figure {
+    text-align: center;
+}
+
+div.figure p.caption {
+    font-size: 1em;
+	margin-top: 0;
+	margin-bottom: 1.5em;
+	color: #555;
+}
+
+hr {
+    color: #ccc;
+	background-color: #ccc;
+	height: 1px;
+	border: 0;
+}
+
+p, ul, dl {
+	margin: 8px 0;
+}
+
+#yui-main div.yui-b img {
+    max-width: 50em;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+caption {
+    font-size: 1em;
+	font-weight: bold;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	margin-left: 2px;
+	text-align: center;
+}
+
+blockquote {
+    padding: 0 1em;
+	margin: 1em 0;
+	font: 125%/1.2em "Trebuchet MS", sans-serif;
+	color: #234f32;
+	border-left: 2px solid #94da3a;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+ins {
+    font-weight: bold;
+	text-decoration: none;
+}
+
+/*** lists ***/
+
+ul {
+    padding-left: 30px;
+}
+
+ol {
+    padding-left: 30px;
+}
+
+ol.arabic li {
+    list-style-type: decimal;
+}
+
+ul li {
+    list-style-type: square;
+	margin: 8px 0;
+}
+
+ol li {
+    margin-bottom: .4em;
+}
+
+ul ul {
+    padding-left: 1.2em;
+}
+
+ul ul ul {
+    padding-left: 1em;
+}
+
+ul.linklist, ul.toc {
+    padding-left: 0;
+}
+
+ul.toc ul {
+    margin-left: .6em;
+}
+
+ul.toc ul li {
+    list-style-type: square;
+}
+
+ul.toc ul ul li {
+    list-style-type: disc;
+}
+
+ul.linklist li, ul.toc li {
+    list-style-type: none;
+}
+
+dt {
+    font-weight: bold;
+	margin-top: .5em;
+	font-size: 1.1em;
+}
+
+dd {
+    margin-bottom: .8em;
+}
+
+ol.toc {
+    margin-bottom: 2em;
+}
+
+ol.toc li {
+    font-size: 125%;
+	padding: .5em;
+	line-height: 1.2em;
+	clear: right;
+}
+
+ol.toc li.b {
+    background-color: #E0FFB8;
+}
+
+ol.toc li a:hover {
+    background-color: transparent !important;
+	text-decoration: underline !important;
+}
+
+ol.toc span.release-date {
+    color: #487858;
+	float: right;
+	font-size: 85%;
+	padding-right: .5em;
+}
+
+ol.toc span.comment-count {
+    font-size: 75%;
+	color: #999;
+}
+
+/*** tables ***/
+
+table {
+    color: #000;
+	margin-bottom: 1em;
+	width: 100%;
+}
+
+table.docutils td p {
+    margin-top: 0;
+	margin-bottom: .5em;
+}
+
+table.docutils td, table.docutils th {
+    border-bottom: 1px solid #dfdfdf;
+	padding: 4px 2px;
+}
+
+table.docutils thead th {
+    border-bottom: 2px solid #dfdfdf;
+	text-align: left;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+table.docutils thead th p {
+    margin: 0;
+	padding: 0;
+}
+
+table.docutils {
+    border-collapse: collapse;
+}
+
+/*** code blocks ***/
+
+.literal {
+    white-space: nowrap;
+}
+
+.literal {
+    color: #999966;
+}
+
+#sidebar .literal {
+    color: white;
+	background: transparent;
+	font-size: 11px;
+}
+
+h4 .literal {
+    color: #234f32;
+	font-size: 13px;
+}
+
+pre {
+    font-size: 11px;
+	background: #eee;
+	/*border: 1px solid #cccc99;*/
+	border-width: 1px 0;
+	margin: 16px 0;
+	padding: 5px 0 5px 10px;
+	overflow: hidden;
+	line-height: 16px;
+}
+
+dt .literal, table .literal {
+    background: none;
+}
+
+#bd a.reference {
+    text-decoration: none;
+}
+
+#bd a.reference tt.literal {
+    border-bottom: 1px #234f32 dotted;
+}
+
+/* Restore colors of pygments hyperlinked code */
+
+#bd .highlight .k a:link, #bd .highlight .k a:visited {
+    color: #000000;
+	text-decoration: none;
+	border-bottom: 1px dotted #000000;
+}
+
+#bd .highlight .nf a:link, #bd .highlight .nf a:visited {
+    color: #990000;
+	text-decoration: none;
+	border-bottom: 1px dotted #990000;
+}
+
+/*** notes & admonitions ***/
+
+.note, .admonition {
+    padding: 10px;
+	margin: 1em 0;
+	border: 1px solid #C0E1EC;
+}
+
+.admonition-title {
+    font-weight: bold;
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
+
+.admonition .last {
+    margin-bottom: 0 !important;
+}
+
+.note, .admonition {
+    padding-left: 10px;
+}
+
+div.admonition-philosophy {
+    padding-left: 65px;
+	background: url(docicons-philosophy.png) .8em .8em no-repeat;
+}
+
+div.admonition-behind-the-scenes {
+    padding-left: 65px;
+	background: url(docicons-behindscenes.png) .8em .8em no-repeat;
+}
+
+/*** versoinadded/changes ***/
+
+div.versionadded, div.versionchanged {
+    
+}
+
+div.versionadded span.title, div.versionchanged span.title {
+    font-weight: bold;
+}
+
+/*** p-links ***/
+
+a.headerlink {
+    color: #c60f0f;
+	font-size: 0.8em;
+	padding: 0 4px 0 4px;
+	text-decoration: none;
+	visibility: hidden;
+}
+
+h1:hover > a.headerlink, h2:hover > a.headerlink, h3:hover > a.headerlink, h4:hover > a.headerlink, h5:hover > a.headerlink, h6:hover > a.headerlink, dt:hover > a.headerlink {
+    visibility: visible;
+}
+
+/*** index ***/
+
+table.indextable td {
+    text-align: left;
+	vertical-align: top;
+}
+
+table.indextable dl, table.indextable dd {
+    margin-top: 0;
+	margin-bottom: 0;
+}
+
+table.indextable tr.pcap {
+    height: 10px;
+}
+
+table.indextable tr.cap {
+    margin-top: 10px;
+	background-color: #f2f2f2;
+}
+
+/*** page-specific overrides ***/
+
+div#contents ul {
+    margin-bottom: 0;
+}
+
+div#contents ul li {
+    margin-bottom: 0;
+}
+
+div#contents ul ul li {
+    margin-top: 0.3em;
+}
+
+/*** IE hacks ***/
+
+* pre {
+    width: 100%;
+}
+
+/*  MARGINS
+-----------------------------------------------------------------*/
+
+.me-margin-mini				{ margin: 4px; }
+.me-margin-top-mini 		{ margin-top: 4px; }
+.me-margin-bottom-mini 		{ margin-bottom: 4px; }
+.me-margin-left-mini 		{ margin-left: 5px; }
+.me-margin-right-mini	 	{ margin-right: 5px; }
+
+.me-margin-small			{ margin: 8px; }
+.me-margin-top-small 		{ margin-top: 8px; }
+.me-margin-bottom-small 	{ margin-bottom: 8px; }
+.me-margin-left-small 		{ margin-left: 10px; }
+.me-margin-right-small 		{ margin-right: 10px; }
+
+.me-margin					{ margin: 16px; }
+.me-margin-top 				{ margin-top: 16px; }
+.me-margin-bottom 			{ margin-bottom: 16px; }
+.me-margin-left 			{ margin-left: 20px; }
+.me-margin-right		 	{ margin-right: 20px; }
+
+.me-margin-large			{ margin: 24px; }
+.me-margin-top-large 		{ margin-top: 24px; }
+.me-margin-bottom-large 	{ margin-bottom: 24px; }
+.me-margin-left-large 		{ margin-left: 30px; }
+.me-margin-right-large 		{ margin-right: 30px; }
+
+.me-margin-xlarge			{ margin: 48px; }
+.me-margin-top-xlarge 		{ margin-top: 48px; }
+.me-margin-bottom-xlarge 	{ margin-bottom: 48px; }
+.me-margin-left-xlarge 		{ margin-left: 40px; }
+.me-margin-right-xlarge 	{ margin-right: 40px; }
+
+.me-no-margin 				{ margin: 0; }
+.me-no-margin-top 			{ margin-top: 0; }
+.me-no-margin-bottom 		{ margin-bottom: 0; }
+.me-no-margin-left 			{ margin-left: 0; }
+.me-no-margin-right 		{ margin-right: 0; }
+
+
+/*  PADDINGS
+-----------------------------------------------------------------*/
+
+.me-padding-mini 			{ padding: 4px; }
+.me-padding-top-mini 		{ padding-top: 4px; }
+.me-padding-bottom-mini 	{ padding-bottom: 4px; }
+.me-padding-left-mini 		{ padding-left: 5px; }
+.me-padding-right-mini 		{ padding-right: 5px; }
+
+.me-padding-small 			{ padding: 8px; }
+.me-padding-top-small 		{ padding-top: 8px; }
+.me-padding-bottom-small	{ padding-bottom: 8px; }
+.me-padding-left-small 		{ padding-left: 10px; }
+.me-padding-right-small 	{ padding-right: 10px; }
+
+.me-padding 				{ padding: 16px; }
+.me-padding-top 			{ padding-top: 16px; }
+.me-padding-bottom 			{ padding-bottom: 16px; }
+.me-padding-left 			{ padding-left: 20px; }
+.me-padding-right 			{ padding-right: 20px; }
+
+.me-padding-large 			{ padding: 24px; }
+.me-padding-top-large 		{ padding-top: 24px; }
+.me-padding-bottom-large 	{ padding-bottom: 24px; }
+.me-padding-left-large 		{ padding-left: 30px; }
+.me-padding-right-large 	{ padding-right: 30px; }
+
+.me-padding-xlarge 			{ padding: 48px; }
+.me-padding-top-xlarge 		{ padding-top: 48px; }
+.me-padding-bottom-xlarge 	{ padding-bottom: 48px; }
+.me-padding-left-xlarge 	{ padding-left: 40px; }
+.me-padding-right-xlarge 	{ padding-right: 40px; }
+
+.me-no-padding 				{ padding: 0; }
+.me-no-padding-top 			{ padding-top: 0; }
+.me-no-padding-bottom 		{ padding-bottom: 0; }
+.me-no-padding-left 		{ padding-left: 0; }
+.me-no-padding-right 		{ padding-right: 0; }
+

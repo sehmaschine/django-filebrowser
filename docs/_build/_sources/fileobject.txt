@@ -1,0 +1,127 @@
+:tocdepth: 2
+
+.. |grappelli| replace:: Grappelli
+.. |filebrowser| replace:: FileBrowser
+
+.. _fileobject:
+
+FileObject
+==========
+
+When browsing a directory on the server, you get a ``FileObject`` (see ``base.py``) for every file within that directory. Set ``DEBUG`` to True in order to see the ``FileObject`` values::
+
+    fileobject = FileObject("/absolute/server/path/to/file.ext")
+    fileobject = FileObject("relative/server/path/to/file.ext", relative=True)
+
+General attributes
+------------------
+
+filename
+^^^^^^^^
+
+Name of the file (including the extension) or name of the folder.
+
+filetype
+^^^^^^^^
+
+Type of the file, as defined with ``EXTENSIONS``. With a folder, the filetype is "Folder".
+
+mimetype
+^^^^^^^^
+
+.. versionadded:: 3.2
+
+XXX
+
+filesize
+^^^^^^^^
+
+display with ``filesizeformat``
+
+extension
+^^^^^^^^^
+
+File extension, including the dot. With a folder, the extensions is ``None``.
+
+date
+^^^^
+
+getmtime
+
+datetime
+^^^^^^^^
+
+datetime object
+
+Path and URL attributes
+-----------------------
+
+path
+^^^^
+
+Absolute server path to the file/folder, including ``MEDIA_ROOT``.
+
+path_relative
+^^^^^^^^^^^^^
+
+Server path to the file/folder, relative to ``MEDIA_ROOT``.
+
+url_full
+^^^^^^^^
+
+.. deprecated:: 3.2
+
+see :ref:`url` instead.
+
+url
+^^^
+
+.. versionadded:: 3.2
+
+URL for the file/folder, including ``MEDIA_URL``.
+
+url_relative
+^^^^^^^^^^^^
+
+URL for the file/folder, relative to ``MEDIA_URL``
+
+url_save
+^^^^^^^^
+
+URL for the file/folder, used for the ``FileBrowseField`` (either ``url`` or ``url_relative``).
+
+Image attributes
+----------------
+
+dimensions
+^^^^^^^^^^
+
+Image dimensions as a tuple.
+
+width
+^^^^^
+
+Image width in px.
+
+height
+^^^^^^
+
+Image height in px.
+
+orientation
+^^^^^^^^^^^
+
+Image orientation, either "landscape" or "portrait".
+
+Folder attributes
+-----------------
+
+directory
+^^^^^^^^^
+
+XXX
+
+is_empty
+^^^^^^^^
+
+``true``, if the directory is empty (and thus can be deleted)

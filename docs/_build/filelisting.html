@@ -1,0 +1,170 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FileListing &mdash; Django FileBrowser v3.2 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '3.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Django FileBrowser v3.2 documentation" href="index.html" />
+    <link rel="next" title="FileObject" href="fileobject.html" />
+    <link rel="prev" title="Image Versions" href="versions.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="fileobject.html" title="FileObject"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="versions.html" title="Image Versions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Django FileBrowser v3.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="filelisting">
+<span id="id1"></span><h1>FileListing<a class="headerlink" href="#filelisting" title="Permalink to this headline">¶</a></h1>
+<p>The <tt class="docutils literal"><span class="pre">FileListing</span></tt> is a group of <tt class="docutils literal"><span class="pre">FileObjects</span></tt> for a given directory:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">filelisting</span> <span class="o">=</span> <span class="n">FileListing</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filter_func</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sorting_by</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sorting_order</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For example, if you want to list all files for <tt class="docutils literal"><span class="pre">MEDIA_ROOT</span></tt> you can write:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">filebrowser.settings</span> <span class="kn">import</span> <span class="n">MEDIA_ROOT</span>
+
+<span class="n">filelisting</span> <span class="o">=</span> <span class="n">FileListing</span><span class="p">(</span><span class="n">MEDIA_ROOT</span><span class="p">,</span> <span class="n">sorting_by</span><span class="o">=</span><span class="s">&#39;date&#39;</span><span class="p">,</span> <span class="n">sorting_order</span><span class="o">=</span><span class="s">&#39;desc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="filter-func">
+<h3><tt class="docutils literal"><span class="pre">filter_func</span></tt><a class="headerlink" href="#filter-func" title="Permalink to this headline">¶</a></h3>
+<p>Filter function, based on a <tt class="docutils literal"><span class="pre">FileObject</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">filter_filelisting</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">item</span><span class="o">.</span><span class="n">filetype</span> <span class="o">!=</span> <span class="s">&quot;Folder&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sorting-by">
+<h3><tt class="docutils literal"><span class="pre">sorting_by</span></tt><a class="headerlink" href="#sorting-by" title="Permalink to this headline">¶</a></h3>
+<p>Sort the files by any attribute of <tt class="docutils literal"><span class="pre">FileObject</span></tt> (e.g. <tt class="docutils literal"><span class="pre">filetype</span></tt>, <tt class="docutils literal"><span class="pre">date</span></tt>, ...).</p>
+</div>
+<div class="section" id="sorting-order">
+<h3><tt class="docutils literal"><span class="pre">sorting_order</span></tt><a class="headerlink" href="#sorting-order" title="Permalink to this headline">¶</a></h3>
+<p>Sorting order, either <tt class="docutils literal"><span class="pre">asc</span></tt> or <tt class="docutils literal"><span class="pre">desc</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="listing">
+<h3><tt class="docutils literal"><span class="pre">listing</span></tt><a class="headerlink" href="#listing" title="Permalink to this headline">¶</a></h3>
+<p>Returns all items for the given path with <tt class="docutils literal"><span class="pre">os.listdir(path)</span></tt>.</p>
+</div>
+<div class="section" id="files-total">
+<h3><tt class="docutils literal"><span class="pre">files_total</span></tt><a class="headerlink" href="#files-total" title="Permalink to this headline">¶</a></h3>
+<p>Returns a sorted list of <tt class="docutils literal"><span class="pre">FileObjects</span></tt> for the given path.</p>
+</div>
+<div class="section" id="filtered-files">
+<h3><tt class="docutils literal"><span class="pre">filtered_files</span></tt><a class="headerlink" href="#filtered-files" title="Permalink to this headline">¶</a></h3>
+<p>Returns a sorted and filtered list of <tt class="docutils literal"><span class="pre">FileObjects</span></tt> for the given path.</p>
+</div>
+<div class="section" id="results-total">
+<h3><tt class="docutils literal"><span class="pre">results_total</span></tt><a class="headerlink" href="#results-total" title="Permalink to this headline">¶</a></h3>
+<p>Number of total files, based on <tt class="docutils literal"><span class="pre">files_total</span></tt>.</p>
+</div>
+<div class="section" id="results-filtered">
+<h3><tt class="docutils literal"><span class="pre">results_filtered</span></tt><a class="headerlink" href="#results-filtered" title="Permalink to this headline">¶</a></h3>
+<p>Number of filtered files, based on <tt class="docutils literal"><span class="pre">files_filtered</span></tt>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">FileListing</a><ul>
+<li><a class="reference internal" href="#options">Options</a></li>
+<li><a class="reference internal" href="#attributes">Attributes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="versions.html"
+                        title="previous chapter">Image Versions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="fileobject.html"
+                        title="next chapter">FileObject</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/filelisting.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="fileobject.html" title="FileObject"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="versions.html" title="Image Versions"
+             >previous</a> |</li>
+        <li><a href="index.html">Django FileBrowser v3.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Patrick Kranzlmueller.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>
