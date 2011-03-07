@@ -26,7 +26,7 @@
 {% block content %}
 <div class="container-grid delete-confirmation">
     <div class="module">
-        <h2>{% blocktrans with fileobject as escaped_object %}Are you sure you want to delete the File "{{ escaped_object }}"? All of the following related items will be deleted:{% endblocktrans %}</h2>
+        <h2>{% blocktrans with fileobject as escaped_object %}Are you sure you want to delete "{{ escaped_object }}"? All of the following items will be deleted:{% endblocktrans %}</h2>
         <div class="row">
             <ul class="rte">{{ fileobject }}</ul>
         </div>

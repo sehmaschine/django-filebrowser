@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # imports
-import os, re, datetime
+import os, shutil, re, datetime
 import urlparse
 import mimetypes
 from time import gmtime, strftime
@@ -258,7 +258,7 @@ class FileObject():
     
     def delete(self):
         if self.is_folder:
-            os.rmdir(self.path)
+            shutil.rmtree(self.path)
         else:
             os.remove(self.path)
     
