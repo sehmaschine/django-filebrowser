@@ -50,7 +50,7 @@ Open ``settings.py`` and add ``filebrowser`` to your ``INSTALLED_APPS`` (before 
 Add URL-patterns (before any admin-urls)::
 
     urlpatterns = patterns('',
-        (r'^admin/filebrowser/', include(filebrowser.urls)),
+        (r'^admin/filebrowser/', include('filebrowser.urls')),
     )
 
 Collect the media files::

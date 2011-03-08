@@ -119,7 +119,7 @@ If you need to generate certain (or all) versions, type::
 
     python manage.py fb_version_remove
 
-.. note::
+.. warning::
     Please be very careful with this command.
 
 

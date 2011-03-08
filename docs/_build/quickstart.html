@@ -87,7 +87,7 @@ Django from working properly).</p>
 </div>
 <p>Add URL-patterns (before any admin-urls):</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
-    <span class="p">(</span><span class="s">r&#39;^admin/filebrowser/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">filebrowser</span><span class="o">.</span><span class="n">urls</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s">r&#39;^admin/filebrowser/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;filebrowser.urls&#39;</span><span class="p">)),</span>
 <span class="p">)</span>
 </pre></div>
 </div>
