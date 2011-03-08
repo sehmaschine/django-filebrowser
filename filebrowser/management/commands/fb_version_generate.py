@@ -13,7 +13,7 @@ from filebrowser.functions import version_generator
 
 class Command(BaseCommand):
     args = '<media_path>'
-    help = "(Re)Generate versions of Images within the FILEBROWSER_DIRECTORY or a "
+    help = "(Re)Generate Image-Versions within FILEBROWSER_DIRECTORY/MEDIA_ROOT."
     
     def handle(self, *args, **options):
         media_path = ""
@@ -29,7 +29,7 @@ class Command(BaseCommand):
         
         # get version name
         while 1:
-            self.stdout.write('\nSelect a version you whant to generate:\n')
+            self.stdout.write('\nSelect a version you want to generate:\n')
             for version in VERSIONS:
                 self.stdout.write(' * %s\n' % version)
             
@@ -73,7 +73,6 @@ class Command(BaseCommand):
                 (tmp, extension) = os.path.splitext(filename)
                 if extension in EXTENSIONS["Image"]:
                     self.createVersions(os.path.join(dirpath, filename), selected_version)
-    
     
     def createVersions(self, path, selected_version):
         if selected_version:

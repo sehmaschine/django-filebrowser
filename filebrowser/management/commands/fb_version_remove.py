@@ -12,7 +12,7 @@ from filebrowser.settings import EXTENSION_LIST, EXCLUDE, MEDIA_ROOT, DIRECTORY,
 
 class Command(BaseCommand):
     args = '<media_path>'
-    help = "Remove version files of a specific version in MEDIA_ROOT or subdirectory of MEDIA_ROOT"
+    help = "Remove Image-Versions within FILEBROWSER_DIRECTORY/MEDIA_ROOT."
     
     def handle(self, *args, **options):
         
@@ -32,8 +32,8 @@ class Command(BaseCommand):
         # get suffix or prefix
         default_prefix_or_suffix = "s"
         while 1:
-            self.stdout.write('\nOlder versions of django-filebrowser used to prefix the filename with the version name.\n')
-            self.stdout.write('Current version of django-filebrowser adds the version name as suffix.\n')
+            self.stdout.write('\nOlder versions of the FileBrowser used to prefix the filename with the version name.\n')
+            self.stdout.write('Current version of the FileBrowser adds the version name as suffix.\n')
             prefix_or_suffix = raw_input('"p" for prefix or "s" for suffix (leave blank for "%s"): ' % default_prefix_or_suffix)
             
             if default_prefix_or_suffix and prefix_or_suffix == '':
@@ -46,10 +46,10 @@ class Command(BaseCommand):
         
         # get version name
         while 1:
-            version_name = raw_input('\nversion name ("thumb", "big",...): ')
+            version_name = raw_input('\nversion name as defined with VERSIONS: ')
             
             if version_name == "":
-                self.stderr.write('Error: You have to enter a version name like "thumb" or "big".\n')
+                self.stderr.write('Error: You have to enter a version name.\n')
                 version_name = None
                 continue
             else:
@@ -81,8 +81,8 @@ class Command(BaseCommand):
         
         # ask to make sure
         do_remove = ""
-        self.stdout.write('Sure you want to delete these files?\n')
-        do_remove = raw_input('"y" for Yes or "n" for No (leave blank for No): ')
+        self.stdout.write('Are Sure you want to delete these files?\n')
+        do_remove = raw_input('"y" for Yes or "n" for No (leave blank for "n"): ')
         
         # if "yes" we delete. any different case we finish without removing anything
         if do_remove == "y":
