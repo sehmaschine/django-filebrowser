@@ -322,7 +322,7 @@ def detail(request):
     fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')))
     
     if request.method == 'POST':
-        form = ChangeForm(request.POST, path=fileobject.path)
+        form = ChangeForm(request.POST, path=abs_path, fileobject=fileobject)
         if form.is_valid():
             new_name = form.cleaned_data['name']
             transpose = form.cleaned_data['transpose']
@@ -350,7 +350,7 @@ def detail(request):
             except OSError, (errno, strerror):
                 form.errors['name'] = forms.util.ErrorList([_('Error.')])
     else:
-        form = ChangeForm(initial={"name": fileobject.filename}, path=fileobject.path)
+        form = ChangeForm(initial={"name": fileobject.filename}, path=abs_path, fileobject=fileobject)
     
     return render_to_response('filebrowser/detail.html', {
         'form': form,

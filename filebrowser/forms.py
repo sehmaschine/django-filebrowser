@@ -54,6 +54,7 @@ class ChangeForm(forms.Form):
     
     def __init__(self, *args, **kwargs):
         self.path = kwargs.pop("path", None)
+        self.fileobject = kwargs.pop("fileobject", None)
         super(ChangeForm, self).__init__(*args, **kwargs)
     
     name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Name'), help_text=_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'), required=True)
@@ -65,9 +66,9 @@ class ChangeForm(forms.Form):
             if not alnum_name_re.search(self.cleaned_data['name']):
                 raise forms.ValidationError(_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'))
             #  folder/file must not already exist.
-            if os.path.isdir(os.path.join(self.path, convert_filename(self.cleaned_data['name']))):
+            if os.path.isdir(os.path.join(self.path, convert_filename(self.cleaned_data['name']))) and os.path.join(self.path, convert_filename(self.cleaned_data['name'])) != self.fileobject.path:
                 raise forms.ValidationError(_(u'The Folder already exists.'))
-            elif os.path.isfile(os.path.join(self.path, convert_filename(self.cleaned_data['name']))):
+            elif os.path.isfile(os.path.join(self.path, convert_filename(self.cleaned_data['name'])))  and os.path.join(self.path, convert_filename(self.cleaned_data['name'])) != self.fileobject.path:
                 raise forms.ValidationError(_(u'The File already exists.'))
         return convert_filename(self.cleaned_data['name'])
 
