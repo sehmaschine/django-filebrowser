@@ -356,10 +356,10 @@ def detail(request):
         'form': form,
         'fileobject': fileobject,
         'query': query,
-        'title': _(u'%s') % fileobject.filename,
+        'title': u'%s' % fileobject.filename,
         'settings_var': get_settings_var(),
         'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
-        'breadcrumbs_title': _(u'%s') % fileobject.filename
+        'breadcrumbs_title': u'%s' % fileobject.filename
     }, context_instance=Context(request))
 detail = staff_member_required(never_cache(detail))
 

@@ -58,7 +58,7 @@ class ChangeForm(forms.Form):
         super(ChangeForm, self).__init__(*args, **kwargs)
     
     name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Name'), help_text=_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'), required=True)
-    transpose = forms.ChoiceField(choices=TRANSPOSE_CHOICES, label=_(u'Transpose'), required=False)
+    transpose = forms.ChoiceField(choices=TRANSPOSE_CHOICES, label=_(u'Flip/Rotate'), required=False)
     
     def clean_name(self):
         if self.cleaned_data['name']:
