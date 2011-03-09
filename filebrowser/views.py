@@ -77,7 +77,11 @@ def browse(request):
         sorting_order=query.get('ot', DEFAULT_SORTING_ORDER))
     
     files = []
-    for fileobject in filelisting.files_listing_filtered():
+    if SEARCH_TRAVERSE and query.get("q"):
+        listing = filelisting.files_walk_filtered()
+    else:
+        listing = filelisting.files_listing_filtered()
+    for fileobject in listing:
         # date/type filter
         append = False
         if fileobject.filetype == query.get('filter_type', fileobject.filetype) and get_filterdate(query.get('filter_date', ''), fileobject.date or 0):

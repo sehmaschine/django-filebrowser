@@ -90,7 +90,7 @@
         
         <!-- FOLDER -->
         {% if query.q and settings_var.SEARCH_TRAVERSE %}
-            <td><a href="{% url fb_browse %}{% query_string "" "dir,p" %}&amp;dir={{ fileobject.folder|urlencode }}"><strong>{{ fileobject.folder }}</strong></a></td>
+            <td><a href="{% url fb_browse %}{% query_string "" "dir,p" %}&amp;dir={{ fileobject.directory|urlencode }}"><strong>{{ fileobject.directory }}</strong></a></td>
         {% endif %}
         
         <!-- SIZE -->
