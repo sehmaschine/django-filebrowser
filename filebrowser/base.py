@@ -38,9 +38,9 @@ class FileListing():
         from filebrowser.base import FileListing
         
         filelisting = FileListing(os.path.join(MEDIA_ROOT, DIRECTORY), sorting_by='date', sorting_order='desc')
-        filelisting.files_total()
+        filelisting.files_listing_total()
         filelisting.results_total()
-        for item in filelisting.files_total():
+        for item in filelisting.files_listing_total():
             print item.filetype
     """
     
@@ -56,7 +56,19 @@ class FileListing():
             return (f for f in os.listdir(self.path))
         return []
     
-    def files_total(self):
+    def walk(self):
+        "Walk all files for path"
+        filelisting = []
+        if os.path.isdir(self.path):
+            for root, dirs, files in os.walk(self.path):
+                r = root.replace(os.path.join(MEDIA_ROOT, DIRECTORY),'')
+                for d in dirs:
+                    filelisting.append(os.path.join(r,d))
+                for f in files:
+                    filelisting.append(os.path.join(r,f))
+        return filelisting
+    
+    def files_listing_total(self):
         "Returns FileObjects for all files in listing"
         files = []
         for item in self.listing():
@@ -68,19 +80,47 @@ class FileListing():
             files.reverse()
         return files
     
-    def files_filtered(self):
+    def files_walk_total(self):
+        "Returns FileObjects for all files in walk"
+        files = []
+        for item in self.walk():
+            print "self.path:", self.path
+            print "item:", item
+            fileobject = FileObject(os.path.join(MEDIA_ROOT, DIRECTORY, item))
+            files.append(fileobject)
+        if self.sorting_by:
+            files = sort_by_attr(files, self.sorting_by)
+        if self.sorting_order == "desc":
+            files.reverse()
+        return files
+    
+    def files_listing_filtered(self):
         "Returns FileObjects for filtered files in listing"
         if self.filter_func:
-            return filter(self.filter_func, self.files_total())
-        return self.files_total()
+            return filter(self.filter_func, self.files_listing_total())
+        return self.files_listing_total()
     
-    def results_total(self):
+    def files_walk_filtered(self):
+        "Returns FileObjects for filtered files in walk"
+        if self.filter_func:
+            return filter(self.filter_func, self.files_walk_total())
+        return self.files_walk_total()
+    
+    def results_listing_total(self):
         "Counter: all files"
-        return len(self.files_total())
+        return len(self.files_listing_total())
     
-    def results_filtered(self):
+    def results_walk_total(self):
+        "Counter: all files"
+        return len(self.files_walk_total())
+    
+    def results_listing_filtered(self):
         "Counter: filtered files"
-        return len(self.files_filtered())
+        return len(self.files_listing_filtered())
+    
+    def results_walk_filtered(self):
+        "Counter: filtered files"
+        return len(self.files_listing_filtered())
 
 
 class FileObject():
@@ -150,6 +190,11 @@ class FileObject():
         directory_re = re.compile(r'^%s' % MEDIA_ROOT)
         return u"%s" % directory_re.sub('', self.path)
     path_relative = property(_path_relative)
+    
+    def _path_relative_directory(self):
+        directory_re = re.compile(r'^%s' % os.path.join(MEDIA_ROOT,DIRECTORY))
+        return u"%s" % directory_re.sub('', self.path)
+    path_relative_directory = property(_path_relative_directory)
     
     def _url(self):
         return u"%s" % url_join(MEDIA_URL, self.path_relative)

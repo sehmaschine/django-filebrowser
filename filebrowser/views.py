@@ -86,7 +86,7 @@ def browse(request):
         sorting_order=query.get('ot', DEFAULT_SORTING_ORDER))
     
     files = []
-    for fileobject in filelisting.files_filtered():
+    for fileobject in filelisting.files_listing_filtered():
         # date/type filter
         append = False
         if fileobject.filetype == query.get('filter_type', fileobject.filetype) and get_filterdate(query.get('filter_date', ''), fileobject.date or 0):
@@ -97,7 +97,7 @@ def browse(request):
         # append
         if append:
             files.append(fileobject)
-    filelisting.results_total = filelisting.results_filtered
+    filelisting.results_total = filelisting.results_listing_filtered
     filelisting.results_current = len(files)
     filelisting.select_total = 10
     
@@ -257,14 +257,22 @@ def delete_confirm(request):
     if fileobject.filetype == "Folder":
         filelisting = FileListing(os.path.join(abs_path, fileobject.filename),
             filter_func=filter_browse,
-            sorting_by=query.get('o', DEFAULT_SORTING_BY),
+            sorting_by=query.get('o', 'filename'),
             sorting_order=query.get('ot', DEFAULT_SORTING_ORDER))
+        filelisting = filelisting.files_walk_total()
+        if len(filelisting) > 100:
+            additional_files = len(filelisting) - 100
+            filelisting = filelisting[:100]
+        else:
+            additional_files = None
     else:
         filelisting = None
+        additional_files = None
     
     return render_to_response('filebrowser/delete_confirm.html', {
         'fileobject': fileobject,
-        'filelisting': filelisting.files_filtered(),
+        'filelisting': filelisting,
+        'additional_files': additional_files,
         'query': query,
         'title': _(u'Confirm delete'),
         'settings_var': get_settings_var(),
