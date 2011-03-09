@@ -85,21 +85,41 @@
 <h3><tt class="docutils literal"><span class="pre">listing</span></tt><a class="headerlink" href="#listing" title="Permalink to this headline">¶</a></h3>
 <p>Returns all items for the given path with <tt class="docutils literal"><span class="pre">os.listdir(path)</span></tt>.</p>
 </div>
-<div class="section" id="files-total">
-<h3><tt class="docutils literal"><span class="pre">files_total</span></tt><a class="headerlink" href="#files-total" title="Permalink to this headline">¶</a></h3>
-<p>Returns a sorted list of <tt class="docutils literal"><span class="pre">FileObjects</span></tt> for the given path.</p>
+<div class="section" id="walk">
+<h3><tt class="docutils literal"><span class="pre">walk</span></tt><a class="headerlink" href="#walk" title="Permalink to this headline">¶</a></h3>
+<p>Returns all items for the given path with <tt class="docutils literal"><span class="pre">os.walk(path)</span></tt>.</p>
 </div>
-<div class="section" id="filtered-files">
-<h3><tt class="docutils literal"><span class="pre">filtered_files</span></tt><a class="headerlink" href="#filtered-files" title="Permalink to this headline">¶</a></h3>
-<p>Returns a sorted and filtered list of <tt class="docutils literal"><span class="pre">FileObjects</span></tt> for the given path.</p>
+<div class="section" id="files-listing-total">
+<h3><tt class="docutils literal"><span class="pre">files_listing_total</span></tt><a class="headerlink" href="#files-listing-total" title="Permalink to this headline">¶</a></h3>
+<p>Returns a sorted list of <tt class="docutils literal"><span class="pre">FileObjects</span></tt> for <tt class="docutils literal"><span class="pre">self.listing()</span></tt>.</p>
 </div>
-<div class="section" id="results-total">
-<h3><tt class="docutils literal"><span class="pre">results_total</span></tt><a class="headerlink" href="#results-total" title="Permalink to this headline">¶</a></h3>
-<p>Number of total files, based on <tt class="docutils literal"><span class="pre">files_total</span></tt>.</p>
+<div class="section" id="files-walk-total">
+<h3><tt class="docutils literal"><span class="pre">files_walk_total</span></tt><a class="headerlink" href="#files-walk-total" title="Permalink to this headline">¶</a></h3>
+<p>Returns a sorted list of <tt class="docutils literal"><span class="pre">FileObjects</span></tt> for <tt class="docutils literal"><span class="pre">self.walk()</span></tt>.</p>
 </div>
-<div class="section" id="results-filtered">
-<h3><tt class="docutils literal"><span class="pre">results_filtered</span></tt><a class="headerlink" href="#results-filtered" title="Permalink to this headline">¶</a></h3>
-<p>Number of filtered files, based on <tt class="docutils literal"><span class="pre">files_filtered</span></tt>.</p>
+<div class="section" id="files-listing-filtered">
+<h3><tt class="docutils literal"><span class="pre">files_listing_filtered</span></tt><a class="headerlink" href="#files-listing-filtered" title="Permalink to this headline">¶</a></h3>
+<p>Returns a sorted and filtered list of <tt class="docutils literal"><span class="pre">FileObjects</span></tt> for <tt class="docutils literal"><span class="pre">self.listing()</span></tt>.</p>
+</div>
+<div class="section" id="files-walk-filtered">
+<h3><tt class="docutils literal"><span class="pre">files_walk_filtered</span></tt><a class="headerlink" href="#files-walk-filtered" title="Permalink to this headline">¶</a></h3>
+<p>Returns a sorted and filtered list of <tt class="docutils literal"><span class="pre">FileObjects</span></tt> for <tt class="docutils literal"><span class="pre">self.walk()</span></tt>.</p>
+</div>
+<div class="section" id="results-listing-total">
+<h3><tt class="docutils literal"><span class="pre">results_listing_total</span></tt><a class="headerlink" href="#results-listing-total" title="Permalink to this headline">¶</a></h3>
+<p>Number of total files, based on <tt class="docutils literal"><span class="pre">files_listing_total</span></tt>.</p>
+</div>
+<div class="section" id="results-walk-total">
+<h3><tt class="docutils literal"><span class="pre">results_walk_total</span></tt><a class="headerlink" href="#results-walk-total" title="Permalink to this headline">¶</a></h3>
+<p>Number of total files, based on <tt class="docutils literal"><span class="pre">files_walk_total</span></tt>.</p>
+</div>
+<div class="section" id="results-listing-filtered">
+<h3><tt class="docutils literal"><span class="pre">results_listing_filtered</span></tt><a class="headerlink" href="#results-listing-filtered" title="Permalink to this headline">¶</a></h3>
+<p>Number of filtered files, based on <tt class="docutils literal"><span class="pre">files_listing_filtered</span></tt>.</p>
+</div>
+<div class="section" id="results-walk-filtered">
+<h3><tt class="docutils literal"><span class="pre">results_walk_filtered</span></tt><a class="headerlink" href="#results-walk-filtered" title="Permalink to this headline">¶</a></h3>
+<p>Number of filtered files, based on <tt class="docutils literal"><span class="pre">files_walk_filtered</span></tt>.</p>
 </div>
 </div>
 </div>

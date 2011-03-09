@@ -16,7 +16,7 @@ Overview
 * Compatibility with Staticfiles.
 * Compatibility with the new messages framework.
 * Consistent use of absolute paths (including ``MEDIA_ROOT`` and ``DIRECTORY`` settings).
-* Reworked and simplified ``base.py``, ``views.py`` and ``utils.py`` (formerly ``functions.py``).
+* Reworked and simplified ``base.py``, ``views.py`` and ``functions.py``.
 * Updated to Uploadify 2.1.4.
 * Translation is done with Transifex.
 * Added Tests.

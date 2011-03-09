@@ -80,5 +80,5 @@ http://code.google.com/p/django-filebrowser/
 Discussion
 ----------
 
-Use the `FileBrowser Google Group <http://groups.google.com/group/djangofilebrowser>`_ to ask questions or discuss features.
+Use the `FileBrowser Google Group <http://groups.google.com/group/django-filebrowser>`_ to ask questions or discuss features.
 

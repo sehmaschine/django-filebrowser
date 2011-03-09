@@ -47,25 +47,50 @@ Attributes
 
 Returns all items for the given path with ``os.listdir(path)``.
 
-``files_total``
-^^^^^^^^^^^^^^^
+``walk``
+^^^^^^^^
 
-Returns a sorted list of ``FileObjects`` for the given path.
+Returns all items for the given path with ``os.walk(path)``.
 
-``filtered_files``
-^^^^^^^^^^^^^^^^^^
+``files_listing_total``
+^^^^^^^^^^^^^^^^^^^^^^^
 
-Returns a sorted and filtered list of ``FileObjects`` for the given path.
+Returns a sorted list of ``FileObjects`` for ``self.listing()``.
 
-``results_total``
-^^^^^^^^^^^^^^^^^
-
-Number of total files, based on ``files_total``.
-
-``results_filtered``
+``files_walk_total``
 ^^^^^^^^^^^^^^^^^^^^
 
-Number of filtered files, based on ``files_filtered``.
+Returns a sorted list of ``FileObjects`` for ``self.walk()``.
+
+``files_listing_filtered``
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Returns a sorted and filtered list of ``FileObjects`` for ``self.listing()``.
+
+``files_walk_filtered``
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Returns a sorted and filtered list of ``FileObjects`` for ``self.walk()``.
+
+``results_listing_total``
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Number of total files, based on ``files_listing_total``.
+
+``results_walk_total``
+^^^^^^^^^^^^^^^^^^^^^^
+
+Number of total files, based on ``files_walk_total``.
+
+``results_listing_filtered``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Number of filtered files, based on ``files_listing_filtered``.
+
+``results_walk_filtered``
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Number of filtered files, based on ``files_walk_filtered``.
 
 .. _fileobject:
 
