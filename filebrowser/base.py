@@ -120,7 +120,7 @@ class FileListing():
     
     def results_walk_filtered(self):
         "Counter: filtered files"
-        return len(self.files_listing_filtered())
+        return len(self.files_walk_filtered())
 
 
 class FileObject():
