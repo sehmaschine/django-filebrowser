@@ -36,7 +36,7 @@
         
         <!-- FILESELECT FOR RTE/TINYMCE -->
         <!-- we need to use the absolute url here -->
-        {% if query.pop == "2" and filelisting.select_total %}
+        {% if query.pop == "2" %}
             <td class="fb_icon">
                 {% selectable fileobject.filetype query.type %}
                 {% if selectable %}

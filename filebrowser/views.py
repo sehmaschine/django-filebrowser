@@ -62,15 +62,6 @@ def filter_browse(item):
         return False
     return True
 
-def filter_deletables(item):
-    return item.filetype != "Folder" or (item.filetype == "Folder" and item.is_empty == True)
-
-def filter_selectables(item):
-    if query.get('type') and query.get('type') in SELECT_FORMATS and fileobject.filetype in SELECT_FORMATS[query.get('type')]:
-        results_var['select_total'] += 1
-    elif not query.get('type'):
-        results_var['select_total'] += 1
-
 
 @path_exists
 def browse(request):
@@ -99,7 +90,6 @@ def browse(request):
             files.append(fileobject)
     filelisting.results_total = filelisting.results_listing_filtered
     filelisting.results_current = len(files)
-    filelisting.select_total = 10
     
     p = Paginator(files, LIST_PER_PAGE)
     page_nr = request.GET.get('p', '1')
