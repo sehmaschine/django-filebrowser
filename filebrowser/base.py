@@ -248,8 +248,13 @@ class FileObject():
     
     def _directory(self):
         directory_re = re.compile(r'^%s' % os.path.join(MEDIA_ROOT, DIRECTORY))
-        return u"%s" % directory_re.sub('', self.head)
+        return u"%s" % directory_re.sub('', self.path)
     directory = property(_directory)
+    
+    def _folder(self):
+        directory_re = re.compile(r'^%s' % os.path.join(MEDIA_ROOT, DIRECTORY))
+        return u"%s" % directory_re.sub('', self.head)
+    folder = property(_folder)
     
     def _is_folder(self):
         if os.path.isdir(self.path):
