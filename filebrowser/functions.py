@@ -9,11 +9,12 @@ from urlparse import urlparse
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.core.files import File
-from django.core.files.storage import default_storage
+from django.core.files.storage import FileSystemStorage
 from django.utils.encoding import smart_str
 
 # filebrowser imports
 from filebrowser.settings import *
+filebrowser_storage = FileSystemStorage(location=MEDIA_ROOT)
 
 # PIL import
 if STRICT_PIL:
@@ -234,7 +235,7 @@ def handle_file_upload(path, file):
     """
     try:
         file_path = os.path.join(path, file.name)
-        uploadedfile = default_storage.save(file_path, file)
+        uploadedfile = filebrowser_storage.save(file_path, file)
     except Exception, inst:
         print "___filebrowser.functions.handle_file_upload(): could not save uploaded file"
         print "ERROR: ", inst
