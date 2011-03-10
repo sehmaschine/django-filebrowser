@@ -7,14 +7,12 @@ import mimetypes
 from time import gmtime, strftime
 
 # django imports
-from django.conf import settings
 from django.utils.translation import ugettext as _
-from django.core.files import File
-from django.core.files.images import ImageFile
+from django.core.urlresolvers import reverse
 
 # filebrowser imports
 from filebrowser.settings import *
-from filebrowser.functions import get_file_type, url_join, is_selectable, get_version_path, get_filterdate, sort_by_attr
+from filebrowser.functions import get_file_type, url_join, get_version_path, sort_by_attr, version_generator
 from django.utils.encoding import force_unicode
 
 # PIL import
@@ -38,10 +36,10 @@ class FileListing():
         from filebrowser.base import FileListing
         
         filelisting = FileListing(os.path.join(MEDIA_ROOT, DIRECTORY), sorting_by='date', sorting_order='desc')
-        filelisting.files_listing_total()
-        filelisting.results_total()
-        for item in filelisting.files_listing_total():
-            print item.filetype
+        print filelisting.files_listing_total()
+        print filelisting.results_listing_total()
+        for fileobject in filelisting.files_listing_total():
+            print fileobject.filetype
     """
     
     def __init__(self, path, filter_func=None, sorting_by=None, sorting_order=None):
@@ -84,8 +82,6 @@ class FileListing():
         "Returns FileObjects for all files in walk"
         files = []
         for item in self.walk():
-            print "self.path:", self.path
-            print "item:", item
             fileobject = FileObject(os.path.join(MEDIA_ROOT, DIRECTORY, item))
             files.append(fileobject)
         if self.sorting_by:
@@ -129,11 +125,9 @@ class FileObject():
     
     An example::
         
-        import os
-        from filebrowser.settings import MEDIA_ROOT, DIRECTORY
         from filebrowser.base import FileObject
         
-        fileobject = FileObject(os.path.join(MEDIA_ROOT, DIRECTORY))
+        fileobject = FileObject(path_to_file)
     """
     
     def __init__(self, path, relative=False):
@@ -211,6 +205,9 @@ class FileObject():
         return self.url_relative
     url_save = property(_url_save)
     
+    def filebrowser_url(self):
+        return None
+    
     # IMAGE ATTRIBUTES
     
     def _dimensions(self):
@@ -278,8 +275,8 @@ class FileObject():
             return self.head
     versions_basedir = property(_versions_basedir)
     
-    def version_name(self, version):
-        return self.filename_root + "_" + version + self.extension
+    def version_name(self, version_suffix):
+        return self.filename_root + "_" + version_suffix + self.extension
     
     def versions(self):
         version_list = []
@@ -296,12 +293,12 @@ class FileObject():
                 #version_list.append(FileObject(os.path.join(self.versions_basedir, self.version_name(version))))
         return version_list
     
-    def version(self, version_prefix):
-        version_path = get_version_path(self.path, version_prefix)
+    def version_generate(self, version_suffix):
+        version_path = get_version_path(self.path, version_suffix)
         if not os.path.isfile(version_path):
-            version_path = version_generator(self.path, version_prefix)
+            version_path = version_generator(self.path, version_suffix)
         elif os.path.getmtime(self.path) > os.path.getmtime(version_path):
-            version_path = version_generator(self.path, version_prefix, force=True)
+            version_path = version_generator(self.path, version_suffix, force=True)
         return FileObject(version_path)
     
     # FUNCTIONS
