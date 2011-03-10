@@ -304,7 +304,11 @@ def version_generator(value, version_prefix, force=None):
                 version.save(absolute_version_path, quality=VERSION_QUALITY)
         else:
             # version wasn't created
-            pass
+            # save the original image with the versions name
+            try:
+                im.save(absolute_version_path, quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
+            except IOError:
+                im.save(absolute_version_path, quality=VERSION_QUALITY)
         return version_path
     except:
         return None
