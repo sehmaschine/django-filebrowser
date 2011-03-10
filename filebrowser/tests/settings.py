@@ -16,12 +16,6 @@ class SettingsTests(TestCase):
     def setUp(self):
         pass
     
-    def test_debug(self):
-        """
-        Test if ``DEBUG`` is in ``True, False``.
-        """
-        self.assertIn(DEBUG, [True, False])
-    
     def test_media_root(self):
         """
         Test that ``MEDIA_ROOT`` exists.
@@ -33,6 +27,12 @@ class SettingsTests(TestCase):
         Test that ``MEDIA_ROOT`` plus ``DIRECTORY`` exists.
         """
         self.assertEqual(os.path.exists(os.path.join(MEDIA_ROOT,DIRECTORY)), 1)
+    
+    def test_path_filebrowser_media(self):
+        """
+        Test that ``PATH_FILEBROWSER_MEDIA`` exists.
+        """
+        self.assertEqual(os.path.exists(PATH_FILEBROWSER_MEDIA), 1)
     
     def test_versions_basedir(self):
         """
