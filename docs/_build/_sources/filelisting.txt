@@ -47,7 +47,7 @@ Attributes
 
 Returns all items for the given path with ``os.listdir(path)``.
 
-``files_total``
+``files_listing_total``
 ^^^^^^^^^^^^^^^
 
 Returns a sorted list of ``FileObjects`` for the given path.
@@ -60,11 +60,11 @@ Returns a sorted and filtered list of ``FileObjects`` for the given path.
 ``results_total``
 ^^^^^^^^^^^^^^^^^
 
-Number of total files, based on ``files_total``.
+Number of total files, based on ``files_listing_total``.
 
 ``results_filtered``
 ^^^^^^^^^^^^^^^^^^^^
 
-Number of filtered files, based on ``files_filtered``.
+Number of filtered files, based on ``files_listing_filtered``.
 
 

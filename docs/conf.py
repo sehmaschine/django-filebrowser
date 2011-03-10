@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Django FileBrowser'
-copyright = u'2010, Patrick Kranzlmueller'
+copyright = u'2011, Patrick Kranzlmueller'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
