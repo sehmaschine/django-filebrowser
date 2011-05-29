@@ -72,7 +72,7 @@
         <!-- THUMBNAIL -->
         <td class="fb_thumbnail">
             {% if fileobject.filetype == "Image" %}
-                <a href="{{ fileobject.url_full }}" class="fb_viewlink"><img src="{{ thumbnail_version.url }}" title="{% trans 'View Image' %}" /></a>
+                <a href="{{ fileobject.url }}" class="fb_viewlink"><img src="{{ thumbnail_version.url }}" title="{% trans 'View Image' %}" /></a>
             {% endif %}
         </td>
         
