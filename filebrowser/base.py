@@ -13,7 +13,7 @@ from django.core.urlresolvers import reverse
 # filebrowser imports
 from filebrowser.settings import *
 from filebrowser.functions import get_file_type, url_join, get_version_path, get_original_path, sort_by_attr, version_generator
-from django.utils.encoding import smart_str, force_unicode
+from django.utils.encoding import smart_str, smart_unicode
 
 # PIL import
 if STRICT_PIL:
@@ -127,7 +127,7 @@ class FileObject():
         
         from filebrowser.base import FileObject
         
-        fileobject = FileObject(path_to_file)
+        fileobject = FileObject(absolute_path_to_file)
     """
     
     def __init__(self, path, relative=False):
@@ -146,14 +146,14 @@ class FileObject():
             self.filetype = get_file_type(self.filename)
         self.mimetype = mimetypes.guess_type(self.filename)
     
+    def __str__(self):
+        return smart_str(self.filename)
+    
     def __unicode__(self):
-        return force_unicode(self.url_save)
+        return smart_unicode(self.filename)
     
     def __repr__(self):
-        return force_unicode(self.url_save)
-    
-    def __str__(self):
-        return force_unicode(self.url_save)
+        return "<%s: %s>" % (self.__class__.__name__, self or "None")
     
     def __len__(self):
         return len(self.url_save)
@@ -181,32 +181,34 @@ class FileObject():
     # PATH/URL ATTRIBUTES
     
     def _path_relative(self):
+        "path relative to MEDIA_ROOT"
         directory_re = re.compile(r'^%s' % MEDIA_ROOT)
         return u"%s" % directory_re.sub('', self.path)
     path_relative = property(_path_relative)
     
     def _path_relative_directory(self):
+        "path relative to MEDIA_ROOT + DIRECTORY"
         directory_re = re.compile(r'^%s' % os.path.join(MEDIA_ROOT,DIRECTORY))
         return u"%s" % directory_re.sub('', self.path)
     path_relative_directory = property(_path_relative_directory)
     
     def _url(self):
+        "URL, including MEDIA_URL"
         return u"%s" % url_join(MEDIA_URL, self.path_relative)
     url = property(_url)
     
     def _url_relative(self):
+        "URL, not including MEDIA_URL"
         directory_re = re.compile(r'^%s' % MEDIA_URL)
         return u"%s" % directory_re.sub('', self.url)
     url_relative = property(_url_relative)
     
     def _url_save(self):
+        "URL which is saved to the database, e.g. using the FileBrowseField"
         if SAVE_FULL_URL:
             return self.url
         return self.url_relative
     url_save = property(_url_save)
-    
-    def filebrowser_url(self):
-        return None
     
     # IMAGE ATTRIBUTES
     

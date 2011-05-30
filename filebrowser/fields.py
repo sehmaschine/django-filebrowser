@@ -93,12 +93,12 @@ class FileBrowseField(CharField):
     def to_python(self, value):
         if not value or isinstance(value, FileObject):
             return value
-        return FileObject(url_to_path(value), relative=True)
+        return FileObject(url_to_path(value))
     
     def get_db_prep_value(self, value, connection, prepared=False):
         if value is None:
             return None
-        return unicode(value)
+        return value.url_save
     
     def formfield(self, **kwargs):
         attrs = {}
@@ -112,7 +112,6 @@ class FileBrowseField(CharField):
             'extensions': self.extensions,
             'format': self.format
         }
-        #defaults.update(kwargs)
         return super(FileBrowseField, self).formfield(**defaults)
 
 try:

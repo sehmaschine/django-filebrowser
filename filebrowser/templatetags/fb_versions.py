@@ -11,7 +11,7 @@ from django.utils.encoding import force_unicode, smart_str
 
 # filebrowser imports
 from filebrowser.settings import MEDIA_ROOT, MEDIA_URL, VERSIONS
-from filebrowser.functions import url_to_path, path_to_url, get_version_path, version_generator
+from filebrowser.functions import path_to_url, get_version_path, version_generator
 from filebrowser.base import FileObject
 
 register = Library()
@@ -40,13 +40,11 @@ class VersionNode(Node):
                 return None
         try:
             source = force_unicode(source)
-            version_path = get_version_path(url_to_path(source), version_prefix)
-            if not os.path.isfile(smart_str(os.path.join(MEDIA_ROOT, version_path))):
-                # create version
-                version_path = version_generator(url_to_path(source), version_prefix)
-            elif os.path.getmtime(smart_str(os.path.join(MEDIA_ROOT, url_to_path(source)))) > os.path.getmtime(smart_str(os.path.join(MEDIA_ROOT, version_path))):
-                # recreate version if original image was updated
-                version_path = version_generator(url_to_path(source), version_prefix, force=True)
+            version_path = get_version_path(source, version_prefix)
+            if not os.path.isfile(version_path):
+                version_path = version_generator(source, version_prefix)
+            elif os.path.getmtime(source) > os.path.getmtime(version_path):
+                version_path = version_generator(source, version_prefix, force=True)
             return path_to_url(version_path)
         except:
             return ""
@@ -55,9 +53,9 @@ class VersionNode(Node):
 def version(parser, token):
     """
     Displaying a version of an existing Image according to the predefined VERSIONS settings (see filebrowser settings).
-    {% version field_name version_prefix %}
+    {% version field_name.path version_prefix %}
     
-    Use {% version my_image 'medium' %} in order to display the medium-size
+    Use {% version my_image.path 'medium' %} in order to display the medium-size
     version of an Image stored in a field name my_image.
     
     version_prefix can be a string or a variable. if version_prefix is a string, use quotes.
@@ -96,13 +94,11 @@ class VersionObjectNode(Node):
                 return None
         try:
             source = force_unicode(source)
-            version_path = get_version_path(url_to_path(source), version_prefix)
-            if not os.path.isfile(smart_str(os.path.join(MEDIA_ROOT, version_path))):
-                # create version
-                version_path = version_generator(url_to_path(source), version_prefix)
-            elif os.path.getmtime(smart_str(os.path.join(MEDIA_ROOT, url_to_path(source)))) > os.path.getmtime(smart_str(os.path.join(MEDIA_ROOT, version_path))):
-                # recreate version if original image was updated
-                version_path = version_generator(url_to_path(source), version_prefix, force=True)
+            version_path = get_version_path(source, version_prefix)
+            if not os.path.isfile(version_path):
+                version_path = version_generator(source, version_prefix)
+            elif os.path.getmtime(source) > os.path.getmtime(version_path):
+                version_path = version_generator(source, version_prefix, force=True)
             context[self.var_name] = FileObject(version_path)
         except:
             context[self.var_name] = ""
@@ -112,11 +108,11 @@ class VersionObjectNode(Node):
 def version_object(parser, token):
     """
     Returns a context variable 'version_object'.
-    {% version_object field_name version_prefix %}
+    {% version_object field_name.path version_prefix %}
     
-    Use {% version_object my_image 'medium' %} in order to retrieve the medium
+    Use {% version_object my_image.path 'medium' %} in order to retrieve the medium
     version of an Image stored in a field name my_image.
-    Use {% version_object my_image 'medium' as var %} in order to use 'var' as
+    Use {% version_object my_image.path 'medium' as var %} in order to use 'var' as
     your context variable.
     
     version_prefix can be a string or a variable. if version_prefix is a string, use quotes.

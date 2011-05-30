@@ -29,26 +29,26 @@ else:
 def url_to_path(value):
     """
     Change URL to PATH.
-    Value has to be an URL relative to MEDIA URL or a full URL (including MEDIA_URL).
+    value has to be an URL relative to MEDIA URL or a full URL (including MEDIA_URL).
     
-    Returns a PATH relative to MEDIA_ROOT.
+    Returns an absolute server-path, including MEDIA_ROOT.
     """
     
     mediaurl_re = re.compile(r'^(%s)' % (MEDIA_URL))
     value = mediaurl_re.sub('', value)
-    return value
+    return os.path.join(MEDIA_ROOT, value)
 
 
 def path_to_url(value):
     """
     Change PATH to URL.
-    Value has to be a PATH relative to MEDIA_ROOT.
+    value has to be an absolute server-path, including MEDIA_ROOT.
     
-    Return an URL relative to MEDIA_ROOT.
+    Return an URL including MEDIA_URL.
     """
     
-    mediaroot_re = re.compile(r'^(%s)' % (MEDIA_ROOT))
-    value = mediaroot_re.sub('', value)
+    mediaurl_re = re.compile(r'^(%s)' % (MEDIA_ROOT))
+    value = mediaurl_re.sub('', value)
     return url_join(MEDIA_URL, value)
 
 
