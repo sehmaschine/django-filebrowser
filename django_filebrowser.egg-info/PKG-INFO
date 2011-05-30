@@ -1,0 +1,17 @@
+Metadata-Version: 1.0
+Name: django-filebrowser
+Version: 3.1
+Summary: Media-Management with the Django Admin-Interface.
+Home-page: http://code.google.com/p/django-filebrowser/
+Author: Patrick Kranzlmueller
+Author-email: patrick@vonautomatisch.at
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Framework :: Django
