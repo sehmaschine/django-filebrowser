@@ -29,11 +29,11 @@ class FileBrowseWidget(Input):
         self.directory = attrs.get('directory', '')
         self.extensions = attrs.get('extensions', '')
         self.format = attrs.get('format', '')
-        # if attrs is not None:
-        #     self.attrs = attrs.copy()
-        # else:
-        #     self.attrs = {}
-        #super(FileBrowseWidget, self).__init__(attrs)
+        if attrs is not None:
+            self.attrs = attrs.copy()
+        else:
+            self.attrs = {}
+        super(FileBrowseWidget, self).__init__(attrs)
     
     def render(self, name, value, attrs=None):
         if value is None:
@@ -44,11 +44,14 @@ class FileBrowseWidget(Input):
         final_attrs['extensions'] = self.extensions
         final_attrs['format'] = self.format
         final_attrs['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
-        # if value != "":
-        #     try:
-        #         final_attrs['directory'] = os.path.split(value.path_relative_directory)[0]
-        #     except:
-        #         pass
+        if value != "":
+            try:
+                if value.is_version and VERSIONS_BASEDIR:
+                    final_attrs['directory'] = os.path.split(value.original.path_relative_directory)[0]
+                else:
+                    final_attrs['directory'] = os.path.split(value.path_relative_directory)[0]
+            except:
+                pass
         return render_to_string("filebrowser/custom_field.html", locals())
 
 
@@ -90,7 +93,12 @@ class FileBrowseField(CharField):
     def to_python(self, value):
         if not value or isinstance(value, FileObject):
             return value
-        return FileObject(value, relative=True)
+        return FileObject(url_to_path(value), relative=True)
+    
+    def get_db_prep_value(self, value, connection, prepared=False):
+        if value is None:
+            return None
+        return unicode(value)
     
     def formfield(self, **kwargs):
         attrs = {}

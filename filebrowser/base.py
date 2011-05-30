@@ -12,8 +12,8 @@ from django.core.urlresolvers import reverse
 
 # filebrowser imports
 from filebrowser.settings import *
-from filebrowser.functions import get_file_type, url_join, get_version_path, sort_by_attr, version_generator
-from django.utils.encoding import force_unicode
+from filebrowser.functions import get_file_type, url_join, get_version_path, get_original_path, sort_by_attr, version_generator
+from django.utils.encoding import smart_str, force_unicode
 
 # PIL import
 if STRICT_PIL:
@@ -267,6 +267,20 @@ class FileObject():
     is_empty = property(_is_empty)
     
     # VERSIONS
+    
+    def _is_version(self):
+        tmp = self.filename_root.split("_")
+        if tmp[len(tmp)-1] in VERSIONS:
+            return True
+        else:
+            return False
+    is_version = property(_is_version)
+    
+    def _original(self):
+        if self.is_version:
+            return FileObject(get_original_path(self.path))
+        return None
+    original = property(_original)
     
     def _versions_basedir(self):
         if VERSIONS_BASEDIR and os.path.exists(os.path.join(MEDIA_ROOT, VERSIONS_BASEDIR)):

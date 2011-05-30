@@ -1,7 +1,7 @@
 {% load i18n fb_tags %}
 <div class="module pagination">
     <ul class="pagination">
-        {% if filelisting.results_total != filelisting.results_current %}
+        {% if query.q or query.filter_date or query.filter_type %}
         <li class="results"><span>{{ filelisting.results_current }} {% ifequal filelisting.results_current 1 %}{% trans 'result' %}{% else %}{% trans 'results' %}{% endifequal %}</span></li>
         {% endif %}
         <li class="results">

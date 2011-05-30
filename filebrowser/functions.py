@@ -66,38 +66,61 @@ def dir_from_url(value):
     return os.path.split(value)[0]
 
 
+def get_version_filename(filename, version_prefix):
+    filename, ext = os.path.splitext(filename)
+    version_filename = filename + "_" + version_prefix + ext
+    return version_filename
+
+
+def get_original_filename(filename):
+    filename, ext = os.path.splitext(filename)
+    tmp = filename.split("_")
+    if tmp[len(tmp)-1] in VERSIONS:
+        original_filename = filename.replace("_" + tmp[len(tmp)-1], "") + ext
+        return original_filename
+    else:
+        return None
+
+
 def get_version_path(value, version_prefix):
     """
     Construct the PATH to an Image version.
-    Value has to be server-path, relative to MEDIA_ROOT.
+    value has to be an absolute server-path, including MEDIA_ROOT.
     
     version_filename = filename + version_prefix + ext
-    Returns a path relative to MEDIA_ROOT.
+    Returns an absolute path, including MEDIA_ROOT.
     """
     
-    if os.path.isfile(smart_str(os.path.join(MEDIA_ROOT, value))):
+    if os.path.isfile(value):
         path, filename = os.path.split(value)
+        relative_path = path.replace(os.path.join(MEDIA_ROOT,DIRECTORY), "")
         filename, ext = os.path.splitext(filename)
-        
-        # check if this file is a version of an other file
-        # to return filename_<version>.ext instead of filename_<version>_<version>.ext
-        tmp = filename.split("_")
-        if tmp[len(tmp)-1] in ADMIN_VERSIONS:
-            # it seems like the "original" is actually a version of an other original
-            # so we strip the suffix (aka. version_perfix)
-            new_filename = filename.replace("_" + tmp[len(tmp)-1], "")
-            # check if the version exists when we use the new_filename
-            if os.path.isfile(smart_str(os.path.join(MEDIA_ROOT, path, new_filename + "_" + version_prefix + ext))):
-                # our "original" filename seem to be filename_<version> construct
-                # so we replace it with the new_filename
-                filename = new_filename
-                # if a VERSIONS_BASEDIR is set we need to strip it from the path
-                # or we get a <VERSIONS_BASEDIR>/<VERSIONS_BASEDIR>/... construct
-                if VERSIONS_BASEDIR != "":
-                        path = path.replace(VERSIONS_BASEDIR + "/", "")
-        
         version_filename = filename + "_" + version_prefix + ext
-        return os.path.join(VERSIONS_BASEDIR, path, version_filename)
+        if VERSIONS_BASEDIR:
+            return os.path.join(MEDIA_ROOT, VERSIONS_BASEDIR, relative_path, version_filename)
+        else:
+            return os.path.join(MEDIA_ROOT, DIRECTORY, relative_path, version_filename)
+    else:
+        return None
+
+
+def get_original_path(value):
+    """
+    Construct the PATH to an original Image based on a Image version.
+    value has to be an absolute server-path, including MEDIA_ROOT.
+    
+    Returns an absolute path, including MEDIA_ROOT.
+    """
+    
+    if os.path.isfile(value):
+        path, filename = os.path.split(value)
+        if VERSIONS_BASEDIR:
+            relative_path = path.replace(os.path.join(MEDIA_ROOT,VERSIONS_BASEDIR), "")
+        else:
+            relative_path = path.replace(os.path.join(MEDIA_ROOT,DIRECTORY), "")
+        relative_path = relative_path.lstrip("/")
+        original_filename = get_original_filename(filename)
+        return os.path.join(MEDIA_ROOT, DIRECTORY, relative_path, original_filename)
     else:
         return None
 
@@ -163,6 +186,20 @@ def get_file(path, filename):
     if not os.path.isfile(converted_path) and not os.path.isdir(converted_path):
         return None
     return filename
+
+
+def get_file_type(filename):
+    """
+    Get file type as defined in EXTENSIONS.
+    """
+    
+    file_extension = os.path.splitext(filename)[1].lower()
+    file_type = ''
+    for k,v in EXTENSIONS.iteritems():
+        for extension in v:
+            if file_extension == extension.lower():
+                file_type = k
+    return file_type
 
 
 def get_breadcrumbs(query, path):
@@ -235,26 +272,13 @@ def handle_file_upload(path, file):
     """
     try:
         file_path = os.path.join(path, file.name)
+        print "filepath", file_path
         uploadedfile = filebrowser_storage.save(file_path, file)
     except Exception, inst:
         print "___filebrowser.functions.handle_file_upload(): could not save uploaded file"
         print "ERROR: ", inst
         print "___"
     return uploadedfile
-
-
-def get_file_type(filename):
-    """
-    Get file type as defined in EXTENSIONS.
-    """
-    
-    file_extension = os.path.splitext(filename)[1].lower()
-    file_type = ''
-    for k,v in EXTENSIONS.iteritems():
-        for extension in v:
-            if file_extension == extension.lower():
-                file_type = k
-    return file_type
 
 
 def is_selectable(filename, selecttype):
@@ -291,24 +315,23 @@ def version_generator(value, version_prefix, force=None):
     try:
         im = Image.open(smart_str(os.path.join(MEDIA_ROOT, value)))
         version_path = get_version_path(value, version_prefix)
-        absolute_version_path = smart_str(os.path.join(MEDIA_ROOT, version_path))
-        version_dir = os.path.split(absolute_version_path)[0]
+        version_dir = os.path.split(version_path)[0]
         if not os.path.isdir(version_dir):
             os.makedirs(version_dir)
             os.chmod(version_dir, 0775)
         version = scale_and_crop(im, VERSIONS[version_prefix]['width'], VERSIONS[version_prefix]['height'], VERSIONS[version_prefix]['opts'])
         if version:
             try:
-                version.save(absolute_version_path, quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
+                version.save(version_path, quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
             except IOError:
-                version.save(absolute_version_path, quality=VERSION_QUALITY)
+                version.save(version_path, quality=VERSION_QUALITY)
         else:
             # version wasn't created
             # save the original image with the versions name
             try:
-                im.save(absolute_version_path, quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
+                im.save(version_path, quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
             except IOError:
-                im.save(absolute_version_path, quality=VERSION_QUALITY)
+                im.save(version_path, quality=VERSION_QUALITY)
         return version_path
     except:
         return None
