@@ -61,26 +61,26 @@ Templatetag ``version``
 
 **Generate a version and retrieve the URL**::
 
-    {% version model.field_name version_prefix %}
+    {% version model.field_name.path version_prefix %}
 
 With the above Model, in order to generate a version you type::
 
-    {% version blogentry.image 'medium' %}
+    {% version blogentry.image.path 'medium' %}
 
 Since you retrieve the URL, you can display the image with::
 
-    <img src="{% version blogentry.image 'medium' %}" />
+    <img src="{% version blogentry.image.path 'medium' %}" />
 
 Templatetag ``version_object``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **Generate a version and retrieve the FileObject**::
 
-    {% version_object model.field_name version_prefix as variable %}
+    {% version_object model.field_name.path version_prefix as variable %}
 
 With the above Model, in order to generate a version you type::
 
-    {% version_object blogentry.image 'medium' as version_medium %} 
+    {% version_object blogentry.image.path 'medium' as version_medium %} 
 
 Since you retrieve a ``FileObject``, you can use all attributes::
 

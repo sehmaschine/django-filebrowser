@@ -42,6 +42,7 @@ Design changes
 * Instead, there is now an edit-button.
 * The edit-view allows for renaming/deleting a File/Folder (similar to editing a database-object with the admin-interface).
 * Selecting a File/Folder is done with one button on the changelist with a drop-down for ``VERSIONS``.
+* Versions are now shown with the change-link/edit-view.
 
 Deprecated in 3.3
 ^^^^^^^^^^^^^^^^^

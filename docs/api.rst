@@ -237,14 +237,6 @@ Datetime object::
     >>> print fileobject.datetime
     datetime.datetime(2011, 3, 10, 13, 32, 27)
 
-``folder``
-^^^^^^^^^^
-
-XXX::
-
-    >>> print fileobject.folder
-    u'testfolder'
-
 Path and URL attributes
 -----------------------
 
@@ -335,13 +327,12 @@ Image orientation, either "landscape" or "portrait"::
 Folder attributes
 -----------------
 
-``directory``
-^^^^^^^^^^^^^
 
-XXX::
+``folder``
+^^^^^^^^^^
 
-    >>> print fileobject.directory
-    u'testfolder/testimage.jpg'
+    >>> print fileobject.folder
+    u'testfolder'
 
 ``is_folder``
 ^^^^^^^^^^^^^
@@ -361,10 +352,18 @@ XXX::
 Version attributes
 ------------------
 
+``is_version``
+^^^^^^^^^^^^^^
+
+``true`` if the File is a ``version`` of another File::
+
+    >>> print fileobject.is_version
+    False
+
 ``version_basedir``
 ^^^^^^^^^^^^^^^^^^^
 
-Either ``VERSIONS_BASEDIR`` or ``self.head``::
+The absolute path to the versions-folder::
 
     >>> print fileobject.version_basedir
     '/var/www/testsite/media/uploads/testfolder'

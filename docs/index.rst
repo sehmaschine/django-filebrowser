@@ -10,7 +10,7 @@ Django FileBrowser Documentation
 
 **Media-Management with the Django admin-interface**.
 
-This documentation covers version 3.3 of the |filebrowser|. With the |filebrowser|, you're able to browse your media-directory
+This documentation covers version 3.3.0 of the |filebrowser|. With the |filebrowser|, you're able to browse your media-directory
 and upload/rename/delete files and folders.
 
 **Installation and Setup**

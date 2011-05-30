@@ -40,10 +40,21 @@ Why is there no mercurial– or git–repository?
 
 We have discussed this issue on the `Grappelli Google-Group <http://groups.google.com/group/django-grappelli>`_. Since the outcome has been ambiguous, we stay with svn for now. Of course, the same is true for the |filebrowser|.
 
-Why should I need image–versions?
+Why should I need image-versions?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You need image–versions if your website is based on a *grid*.
+You need image-versions if your website is based on a *grid*.
+
+Upload does NOT work?
+^^^^^^^^^^^^^^^^^^^^^
+
+* Upload doesn't work if your server is setup using http-authentication.
+* Uploading from one server to another requires a crossdomain-policy, see http://www.uploadify.com/faqs/how-do-i-upload-files-from-one-server-to-another/.
+
+Is the |filebrowser| stable?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+We've developed the |filebrowser| for a couple of years and use it with almost all of our clients. That said, |grappelli| is the more stable and mature application.
 
 How can I contribute?
 ^^^^^^^^^^^^^^^^^^^^^
