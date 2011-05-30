@@ -1,0 +1,43 @@
+{% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
+{% load i18n adminmedia fb_tags fb_csrf %}
+
+<!-- STYLESHEETS -->
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
+    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+{% endblock %}
+
+<!-- COLTYPE/BODYCLASS -->
+{% block bodyclass %}change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+{% block content-class %}content-flexible{% endblock %}
+
+<!-- BREADCRUMBS -->
+{% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+<div id="content-main">
+    <form action="{% query_string "" "filter_date,filter_type,q,p" %}" method="post">{% fb_csrf_token %}
+        {% if form.errors %}<p class="errornote">{% trans 'Please correct the following errors.' %}</p>{% endif %}
+        <fieldset class="module aligned">
+            <div class="row {% if form.dir_name.errors %}errors{% endif %}">
+                <div class="column span-4"><label class="required" for="id_dir_name">{{ form.name.label }}</label></div>
+                <div class="column span-flexible">
+                    {{ form.name }}
+                    {% if file_extension %}<b>{{ file_extension }}</b>{% endif %}
+                    {% if form.name.errors %}<ul class="errorlist">{{ form.name.errors }}</ul>{% endif %}
+                    {% if form.name.help_text %}<p class="help">{{ form.name.help_text|safe }}</p>{% endif %}
+                </div>
+            </div>
+        </fieldset>
+        <div class="module footer">
+            <ul class="submit-row">
+                <li class="submit-button-container"><input type="submit" value="{% trans 'Submit' %}" class="default" /></li>
+            </ul>
+        </div>
+    </form>
+</div>
+{% endblock %}
