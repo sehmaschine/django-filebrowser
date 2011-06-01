@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-08 22:55+0100\n"
+"POT-Creation-Date: 2011-06-01 11:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,12 +30,12 @@ msgstr ""
 msgid "The requested File does not exist."
 msgstr ""
 
-#: fields.py:58
+#: fields.py:61
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
 msgstr ""
 
-#: forms.py:37 forms.py:60 templates/filebrowser/versions.html:69
+#: forms.py:37 forms.py:60
 msgid "Name"
 msgstr ""
 
@@ -55,8 +55,8 @@ msgstr ""
 msgid "The File already exists."
 msgstr ""
 
-#: settings.py:109 templates/filebrowser/include/tableheader.html:20
-#: templates/filebrowser/include/tableheader.html:21
+#: settings.py:109 templates/filebrowser/include/tableheader.html:21
+#: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
 msgstr ""
 
@@ -76,55 +76,55 @@ msgstr ""
 msgid "Audio"
 msgstr ""
 
-#: views.py:116 templates/filebrowser/include/breadcrumbs.html:8
+#: views.py:110 templates/filebrowser/include/breadcrumbs.html:8
 #: templates/filebrowser/include/breadcrumbs.html:10
 msgid "FileBrowser"
 msgstr ""
 
-#: views.py:146
+#: views.py:140
 #, python-format
 msgid "The Folder %s was successfully created."
 msgstr ""
 
-#: views.py:151
+#: views.py:145
 msgid "Permission denied."
 msgstr ""
 
-#: views.py:153
+#: views.py:147
 msgid "Error creating folder."
 msgstr ""
 
-#: views.py:160 views.py:163 templates/filebrowser/index.html:76
+#: views.py:154 views.py:157 templates/filebrowser/index.html:76
 msgid "New Folder"
 msgstr ""
 
-#: views.py:185
+#: views.py:179
 msgid "Select files to upload"
 msgstr ""
 
-#: views.py:188 templates/filebrowser/index.html:77
+#: views.py:182 templates/filebrowser/index.html:77
 #: templates/filebrowser/upload.html:124
 msgid "Upload"
 msgstr ""
 
-#: views.py:269 views.py:272
+#: views.py:271 views.py:274
 msgid "Confirm delete"
 msgstr ""
 
-#: views.py:298
+#: views.py:300
 #, python-format
 msgid "Successfully deleted %s"
 msgstr ""
 
-#: views.py:335
+#: views.py:337
 msgid "Renaming was successful."
 msgstr ""
 
-#: views.py:344
+#: views.py:346
 msgid "Transposing was successful."
 msgstr ""
 
-#: views.py:351
+#: views.py:353
 msgid "Error."
 msgstr ""
 
@@ -169,11 +169,16 @@ msgid ""
 "items will be deleted:"
 msgstr ""
 
-#: templates/filebrowser/delete_confirm.html:43
+#: templates/filebrowser/delete_confirm.html:42
+#, python-format
+msgid "... and %(escaped_object)s more Files."
+msgstr ""
+
+#: templates/filebrowser/delete_confirm.html:48
 msgid "Cancel"
 msgstr ""
 
-#: templates/filebrowser/delete_confirm.html:44
+#: templates/filebrowser/delete_confirm.html:49
 msgid "Yes, I'm sure"
 msgstr ""
 
@@ -186,8 +191,8 @@ msgid "Folder Information"
 msgstr ""
 
 #: templates/filebrowser/detail.html:76 templates/filebrowser/detail.html:105
-#: templates/filebrowser/include/tableheader.html:27
 #: templates/filebrowser/include/tableheader.html:28
+#: templates/filebrowser/include/tableheader.html:29
 msgid "Date"
 msgstr ""
 
@@ -204,8 +209,8 @@ msgid "Filesize"
 msgstr ""
 
 #: templates/filebrowser/detail.html:114
-#: templates/filebrowser/include/tableheader.html:24
 #: templates/filebrowser/include/tableheader.html:25
+#: templates/filebrowser/include/tableheader.html:26
 msgid "Size"
 msgstr ""
 
@@ -214,7 +219,7 @@ msgid "Image Versions"
 msgstr ""
 
 #: templates/filebrowser/detail.html:129
-#: templates/filebrowser/include/tableheader.html:14
+#: templates/filebrowser/include/tableheader.html:15
 msgid "Thumbnail"
 msgstr ""
 
@@ -277,14 +282,6 @@ msgstr ""
 
 #: templates/filebrowser/upload.html:123
 msgid "Clear Queue"
-msgstr ""
-
-#: templates/filebrowser/versions.html:71
-msgid "Image Version"
-msgstr ""
-
-#: templates/filebrowser/versions.html:73
-msgid "Debug"
 msgstr ""
 
 #: templates/filebrowser/include/breadcrumbs.html:5
@@ -390,13 +387,13 @@ msgid_plural "%(counter)s Items total"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/filebrowser/include/tableheader.html:11
 #: templates/filebrowser/include/tableheader.html:12
+#: templates/filebrowser/include/tableheader.html:13
 msgid "Type"
 msgstr ""
 
-#: templates/filebrowser/include/tableheader.html:16
 #: templates/filebrowser/include/tableheader.html:17
+#: templates/filebrowser/include/tableheader.html:18
 msgid "Filename"
 msgstr ""
 
