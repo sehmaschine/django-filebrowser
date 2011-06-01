@@ -17,11 +17,11 @@ alnum_name_re = re.compile(FOLDER_REGEX, re.U)
 # CHOICES
 TRANSPOSE_CHOICES = (
     ("", u"-----"),
-    ("0", u"Flip horizontal"),
-    ("1", u"Flip vertical"),
-    ("2", u"Rotate 90° CW"),
-    ("4", u"Rotate 90° CCW"),
-    ("3", u"Rotate 180°"),
+    ("0", _(u"Flip horizontal")),
+    ("1", _(u"Flip vertical")),
+    ("2", _(u"Rotate 90° CW")),
+    ("4", _(u"Rotate 90° CCW")),
+    ("3", _(u"Rotate 180°")),
 )
 
 
