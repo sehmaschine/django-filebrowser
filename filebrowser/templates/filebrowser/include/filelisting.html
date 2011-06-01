@@ -4,7 +4,7 @@
     
     <!-- THUMBNAIL-VERSION FOR IMAGE-OBJECT -->
     {% if fileobject.filetype == "Image" %}
-        {% version_object fileobject.path settings_var.ADMIN_THUMBNAIL as thumbnail_version %}
+        {% version_object fileobject settings_var.ADMIN_THUMBNAIL as thumbnail_version %}
     {% endif %}
     
     <tr class="{% cycle 'row1' 'row2' %}{% if fileobject.filetype == "Folder" %} fb_folder{% endif %}">

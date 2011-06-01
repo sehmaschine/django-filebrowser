@@ -134,7 +134,7 @@
                 {% endif %}
                 {% if settings_var.ADMIN_VERSIONS %}
                     {% for version in settings_var.ADMIN_VERSIONS %}
-                        {% version_object fileobject.path version as image_version %}
+                        {% version_object fileobject version as image_version %}
                         {% version_setting version %}
                         <div class="row">
                             <div class="column span-4"><label>{{ version_setting.verbose_name }}</label></div>

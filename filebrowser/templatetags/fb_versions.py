@@ -39,6 +39,8 @@ class VersionNode(Node):
             except VariableDoesNotExist:
                 return None
         try:
+            if isinstance(source, FileObject):
+                source = source.path
             source = force_unicode(source)
             version_path = get_version_path(source, version_prefix)
             if not os.path.isfile(version_path):
@@ -93,6 +95,8 @@ class VersionObjectNode(Node):
             except VariableDoesNotExist:
                 return None
         try:
+            if isinstance(source, FileObject):
+                source = source.path
             source = force_unicode(source)
             version_path = get_version_path(source, version_prefix)
             if not os.path.isfile(version_path):
