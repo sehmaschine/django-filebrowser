@@ -96,8 +96,8 @@ class FileBrowseField(CharField):
         return FileObject(url_to_path(value))
     
     def get_db_prep_value(self, value, connection, prepared=False):
-        if value is None:
-            return None
+        if not value:
+            return value
         return value.url_save
     
     def formfield(self, **kwargs):
