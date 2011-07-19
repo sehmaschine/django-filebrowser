@@ -60,6 +60,31 @@
             </td>
         {% endif %}
         
+        <!-- FILESELECT FOR CKEDITOR -->
+        {% if query.pop == "3" %}
+            <td class="fb_icon">
+                {% selectable fileobject.filetype query.type %}
+                {% if selectable %}
+                <!-- select original -->
+                <button class="button fb_selectlink" onclick="OpenFile(ProtectPath('{{ fileobject.url|escapejs }}'));return false;">{% trans "Select" %}</button>
+                <!-- select versions -->
+                {% if fileobject.filetype == "Image" and settings_var.ADMIN_VERSIONS %}
+                    <div class="pulldown-versions-container">
+                        <a href="javascript://" class="pulldown-versions-handler" title="{% trans "Versions" %}">&nbsp;</a>
+                        <ul class="pulldown-versions">
+                            {% for version in settings_var.ADMIN_VERSIONS  %}
+                                {% version_setting version %}
+                                <li{% if forloop.last %} class="last"{% endif %}><a href="" title="" onclick="OpenFile(ProtectPath('{% version fileobject version %}'));return false;">{{ version_setting.verbose_name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% else %}
+                    &nbsp;
+                {% endif %}
+            </td>
+        {% endif %}
+        
         <!-- FILEICON -->
         <td>
             {% if fileobject.filetype %}
