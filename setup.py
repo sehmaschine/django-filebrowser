@@ -1,13 +1,9 @@
 from setuptools import setup, find_packages
 
-README = read('README.rst')
-VERSION = __import__("compressor").__version__
-
 setup(
     name='django-filebrowser',
-    version=VERSION,
+    version='3.3.0',
     description='Media-Management with Grappelli',
-    long_description = README,
     author='Patrick Kranzlmueller',
     author_email='patrick@vonautomatisch.at',
     url='https://github.com/sehmaschine/django-filebrowser',
