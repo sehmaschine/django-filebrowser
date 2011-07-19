@@ -1,0 +1,553 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FileListing class &mdash; Django FileBrowser v3.3.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '3.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Django FileBrowser v3.3.0 documentation" href="index.html" />
+    <link rel="next" title="Views" href="admin.html" />
+    <link rel="prev" title="Settings" href="settings.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="admin.html" title="Views"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="settings.html" title="Settings"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Django FileBrowser v3.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="filelisting-class">
+<span id="filelisting"></span><h1><tt class="docutils literal"><span class="pre">FileListing</span></tt> class<a class="headerlink" href="#filelisting-class" title="Permalink to this headline">¶</a></h1>
+<p>The <tt class="docutils literal"><span class="pre">FileListing</span></tt> is a group of <tt class="docutils literal"><span class="pre">FileObjects</span></tt> for a given directory:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">filelisting</span> <span class="o">=</span> <span class="n">FileListing</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filter_func</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sorting_by</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sorting_order</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For example, if you want to list all files for <tt class="docutils literal"><span class="pre">MEDIA_ROOT</span></tt> you can type:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">filebrowser.settings</span> <span class="kn">import</span> <span class="n">MEDIA_ROOT</span>
+<span class="n">filelisting</span> <span class="o">=</span> <span class="n">FileListing</span><span class="p">(</span><span class="n">MEDIA_ROOT</span><span class="p">,</span> <span class="n">sorting_by</span><span class="o">=</span><span class="s">&#39;date&#39;</span><span class="p">,</span> <span class="n">sorting_order</span><span class="o">=</span><span class="s">&#39;desc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="filter-func">
+<h3><tt class="docutils literal"><span class="pre">filter_func</span></tt><a class="headerlink" href="#filter-func" title="Permalink to this headline">¶</a></h3>
+<p>Filter function, based on a <tt class="docutils literal"><span class="pre">FileObject</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">filter_filelisting</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">item</span><span class="o">.</span><span class="n">filetype</span> <span class="o">!=</span> <span class="s">&quot;Folder&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sorting-by">
+<h3><tt class="docutils literal"><span class="pre">sorting_by</span></tt><a class="headerlink" href="#sorting-by" title="Permalink to this headline">¶</a></h3>
+<p>Sort the files by any attribute of <tt class="docutils literal"><span class="pre">FileObject</span></tt> (e.g. <tt class="docutils literal"><span class="pre">filetype</span></tt>, <tt class="docutils literal"><span class="pre">date</span></tt>, ...).</p>
+</div>
+<div class="section" id="sorting-order">
+<h3><tt class="docutils literal"><span class="pre">sorting_order</span></tt><a class="headerlink" href="#sorting-order" title="Permalink to this headline">¶</a></h3>
+<p>Sorting order, either <tt class="docutils literal"><span class="pre">asc</span></tt> or <tt class="docutils literal"><span class="pre">desc</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h2>
+<p>For the below examples, we&#8217;re using this folder-structure and <tt class="docutils literal"><span class="pre">filter_browse</span></tt> as <tt class="docutils literal"><span class="pre">filter_func</span></tt> (see <tt class="docutils literal"><span class="pre">views.py</span></tt>):</p>
+<div class="highlight-python"><pre>/media/uploads/testfolder/testimage.jpg
+/media/uploads/blog/1/images/blogimage.jpg</pre>
+</div>
+<div class="section" id="listing">
+<h3><tt class="docutils literal"><span class="pre">listing</span></tt><a class="headerlink" href="#listing" title="Permalink to this headline">¶</a></h3>
+<p>Returns all items for the given path with <tt class="docutils literal"><span class="pre">os.listdir(path)</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">filelisting</span><span class="o">.</span><span class="n">listing</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">item</span>
+<span class="go">blog</span>
+<span class="go">testfolder</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="walk">
+<h3><tt class="docutils literal"><span class="pre">walk</span></tt><a class="headerlink" href="#walk" title="Permalink to this headline">¶</a></h3>
+<p>Returns all items for the given path with <tt class="docutils literal"><span class="pre">os.walk(path)</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">filelisting</span><span class="o">.</span><span class="n">walk</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">item</span>
+<span class="go">blog</span>
+<span class="go">blog/1</span>
+<span class="go">blog/1/images</span>
+<span class="go">blog/1/images/blogimage.jpg</span>
+<span class="go">blog/1/images/blogimage_admin_thumbnail.jpg</span>
+<span class="go">blog/1/images/blogimage_medium.jpg</span>
+<span class="go">blog/1/images/blogimage_small.jpg</span>
+<span class="go">blog/1/images/blogimage_thumbnail.jpg</span>
+<span class="go">testfolder</span>
+<span class="go">testfolder/testimage.jpg</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="files-listing-total">
+<h3><tt class="docutils literal"><span class="pre">files_listing_total</span></tt><a class="headerlink" href="#files-listing-total" title="Permalink to this headline">¶</a></h3>
+<p>Returns a sorted list of <tt class="docutils literal"><span class="pre">FileObjects</span></tt> for <tt class="docutils literal"><span class="pre">self.listing()</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">filelisting</span><span class="o">.</span><span class="n">walk</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">item</span>
+<span class="go">uploads/blog/</span>
+<span class="go">uploads/testfolder/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="files-walk-total">
+<h3><tt class="docutils literal"><span class="pre">files_walk_total</span></tt><a class="headerlink" href="#files-walk-total" title="Permalink to this headline">¶</a></h3>
+<p>Returns a sorted list of <tt class="docutils literal"><span class="pre">FileObjects</span></tt> for <tt class="docutils literal"><span class="pre">self.walk()</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">filelisting</span><span class="o">.</span><span class="n">files_walk_total</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">item</span>
+<span class="go">uploads/blog/</span>
+<span class="go">uploads/blog/1/</span>
+<span class="go">uploads/blog/1/images/</span>
+<span class="go">uploads/blog/1/images/blogimage.jpg</span>
+<span class="go">uploads/blog/1/images/blogimage_admin_thumbnail.jpg</span>
+<span class="go">uploads/blog/1/images/blogimage_medium.jpg</span>
+<span class="go">uploads/blog/1/images/blogimage_small.jpg</span>
+<span class="go">uploads/blog/1/images/blogimage_thumbnail.jpg</span>
+<span class="go">uploads/testfolder/</span>
+<span class="go">uploads/testfolder/testimage.jpg</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="files-listing-filtered">
+<h3><tt class="docutils literal"><span class="pre">files_listing_filtered</span></tt><a class="headerlink" href="#files-listing-filtered" title="Permalink to this headline">¶</a></h3>
+<p>Returns a sorted and filtered list of <tt class="docutils literal"><span class="pre">FileObjects</span></tt> for <tt class="docutils literal"><span class="pre">self.listing()</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">filelisting</span><span class="o">.</span><span class="n">files_listing_filtered</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">item</span>
+<span class="go">uploads/blog/</span>
+<span class="go">uploads/testfolder/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="files-walk-filtered">
+<h3><tt class="docutils literal"><span class="pre">files_walk_filtered</span></tt><a class="headerlink" href="#files-walk-filtered" title="Permalink to this headline">¶</a></h3>
+<p>Returns a sorted and filtered list of <tt class="docutils literal"><span class="pre">FileObjects</span></tt> for <tt class="docutils literal"><span class="pre">self.walk()</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">filelisting</span><span class="o">.</span><span class="n">files_walk_filtered</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">item</span>
+<span class="go">uploads/blog/</span>
+<span class="go">uploads/blog/1/</span>
+<span class="go">uploads/blog/1/images/</span>
+<span class="go">uploads/blog/1/images/blogimage.jpg</span>
+<span class="go">uploads/testfolder/</span>
+<span class="go">uploads/testfolder/testimage.jpg</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The versions are not listed (compared with files_walk_total) because of <tt class="docutils literal"><span class="pre">filter_func</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="results-listing-total">
+<h3><tt class="docutils literal"><span class="pre">results_listing_total</span></tt><a class="headerlink" href="#results-listing-total" title="Permalink to this headline">¶</a></h3>
+<p>Number of total files, based on <tt class="docutils literal"><span class="pre">files_listing_total</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">filelisting</span><span class="o">.</span><span class="n">results_listing_total</span><span class="p">()</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="results-walk-total">
+<h3><tt class="docutils literal"><span class="pre">results_walk_total</span></tt><a class="headerlink" href="#results-walk-total" title="Permalink to this headline">¶</a></h3>
+<p>Number of total files, based on <tt class="docutils literal"><span class="pre">files_walk_total</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">filelisting</span><span class="o">.</span><span class="n">results_listing_total</span><span class="p">()</span>
+<span class="go">10</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="results-listing-filtered">
+<h3><tt class="docutils literal"><span class="pre">results_listing_filtered</span></tt><a class="headerlink" href="#results-listing-filtered" title="Permalink to this headline">¶</a></h3>
+<p>Number of filtered files, based on <tt class="docutils literal"><span class="pre">files_listing_filtered</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">filelisting</span><span class="o">.</span><span class="n">results_listing_filtered</span><span class="p">()</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="results-walk-filtered">
+<h3><tt class="docutils literal"><span class="pre">results_walk_filtered</span></tt><a class="headerlink" href="#results-walk-filtered" title="Permalink to this headline">¶</a></h3>
+<p>Number of filtered files, based on <tt class="docutils literal"><span class="pre">files_walk_filtered</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">filelisting</span><span class="o">.</span><span class="n">results_walk_filtered</span><span class="p">()</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="fileobject-class">
+<span id="fileobject"></span><h1><tt class="docutils literal"><span class="pre">FileObject</span></tt> class<a class="headerlink" href="#fileobject-class" title="Permalink to this headline">¶</a></h1>
+<p>When browsing a directory on the server, you get a <tt class="docutils literal"><span class="pre">FileObject</span></tt> (see <tt class="docutils literal"><span class="pre">base.py</span></tt>) for every file within that directory. The <tt class="docutils literal"><span class="pre">FileObject</span></tt> is also returned when using the <tt class="docutils literal"><span class="pre">FileBrowseField</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fileobject</span> <span class="o">=</span> <span class="n">FileObject</span><span class="p">(</span><span class="s">&quot;/absolute/server/path/to/file.ext&quot;</span><span class="p">)</span>
+<span class="n">fileobject</span> <span class="o">=</span> <span class="n">FileObject</span><span class="p">(</span><span class="s">&quot;relative/server/path/to/file.ext&quot;</span><span class="p">,</span> <span class="n">relative</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For the examples below we use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fileobject</span> <span class="o">=</span> <span class="n">FileObject</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">MEDIA_ROOT</span><span class="p">,</span><span class="n">DIRECTORY</span><span class="p">,</span><span class="s">&quot;testfolder&quot;</span><span class="p">,</span><span class="s">&quot;testimage.jpg&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="section" id="general-attributes">
+<h2>General attributes<a class="headerlink" href="#general-attributes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="filename">
+<h3><tt class="docutils literal"><span class="pre">filename</span></tt><a class="headerlink" href="#filename" title="Permalink to this headline">¶</a></h3>
+<p>Name of the file (including the extension) or name of the folder:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">filename</span>
+<span class="go">&#39;testimage.jpg&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="filetype">
+<h3><tt class="docutils literal"><span class="pre">filetype</span></tt><a class="headerlink" href="#filetype" title="Permalink to this headline">¶</a></h3>
+<p>Type of the file, as defined with <tt class="docutils literal"><span class="pre">EXTENSIONS</span></tt>. With a folder, the filetype is &#8220;Folder&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">filetype</span>
+<span class="go">&#39;Image&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mimetype">
+<h3><tt class="docutils literal"><span class="pre">mimetype</span></tt><a class="headerlink" href="#mimetype" title="Permalink to this headline">¶</a></h3>
+<p class="versionadded">
+<span class="versionmodified">New in version 3.3.</span></p>
+<p>Mimetype, based on <a class="reference external" href="http://docs.python.org/library/mimetypes.html">http://docs.python.org/library/mimetypes.html</a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">mimetype</span>
+<span class="go">(&#39;image/jpeg&#39;, None)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="filesize">
+<h3><tt class="docutils literal"><span class="pre">filesize</span></tt><a class="headerlink" href="#filesize" title="Permalink to this headline">¶</a></h3>
+<p>Filesize in Bytes. Display with <tt class="docutils literal"><span class="pre">filesizeformat</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">filesize</span>
+<span class="go">870037L</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="extension">
+<h3><tt class="docutils literal"><span class="pre">extension</span></tt><a class="headerlink" href="#extension" title="Permalink to this headline">¶</a></h3>
+<p>File extension, including the dot. With a folder, the extensions is <tt class="xref docutils literal"><span class="pre">None</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">extension</span>
+<span class="go">&#39;.jpg&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="date">
+<h3><tt class="docutils literal"><span class="pre">date</span></tt><a class="headerlink" href="#date" title="Permalink to this headline">¶</a></h3>
+<p>Date, based on <tt class="docutils literal"><span class="pre">getmtime</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">date</span>
+<span class="go">1299760347.0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="datetime">
+<h3><tt class="docutils literal"><span class="pre">datetime</span></tt><a class="headerlink" href="#datetime" title="Permalink to this headline">¶</a></h3>
+<p>Datetime object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">datetime</span>
+<span class="go">datetime.datetime(2011, 3, 10, 13, 32, 27)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="path-and-url-attributes">
+<h2>Path and URL attributes<a class="headerlink" href="#path-and-url-attributes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="path">
+<h3><tt class="docutils literal"><span class="pre">path</span></tt><a class="headerlink" href="#path" title="Permalink to this headline">¶</a></h3>
+<p>Absolute server path to the file/folder, including <tt class="docutils literal"><span class="pre">MEDIA_ROOT</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">path</span>
+<span class="go">&#39;/var/www/testsite/media/uploads/testfolder/testimage.jpg&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="path-relative">
+<h3><tt class="docutils literal"><span class="pre">path_relative</span></tt><a class="headerlink" href="#path-relative" title="Permalink to this headline">¶</a></h3>
+<p>Server path to the file/folder, relative to <tt class="docutils literal"><span class="pre">MEDIA_ROOT</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">path_relative</span>
+<span class="go">u&#39;uploads/testfolder/testimage.jpg&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="url-full">
+<h3><tt class="docutils literal"><span class="pre">url_full</span></tt><a class="headerlink" href="#url-full" title="Permalink to this headline">¶</a></h3>
+<p class="deprecated">
+<span class="versionmodified">Deprecated since version 3.3.</span></p>
+<p>see <em class="xref std std-ref">url</em> instead.</p>
+</div>
+<div class="section" id="url">
+<h3><tt class="docutils literal"><span class="pre">url</span></tt><a class="headerlink" href="#url" title="Permalink to this headline">¶</a></h3>
+<p class="versionadded">
+<span class="versionmodified">New in version 3.3.</span></p>
+<p>URL for the file/folder, including <tt class="docutils literal"><span class="pre">MEDIA_URL</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">url</span>
+<span class="go">u&#39;/media/uploads/testfolder/testimage.jpg&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="url-relative">
+<h3><tt class="docutils literal"><span class="pre">url_relative</span></tt><a class="headerlink" href="#url-relative" title="Permalink to this headline">¶</a></h3>
+<p>URL for the file/folder, relative to <tt class="docutils literal"><span class="pre">MEDIA_URL</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">url_relative</span>
+<span class="go">u&#39;uploads/testfolder/testimage.jpg&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="url-save">
+<h3><tt class="docutils literal"><span class="pre">url_save</span></tt><a class="headerlink" href="#url-save" title="Permalink to this headline">¶</a></h3>
+<p>URL for the file/folder, based on the setting <tt class="docutils literal"><span class="pre">SAVE_FULL_URL</span></tt> used for the <tt class="docutils literal"><span class="pre">FileBrowseField</span></tt> (either <tt class="docutils literal"><span class="pre">url</span></tt> or <tt class="docutils literal"><span class="pre">url_relative</span></tt>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">url_save</span>
+<span class="go">u&#39;uploads/testfolder/testimage.jpg&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="image-attributes">
+<h2>Image attributes<a class="headerlink" href="#image-attributes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dimensions">
+<h3><tt class="docutils literal"><span class="pre">dimensions</span></tt><a class="headerlink" href="#dimensions" title="Permalink to this headline">¶</a></h3>
+<p>Image dimensions as a tuple:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">dimensions</span>
+<span class="go">(1000, 750)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="width">
+<h3><tt class="docutils literal"><span class="pre">width</span></tt><a class="headerlink" href="#width" title="Permalink to this headline">¶</a></h3>
+<p>Image width in px:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">width</span>
+<span class="go">1000</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="height">
+<h3><tt class="docutils literal"><span class="pre">height</span></tt><a class="headerlink" href="#height" title="Permalink to this headline">¶</a></h3>
+<p>Image height in px:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">height</span>
+<span class="go">750</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="orientation">
+<h3><tt class="docutils literal"><span class="pre">orientation</span></tt><a class="headerlink" href="#orientation" title="Permalink to this headline">¶</a></h3>
+<p>Image orientation, either &#8220;landscape&#8221; or &#8220;portrait&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">orientation</span>
+<span class="go">&#39;Landscape&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="folder-attributes">
+<h2>Folder attributes<a class="headerlink" href="#folder-attributes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="folder">
+<h3><tt class="docutils literal"><span class="pre">folder</span></tt><a class="headerlink" href="#folder" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">folder</span>
+<span class="go">u&#39;testfolder&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="is-folder">
+<h3><tt class="docutils literal"><span class="pre">is_folder</span></tt><a class="headerlink" href="#is-folder" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">true</span></tt>, if path is a folder:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">is_folder</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="is-empty">
+<h3><tt class="docutils literal"><span class="pre">is_empty</span></tt><a class="headerlink" href="#is-empty" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">true</span></tt>, if the folder is empty:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">is_empty</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="version-attributes">
+<h2>Version attributes<a class="headerlink" href="#version-attributes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="is-version">
+<h3><tt class="docutils literal"><span class="pre">is_version</span></tt><a class="headerlink" href="#is-version" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">true</span></tt> if the File is a <tt class="docutils literal"><span class="pre">version</span></tt> of another File:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">is_version</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="version-basedir">
+<h3><tt class="docutils literal"><span class="pre">version_basedir</span></tt><a class="headerlink" href="#version-basedir" title="Permalink to this headline">¶</a></h3>
+<p>The absolute path to the versions-folder:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">version_basedir</span>
+<span class="go">&#39;/var/www/testsite/media/uploads/testfolder&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="version-name-version-suffix">
+<h3><tt class="docutils literal"><span class="pre">version_name(version_suffix)</span></tt><a class="headerlink" href="#version-name-version-suffix" title="Permalink to this headline">¶</a></h3>
+<p>Get the filename for a version:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">version_name</span><span class="p">(</span><span class="s">&quot;medium&quot;</span><span class="p">)</span>
+<span class="go">&#39;testimage_medium.jpg&#39;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The version is not being generated.</p>
+</div>
+</div>
+<div class="section" id="versions">
+<h3><tt class="docutils literal"><span class="pre">versions()</span></tt><a class="headerlink" href="#versions" title="Permalink to this headline">¶</a></h3>
+<p>List all filenames based on <tt class="docutils literal"><span class="pre">VERSIONS</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">versions</span><span class="p">()</span>
+<span class="go">[&#39;/var/www/testsite/media/uploads/testfolder/testimage_admin_thumbnail.jpg&#39;,</span>
+<span class="go">&#39;/var/www/testsite/media/uploads/testfolder/testimage_thumbnail.jpg&#39;,</span>
+<span class="go">&#39;/var/www/testsite/media/uploads/testfolder/testimage_small.jpg&#39;,</span>
+<span class="go">&#39;/var/www/testsite/media/uploads/testfolder/testimage_medium.jpg&#39;,</span>
+<span class="go">&#39;/var/www/testsite/media/uploads/testfolder/testimage_big.jpg&#39;,</span>
+<span class="go">&#39;/var/www/testsite/media/uploads/testfolder/testimage_large.jpg&#39;]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The versions are not being generated.</p>
+</div>
+</div>
+<div class="section" id="admin-versions">
+<h3><tt class="docutils literal"><span class="pre">admin_versions()</span></tt><a class="headerlink" href="#admin-versions" title="Permalink to this headline">¶</a></h3>
+<p>List all filenames based on <tt class="docutils literal"><span class="pre">ADMIN_VERSIONS</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">admin_versions</span><span class="p">()</span>
+<span class="go">[&#39;/var/www/testsite/media/uploads/testfolder/testimage_thumbnail.jpg&#39;,</span>
+<span class="go">&#39;/var/www/testsite/media/uploads/testfolder/testimage_small.jpg&#39;,</span>
+<span class="go">&#39;/var/www/testsite/media/uploads/testfolder/testimage_medium.jpg&#39;,</span>
+<span class="go">&#39;/var/www/testsite/media/uploads/testfolder/testimage_big.jpg&#39;,</span>
+<span class="go">&#39;/var/www/testsite/media/uploads/testfolder/testimage_large.jpg&#39;]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The versions are not being generated.</p>
+</div>
+</div>
+<div class="section" id="version-generate-version-suffix">
+<h3><tt class="docutils literal"><span class="pre">version_generate(version_suffix)</span></tt><a class="headerlink" href="#version-generate-version-suffix" title="Permalink to this headline">¶</a></h3>
+<p>Generate a version:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fileobject</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="s">&quot;medium&quot;</span><span class="p">)</span>
+<span class="go">uploads/testfolder/testimage_medium.jpg</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="delete">
+<h3><tt class="docutils literal"><span class="pre">delete()</span></tt><a class="headerlink" href="#delete" title="Permalink to this headline">¶</a></h3>
+<p>Delete the <tt class="docutils literal"><span class="pre">File</span></tt> or <tt class="docutils literal"><span class="pre">Folder</span></tt> from the server.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If you delete a <tt class="docutils literal"><span class="pre">Folder</span></tt>, all items within the folder are being deleted. Be very careful with using this!</p>
+</div>
+</div>
+<div class="section" id="delete-versions">
+<h3><tt class="docutils literal"><span class="pre">delete_versions()</span></tt><a class="headerlink" href="#delete-versions" title="Permalink to this headline">¶</a></h3>
+<p>Delete all <tt class="docutils literal"><span class="pre">VERSIONS</span></tt>.</p>
+</div>
+<div class="section" id="delete-admin-versions">
+<h3><tt class="docutils literal"><span class="pre">delete_admin_versions()</span></tt><a class="headerlink" href="#delete-admin-versions" title="Permalink to this headline">¶</a></h3>
+<p>Delete all <tt class="docutils literal"><span class="pre">ADMIN_VERSIONS</span></tt>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">FileListing</span></tt> class</a><ul>
+<li><a class="reference internal" href="#options">Options</a></li>
+<li><a class="reference internal" href="#attributes">Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fileobject-class"><tt class="docutils literal"><span class="pre">FileObject</span></tt> class</a><ul>
+<li><a class="reference internal" href="#general-attributes">General attributes</a></li>
+<li><a class="reference internal" href="#path-and-url-attributes">Path and URL attributes</a></li>
+<li><a class="reference internal" href="#image-attributes">Image attributes</a></li>
+<li><a class="reference internal" href="#folder-attributes">Folder attributes</a></li>
+<li><a class="reference internal" href="#version-attributes">Version attributes</a></li>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="settings.html"
+                        title="previous chapter">Settings</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="admin.html"
+                        title="next chapter">Views</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/api.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="admin.html" title="Views"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="settings.html" title="Settings"
+             >previous</a> |</li>
+        <li><a href="index.html">Django FileBrowser v3.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Patrick Kranzlmueller.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

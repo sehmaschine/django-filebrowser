@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Views &mdash; Django FileBrowser v3.3.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '3.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Django FileBrowser v3.3.0 documentation" href="index.html" />
+    <link rel="next" title="FileBrowseField" href="fieldswidgets.html" />
+    <link rel="prev" title="FileListing class" href="api.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="fieldswidgets.html" title="FileBrowseField"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="FileListing class"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Django FileBrowser v3.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="views">
+<span id="id1"></span><h1>Views<a class="headerlink" href="#views" title="Permalink to this headline">¶</a></h1>
+<p>All views use the <tt class="docutils literal"><span class="pre">staff_member_requird</span></tt> and <tt class="docutils literal"><span class="pre">path_exists</span></tt> decorator in order to check if the server path actually exists. Some views also use the <tt class="docutils literal"><span class="pre">file_exists</span></tt> decorator.</p>
+<div class="section" id="browse">
+<h2>Browse<a class="headerlink" href="#browse" title="Permalink to this headline">¶</a></h2>
+<p>Browse a directory on your server. Returns a <a class="reference internal" href="api.html#filelisting"><em>FileListing class</em></a>:</p>
+<div class="highlight-python"><pre>http://mysite.com/adminurl/filebrowser/browse/</pre>
+</div>
+<ul class="simple">
+<li>URL: <tt class="docutils literal"><span class="pre">fb_browse</span></tt></li>
+<li>Optional query string args: <tt class="docutils literal"><span class="pre">dir</span></tt>, <tt class="docutils literal"><span class="pre">o</span></tt>, <tt class="docutils literal"><span class="pre">ot</span></tt>, <tt class="docutils literal"><span class="pre">q</span></tt>, <tt class="docutils literal"><span class="pre">p</span></tt>, <tt class="docutils literal"><span class="pre">filter_date</span></tt>, <tt class="docutils literal"><span class="pre">filter_type</span></tt>, <tt class="docutils literal"><span class="pre">type</span></tt></li>
+</ul>
+</div>
+<div class="section" id="create-directory">
+<span id="views-createdir"></span><h2>Create directory<a class="headerlink" href="#create-directory" title="Permalink to this headline">¶</a></h2>
+<p>Create a new folder on your server:</p>
+<div class="highlight-python"><pre>http://mysite.com/adminurl/filebrowser/createdir/</pre>
+</div>
+<ul class="simple">
+<li>URL: <tt class="docutils literal"><span class="pre">fb_createdir</span></tt></li>
+<li>Optional query string args: <tt class="docutils literal"><span class="pre">dir</span></tt></li>
+<li>Signals: <a class="reference internal" href="#filebrowser-pre-createdir"><em>filebrowser_pre_createdir</em></a>, <a class="reference internal" href="#filebrowser-post-createdir"><em>filebrowser_post_createdir</em></a></li>
+</ul>
+</div>
+<div class="section" id="upload">
+<span id="views-upload"></span><h2>Upload<a class="headerlink" href="#upload" title="Permalink to this headline">¶</a></h2>
+<p>Multiple upload with Uploadify:</p>
+<div class="highlight-python"><pre>http://mysite.com/adminurl/filebrowser/upload/</pre>
+</div>
+<ul class="simple">
+<li>URL: <tt class="docutils literal"><span class="pre">fb_upload</span></tt></li>
+<li>Optional query string args: <tt class="docutils literal"><span class="pre">dir</span></tt></li>
+<li>Signals: <a class="reference internal" href="#filebrowser-pre-upload"><em>filebrowser_pre_upload</em></a>, <a class="reference internal" href="#filebrowser-post-upload"><em>filebrowser_post_upload</em></a></li>
+</ul>
+</div>
+<div class="section" id="edit">
+<span id="views-edit"></span><h2>Edit<a class="headerlink" href="#edit" title="Permalink to this headline">¶</a></h2>
+<p>Edit a file or folder:</p>
+<div class="highlight-python"><pre>http://mysite.com/adminurl/filebrowser/edit/?filename=testimage.jpg</pre>
+</div>
+<ul class="simple">
+<li>URL: <tt class="docutils literal"><span class="pre">fb_edit</span></tt></li>
+<li>Required query string args: <tt class="docutils literal"><span class="pre">filename</span></tt></li>
+<li>Optional query string args: <tt class="docutils literal"><span class="pre">dir</span></tt></li>
+<li>Signals: <a class="reference internal" href="#filebrowser-pre-rename"><em>filebrowser_pre_rename</em></a>, <a class="reference internal" href="#filebrowser-post-rename"><em>filebrowser_post_rename</em></a></li>
+</ul>
+<p>Editing is currently limited to renaming, deleting and transposing (flip/rotate).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This won&#8217;t check if you use the file or folder anywhere with your models.</p>
+</div>
+</div>
+<div class="section" id="confirm-delete">
+<span id="views-confirm-delete"></span><h2>Confirm delete<a class="headerlink" href="#confirm-delete" title="Permalink to this headline">¶</a></h2>
+<p>Confirm the deletion of a file or folder:</p>
+<div class="highlight-python"><pre>http://mysite.com/adminurl/filebrowser/confirm_delete/?filename=testimage.jpg</pre>
+</div>
+<ul class="simple">
+<li>URL: <tt class="docutils literal"><span class="pre">fb_confirm_delete</span></tt></li>
+<li>Required query string args: <tt class="docutils literal"><span class="pre">filename</span></tt></li>
+<li>Optional query string args: <tt class="docutils literal"><span class="pre">dir</span></tt></li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you try to delete a folder, all files/folders within this folder are listed on this page.</p>
+</div>
+</div>
+<div class="section" id="delete">
+<span id="views-delete"></span><h2>Delete<a class="headerlink" href="#delete" title="Permalink to this headline">¶</a></h2>
+<p>Delete a file or folder:</p>
+<div class="highlight-python"><pre>http://mysite.com/adminurl/filebrowser/delete/?filename=testimage.jpg</pre>
+</div>
+<ul class="simple">
+<li>URL: <tt class="docutils literal"><span class="pre">fb_delete</span></tt></li>
+<li>Required query string args: <tt class="docutils literal"><span class="pre">filename</span></tt></li>
+<li>Optional query string args: <tt class="docutils literal"><span class="pre">dir</span></tt></li>
+<li>Signals: <a class="reference internal" href="#filebrowser-pre-delete"><em>filebrowser_pre_delete</em></a>, <a class="reference internal" href="#filebrowser-post-delete"><em>filebrowser_post_delete</em></a></li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This won&#8217;t check if you use the file or folder anywhere with your models.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If you delete a Folder, all items within this Folder are being deleted.</p>
+</div>
+</div>
+<div class="section" id="version">
+<span id="views-version"></span><h2>Version<a class="headerlink" href="#version" title="Permalink to this headline">¶</a></h2>
+<p>Generate a version of an Image as defined with <tt class="docutils literal"><span class="pre">ADMIN_VERSIONS</span></tt>:</p>
+<div class="highlight-python"><pre>http://mysite.com/adminurl/filebrowser/version/?filename=testimage.jpg</pre>
+</div>
+<ul class="simple">
+<li>URL: <tt class="docutils literal"><span class="pre">fb_version</span></tt></li>
+<li>Required query string args: <tt class="docutils literal"><span class="pre">filename</span></tt></li>
+<li>Query string args: <tt class="docutils literal"><span class="pre">dir</span></tt></li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a helper used by the <tt class="docutils literal"><span class="pre">FileBrowseField</span></tt> and TinyMCE for selecting an Image-Version.</p>
+</div>
+</div>
+</div>
+<div class="section" id="signals">
+<span id="id2"></span><h1>Signals<a class="headerlink" href="#signals" title="Permalink to this headline">¶</a></h1>
+<p>The FileBrowser sends a couple of different signals:</p>
+<div class="section" id="filebrowser-pre-upload">
+<span id="id3"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_pre_upload</span></tt><a class="headerlink" href="#filebrowser-pre-upload" title="Permalink to this headline">¶</a></h2>
+<p>Sent before a an Upload starts. Arguments:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">path</span></tt>: Absolute server path to the file/folder</li>
+<li><tt class="docutils literal"><span class="pre">name</span></tt>: Name of the file/folder</li>
+</ul>
+</div>
+<div class="section" id="filebrowser-post-upload">
+<span id="id4"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_post_upload</span></tt><a class="headerlink" href="#filebrowser-post-upload" title="Permalink to this headline">¶</a></h2>
+<p>Sent after an Upload has finished. Arguments:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">path</span></tt>: Absolute server path to the file/folder</li>
+<li><tt class="docutils literal"><span class="pre">name</span></tt>: Name of the file/folder</li>
+</ul>
+</div>
+<div class="section" id="filebrowser-pre-delete">
+<span id="id5"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_pre_delete</span></tt><a class="headerlink" href="#filebrowser-pre-delete" title="Permalink to this headline">¶</a></h2>
+<p>Sent before an Item (File, Folder) is deleted. Arguments:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">path</span></tt>: Absolute server path to the file/folder</li>
+<li><tt class="docutils literal"><span class="pre">name</span></tt>: Name of the file/folder</li>
+</ul>
+</div>
+<div class="section" id="filebrowser-post-delete">
+<span id="id6"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_post_delete</span></tt><a class="headerlink" href="#filebrowser-post-delete" title="Permalink to this headline">¶</a></h2>
+<p>Sent after an Item (File, Folder) has been deleted. Arguments:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">path</span></tt>: Absolute server path to the file/folder</li>
+<li><tt class="docutils literal"><span class="pre">name</span></tt>: Name of the file/folder</li>
+</ul>
+</div>
+<div class="section" id="filebrowser-pre-createdir">
+<span id="id7"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_pre_createdir</span></tt><a class="headerlink" href="#filebrowser-pre-createdir" title="Permalink to this headline">¶</a></h2>
+<p>Sent before a new Folder is created. Arguments:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">path</span></tt>: Absolute server path to the folder</li>
+<li><tt class="docutils literal"><span class="pre">name</span></tt>: Name of the new folder</li>
+</ul>
+</div>
+<div class="section" id="filebrowser-post-createdir">
+<span id="id8"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_post_createdir</span></tt><a class="headerlink" href="#filebrowser-post-createdir" title="Permalink to this headline">¶</a></h2>
+<p>Sent after a new Folder has been created. Arguments:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">path</span></tt>: Absolute server path to the folder</li>
+<li><tt class="docutils literal"><span class="pre">name</span></tt>: Name of the new folder</li>
+</ul>
+</div>
+<div class="section" id="filebrowser-pre-rename">
+<span id="id9"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_pre_rename</span></tt><a class="headerlink" href="#filebrowser-pre-rename" title="Permalink to this headline">¶</a></h2>
+<p>Sent before an Item (File, Folder) is renamed. Arguments:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">path</span></tt>: Absolute server path to the file/folder</li>
+<li><tt class="docutils literal"><span class="pre">name</span></tt>: Name of the file/folder</li>
+<li><tt class="docutils literal"><span class="pre">new_name</span></tt>: New name of the file/folder</li>
+</ul>
+</div>
+<div class="section" id="filebrowser-post-rename">
+<span id="id10"></span><h2><tt class="docutils literal"><span class="pre">filebrowser_post_rename</span></tt><a class="headerlink" href="#filebrowser-post-rename" title="Permalink to this headline">¶</a></h2>
+<p>Sent after an Item (File, Folder) has been renamed.</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">path</span></tt>: Absolute server path to the file/folder</li>
+<li><tt class="docutils literal"><span class="pre">name</span></tt>: Name of the file/folder</li>
+<li><tt class="docutils literal"><span class="pre">new_name</span></tt>: New name of the file/folder</li>
+</ul>
+</div>
+<div class="section" id="example-for-using-these-signals">
+<span id="signals-examples"></span><h2>Example for using these Signals<a class="headerlink" href="#example-for-using-these-signals" title="Permalink to this headline">¶</a></h2>
+<p>Here&#8217;s a small example for using the above Signals:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">filebrowser.views</span> <span class="kn">import</span> <span class="n">filebrowser_pre_upload</span><span class="p">,</span> <span class="n">filebrowser_post_upload</span>
+
+<span class="k">def</span> <span class="nf">pre_upload_callback</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Receiver function called before an upload starts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;Pre Upload Callback&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;kwargs:&quot;</span><span class="p">,</span> <span class="n">kwargs</span>
+<span class="n">filebrowser_pre_upload</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">pre_upload_callback</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">post_upload_callback</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Receiver function called each time an upload has finished.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;Post Upload Callback&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;kwargs:&quot;</span><span class="p">,</span> <span class="n">kwargs</span>
+    <span class="c"># You can use all attributes available with the FileObject</span>
+    <span class="c"># This is just an example ...</span>
+    <span class="k">print</span> <span class="s">&quot;Filesize:&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">filesize</span>
+    <span class="k">print</span> <span class="s">&quot;Orientation:&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">orientation</span>
+    <span class="k">print</span> <span class="s">&quot;Extension:&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">extension</span>
+<span class="n">filebrowser_post_upload</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">post_upload_callback</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Views</a><ul>
+<li><a class="reference internal" href="#browse">Browse</a></li>
+<li><a class="reference internal" href="#create-directory">Create directory</a></li>
+<li><a class="reference internal" href="#upload">Upload</a></li>
+<li><a class="reference internal" href="#edit">Edit</a></li>
+<li><a class="reference internal" href="#confirm-delete">Confirm delete</a></li>
+<li><a class="reference internal" href="#delete">Delete</a></li>
+<li><a class="reference internal" href="#version">Version</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#signals">Signals</a><ul>
+<li><a class="reference internal" href="#filebrowser-pre-upload"><tt class="docutils literal"><span class="pre">filebrowser_pre_upload</span></tt></a></li>
+<li><a class="reference internal" href="#filebrowser-post-upload"><tt class="docutils literal"><span class="pre">filebrowser_post_upload</span></tt></a></li>
+<li><a class="reference internal" href="#filebrowser-pre-delete"><tt class="docutils literal"><span class="pre">filebrowser_pre_delete</span></tt></a></li>
+<li><a class="reference internal" href="#filebrowser-post-delete"><tt class="docutils literal"><span class="pre">filebrowser_post_delete</span></tt></a></li>
+<li><a class="reference internal" href="#filebrowser-pre-createdir"><tt class="docutils literal"><span class="pre">filebrowser_pre_createdir</span></tt></a></li>
+<li><a class="reference internal" href="#filebrowser-post-createdir"><tt class="docutils literal"><span class="pre">filebrowser_post_createdir</span></tt></a></li>
+<li><a class="reference internal" href="#filebrowser-pre-rename"><tt class="docutils literal"><span class="pre">filebrowser_pre_rename</span></tt></a></li>
+<li><a class="reference internal" href="#filebrowser-post-rename"><tt class="docutils literal"><span class="pre">filebrowser_post_rename</span></tt></a></li>
+<li><a class="reference internal" href="#example-for-using-these-signals">Example for using these Signals</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">FileListing</span></tt> class</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="fieldswidgets.html"
+                        title="next chapter">FileBrowseField</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/admin.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="fieldswidgets.html" title="FileBrowseField"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="FileListing class"
+             >previous</a> |</li>
+        <li><a href="index.html">Django FileBrowser v3.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Patrick Kranzlmueller.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

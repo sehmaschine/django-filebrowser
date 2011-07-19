@@ -1,0 +1,233 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Image Versions &mdash; Django FileBrowser v3.3.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '3.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Django FileBrowser v3.3.0 documentation" href="index.html" />
+    <link rel="next" title="FAQ" href="faq.html" />
+    <link rel="prev" title="FileBrowseField" href="fieldswidgets.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="faq.html" title="FAQ"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="fieldswidgets.html" title="FileBrowseField"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Django FileBrowser v3.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="image-versions">
+<span id="versions"></span><h1>Image Versions<a class="headerlink" href="#image-versions" title="Permalink to this headline">¶</a></h1>
+<p>With the FileBrowser, you are able to define different versions/sizes for Images. This enables you to save an Original Image on your Server while having different versions of that Image to automatically fit your websites Grid.</p>
+<div class="section" id="versions-and-the-grid">
+<h2>Versions and the grid<a class="headerlink" href="#versions-and-the-grid" title="Permalink to this headline">¶</a></h2>
+<p>First you need to know which versions/sizes of an image you´d like to use on your website. Let´s say you´re using a 12 column grid with 60px for each column and 20px margin (which is a total of 940px). With this grid, you could (for example) generate these image versions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">VERSIONS</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_VERSIONS&quot;</span><span class="p">,</span> <span class="p">{</span>
+  <span class="s">&#39;admin_thumbnail&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;verbose_name&#39;</span><span class="p">:</span> <span class="s">&#39;Admin Thumbnail&#39;</span><span class="p">,</span> <span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s">&#39;opts&#39;</span><span class="p">:</span> <span class="s">&#39;crop&#39;</span><span class="p">},</span>
+  <span class="s">&#39;thumbnail&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;verbose_name&#39;</span><span class="p">:</span> <span class="s">&#39;Thumbnail (1 col)&#39;</span><span class="p">,</span> <span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s">&#39;opts&#39;</span><span class="p">:</span> <span class="s">&#39;crop&#39;</span><span class="p">},</span>
+  <span class="s">&#39;small&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;verbose_name&#39;</span><span class="p">:</span> <span class="s">&#39;Small (2 col)&#39;</span><span class="p">,</span> <span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">140</span><span class="p">,</span> <span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;opts&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">},</span>
+  <span class="s">&#39;medium&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;verbose_name&#39;</span><span class="p">:</span> <span class="s">&#39;Medium (4col )&#39;</span><span class="p">,</span> <span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;opts&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">},</span>
+  <span class="s">&#39;big&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;verbose_name&#39;</span><span class="p">:</span> <span class="s">&#39;Big (6 col)&#39;</span><span class="p">,</span> <span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">460</span><span class="p">,</span> <span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;opts&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">},</span>
+  <span class="s">&#39;large&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;verbose_name&#39;</span><span class="p">:</span> <span class="s">&#39;Large (8 col)&#39;</span><span class="p">,</span> <span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">680</span><span class="p">,</span> <span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;opts&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">},</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="versions-with-the-admin-interface">
+<h2>Versions with the admin-interface<a class="headerlink" href="#versions-with-the-admin-interface" title="Permalink to this headline">¶</a></h2>
+<p>With the admin-interface, you need to define <tt class="docutils literal"><span class="pre">ADMIN_VERSIONS</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ADMIN_VERSIONS</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&#39;FILEBROWSER_ADMIN_VERSIONS&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;thumbnail&#39;</span><span class="p">,</span> <span class="s">&#39;small&#39;</span><span class="p">,</span> <span class="s">&#39;medium&#39;</span><span class="p">,</span> <span class="s">&#39;big&#39;</span><span class="p">,</span> <span class="s">&#39;large&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Don&#8217;t forget to select one version for your admin-thumbnail:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ADMIN_THUMBNAIL</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&#39;FILEBROWSER_ADMIN_THUMBNAIL&#39;</span><span class="p">,</span> <span class="s">&#39;admin_thumbnail&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="versions-on-your-website">
+<h2>Versions on your website<a class="headerlink" href="#versions-on-your-website" title="Permalink to this headline">¶</a></h2>
+<p>In order to generate versions, you have two different tags to choose from: <tt class="docutils literal"><span class="pre">version</span></tt> and <tt class="docutils literal"><span class="pre">version_object</span></tt>. With either using the version-tag or the version_object-tag, the Image-version will be generated &#8220;on the fly&#8221; if the version doesn´t already exist or if the original Image is newer than the version. This means that if you need to update an Image, you just overwrite the original Image - the versions will be re-generated automatically (as you request them within your template).</p>
+<p>A Model example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">filebrowser.fields</span> <span class="kn">import</span> <span class="n">FileBrowseField</span>
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">FileBrowseField</span><span class="p">(</span><span class="s">&quot;Image&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>First you need to load the templatetags with:</p>
+<div class="highlight-python"><pre>{% load fb_versions %}</pre>
+</div>
+<p>You have two different tags to choose from: <tt class="docutils literal"><span class="pre">version</span></tt> and <tt class="docutils literal"><span class="pre">version_object</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">With both templatetags, <tt class="docutils literal"><span class="pre">version_prefix</span></tt> can either be a string or a variable. If <tt class="docutils literal"><span class="pre">version_prefix</span></tt> is a string, use quotes.</p>
+</div>
+<div class="section" id="templatetag-version">
+<h3>Templatetag <tt class="docutils literal"><span class="pre">version</span></tt><a class="headerlink" href="#templatetag-version" title="Permalink to this headline">¶</a></h3>
+<p><strong>Generate a version and retrieve the URL</strong>:</p>
+<div class="highlight-python"><pre>{% version model.field_name.path version_prefix %}</pre>
+</div>
+<p>With the above Model, in order to generate a version you type:</p>
+<div class="highlight-python"><pre>{% version blogentry.image.path 'medium' %}</pre>
+</div>
+<p>Since you retrieve the URL, you can display the image with:</p>
+<div class="highlight-python"><pre>&lt;img src="{% version blogentry.image.path 'medium' %}" /&gt;</pre>
+</div>
+</div>
+<div class="section" id="templatetag-version-object">
+<h3>Templatetag <tt class="docutils literal"><span class="pre">version_object</span></tt><a class="headerlink" href="#templatetag-version-object" title="Permalink to this headline">¶</a></h3>
+<p><strong>Generate a version and retrieve the FileObject</strong>:</p>
+<div class="highlight-python"><pre>{% version_object model.field_name.path version_prefix as variable %}</pre>
+</div>
+<p>With the above Model, in order to generate a version you type:</p>
+<div class="highlight-python"><pre>{% version_object blogentry.image.path 'medium' as version_medium %}</pre>
+</div>
+<p>Since you retrieve a <tt class="docutils literal"><span class="pre">FileObject</span></tt>, you can use all attributes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{{</span> <span class="n">version_medium</span><span class="o">.</span><span class="n">width</span> <span class="p">}}</span>
+</pre></div>
+</div>
+<p>or just:</p>
+<div class="highlight-python"><pre>&lt;img src="{{ version_medium }}" /&gt;</pre>
+</div>
+</div>
+</div>
+<div class="section" id="versions-in-views">
+<h2>Versions in views<a class="headerlink" href="#versions-in-views" title="Permalink to this headline">¶</a></h2>
+<p>If you have a <tt class="docutils literal"><span class="pre">FileObject</span></tt> you can easily generate/retrieve a version with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">obj</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">version_prefix</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>So, if you need to generate/retrieve the admin thumbnail for an Image, you can type:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">filebrowser.settings</span> <span class="kn">import</span> <span class="n">ADMIN_THUMBNAIL</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">ADMIN_THUMBNAIL</span><span class="p">)</span><span class="o">.</span><span class="n">url</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="management-commands">
+<h1>Management Commands<a class="headerlink" href="#management-commands" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="command-fb-version-generate">
+<h2>Command <tt class="docutils literal"><span class="pre">fb_version_generate</span></tt><a class="headerlink" href="#command-fb-version-generate" title="Permalink to this headline">¶</a></h2>
+<p>If you need to generate certain (or all) versions, type:</p>
+<div class="highlight-python"><pre>python manage.py fb_version_generate</pre>
+</div>
+</div>
+<div class="section" id="command-fb-version-remove">
+<h2>Command <tt class="docutils literal"><span class="pre">fb_version_remove</span></tt><a class="headerlink" href="#command-fb-version-remove" title="Permalink to this headline">¶</a></h2>
+<p>If you need to generate certain (or all) versions, type:</p>
+<div class="highlight-python"><pre>python manage.py fb_version_remove</pre>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Please be very careful with this command.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Image Versions</a><ul>
+<li><a class="reference internal" href="#versions-and-the-grid">Versions and the grid</a></li>
+<li><a class="reference internal" href="#versions-with-the-admin-interface">Versions with the admin-interface</a></li>
+<li><a class="reference internal" href="#versions-on-your-website">Versions on your website</a><ul>
+<li><a class="reference internal" href="#templatetag-version">Templatetag <tt class="docutils literal"><span class="pre">version</span></tt></a></li>
+<li><a class="reference internal" href="#templatetag-version-object">Templatetag <tt class="docutils literal"><span class="pre">version_object</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#versions-in-views">Versions in views</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#management-commands">Management Commands</a><ul>
+<li><a class="reference internal" href="#command-fb-version-generate">Command <tt class="docutils literal"><span class="pre">fb_version_generate</span></tt></a></li>
+<li><a class="reference internal" href="#command-fb-version-remove">Command <tt class="docutils literal"><span class="pre">fb_version_remove</span></tt></a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="fieldswidgets.html"
+                        title="previous chapter">FileBrowseField</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="faq.html"
+                        title="next chapter">FAQ</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/versions.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="faq.html" title="FAQ"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="fieldswidgets.html" title="FileBrowseField"
+             >previous</a> |</li>
+        <li><a href="index.html">Django FileBrowser v3.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Patrick Kranzlmueller.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

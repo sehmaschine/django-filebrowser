@@ -1,0 +1,244 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Django FileBrowser Documentation &mdash; Django FileBrowser v3.3.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '3.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Django FileBrowser v3.3.0 documentation" href="#" />
+    <link rel="next" title="Quick start guide" href="quickstart.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quick start guide"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">Django FileBrowser v3.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="django-filebrowser-documentation">
+<h1>Django FileBrowser Documentation<a class="headerlink" href="#django-filebrowser-documentation" title="Permalink to this headline">¶</a></h1>
+<p><strong>Media-Management with the Django admin-interface</strong>.</p>
+<p>This documentation covers version 3.3.0 of the FileBrowser. With the FileBrowser, you&#8217;re able to browse your media-directory
+and upload/rename/delete files and folders.</p>
+<p><strong>Installation and Setup</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick start guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#download">Download</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#testing">Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#main-url-paths-settings">Main URL/Paths Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#filebrowser-media-tinymce-media">FileBrowser Media, TinyMCE Media</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#extensions-and-formats">Extensions and Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#versions">Versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#extra-settings">Extra Settings</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p><strong>FileBrowser API</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html"><tt class="docutils literal"><span class="pre">FileListing</span></tt> class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#options">Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#attributes">Attributes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#fileobject-class"><tt class="docutils literal"><span class="pre">FileObject</span></tt> class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#general-attributes">General attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#path-and-url-attributes">Path and URL attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#image-attributes">Image attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#folder-attributes">Folder attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#version-attributes">Version attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#functions">Functions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p><strong>Admin Interface</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="admin.html">Views</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#browse">Browse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#create-directory">Create directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#upload">Upload</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#edit">Edit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#confirm-delete">Confirm delete</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#delete">Delete</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#version">Version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="admin.html#signals">Signals</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#filebrowser-pre-upload"><tt class="docutils literal"><span class="pre">filebrowser_pre_upload</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#filebrowser-post-upload"><tt class="docutils literal"><span class="pre">filebrowser_post_upload</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#filebrowser-pre-delete"><tt class="docutils literal"><span class="pre">filebrowser_pre_delete</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#filebrowser-post-delete"><tt class="docutils literal"><span class="pre">filebrowser_post_delete</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#filebrowser-pre-createdir"><tt class="docutils literal"><span class="pre">filebrowser_pre_createdir</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#filebrowser-post-createdir"><tt class="docutils literal"><span class="pre">filebrowser_post_createdir</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#filebrowser-pre-rename"><tt class="docutils literal"><span class="pre">filebrowser_pre_rename</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#filebrowser-post-rename"><tt class="docutils literal"><span class="pre">filebrowser_post_rename</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#example-for-using-these-signals">Example for using these Signals</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p><strong>Fields and Widgets</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="fieldswidgets.html">FileBrowseField</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fieldswidgets.html#attributes">Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fieldswidgets.html#filebrowsefield-in-templates">FileBrowseField in Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fieldswidgets.html#showing-thumbnail-in-the-changelist">Showing Thumbnail in the Changelist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fieldswidgets.html#using-the-filebrowsefield-with-tinymce">Using the FileBrowseField with TinyMCE</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fieldswidgets.html#clearablefileinput">ClearableFileInput</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fieldswidgets.html#django-filefield-and-the-filebrowser">Django <tt class="docutils literal"><span class="pre">FileField</span></tt> and the FileBrowser</a></li>
+</ul>
+</div>
+<p><strong>Image Versions</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="versions.html">Image Versions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="versions.html#versions-and-the-grid">Versions and the grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="versions.html#versions-with-the-admin-interface">Versions with the admin-interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="versions.html#versions-on-your-website">Versions on your website</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="versions.html#templatetag-version">Templatetag <tt class="docutils literal"><span class="pre">version</span></tt></a></li>
+<li class="toctree-l3"><a class="reference internal" href="versions.html#templatetag-version-object">Templatetag <tt class="docutils literal"><span class="pre">version_object</span></tt></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="versions.html#versions-in-views">Versions in views</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="versions.html#management-commands">Management Commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="versions.html#command-fb-version-generate">Command <tt class="docutils literal"><span class="pre">fb_version_generate</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="versions.html#command-fb-version-remove">Command <tt class="docutils literal"><span class="pre">fb_version_remove</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p><strong>Help</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="translation.html">Translation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="releasenotes.html">FileBrowser 3.3 Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+</div>
+<div class="section" id="main-features">
+<h2>Main Features<a class="headerlink" href="#main-features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Browse your media-directory with the admin-interface.</li>
+<li>Multiple Upload using <a class="reference external" href="http://www.uploadify.com">Uploadify</a>.</li>
+<li>Automatic Thumbnails.</li>
+<li>Image-Versions to fit your websites grid.</li>
+<li>Integration with TinyMCE (AdvImage &amp; AdvLink).</li>
+<li><tt class="docutils literal"><span class="pre">FileBrowseField</span></tt> to select Images/Documents.</li>
+<li><tt class="docutils literal"><span class="pre">ClearableFileInput</span></tt> with Image-Preview.</li>
+<li>Signals for Upload, Rename and Delete.</li>
+</ul>
+</div>
+<div class="section" id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://code.google.com/p/django-filebrowser/">http://code.google.com/p/django-filebrowser/</a></p>
+</div>
+<div class="section" id="discussion">
+<h2>Discussion<a class="headerlink" href="#discussion" title="Permalink to this headline">¶</a></h2>
+<p>Use the <a class="reference external" href="http://groups.google.com/group/django-filebrowser">FileBrowser Google Group</a> to ask questions or discuss features.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Django FileBrowser Documentation</a><ul>
+<li><a class="reference internal" href="#main-features">Main Features</a></li>
+<li><a class="reference internal" href="#code">Code</a></li>
+<li><a class="reference internal" href="#discussion">Discussion</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="quickstart.html"
+                        title="next chapter">Quick start guide</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quick start guide"
+             >next</a> |</li>
+        <li><a href="#">Django FileBrowser v3.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Patrick Kranzlmueller.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

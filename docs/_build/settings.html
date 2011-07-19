@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Settings &mdash; Django FileBrowser v3.3.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '3.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Django FileBrowser v3.3.0 documentation" href="index.html" />
+    <link rel="next" title="FileListing class" href="api.html" />
+    <link rel="prev" title="Quick start guide" href="quickstart.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="api.html" title="FileListing class"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quick start guide"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Django FileBrowser v3.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="settings">
+<span id="id1"></span><h1>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h1>
+<p>There&#8217;s quite a few possibilities of customizing the FileBrowser to fit your needs. Nonetheless, you should be able to start with the default settings.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All settings can be defined in your projects settings-file or the FileBrowsers settings-file (<tt class="docutils literal"><span class="pre">settings.py</span></tt>). When using the projects settings-file, you have to use the prefix <tt class="docutils literal"><span class="pre">FILEBROWSER_</span></tt> for every setting (e.g. <tt class="docutils literal"><span class="pre">FILEBROWSER_MEDIA_URL</span></tt> instead of <tt class="docutils literal"><span class="pre">MEDIA_URL</span></tt>).</p>
+</div>
+<div class="section" id="main-url-paths-settings">
+<h2>Main URL/Paths Settings<a class="headerlink" href="#main-url-paths-settings" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="media-root">
+<h3>MEDIA_ROOT<a class="headerlink" href="#media-root" title="Permalink to this headline">¶</a></h3>
+<p>The absolute path to the directory that holds the media-files you want to browse:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">MEDIA_ROOT</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_MEDIA_ROOT&quot;</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_ROOT</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="media-url">
+<h3>MEDIA_URL<a class="headerlink" href="#media-url" title="Permalink to this headline">¶</a></h3>
+<p>URL that handles the media served from <tt class="docutils literal"><span class="pre">MEDIA_ROOT</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">MEDIA_URL</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_MEDIA_URL&quot;</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_URL</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="directory-relative-to-media-root">
+<h3>DIRECTORY (relative to <tt class="docutils literal"><span class="pre">MEDIA_ROOT</span></tt>)<a class="headerlink" href="#directory-relative-to-media-root" title="Permalink to this headline">¶</a></h3>
+<p>Main FileBrowser Directory. Leave empty in order to browse all files and folders within <tt class="docutils literal"><span class="pre">MEDIA_ROOT</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DIRECTORY</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_DIRECTORY&quot;</span><span class="p">,</span> <span class="s">&#39;uploads/&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="filebrowser-media-tinymce-media">
+<h2>FileBrowser Media, TinyMCE Media<a class="headerlink" href="#filebrowser-media-tinymce-media" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="url-filebrowser-media-path-filebrowser-media">
+<h3>URL_FILEBROWSER_MEDIA, PATH_FILEBROWSER_MEDIA<a class="headerlink" href="#url-filebrowser-media-path-filebrowser-media" title="Permalink to this headline">¶</a></h3>
+<p>The URL and Path to your FileBrowser media-files:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">URL_FILEBROWSER_MEDIA</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_URL_FILEBROWSER_MEDIA&quot;</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">STATIC_URL</span> <span class="o">+</span> <span class="s">&quot;filebrowser/&quot;</span><span class="p">)</span>
+<span class="n">PATH_FILEBROWSER_MEDIA</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_PATH_FILEBROWSER_MEDIA&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">STATIC_ROOT</span><span class="p">,</span> <span class="s">&#39;filebrowser/&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="url-tinymce-path-tinymce">
+<h3>URL_TINYMCE, PATH_TINYMCE<a class="headerlink" href="#url-tinymce-path-tinymce" title="Permalink to this headline">¶</a></h3>
+<p>The URL to your TinyMCE Installation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">URL_TINYMCE</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_URL_TINYMCE&quot;</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">ADMIN_MEDIA_PREFIX</span> <span class="o">+</span> <span class="s">&quot;tinymce/jscripts/tiny_mce/&quot;</span><span class="p">)</span>
+<span class="n">PATH_TINYMCE</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_PATH_TINYMCE&quot;</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">ADMIN_MEDIA_PREFIX</span> <span class="o">+</span> <span class="s">&quot;tinymce/jscripts/tiny_mce/&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Only change these settings if you&#8217;re absolutely sure about what you&#8217;re doing.</p>
+</div>
+</div>
+</div>
+<div class="section" id="extensions-and-formats">
+<h2>Extensions and Formats<a class="headerlink" href="#extensions-and-formats" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="extensions">
+<h3>EXTENSIONS<a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h3>
+<p>Allowed extensions for file upload:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">EXTENSIONS</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_EXTENSIONS&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s">&#39;Image&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;.jpg&#39;</span><span class="p">,</span><span class="s">&#39;.jpeg&#39;</span><span class="p">,</span><span class="s">&#39;.gif&#39;</span><span class="p">,</span><span class="s">&#39;.png&#39;</span><span class="p">,</span><span class="s">&#39;.tif&#39;</span><span class="p">,</span><span class="s">&#39;.tiff&#39;</span><span class="p">],</span>
+    <span class="s">&#39;Document&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;.pdf&#39;</span><span class="p">,</span><span class="s">&#39;.doc&#39;</span><span class="p">,</span><span class="s">&#39;.rtf&#39;</span><span class="p">,</span><span class="s">&#39;.txt&#39;</span><span class="p">,</span><span class="s">&#39;.xls&#39;</span><span class="p">,</span><span class="s">&#39;.csv&#39;</span><span class="p">],</span>
+    <span class="s">&#39;Video&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;.mov&#39;</span><span class="p">,</span><span class="s">&#39;.wmv&#39;</span><span class="p">,</span><span class="s">&#39;.mpeg&#39;</span><span class="p">,</span><span class="s">&#39;.mpg&#39;</span><span class="p">,</span><span class="s">&#39;.avi&#39;</span><span class="p">,</span><span class="s">&#39;.rm&#39;</span><span class="p">],</span>
+    <span class="s">&#39;Audio&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;.mp3&#39;</span><span class="p">,</span><span class="s">&#39;.mp4&#39;</span><span class="p">,</span><span class="s">&#39;.wav&#39;</span><span class="p">,</span><span class="s">&#39;.aiff&#39;</span><span class="p">,</span><span class="s">&#39;.midi&#39;</span><span class="p">,</span><span class="s">&#39;.m4p&#39;</span><span class="p">]</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="select-formats">
+<h3>SELECT_FORMATS<a class="headerlink" href="#select-formats" title="Permalink to this headline">¶</a></h3>
+<p>Set different Options for selecting elements from the FileBrowser:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SELECT_FORMATS</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_SELECT_FORMATS&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s">&#39;file&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;Folder&#39;</span><span class="p">,</span><span class="s">&#39;Image&#39;</span><span class="p">,</span><span class="s">&#39;Document&#39;</span><span class="p">,</span><span class="s">&#39;Video&#39;</span><span class="p">,</span><span class="s">&#39;Audio&#39;</span><span class="p">],</span>
+    <span class="s">&#39;image&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;Image&#39;</span><span class="p">],</span>
+    <span class="s">&#39;document&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;Document&#39;</span><span class="p">],</span>
+    <span class="s">&#39;media&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;Video&#39;</span><span class="p">,</span><span class="s">&#39;Audio&#39;</span><span class="p">],</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>When using the browse-function for selecting Files/Folders, you can use an additional query-attribute <tt class="docutils literal"><span class="pre">type</span></tt> in order to restrict the choices.</p>
+</div>
+</div>
+<div class="section" id="versions">
+<h2>Versions<a class="headerlink" href="#versions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="versions-basedir-relative-to-media-root">
+<h3>VERSIONS_BASEDIR (relative to <tt class="docutils literal"><span class="pre">MEDIA_ROOT</span></tt>)<a class="headerlink" href="#versions-basedir-relative-to-media-root" title="Permalink to this headline">¶</a></h3>
+<p>Directory to save image versions (and thumbnails). If no directory is given, versions are stored at the same location as the original image:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">VERSIONS_BASEDIR</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&#39;FILEBROWSER_VERSIONS_BASEDIR&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>VERSIONS<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Define the versions according to your websites grid:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">VERSIONS</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_VERSIONS&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s">&#39;admin_thumbnail&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;verbose_name&#39;</span><span class="p">:</span> <span class="s">&#39;Admin Thumbnail&#39;</span><span class="p">,</span> <span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s">&#39;opts&#39;</span><span class="p">:</span> <span class="s">&#39;crop&#39;</span><span class="p">},</span>
+    <span class="s">&#39;thumbnail&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;verbose_name&#39;</span><span class="p">:</span> <span class="s">&#39;Thumbnail (1 col)&#39;</span><span class="p">,</span> <span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s">&#39;opts&#39;</span><span class="p">:</span> <span class="s">&#39;crop&#39;</span><span class="p">},</span>
+    <span class="s">&#39;small&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;verbose_name&#39;</span><span class="p">:</span> <span class="s">&#39;Small (2 col)&#39;</span><span class="p">,</span> <span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">140</span><span class="p">,</span> <span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;opts&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">},</span>
+    <span class="s">&#39;medium&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;verbose_name&#39;</span><span class="p">:</span> <span class="s">&#39;Medium (4col )&#39;</span><span class="p">,</span> <span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;opts&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">},</span>
+    <span class="s">&#39;big&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;verbose_name&#39;</span><span class="p">:</span> <span class="s">&#39;Big (6 col)&#39;</span><span class="p">,</span> <span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">460</span><span class="p">,</span> <span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;opts&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">},</span>
+    <span class="s">&#39;large&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;verbose_name&#39;</span><span class="p">:</span> <span class="s">&#39;Large (8 col)&#39;</span><span class="p">,</span> <span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">680</span><span class="p">,</span> <span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;opts&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">},</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="admin-versions">
+<h3>ADMIN_VERSIONS<a class="headerlink" href="#admin-versions" title="Permalink to this headline">¶</a></h3>
+<p>The versions you want to show with the admin-interface:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ADMIN_VERSIONS</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&#39;FILEBROWSER_ADMIN_VERSIONS&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;thumbnail&#39;</span><span class="p">,</span> <span class="s">&#39;small&#39;</span><span class="p">,</span> <span class="s">&#39;medium&#39;</span><span class="p">,</span> <span class="s">&#39;big&#39;</span><span class="p">,</span> <span class="s">&#39;large&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="admin-thumbnail">
+<h3>ADMIN_THUMBNAIL<a class="headerlink" href="#admin-thumbnail" title="Permalink to this headline">¶</a></h3>
+<p>The version being used as the admin-thumbnail:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ADMIN_THUMBNAIL</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&#39;FILEBROWSER_ADMIN_THUMBNAIL&#39;</span><span class="p">,</span> <span class="s">&#39;admin_thumbnail&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="extra-settings">
+<h2>Extra Settings<a class="headerlink" href="#extra-settings" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="save-full-url">
+<h3>SAVE_FULL_URL<a class="headerlink" href="#save-full-url" title="Permalink to this headline">¶</a></h3>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 3.3: </span>Default value has changed from <tt class="xref docutils literal"><span class="pre">True</span></tt> to <tt class="xref docutils literal"><span class="pre">False</span></tt>.</p>
+<p><tt class="xref docutils literal"><span class="pre">True</span></tt> to save the full URL to your model fields. <tt class="xref docutils literal"><span class="pre">False</span></tt> to save the URL relative to MEDIA_URL:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SAVE_FULL_URL</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_SAVE_FULL_URL&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="strict-pil">
+<h3>STRICT_PIL<a class="headerlink" href="#strict-pil" title="Permalink to this headline">¶</a></h3>
+<p>If set to <tt class="xref docutils literal"><span class="pre">True</span></tt>, the FileBrowser will not try to import a mis-installed PIL:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">STRICT_PIL</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&#39;FILEBROWSER_STRICT_PIL&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="image-maxblock">
+<h3>IMAGE_MAXBLOCK<a class="headerlink" href="#image-maxblock" title="Permalink to this headline">¶</a></h3>
+<p>see <a class="reference external" href="http://mail.python.org/pipermail/image-sig/1999-August/000816.html">http://mail.python.org/pipermail/image-sig/1999-August/000816.html</a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">IMAGE_MAXBLOCK</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&#39;FILEBROWSER_IMAGE_MAXBLOCK&#39;</span><span class="p">,</span> <span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="exclude">
+<h3>EXCLUDE<a class="headerlink" href="#exclude" title="Permalink to this headline">¶</a></h3>
+<p>Exclude-patterns for files you don&#8217;t want to show:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">EXTENSION_LIST</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">exts</span> <span class="ow">in</span> <span class="n">EXTENSIONS</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+    <span class="n">EXTENSION_LIST</span> <span class="o">+=</span> <span class="n">exts</span>
+<span class="n">EXCLUDE</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&#39;FILEBROWSER_EXCLUDE&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">r&#39;_(</span><span class="si">%(exts)s</span><span class="s">)_.*_q\d{1,3}\.(</span><span class="si">%(exts)s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">{</span><span class="s">&#39;exts&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">EXTENSION_LIST</span><span class="p">))},))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="max-upload-size">
+<h3>MAX_UPLOAD_SIZE<a class="headerlink" href="#max-upload-size" title="Permalink to this headline">¶</a></h3>
+<p>Max. Upload Size in Bytes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">MAX_UPLOAD_SIZE</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_MAX_UPLOAD_SIZE&quot;</span><span class="p">,</span> <span class="mi">10485760</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="convert-filename">
+<h3>CONVERT_FILENAME<a class="headerlink" href="#convert-filename" title="Permalink to this headline">¶</a></h3>
+<p><tt class="xref docutils literal"><span class="pre">True</span></tt> if you want to convert the filename on upload (replace spaces and convert to lowercase):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">CONVERT_FILENAME</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_CONVERT_FILENAME&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="list-per-page">
+<h3>LIST_PER_PAGE<a class="headerlink" href="#list-per-page" title="Permalink to this headline">¶</a></h3>
+<p>How many items appear on each paginated list:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">LIST_PER_PAGE</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_LIST_PER_PAGE&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="default-sorting-by">
+<h3>DEFAULT_SORTING_BY<a class="headerlink" href="#default-sorting-by" title="Permalink to this headline">¶</a></h3>
+<p>Default sorting attribute:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DEFAULT_SORTING_BY</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_DEFAULT_SORTING_BY&quot;</span><span class="p">,</span> <span class="s">&quot;date&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Options are: <tt class="docutils literal"><span class="pre">date</span></tt>, <tt class="docutils literal"><span class="pre">filesize</span></tt>, <tt class="docutils literal"><span class="pre">filename_lower</span></tt>, <tt class="docutils literal"><span class="pre">filetype_checked</span></tt></p>
+</div>
+<div class="section" id="default-sorting-order">
+<h3>DEFAULT_SORTING_ORDER<a class="headerlink" href="#default-sorting-order" title="Permalink to this headline">¶</a></h3>
+<p>Default sorting order:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DEFAULT_SORTING_ORDER</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_DEFAULT_SORTING_ORDER&quot;</span><span class="p">,</span> <span class="s">&quot;desc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Options are: <tt class="docutils literal"><span class="pre">asc</span></tt> or <tt class="docutils literal"><span class="pre">desc</span></tt></p>
+</div>
+<div class="section" id="search-traverse">
+<h3>SEARCH_TRAVERSE<a class="headerlink" href="#search-traverse" title="Permalink to this headline">¶</a></h3>
+<p><tt class="xref docutils literal"><span class="pre">True</span></tt>, if you want to traverse all subdirectories when searching. Please note that with thousands of files/directories, this might take a while:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SEARCH_TRAVERSE</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FILEBROWSER_SEARCH_TRAVERSE&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fb-default-permissions">
+<h3>FB_DEFAULT_PERMISSIONS<a class="headerlink" href="#fb-default-permissions" title="Permalink to this headline">¶</a></h3>
+<p>Default Upload and Version Permissions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">FB_DEFAULT_PERMISSIONS</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;FB_DEFAULT_PERMISSIONS&quot;</span><span class="p">,</span> <span class="mo">0755</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Settings</a><ul>
+<li><a class="reference internal" href="#main-url-paths-settings">Main URL/Paths Settings</a></li>
+<li><a class="reference internal" href="#filebrowser-media-tinymce-media">FileBrowser Media, TinyMCE Media</a></li>
+<li><a class="reference internal" href="#extensions-and-formats">Extensions and Formats</a></li>
+<li><a class="reference internal" href="#versions">Versions</a></li>
+<li><a class="reference internal" href="#extra-settings">Extra Settings</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="quickstart.html"
+                        title="previous chapter">Quick start guide</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">FileListing</span></tt> class</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/settings.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="api.html" title="FileListing class"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quick start guide"
+             >previous</a> |</li>
+        <li><a href="index.html">Django FileBrowser v3.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Patrick Kranzlmueller.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

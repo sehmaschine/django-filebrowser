@@ -1,0 +1,230 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FileBrowseField &mdash; Django FileBrowser v3.3.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '3.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Django FileBrowser v3.3.0 documentation" href="index.html" />
+    <link rel="next" title="Image Versions" href="versions.html" />
+    <link rel="prev" title="Views" href="admin.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="versions.html" title="Image Versions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="admin.html" title="Views"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Django FileBrowser v3.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="filebrowsefield">
+<span id="id1"></span><h1>FileBrowseField<a class="headerlink" href="#filebrowsefield" title="Permalink to this headline">¶</a></h1>
+<p>The <tt class="docutils literal"><span class="pre">FileBrowseField</span></tt> is a <tt class="docutils literal"><span class="pre">Model</span> <span class="pre">field</span></tt> for selecting a file from your Media Server:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">filebrowser.fields</span> <span class="kn">import</span> <span class="n">FileBrowseField</span>
+
+<span class="k">class</span> <span class="nc">BlogEntry</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="n">image</span> <span class="o">=</span> <span class="n">FileBrowseField</span><span class="p">(</span><span class="s">&quot;Image&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="s">&quot;images/&quot;</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;.jpg&quot;</span><span class="p">],</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">document</span> <span class="o">=</span> <span class="n">FileBrowseField</span><span class="p">(</span><span class="s">&quot;PDF&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="s">&quot;documents/&quot;</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;.pdf&quot;</span><span class="p">,</span><span class="s">&quot;.doc&quot;</span><span class="p">],</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<div class="section" id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">max_length</span></tt></dt>
+<dd>Since the <tt class="docutils literal"><span class="pre">FileBrowseField</span></tt> is a <tt class="docutils literal"><span class="pre">CharField</span></tt>, you have to define <tt class="docutils literal"><span class="pre">max_length</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">directory</span></tt></dt>
+<dd>Subdirectory of <tt class="docutils literal"><span class="pre">DIRECTORY</span></tt>. If <tt class="docutils literal"><span class="pre">DIRECTORY</span></tt> is not defined, subdirectory of <tt class="docutils literal"><span class="pre">MEDIA_ROOT</span></tt>. Do not prepend a slash.</dd>
+<dt><tt class="docutils literal"><span class="pre">extensions</span></tt></dt>
+<dd>List of allowed extensions.</dd>
+<dt><tt class="docutils literal"><span class="pre">format</span></tt></dt>
+<dd>Use this attribute to restrict selection to specific filetypes. E.g., if you use format=&#8217;image&#8217;, only Images can be selected from the FileBrowser. Note: The <tt class="docutils literal"><span class="pre">format</span></tt> has to be defined within <tt class="docutils literal"><span class="pre">SELECT_FORMATS</span></tt>.</dd>
+</dl>
+</div>
+<div class="section" id="filebrowsefield-in-templates">
+<h2>FileBrowseField in Templates<a class="headerlink" href="#filebrowsefield-in-templates" title="Permalink to this headline">¶</a></h2>
+<p>When using a <tt class="docutils literal"><span class="pre">FileBrowseField</span></tt>, you´ll get a <a class="reference internal" href="api.html#fileobject"><em>FileObject class</em></a> back.</p>
+<p>With the above Model, you can use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{{</span> <span class="n">blogentry</span><span class="o">.</span><span class="n">image</span> <span class="p">}}</span>
+</pre></div>
+</div>
+<p>to output the contents of your image-field. For example, this could result in something like &#8220;uploads/images/myimage.jpg&#8221;.</p>
+<p>Now, if you want to actually display the Image, you write:</p>
+<div class="highlight-python"><pre>&lt;img src="{{ publication.image }}" /&gt;</pre>
+</div>
+<p>More complicated, if you want to display &#8220;Landscape&#8221; Images only (I know, bad example):</p>
+<div class="highlight-python"><pre>{% ifequal blogentry.image.image_orientation "landscape" %}
+    &lt;img src="{{ blogentry.image }}" class="landscape" /&gt;
+{% endifequal %}</pre>
+</div>
+</div>
+<div class="section" id="showing-thumbnail-in-the-changelist">
+<h2>Showing Thumbnail in the Changelist<a class="headerlink" href="#showing-thumbnail-in-the-changelist" title="Permalink to this headline">¶</a></h2>
+<p>If you want to show a Thumbnail in the Changelist, you can define a Model-/Admin-Method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">filebrowser.settings</span> <span class="kn">import</span> <span class="n">ADMIN_THUMBNAIL</span>
+
+<span class="k">def</span> <span class="nf">image_thumbnail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">image</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">filetype</span> <span class="o">==</span> <span class="s">&quot;Image&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&#39;&lt;img src=&quot;</span><span class="si">%s</span><span class="s">&quot; /&gt;&#39;</span> <span class="o">%</span> <span class="n">obj</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">ADMIN_THUMBNAIL</span><span class="p">)</span><span class="o">.</span><span class="n">url</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;&quot;</span>
+<span class="n">image_thumbnail</span><span class="o">.</span><span class="n">allow_tags</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">image_thumbnail</span><span class="o">.</span><span class="n">short_description</span> <span class="o">=</span> <span class="s">&quot;Thumbnail&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-the-filebrowsefield-with-tinymce">
+<h2>Using the FileBrowseField with TinyMCE<a class="headerlink" href="#using-the-filebrowsefield-with-tinymce" title="Permalink to this headline">¶</a></h2>
+<p>You can also replace the TinyMCE Image/File Manager with the FileBrowser. What you have to do is a FileBrowser Callback. There´s an example in /media/js/ called TinyMCEAdmin.js (a TinyMCE Configuration File). You can copy the FileBrowserCallback to your own file, take a look at <a class="reference external" href="http://wiki.moxiecode.com/index.php/TinyMCE:Custom_filebrowser">http://wiki.moxiecode.com/index.php/TinyMCE:Custom_filebrowser</a> or just use TinyMCEAdmin.js.</p>
+<p>Just add these lines to your AdminModel:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Media</span><span class="p">:</span>
+    <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;/path/to/tinymce/jscripts/tiny_mce/tiny_mce.js&#39;</span><span class="p">,</span> <span class="s">&#39;/path/to/filebrowser/js/TinyMCEAdmin.js&#39;</span><span class="p">,]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="clearablefileinput">
+<h1>ClearableFileInput<a class="headerlink" href="#clearablefileinput" title="Permalink to this headline">¶</a></h1>
+<p>Subclass of <tt class="docutils literal"><span class="pre">ClearableFileInput</span></tt> with an additional Image-Thumbnail:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">filebrowser.widgets</span> <span class="kn">import</span> <span class="n">ClearableFileInput</span>
+
+<span class="k">class</span> <span class="nc">BlogEntryOptions</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">formfield_overrides</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">models</span><span class="o">.</span><span class="n">ImageField</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;widget&#39;</span><span class="p">:</span> <span class="n">ClearableFileInput</span><span class="p">},</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="django-filefield-and-the-filebrowser">
+<h1>Django <tt class="docutils literal"><span class="pre">FileField</span></tt> and the FileBrowser<a class="headerlink" href="#django-filefield-and-the-filebrowser" title="Permalink to this headline">¶</a></h1>
+<p>Generate a <tt class="docutils literal"><span class="pre">FileObject</span></tt> from a <tt class="docutils literal"><span class="pre">FileField</span></tt> or <tt class="docutils literal"><span class="pre">ImageField</span></tt> with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">filebrowser.base</span> <span class="kn">import</span> <span class="n">FileObject</span>
+
+<span class="n">image_upload</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ImageField</span><span class="p">(</span><span class="s">u&quot;Image (Upload)&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">upload_to</span><span class="o">=</span><span class="n">image_upload_path</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">image_upload_fileobject</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_upload</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">FileObject</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image_upload</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">None</span>
+</pre></div>
+</div>
+<p>To show a Thumbnail on your changelist, you could use a ModelAdmin-Method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">filebrowser.base</span> <span class="kn">import</span> <span class="n">FileObject</span>
+
+<span class="k">def</span> <span class="nf">image_upload_thumbnail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">image_upload</span><span class="p">:</span>
+        <span class="n">image_upload_fileobject</span> <span class="o">=</span> <span class="n">FileObject</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">image_upload</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">image_upload_fileobject</span><span class="o">.</span><span class="n">filetype</span> <span class="o">==</span> <span class="s">&quot;Image&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;&lt;img src=&quot;</span><span class="si">%s</span><span class="s">&quot; /&gt;&#39;</span> <span class="o">%</span> <span class="n">image_upload_fileobject</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">ADMIN_THUMBNAIL</span><span class="p">)</span><span class="o">.</span><span class="n">url</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;&quot;</span>
+<span class="n">image_upload_thumbnail</span><span class="o">.</span><span class="n">allow_tags</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">image_upload_thumbnail</span><span class="o">.</span><span class="n">short_description</span> <span class="o">=</span> <span class="s">&quot;Thumbnail&quot;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There&#8217;s different ways to achive this. The above examples show one of several options.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">FileBrowseField</a><ul>
+<li><a class="reference internal" href="#attributes">Attributes</a></li>
+<li><a class="reference internal" href="#filebrowsefield-in-templates">FileBrowseField in Templates</a></li>
+<li><a class="reference internal" href="#showing-thumbnail-in-the-changelist">Showing Thumbnail in the Changelist</a></li>
+<li><a class="reference internal" href="#using-the-filebrowsefield-with-tinymce">Using the FileBrowseField with TinyMCE</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clearablefileinput">ClearableFileInput</a></li>
+<li><a class="reference internal" href="#django-filefield-and-the-filebrowser">Django <tt class="docutils literal"><span class="pre">FileField</span></tt> and the FileBrowser</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="admin.html"
+                        title="previous chapter">Views</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="versions.html"
+                        title="next chapter">Image Versions</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/fieldswidgets.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="versions.html" title="Image Versions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="admin.html" title="Views"
+             >previous</a> |</li>
+        <li><a href="index.html">Django FileBrowser v3.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Patrick Kranzlmueller.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>
