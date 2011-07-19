@@ -275,6 +275,7 @@ def handle_file_upload(path, file):
     try:
         file_path = os.path.join(path, file.name)
         uploadedfile = filebrowser_storage.save(file_path, file)
+        os.chmod(uploadedfile, FB_DEFAULT_PERMISSIONS)
     except Exception, inst:
         print "___filebrowser.functions.handle_file_upload(): could not save uploaded file"
         print "ERROR: ", inst
@@ -320,7 +321,7 @@ def version_generator(value, version_prefix, force=None):
         version_dir = os.path.split(version_path)[0]
         if not os.path.isdir(version_dir):
             os.makedirs(version_dir)
-            os.chmod(version_dir, 0775)
+            os.chmod(version_dir, FB_DEFAULT_PERMISSIONS)
         version = scale_and_crop(im, VERSIONS[version_prefix]['width'], VERSIONS[version_prefix]['height'], VERSIONS[version_prefix]['opts'])
         if version:
             try:
