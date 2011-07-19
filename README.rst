@@ -22,3 +22,8 @@ Documentation
 -------------
 
 http://readthedocs.org/docs/django-filebrowser/
+
+Translation
+-----------
+
+https://www.transifex.net/projects/p/django-filebrowser/
