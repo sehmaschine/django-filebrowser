@@ -1,12 +1,17 @@
 from setuptools import setup, find_packages
 
+README = read('README.rst')
+VERSION = __import__("compressor").__version__
+
 setup(
     name='django-filebrowser',
-    version='3.3.0',
-    description='Media-Management with the Django Admin-Interface.',
-    author='Patrick Kranzlmueller (vonautomatisch)',
-    author_email='werkstaetten@vonautomatisch.at',
-    url='http://code.google.com/p/django-filebrowser/',
+    version=VERSION,
+    description='Media-Management with Grappelli',
+    long_description = README,
+    author='Patrick Kranzlmueller',
+    author_email='patrick@vonautomatisch.at',
+    url='https://github.com/sehmaschine/django-filebrowser',
+    license = 'BSD',
     download_url='',
     packages=find_packages(),
     include_package_data=True,
