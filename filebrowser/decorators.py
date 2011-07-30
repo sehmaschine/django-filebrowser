@@ -61,8 +61,15 @@ def file_exists(function):
     """
     
     def decorator(request, *args, **kwargs):
-        if get_file(request.GET.get('dir', ''), request.GET.get('filename', '')) == None:
+        file_path = get_file(request.GET.get('dir', ''), request.GET.get('filename', ''))
+        if file_path == None:
             msg = _('The requested File does not exist.')
+            messages.add_message(request, messages.ERROR, msg)
+            redirect_url = reverse("fb_browse") + query_helper(request.GET, "", "dir")
+            return HttpResponseRedirect(redirect_url)
+        elif file_path.startswith('/') or file_path.startswith('..'):
+            # prevent path traversal
+            msg = _('You do not have permission to access this file!')
             messages.add_message(request, messages.ERROR, msg)
             redirect_url = reverse("fb_browse") + query_helper(request.GET, "", "dir")
             return HttpResponseRedirect(redirect_url)
