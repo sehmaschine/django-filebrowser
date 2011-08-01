@@ -30,12 +30,12 @@ Check issues
 
 If your setup is fine, please check if your problem is a known issue.
 
-* Take a look at all `FileBrowser Issues <http://code.google.com/p/django-filebrowser/issues/list>`_ (incuding closed) and search the `FileBrowser Google-Group <http://groups.google.com/group/django-filebrowser>`_.
+* Take a look at all `FileBrowser Issues <https://github.com/sehmaschine/django-filebrowser/issues>`_ (incuding closed) and search the `FileBrowser Google-Group <http://groups.google.com/group/django-filebrowser>`_.
 
 Add a ticket
 ^^^^^^^^^^^^
 
-If you think you've found a bug, please `add a ticket <http://code.google.com/p/django-filebrowser/issues/entry>`_.
+If you think you've found a bug, please add a ticket.
 
 * Try to describe your problem as precisely as possible.
 * Tell us what you did in order to solve the problem.

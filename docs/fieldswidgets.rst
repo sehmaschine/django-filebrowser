@@ -72,12 +72,12 @@ If you want to show a Thumbnail in the Changelist, you can define a Model-/Admin
 Using the FileBrowseField with TinyMCE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You can also replace the TinyMCE Image/File Manager with the FileBrowser. What you have to do is a FileBrowser Callback. There´s an example in /media/js/ called TinyMCEAdmin.js (a TinyMCE Configuration File). You can copy the FileBrowserCallback to your own file, take a look at http://wiki.moxiecode.com/index.php/TinyMCE:Custom_filebrowser or just use TinyMCEAdmin.js.
+You can also replace the TinyMCE Image/File Manager with the FileBrowser. What you have to do is a FileBrowser Callback. There´s an example in /media/js/ called TinyMCEAdmin.js (a TinyMCE Configuration File). You can copy the FileBrowserCallback to your own file, take a look at http://wiki.moxiecode.com/index.php/TinyMCE:Custom_filebrowser or just use tinymce_setup.js (which comes with django-grappelli).
 
 Just add these lines to your AdminModel::
 
     class Media:
-        js = ['/path/to/tinymce/jscripts/tiny_mce/tiny_mce.js', '/path/to/filebrowser/js/TinyMCEAdmin.js',]
+        js = ['/path/to/tinymce/jscripts/tiny_mce/tiny_mce.js', '/path/to/your/tinymce_setup.js',]
 
 ClearableFileInput
 ==================

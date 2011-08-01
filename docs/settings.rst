@@ -209,9 +209,9 @@ SEARCH_TRAVERSE
 
     SEARCH_TRAVERSE = getattr(settings, "FILEBROWSER_SEARCH_TRAVERSE", False)
 
-FB_DEFAULT_PERMISSIONS
-^^^^^^^^^^^^^^^^^^^^^^
+DEFAULT_PERMISSIONS
+^^^^^^^^^^^^^^^^^^^
 
 Default Upload and Version Permissions::
 
-    FB_DEFAULT_PERMISSIONS = getattr(settings, "FB_DEFAULT_PERMISSIONS", 0755)
+    DEFAULT_PERMISSIONS = getattr(settings, "FILEBROWSER_DEFAULT_PERMISSIONS", 0755)

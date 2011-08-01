@@ -34,7 +34,7 @@ What's new in FileBrowser 3.3
 * Easier selection of Files (for either the FileBrowseField or the Rich-Text-Editor).
 * Added delete-confirmation.
 * Image transpose (flip, rotate).
-* Added setting ``FB_DEFAULT_PERMISSIONS``.
+* Added setting ``DEFAULT_PERMISSIONS``.
 
 Design changes
 ^^^^^^^^^^^^^^

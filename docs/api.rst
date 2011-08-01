@@ -261,7 +261,7 @@ Server path to the file/folder, relative to ``MEDIA_ROOT``::
 
 .. deprecated:: 3.3
 
-see :ref:`url` instead.
+see ``url`` instead.
 
 ``url``
 ^^^^^^^

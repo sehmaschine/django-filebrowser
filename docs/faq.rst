@@ -35,11 +35,6 @@ How do I upload to another server?
 
 see http://www.uploadify.com/faqs/how-do-i-upload-files-from-one-server-to-another/
 
-Why is there no mercurial– or git–repository?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-We have discussed this issue on the `Grappelli Google-Group <http://groups.google.com/group/django-grappelli>`_. Since the outcome has been ambiguous, we stay with svn for now. Of course, the same is true for the |filebrowser|.
-
 Why should I need image-versions?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

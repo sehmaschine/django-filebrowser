@@ -12,29 +12,17 @@ Requirements
 ------------
 
 * Django 1.3, http://www.djangoproject.com
-* Grappelli 2.3, http://code.google.com/p/django-grappelli/
+* Grappelli 2.3, https://github.com/sehmaschine/django-grappelli
 * PIL, http://www.pythonware.com/products/pil/
 
 Download
 --------
 
-Using ``easy_install``::
-
-    easy_install -Z django-filebrowser
-
-Note that the ``-Z`` flag is required to tell ``easy_install`` not to
-create a zipped package (zipped packages prevent certain features of
-Django from working properly).
-
 Using ``pip``::
 
     pip install django-filebrowser
 
-Using ``svn`` (recommended)::
-
-    svn checkout http://django-filebrowser.googlecode.com/svn/trunk/filebrowser/ filebrowser
-
-or download the package from http://code.google.com/p/django-filebrowser/downloads/list
+Go to https://github.com/sehmaschine/django-filebrowser if you need to download a package or clone the repo.
 
 Installation
 ------------
