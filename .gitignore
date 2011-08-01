@@ -1,5 +1,5 @@
 *.pyc
+docs/_build/
 dist
 *.egg-info
 *.pot
-docs/_build/

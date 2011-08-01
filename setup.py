@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-filebrowser',
-    version='3.3.0',
+    version='3.3.1',
     description='Media-Management with Grappelli',
     author='Patrick Kranzlmueller',
     author_email='patrick@vonautomatisch.at',
