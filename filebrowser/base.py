@@ -183,34 +183,34 @@ class FileObject():
         return len(self.url_save)
     
     # GENERAL ATTRIBUTES
-    __filetype = None
+    _filetype_stored = None
     def _filetype(self):
-        if self.__filetype != None:
-            return self.__filetype
+        if self._filetype_stored != None:
+            return self._filetype_stored
         if os.path.isdir(self.path):
-            self.__filetype = 'Folder'
+            self._filetype_stored = 'Folder'
         else:
-            self.__filetype = get_file_type(self.filename)
-        return self.__filetype
+            self._filetype_stored = get_file_type(self.filename)
+        return self._filetype_stored
     filetype = property(_filetype)
     
-    __filesize = None
+    _filesize_stored = None
     def _filesize(self):
-        if self.__filesize != None:
-            return self.__filesize
+        if self._filesize_stored != None:
+            return self._filesize_stored
         if os.path.exists(self.path):
-            self.__filesize = os.path.getsize(self.path)
-            return self.__filesize
+            self._filesize_stored = os.path.getsize(self.path)
+            return self._filesize_stored
         return None
     filesize = property(_filesize)
 
-    __date = None
+    _date_stored = None
     def _date(self):
-        if self.__date != None:
-            return self.__date
+        if self._date_stored != None:
+            return self._date_stored
         if os.path.exists(self.path):
-            self.__date = os.path.getmtime(self.path)
-            return self.__date
+            self._date_stored = os.path.getmtime(self.path)
+            return self._date_stored
         return None
     date = property(_date)
 
