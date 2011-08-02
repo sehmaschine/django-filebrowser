@@ -4,14 +4,16 @@
 {% load i18n adminmedia fb_tags fb_versions %}
 
 <!-- STYLESHEETS -->
-{% block stylesheets %}
+{% block extrastyle %}
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
 {% endblock %}
 
 <!-- JAVASCRIPTS -->
-{% block javascripts %}
+{% block extrahead %}
     {{ block.super }}
+	<script type="text/javascript" src="{% admin_media_prefix %}js/jquery.min.js"></script>
+	<script type="text/javascript" src="{% admin_media_prefix %}js/jquery.init.js"></script>
     {% ifequal query.pop '1' %} <!-- FileBrowseField -->
     <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_FileBrowseField.js"></script>
     {% endifequal %}

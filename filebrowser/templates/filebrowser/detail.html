@@ -4,32 +4,19 @@
 {% load i18n adminmedia fb_tags fb_versions %}
 
 <!-- STYLESHEETS -->
-{% block stylesheets %}
+{% block extrastyle %}
     {{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
     <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
 {% endblock %}
 
 <!-- JAVASCRIPTS -->
-{% block javascripts %}
-    {{ block.super }}
-    <script type="text/javascript">
-    (function($){
-        $(document).ready(function() {
-            $("div#content .collapse").grp_collapsible({
-                on_init: function(elem, options) {
-                    // open collapse (and all collapse parents) in case of errors
-                    if (elem.find("ul.errorlist").length > 0) {
-                        elem.removeClass("closed")
-                            .addClass("open");
-                        elem.parents(".collapse")
-                            .removeClass("closed")
-                            .addClass("open");
-                    }
-                }
-            });
-        });
-    })(django.jQuery);
-    </script>
+{% block extrahead %}
+	{{ block.super }}
+	<script type="text/javascript" src="/admin/jsi18n/"></script>
+	<script type="text/javascript" src="{% admin_media_prefix %}js/jquery.min.js"></script>
+	<script type="text/javascript" src="{% admin_media_prefix %}js/jquery.init.js"></script>
+	<script type="text/javascript" src="{% admin_media_prefix %}js/collapse.min.js"></script>
     {{ media }}
 {% endblock %}
 
@@ -42,14 +29,14 @@
 
 <!-- CONTENT -->
 {% block content %}
-<div class="container-flexible">
-    <div class="form-container">
-        <form action="{% query_string "" "filter_date,filter_type,q,p" %}" method="post">{% csrf_token %}
+<div id="content-main">
+    <form action="{% query_string "" "filter_date,filter_type,q,p" %}" method="post">{% csrf_token %}
+		<div>
             {% if form.errors %}<p class="errornote">{% trans 'Please correct the following errors.' %}</p>{% endif %}
-            <fieldset class="module">
-                <div class="row {% if form.name.errors %}errors{% endif %}">
-                    <div class="column span-4"><label class="required" for="id_name">{{ form.name.label }}</label></div>
-                    <div class="column span-flexible">
+            <fieldset class="module aligned">
+                <div class="form-row {% if form.name.errors %}errors{% endif %}">
+                    <div>
+					    <label class="required" for="id_name">{{ form.name.label }}</label>
                         {{ form.name }}
                         {% if form.name.errors %}<ul class="errorlist">{{ form.name.errors }}</ul>{% endif %}
                         {% if form.name.help_text %}<p class="help">{{ form.name.help_text|safe }}</p>{% endif %}
@@ -57,11 +44,11 @@
                 </div>
             </fieldset>
             {% if fileobject.filetype == "Image" %}
-            <fieldset class="module collapse open">
-                <h2 class="collapse-handler">{% trans "Edit" %}</h2>
-                <div class="row {% if form.transpose.errors %}errors{% endif %}">
-                    <div class="column span-4"><label class="required" for="id_transpose">{{ form.transpose.label }}</label></div>
-                    <div class="column span-8">
+            <fieldset class="module aligned collapse open">
+                <h2>{% trans "Edit" %}</h2>
+                <div class="form-row {% if form.transpose.errors %}errors{% endif %}">
+                    <div>
+					    <label class="required" for="id_transpose">{{ form.transpose.label }}</label>
                         {{ form.transpose }}
                         {% if form.transpose.errors %}<ul class="errorlist">{{ form.transpose.errors }}</ul>{% endif %}
                         {% if form.transpose.help_text %}<p class="help">{{ form.transpose.help_text|safe }}</p>{% endif %}
@@ -70,11 +57,11 @@
             </fieldset>
             {% endif %}
             {% if fileobject.filetype == "Folder" %}
-            <fieldset class="module collapse open">
-                <h2 class="collapse-handler">{% trans "Folder Information" %}</h2>
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "Date" %}</label></div>
-                    <div class="column span-flexible">
+            <fieldset class="module aligned collapse open">
+                <h2>{% trans "Folder Information" %}</h2>
+                <div class="form-row">
+                    <div>
+					    <label>{% trans "Date" %}</label>
                         <p class="readonly">
                             {{ fileobject.datetime|date:"N j, Y" }}
                         </p>
@@ -83,36 +70,36 @@
             </fieldset>
             {% endif %}
             {% if fileobject.filetype != "Folder" %}
-            <fieldset class="module collapse open">
-                <h2 class="collapse-handler">{% trans "File Information" %}</h2>
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "URL" %}</label></div>
-                    <div class="column span-flexible">
+            <fieldset class="module aligned collapse open">
+                <h2>{% trans "File Information" %}</h2>
+                <div class="form-row">
+                    <div>
+					    <label>{% trans "URL" %}</label>
                         <p class="readonly">
                             <a href="{{ fileobject.url }}">{{ fileobject.url }}</a>
                         </p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "Filesize" %}</label></div>
-                    <div class="column span-flexible">
+                <div class="form-row">
+                    <div>
+					    <label>{% trans "Filesize" %}</label>
                         <p class="readonly">
                             {{ fileobject.filesize|filesizeformat }}
                         </p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "Date" %}</label></div>
-                    <div class="column span-flexible">
+                <div class="form-row">
+                    <div>
+					    <label>{% trans "Date" %}</label>
                         <p class="readonly">
                             {{ fileobject.datetime|date:"N j, Y" }}
                         </p>
                     </div>
                 </div>
                 {% if fileobject.filetype == "Image" %}
-                    <div class="row">
-                        <div class="column span-4"><label>{% trans "Size" %}</label></div>
-                        <div class="column span-flexible">
+                    <div class="form-row">
+                        <div>
+						    <label>{% trans "Size" %}</label>
                             <p class="readonly">
                                 {{ fileobject.width }} x {{ fileobject.height }} px
                             </p>
@@ -122,12 +109,12 @@
             </fieldset>
             {% endif %}
             {% if fileobject.filetype == "Image" %}
-            <fieldset class="module collapse closed">
-                <h2 class="collapse-handler">{% trans "Image Versions" %}</h2>
+            <fieldset class="module aligned collapse closed">
+                <h2>{% trans "Image Versions" %}</h2>
                 {% if settings_var.ADMIN_THUMBNAIL %}
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "Thumbnail" %}</label></div>
-                    <div class="column span-flexible">
+                <div class="form-row">
+                    <div>
+					    <label>{% trans "Thumbnail" %}</label>
                         <img src="{% version fileobject.path settings_var.ADMIN_THUMBNAIL %}" title="{% trans 'View Image' %}" />
                     </div>
                 </div>
@@ -136,9 +123,9 @@
                     {% for version in settings_var.ADMIN_VERSIONS %}
                         {% version_object fileobject version as image_version %}
                         {% version_setting version %}
-                        <div class="row">
-                            <div class="column span-4"><label>{{ version_setting.verbose_name }}</label></div>
-                            <div class="column span-flexible">
+                        <div class="form-row">
+                            <div>
+							    <label>{{ version_setting.verbose_name }}</label>
                                 <img src="{{ image_version.url }}" />
                             </div>
                         </div>
@@ -146,14 +133,14 @@
                 {% endif %}
             </fieldset>
             {% endif %}
-            <div class="module footer">
-                <ul class="submit-row">
-                    <li class="left delete-link-container"><a href="{% url fb_delete_confirm %}{% query_string %}" class="delete-link">{% trans "Delete" %}</a></li>
-                    <li class="submit-button-container"><input type="submit" value="{% trans 'Save' %}" class="default" /></li>
-                    <li class="submit-button-container"><input type="submit" value="{% trans 'Save and continue editing' %}" name="_continue" /></li>
-                </ul><br clear="all" />
+            <div class="submit-row">
+				<p class="deletelink-box">
+                	<a href="{% url fb_delete_confirm %}{% query_string %}" class="deletelink">{% trans "Delete" %}</a>
+				</p>
+                <input type="submit" value="{% trans 'Save' %}" class="default" />
+                <input type="submit" value="{% trans 'Save and continue editing' %}" name="_continue" />
             </div>
-        </form>
-    </div>
+		</div>
+    </form>
 </div>
 {% endblock %}

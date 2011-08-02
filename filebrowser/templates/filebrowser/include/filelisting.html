@@ -59,8 +59,8 @@
                 {% endif %}
             </td>
         {% endif %}
-        
-        <!-- FILESELECT FOR CKEDITOR -->
+		
+		<!-- FILESELECT FOR CKEDITOR -->
         {% if query.pop == "3" %}
             <td class="fb_icon">
                 {% selectable fileobject.filetype query.type %}
@@ -126,9 +126,7 @@
         
         <!-- EDIT -->
         <td>
-            <ul class="actions">
-                <li class="change-link"><a href="{% url fb_detail %}{% query_string "" "p" %}&amp;filename={{ fileobject.filename }}"><strong>{% trans "Change" %}</strong></a></li>
-            </ul>
+            <a href="{% url fb_detail %}{% query_string "" "p" %}&amp;filename={{ fileobject.filename }}"><strong>{% trans "Change" %}</strong></a>
         </td>
         
     </tr>
