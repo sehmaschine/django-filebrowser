@@ -1,0 +1,159 @@
+{% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
+{% load i18n adminmedia fb_tags fb_versions %}
+
+<!-- STYLESHEETS -->
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+{% endblock %}
+
+<!-- JAVASCRIPTS -->
+{% block javascripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+    (function($){
+        $(document).ready(function() {
+            $("div#content .collapse").grp_collapsible({
+                on_init: function(elem, options) {
+                    // open collapse (and all collapse parents) in case of errors
+                    if (elem.find("ul.errorlist").length > 0) {
+                        elem.removeClass("closed")
+                            .addClass("open");
+                        elem.parents(".collapse")
+                            .removeClass("closed")
+                            .addClass("open");
+                    }
+                }
+            });
+        });
+    })(django.jQuery);
+    </script>
+    {{ media }}
+{% endblock %}
+
+<!-- COLTYPE/BODYCLASS -->
+{% block bodyclass %}change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+{% block content-class %}content-flexible{% endblock %}
+
+<!-- BREADCRBUMBS -->
+{% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+<div class="container-flexible">
+    <div class="form-container">
+        <form action="{% query_string "" "filter_date,filter_type,q,p" %}" method="post">{% csrf_token %}
+            {% if form.errors %}<p class="errornote">{% trans 'Please correct the following errors.' %}</p>{% endif %}
+            <fieldset class="module">
+                <div class="row {% if form.name.errors %}errors{% endif %}">
+                    <div class="column span-4"><label class="required" for="id_name">{{ form.name.label }}</label></div>
+                    <div class="column span-flexible">
+                        {{ form.name }}
+                        {% if form.name.errors %}<ul class="errorlist">{{ form.name.errors }}</ul>{% endif %}
+                        {% if form.name.help_text %}<p class="help">{{ form.name.help_text|safe }}</p>{% endif %}
+                    </div>
+                </div>
+            </fieldset>
+            {% if fileobject.filetype == "Image" %}
+            <fieldset class="module collapse open">
+                <h2 class="collapse-handler">{% trans "Edit" %}</h2>
+                <div class="row {% if form.transpose.errors %}errors{% endif %}">
+                    <div class="column span-4"><label class="required" for="id_transpose">{{ form.transpose.label }}</label></div>
+                    <div class="column span-8">
+                        {{ form.transpose }}
+                        {% if form.transpose.errors %}<ul class="errorlist">{{ form.transpose.errors }}</ul>{% endif %}
+                        {% if form.transpose.help_text %}<p class="help">{{ form.transpose.help_text|safe }}</p>{% endif %}
+                    </div>
+                </div>
+            </fieldset>
+            {% endif %}
+            {% if fileobject.filetype == "Folder" %}
+            <fieldset class="module collapse open">
+                <h2 class="collapse-handler">{% trans "Folder Information" %}</h2>
+                <div class="row">
+                    <div class="column span-4"><label>{% trans "Date" %}</label></div>
+                    <div class="column span-flexible">
+                        <p class="readonly">
+                            {{ fileobject.datetime|date:"N j, Y" }}
+                        </p>
+                    </div>
+                </div>
+            </fieldset>
+            {% endif %}
+            {% if fileobject.filetype != "Folder" %}
+            <fieldset class="module collapse open">
+                <h2 class="collapse-handler">{% trans "File Information" %}</h2>
+                <div class="row">
+                    <div class="column span-4"><label>{% trans "URL" %}</label></div>
+                    <div class="column span-flexible">
+                        <p class="readonly">
+                            <a href="{{ fileobject.url }}">{{ fileobject.url }}</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column span-4"><label>{% trans "Filesize" %}</label></div>
+                    <div class="column span-flexible">
+                        <p class="readonly">
+                            {{ fileobject.filesize|filesizeformat }}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column span-4"><label>{% trans "Date" %}</label></div>
+                    <div class="column span-flexible">
+                        <p class="readonly">
+                            {{ fileobject.datetime|date:"N j, Y" }}
+                        </p>
+                    </div>
+                </div>
+                {% if fileobject.filetype == "Image" %}
+                    <div class="row">
+                        <div class="column span-4"><label>{% trans "Size" %}</label></div>
+                        <div class="column span-flexible">
+                            <p class="readonly">
+                                {{ fileobject.width }} x {{ fileobject.height }} px
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+            </fieldset>
+            {% endif %}
+            {% if fileobject.filetype == "Image" %}
+            <fieldset class="module collapse closed">
+                <h2 class="collapse-handler">{% trans "Image Versions" %}</h2>
+                {% if settings_var.ADMIN_THUMBNAIL %}
+                <div class="row">
+                    <div class="column span-4"><label>{% trans "Thumbnail" %}</label></div>
+                    <div class="column span-flexible">
+                        <img src="{% version fileobject.path settings_var.ADMIN_THUMBNAIL %}" title="{% trans 'View Image' %}" />
+                    </div>
+                </div>
+                {% endif %}
+                {% if settings_var.ADMIN_VERSIONS %}
+                    {% for version in settings_var.ADMIN_VERSIONS %}
+                        {% version_object fileobject version as image_version %}
+                        {% version_setting version %}
+                        <div class="row">
+                            <div class="column span-4"><label>{{ version_setting.verbose_name }}</label></div>
+                            <div class="column span-flexible">
+                                <img src="{{ image_version.url }}" />
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </fieldset>
+            {% endif %}
+            <div class="module footer">
+                <ul class="submit-row">
+                    <li class="left delete-link-container"><a href="{% url fb_delete_confirm %}{% query_string %}" class="delete-link">{% trans "Delete" %}</a></li>
+                    <li class="submit-button-container"><input type="submit" value="{% trans 'Save' %}" class="default" /></li>
+                    <li class="submit-button-container"><input type="submit" value="{% trans 'Save and continue editing' %}" name="_continue" /></li>
+                </ul><br clear="all" />
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

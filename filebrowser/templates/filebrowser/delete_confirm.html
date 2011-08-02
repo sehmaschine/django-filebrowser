@@ -1,0 +1,53 @@
+{% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
+{% load i18n adminmedia fb_tags fb_versions %}
+
+<!-- STYLESHEETS -->
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+{% endblock %}
+
+<!-- JAVASCRIPTS -->
+{% block javascripts %}
+    {{ block.super }}
+    {{ media }}
+{% endblock %}
+
+<!-- COLTYPE/BODYCLASS -->
+{% block bodyclass %}change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+{% block content-class %}content-flexible{% endblock %}
+
+<!-- BREADCRBUMBS -->
+{% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+<div class="container-grid delete-confirmation">
+    <div class="module">
+        <h2>{% blocktrans with fileobject.filename as escaped_object %}Are you sure you want to delete "{{ escaped_object }}"? All of the following items will be deleted:{% endblocktrans %}</h2>
+        <div class="row">
+            <ul class="rte">{{ fileobject.filename }}</ul>
+        </div>
+        {% if filelisting %}
+            <div class="row">
+                {% for item in filelisting %}
+                    <ul class="rte">{{ item.path_relative_directory }}</ul>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if additional_files %}
+            <div class="row">
+                <ul class="rte">{% blocktrans with additional_files as escaped_object %}... and {{ escaped_object }} more Files.{% endblocktrans %}</ul>
+            </div>
+        {% endif %}
+    </div>
+    <div class="module footer">
+        <ul class="submit-row" {% if is_popup %}style="overflow: auto;"{% endif %}>
+            <li class="left cancel-button-container"><a href="{% url fb_detail %}{% query_string %}" class="cancel-link">{% trans "Cancel" %}</a></li>
+            <li class="submit-button-container"><a href="{% url fb_delete %}{% query_string %}" class="submit-link">{% trans "Yes, I'm sure" %}</a></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

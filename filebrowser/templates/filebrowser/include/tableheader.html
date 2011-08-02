@@ -1,0 +1,32 @@
+{% load i18n fb_tags %}
+<thead>
+    <tr>
+        <!-- ACTIONS -->
+        {% comment %}{% if not query.pop %}<th><input type="checkbox" id="action-toggle"></th>{% endif %}{% endcomment %}
+        <!-- SELECT -->
+        {% if query.pop == "1" %}<th></th>{% endif %}
+        {% if query.pop == "2" %}<th></th>{% endif %}
+        {% if query.pop == "3" %}<th></th>{% endif %}
+        <!-- FILETYPE -->
+        {% if query.o == "filetype" %}<th class="sorted {{ query.ot }}ending"><a href="{% query_string "" "o,ot,p" %}&amp;ot={% ifequal query.ot "desc" %}asc{% else %}desc{% endifequal %}&amp;o=filetype">{% trans "Type" %}</a></th>{% endif %}
+        {% if query.o != "filetype" %}<th><a href="{% query_string "" "o,ot,p" %}&amp;ot=asc&amp;o=filetype">{% trans "Type" %}</a></th>{% endif %}
+        <!-- THUMB -->
+        <th>{% trans "Thumbnail" %}</th>
+        <!-- FILENAME / DIMENSIONS  -->
+        {% if query.o == "filename_lower" %}<th class="filename sorted {{ query.ot }}ending"><a href="{% query_string "" "o,ot,p" %}&amp;ot={% ifequal query.ot "desc" %}asc{% else %}desc{% endifequal %}&amp;o=filename_lower">{% trans "Filename" %}</a></th>{% endif %}
+        {% if query.o != "filename_lower" %}<th class="filename"><a href="{% query_string "" "o,ot,p" %}&amp;ot=asc&amp;o=filename_lower">{% trans "Filename" %}</a></th>{% endif %}
+        <!-- FOLDER -->
+        {% if query.q and settings_var.SEARCH_TRAVERSE %}
+            {% if query.o == 'folder' %}<th class="sorted {{ query.ot }}ending"><a href="{% query_string "" "o,ot,p" %}&amp;ot={% ifequal query.ot 'desc' %}asc{% else %}desc{% endifequal %}&amp;o=folder">{% trans 'Folder' %}</a></th>{% endif %}
+            {% if query.o != 'folder' %}<th><a href="{% query_string "" "o,ot,p" %}&amp;ot=asc&amp;o=folder">{% trans 'Folder' %}</a></th>{% endif %}
+        {% endif %}
+        <!-- SIZE -->
+        {% if query.o == "filesize" %}<th class="sorted {{ query.ot }}ending"><a href="{% query_string "" "o,ot,p" %}&amp;ot={% ifequal query.ot "desc" %}asc{% else %}desc{% endifequal %}&amp;o=filesize">{% trans "Size" %}</a></th>{% endif %}
+        {% if query.o != "filesize" %}<th><a href="{% query_string "" "o,ot,p" %}&amp;ot=asc&amp;o=filesize">{% trans "Size" %}</a></th>{% endif %}
+        <!-- DATE -->
+        {% if query.o == "date" %}<th class="sorted {{ query.ot }}ending"><a href="{% query_string "" "o,ot,p" %}&amp;ot={% ifequal query.ot "desc" %}asc{% else %}desc{% endifequal %}&amp;o=date">{% trans "Date" %}</a></th>{% endif %}
+        {% if query.o != "date" %}<th><a href="{% query_string "" "o,ot,p" %}&amp;ot=asc&amp;o=date">{% trans "Date" %}</a></th>{% endif %}
+        <!-- EDIT -->
+        <th>&nbsp;</th>
+    </tr>
+</thead>

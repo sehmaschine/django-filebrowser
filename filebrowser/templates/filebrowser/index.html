@@ -1,0 +1,123 @@
+{% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
+{% load i18n adminmedia fb_tags fb_pagination %}
+
+<!-- STYLESHEETS -->
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+{% endblock %}
+
+<!-- JAVASCRIPTS -->
+{% block javascripts %}
+    {{ block.super }}
+    {% ifequal query.pop '1' %} <!-- FileBrowseField -->
+    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_FileBrowseField.js"></script>
+    {% endifequal %}
+    {% ifequal query.pop '2' %} <!-- TinyMCE -->
+    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_TINYMCE }}tiny_mce_popup.js"></script>
+    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_TinyMCE.js"></script>
+    {% if query.mce_rdomain %}<script language="javascript">document.domain = "{{ query.mce_rdomain }}"</script>{% endif %}
+    {% endifequal %}
+    {% ifequal query.pop '3' %} <!-- CKeditor (former "FCKeditor") -->
+    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_CKEditor.js"></script>
+    {% endifequal %}
+    {{ media }}
+    <script type="text/javascript" charset="utf-8">
+        (function($) {
+            $(document).ready(function() {
+                grappelli.initSearchbar();
+                grappelli.initFilter();
+            });
+        })(django.jQuery);
+    </script>
+    <script type="text/javascript" charset="utf-8">
+        (function($) {
+            $(document).ready(function() {
+                $("a.pulldown-versions-handler").bind("click", function() {
+                    if (!$(this).parent().hasClass("open")) {
+                        $("tr").removeClass("selected");
+                        $(".pulldown-versions-container").removeClass("open");
+                        $(this).parent().addClass("open");
+                        $(this).parent().parent().parent().addClass("selected");
+                    } else {
+                        $(this).parent().removeClass("open");
+                        $(this).parent().parent().parent().removeClass("selected");
+                    }
+                });
+                $(document).keypress(function(evt) {
+                    if (evt.keyCode == '27') {
+                        $(".pulldown-versions-container:visible").removeClass("open");
+                        $(".pulldown-versions-container").parent().parent().removeClass("selected");
+                    }
+                });
+                $(document).mousedown(function(evt) {
+                    if ($(".pulldown-versions-container").is(":visible")) {
+                        var $target = $(evt.target);
+                        if (!$(evt.target).hasClass("pulldown-versions-container") && $target.parents(".pulldown-versions-container").length == 0) {
+                            $(".pulldown-versions-container").removeClass("open");
+                            $(".pulldown-versions-container").parent().parent().removeClass("selected");
+                        }
+                    }
+                });
+            });
+        })(django.jQuery);
+    </script>
+{% endblock %}
+
+<!-- COLTYPE/BODYCLASS-- >
+{% block bodyclass %}change-list filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+{% block content-class %}content-flexible{% endblock %}
+
+<!-- BREADCRUMBS -->
+{% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
+
+<!-- OBJECT-TOOLS -->
+{% block object-tools %}
+<ul class="tools">
+    <li><a href="{% url fb_createdir %}{% query_string '' 'p' %}">{% trans "New Folder" %}</a></li>
+    <li><a href="{% url fb_upload %}{% query_string '' 'p' %}" class="focus">{% trans "Upload" %}</a></li>
+</ul>
+{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+    <div class="module changelist-filters">
+        <!-- PAGINATION -->
+        {% pagination %}
+        <!-- FILTERS -->
+        {% include "filebrowser/include/filter.html" %}
+        <!-- SEARCH -->
+        <div id="search" class="module search span-6">
+            <form id="changelist-search" action="." method="get">
+                <input type="text" size="40" name="q" value="{{ query.q }}" id="searchbar" />
+                {% if query.filter_type %}<input type="hidden" name="filter_type" value="{{ query.filter_type }}" />{% endif %}
+                {% if query.filter_date %}<input type="hidden" name="filter_date" value="{{ query.filter_date }}" />{% endif %}
+                {% if query.o %}<input type="hidden" name="o" value="{{ query.o }}" />{% endif %}
+                {% if query.ot %}<input type="hidden" name="ot" value="{{ query.ot }}" />{% endif %}
+                {% if query.pop %}<input type="hidden" name="pop" value="{{ query.pop }}" />{% endif %}
+                {% if query.type %}<input type="hidden" name="type" value="{{ query.type }}" />{% endif %}
+                {% if query.format %}<input type="hidden" name="format" value="{{ query.format }}" />{% endif %}
+                {% if query.dir %}<input type="hidden" name="dir" value="{{ query.dir }}" />{% endif %}
+                <button class="search" type="submit" value="">&nbsp;</button>
+            </form>
+        </div>
+        <br clear="all" />
+    </div>
+    <div id="changelist" class="container-full">
+        <!-- RESULTS -->
+        {% if filelisting.results_current %}
+            <div class="module changelist-results">
+                <table cellspacing="0">
+                    {% include "filebrowser/include/tableheader.html" %}
+                    <tbody>
+                    {% include "filebrowser/include/filelisting.html" %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+        <!-- PAGINATION -->
+        {% pagination %}
+    </div>
+{% endblock %}
