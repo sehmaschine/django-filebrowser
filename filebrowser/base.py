@@ -12,7 +12,7 @@ from django.core.urlresolvers import reverse
 
 # filebrowser imports
 from filebrowser.settings import *
-from filebrowser.functions import get_file_type, url_join, get_version_path, get_original_path, sort_by_attr, version_generator
+from filebrowser.functions import get_file_type, url_join, get_version_path, get_original_path, sort_by_attr, version_generator, path_strip, url_strip
 from django.utils.encoding import smart_str, smart_unicode
 
 # PIL import
@@ -182,14 +182,12 @@ class FileObject():
     
     def _path_relative(self):
         "path relative to MEDIA_ROOT"
-        directory_re = re.compile(r'^%s' % MEDIA_ROOT)
-        return u"%s" % directory_re.sub('', self.path)
+        return path_strip(self.path, MEDIA_ROOT)
     path_relative = property(_path_relative)
     
     def _path_relative_directory(self):
         "path relative to MEDIA_ROOT + DIRECTORY"
-        directory_re = re.compile(r'^%s' % os.path.join(MEDIA_ROOT,DIRECTORY))
-        return u"%s" % directory_re.sub('', self.path)
+        return path_strip(self.path, os.path.join(MEDIA_ROOT,DIRECTORY))
     path_relative_directory = property(_path_relative_directory)
     
     def _url(self):
@@ -199,8 +197,7 @@ class FileObject():
     
     def _url_relative(self):
         "URL, not including MEDIA_URL"
-        directory_re = re.compile(r'^%s' % MEDIA_URL)
-        return u"%s" % directory_re.sub('', self.url)
+        return url_strip(self.url, MEDIA_URL)
     url_relative = property(_url_relative)
     
     def _url_save(self):
@@ -246,13 +243,11 @@ class FileObject():
     # FOLDER ATTRIBUTES
     
     def _directory(self):
-        directory_re = re.compile(r'^%s' % os.path.join(MEDIA_ROOT, DIRECTORY))
-        return u"%s" % directory_re.sub('', self.path)
+        return path_strip(self.path, os.path.join(MEDIA_ROOT, DIRECTORY))
     directory = property(_directory)
     
     def _folder(self):
-        directory_re = re.compile(r'^%s' % os.path.join(MEDIA_ROOT, DIRECTORY))
-        return u"%s" % directory_re.sub('', self.head)
+        return path_strip(self.head, os.path.join(MEDIA_ROOT, DIRECTORY))
     folder = property(_folder)
     
     def _is_folder(self):
