@@ -1,19 +1,19 @@
 {% extends "admin/base_site.html" %}
 
 <!-- LOADING -->
-{% load i18n adminmedia fb_tags fb_pagination %}
+{% load i18n static fb_tags fb_pagination %}
 
 <!-- STYLESHEETS -->
 {% block extrastyle %}
     {{ block.super }}
-	<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/changelists.css" />
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}admin/css/changelists.css" />
     <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
 {% endblock %}
 
 <!-- JAVASCRIPTS -->
 {% block extrahead %}
-	<script type="text/javascript" src="{% admin_media_prefix %}js/jquery.min.js"></script>
-	<script type="text/javascript" src="{% admin_media_prefix %}js/jquery.init.js"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}admin/js/jquery.min.js"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}admin/js/jquery.init.js"></script>
     {{ block.super }}
     {% ifequal query.pop '1' %} <!-- FileBrowseField -->
     <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_FileBrowseField.js"></script>
@@ -85,7 +85,7 @@
 			<div id="toolbar">
 				<form id="changelist-search" action="." method="get">
 					<div>
-						<label for="searchbar"><img alt="Search" src="{% admin_media_prefix %}img/admin/icon_searchbox.png"></label>
+						<label for="searchbar"><img alt="Search" src="{% get_static_prefix %}admin/img/icon_searchbox.png"></label>
 						<input type="text" size="40" name="q" value="{{ query.q }}" id="searchbar" />
 						{% if query.filter_type %}<input type="hidden" name="filter_type" value="{{ query.filter_type }}" />{% endif %}
 						{% if query.filter_date %}<input type="hidden" name="filter_date" value="{{ query.filter_date }}" />{% endif %}

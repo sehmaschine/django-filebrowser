@@ -1,12 +1,12 @@
 {% extends "admin/base_site.html" %}
 
 <!-- LOADING -->
-{% load i18n adminmedia fb_tags fb_versions %}
+{% load i18n static fb_tags fb_versions %}
 
 <!-- STYLESHEETS -->
 {% block extrastyle %}
     {{ block.super }}
-	<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}admin/css/forms.css" />
     <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
 {% endblock %}
 
@@ -14,9 +14,9 @@
 {% block extrahead %}
 	{{ block.super }}
 	<script type="text/javascript" src="/admin/jsi18n/"></script>
-	<script type="text/javascript" src="{% admin_media_prefix %}js/jquery.min.js"></script>
-	<script type="text/javascript" src="{% admin_media_prefix %}js/jquery.init.js"></script>
-	<script type="text/javascript" src="{% admin_media_prefix %}js/collapse.min.js"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}admin/js/jquery.min.js"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}admin/js/jquery.init.js"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}admin/js/collapse.min.js"></script>
     {{ media }}
 {% endblock %}
 
