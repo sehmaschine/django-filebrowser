@@ -35,6 +35,8 @@ else:
         from PIL import Image
     except ImportError:
         import Image
+# Debug imports
+import time
 
 # CHOICES
 TRANSPOSE_CHOICES = (
@@ -62,7 +64,6 @@ def filter_browse(item):
         return False
     return True
 
-
 @path_exists
 def browse(request):
     """
@@ -71,6 +72,7 @@ def browse(request):
     
     query = request.GET.copy()
     abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, query.get('dir', ''))
+
     filelisting = FileListing(abs_path,
         filter_func=filter_browse,
         sorting_by=query.get('o', DEFAULT_SORTING_BY),
@@ -81,18 +83,28 @@ def browse(request):
         listing = filelisting.files_walk_filtered()
     else:
         listing = filelisting.files_listing_filtered()
+
+    # If we do a search, precompile the search pattern now
+    do_search = query.get("q")
+    if do_search:
+        re_q = re.compile(query.get("q").lower(), re.M)
+
+    filter_type = query.get('filter_type')
+    filter_date = query.get('filter_date')
+    
     for fileobject in listing:
         # date/type filter
         append = False
-        if fileobject.filetype == query.get('filter_type', fileobject.filetype) and get_filterdate(query.get('filter_date', ''), fileobject.date or 0):
+        if (not filter_type or fileobject.filetype == filter_type) and (not filter_date or get_filterdate(filter_date, fileobject.date or 0)):
             append = True
         # search
-        if query.get("q") and not re.compile(query.get("q").lower(), re.M).search(fileobject.filename.lower()):
+        if do_search and not re_q.search(fileobject.filename.lower()):
             append = False
         # append
         if append:
             files.append(fileobject)
-    filelisting.results_total = filelisting.results_listing_filtered
+
+    filelisting.results_total = len(listing)
     filelisting.results_current = len(files)
     
     p = Paginator(files, LIST_PER_PAGE)
@@ -101,7 +113,7 @@ def browse(request):
         page = p.page(page_nr)
     except (EmptyPage, InvalidPage):
         page = p.page(p.num_pages)
-    
+
     return render_to_response('filebrowser/index.html', {
         'p': p,
         'page': page,
