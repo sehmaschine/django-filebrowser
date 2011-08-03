@@ -1,4 +1,46 @@
 # coding: utf-8
+"""
+Caching of file listings. 
+
+
+What is Cached: 
+
+Complete file listings (base.Filelisting objects) of selected 
+directories. A file listing of a particular directory contains a list of 
+base.FileObject objects, each with detail information about files from that 
+directory. A timestamp marking the creation of a listing is associated with 
+each cache entry (i.e., with each stored Filelisting object).
+
+
+Cache Updates: 
+
+Cached listing of particular directory is considered fresh 
+if the creation time of the listing is bigger than the modification time
+of that directory. This way, it is possible to use FTP clients alongside 
+filebrowser without running into inconsistencies. Filebrowser rebuilds the
+cached listings from scratch whenever it detects that a listing's timestamp
+is older than the modification time of an associated directory. 
+Any actions on files that a  user excutes via filebrowser (upload, renaming, 
+etc.) are automatically reflected in the cached data and timestamps are 
+updated accordingly (i.e., the cache is kept up-to-date without the need 
+of rebuilding it from scratch).
+
+
+Selecting Directories for Caching: 
+
+It is up to a user to select directories
+which would benefit from caching. Filebrowser will cache the listings of each
+directory, which contains a file '.cached' (the name of this 
+marker file is given by the value of CACHE_MARKER_FILENAME in settings.py) 
+The contents of the marker file is never read by filebrowser.
+
+
+How is it Cached? 
+
+Settings:
+
+Limitations:
+"""
 
 # imports
 import os.path
@@ -17,7 +59,7 @@ class _GlobalVariableCache:
 	This class implements a subset of the interface provided by the django's
 	cache backends and can be used as their replacement.
 
-	The advantage of _GlobalVarCache is that it avoids the overhead connected 
+	The advantage of _GlobalVarCache is that it avoids the overhead associated 
 	with object pickling; obtaining a cached value is therefore signigicantly 
 	faster than	with django's cache backends.
 
@@ -26,7 +68,8 @@ class _GlobalVariableCache:
 	memory consumption can be an issue, because a server may employ multiple 
 	processes to handle requests (each with its own cache) and no timeout is 
 	employed to clean the cache. However, the consumed memory is constant and 
-	limited by the amount of cached directories and their size.
+	limited by the amount of cached directories and their size. Finally, cached
+	data do not persist over django's restarts.
 
 	Note: This class is not meant to be used outside of the context of this 
 	module.
@@ -50,10 +93,8 @@ class _GlobalVariableCache:
 
 # Choose the cache
 if hasattr(settings, 'CACHES') and settings.CACHES.has_key(FILEBROWSER_CACHE_NAME):
-	print "Using django's cache beckend."
 	cache = get_cache(FILEBROWSER_CACHE_NAME)
 else:
-	print "Using global variable as a cache."
 	cache = _GlobalVariableCache()
 
 def refresh_cache(folder_path):
@@ -67,7 +108,7 @@ def refresh_cache(folder_path):
 	for fileobject in listing:
 		_init_fileobject(fileobject)
 	# Store the filelisting
-	cache.set(folder_path + '_TIMESTAMP', time())
+	cache.set('[TIMESTAMP]' + folder_path, time())
 	cache.set(folder_path, filelisting)
 	# cache[folder_path] = time(), filelisting
 	
@@ -86,7 +127,7 @@ def is_fresh(folder_path):
 	Return True if the cache under a given folder path is up-to-date.
 	"""
 	if cache.has_key(folder_path):	
-		timestamp = cache.get(folder_path + '_TIMESTAMP')
+		timestamp = cache.get('[TIMESTAMP]' + folder_path)
 		return timestamp > os.path.getmtime(folder_path)
 	return False
 
@@ -107,7 +148,7 @@ def update_cache_add(folder_path, new_file_path):
 	listing._fileobjects_total.append(fileobject)
 	# Update the cache
 	# cache[folder_path] = time(), listing
-	cache.set(folder_path + '_TIMESTAMP', time())
+	cache.set('[TIMESTAMP]' + folder_path, time())
 	cache.set(folder_path, listing)
 
 def update_cache_remove(folder_path, file_path):
@@ -122,7 +163,7 @@ def update_cache_remove(folder_path, file_path):
 			listing._fileobjects_total.remove(fileobject)
 			break
 	# Update the cache
-	cache.set(folder_path + '_TIMESTAMP', time())
+	cache.set('[TIMESTAMP]' + folder_path, time())
 	cache.set(folder_path, listing)
 
 def update_cache_replace(folder_path, old_file_path, new_file_path):
@@ -147,14 +188,14 @@ def update_cache_replace(folder_path, old_file_path, new_file_path):
 	_init_fileobject(fileobject)
 	listing._fileobjects_total.append(fileobject)
 	# Update the cache
-	cache.set(folder_path + '_TIMESTAMP', time())
+	cache.set('[TIMESTAMP]' + folder_path, time())
 	cache.set(folder_path, listing)
 	
 
 def update_cache_no_action(folder_path):
 	"""Call this method to update the cache timestamp to current time. 
 	In consequence, the cache is made fresh without any changes to cached data."""
-	cache.set(folder_path + '_TIMESTAMP', time())
+	cache.set('[TIMESTAMP]' + folder_path, time())
 
 def _init_fileobject(fileobject):
 	"""Make a fileobject to read and store all the relevant parameters"""
@@ -164,5 +205,5 @@ def _init_fileobject(fileobject):
 
 
 def get_marker_path(folder_path):
-	return os.path.join(folder_path, CACHED_MARKER_FILENAME)
+	return os.path.join(folder_path, CACHE_MARKER_FILENAME)
 

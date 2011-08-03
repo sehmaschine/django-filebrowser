@@ -115,5 +115,5 @@ _('Document')
 _('Audio')
 
 # CACHE SETTINGS
-CACHED_MARKER_FILENAME = '.cached'
+CACHE_MARKER_FILENAME = '.cached'
 FILEBROWSER_CACHE_NAME = 'filebrowser_cache'

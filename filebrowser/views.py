@@ -72,7 +72,9 @@ def browse(request):
     query = request.GET.copy()
     abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, query.get('dir', ''))
 
+    print "Is cached?", is_cached(abs_path)
     if is_cached(abs_path):
+        print "Is fresh?", is_fresh(abs_path)
         if not is_fresh(abs_path):
             refresh_cache(abs_path)
         filelisting = load_listing(abs_path)
