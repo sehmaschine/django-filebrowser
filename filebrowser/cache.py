@@ -5,16 +5,16 @@ Caching of file listings.
 
 What is Cached: 
 
-Complete file listings (base.Filelisting objects) of selected 
+Complete file listings (base.FileListing objects) of selected 
 directories. A file listing of a particular directory contains a list of 
 base.FileObject objects, each with detail information about files from that 
 directory. A timestamp marking the creation of a listing is associated with 
-each cache entry (i.e., with each stored Filelisting object).
+each cache entry (i.e., with each stored FileListing object).
 
 
 Cache Updates: 
 
-Cached listing of particular directory is considered fresh 
+A cached listing of particular directory is considered fresh 
 if the creation time of the listing is newer (bigger) than the modification time
 of that directory. This way, it is possible to use FTP clients alongside 
 filebrowser without running into inconsistencies. Filebrowser rebuilds the
@@ -29,15 +29,15 @@ of rebuilding it from scratch).
 Selecting Directories for Caching: 
 
 It is up to a user to select directories which would benefit from caching.
-Filebrowser will cache the listings of each directory, which contains a file 
+Filebrowser will cache the listings of each directory that contains the file 
 '.cached' (the name of this marker file is given by the value of 
-CACHE_MARKER_FILENAME in settings.py) The contents of the marker file is
-never read by filebrowser.
+CACHE_MARKER_FILENAME in filebrowser.settings). The contents of the marker 
+file is never read by filebrowser.
 
 Example: 
 In order to have filebrowser cache the listing of a directory 'many-files'
 under MEDIA_ROOT/uploads, create a file '.cached' in that directory by executing:
-	$touch <MEDIA_ROOT>/uploads/many-file/.cached
+	$touch <MEDIA_ROOT>/uploads/many-files/.cached
 
 
 How it is Cached:
@@ -45,30 +45,30 @@ How it is Cached:
 There are two options how to cache the data: using a global variable or django's
 cache backend. 
 
-Using a global variable is the default option and has the best
-performance for the price of higher memory consumption. Also, since data are stored 
-in a global variable of this module (cache.py), cross-process caching is not possible
+Using a global variable is the default option and has the best performance for 
+the price of higher memory consumption. Also, since data are stored in a global 
+variable of a module (cache.py), cross-process caching is not possible
 and the cached data are lost by each django's restart. Note that the memory consumption 
 is limited by the number of running processes (django's instances) and the number 
-and size of the cached directories. Choose this option if you're 
-confident that your http server settings and general requirements are compatible with 
+and size of the cached directories. Choose this option if you're confident that 
+your http server settings and general requirements are compatible with 
 this kind of caching. 
 
-If you prefere to use django's cache backend, setup a cache backend called 
-'filebrowser_cache' (or with any name that is the value of the variable
+If you prefere to use django's cache backends, setup a cache backend called 
+'filebrowser_cache' (the exact name is given by the variable 
 filebrowser.settings.FILEBROWSER_CACHE_NAME). Note that using django's cache 
 backends will not perform as fast as the global-variable option. This is 
 due to the overhead of pickling employed by django's cache backends. 
-See django's cache documentation for how to setup cache backends. Pay attention
+See django's cache documentation on how to setup cache backends. Pay attention
 to the TIMEOUT settings and choose an appropriate value -- there is probably no
 good reason to remove the data from cache at any time and the TIMEOUT can
-thus be set to a rather large value (e.g., days, weeks)
+thus be set to a rather large value (e.g., days, weeks).
 
 IMPORTANT:
 Filebrowser should be configured to store file versions in a special directory (other
 than the cached directories). In the opposite case, filebrowser's on-demand generation 
-of file versions would cause a rebuild of the cached data any time a new file version is 
-generated or old one deleted.
+of file versions will cause a rebuild of the cached listings any time a new file version 
+is generated or old one deleted.
 """
 
 # imports
@@ -96,9 +96,9 @@ class _GlobalVariableCache:
 	shared among processes, that is, no cross-process caching is possible. Further, 
 	memory consumption can be an issue, because a server may employ multiple 
 	processes to handle requests (each with its own cache) and no timeout is 
-	employed to clean the cache. However, the consumed memory is constant and 
-	limited by the amount of cached directories and their size. Finally, cached
-	data do not persist over django's restarts.
+	employed to clean the cache. However, the consumed memory is practically constant 
+	and limited by number of processes and the amount of cached directories and 
+	their size. Finally, cached data do not persist over django's restarts.
 
 	Note: This class is not meant to be used outside of the context of this 
 	module.
@@ -139,7 +139,6 @@ def refresh_cache(folder_path):
 	# Store the filelisting
 	cache.set('[TIMESTAMP]' + folder_path, time())
 	cache.set(folder_path, filelisting)
-	# cache[folder_path] = time(), filelisting
 	
 def is_cached(folder_path):
 	"""
@@ -176,7 +175,6 @@ def update_cache_add(folder_path, new_file_path):
 	_init_fileobject(fileobject)
 	listing._fileobjects_total.append(fileobject)
 	# Update the cache
-	# cache[folder_path] = time(), listing
 	cache.set('[TIMESTAMP]' + folder_path, time())
 	cache.set(folder_path, listing)
 
