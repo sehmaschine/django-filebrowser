@@ -26,23 +26,23 @@ class FileObjectPathTests(TestCase):
         self.original_media_url = filebrowser.base.MEDIA_URL
         self.original_path = filebrowser.base.os.path
     
-    # def test_windows_paths(self):
-    #     """
-    #     Use ntpath to test windows paths independently from current os
-    #     """
-    #     filebrowser.base.os.path = ntpath
-    #     filebrowser.base.MEDIA_ROOT = 'C:\\path\\to\\media\\'
-    #     filebrowser.base.DIRECTORY = 'uploads/'
-    #     filebrowser.base.MEDIA_URL = '/media/'
-    #     f = FileObject('C:\\path\\to\\media\\uploads\\testdir\\testfile.jpg')
-    #     
-    #     self.assertEqual(f.path_relative, 'uploads\\testdir\\testfile.jpg')
-    #     self.assertEqual(f.path_relative_directory, 'testdir\\testfile.jpg')
-    #     self.assertEqual(f.directory, 'testdir\\testfile.jpg')
-    #     self.assertEqual(f.folder, r'testdir')
-    #     
-    #     self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
-    #     self.assertEqual(f.url_relative, 'uploads/testdir/testfile.jpg')
+    def test_windows_paths(self):
+        """
+        Use ntpath to test windows paths independently from current os
+        """
+        filebrowser.base.os.path = ntpath
+        filebrowser.base.MEDIA_ROOT = 'C:\\path\\to\\media\\'
+        filebrowser.base.DIRECTORY = 'uploads/'
+        filebrowser.base.MEDIA_URL = '/media/'
+        f = FileObject('C:\\path\\to\\media\\uploads\\testdir\\testfile.jpg')
+        
+        self.assertEqual(f.path_relative, 'uploads\\testdir\\testfile.jpg')
+        self.assertEqual(f.path_relative_directory, 'testdir\\testfile.jpg')
+        self.assertEqual(f.directory, 'testdir\\testfile.jpg')
+        self.assertEqual(f.folder, r'testdir')
+        
+        self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
+        self.assertEqual(f.url_relative, 'uploads/testdir/testfile.jpg')
     
     def test_posix_paths(self):
         """
@@ -83,23 +83,23 @@ class FileObjectVersionTests(TestCase):
         self.original_media_url = filebrowser.base.MEDIA_URL
         self.original_path = filebrowser.base.os.path
     
-    # def test_windows_paths(self):
-    #     """
-    #     Use ntpath to test windows paths independently from current os
-    #     """
-    #     filebrowser.base.os.path = ntpath
-    #     filebrowser.base.MEDIA_ROOT = 'C:\\path\\to\\media\\'
-    #     filebrowser.base.DIRECTORY = 'uploads/'
-    #     filebrowser.base.MEDIA_URL = '/media/'
-    #     f = FileObject('C:\\path\\to\\media\\uploads\\testdir\\testfile.jpg')
-    #     
-    #     self.assertEqual(f.path_relative, 'uploads\\testdir\\testfile.jpg')
-    #     self.assertEqual(f.path_relative_directory, 'testdir\\testfile.jpg')
-    #     self.assertEqual(f.directory, 'testdir\\testfile.jpg')
-    #     self.assertEqual(f.folder, r'testdir')
-    #     
-    #     self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
-    #     self.assertEqual(f.url_relative, 'uploads/testdir/testfile.jpg')
+    def test_windows_paths(self):
+        """
+        Use ntpath to test windows paths independently from current os
+        """
+        filebrowser.base.os.path = ntpath
+        filebrowser.base.MEDIA_ROOT = 'C:\\path\\to\\media\\'
+        filebrowser.base.DIRECTORY = 'uploads/'
+        filebrowser.base.MEDIA_URL = '/media/'
+        f = FileObject('C:\\path\\to\\media\\uploads\\testdir\\testfile.jpg')
+        
+        self.assertEqual(f.path_relative, 'uploads\\testdir\\testfile.jpg')
+        self.assertEqual(f.path_relative_directory, 'testdir\\testfile.jpg')
+        self.assertEqual(f.directory, 'testdir\\testfile.jpg')
+        self.assertEqual(f.folder, r'testdir')
+        
+        self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
+        self.assertEqual(f.url_relative, 'uploads/testdir/testfile.jpg')
     
     def test_posix_paths(self):
         """
