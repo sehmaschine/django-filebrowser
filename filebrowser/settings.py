@@ -102,7 +102,7 @@ DEFAULT_SORTING_ORDER = getattr(settings, "FILEBROWSER_DEFAULT_SORTING_ORDER", "
 # regex to clean dir names before creation
 FOLDER_REGEX = getattr(settings, "FILEBROWSER_FOLDER_REGEX", r'^[\w._/-]+$')
 # Traverse directories when searching
-SEARCH_TRAVERSE = getattr(settings, "FILEBROWSER_SEARCH_TRAVERSE", True)
+SEARCH_TRAVERSE = getattr(settings, "FILEBROWSER_SEARCH_TRAVERSE", False)
 # Default Upload and Version Permissions
 DEFAULT_PERMISSIONS = getattr(settings, "FILEBROWSER_DEFAULT_PERMISSIONS", 0664)
 
@@ -113,3 +113,7 @@ _('Image')
 _('Video')
 _('Document')
 _('Audio')
+
+# CACHE SETTINGS
+CACHED_MARKER_FILENAME = '.cached'
+FILEBROWSER_CACHE_NAME = 'filebrowser_cache'

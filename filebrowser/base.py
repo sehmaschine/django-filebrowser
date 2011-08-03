@@ -4,7 +4,7 @@
 import os, shutil, re, datetime
 import urlparse
 import mimetypes
-from time import gmtime, strftime, time
+from time import gmtime, strftime
 
 # django imports
 from django.utils.translation import ugettext as _
@@ -72,6 +72,8 @@ class FileListing():
         return filelisting
     
     # Cached results of files_listing_total (without any filters and sorting applied)
+    # This variable is accessed directly by the module cache.py if at least one directory
+    # is cached.
     _fileobjects_total = None
     
     def files_listing_total(self):

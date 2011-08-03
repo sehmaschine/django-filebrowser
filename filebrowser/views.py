@@ -26,6 +26,7 @@ from filebrowser.functions import get_breadcrumbs, get_filterdate, get_settings_
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileListing, FileObject
 from filebrowser.decorators import flash_login_required, path_exists, file_exists
+from filebrowser.cache import *
 
 # PIL import
 if STRICT_PIL:
@@ -35,8 +36,6 @@ else:
         from PIL import Image
     except ImportError:
         import Image
-# Debug imports
-import time
 
 # CHOICES
 TRANSPOSE_CHOICES = (
@@ -73,10 +72,18 @@ def browse(request):
     query = request.GET.copy()
     abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, query.get('dir', ''))
 
-    filelisting = FileListing(abs_path,
-        filter_func=filter_browse,
-        sorting_by=query.get('o', DEFAULT_SORTING_BY),
-        sorting_order=query.get('ot', DEFAULT_SORTING_ORDER))
+    if is_cached(abs_path):
+        if not is_fresh(abs_path):
+            refresh_cache(abs_path)
+        filelisting = load_listing(abs_path)
+        filelisting.filter_func = filter_browse
+        filelisting.sorting_by = query.get('o', DEFAULT_SORTING_BY)
+        filelisting.sorting_order = query.get('ot', DEFAULT_SORTING_ORDER)
+    else:
+        filelisting = FileListing(abs_path,
+            filter_func=filter_browse,
+            sorting_by=query.get('o', DEFAULT_SORTING_BY),
+            sorting_order=query.get('ot', DEFAULT_SORTING_ORDER))
     
     files = []
     if SEARCH_TRAVERSE and query.get("q"):
@@ -151,6 +158,9 @@ def createdir(request):
                 filebrowser_post_createdir.send(sender=request, path=abs_server_path, name=form.cleaned_data['name'])
                 messages.add_message(request, messages.SUCCESS, _('The Folder %s was successfully created.') % form.cleaned_data['name'])
                 redirect_url = reverse("fb_browse") + query_helper(query, "ot=desc,o=date", "ot,o,filter_type,filter_date,q,p")
+                # If the parent folder of the new folder is cached, update the cache
+                if is_cached(abs_path):
+                    update_cache_add(abs_path, abs_server_path)
                 return HttpResponseRedirect(redirect_url)
             except OSError, (errno, strerror):
                 if errno == 13:
@@ -245,6 +255,9 @@ def _upload_file(request):
                 old_file = smart_str(os.path.join(abs_path, filedata.name))
                 new_file = smart_str(os.path.join(abs_path, uploadedfile))
                 file_move_safe(new_file, old_file, allow_overwrite=True)
+            if is_cached(abs_path):
+                file_path = os.path.join(abs_path, filedata.name)
+                update_cache_replace(abs_path, file_path, file_path)
             # POST UPLOAD SIGNAL
             filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_str(os.path.join(DIRECTORY, folder, filedata.name))))
     return HttpResponse('True')
@@ -310,6 +323,9 @@ def delete(request):
             fileobject.delete()
             filebrowser_post_delete.send(sender=request, path=fileobject.path, name=fileobject.filename)
             messages.add_message(request, messages.SUCCESS, _('Successfully deleted %s') % fileobject.filename)
+            # Update cache accordingly if needed
+            if is_cached(abs_path):
+                update_cache_remove(abs_path, fileobject.path)
         except OSError, (errno, strerror):
             # TODO: define error-message
             pass
@@ -360,6 +376,9 @@ def detail(request):
                     redirect_url = reverse("fb_detail") + query_helper(query, "filename="+new_name, "filename")
                 else:
                     redirect_url = reverse("fb_browse") + query_helper(query, "", "filename")
+                # Update cache if needed
+                if is_cached(abs_path):
+                    update_cache_replace(abs_path, fileobject.path, os.path.join(fileobject.head, new_name))
                 return HttpResponseRedirect(redirect_url)
             except OSError, (errno, strerror):
                 form.errors['name'] = forms.util.ErrorList([_('Error.')])
@@ -394,5 +413,3 @@ def version(request):
         'settings_var': get_settings_var(),
     }, context_instance=Context(request))
 version = staff_member_required(never_cache(version))
-
-
