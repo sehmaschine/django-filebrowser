@@ -6,12 +6,12 @@ from django.utils.encoding import smart_unicode
 from django.utils.safestring import mark_safe
 
 # filebrowser imports
-from filebrowser.settings import SELECT_FORMATS, SKIN
+from filebrowser.settings import SELECT_FORMATS
 
 register = template.Library()
 
 
-@register.inclusion_tag('filebrowser/%s/include/_response.html' % SKIN, takes_context=True)
+@register.inclusion_tag('filebrowser/include/_response.html', takes_context=True)
 def query_string(context, add=None, remove=None):
     """
     Allows the addition and removal of query string parameters.

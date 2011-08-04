@@ -1,0 +1,404 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Анхбаяр Анхаа <l.ankhbayar@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: django-filebrowser\n"
+"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
+"POT-Creation-Date: 2011-06-01 17:30+0200\n"
+"PO-Revision-Date: 2011-06-02 13:28+0000\n"
+"Last-Translator: Ankhbayar <l.ankhbayar@gmail.com>\n"
+"Language-Team: Mongolian (http://www.transifex.net/projects/p/django-filebrowser/team/mn/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: mn\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: decorators.py:48
+msgid ""
+"Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
+"exist?"
+msgstr ""
+"Upload-Folder ийг хайхад алдаа гарлаа. (MEDIA_ROOT + DIRECTORY) энэ хавтас "
+"олдохгүй байж магадгүй."
+
+#: decorators.py:50
+msgid "The requested Folder does not exist."
+msgstr "Хүссэн хавтас байхгүй байна."
+
+#: decorators.py:65
+msgid "The requested File does not exist."
+msgstr "Хүссэн файл байхгүй байна."
+
+#: fields.py:61
+#, python-format
+msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
+msgstr ""
+
+#: forms.py:20
+msgid "Flip horizontal"
+msgstr ""
+
+#: forms.py:21
+msgid "Flip vertical"
+msgstr ""
+
+#: forms.py:22
+msgid "Rotate 90° CW"
+msgstr ""
+
+#: forms.py:23
+msgid "Rotate 90° CCW"
+msgstr ""
+
+#: forms.py:24
+msgid "Rotate 180°"
+msgstr ""
+
+#: forms.py:37 forms.py:60
+msgid "Name"
+msgstr "Нэр"
+
+#: forms.py:37 forms.py:43 forms.py:60 forms.py:67
+msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
+msgstr ""
+"Зөвхөн үсэг, тоо, доогуур зураас, хоосон зай, дундуур зураасыг зөвшөөрнө."
+
+#: forms.py:46 forms.py:70
+msgid "The Folder already exists."
+msgstr "Хавтас өмнө нь үүссэн байна."
+
+#: forms.py:61
+msgid "Flip/Rotate"
+msgstr ""
+
+#: forms.py:72
+msgid "The File already exists."
+msgstr "Ийм файл байна. Давхардлаа."
+
+#: settings.py:109 templates/filebrowser/include/tableheader.html:21
+#: templates/filebrowser/include/tableheader.html:22
+msgid "Folder"
+msgstr "Хавтас"
+
+#: settings.py:110
+msgid "Image"
+msgstr "Зураг"
+
+#: settings.py:111
+msgid "Video"
+msgstr "Бичлэг"
+
+#: settings.py:112
+msgid "Document"
+msgstr "Баримт"
+
+#: settings.py:113
+msgid "Audio"
+msgstr "Дуу"
+
+#: views.py:110 templates/filebrowser/include/breadcrumbs.html:8
+#: templates/filebrowser/include/breadcrumbs.html:10
+msgid "FileBrowser"
+msgstr "Файл хөтөч"
+
+#: views.py:140
+#, python-format
+msgid "The Folder %s was successfully created."
+msgstr "Хавтас %s амжилттай үүслээ."
+
+#: views.py:145
+msgid "Permission denied."
+msgstr "Эрх хүрэлцэхгүй байна."
+
+#: views.py:147
+msgid "Error creating folder."
+msgstr "Хавтас үүсгэхэд алдаа гарлаа"
+
+#: views.py:154 views.py:157 templates/filebrowser/index.html:76
+msgid "New Folder"
+msgstr "Шинэ хавтас"
+
+#: views.py:179
+msgid "Select files to upload"
+msgstr "Сонгосон файлуудыг хуул"
+
+#: views.py:182 templates/filebrowser/index.html:77
+#: templates/filebrowser/upload.html:124
+msgid "Upload"
+msgstr "Хуул"
+
+#: views.py:271 views.py:274
+msgid "Confirm delete"
+msgstr "Устгахыг баталгаажуул"
+
+#: views.py:300
+#, python-format
+msgid "Successfully deleted %s"
+msgstr "%s амжилттай утсгав."
+
+#: views.py:337
+msgid "Renaming was successful."
+msgstr "Нэрийн амжилттай өөрчиллөө."
+
+#: views.py:346
+msgid "Transposing was successful."
+msgstr ""
+
+#: views.py:353
+msgid "Error."
+msgstr "Алдаа."
+
+#: widgets.py:21
+msgid "Currently"
+msgstr "Одоогоор"
+
+#: widgets.py:22 templates/filebrowser/include/filelisting.html:105
+msgid "Change"
+msgstr "Өөрчлөх"
+
+#: widgets.py:23
+msgid "Clear"
+msgstr "Цэврэл"
+
+#: templates/filebrowser/createdir.html:24
+#: templates/filebrowser/detail.html:48 templates/filebrowser/rename.html:24
+msgid "Please correct the following errors."
+msgstr ""
+
+#: templates/filebrowser/createdir.html:33
+#: templates/filebrowser/upload.html:116
+msgid ""
+"The Name will be converted to lowercase. Spaces will be replaced with "
+"underscores."
+msgstr ""
+
+#: templates/filebrowser/createdir.html:40
+#: templates/filebrowser/rename.html:38
+msgid "Submit"
+msgstr "Оруул"
+
+#: templates/filebrowser/custom_field.html:17
+#: templates/filebrowser/widgets/clearablefileinput.html:11
+msgid "File not found"
+msgstr "Файл олдсонгүй"
+
+#: templates/filebrowser/delete_confirm.html:29
+#, python-format
+msgid ""
+"Are you sure you want to delete \"%(escaped_object)s\"? All of the following"
+" items will be deleted:"
+msgstr ""
+
+#: templates/filebrowser/delete_confirm.html:42
+#, python-format
+msgid "... and %(escaped_object)s more Files."
+msgstr ""
+
+#: templates/filebrowser/delete_confirm.html:48
+msgid "Cancel"
+msgstr "Болих"
+
+#: templates/filebrowser/delete_confirm.html:49
+msgid "Yes, I'm sure"
+msgstr "Тийм, Би итгэлтэй байна."
+
+#: templates/filebrowser/detail.html:61
+msgid "Edit"
+msgstr "Засах"
+
+#: templates/filebrowser/detail.html:74
+msgid "Folder Information"
+msgstr "Хавтасын мэдээлэл"
+
+#: templates/filebrowser/detail.html:76 templates/filebrowser/detail.html:105
+#: templates/filebrowser/include/tableheader.html:28
+#: templates/filebrowser/include/tableheader.html:29
+msgid "Date"
+msgstr "Огноо"
+
+#: templates/filebrowser/detail.html:87
+msgid "File Information"
+msgstr "Файлын мэдээлэл"
+
+#: templates/filebrowser/detail.html:89
+msgid "URL"
+msgstr "URL"
+
+#: templates/filebrowser/detail.html:97
+msgid "Filesize"
+msgstr "Файлын хэмжээ"
+
+#: templates/filebrowser/detail.html:114
+#: templates/filebrowser/include/tableheader.html:25
+#: templates/filebrowser/include/tableheader.html:26
+msgid "Size"
+msgstr "Хэмжээ"
+
+#: templates/filebrowser/detail.html:126
+msgid "Image Versions"
+msgstr "Зургын хувилбарууд"
+
+#: templates/filebrowser/detail.html:129
+#: templates/filebrowser/include/tableheader.html:15
+msgid "Thumbnail"
+msgstr ""
+
+#: templates/filebrowser/detail.html:131
+#: templates/filebrowser/include/filelisting.html:75
+msgid "View Image"
+msgstr "Зураг үзэх"
+
+#: templates/filebrowser/detail.html:151
+msgid "Delete"
+msgstr "Утсгах"
+
+#: templates/filebrowser/detail.html:152
+msgid "Save"
+msgstr "Хадгал"
+
+#: templates/filebrowser/detail.html:153
+msgid "Save and continue editing"
+msgstr ""
+
+#: templates/filebrowser/upload.html:59
+msgid "SELECT FILES"
+msgstr ""
+
+#: templates/filebrowser/upload.html:61
+msgid "BROWSE"
+msgstr ""
+
+#: templates/filebrowser/upload.html:62
+msgid "An Error occured"
+msgstr ""
+
+#: templates/filebrowser/upload.html:63
+msgid "Completed"
+msgstr ""
+
+#: templates/filebrowser/upload.html:64
+msgid "Do you want to replace the file"
+msgstr ""
+
+#: templates/filebrowser/upload.html:65
+msgid "KB"
+msgstr ""
+
+#: templates/filebrowser/upload.html:66
+msgid "MB"
+msgstr ""
+
+#: templates/filebrowser/upload.html:100
+msgid "Help"
+msgstr ""
+
+#: templates/filebrowser/upload.html:104
+msgid "Allowed"
+msgstr ""
+
+#: templates/filebrowser/upload.html:110
+msgid "Max. Filesize"
+msgstr ""
+
+#: templates/filebrowser/upload.html:123
+msgid "Clear Queue"
+msgstr ""
+
+#: templates/filebrowser/include/breadcrumbs.html:5
+msgid "Home"
+msgstr ""
+
+#: templates/filebrowser/include/filelisting.html:18
+#: templates/filebrowser/include/filelisting.html:44
+msgid "Select"
+msgstr ""
+
+#: templates/filebrowser/include/filelisting.html:22
+#: templates/filebrowser/include/filelisting.html:48
+msgid "Versions"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:4
+msgid "Filter"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:7
+msgid "By Date"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:9
+msgid "Any Date"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:10
+msgid "Today"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:11
+msgid "Past 7 days"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:12
+msgid "This Month"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:13
+msgid "This year"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:17
+msgid "By Type"
+msgstr ""
+
+#: templates/filebrowser/include/filter.html:19
+msgid "All"
+msgstr ""
+
+#: templates/filebrowser/include/paginator.html:5
+msgid "result"
+msgstr ""
+
+#: templates/filebrowser/include/paginator.html:5
+msgid "results"
+msgstr ""
+
+#: templates/filebrowser/include/paginator.html:9
+#: templates/filebrowser/include/paginator.html:11
+msgid "total"
+msgstr ""
+
+#: templates/filebrowser/include/tableheader.html:12
+#: templates/filebrowser/include/tableheader.html:13
+msgid "Type"
+msgstr ""
+
+#: templates/filebrowser/include/tableheader.html:17
+#: templates/filebrowser/include/tableheader.html:18
+msgid "Filename"
+msgstr ""
+
+#: templates/filebrowser/include/toolbar.html:6
+msgid "Results"
+msgstr ""
+
+#: templates/filebrowser/include/toolbar.html:8
+#, python-format
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/filebrowser/include/toolbar.html:9
+#, python-format
+msgid "%(full_result_count)s total"
+msgstr ""
+
+#: templates/filebrowser/include/toolbar.html:16
+msgid "Search"
+msgstr ""
+
+

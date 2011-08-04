@@ -1,0 +1,24 @@
+{% load i18n fb_tags %}
+<p class="paginator">
+        {% if query.q or query.filter_date or query.filter_type %}
+        <span>{{ filelisting.results_current }} {% ifequal filelisting.results_current 1 %}{% trans 'result' %}{% else %}{% trans 'results' %}{% endifequal %}</span>
+        {% endif %}
+            {% if query.q or filelisting.results_total != filelisting.results_current %}
+            <a href="{% query_string "" "filter_date,filter_type,p,q" %}" class="total">{{ filelisting.results_total }} {% trans 'total' %}</a>
+            {% else %}
+            <span>{{ filelisting.results_total }} {% trans "total" %}</span>
+            {% endif %}
+        {% if page_range %}
+            {% for i in page_range %}
+                {% ifequal i "." %}
+                    <span>...</span>
+                {% else %}
+                    {% ifequal i page_num %}
+                        <span class="this-page">{{ i|add:"1" }}</span>
+                    {% else %}
+                        <a href="{% query_string "" "p" %}&amp;p={{ i|add:"1" }}">{{ i|add:"1" }}</a>
+                    {% endifequal %}
+                {% endifequal %}
+            {% endfor %}
+        {% endif %}
+</p>

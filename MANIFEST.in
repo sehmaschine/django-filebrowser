@@ -1,0 +1,8 @@
+include AUTHORS
+include README.rst
+include LICENSE
+recursive-include docs *
+recursive-include filebrowser/static *
+recursive-include filebrowser/templates *
+recursive-include filebrowser/locale *
+recursive-include filebrowser/management *

@@ -1,0 +1,408 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Fábio  <bnafta@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: django-filebrowser\n"
+"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
+"POT-Creation-Date: 2011-06-01 17:30+0200\n"
+"PO-Revision-Date: 2011-07-05 20:48+0000\n"
+"Last-Translator: maz <bnafta@gmail.com>\n"
+"Language-Team: Portuguese (Brazilian) (http://www.transifex.net/projects/p/django-filebrowser/team/pt_BR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+
+#: decorators.py:48
+msgid ""
+"Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
+"exist?"
+msgstr ""
+"Erro ao localizar a pasta de Upload (MEDIA_ROOT + DIRECTORY). Talvez ela não"
+" exista?"
+
+#: decorators.py:50
+msgid "The requested Folder does not exist."
+msgstr "A pasta solicitada não existe."
+
+#: decorators.py:65
+msgid "The requested File does not exist."
+msgstr "O arquivo solicitado não existe."
+
+#: fields.py:61
+#, python-format
+msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
+msgstr "Extensão %(ext)s  não é permitida. Apenas %(allowed)s é permitido."
+
+#: forms.py:20
+msgid "Flip horizontal"
+msgstr "Inverter na horizontal"
+
+#: forms.py:21
+msgid "Flip vertical"
+msgstr "Inverter na vertical"
+
+#: forms.py:22
+msgid "Rotate 90° CW"
+msgstr "Girar 90° CW"
+
+#: forms.py:23
+msgid "Rotate 90° CCW"
+msgstr "Girar 90° CCW"
+
+#: forms.py:24
+msgid "Rotate 180°"
+msgstr "Girar 180°"
+
+#: forms.py:37 forms.py:60
+msgid "Name"
+msgstr "Nome"
+
+#: forms.py:37 forms.py:43 forms.py:60 forms.py:67
+msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
+msgstr ""
+"São permitidos somente letras, números, sublinhados, espaços e hífens."
+
+#: forms.py:46 forms.py:70
+msgid "The Folder already exists."
+msgstr "A pasta já existe."
+
+#: forms.py:61
+msgid "Flip/Rotate"
+msgstr "Girar / inverter"
+
+#: forms.py:72
+msgid "The File already exists."
+msgstr "O arquivo já existe."
+
+#: settings.py:109 templates/filebrowser/include/tableheader.html:21
+#: templates/filebrowser/include/tableheader.html:22
+msgid "Folder"
+msgstr "Pasta"
+
+#: settings.py:110
+msgid "Image"
+msgstr "Imagem"
+
+#: settings.py:111
+msgid "Video"
+msgstr "Vídeo"
+
+#: settings.py:112
+msgid "Document"
+msgstr "Documento"
+
+#: settings.py:113
+msgid "Audio"
+msgstr "Áudio"
+
+#: views.py:110 templates/filebrowser/include/breadcrumbs.html:8
+#: templates/filebrowser/include/breadcrumbs.html:10
+msgid "FileBrowser"
+msgstr "FileBrowser"
+
+#: views.py:140
+#, python-format
+msgid "The Folder %s was successfully created."
+msgstr "A pasta %s foi criada com sucesso."
+
+#: views.py:145
+msgid "Permission denied."
+msgstr "Permissão negada."
+
+#: views.py:147
+msgid "Error creating folder."
+msgstr "Erro ao criar pasta."
+
+#: views.py:154 views.py:157 templates/filebrowser/index.html:76
+msgid "New Folder"
+msgstr "Nova Pasta"
+
+#: views.py:179
+msgid "Select files to upload"
+msgstr "Selecione os arquivos para efetuar upload"
+
+#: views.py:182 templates/filebrowser/index.html:77
+#: templates/filebrowser/upload.html:124
+msgid "Upload"
+msgstr "Carregar"
+
+#: views.py:271 views.py:274
+msgid "Confirm delete"
+msgstr "Confirmar exclusão"
+
+#: views.py:300
+#, python-format
+msgid "Successfully deleted %s"
+msgstr "%s excluído com sucesso "
+
+#: views.py:337
+msgid "Renaming was successful."
+msgstr "Renomeação foi bem sucedida."
+
+#: views.py:346
+msgid "Transposing was successful."
+msgstr "Transposição foi bem sucedida."
+
+#: views.py:353
+msgid "Error."
+msgstr "Erro."
+
+#: widgets.py:21
+msgid "Currently"
+msgstr "No Momento"
+
+#: widgets.py:22 templates/filebrowser/include/filelisting.html:105
+msgid "Change"
+msgstr "Alterar"
+
+#: widgets.py:23
+msgid "Clear"
+msgstr "Limpar"
+
+#: templates/filebrowser/createdir.html:24
+#: templates/filebrowser/detail.html:48 templates/filebrowser/rename.html:24
+msgid "Please correct the following errors."
+msgstr "Corrija os seguintes erros."
+
+#: templates/filebrowser/createdir.html:33
+#: templates/filebrowser/upload.html:116
+msgid ""
+"The Name will be converted to lowercase. Spaces will be replaced with "
+"underscores."
+msgstr ""
+"O nome será convertida em minúsculas. Espaços serão substituídos por "
+"sublinhados."
+
+#: templates/filebrowser/createdir.html:40
+#: templates/filebrowser/rename.html:38
+msgid "Submit"
+msgstr "Enviar"
+
+#: templates/filebrowser/custom_field.html:17
+#: templates/filebrowser/widgets/clearablefileinput.html:11
+msgid "File not found"
+msgstr "Arquivo não encontrado"
+
+#: templates/filebrowser/delete_confirm.html:29
+#, python-format
+msgid ""
+"Are you sure you want to delete \"%(escaped_object)s\"? All of the following"
+" items will be deleted:"
+msgstr ""
+"Tem certeza de que deseja excluir \"%(escaped_object)s\"? Todos os itens a "
+"seguir serão excluídos:"
+
+#: templates/filebrowser/delete_confirm.html:42
+#, python-format
+msgid "... and %(escaped_object)s more Files."
+msgstr "... e %(escaped_object)s  Arquivos a mais."
+
+#: templates/filebrowser/delete_confirm.html:48
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: templates/filebrowser/delete_confirm.html:49
+msgid "Yes, I'm sure"
+msgstr "Sim, eu tenho certeza"
+
+#: templates/filebrowser/detail.html:61
+msgid "Edit"
+msgstr "Editar"
+
+#: templates/filebrowser/detail.html:74
+msgid "Folder Information"
+msgstr "Informações sobre a Pasta"
+
+#: templates/filebrowser/detail.html:76 templates/filebrowser/detail.html:105
+#: templates/filebrowser/include/tableheader.html:28
+#: templates/filebrowser/include/tableheader.html:29
+msgid "Date"
+msgstr "Data"
+
+#: templates/filebrowser/detail.html:87
+msgid "File Information"
+msgstr "Informações sobre o Arquivo"
+
+#: templates/filebrowser/detail.html:89
+msgid "URL"
+msgstr "URL"
+
+#: templates/filebrowser/detail.html:97
+msgid "Filesize"
+msgstr "Tamanho do Arquivo"
+
+#: templates/filebrowser/detail.html:114
+#: templates/filebrowser/include/tableheader.html:25
+#: templates/filebrowser/include/tableheader.html:26
+msgid "Size"
+msgstr "Tamanho"
+
+#: templates/filebrowser/detail.html:126
+msgid "Image Versions"
+msgstr "Versões de imagens"
+
+#: templates/filebrowser/detail.html:129
+#: templates/filebrowser/include/tableheader.html:15
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+#: templates/filebrowser/detail.html:131
+#: templates/filebrowser/include/filelisting.html:75
+msgid "View Image"
+msgstr "Visualizar Imagem"
+
+#: templates/filebrowser/detail.html:151
+msgid "Delete"
+msgstr "Excluir"
+
+#: templates/filebrowser/detail.html:152
+msgid "Save"
+msgstr "Salvar"
+
+#: templates/filebrowser/detail.html:153
+msgid "Save and continue editing"
+msgstr "Salvar e continuar editando"
+
+#: templates/filebrowser/upload.html:59
+msgid "SELECT FILES"
+msgstr "Selecionar arquivos"
+
+#: templates/filebrowser/upload.html:61
+msgid "BROWSE"
+msgstr "BROWSE"
+
+#: templates/filebrowser/upload.html:62
+msgid "An Error occured"
+msgstr "Ocorreu um erro"
+
+#: templates/filebrowser/upload.html:63
+msgid "Completed"
+msgstr "Concluído"
+
+#: templates/filebrowser/upload.html:64
+msgid "Do you want to replace the file"
+msgstr "Você quer substituir o arquivo"
+
+#: templates/filebrowser/upload.html:65
+msgid "KB"
+msgstr "KB"
+
+#: templates/filebrowser/upload.html:66
+msgid "MB"
+msgstr "MB"
+
+#: templates/filebrowser/upload.html:100
+msgid "Help"
+msgstr "Ajuda"
+
+#: templates/filebrowser/upload.html:104
+msgid "Allowed"
+msgstr "Permitido"
+
+#: templates/filebrowser/upload.html:110
+msgid "Max. Filesize"
+msgstr "Tamanho maximo para arquivos"
+
+#: templates/filebrowser/upload.html:123
+msgid "Clear Queue"
+msgstr "Limpar Fila"
+
+#: templates/filebrowser/include/breadcrumbs.html:5
+msgid "Home"
+msgstr "Início"
+
+#: templates/filebrowser/include/filelisting.html:18
+#: templates/filebrowser/include/filelisting.html:44
+msgid "Select"
+msgstr "Selecionar"
+
+#: templates/filebrowser/include/filelisting.html:22
+#: templates/filebrowser/include/filelisting.html:48
+msgid "Versions"
+msgstr "Versões"
+
+#: templates/filebrowser/include/filter.html:4
+msgid "Filter"
+msgstr "Filtro"
+
+#: templates/filebrowser/include/filter.html:7
+msgid "By Date"
+msgstr "Por data"
+
+#: templates/filebrowser/include/filter.html:9
+msgid "Any Date"
+msgstr "Qualquer Data"
+
+#: templates/filebrowser/include/filter.html:10
+msgid "Today"
+msgstr "Hoje"
+
+#: templates/filebrowser/include/filter.html:11
+msgid "Past 7 days"
+msgstr "Últimos 7 dias"
+
+#: templates/filebrowser/include/filter.html:12
+msgid "This Month"
+msgstr "Este mês"
+
+#: templates/filebrowser/include/filter.html:13
+msgid "This year"
+msgstr "Este ano"
+
+#: templates/filebrowser/include/filter.html:17
+msgid "By Type"
+msgstr "Por Tipo"
+
+#: templates/filebrowser/include/filter.html:19
+msgid "All"
+msgstr "Todos"
+
+#: templates/filebrowser/include/paginator.html:5
+msgid "result"
+msgstr "resultado"
+
+#: templates/filebrowser/include/paginator.html:5
+msgid "results"
+msgstr "resultados"
+
+#: templates/filebrowser/include/paginator.html:9
+#: templates/filebrowser/include/paginator.html:11
+msgid "total"
+msgstr "total"
+
+#: templates/filebrowser/include/tableheader.html:12
+#: templates/filebrowser/include/tableheader.html:13
+msgid "Type"
+msgstr "Tipo"
+
+#: templates/filebrowser/include/tableheader.html:17
+#: templates/filebrowser/include/tableheader.html:18
+msgid "Filename"
+msgstr "Nome do arquivo"
+
+#: templates/filebrowser/include/toolbar.html:6
+msgid "Results"
+msgstr "Resultados"
+
+#: templates/filebrowser/include/toolbar.html:8
+#, python-format
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] "%(counter)s resultado"
+msgstr[1] "%(counter)s resultados "
+
+#: templates/filebrowser/include/toolbar.html:9
+#, python-format
+msgid "%(full_result_count)s total"
+msgstr "%(full_result_count)s total"
+
+#: templates/filebrowser/include/toolbar.html:16
+msgid "Search"
+msgstr "Pesquisar"
+
+

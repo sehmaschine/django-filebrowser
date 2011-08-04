@@ -1,22 +1,21 @@
-# -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
 setup(
-    name='django-filebrowser-no-grappelli',
-    version='3.0',
-    description='Media-Management with the Django Admin-Interface. Without the grappelli dependency',
+    name='django-filebrowser',
+    version='3.3.1',
+    description='Media-Management with Grappelli',
     author='Patrick Kranzlmueller',
     author_email='patrick@vonautomatisch.at',
-    contributors=[
-        ['Matjaz Crnko', 'matjaz.crnko@gmail.com', 'no-grappelli work'],
-    ],
-    url='http://code.google.com/p/django-filebrowser/',
+    url='https://github.com/sehmaschine/django-filebrowser',
+    license = 'BSD',
+    download_url='',
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
+        'Framework :: Django',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',

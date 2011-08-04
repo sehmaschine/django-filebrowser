@@ -1,15 +1,19 @@
 # coding: utf-8
 
 # imports
-import os, re, datetime
-from time import gmtime, strftime
+import os, shutil, re, datetime
+import urlparse
+import mimetypes
+from time import gmtime, strftime, time
 
 # django imports
-from django.conf import settings
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
 
 # filebrowser imports
 from filebrowser.settings import *
-from filebrowser.functions import get_file_type, url_join, is_selectable, get_version_path
+from filebrowser.functions import get_file_type, url_join, get_version_path, get_original_path, sort_by_attr, version_generator, path_strip, url_strip
+from django.utils.encoding import smart_str, smart_unicode
 
 # PIL import
 if STRICT_PIL:
@@ -20,182 +24,356 @@ else:
     except ImportError:
         import Image
 
-
-class FileObject(object):
+class FileListing():
     """
-    The FileObject represents a File on the Server.
+    The FileListing represents a group of FileObjects/FileDirObjects.
     
-    PATH has to be relative to MEDIA_ROOT.
+    An example::
+        
+        import os
+        from filebrowser.settings import MEDIA_ROOT, DIRECTORY
+        from filebrowser.base import FileListing
+        
+        filelisting = FileListing(os.path.join(MEDIA_ROOT, DIRECTORY), sorting_by='date', sorting_order='desc')
+        print filelisting.files_listing_total()
+        print filelisting.results_listing_total()
+        for fileobject in filelisting.files_listing_total():
+            print fileobject.filetype
     """
+    # Four variables to store the length of a listing obtained by various listing methods
+    # (updated whenever a particular listing method is called).
+    _results_listing_total = None
+    _results_walk_total = None
+    _results_listing_filtered = None
+    _results_walk_total = None
     
-    def __init__(self, path):
+    def __init__(self, path, filter_func=None, sorting_by=None, sorting_order=None):
         self.path = path
-        self.head = os.path.split(path)[0]
-        self.filename = os.path.split(path)[1]
-        self.filename_lower = self.filename.lower() # important for sorting
-        self.filetype = get_file_type(self.filename)
+        self.filter_func = filter_func
+        self.sorting_by = sorting_by
+        self.sorting_order = sorting_order
     
+    def listing(self):
+        "List all files for path"
+        if os.path.isdir(self.path):
+            return (f for f in os.listdir(self.path))
+        return []
+    
+    def walk(self):
+        "Walk all files for path"
+        filelisting = []
+        if os.path.isdir(self.path):
+            for root, dirs, files in os.walk(self.path):
+                r = root.replace(os.path.join(MEDIA_ROOT, DIRECTORY),'')
+                for d in dirs:
+                    filelisting.append(os.path.join(r,d))
+                for f in files:
+                    filelisting.append(os.path.join(r,f))
+        return filelisting
+    
+    # Cached results of files_listing_total (without any filters and sorting applied)
+    _fileobjects_total = None
+    
+    def files_listing_total(self):
+        "Returns FileObjects for all files in listing"
+        if self._fileobjects_total == None:
+            self._fileobjects_total = []
+            for item in self.listing():
+                fileobject = FileObject(os.path.join(self.path, item))
+                self._fileobjects_total.append(fileobject)
+
+        files = self._fileobjects_total
+
+        if self.sorting_by:
+            files = sort_by_attr(files, self.sorting_by)
+        if self.sorting_order == "desc":
+            files.reverse()
+        
+        self._results_listing_total = len(files)
+        return files
+    
+    def files_walk_total(self):
+        "Returns FileObjects for all files in walk"
+        files = []
+        for item in self.walk():
+            fileobject = FileObject(os.path.join(MEDIA_ROOT, DIRECTORY, item))
+            files.append(fileobject)
+        if self.sorting_by:
+            files = sort_by_attr(files, self.sorting_by)
+        if self.sorting_order == "desc":
+            files.reverse()
+        self._results_walk_total = len(files)
+        return files
+    
+    def files_listing_filtered(self):
+        "Returns FileObjects for filtered files in listing"
+        if self.filter_func:
+            listing = filter(self.filter_func, self.files_listing_total())
+        else:
+            listing = self.files_listing_total()
+        self._results_listing_filtered = len(listing)
+        return listing
+    
+    def files_walk_filtered(self):
+        "Returns FileObjects for filtered files in walk"
+        if self.filter_func:
+            listing = filter(self.filter_func, self.files_walk_total())
+        else:
+            listing = self.files_walk_total()
+        self._results_walk_filtered = len(listing)
+        return listing
+    
+    def results_listing_total(self):
+        "Counter: all files"
+        if self._results_listing_total != None:
+            return self._results_listing_total
+        return len(self.files_listing_total())
+    
+    def results_walk_total(self):
+        "Counter: all files"
+        if self._results_walk_total != None:
+            return self._results_walk_total
+        return len(self.files_walk_total())
+    
+    def results_listing_filtered(self):
+        "Counter: filtered files"
+        if self._results_listing_filtered != None:
+            return self._results_listing_filtered
+        return len(self.files_listing_filtered())
+    
+    def results_walk_filtered(self):
+        "Counter: filtered files"
+        if self._results_walk_filtered != None:
+            return self._results_walk_filtered
+        return len(self.files_walk_filtered())
+
+class FileObject():
+    """
+    The FileObject represents a file (or directory) on the server.
+    
+    An example::
+        
+        from filebrowser.base import FileObject
+        
+        fileobject = FileObject(absolute_path_to_file)
+    """
+    
+    def __init__(self, path, relative=False):
+        if relative:
+            self.path = os.path.join(MEDIA_ROOT, path)
+        else:
+            self.path = path
+        self.head = os.path.dirname(path)
+        self.filename = os.path.basename(path)
+        self.filename_lower = self.filename.lower()
+        self.filename_root = os.path.splitext(self.filename)[0]
+        self.extension = os.path.splitext(self.filename)[1]
+        self.mimetype = mimetypes.guess_type(self.filename)
+    
+    def __str__(self):
+        return smart_str(self.filename)
+    
+    def __unicode__(self):
+        return smart_unicode(self.filename)
+    
+    def __repr__(self):
+        return "<%s: %s>" % (self.__class__.__name__, self or "None")
+    
+    def __len__(self):
+        return len(self.url_save)
+    
+    # GENERAL ATTRIBUTES
+    _filetype_stored = None
+    def _filetype(self):
+        if self._filetype_stored != None:
+            return self._filetype_stored
+        if os.path.isdir(self.path):
+            self._filetype_stored = 'Folder'
+        else:
+            self._filetype_stored = get_file_type(self.filename)
+        return self._filetype_stored
+    filetype = property(_filetype)
+    
+    _filesize_stored = None
     def _filesize(self):
-        """
-        Filesize.
-        """
-        if os.path.isfile(os.path.join(MEDIA_ROOT, self.path)) or os.path.isdir(os.path.join(MEDIA_ROOT, self.path)):
-            return os.path.getsize(os.path.join(MEDIA_ROOT, self.path))
-        return ""
+        if self._filesize_stored != None:
+            return self._filesize_stored
+        if os.path.exists(self.path):
+            self._filesize_stored = os.path.getsize(self.path)
+            return self._filesize_stored
+        return None
     filesize = property(_filesize)
-    
+
+    _date_stored = None
     def _date(self):
-        """
-        Date.
-        """
-        if os.path.isfile(os.path.join(MEDIA_ROOT, self.path)) or os.path.isdir(os.path.join(MEDIA_ROOT, self.path)):
-            return os.path.getmtime(os.path.join(MEDIA_ROOT, self.path))
-        return ""
+        if self._date_stored != None:
+            return self._date_stored
+        if os.path.exists(self.path):
+            self._date_stored = os.path.getmtime(self.path)
+            return self._date_stored
+        return None
     date = property(_date)
-    
+
     def _datetime(self):
-        """
-        Datetime Object.
-        """
-        return datetime.datetime.fromtimestamp(self.date)
+        if self.date:
+            return datetime.datetime.fromtimestamp(self.date)
+        return None
     datetime = property(_datetime)
     
-    def _extension(self):
-        """
-        Extension.
-        """
-        return u"%s" % os.path.splitext(self.filename)[1]
-    extension = property(_extension)
-    
-    def _filetype_checked(self):
-        if self.filetype == "Folder" and os.path.isdir(self.path_full):
-            return self.filetype
-        elif self.filetype != "Folder" and os.path.isfile(self.path_full):
-            return self.filetype
-        else:
-            return ""
-    filetype_checked = property(_filetype_checked)
-    
-    def _path_full(self):
-        """
-        Full server PATH including MEDIA_ROOT.
-        """
-        return u"%s" % os.path.join(MEDIA_ROOT, self.path)
-    path_full = property(_path_full)
+    # PATH/URL ATTRIBUTES
     
     def _path_relative(self):
-        return self.path
+        "path relative to MEDIA_ROOT"
+        return path_strip(self.path, MEDIA_ROOT)
     path_relative = property(_path_relative)
     
     def _path_relative_directory(self):
-        """
-        Path relative to initial directory.
-        """
-        directory_re = re.compile(r'^(%s)' % (DIRECTORY))
-        value = directory_re.sub('', self.path)
-        return u"%s" % value
+        "path relative to MEDIA_ROOT + DIRECTORY"
+        return path_strip(self.path, os.path.join(MEDIA_ROOT,DIRECTORY))
     path_relative_directory = property(_path_relative_directory)
     
+    def _url(self):
+        "URL, including MEDIA_URL"
+        return u"%s" % url_join(MEDIA_URL, self.path_relative)
+    url = property(_url)
+    
     def _url_relative(self):
-        return self.path
+        "URL, not including MEDIA_URL"
+        return url_strip(self.url, MEDIA_URL)
     url_relative = property(_url_relative)
     
-    def _url_full(self):
-        """
-        Full URL including MEDIA_URL.
-        """
-        return u"%s" % url_join(MEDIA_URL, self.path)
-    url_full = property(_url_full)
-    
     def _url_save(self):
-        """
-        URL used for the filebrowsefield.
-        """
+        "URL which is saved to the database, e.g. using the FileBrowseField"
         if SAVE_FULL_URL:
-            return self.url_full
-        else:
-            return self.path
+            return self.url
+        return self.url_relative
     url_save = property(_url_save)
     
-    def _url_thumbnail(self):
-        """
-        Thumbnail URL.
-        """
-        if self.filetype == "Image":
-            return u"%s" % url_join(MEDIA_URL, get_version_path(self.path, 'fb_thumb'))
-        else:
-            return ""
-    url_thumbnail = property(_url_thumbnail)
-    
-    def url_admin(self):
-        if self.filetype_checked == "Folder":
-            directory_re = re.compile(r'^(%s)' % (DIRECTORY))
-            value = directory_re.sub('', self.path)
-            return u"%s" % value
-        else:
-            return u"%s" % url_join(MEDIA_URL, self.path)
+    # IMAGE ATTRIBUTES
     
     def _dimensions(self):
-        """
-        Image Dimensions.
-        """
         if self.filetype == 'Image':
             try:
-                im = Image.open(os.path.join(MEDIA_ROOT, self.path))
+                im = Image.open(self.path)
                 return im.size
             except:
                 pass
-        else:
-            return False
+        return None
     dimensions = property(_dimensions)
     
     def _width(self):
-        """
-        Image Width.
-        """
-        return self.dimensions[0]
+        if self.dimensions:
+            return self.dimensions[0]
+        return None
     width = property(_width)
     
     def _height(self):
-        """
-        Image Height.
-        """
-        return self.dimensions[1]
+        if self.dimensions:
+            return self.dimensions[1]
+        return None
     height = property(_height)
     
     def _orientation(self):
-        """
-        Image Orientation.
-        """
         if self.dimensions:
             if self.dimensions[0] >= self.dimensions[1]:
                 return "Landscape"
             else:
                 return "Portrait"
-        else:
-            return None
+        return None
     orientation = property(_orientation)
     
+    # FOLDER ATTRIBUTES
+    
+    def _directory(self):
+        return path_strip(self.path, os.path.join(MEDIA_ROOT, DIRECTORY))
+    directory = property(_directory)
+    
+    def _folder(self):
+        return path_strip(self.head, os.path.join(MEDIA_ROOT, DIRECTORY))
+    folder = property(_folder)
+    
+    def _is_folder(self):
+        if os.path.isdir(self.path):
+            return True
+        return False
+    is_folder = property(_is_folder)
+    
     def _is_empty(self):
-        """
-        True if Folder is empty, False if not.
-        """
-        if os.path.isdir(self.path_full):
-            if not os.listdir(self.path_full):
+        if os.path.isdir(self.path):
+            if not os.listdir(self.path):
                 return True
-            else:
-                return False
-        else:
-            return None
+        return None
     is_empty = property(_is_empty)
     
-    def __repr__(self):
-        return u"%s" % self.url_save
+    # VERSIONS
     
-    def __str__(self):
-        return u"%s" % self.url_save
+    def _is_version(self):
+        tmp = self.filename_root.split("_")
+        if tmp[len(tmp)-1] in VERSIONS:
+            return True
+        else:
+            return False
+    is_version = property(_is_version)
     
-    def __unicode__(self):
-        return u"%s" % self.url_save
+    def _original(self):
+        if self.is_version:
+            return FileObject(get_original_path(self.path))
+        return None
+    original = property(_original)
+    
+    def _versions_basedir(self):
+        if VERSIONS_BASEDIR and os.path.exists(os.path.join(MEDIA_ROOT, VERSIONS_BASEDIR)):
+            return os.path.join(MEDIA_ROOT, VERSIONS_BASEDIR)
+        else:
+            return self.head
+    versions_basedir = property(_versions_basedir)
+    
+    def version_name(self, version_suffix):
+        return self.filename_root + "_" + version_suffix + self.extension
+    
+    def versions(self):
+        version_list = []
+        if self.filetype == "Image":
+            for version in VERSIONS:
+                version_list.append(os.path.join(self.versions_basedir, self.version_name(version)))
+        return version_list
+    
+    def admin_versions(self):
+        version_list = []
+        if self.filetype == "Image":
+            for version in ADMIN_VERSIONS:
+                version_list.append(os.path.join(self.versions_basedir, self.version_name(version)))
+                #version_list.append(FileObject(os.path.join(self.versions_basedir, self.version_name(version))))
+        return version_list
+    
+    def version_generate(self, version_suffix):
+        version_path = get_version_path(self.path, version_suffix)
+        if not os.path.isfile(version_path):
+            version_path = version_generator(self.path, version_suffix)
+        elif os.path.getmtime(self.path) > os.path.getmtime(version_path):
+            version_path = version_generator(self.path, version_suffix, force=True)
+        return FileObject(version_path)
+    
+    # FUNCTIONS
+    
+    def delete(self):
+        if self.is_folder:
+            shutil.rmtree(self.path)
+        else:
+            os.remove(self.path)
+    
+    def delete_versions(self):
+        for version in self.versions():
+            try:
+                os.remove(version)
+            except:
+                pass
+    
+    def delete_admin_versions(self):
+        for version in self.admin_versions():
+            try:
+                os.remove(version)
+            except:
+                pass
 
 

@@ -1,0 +1,47 @@
+{% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
+{% load i18n adminmedia fb_tags fb_versions %}
+
+<!-- STYLESHEETS -->
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+{% endblock %}
+
+<!-- JAVASCRIPTS -->
+{% block extrahead %}
+    {{ block.super }}
+    {{ media }}
+{% endblock %}
+
+<!-- COLTYPE/BODYCLASS -->
+{% block bodyclass %}change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+{% block content-class %}content-flexible{% endblock %}
+
+<!-- BREADCRBUMBS -->
+{% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+<p>{% blocktrans with fileobject.filename as escaped_object %}Are you sure you want to delete "{{ escaped_object }}"? All of the following items will be deleted:{% endblocktrans %}</p>
+<ul>
+	<li>{{ fileobject.filename }}</li>
+	{% if filelisting %}
+        <ul>
+            {% for item in filelisting %}
+                <li>{{ item.path_relative_directory }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if additional_files %}
+        <ul>
+            <li>{% blocktrans with additional_files as escaped_object %}... and {{ escaped_object }} more Files.{% endblocktrans %}</li>
+        </ul>
+    {% endif %}
+</ul>
+<div>
+	<a href="{% url fb_detail %}{% query_string %}">{% trans "Cancel" %}</a>
+	<a href="{% url fb_delete %}{% query_string %}">{% trans "Yes, I'm sure" %}</a>
+</div>
+{% endblock %}
