@@ -49,6 +49,13 @@ and upload/rename/delete files and folders.
    
    versions
 
+**Caching**
+
+.. toctree::
+   :maxdepth: 2
+   
+   caching
+
 **Help**
 
 .. toctree::
@@ -59,6 +66,7 @@ and upload/rename/delete files and folders.
    translation
    releasenotes
    changelog
+
 
 Main Features
 -------------
