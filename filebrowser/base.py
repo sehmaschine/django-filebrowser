@@ -81,9 +81,9 @@ class FileListing():
             for item in self.listing():
                 fileobject = FileObject(os.path.join(self.path, item))
                 self._fileobjects_total.append(fileobject)
-
+        
         files = self._fileobjects_total
-
+        
         if self.sorting_by:
             files = sort_by_attr(files, self.sorting_by)
         if self.sorting_order == "desc":
@@ -203,7 +203,7 @@ class FileObject():
             return self._filesize_stored
         return None
     filesize = property(_filesize)
-
+    
     _date_stored = None
     def _date(self):
         if self._date_stored != None:
@@ -213,7 +213,7 @@ class FileObject():
             return self._date_stored
         return None
     date = property(_date)
-
+    
     def _datetime(self):
         if self.date:
             return datetime.datetime.fromtimestamp(self.date)

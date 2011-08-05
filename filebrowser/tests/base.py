@@ -73,7 +73,7 @@ class FileObjectPathTests(TestCase):
 
 
 class FileObjectVersionTests(TestCase):
-
+    
     def setUp(self):
         """
         Save original values/functions so they can be restored in tearDown
