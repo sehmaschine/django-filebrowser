@@ -25,15 +25,17 @@ In order to have FileBrowser cache the listing of a directory 'many-files' under
 What is Cached 
 ==============
 
-Complete file listings (``base.FileListing`` objects) of selected directories. A file listing of a particular directory contains a list of ``base.FileObject`` objects, each with detail information about files from that directory. 
+FileBrowser will cache a complete file listings (``base.FileListing`` objects) of selected directories. A file listing of a particular directory contains a list of ``base.FileObject`` objects, each with detail information about files from that directory. 
 
-A *timestamp* marking the creation of a listing is associated with each cache entry (i.e., with each stored ``FileListing`` object).
+A *timestamp* marking the creation/modification of a listing is associated with each cache entry (i.e., with each stored ``FileListing`` object).
 
 
 Cache Updates 
 =============
 
-A cached listing of particular directory is considered fresh if the creation time of the listing is newer (bigger) than the modification time of that directory. This way, it is possible to use FTP clients alongside FileBrowser without running into inconsistencies. FileBrowser rebuilds the cached listings from scratch whenever it detects that a listing's timestamp is older than the modification time of an associated directory. Any actions on files that a user excutes via FileBrowser (upload, renaming, etc.) are automatically reflected in the cached data and timestamps are updated accordingly (i.e., the cache is kept up-to-date without the need of rebuilding it from scratch).
+A cached listing of particular directory is considered fresh if the creation/modification time of the listing is more recent than the modification time of that directory. This way, it is possible to use FTP clients alongside FileBrowser without running into inconsistencies. 
+
+FileBrowser rebuilds a cached listing from scratch whenever it detects that the listing's timestamp is older than the modification time of an associated directory. Any actions on files that a user excutes via FileBrowser (upload, renaming, etc.) are automatically reflected in the cached data and timestamps are updated accordingly (i.e., the cache is kept up-to-date without the need of rebuilding it from scratch).
 
 
 How it is Cached
@@ -44,22 +46,27 @@ There are two options how to cache the data: using a global variable or a Django
 Global Variable
 ---------------
 
-Using a global variable is the default option and has the best performance for the price of possibly higher memory consumption. However, the amount of required memory depends only on the number of running processes (Django instances) and the number and size of the cached directories. This means, that caching will require a fairly constant amount of memory, assuming that the number of running Django instances and size of cached directories does not change dramatically over time.
+Using a global variable is the default and recommended option. It has the best performance for the price of possibly higher memory consumption. However, the amount of required memory depends only on the number of running processes (Django instances) and the number and size of the cached directories. This means, that caching will require a fairly constant amount of memory, assuming that the number of running Django instances and size of cached directories does not change dramatically over time.
 
 Since cached data are stored in a global variable of the module ``cache.py``, cross-process caching is not possible and the cached data are lost by each Django's restart.  Choose this option if you're confident that your http server settings and general requirements are compatible with this kind of caching. 
 
 Django's Cache Backends
 -----------------------
 
-If you prefere to use one of Django's cache backends, setup a cache backend called ``filebrowser_cache`` (the exact name is given by the variable ``filebrowser.settings.FILEBROWSER_CACHE_NAME``). Note that using Django's cache backends will not perform as fast as the global-variable option. This is due to the overhead of pickling employed by Django's cache backends. 
+If you prefere to use one of Django's cache backends, setup a cache backend called ``filebrowser_cache`` (the exact name is given by the variable ``filebrowser.settings.FILEBROWSER_CACHE_NAME``). FileBrowser will automatically use this backend if it exists. 
 
 See Django's cache documentation on how to setup cache backends. Pay attention to the ``TIMEOUT`` settings and choose an appropriate value -- there is probably no good reason to remove the data from cache at any time and the ``TIMEOUT`` can thus be set to a rather large value (e.g., days, weeks).
+
+.. note::
+	Django's cache backends will not perform as fast as the global-variable option. This is due to the overhead of pickling employed by Django's cache backends. 
 
 .. warning::
 	Do not use ``memcached`` backend! Memcached cannot store objects larger than 1MB and the size of pickled filelistings for directories which would actually benefit from caching is almost in all cases larger than 1MB. Consider using file system or database backends.
 
 
-Important
+Image Versions - FileBrowser Configuration
 =========
 
 FileBrowser should be configured to store image versions in a dedicated directory other than the cached directories. In the opposite case, FileBrowser's on-demand generation of image versions will cause a rebuild of the cached listings any time a new version is generated or old one deleted. See also :ref:`versions` documentation.
+
+This is an issue and may be solved in the future.
