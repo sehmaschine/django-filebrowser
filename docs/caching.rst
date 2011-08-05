@@ -55,6 +55,9 @@ If you prefere to use one of Django's cache backends, setup a cache backend call
 
 See Django's cache documentation on how to setup cache backends. Pay attention to the ``TIMEOUT`` settings and choose an appropriate value -- there is probably no good reason to remove the data from cache at any time and the ``TIMEOUT`` can thus be set to a rather large value (e.g., days, weeks).
 
+.. warning::
+	Do not use ``memcached`` backend! Memcached cannot store objects larger than 1MB and the size of pickled filelistings for directories which would actually benefit from caching is almost in all cases larger than 1MB. Consider using file system or database backends.
+
 
 Important
 =========

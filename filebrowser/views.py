@@ -72,14 +72,18 @@ def browse(request):
     query = request.GET.copy()
     abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, query.get('dir', ''))
 
+    filelisting = None
     if is_cached(abs_path):
         if not is_fresh(abs_path):
             refresh_cache(abs_path)
         filelisting = load_listing(abs_path)
-        filelisting.filter_func = filter_browse
-        filelisting.sorting_by = query.get('o', DEFAULT_SORTING_BY)
-        filelisting.sorting_order = query.get('ot', DEFAULT_SORTING_ORDER)
-    else:
+        if filelisting != None:
+            filelisting.filter_func = filter_browse
+            filelisting.sorting_by = query.get('o', DEFAULT_SORTING_BY)
+            filelisting.sorting_order = query.get('ot', DEFAULT_SORTING_ORDER)
+    
+    # If filelisting was not cached, or retrieval of the cached value failed
+    if filelisting == None:
         filelisting = FileListing(abs_path,
             filter_func=filter_browse,
             sorting_by=query.get('o', DEFAULT_SORTING_BY),
