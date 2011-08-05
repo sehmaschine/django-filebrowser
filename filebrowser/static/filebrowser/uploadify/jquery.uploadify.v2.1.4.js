@@ -70,7 +70,7 @@ if(jQuery)(
 				if (settings.buttonText) data.buttonText = escape(settings.buttonText);
 				if (settings.rollover) data.rollover = true;
 				data.script = settings.script;
-				data.folder = escape(settings.folder);
+				data.folder = settings.folder;
 				if (settings.scriptData) {
 					var scriptDataString = '';
 					for (var name in settings.scriptData) {

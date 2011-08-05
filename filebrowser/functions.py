@@ -10,7 +10,7 @@ from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.core.files import File
 from django.core.files.storage import FileSystemStorage
-from django.utils.encoding import smart_str
+from django.utils.encoding import smart_unicode
 
 # filebrowser imports
 from filebrowser.settings import *
@@ -26,6 +26,23 @@ else:
         import Image
 
 
+def path_strip(path, root):
+    if not path or not root:
+        return path
+    path = os.path.normcase(path)
+    root = os.path.normcase(root)
+    if path.startswith(root):
+        return path[len(root):]
+    return path
+
+def url_strip(url, root):
+    if not url or not root:
+        return url
+    if url.startswith(root):
+        return url[len(root):]
+    return url
+
+
 def url_to_path(value):
     """
     Change URL to PATH.
@@ -34,8 +51,7 @@ def url_to_path(value):
     Returns an absolute server-path, including MEDIA_ROOT.
     """
     
-    mediaurl_re = re.compile(r'^(%s)' % (MEDIA_URL))
-    value = mediaurl_re.sub('', value)
+    value = url_strip(value, MEDIA_URL)
     return os.path.join(MEDIA_ROOT, value)
 
 
@@ -47,8 +63,7 @@ def path_to_url(value):
     Return an URL including MEDIA_URL.
     """
     
-    mediaurl_re = re.compile(r'^(%s)' % (MEDIA_ROOT))
-    value = mediaurl_re.sub('', value)
+    value = path_strip(value, MEDIA_ROOT)
     return url_join(MEDIA_URL, value)
 
 
@@ -59,10 +74,8 @@ def dir_from_url(value):
     an URL relative to MEDIA_URL.
     """
     
-    mediaurl_re = re.compile(r'^(%s)' % (MEDIA_URL))
-    value = mediaurl_re.sub('', value)
-    directory_re = re.compile(r'^(%s)' % (DIRECTORY))
-    value = directory_re.sub('', value)
+    value = url_strip(value, MEDIA_URL)
+    value = url_strip(value, DIRECTORY)
     return os.path.split(value)[0]
 
 
@@ -182,7 +195,7 @@ def get_file(path, filename):
     """
     Get file (or folder).
     """
-    converted_path = smart_str(os.path.join(MEDIA_ROOT, DIRECTORY, path, filename))
+    converted_path = smart_unicode(os.path.join(MEDIA_ROOT, DIRECTORY, path, filename))
     if not os.path.isfile(converted_path) and not os.path.isdir(converted_path):
         return None
     return filename
@@ -316,7 +329,7 @@ def version_generator(value, version_prefix, force=None):
     ImageFile.MAXBLOCK = IMAGE_MAXBLOCK # default is 64k
     
     try:
-        im = Image.open(smart_str(os.path.join(MEDIA_ROOT, value)))
+        im = Image.open(smart_unicode(os.path.join(MEDIA_ROOT, value)))
         version_path = get_version_path(value, version_prefix)
         version_dir = os.path.split(version_path)[0]
         if not os.path.isdir(version_dir):
