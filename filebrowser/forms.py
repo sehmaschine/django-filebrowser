@@ -46,20 +46,29 @@ class CreateDirForm(forms.Form):
                 raise forms.ValidationError(_(u'The Folder already exists.'))
         return convert_filename(self.cleaned_data['name'])
 
-
 class ChangeForm(forms.Form):
     """
     Form for renaming a file/folder.
     """
     
+    custom_action = forms.ChoiceField(label=_(u'Actions'), required=False)
+    name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Name'), help_text=_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'), required=True)
+    
     def __init__(self, *args, **kwargs):
         self.path = kwargs.pop("path", None)
         self.fileobject = kwargs.pop("fileobject", None)
+        from filebrowser.sites import site
+        self.site = kwargs.pop("site", site)
         super(ChangeForm, self).__init__(*args, **kwargs)
-    
-    name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Name'), help_text=_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'), required=True)
-    transpose = forms.ChoiceField(choices=TRANSPOSE_CHOICES, label=_(u'Flip/Rotate'), required=False)
-    
+        
+        # Initialize choices of custom actions 
+        choices = [("",u"-----"),]
+        
+        for name, action in self.site.applicable_actions(self.fileobject):
+            choices.append((name, action.short_description))
+        
+        self.fields['custom_action'].choices=choices
+
     def clean_name(self):
         if self.cleaned_data['name']:
             # only letters, numbers, underscores, spaces and hyphens are allowed.
@@ -71,5 +80,30 @@ class ChangeForm(forms.Form):
             elif os.path.isfile(os.path.join(self.path, convert_filename(self.cleaned_data['name'])))  and os.path.join(self.path, convert_filename(self.cleaned_data['name'])) != self.fileobject.path:
                 raise forms.ValidationError(_(u'The File already exists.'))
         return convert_filename(self.cleaned_data['name'])
+
+# class ChangeForm(forms.Form):
+#     """
+#     Form for renaming a file/folder.
+#     """
+    
+#     def __init__(self, *args, **kwargs):
+#         self.path = kwargs.pop("path", None)
+#         self.fileobject = kwargs.pop("fileobject", None)
+#         super(ChangeForm, self).__init__(*args, **kwargs)
+    
+#     name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Name'), help_text=_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'), required=True)
+#     transpose = forms.ChoiceField(choices=TRANSPOSE_CHOICES, label=_(u'Flip/Rotate'), required=False)
+    
+#     def clean_name(self):
+#         if self.cleaned_data['name']:
+#             # only letters, numbers, underscores, spaces and hyphens are allowed.
+#             if not alnum_name_re.search(self.cleaned_data['name']):
+#                 raise forms.ValidationError(_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'))
+#             #  folder/file must not already exist.
+#             if os.path.isdir(os.path.join(self.path, convert_filename(self.cleaned_data['name']))) and os.path.join(self.path, convert_filename(self.cleaned_data['name'])) != self.fileobject.path:
+#                 raise forms.ValidationError(_(u'The Folder already exists.'))
+#             elif os.path.isfile(os.path.join(self.path, convert_filename(self.cleaned_data['name'])))  and os.path.join(self.path, convert_filename(self.cleaned_data['name'])) != self.fileobject.path:
+#                 raise forms.ValidationError(_(u'The File already exists.'))
+#         return convert_filename(self.cleaned_data['name'])
 
 

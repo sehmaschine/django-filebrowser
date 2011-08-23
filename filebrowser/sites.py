@@ -19,6 +19,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.utils.encoding import smart_unicode
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.conf.urls.static import static
 
 # filebrowser imports
 from filebrowser.settings import *
@@ -36,11 +37,17 @@ else:
     except ImportError:
         import Image
 
-class FileBrowserSite():
+class FileBrowserSite(object):
 
     def __init__(self, name=None, app_name='filebrowser'):
         self.name = name
         self.app_name = app_name
+        self._actions = {}
+        self._global_actions = self._actions.copy()
+        # Per-site settings:
+        self.media_root = MEDIA_ROOT
+        self.directory = DIRECTORY
+
 
     def filebrowser_view(self, view):
         return staff_member_required(never_cache(view))
@@ -50,7 +57,7 @@ class FileBrowserSite():
 
         urlpatterns = patterns('',
     
-            # filebrowser urls
+            # filebrowser urls (views)
             url(r'^browse/$', path_exists(self.filebrowser_view(self.browse)), name="fb_browse"),
             url(r'^createdir/', path_exists(self.filebrowser_view(self.createdir)), name="fb_createdir"),
             url(r'^upload/', path_exists(self.filebrowser_view(self.upload)), name="fb_upload"),
@@ -58,12 +65,61 @@ class FileBrowserSite():
             url(r'^delete/$', file_exists(path_exists(self.filebrowser_view(self.delete))), name="fb_delete"),
             url(r'^version/$', file_exists(path_exists(self.filebrowser_view(self.detail))), name="fb_detail"),
             url(r'^detail/$', file_exists(path_exists(self.filebrowser_view(self.version))), name="fb_version"),
-            url(r'^check_file/$', csrf_exempt(self.check_file), name="fb_check"),
-            url(r'^upload_file/$', csrf_exempt(flash_login_required(self.upload_file)), name="fb_do_upload"),
+            # non-views
+            url(r'^check_file/$', csrf_exempt(self._check_file), name="fb_check"),
+            url(r'^upload_file/$', csrf_exempt(flash_login_required(self._upload_file)), name="fb_do_upload"),
             
         )
 
         return urlpatterns
+
+    def add_action(self, action, name=None):
+        """
+        Register an action to be available globally.
+        """
+        name = name or action.__name__
+        # Check/create short description
+        if not hasattr(action, 'short_description'):
+            action.short_description = action.__name__.replace("_", " ").capitalize()
+        # Check/create applies-to filter
+        if not hasattr(action, 'applies_to'):
+            action.applies_to = lambda x: True
+        self._actions[name] = action
+        self._global_actions[name] = action
+
+    def disable_action(self, name):
+        """
+        Disable a globally-registered action. Raises KeyError for invalid names.
+        """
+        del self._actions[name]
+
+    def get_action(self, name):
+        """
+        Explicitally get a registered global action wheather it's enabled or
+        not. Raises KeyError for invalid names.
+        """
+        return self._global_actions[name]
+
+    def applicable_actions(self, fileobject):
+        """
+        Return a list of tuples (name, action) of actions applicable to a given fileobject.
+        Sorted alphabetically.
+        """
+        res = []
+        for name, action in self.actions:
+            if action.applies_to(fileobject):
+                res.append((name, action))
+        return res
+
+    @property
+    def actions(self):
+        """
+        Get all the enabled actions as a list of (name, func). The list
+        is sorted alphabetically by actions names
+        """
+        res = self._actions.items()
+        res.sort(key=lambda name_func: name_func[0])
+        return res
 
     @property
     def urls(self):
@@ -91,7 +147,7 @@ class FileBrowserSite():
             return True
         
         query = request.GET.copy()
-        abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, query.get('dir', ''))
+        abs_path = u'%s' % os.path.join(self.media_root, self.directory, query.get('dir', ''))
         
         filelisting = FileListing(abs_path,
             filter_func=filter_browse,
@@ -155,7 +211,7 @@ class FileBrowserSite():
         """
         from filebrowser.forms import CreateDirForm
         query = request.GET
-        abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, query.get('dir', ''))
+        abs_path = u'%s' % os.path.join(self.media_root, self.directory, query.get('dir', ''))
         
         if request.method == 'POST':
             form = CreateDirForm(abs_path, request.POST)
@@ -193,7 +249,7 @@ class FileBrowserSite():
         """
         from django.http import parse_cookie
         query = request.GET
-        abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, query.get('dir', ''))
+        abs_path = u'%s' % os.path.join(self.media_root, self.directory, query.get('dir', ''))
         
         # SESSION (used for flash-uploading)
         cookie_dict = parse_cookie(request.META.get('HTTP_COOKIE', ''))
@@ -209,62 +265,12 @@ class FileBrowserSite():
             'breadcrumbs_title': _(u'Upload')
         }, context_instance=Context(request))
 
-    def check_file(self, request):
-        """
-        Check if file already exists on the server.
-        """
-        from django.utils import simplejson
-        
-        folder = request.POST.get('folder')
-        fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("fb_upload"))
-        folder = fb_uploadurl_re.sub('', folder)
-        
-        fileArray = {}
-        if request.method == 'POST':
-            for k,v in request.POST.items():
-                if k != "folder":
-                    v = convert_filename(v)
-                    if os.path.isfile(smart_unicode(os.path.join(MEDIA_ROOT, DIRECTORY, folder, v))):
-                        fileArray[k] = v
-        
-        return HttpResponse(simplejson.dumps(fileArray))
-
-    # upload signals
-    filebrowser_pre_upload = Signal(providing_args=["path", "file"])
-    filebrowser_post_upload = Signal(providing_args=["path", "file"])
-
-    def upload_file(self, request):
-        """
-        Upload file to the server.
-        """
-        from django.core.files.move import file_move_safe
-        
-        if request.method == 'POST':
-            folder = request.POST.get('folder')
-            fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("fb_upload"))
-            folder = fb_uploadurl_re.sub('', folder)
-            abs_path = os.path.join(MEDIA_ROOT, DIRECTORY, folder)
-            if request.FILES:
-                filedata = request.FILES['Filedata']
-                filedata.name = convert_filename(filedata.name)
-                self.filebrowser_pre_upload.send(sender=request, path=request.POST.get('folder'), file=filedata)
-                uploadedfile = handle_file_upload(abs_path, filedata)
-                # if file already exists
-                if os.path.isfile(smart_unicode(os.path.join(MEDIA_ROOT, DIRECTORY, folder, filedata.name))):
-                    old_file = smart_unicode(os.path.join(abs_path, filedata.name))
-                    new_file = smart_unicode(os.path.join(abs_path, uploadedfile))
-                    file_move_safe(new_file, old_file, allow_overwrite=True)
-                # POST UPLOAD SIGNAL
-                self.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(os.path.join(DIRECTORY, folder, filedata.name))))
-        
-        return HttpResponse('True')
-
     def delete_confirm(self, request):
         """
         Delete existing File/Directory.
         """
         query = request.GET
-        abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, query.get('dir', ''))
+        abs_path = u'%s' % os.path.join(self.media_root, self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')))
         if fileobject.filetype == "Folder":
             filelisting = FileListing(os.path.join(abs_path, fileobject.filename),
@@ -302,7 +308,7 @@ class FileBrowserSite():
         When trying to delete a Directory, the Directory has to be empty.
         """
         query = request.GET
-        abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, query.get('dir', ''))
+        abs_path = u'%s' % os.path.join(self.media_root, self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')))
         
         if request.GET:
@@ -322,6 +328,9 @@ class FileBrowserSite():
     filebrowser_pre_rename = Signal(providing_args=["path", "name", "new_name"])
     filebrowser_post_rename = Signal(providing_args=["path", "name", "new_name"])
 
+    custom_actions_pre_apply = Signal(providing_args=['action_name', 'fileobject',])
+    custom_actions_post_apply = Signal(providing_args=['action_name', 'filebject', 'result'])
+
     def detail(self, request):
         """
         Show detail page for a file.
@@ -330,30 +339,32 @@ class FileBrowserSite():
         """
         from filebrowser.forms import ChangeForm
         query = request.GET
-        abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, query.get('dir', ''))
+        abs_path = u'%s' % os.path.join(self.media_root, self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')))
         
         if request.method == 'POST':
-            form = ChangeForm(request.POST, path=abs_path, fileobject=fileobject)
+            form = ChangeForm(request.POST, path=abs_path, fileobject=fileobject, site=self)
             if form.is_valid():
                 new_name = form.cleaned_data['name']
-                transpose = form.cleaned_data['transpose']
+                action_name = form.cleaned_data['custom_action']
                 try:
-                    if transpose:
-                        im = Image.open(fileobject.path)
-                        new_image = im.transpose(int(transpose))
-                        try:
-                            new_image.save(fileobject.path, quality=VERSION_QUALITY, optimize=(os.path.splitext(fileobject.path)[1].lower() != '.gif'))
-                        except IOError:
-                            new_image.save(fileobject.path, quality=VERSION_QUALITY)
-                        fileobject.delete_versions()
-                        messages.add_message(request, messages.SUCCESS, _('Transposing was successful.'))
+                    action_response = None
+                    if action_name:
+                        action = self.get_action(action_name)
+                        # Pre-action signal
+                        self.custom_actions_pre_apply.send(sender=None, action_name=action_name, fileobject=fileobject)
+                        # Call the action to action
+                        action_response = action(request=request, fileobjects=[fileobject])
+                        # Post-action signal
+                        self.custom_actions_post_apply.send(sender=None, action_name=action_name, fileobject=fileobject, result=action_response)
                     if new_name != fileobject.filename:
                         self.filebrowser_pre_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
                         fileobject.delete_versions()
                         os.rename(fileobject.path, os.path.join(fileobject.head, new_name))
                         self.filebrowser_post_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
                         messages.add_message(request, messages.SUCCESS, _('Renaming was successful.'))
+                    if isinstance(action_response, HttpResponse):
+                        return action_response
                     if "_continue" in request.POST:
                         redirect_url = reverse("fb_detail") + query_helper(query, "filename="+new_name, "filename")
                     else:
@@ -362,7 +373,7 @@ class FileBrowserSite():
                 except OSError, (errno, strerror):
                     form.errors['name'] = forms.util.ErrorList([_('Error.')])
         else:
-            form = ChangeForm(initial={"name": fileobject.filename}, path=abs_path, fileobject=fileobject)
+            form = ChangeForm(initial={"name": fileobject.filename}, path=abs_path, fileobject=fileobject, site=self)
         
         return render_to_response('filebrowser/detail.html', {
             'form': form,
@@ -379,7 +390,7 @@ class FileBrowserSite():
         Version detail.
         """
         query = request.GET
-        abs_path = u'%s' % os.path.join(MEDIA_ROOT, DIRECTORY, query.get('dir', ''))
+        abs_path = u'%s' % os.path.join(self.media_root, self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')))
         
         return render_to_response('filebrowser/version.html', {
@@ -388,5 +399,63 @@ class FileBrowserSite():
             'settings_var': get_settings_var(),
         }, context_instance=Context(request))
 
+
+    def _check_file(self, request):
+        """
+        Check if file already exists on the server.
+        """
+        from django.utils import simplejson
+        
+        folder = request.POST.get('folder')
+        fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("fb_upload"))
+        folder = fb_uploadurl_re.sub('', folder)
+        
+        fileArray = {}
+        if request.method == 'POST':
+            for k,v in request.POST.items():
+                if k != "folder":
+                    v = convert_filename(v)
+                    if os.path.isfile(smart_unicode(os.path.join(self.media_root, self.directory, folder, v))):
+                        fileArray[k] = v
+        
+        return HttpResponse(simplejson.dumps(fileArray))
+
+    # upload signals
+    filebrowser_pre_upload = Signal(providing_args=["path", "file"])
+    filebrowser_post_upload = Signal(providing_args=["path", "file"])
+
+    def _upload_file(self, request):
+        """
+        Upload file to the server.
+        """
+        from django.core.files.move import file_move_safe
+        
+        if request.method == 'POST':
+            folder = request.POST.get('folder')
+            fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("fb_upload"))
+            folder = fb_uploadurl_re.sub('', folder)
+            abs_path = os.path.join(self.media_root, self.directory, folder)
+            if request.FILES:
+                filedata = request.FILES['Filedata']
+                filedata.name = convert_filename(filedata.name)
+                self.filebrowser_pre_upload.send(sender=request, path=request.POST.get('folder'), file=filedata)
+                uploadedfile = handle_file_upload(abs_path, filedata)
+                # if file already exists
+                if os.path.isfile(smart_unicode(os.path.join(self.media_root, self.directory, folder, filedata.name))):
+                    old_file = smart_unicode(os.path.join(abs_path, filedata.name))
+                    new_file = smart_unicode(os.path.join(abs_path, uploadedfile))
+                    file_move_safe(new_file, old_file, allow_overwrite=True)
+                # POST UPLOAD SIGNAL
+                self.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(os.path.join(self.directory, folder, filedata.name))))
+        
+        return HttpResponse('True')
+
 site = FileBrowserSite()
 
+# Default actions
+from image_actions import *
+site.add_action(flip_horizontal)
+site.add_action(flip_vertical)
+site.add_action(rotate_90_clockwise)
+site.add_action(rotate_90_counterclockwise)
+site.add_action(rotate_180)
