@@ -88,12 +88,14 @@ class FileBrowseField(CharField):
         self.directory = kwargs.pop('directory', '')
         self.extensions = kwargs.pop('extensions', '')
         self.format = kwargs.pop('format', '')
+        self.media_root = kwargs.pop('media_root', MEDIA_ROOT)
+        self.directory = kwargs.pop('directory', DIRECTORY)
         return super(FileBrowseField, self).__init__(*args, **kwargs)
     
     def to_python(self, value):
         if not value or isinstance(value, FileObject):
             return value
-        return FileObject(url_to_path(value))
+        return FileObject(url_to_path(value, media_root=self.media_root, directory=self.directory))
     
     def get_db_prep_value(self, value, connection, prepared=False):
         if not value:

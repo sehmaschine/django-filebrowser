@@ -44,10 +44,10 @@ class VersionNode(Node):
             source = force_unicode(source)
             version_path = get_version_path(source, version_prefix)
             if not os.path.isfile(version_path):
-                version_path = version_generator(source, version_prefix)
+                version_path = version_generator(source, version_prefix, media_root=context['media_root'])
             elif os.path.getmtime(source) > os.path.getmtime(version_path):
-                version_path = version_generator(source, version_prefix, force=True)
-            return path_to_url(version_path)
+                version_path = version_generator(source, version_prefix, force=True, media_root=context['media_root'])
+            return path_to_url(version_path, media_root=context['media_root'])
         except:
             return ""
 
@@ -100,9 +100,9 @@ class VersionObjectNode(Node):
             source = force_unicode(source)
             version_path = get_version_path(source, version_prefix)
             if not os.path.isfile(version_path):
-                version_path = version_generator(source, version_prefix)
+                version_path = version_generator(source, version_prefix, media_root=context['media_root'])
             elif os.path.getmtime(source) > os.path.getmtime(version_path):
-                version_path = version_generator(source, version_prefix, force=True)
+                version_path = version_generator(source, version_prefix, force=True, media_root=context['media_root'])
             context[self.var_name] = FileObject(version_path)
         except:
             context[self.var_name] = ""
