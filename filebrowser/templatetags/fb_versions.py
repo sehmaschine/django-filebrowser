@@ -42,12 +42,12 @@ class VersionNode(Node):
             if isinstance(source, FileObject):
                 source = source.path
             source = force_unicode(source)
-            version_path = get_version_path(source, version_prefix)
+            version_path = get_version_path(source, version_prefix, directory=context['directory'])
             if not os.path.isfile(version_path):
-                version_path = version_generator(source, version_prefix, media_root=context['media_root'])
+                version_path = version_generator(source, version_prefix, directory=context['directory'])
             elif os.path.getmtime(source) > os.path.getmtime(version_path):
-                version_path = version_generator(source, version_prefix, force=True, media_root=context['media_root'])
-            return path_to_url(version_path, media_root=context['media_root'])
+                version_path = version_generator(source, version_prefix, force=True, directory=context['directory'])
+            return path_to_url(version_path)
         except:
             return ""
 
@@ -98,11 +98,11 @@ class VersionObjectNode(Node):
             if isinstance(source, FileObject):
                 source = source.path
             source = force_unicode(source)
-            version_path = get_version_path(source, version_prefix)
+            version_path = get_version_path(source, version_prefix, directory=context['directory'])
             if not os.path.isfile(version_path):
-                version_path = version_generator(source, version_prefix, media_root=context['media_root'])
+                version_path = version_generator(source, version_prefix, directory=context['directory'])
             elif os.path.getmtime(source) > os.path.getmtime(version_path):
-                version_path = version_generator(source, version_prefix, force=True, media_root=context['media_root'])
+                version_path = version_generator(source, version_prefix, force=True, directory=context['directory'])
             context[self.var_name] = FileObject(version_path)
         except:
             context[self.var_name] = ""
