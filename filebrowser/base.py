@@ -8,7 +8,6 @@ from time import gmtime, strftime, time
 
 # django imports
 from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse
 
 # filebrowser imports
 from filebrowser.settings import *

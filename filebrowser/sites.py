@@ -58,13 +58,13 @@ class FileBrowserSite(object):
         urlpatterns = patterns('',
     
             # filebrowser urls (views)
-            url(r'^browse/$', path_exists(self.filebrowser_view(self.browse)), name="fb_browse"),
-            url(r'^createdir/', path_exists(self.filebrowser_view(self.createdir)), name="fb_createdir"),
-            url(r'^upload/', path_exists(self.filebrowser_view(self.upload)), name="fb_upload"),
-            url(r'^delete_confirm/$', file_exists(path_exists(self.filebrowser_view(self.delete_confirm))), name="fb_delete_confirm"),
-            url(r'^delete/$', file_exists(path_exists(self.filebrowser_view(self.delete))), name="fb_delete"),
-            url(r'^version/$', file_exists(path_exists(self.filebrowser_view(self.detail))), name="fb_detail"),
-            url(r'^detail/$', file_exists(path_exists(self.filebrowser_view(self.version))), name="fb_version"),
+            url(r'^browse/$', path_exists(self, self.filebrowser_view(self.browse)), name="fb_browse"),
+            url(r'^createdir/', path_exists(self, self.filebrowser_view(self.createdir)), name="fb_createdir"),
+            url(r'^upload/', path_exists(self, self.filebrowser_view(self.upload)), name="fb_upload"),
+            url(r'^delete_confirm/$', file_exists(self, path_exists(self, self.filebrowser_view(self.delete_confirm))), name="fb_delete_confirm"),
+            url(r'^delete/$', file_exists(self, path_exists(self, self.filebrowser_view(self.delete))), name="fb_delete"),
+            url(r'^version/$', file_exists(self, path_exists(self, self.filebrowser_view(self.detail))), name="fb_detail"),
+            url(r'^detail/$', file_exists(self, path_exists(self, self.filebrowser_view(self.version))), name="fb_version"),
             # non-views
             url(r'^check_file/$', csrf_exempt(self._check_file), name="fb_check"),
             url(r'^upload_file/$', csrf_exempt(flash_login_required(self._upload_file)), name="fb_do_upload"),
@@ -198,8 +198,8 @@ class FileBrowserSite(object):
             'title': _(u'FileBrowser'),
             'settings_var': get_settings_var(),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
-            'breadcrumbs_title': ""
-        }, context_instance=Context(request))
+            'breadcrumbs_title': "",
+        }, context_instance=Context(request, current_app=self.name))
     
     # mkdir signals
     filebrowser_pre_createdir = Signal(providing_args=["path", "name"])
@@ -223,7 +223,7 @@ class FileBrowserSite(object):
                     os.chmod(abs_server_path, 0775) # ??? PERMISSIONS
                     self.filebrowser_post_createdir.send(sender=request, path=abs_server_path, name=form.cleaned_data['name'])
                     messages.add_message(request, messages.SUCCESS, _('The Folder %s was successfully created.') % form.cleaned_data['name'])
-                    redirect_url = reverse("fb_browse") + query_helper(query, "ot=desc,o=date", "ot,o,filter_type,filter_date,q,p")
+                    redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, "ot=desc,o=date", "ot,o,filter_type,filter_date,q,p")
                     return HttpResponseRedirect(redirect_url)
                 except OSError, (errno, strerror):
                     if errno == 13:
@@ -240,7 +240,7 @@ class FileBrowserSite(object):
             'settings_var': get_settings_var(),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'New Folder')
-        }, context_instance=Context(request))
+        }, context_instance=Context(request, current_app=self.name))
     
 
     def upload(self, request):
@@ -263,7 +263,7 @@ class FileBrowserSite(object):
             'settings_var': get_settings_var(),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'Upload')
-        }, context_instance=Context(request))
+        }, context_instance=Context(request, current_app=self.name))
 
     def delete_confirm(self, request):
         """
@@ -296,7 +296,7 @@ class FileBrowserSite(object):
             'settings_var': get_settings_var(),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'Confirm delete')
-        }, context_instance=Context(request))
+        }, context_instance=Context(request, current_app=self.name))
 
     # delete signals
     filebrowser_pre_delete = Signal(providing_args=["path", "name"])
@@ -321,7 +321,7 @@ class FileBrowserSite(object):
             except OSError, (errno, strerror):
                 # TODO: define error-message
                 pass
-        redirect_url = reverse("fb_browse") + query_helper(query, "", "filename,filetype")
+        redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, "", "filename,filetype")
         return HttpResponseRedirect(redirect_url)
 
     # rename signals
@@ -366,9 +366,9 @@ class FileBrowserSite(object):
                     if isinstance(action_response, HttpResponse):
                         return action_response
                     if "_continue" in request.POST:
-                        redirect_url = reverse("fb_detail") + query_helper(query, "filename="+new_name, "filename")
+                        redirect_url = reverse("filebrowser:fb_detail", current_app=self.name) + query_helper(query, "filename="+new_name, "filename")
                     else:
-                        redirect_url = reverse("fb_browse") + query_helper(query, "", "filename")
+                        redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, "", "filename")
                     return HttpResponseRedirect(redirect_url)
                 except OSError, (errno, strerror):
                     form.errors['name'] = forms.util.ErrorList([_('Error.')])
@@ -383,7 +383,7 @@ class FileBrowserSite(object):
             'settings_var': get_settings_var(),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': u'%s' % fileobject.filename
-        }, context_instance=Context(request))
+        }, context_instance=Context(request, current_app=self.name))
 
     def version(self, request):
         """
@@ -397,7 +397,7 @@ class FileBrowserSite(object):
             'fileobject': fileobject,
             'query': query,
             'settings_var': get_settings_var(),
-        }, context_instance=Context(request))
+        }, context_instance=Context(request, current_app=self.name))
 
 
     def _check_file(self, request):
@@ -407,7 +407,7 @@ class FileBrowserSite(object):
         from django.utils import simplejson
         
         folder = request.POST.get('folder')
-        fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("fb_upload"))
+        fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("filebrowser:fb_upload", current_app=self.name))
         folder = fb_uploadurl_re.sub('', folder)
         
         fileArray = {}
@@ -432,7 +432,7 @@ class FileBrowserSite(object):
         
         if request.method == 'POST':
             folder = request.POST.get('folder')
-            fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("fb_upload"))
+            fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("filebrowser:fb_upload", current_app=self.name))
             folder = fb_uploadurl_re.sub('', folder)
             abs_path = os.path.join(self.media_root, self.directory, folder)
             if request.FILES:
@@ -450,7 +450,7 @@ class FileBrowserSite(object):
         
         return HttpResponse('True')
 
-site = FileBrowserSite()
+site = FileBrowserSite(name='filebrowser')
 
 # Default actions
 from image_actions import *
@@ -459,3 +459,5 @@ site.add_action(flip_vertical)
 site.add_action(rotate_90_clockwise)
 site.add_action(rotate_90_counterclockwise)
 site.add_action(rotate_180)
+
+site_no_actions = FileBrowserSite(name='no_actions')

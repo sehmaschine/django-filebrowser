@@ -37,7 +37,7 @@ def flash_login_required(function):
     return decorator
 
 
-def path_exists(function):
+def path_exists(site, function):
     """
     Check if the given path exists.
     """
@@ -49,13 +49,13 @@ def path_exists(function):
         if get_path(request.GET.get('dir', '')) == None:
             msg = _('The requested Folder does not exist.')
             messages.add_message(request, messages.ERROR, msg)
-            redirect_url = reverse("fb_browse") + query_helper(request.GET, "", "dir")
+            redirect_url = reverse("filebrowser:fb_browse", current_app=site.name) + query_helper(request.GET, "", "dir")
             return HttpResponseRedirect(redirect_url)
         return function(request, *args, **kwargs)
     return decorator
 
 
-def file_exists(function):
+def file_exists(site, function):
     """
     Check if the given file exists.
     """
@@ -65,13 +65,13 @@ def file_exists(function):
         if file_path == None:
             msg = _('The requested File does not exist.')
             messages.add_message(request, messages.ERROR, msg)
-            redirect_url = reverse("fb_browse") + query_helper(request.GET, "", "dir")
+            redirect_url = reverse("filebrowser:fb_browse", current_app=site.name) + query_helper(request.GET, "", "dir")
             return HttpResponseRedirect(redirect_url)
         elif file_path.startswith('/') or file_path.startswith('..'):
             # prevent path traversal
             msg = _('You do not have permission to access this file!')
             messages.add_message(request, messages.ERROR, msg)
-            redirect_url = reverse("fb_browse") + query_helper(request.GET, "", "dir")
+            redirect_url = reverse("filebrowser:fb_browse", current_app=site.name) + query_helper(request.GET, "", "dir")
             return HttpResponseRedirect(redirect_url)
         return function(request, *args, **kwargs)
     return decorator
