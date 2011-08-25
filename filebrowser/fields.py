@@ -88,7 +88,6 @@ class FileBrowseField(CharField):
         self.directory = kwargs.pop('directory', '')
         self.extensions = kwargs.pop('extensions', '')
         self.format = kwargs.pop('format', '')
-        self.directory = kwargs.pop('directory', DIRECTORY)
         return super(FileBrowseField, self).__init__(*args, **kwargs)
     
     def to_python(self, value):
