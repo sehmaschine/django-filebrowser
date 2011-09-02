@@ -20,10 +20,7 @@ except ImportError:
 # Main Media Settings
 MEDIA_ROOT = getattr(settings, "FILEBROWSER_MEDIA_ROOT", settings.MEDIA_ROOT)
 MEDIA_URL = getattr(settings, "FILEBROWSER_MEDIA_URL", settings.MEDIA_URL)
-# Main FileBrowser Directory. This has to be a directory within MEDIA_ROOT.
-# Leave empty in order to browse all files under MEDIA_ROOT.
-# DO NOT USE A SLASH AT THE BEGINNING, DO NOT FORGET THE TRAILING SLASH AT THE END.
-DIRECTORY = getattr(settings, "FILEBROWSER_DIRECTORY", 'uploads/')
+
 # The URL/PATH to your filebrowser media-files.
 URL_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_URL_FILEBROWSER_MEDIA", os.path.join(settings.STATIC_URL, 'filebrowser/'))
 PATH_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_PATH_FILEBROWSER_MEDIA", os.path.join(settings.STATIC_ROOT, 'filebrowser/'))
