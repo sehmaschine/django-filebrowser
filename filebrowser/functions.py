@@ -51,7 +51,7 @@ def url_to_path(value):
     Returns an absolute server-path, including MEDIA_ROOT.
     """
     
-    value = url_strip(value, media_url)
+    value = url_strip(value, MEDIA_URL)
     return os.path.join(MEDIA_ROOT, value)
 
 
