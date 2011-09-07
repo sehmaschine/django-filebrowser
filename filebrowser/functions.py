@@ -43,7 +43,7 @@ def url_strip(url, root):
     return url
 
 
-def url_to_path(value, media_root=MEDIA_ROOT):
+def url_to_path(value, media_root=MEDIA_ROOT, media_url=MEDIA_URL):
     """
     Change URL to PATH.
     value has to be an URL relative to MEDIA URL or a full URL (including MEDIA_URL).
@@ -55,7 +55,7 @@ def url_to_path(value, media_root=MEDIA_ROOT):
     return os.path.join(media_root, value)
 
 
-def path_to_url(value, media_root=MEDIA_ROOT):
+def path_to_url(value, media_root=MEDIA_ROOT, media_url=MEDIA_URL):
     """
     Change PATH to URL.
     value has to be an absolute server-path, including MEDIA_ROOT.
@@ -64,7 +64,7 @@ def path_to_url(value, media_root=MEDIA_ROOT):
     """
     
     value = path_strip(value, media_root)
-    return url_join(MEDIA_URL, value)
+    return url_join(media_url, value)
 
 
 def get_version_filename(filename, version_prefix):
@@ -234,7 +234,7 @@ def get_filterdate(filterDate, dateTime):
     return returnvalue
 
 
-def get_settings_var(media_root=MEDIA_ROOT):
+def get_settings_var(media_root=MEDIA_ROOT, media_url=MEDIA_URL):
     """
     Get settings variables used for FileBrowser listing.
     """
@@ -242,7 +242,7 @@ def get_settings_var(media_root=MEDIA_ROOT):
     settings_var = {}
     # Main
     settings_var['MEDIA_ROOT'] = media_root
-    settings_var['MEDIA_URL'] = MEDIA_URL
+    settings_var['MEDIA_URL'] = media_url
     # FileBrowser
     settings_var['URL_FILEBROWSER_MEDIA'] = URL_FILEBROWSER_MEDIA
     settings_var['PATH_FILEBROWSER_MEDIA'] = PATH_FILEBROWSER_MEDIA

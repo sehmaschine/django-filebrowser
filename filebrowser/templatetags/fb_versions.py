@@ -47,7 +47,7 @@ class VersionNode(Node):
                 version_path = version_generator(source, version_prefix, media_root=context['media_root'])
             elif os.path.getmtime(source) > os.path.getmtime(version_path):
                 version_path = version_generator(source, version_prefix, force=True, media_root=context['media_root'])
-            return path_to_url(version_path, media_root=context['media_root'])
+            return path_to_url(version_path, media_root=context['media_root'], media_url=context['media_url'])
         except:
             return ""
 
@@ -103,7 +103,7 @@ class VersionObjectNode(Node):
                 version_path = version_generator(source, version_prefix, media_root=context['media_root'])
             elif os.path.getmtime(source) > os.path.getmtime(version_path):
                 version_path = version_generator(source, version_prefix, force=True, media_root=context['media_root'])
-            context[self.var_name] = FileObject(version_path)
+            context[self.var_name] = FileObject(version_path, media_root=context['media_root'], media_url=context['media_url'])
         except:
             context[self.var_name] = ""
         return ''

@@ -46,12 +46,13 @@ class FileListing():
     _results_listing_filtered = None
     _results_walk_total = None
     
-    def __init__(self, path, filter_func=None, sorting_by=None, sorting_order=None, media_root=MEDIA_ROOT):
+    def __init__(self, path, filter_func=None, sorting_by=None, sorting_order=None, media_root=MEDIA_ROOT, media_url=MEDIA_URL):
         self.path = path
         self.filter_func = filter_func
         self.sorting_by = sorting_by
         self.sorting_order = sorting_order
         self.media_root = media_root
+        self.media_url = media_url
     
     def listing(self):
         "List all files for path"
@@ -79,7 +80,7 @@ class FileListing():
         if self._fileobjects_total == None:
             self._fileobjects_total = []
             for item in self.listing():
-                fileobject = FileObject(os.path.join(self.path, item), media_root=self.media_root)
+                fileobject = FileObject(os.path.join(self.path, item), media_root=self.media_root, media_url=self.media_url)
                 self._fileobjects_total.append(fileobject)
         
         files = self._fileobjects_total
@@ -96,7 +97,7 @@ class FileListing():
         "Returns FileObjects for all files in walk"
         files = []
         for item in self.walk():
-            fileobject = FileObject(os.path.join(self.media_root, item), media_root=self.media_root)
+            fileobject = FileObject(os.path.join(self.media_root, item), media_root=self.media_root, media_url=self.media_url)
             files.append(fileobject)
         if self.sorting_by:
             files = sort_by_attr(files, self.sorting_by)
@@ -158,8 +159,9 @@ class FileObject():
         fileobject = FileObject(absolute_path_to_file)
     """
     
-    def __init__(self, path, relative=False, media_root=MEDIA_ROOT):
+    def __init__(self, path, relative=False, media_root=MEDIA_ROOT, media_url=MEDIA_URL):
         self.media_root = media_root
+        self.media_url = media_url
         if relative:
             self.path = os.path.join(self.media_root, path)
         else:
@@ -230,12 +232,12 @@ class FileObject():
         
     def _url(self):
         "URL, including MEDIA_URL"
-        return u"%s" % url_join(MEDIA_URL, self.path_relative)
+        return u"%s" % url_join(self.media_url, self.path_relative)
     url = property(_url)
     
     def _url_relative(self):
         "URL, not including MEDIA_URL"
-        return url_strip(self.url, MEDIA_URL)
+        return url_strip(self.url, self.media_url)
     url_relative = property(_url_relative)
     
     def _url_save(self):
@@ -313,7 +315,7 @@ class FileObject():
     
     def _original(self):
         if self.is_version:
-            return FileObject(get_original_path(self.path, media_root=self.media_root))
+            return FileObject(get_original_path(self.path, media_root=self.media_root, media_url=self.media_url))
         return None
     original = property(_original)
     
@@ -348,7 +350,7 @@ class FileObject():
             version_path = version_generator(self.path, version_suffix, media_root=self.media_root)
         elif os.path.getmtime(self.path) > os.path.getmtime(version_path):
             version_path = version_generator(self.path, version_suffix, force=True, media_root=self.media_root)
-        return FileObject(version_path, media_root=self.media_root)
+        return FileObject(version_path, media_root=self.media_root, media_url=self.media_url)
     
     # FUNCTIONS
     
