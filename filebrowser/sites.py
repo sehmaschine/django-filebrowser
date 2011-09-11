@@ -339,8 +339,8 @@ class FileBrowserSite(object):
     filebrowser_pre_rename = Signal(providing_args=["path", "name", "new_name"])
     filebrowser_post_rename = Signal(providing_args=["path", "name", "new_name"])
 
-    custom_actions_pre_apply = Signal(providing_args=['action_name', 'fileobject',])
-    custom_actions_post_apply = Signal(providing_args=['action_name', 'filebject', 'result'])
+    filebrowser_actions_pre_apply = Signal(providing_args=['action_name', 'fileobjects',])
+    filebrowser_actions_post_apply = Signal(providing_args=['action_name', 'filebjects', 'result'])
 
     def detail(self, request):
         """
@@ -363,11 +363,11 @@ class FileBrowserSite(object):
                     if action_name:
                         action = self.get_action(action_name)
                         # Pre-action signal
-                        self.custom_actions_pre_apply.send(sender=None, action_name=action_name, fileobject=fileobject)
+                        self.filebrowser_actions_pre_apply.send(sender=request, action_name=action_name, fileobject=[fileobject])
                         # Call the action to action
                         action_response = action(request=request, fileobjects=[fileobject])
                         # Post-action signal
-                        self.custom_actions_post_apply.send(sender=None, action_name=action_name, fileobject=fileobject, result=action_response)
+                        self.filebrowser_actions_post_apply.send(sender=request, action_name=action_name, fileobject=[fileobject], result=action_response)
                     if new_name != fileobject.filename:
                         self.filebrowser_pre_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
                         fileobject.delete_versions()
