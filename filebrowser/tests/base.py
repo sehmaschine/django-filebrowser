@@ -22,7 +22,6 @@ class FileObjectPathTests(TestCase):
         Save original values/functions so they can be restored in tearDown
         """
         self.original_media_root = filebrowser.base.MEDIA_ROOT
-        self.original_directory = filebrowser.base.DIRECTORY
         self.original_media_url = filebrowser.base.MEDIA_URL
         self.original_path = filebrowser.base.os.path
     
@@ -32,14 +31,12 @@ class FileObjectPathTests(TestCase):
         """
         filebrowser.base.os.path = ntpath
         filebrowser.base.MEDIA_ROOT = 'C:\\path\\to\\media\\'
-        filebrowser.base.DIRECTORY = 'uploads/'
         filebrowser.base.MEDIA_URL = '/media/'
-        f = FileObject('C:\\path\\to\\media\\uploads\\testdir\\testfile.jpg')
+        f = FileObject('C:\\path\\to\\media\\uploads\\testdir\\testfile.jpg', media_root='C:\\path\\to\\media\\')
         
         self.assertEqual(f.path_relative, 'uploads\\testdir\\testfile.jpg')
-        self.assertEqual(f.path_relative_directory, 'testdir\\testfile.jpg')
-        self.assertEqual(f.directory, 'testdir\\testfile.jpg')
-        self.assertEqual(f.folder, r'testdir')
+        self.assertEqual(f.directory, 'uploads\\testdir\\testfile.jpg')
+        self.assertEqual(f.folder, 'uploads\\testdir')
         
         self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
         self.assertEqual(f.url_relative, 'uploads/testdir/testfile.jpg')
@@ -50,14 +47,12 @@ class FileObjectPathTests(TestCase):
         """
         filebrowser.base.os.path = posixpath
         filebrowser.base.MEDIA_ROOT = '/path/to/media/'
-        filebrowser.base.DIRECTORY = 'uploads/'
         filebrowser.base.MEDIA_URL = '/media/'
-        f = FileObject('/path/to/media/uploads/testdir/testfile.jpg')
+        f = FileObject('/path/to/media/uploads/testdir/testfile.jpg', media_root='/path/to/media/')
         
         self.assertEqual(f.path_relative, 'uploads/testdir/testfile.jpg')
-        self.assertEqual(f.path_relative_directory, 'testdir/testfile.jpg')
-        self.assertEqual(f.directory, 'testdir/testfile.jpg')
-        self.assertEqual(f.folder, r'testdir')
+        self.assertEqual(f.directory, 'uploads/testdir/testfile.jpg')
+        self.assertEqual(f.folder, 'uploads/testdir')
         
         self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
         self.assertEqual(f.url_relative, 'uploads/testdir/testfile.jpg')
@@ -67,7 +62,6 @@ class FileObjectPathTests(TestCase):
         Restore original values/functions
         """
         filebrowser.base.MEDIA_ROOT = self.original_media_root
-        filebrowser.base.DIRECTORY = self.original_directory
         filebrowser.base.MEDIA_URL = self.original_media_url
         filebrowser.base.os.path = self.original_path
 
@@ -79,7 +73,6 @@ class FileObjectVersionTests(TestCase):
         Save original values/functions so they can be restored in tearDown
         """
         self.original_media_root = filebrowser.base.MEDIA_ROOT
-        self.original_directory = filebrowser.base.DIRECTORY
         self.original_media_url = filebrowser.base.MEDIA_URL
         self.original_path = filebrowser.base.os.path
     
@@ -89,14 +82,12 @@ class FileObjectVersionTests(TestCase):
         """
         filebrowser.base.os.path = ntpath
         filebrowser.base.MEDIA_ROOT = 'C:\\path\\to\\media\\'
-        filebrowser.base.DIRECTORY = 'uploads/'
         filebrowser.base.MEDIA_URL = '/media/'
-        f = FileObject('C:\\path\\to\\media\\uploads\\testdir\\testfile.jpg')
+        f = FileObject('C:\\path\\to\\media\\uploads\\testdir\\testfile.jpg', media_root='C:\\path\\to\\media\\')
         
         self.assertEqual(f.path_relative, 'uploads\\testdir\\testfile.jpg')
-        self.assertEqual(f.path_relative_directory, 'testdir\\testfile.jpg')
-        self.assertEqual(f.directory, 'testdir\\testfile.jpg')
-        self.assertEqual(f.folder, r'testdir')
+        self.assertEqual(f.directory, 'uploads\\testdir\\testfile.jpg')
+        self.assertEqual(f.folder, 'uploads\\testdir')
         
         self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
         self.assertEqual(f.url_relative, 'uploads/testdir/testfile.jpg')
@@ -107,14 +98,12 @@ class FileObjectVersionTests(TestCase):
         """
         filebrowser.base.os.path = posixpath
         filebrowser.base.MEDIA_ROOT = '/path/to/media/'
-        filebrowser.base.DIRECTORY = 'uploads/'
         filebrowser.base.MEDIA_URL = '/media/'
-        f = FileObject('/path/to/media/uploads/testdir/testfile.jpg')
+        f = FileObject('/path/to/media/uploads/testdir/testfile.jpg', media_root='/path/to/media/')
         
         self.assertEqual(f.path_relative, 'uploads/testdir/testfile.jpg')
-        self.assertEqual(f.path_relative_directory, 'testdir/testfile.jpg')
-        self.assertEqual(f.directory, 'testdir/testfile.jpg')
-        self.assertEqual(f.folder, r'testdir')
+        self.assertEqual(f.directory, 'uploads/testdir/testfile.jpg')
+        self.assertEqual(f.folder, 'uploads/testdir')
         
         self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
         self.assertEqual(f.url_relative, 'uploads/testdir/testfile.jpg')
@@ -124,7 +113,6 @@ class FileObjectVersionTests(TestCase):
         Restore original values/functions
         """
         filebrowser.base.MEDIA_ROOT = self.original_media_root
-        filebrowser.base.DIRECTORY = self.original_directory
         filebrowser.base.MEDIA_URL = self.original_media_url
         filebrowser.base.os.path = self.original_path
 
