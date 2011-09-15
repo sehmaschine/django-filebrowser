@@ -36,7 +36,7 @@ In order to make your action visible, you need to register it at a |site| (see a
 
 Once registered, the action will appear in the detail view of a file. You can also give your action a short description::
 
-    foo.short_description = 'Foo the File'
+    foo.short_description = 'Do foo with the File'
 
 This short description will then appear in the list of available actions. If you do not provide any short description for your action, the function name will be used instead and |fb| will replace any underscores in the function name with spaces.
 
@@ -49,8 +49,17 @@ Each custom action can be associated with a specific file type (e.g., images, au
 
 In the above example, foo will be applicable exclusively to image files. That is, the action will appear in the action list only for image files. If you do not specify any filter function for your action, |fb| considers the action as applicable to all files.
 
-Intermediate Pages
-------------------
+Messages & Intermediate Pages
+-----------------------------
+
+You can provide a feedback to a user about or successful or failed execution of an action by registering a message at the request object. For example::
+
+    from django.contrib import messages
+    
+    def desaturate_image(request, fileobjects):
+        for f in fileobjects:
+            # Desaturate the image
+            messages.add_message(request, messages.SUCCESS, _("Image '%s' was desaturated.") % f.filename)
 
 Some actions may require user confirmation (e.g., in order to prevent accidental and irreversible modification to files). In order to that, follow the same pattern as with Django's admin action and return an ``HttpResponse`` object from your action. Good practice for intermediate pages is to implement a confirm view and have your action return an ``HttpResponseRedirect`` object redirecting a user to that view::
 
