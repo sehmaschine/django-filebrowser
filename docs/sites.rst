@@ -1,4 +1,4 @@
-
+:tocdepth: 2
 
 .. |site| replace:: FileBrowser site
 .. |sites| replace:: FileBrowser sites
