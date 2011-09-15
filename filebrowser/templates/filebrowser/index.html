@@ -76,8 +76,8 @@
 <!-- OBJECT-TOOLS -->
 {% block object-tools %}
 <ul class="tools">
-    <li><a href="{% url fb_createdir %}{% query_string '' 'p' %}">{% trans "New Folder" %}</a></li>
-    <li><a href="{% url fb_upload %}{% query_string '' 'p' %}" class="focus">{% trans "Upload" %}</a></li>
+    <li><a href="{% url filebrowser:fb_createdir %}{% query_string '' 'p' %}">{% trans "New Folder" %}</a></li>
+    <li><a href="{% url filebrowser:fb_upload %}{% query_string '' 'p' %}" class="focus">{% trans "Upload" %}</a></li>
 </ul>
 {% endblock %}
 

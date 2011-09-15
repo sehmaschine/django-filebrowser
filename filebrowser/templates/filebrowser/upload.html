@@ -39,9 +39,9 @@
         $(document).ready(function() {
             $('#id_file').uploadify({
                 'uploader'          : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/uploadify.swf',
-                'script'            : '{% url fb_do_upload %}',
+                'script'            : '{% url filebrowser:fb_do_upload %}',
                 'scriptData'        : {'session_key': '{{session_key}}'},
-                'checkScript'       : '{% url fb_check %}',
+                'checkScript'       : '{% url filebrowser:fb_check %}',
                 'cancelImg'         : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/cancel.png',
                 'buttonImg'         : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/button.png',
                 'auto'              : false,

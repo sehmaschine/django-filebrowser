@@ -33,9 +33,14 @@ URL that handles the media served from ``MEDIA_ROOT``::
 DIRECTORY (relative to ``MEDIA_ROOT``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Main FileBrowser Directory. Leave empty in order to browse all files and folders within ``MEDIA_ROOT``::
 
-    DIRECTORY = getattr(settings, "FILEBROWSER_DIRECTORY", 'uploads/')
+.. versionchanged:: 3.4 DIRECTORY is not used anymore.
+
+.. note:: (FileBrowser versions prior to 3.4)
+
+    Main FileBrowser Directory. Leave empty in order to browse all files and folders within ``MEDIA_ROOT``::
+
+        DIRECTORY = getattr(settings, "FILEBROWSER_DIRECTORY", 'uploads/')
 
 FileBrowser Media, TinyMCE Media
 --------------------------------
@@ -97,6 +102,14 @@ VERSIONS_BASEDIR (relative to ``MEDIA_ROOT``)
 Directory to save image versions (and thumbnails). If no directory is given, versions are stored at the same location as the original image::
 
     VERSIONS_BASEDIR = getattr(settings, 'FILEBROWSER_VERSIONS_BASEDIR', '')
+
+.. note::
+
+    .. versionchanged:: 3.4
+
+    In versions previous to FileBrowser 3.4, it was possible to have VERSION_BASEDIR placed at a path which was not browsed by FileBrowser (by placing VERSION_BASEDIR anywhere else than under DIRECTORY). 
+
+    However, this is not possible as of FileBrowser 3.4 because DIRECTORY variable is not used anymore and FileBrowser browses anything under MEDIA_ROOT. If you don't want FileBrowser to browse/display the contents of VERSION_BASEDIR, make this directory *hidden*.
 
 VERSIONS
 ^^^^^^^^

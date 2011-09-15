@@ -7,13 +7,13 @@ import os, re
 from django.core.management.base import BaseCommand, CommandError
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import EXTENSION_LIST, EXCLUDE, MEDIA_ROOT, DIRECTORY, VERSIONS, EXTENSIONS
+from filebrowser.settings import EXTENSION_LIST, EXCLUDE, MEDIA_ROOT, VERSIONS, EXTENSIONS
 from filebrowser.functions import version_generator
 
 
 class Command(BaseCommand):
     args = '<media_path>'
-    help = "(Re)Generate Image-Versions within FILEBROWSER_DIRECTORY/MEDIA_ROOT."
+    help = "(Re)Generate Image-Versions within FILEBROWSER_MEDIA_ROOT."
     
     def handle(self, *args, **options):
         media_path = ""
@@ -22,10 +22,10 @@ class Command(BaseCommand):
             media_path = args[0]
             path = os.path.join(MEDIA_ROOT, media_path)
         else:
-            path = os.path.join(MEDIA_ROOT, DIRECTORY)
+            path = MEDIA_ROOT
         
         if not os.path.isdir(path):
-            raise CommandError('<media_path> must be a directory in MEDIA_ROOT (If you don\'t add a media_path the default path is FILEBROWSER_DIRECTORY).\n"%s" is no directory.' % path);
+            raise CommandError('<media_path> must be a directory in MEDIA_ROOT (If you don\'t add a media_path the default path is FILEBROWSER_MEDIA_ROOT).\n"%s" is no directory.' % path);
         
         # get version name
         while 1:
@@ -53,7 +53,7 @@ class Command(BaseCommand):
         for exp in EXCLUDE:
            filter_re.append(re.compile(exp))
         for k,v in VERSIONS.iteritems():
-            exp = (r'_%s.(%s)') % (k, '|'.join(EXTENSION_LIST))
+            exp = (r'_%s(%s)') % (k, '|'.join(EXTENSION_LIST))
             filter_re.append(re.compile(exp))
         
         # walkt throu the filebrowser directory

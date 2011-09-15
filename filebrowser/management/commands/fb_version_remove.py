@@ -7,12 +7,12 @@ import os, re
 from django.core.management.base import BaseCommand, CommandError
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import EXTENSION_LIST, EXCLUDE, MEDIA_ROOT, DIRECTORY, VERSIONS, EXTENSIONS
+from filebrowser.settings import EXTENSION_LIST, EXCLUDE, MEDIA_ROOT, VERSIONS, EXTENSIONS
 
 
 class Command(BaseCommand):
     args = '<media_path>'
-    help = "Remove Image-Versions within FILEBROWSER_DIRECTORY/MEDIA_ROOT."
+    help = "Remove Image-Versions within FILEBROWSER_MEDIA_ROOT."
     
     def handle(self, *args, **options):
         

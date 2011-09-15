@@ -49,6 +49,20 @@ and upload/rename/delete files and folders.
    
    versions
 
+**FileBrowser Sites**
+
+.. toctree::
+   :maxdepth: 2
+   
+   sites
+
+**Custom Actions**
+
+.. toctree::
+   :maxdepth: 2
+   
+   actions
+
 **Help**
 
 .. toctree::

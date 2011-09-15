@@ -38,16 +38,18 @@ class VersionNode(Node):
                 version_prefix = self.version_prefix_var.resolve(context)
             except VariableDoesNotExist:
                 return None
+        media_root = context.get('media_root', MEDIA_ROOT)
+        media_url = context.get('media_url', MEDIA_URL)
         try:
             if isinstance(source, FileObject):
                 source = source.path
             source = force_unicode(source)
             version_path = get_version_path(source, version_prefix)
             if not os.path.isfile(version_path):
-                version_path = version_generator(source, version_prefix)
+                version_path = version_generator(source, version_prefix, media_root=media_root)
             elif os.path.getmtime(source) > os.path.getmtime(version_path):
-                version_path = version_generator(source, version_prefix, force=True)
-            return path_to_url(version_path)
+                version_path = version_generator(source, version_prefix, force=True, media_root=media_root)
+            return path_to_url(version_path, media_root=media_root, media_url=media_url)
         except:
             return ""
 
@@ -94,16 +96,18 @@ class VersionObjectNode(Node):
                 version_prefix = self.version_prefix_var.resolve(context)
             except VariableDoesNotExist:
                 return None
+        media_root = context.get('media_root', MEDIA_ROOT)
+        media_url = context.get('media_url', MEDIA_URL)
         try:
             if isinstance(source, FileObject):
                 source = source.path
             source = force_unicode(source)
-            version_path = get_version_path(source, version_prefix)
+            version_path = get_version_path(source, version_prefix, media_root=media_root)
             if not os.path.isfile(version_path):
-                version_path = version_generator(source, version_prefix)
+                version_path = version_generator(source, version_prefix, media_root=media_root)
             elif os.path.getmtime(source) > os.path.getmtime(version_path):
-                version_path = version_generator(source, version_prefix, force=True)
-            context[self.var_name] = FileObject(version_path)
+                version_path = version_generator(source, version_prefix, force=True, media_root=media_root)
+            context[self.var_name] = FileObject(version_path, media_root=media_root, media_url=media_url)
         except:
             context[self.var_name] = ""
         return ''
