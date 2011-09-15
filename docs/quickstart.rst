@@ -27,6 +27,8 @@ Go to https://github.com/sehmaschine/django-filebrowser if you need to download 
 Installation
 ------------
 
+.. versionchanged:: 3.4
+
 Open ``settings.py`` and add ``filebrowser`` to your ``INSTALLED_APPS`` (before ``django.contrib.admin``)::
 
     INSTALLED_APPS = (
@@ -35,11 +37,23 @@ Open ``settings.py`` and add ``filebrowser`` to your ``INSTALLED_APPS`` (before 
         'django.contrib.admin',
     )
 
-Add URL-patterns (before any admin-urls)::
+In your ``url.py`` import the default FileBrowser site::
 
+    from filebrowser.sites import site
+
+and add the following URL-patterns (before any admin-urls)::
+    
     urlpatterns = patterns('',
-        (r'^admin/filebrowser/', include('filebrowser.urls')),
+       url(r'^admin/filebrowser/', include(site.urls)),
     )
+
+.. note:: (Setting up URLs with versions prior to FileBrowser 3.4)
+
+    Skip the import from filebrowser.sites and add the URL-patterns (before any admin-urls) like this::
+
+        urlpatterns = patterns('',
+            (r'^admin/filebrowser/', include(filebrowser.urls)),
+        )
 
 Collect the media files::
 

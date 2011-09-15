@@ -36,25 +36,25 @@ def transpose_image(request, fileobjects, operation):
 
 def flip_horizontal(request, fileobjects):
     transpose_image(request, fileobjects, 0)
-flip_horizontal.short_description = 'Flip Image Horizontally'
+flip_horizontal.short_description = _(u'Flip Image Horizontally')
 flip_horizontal.applies_to = applies_to_all_images
 
 def flip_vertical(request, fileobjects):
     transpose_image(request, fileobjects, 1)
-flip_vertical.short_description = 'Flip Image Vertically'
+flip_vertical.short_description = _(u'Flip Image Vertically')
 flip_vertical.applies_to = applies_to_all_images
 
 def rotate_90_clockwise(request, fileobjects):
     transpose_image(request, fileobjects, 4)
-rotate_90_clockwise.short_description = 'Rotate Image by 90° Clockwise'
+rotate_90_clockwise.short_description = _(u'Rotate Image by 90° Clockwise')
 rotate_90_clockwise.applies_to = applies_to_all_images
 
 def rotate_90_counterclockwise(request, fileobjects):
     transpose_image(request, fileobjects, 2)
-rotate_90_counterclockwise.short_description = 'Rotate Image by 90° Counter-Clockwise'
+rotate_90_counterclockwise.short_description = _(u'Rotate Image by 90° Counter-Clockwise')
 rotate_90_counterclockwise.applies_to = applies_to_all_images
 
 def rotate_180(request, fileobjects):
     transpose_image(request, fileobjects, 3)
-rotate_180.short_description = 'Rotate Image by 180°'
+rotate_180.short_description = _(u'Rotate Image by 180°')
 rotate_180.applies_to = applies_to_all_images

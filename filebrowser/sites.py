@@ -465,16 +465,13 @@ class FileBrowserSite(object):
         
         return HttpResponse('True')
 
+# Default FileBrowser site
 site = FileBrowserSite(name='filebrowser')
-site.media_root='/Users/vaclav/Vonautomatisch/test_project/testsite/media/uploads/'
-site.media_url='/media2/'
 
 # Default actions
-from image_actions import *
+from actions import *
 site.add_action(flip_horizontal)
 site.add_action(flip_vertical)
 site.add_action(rotate_90_clockwise)
 site.add_action(rotate_90_counterclockwise)
 site.add_action(rotate_180)
-
-site_no_actions = FileBrowserSite(name='no_actions')
