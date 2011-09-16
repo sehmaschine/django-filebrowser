@@ -100,7 +100,7 @@ If you have a ``FileObject`` you can easily generate/retrieve a version with::
 So, if you need to generate/retrieve the admin thumbnail for an Image, you can type::
 
     from filebrowser.settings import ADMIN_THUMBNAIL
-    obj.image.version(ADMIN_THUMBNAIL).url
+    obj.image.version_generate(ADMIN_THUMBNAIL).url
 
 Management Commands
 ===================
