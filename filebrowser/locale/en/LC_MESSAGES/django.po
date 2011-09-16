@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-01 17:30+0200\n"
+"POT-Creation-Date: 2011-09-16 15:34+0200\n"
 "PO-Revision-Date: 2011-06-01 15:23+0000\n"
 "Last-Translator: sehmaschine <patrick@vonautomatisch.at>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,10 +16,34 @@ msgstr ""
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+#: actions.py:34
+#, python-format
+msgid "Action applied successfully to '%s'"
+msgstr ""
+
+#: actions.py:39
+msgid "Flip Image Horizontally"
+msgstr ""
+
+#: actions.py:44
+msgid "Flip Image Vertically"
+msgstr ""
+
+#: actions.py:49
+msgid "Rotate Image by 90° Clockwise"
+msgstr ""
+
+#: actions.py:54
+msgid "Rotate Image by 90° Counter-Clockwise"
+msgstr ""
+
+#: actions.py:59
+msgid "Rotate Image by 180°"
+msgstr ""
+
 #: decorators.py:48
-msgid ""
-"Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
-"exist?"
+#, fuzzy
+msgid "Error finding Upload-Folder. Maybe it does not exist?"
 msgstr ""
 "Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
 "exist?"
@@ -28,11 +52,15 @@ msgstr ""
 msgid "The requested Folder does not exist."
 msgstr "The requested Folder does not exist."
 
-#: decorators.py:65
+#: decorators.py:66
 msgid "The requested File does not exist."
 msgstr "The requested File does not exist."
 
-#: fields.py:61
+#: decorators.py:72
+msgid "You do not have permission to access this file!"
+msgstr ""
+
+#: fields.py:63
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
 msgstr "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
@@ -57,96 +85,92 @@ msgstr ""
 msgid "Rotate 180°"
 msgstr ""
 
-#: forms.py:37 forms.py:60
+#: forms.py:37 forms.py:55
 msgid "Name"
 msgstr "Name"
 
-#: forms.py:37 forms.py:43 forms.py:60 forms.py:67
+#: forms.py:37 forms.py:43 forms.py:55 forms.py:76
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
 msgstr "Only letters, numbers, underscores, spaces and hyphens are allowed."
 
-#: forms.py:46 forms.py:70
+#: forms.py:46 forms.py:79
 msgid "The Folder already exists."
 msgstr "The Folder already exists."
 
-#: forms.py:61
-msgid "Flip/Rotate"
-msgstr "Flip/Rotate"
+#: forms.py:54
+msgid "Actions"
+msgstr ""
 
-#: forms.py:72
+#: forms.py:81
 msgid "The File already exists."
 msgstr "The File already exists."
 
-#: settings.py:109 templates/filebrowser/include/tableheader.html:21
+#: settings.py:108 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
 msgstr "Folder"
 
-#: settings.py:110
+#: settings.py:109
 msgid "Image"
 msgstr "Image"
 
-#: settings.py:111
+#: settings.py:110
 msgid "Video"
 msgstr "Video"
 
-#: settings.py:112
+#: settings.py:111
 msgid "Document"
 msgstr "Document"
 
-#: settings.py:113
+#: settings.py:112
 msgid "Audio"
 msgstr "Audio"
 
-#: views.py:110 templates/filebrowser/include/breadcrumbs.html:8
+#: sites.py:200 templates/filebrowser/include/breadcrumbs.html:8
 #: templates/filebrowser/include/breadcrumbs.html:10
 msgid "FileBrowser"
 msgstr "FileBrowser"
 
-#: views.py:140
+#: sites.py:229
 #, python-format
 msgid "The Folder %s was successfully created."
 msgstr "The Folder %s was successfully created."
 
-#: views.py:145
+#: sites.py:234
 msgid "Permission denied."
 msgstr "Permission denied."
 
-#: views.py:147
+#: sites.py:236
 msgid "Error creating folder."
 msgstr "Error creating folder."
 
-#: views.py:154 views.py:157 templates/filebrowser/index.html:76
+#: sites.py:243 sites.py:246 templates/filebrowser/index.html:79
 msgid "New Folder"
 msgstr "New Folder"
 
-#: views.py:179
+#: sites.py:268
 msgid "Select files to upload"
 msgstr "Select files to upload"
 
-#: views.py:182 templates/filebrowser/index.html:77
+#: sites.py:271 templates/filebrowser/index.html:80
 #: templates/filebrowser/upload.html:124
 msgid "Upload"
 msgstr "Upload"
 
-#: views.py:271 views.py:274
+#: sites.py:304 sites.py:307
 msgid "Confirm delete"
 msgstr "Confirm delete"
 
-#: views.py:300
+#: sites.py:331
 #, python-format
 msgid "Successfully deleted %s"
 msgstr "Successfully deleted %s"
 
-#: views.py:337
+#: sites.py:376
 msgid "Renaming was successful."
 msgstr "Renaming was successful."
 
-#: views.py:346
-msgid "Transposing was successful."
-msgstr "Transposing was successful."
-
-#: views.py:353
+#: sites.py:385
 msgid "Error."
 msgstr "Error."
 
@@ -154,7 +178,7 @@ msgstr "Error."
 msgid "Currently"
 msgstr "Currently"
 
-#: widgets.py:22 templates/filebrowser/include/filelisting.html:105
+#: widgets.py:22 templates/filebrowser/include/filelisting.html:130
 msgid "Change"
 msgstr "Change"
 
@@ -250,7 +274,7 @@ msgid "Thumbnail"
 msgstr "Thumbnail"
 
 #: templates/filebrowser/detail.html:131
-#: templates/filebrowser/include/filelisting.html:75
+#: templates/filebrowser/include/filelisting.html:100
 msgid "View Image"
 msgstr "View Image"
 
@@ -265,10 +289,6 @@ msgstr "Save"
 #: templates/filebrowser/detail.html:153
 msgid "Save and continue editing"
 msgstr "Save and continue editing"
-
-#: templates/filebrowser/upload.html:59
-msgid "SELECT FILES"
-msgstr "SELECT FILES"
 
 #: templates/filebrowser/upload.html:61
 msgid "BROWSE"
@@ -316,11 +336,13 @@ msgstr "Home"
 
 #: templates/filebrowser/include/filelisting.html:18
 #: templates/filebrowser/include/filelisting.html:44
+#: templates/filebrowser/include/filelisting.html:69
 msgid "Select"
 msgstr "Select"
 
 #: templates/filebrowser/include/filelisting.html:22
 #: templates/filebrowser/include/filelisting.html:48
+#: templates/filebrowser/include/filelisting.html:73
 msgid "Versions"
 msgstr "Versions"
 
@@ -402,3 +424,12 @@ msgstr "%(full_result_count)s total"
 #: templates/filebrowser/include/toolbar.html:16
 msgid "Search"
 msgstr "Search"
+
+#~ msgid "Flip/Rotate"
+#~ msgstr "Flip/Rotate"
+
+#~ msgid "Transposing was successful."
+#~ msgstr "Transposing was successful."
+
+#~ msgid "SELECT FILES"
+#~ msgstr "SELECT FILES"
