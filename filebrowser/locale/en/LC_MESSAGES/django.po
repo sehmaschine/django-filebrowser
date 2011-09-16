@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-16 15:34+0200\n"
+"POT-Creation-Date: 2011-09-16 16:27+0200\n"
 "PO-Revision-Date: 2011-06-01 15:23+0000\n"
 "Last-Translator: sehmaschine <patrick@vonautomatisch.at>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,24 +21,24 @@ msgstr ""
 msgid "Action applied successfully to '%s'"
 msgstr ""
 
-#: actions.py:39
-msgid "Flip Image Horizontally"
+#: actions.py:39 forms.py:20
+msgid "Flip horizontal"
 msgstr ""
 
-#: actions.py:44
-msgid "Flip Image Vertically"
+#: actions.py:44 forms.py:21
+msgid "Flip vertical"
 msgstr ""
 
-#: actions.py:49
-msgid "Rotate Image by 90° Clockwise"
+#: actions.py:49 forms.py:22
+msgid "Rotate 90° CW"
 msgstr ""
 
-#: actions.py:54
-msgid "Rotate Image by 90° Counter-Clockwise"
+#: actions.py:54 forms.py:23
+msgid "Rotate 90° CCW"
 msgstr ""
 
-#: actions.py:59
-msgid "Rotate Image by 180°"
+#: actions.py:59 forms.py:24
+msgid "Rotate 180°"
 msgstr ""
 
 #: decorators.py:48
@@ -64,26 +64,6 @@ msgstr ""
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
 msgstr "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
-
-#: forms.py:20
-msgid "Flip horizontal"
-msgstr ""
-
-#: forms.py:21
-msgid "Flip vertical"
-msgstr ""
-
-#: forms.py:22
-msgid "Rotate 90° CW"
-msgstr ""
-
-#: forms.py:23
-msgid "Rotate 90° CCW"
-msgstr ""
-
-#: forms.py:24
-msgid "Rotate 180°"
-msgstr ""
 
 #: forms.py:37 forms.py:55
 msgid "Name"
