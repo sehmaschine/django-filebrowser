@@ -63,7 +63,7 @@ If you want to show a Thumbnail in the Changelist, you can define a Model-/Admin
     
     def image_thumbnail(self, obj):
         if obj.image and obj.image.filetype == "Image":
-            return '<img src="%s" />' % obj.image.version(ADMIN_THUMBNAIL).url
+            return '<img src="%s" />' % obj.image.version_generate(ADMIN_THUMBNAIL).url
         else:
             return ""
     image_thumbnail.allow_tags = True
