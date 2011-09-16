@@ -44,7 +44,7 @@ A Model example::
 
     from filebrowser.fields import FileBrowseField
 
-    class MyModel(models.Model):
+    class BlogEntry(models.Model):
         image = FileBrowseField("Image", max_length=200, blank=True, null=True)
 
 First you need to load the templatetags with::
