@@ -8,16 +8,13 @@
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
     <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
-    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/uploadify.css" />
 {% endblock %}
 
 <!-- JAVASCRIPTS -->
 {% block javascripts %}
     {{ block.super }}
     <script type="text/javascript" src="../../jsi18n/"></script>
-    <script type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/swfobject.js"></script>
-    <script type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+    <script type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/fileuploader.js"></script>
     <script type="text/javascript">
     (function($){
         $(document).ready(function() {
@@ -37,45 +34,53 @@
     })(django.jQuery);
     (function($){
         $(document).ready(function() {
-            $('#id_file').uploadify({
-                'uploader'          : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/uploadify.swf',
-                'script'            : '{% url filebrowser:fb_do_upload %}',
-                'scriptData'        : {'session_key': '{{session_key}}'},
-                'checkScript'       : '{% url filebrowser:fb_check %}',
-                'cancelImg'         : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/cancel.png',
-                'buttonImg'         : '{{ settings_var.URL_FILEBROWSER_MEDIA }}uploadify/button.png',
-                'auto'              : false,
-                'folder'            : '{{ query.dir|escapejs }}',
-                'multi'             : true,
-                'fileDesc'          : '{% for extension in settings_var.EXTENSIONS.items %}{% for item in extension.1 %}*{{ item|safe }};{% endfor %}{% endfor %}',
-                'fileExt'           : '{% for extension in settings_var.EXTENSIONS.items %}{% for item in extension.1 %}*{{ item|safe }};{% endfor %}{% endfor %}',
-                'sizeLimit'         : {{ settings_var.MAX_UPLOAD_SIZE|unlocalize }},
-                'scriptAccess'      : 'sameDomain',
-                'queueSizeLimit'    : 50,
-                'simUploadLimit'    : 1,
-                'width'             : 120,
-                'height'            : 30,
-                'hideButton'        : true,
-                'wmode'             : 'transparent',
-                translations        : {
-                                      browseButton: '{% trans "BROWSE" %}',
-                                      error: '{% trans "An Error occured" %}',
-                                      completed: '{% trans "Completed" %}',
-                                      replaceFile: '{% trans "Do you want to replace the file" %}',
-                                      unitKb: '{% trans "KB" %}',
-                                      unitMb: '{% trans "MB" %}'
-                }
-            });
-            $('input:submit').click(function(evt){
-                $('#id_file').uploadifyUpload();
-                return false;
-            });
-            $('a.cancel-link').click(function(evt){
-                $('#id_file').uploadifyClearQueue();
-                return false;
+            var uploader = new qq.FileUploader({
+                element: $('#file-uploader').get(0),
+                action: '{% url filebrowser:fb_do_upload %}',
+
+                fileTemplate: '<li>' +
+                    '<span class="qq-upload-file"></span>' +
+                    '<span class="qq-upload-spinner"></span>' +
+                    '<span class="qq-upload-size"></span>' +
+                    '<a class="qq-upload-cancel" href="#">Cancel</a>' +
+                    '<span class="qq-upload-failed-text">Failed</span>' +
+                    '<div class="progress-bar"><div class="content"></div></div>' +
+                '</li>',
+
+                params: { 'csrf_token': '{{ csrf_token }}',
+                          'csrf_name': 'csrfmiddlewaretoken',
+                          'csrf_xname': 'X-CSRFToken',
+                          'folder': '{{ query.dir|escapejs }}', },
+
+                sizeLimit: {{ settings_var.MAX_UPLOAD_SIZE }},
+                minSizeLimit: 0,
+                debug: false,
+
+                getItem: function(id) {
+                    var items = $(this.element).find('.qq-upload-list li').get();
+                    var item = items.pop();
+
+                    while (typeof item != "undefined") {
+                        if (item.qqFileId == id) {
+                            return $(item);
+                        }
+                        item = items.pop();
+                    }
+                },
+                onProgress: function(id, fileName, loaded, total){
+                    var bar = this.getItem(id).find('.progress-bar .content');
+                    var new_width = '' + (loaded/total * 100) + '%';
+                    bar.css('width', new_width);
+                },
+                onComplete: function(id, fileName, resp){
+                    if (resp.success) {
+                        this.getItem(id).fadeOut();
+                    }
+                },
+                showMessage: function(message){ alert(message); }
             });
         });
-    })(jQuery.noConflict());
+    })(django.jQuery);
     </script>
 {% endblock %}
 
@@ -92,9 +97,11 @@
     <div class="form-container">
         <form>
             <fieldset class="module aligned">
-                <div class="row">
-                    <input type="File" id="id_file" />
-                </div>
+            <div class="row" id="file-uploader">
+                <noscript>
+                    Please enable Javascript to upload files.
+                </noscript>
+            </div>
             </fieldset>
             <fieldset class="module collapse closed">
                 <h2 class="collapse-handler">{% trans "Help" %}</h2>
@@ -118,12 +125,6 @@
                     </div>
                 {% endif %}
             </fieldset>
-            <div class="module footer">
-                <ul class="submit-row">
-                    <li class="left cancel-link-container"><a class="cancel-link" href="javascript://">{% trans "Clear Queue" %}</a></li>
-                    <li class="submit-button-container"><input class="default" type="submit" name="_save" value='{% trans "Upload" %}' /></li>
-                </ul>
-            </div>
         </form>
     </div>
 </div>
