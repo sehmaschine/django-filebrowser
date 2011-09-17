@@ -2,7 +2,6 @@
 
 # imports
 import os, shutil, re, datetime
-import urlparse
 import mimetypes
 from time import gmtime, strftime, time
 

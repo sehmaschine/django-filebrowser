@@ -1,8 +1,7 @@
 # coding: utf-8
 
 # general imports
-import itertools, os, re
-from time import gmtime, strftime
+import os, re
 
 # django imports
 from django.shortcuts import render_to_response, HttpResponse
@@ -11,7 +10,6 @@ from django.http import HttpResponseRedirect
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
-from django.conf import settings
 from django import forms
 from django.core.urlresolvers import reverse
 from django.dispatch import Signal
@@ -20,7 +18,6 @@ from django.utils.encoding import smart_unicode
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core.files.base import ContentFile
-from django.conf.urls.static import static
 
 # filebrowser imports
 from filebrowser.settings import *

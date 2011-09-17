@@ -1,12 +1,7 @@
 # coding: utf-8
 
 # django imports
-from django.contrib.sessions.models import Session
-from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect
-from django.contrib.auth.models import User
-from django.template import RequestContext
-from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.contrib import messages
