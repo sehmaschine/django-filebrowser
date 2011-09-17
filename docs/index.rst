@@ -78,13 +78,14 @@ Main Features
 -------------
 
 * Browse your media-directory with the admin-interface.
-* Multiple Upload using `Uploadify <http://www.uploadify.com>`_.
+* Multiple Upload, including a progress bar.
 * Automatic Thumbnails.
 * Image-Versions to fit your websites grid.
 * Integration with TinyMCE (AdvImage & AdvLink).
 * ``FileBrowseField`` to select Images/Documents.
 * ``ClearableFileInput`` with Image-Preview.
 * Signals for Upload, Rename and Delete.
+* Custom Actions.
 
 Code
 ----

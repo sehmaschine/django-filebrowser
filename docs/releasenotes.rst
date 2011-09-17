@@ -19,7 +19,7 @@ What's new in FileBrowser 3.4
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * Added FileBrowser sites
-* Added ajax-based upload
+* Added ajax-based uploader
 * Added custom actions
 
 Deprecated in 3.4
