@@ -11,11 +11,13 @@ from django.db.models.fields import Field, CharField
 from django.utils.encoding import force_unicode
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
+from django.core import urlresolvers
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import *
 from filebrowser.base import FileObject
 from filebrowser.functions import url_to_path
+from filebrowser.sites import site
 
 
 class FileBrowseWidget(Input):
@@ -26,6 +28,7 @@ class FileBrowseWidget(Input):
     
     def __init__(self, attrs=None):
         super(FileBrowseWidget, self).__init__(attrs)
+        self.site = attrs.get('site', '')
         self.directory = attrs.get('directory', '')
         self.extensions = attrs.get('extensions', '')
         self.format = attrs.get('format', '')
@@ -36,12 +39,18 @@ class FileBrowseWidget(Input):
         super(FileBrowseWidget, self).__init__(attrs)
     
     def render(self, name, value, attrs=None):
+        if self.site:
+            name = self.site.name + ":fb_browse"
+            url = urlresolvers.reverse(name)
+        else:
+            url = urlresolvers.reverse('filebrowser:fb_browse')
         if value is None:
             value = ""
         if value != "" and not isinstance(value, FileObject):
             value = FileObject(url_to_path(value))
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
         final_attrs['search_icon'] = URL_FILEBROWSER_MEDIA + 'img/filebrowser_icon_show.gif'
+        final_attrs['url'] = url
         final_attrs['directory'] = self.directory
         final_attrs['extensions'] = self.extensions
         final_attrs['format'] = self.format
@@ -63,8 +72,9 @@ class FileBrowseFormField(forms.CharField):
         'extension': _(u'Extension %(ext)s is not allowed. Only %(allowed)s is allowed.'),
     }
     
-    def __init__(self, max_length=None, min_length=None, directory=None, extensions=None, format=None, *args, **kwargs):
+    def __init__(self, max_length=None, min_length=None, site=None, directory=None, extensions=None, format=None, *args, **kwargs):
         self.max_length, self.min_length = max_length, min_length
+        self.site = site
         self.directory = directory
         self.extensions = extensions
         if format:
@@ -87,6 +97,7 @@ class FileBrowseField(CharField):
     __metaclass__ = models.SubfieldBase
     
     def __init__(self, *args, **kwargs):
+        self.site = kwargs.pop('site', '')
         self.directory = kwargs.pop('directory', '')
         self.extensions = kwargs.pop('extensions', '')
         self.format = kwargs.pop('format', '')
@@ -104,12 +115,14 @@ class FileBrowseField(CharField):
     
     def formfield(self, **kwargs):
         attrs = {}
+        attrs["site"] = self.site
         attrs["directory"] = self.directory
         attrs["extensions"] = self.extensions
         attrs["format"] = self.format
         defaults = {
             'form_class': FileBrowseFormField,
             'widget': FileBrowseWidget(attrs=attrs),
+            'site': self.site,
             'directory': self.directory,
             'extensions': self.extensions,
             'format': self.format
