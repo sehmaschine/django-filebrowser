@@ -47,22 +47,12 @@ and add the following URL-patterns (before any admin-urls)::
        url(r'^admin/filebrowser/', include(site.urls)),
     )
 
-.. note:: (Setting up URLs with versions prior to FileBrowser 3.4)
-
-    Skip the import from filebrowser.sites and add the URL-patterns (before any admin-urls) like this::
-
-        urlpatterns = patterns('',
-            (r'^admin/filebrowser/', include(filebrowser.urls)),
-        )
-
 Collect the media files::
 
     python manage.py collectstatic
 
 .. note::
     Please refer to the `Staticfiles Documentation <http://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/>`_ for setting up and using ``staticfiles``.
-
-If you're not using ``staticfiles`` you can either use a symlink from your media-directory (given by ``MEDIA_ROOT`` and ``MEDIA_URL``) or copy the filebrowser media-files to your media-directory. Don't forget to change the ``settings`` accordingly.
 
 Testing
 -------

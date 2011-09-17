@@ -8,7 +8,10 @@
 Changelog
 =========
 
-3.3.0 (30/05/2011)
-^^^^^^^^^^^^^^^^^^
+3.4.0 (not yet released)
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-* Initial Release of the 3.3-series.
+* Added FileBrowser Sites
+* Added custom actions
+* Added ajax-based uploader
+* Removed flash-based uploader

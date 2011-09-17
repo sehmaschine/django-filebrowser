@@ -33,14 +33,8 @@ URL that handles the media served from ``MEDIA_ROOT``::
 DIRECTORY (relative to ``MEDIA_ROOT``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
-.. versionchanged:: 3.4 DIRECTORY is not used anymore.
-
-.. note:: (FileBrowser versions prior to 3.4)
-
-    Main FileBrowser Directory. Leave empty in order to browse all files and folders within ``MEDIA_ROOT``::
-
-        DIRECTORY = getattr(settings, "FILEBROWSER_DIRECTORY", 'uploads/')
+.. deprecated:: 3.4
+    Use the FileBrowser Site to setup your main browsing directory.
 
 FileBrowser Media, TinyMCE Media
 --------------------------------
@@ -99,13 +93,13 @@ Versions
 VERSIONS_BASEDIR (relative to ``MEDIA_ROOT``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+.. versionchanged:: 3.4
+
 Directory to save image versions (and thumbnails). If no directory is given, versions are stored at the same location as the original image::
 
     VERSIONS_BASEDIR = getattr(settings, 'FILEBROWSER_VERSIONS_BASEDIR', '')
 
 .. note::
-
-    .. versionchanged:: 3.4
 
     In versions previous to FileBrowser 3.4, it was possible to have VERSION_BASEDIR placed at a path which was not browsed by FileBrowser (by placing VERSION_BASEDIR anywhere else than under DIRECTORY). 
 
@@ -218,12 +212,16 @@ Options are: ``asc`` or ``desc``
 SEARCH_TRAVERSE
 ^^^^^^^^^^^^^^^
 
+.. versionadded:: 3.3
+
 ``True``, if you want to traverse all subdirectories when searching. Please note that with thousands of files/directories, this might take a while::
 
     SEARCH_TRAVERSE = getattr(settings, "FILEBROWSER_SEARCH_TRAVERSE", False)
 
 DEFAULT_PERMISSIONS
 ^^^^^^^^^^^^^^^^^^^
+
+.. versionadded:: 3.3
 
 Default Upload and Version Permissions::
 

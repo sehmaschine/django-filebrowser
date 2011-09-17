@@ -10,12 +10,10 @@ FileBrowser Sites
 
 .. versionadded:: 3.4
 
-As of version 3.4, FileBrowser application is respresented by an object of the ``filebrowser.sites.FileBrowserSite`` class (in analogy to the Django's admin site). FileBrowser sites allow you to:
+As of version 3.4, the FileBrowser application is respresented by an object of ``filebrowser.sites.FileBrowserSite`` (in analogy to Django's admin site). FileBrowser sites allow you to:
 
 	- associate custom actions (analogy to Django's admin actions) to a site,
-
 	- subclass from FileBrowserSite and redefine the default FileBrowser's behavior,
-
 	- and to use multiple FileBrowser sites in your project.
 
 The module variable ``site`` from filebrowser.sites is the default FileBrowser application.
@@ -64,7 +62,7 @@ and register the site's URLs in your ``url.py``::
 	
 	urlpatterns = patterns('',
             (r'^admin/filebrowser-other-media/', include(fb_site.urls)),
-)
+	)
 
 
 

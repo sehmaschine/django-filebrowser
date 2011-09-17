@@ -24,13 +24,16 @@ Attributes
 ``max_length``
     Since the ``FileBrowseField`` is a ``CharField``, you have to define ``max_length``.
 
-``directory``
+``site`` (optional)
+    The FileBrowser site you want to use with this field. Defaults to the main site, if not given.
+
+``directory`` (optional)
     Subdirectory of ``DIRECTORY``. If ``DIRECTORY`` is not defined, subdirectory of ``MEDIA_ROOT``. Do not prepend a slash.
 
-``extensions``
+``extensions`` (optional)
     List of allowed extensions.
 
-``format``
+``format`` (optional)
     Use this attribute to restrict selection to specific filetypes. E.g., if you use format='image', only Images can be selected from the FileBrowser. Note: The ``format`` has to be defined within ``SELECT_FORMATS``.
 
 FileBrowseField in Templates
@@ -42,16 +45,16 @@ With the above Model, you can use::
 
     {{ blogentry.image }}
 
-to output the contents of your image-field. For example, this could result in something like "uploads/images/myimage.jpg".
+to output the contents of your image-field. For example, this could result in something like "myimage.jpg".
 
 Now, if you want to actually display the Image, you write::
 
-    <img src="{{ publication.image }}" />
+    <img src="{{ publication.image.url }}" />
 
 More complicated, if you want to display "Landscape" Images only (I know, bad example)::
 
     {% ifequal blogentry.image.image_orientation "landscape" %}
-        <img src="{{ blogentry.image }}" class="landscape" />
+        <img src="{{ blogentry.image.url }}" class="landscape" />
     {% endifequal %}
 
 Showing Thumbnail in the Changelist

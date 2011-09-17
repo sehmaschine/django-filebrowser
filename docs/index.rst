@@ -10,7 +10,7 @@ Django FileBrowser Documentation
 
 **Media-Management with the Django admin-interface**.
 
-This documentation covers version 3.3.1 of the |filebrowser|. With the |filebrowser|, you're able to browse your media-directory
+This documentation covers version 3.4 of the |filebrowser|. With the |filebrowser|, you're able to browse your media-directory
 and upload/rename/delete files and folders.
 
 **Installation and Setup**
@@ -20,6 +20,13 @@ and upload/rename/delete files and folders.
    
    quickstart
    settings
+
+**FileBrowser Sites**
+
+.. toctree::
+   :maxdepth: 2
+   
+   sites
 
 **FileBrowser API**
 
@@ -48,13 +55,6 @@ and upload/rename/delete files and folders.
    :maxdepth: 3
    
    versions
-
-**FileBrowser Sites**
-
-.. toctree::
-   :maxdepth: 2
-   
-   sites
 
 **Custom Actions**
 
