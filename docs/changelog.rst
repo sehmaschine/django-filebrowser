@@ -15,3 +15,4 @@ Changelog
 * Added custom actions
 * Added ajax-based uploader
 * Removed flash-based uploader
+* Added widget ``FileInput``
