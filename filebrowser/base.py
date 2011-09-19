@@ -29,10 +29,10 @@ class FileListing():
     An example::
         
         import os
-        from filebrowser.settings import MEDIA_ROOT
+        from filebrowser.settings import MEDIA_ROOT, DIRECTORY
         from filebrowser.base import FileListing
         
-        filelisting = FileListing(MEDIA_ROOT, sorting_by='date', sorting_order='desc')
+        filelisting = FileListing(os.path.join(MEDIA_ROOT, DIRECTORY), sorting_by='date', sorting_order='desc')
         print filelisting.files_listing_total()
         print filelisting.results_listing_total()
         for fileobject in filelisting.files_listing_total():
@@ -45,13 +45,14 @@ class FileListing():
     _results_listing_filtered = None
     _results_walk_total = None
     
-    def __init__(self, path, filter_func=None, sorting_by=None, sorting_order=None, media_root=MEDIA_ROOT, media_url=MEDIA_URL):
+    def __init__(self, path, filter_func=None, sorting_by=None, sorting_order=None, media_root=MEDIA_ROOT, directory=DIRECTORY, media_url=MEDIA_URL):
         self.path = path
         self.filter_func = filter_func
         self.sorting_by = sorting_by
         self.sorting_order = sorting_order
         self.media_root = media_root
         self.media_url = media_url
+        self.media_directory = directory
     
     def listing(self):
         "List all files for path"
@@ -64,7 +65,7 @@ class FileListing():
         filelisting = []
         if os.path.isdir(self.path):
             for root, dirs, files in os.walk(self.path):
-                r = root.replace(self.media_root,'')
+                r = root.replace(os.path.join(self.media_root, self.media_directory),'')
                 for d in dirs:
                     filelisting.append(os.path.join(r,d))
                 for f in files:
@@ -80,6 +81,7 @@ class FileListing():
             self._fileobjects_total = []
             for item in self.listing():
                 fileobject = FileObject(os.path.join(self.path, item), media_root=self.media_root, media_url=self.media_url)
+                fileobject = FileObject(os.path.join(self.path, item), media_root=self.media_root, directory=self.media_directory, media_url=self.media_url)
                 self._fileobjects_total.append(fileobject)
         
         files = self._fileobjects_total
@@ -97,6 +99,7 @@ class FileListing():
         files = []
         for item in self.walk():
             fileobject = FileObject(os.path.join(self.media_root, item), media_root=self.media_root, media_url=self.media_url)
+            fileobject = FileObject(os.path.join(self.media_root, self.media_directory, item), media_root=self.media_root, directory=self.media_directory, media_url=self.media_url)
             files.append(fileobject)
         if self.sorting_by:
             files = sort_by_attr(files, self.sorting_by)
@@ -158,8 +161,9 @@ class FileObject():
         fileobject = FileObject(absolute_path_to_file)
     """
     
-    def __init__(self, path, relative=False, media_root=MEDIA_ROOT, media_url=MEDIA_URL):
+    def __init__(self, path, relative=False, media_root=MEDIA_ROOT, directory=DIRECTORY, media_url=MEDIA_URL):
         self.media_root = media_root
+        self.media_directory = directory
         self.media_url = media_url
         if relative:
             self.path = os.path.join(self.media_root, path)
@@ -228,7 +232,12 @@ class FileObject():
         "path relative to MEDIA_ROOT"
         return path_strip(self.path, self.media_root)
     path_relative = property(_path_relative)
-        
+    
+    def _path_relative_directory(self):
+        "path relative to MEDIA_ROOT + DIRECTORY"
+        return path_strip(self.path, os.path.join(self.media_root,self.media_directory))
+    path_relative_directory = property(_path_relative_directory)
+    
     def _url(self):
         "URL, including MEDIA_URL"
         return u"%s" % url_join(self.media_url, self.path_relative)
@@ -282,11 +291,11 @@ class FileObject():
     # FOLDER ATTRIBUTES
     
     def _directory(self):
-        return path_strip(self.path, self.media_root)
+        return path_strip(self.path, os.path.join(self.media_root, self.media_directory))
     directory = property(_directory)
     
     def _folder(self):
-        return path_strip(self.head, self.media_root)
+        return path_strip(self.head, os.path.join(self.media_root, self.media_directory))
     folder = property(_folder)
     
     def _is_folder(self):
@@ -314,7 +323,7 @@ class FileObject():
     
     def _original(self):
         if self.is_version:
-            return FileObject(get_original_path(self.path, media_root=self.media_root, media_url=self.media_url))
+            return FileObject(get_original_path(self.path, media_root=self.media_root, directory=self.media_directory, media_url=self.media_url))
         return None
     original = property(_original)
     
@@ -344,12 +353,12 @@ class FileObject():
         return version_list
     
     def version_generate(self, version_suffix):
-        version_path = get_version_path(self.path, version_suffix, media_root=self.media_root)
+        version_path = get_version_path(self.path, version_suffix, media_root=self.media_root, directory=self.media_directory)
         if not os.path.isfile(version_path):
             version_path = version_generator(self.path, version_suffix, media_root=self.media_root)
         elif os.path.getmtime(self.path) > os.path.getmtime(version_path):
             version_path = version_generator(self.path, version_suffix, force=True, media_root=self.media_root)
-        return FileObject(version_path, media_root=self.media_root, media_url=self.media_url)
+        return FileObject(version_path, media_root=self.media_root, directory=self.media_directory, media_url=self.media_url)
     
     # FUNCTIONS
     

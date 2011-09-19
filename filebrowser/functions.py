@@ -64,6 +64,18 @@ def path_to_url(value, media_root=MEDIA_ROOT, media_url=MEDIA_URL):
     return url_join(media_url, value)
 
 
+def dir_from_url(value, directory=DIRECTORY):
+    """
+    Get the relative server directory from a URL.
+    URL has to be an absolute URL including MEDIA_URL or
+    an URL relative to MEDIA_URL.
+    """
+    
+    value = url_strip(value, MEDIA_URL)
+    value = url_strip(value, directory)
+    return os.path.split(value)[0]
+
+
 def get_version_filename(filename, version_prefix):
     filename, ext = os.path.splitext(filename)
     version_filename = filename + "_" + version_prefix + ext
@@ -80,7 +92,7 @@ def get_original_filename(filename):
         return None
 
 
-def get_version_path(value, version_prefix, media_root=MEDIA_ROOT):
+def get_version_path(value, version_prefix, media_root=MEDIA_ROOT, directory=DIRECTORY):
     """
     Construct the PATH to an Image version.
     value has to be an absolute server-path, including MEDIA_ROOT.
@@ -91,18 +103,18 @@ def get_version_path(value, version_prefix, media_root=MEDIA_ROOT):
     
     if os.path.isfile(value):
         path, filename = os.path.split(value)
-        relative_path = path.replace(media_root, "")
+        relative_path = path.replace(os.path.join(media_root,directory), "")
         filename, ext = os.path.splitext(filename)
         version_filename = filename + "_" + version_prefix + ext
         if VERSIONS_BASEDIR:
             return os.path.join(media_root, VERSIONS_BASEDIR, relative_path, version_filename)
         else:
-            return os.path.join(media_root, relative_path, version_filename)
+            return os.path.join(media_root, directory, relative_path, version_filename)
     else:
         return None
 
 
-def get_original_path(value, media_root=MEDIA_ROOT):
+def get_original_path(value, media_root=MEDIA_ROOT, directory=DIRECTORY):
     """
     Construct the PATH to an original Image based on a Image version.
     value has to be an absolute server-path, including MEDIA_ROOT.
@@ -115,10 +127,10 @@ def get_original_path(value, media_root=MEDIA_ROOT):
         if VERSIONS_BASEDIR:
             relative_path = path.replace(os.path.join(media_root,VERSIONS_BASEDIR), "")
         else:
-            relative_path = path.replace(media_root, "")
+            relative_path = path.replace(os.path.join(media_root,directory), "")
         relative_path = relative_path.lstrip("/")
         original_filename = get_original_filename(filename)
-        return os.path.join(media_root, relative_path, original_filename)
+        return os.path.join(media_root, directory, relative_path, original_filename)
     else:
         return None
 
@@ -167,20 +179,20 @@ def url_join(*args):
     return url
 
 
-def get_path(path, media_root=MEDIA_ROOT):
+def get_path(path, media_root=MEDIA_ROOT, directory=DIRECTORY):
     """
     Get path.
     """
-    if path.startswith('.') or os.path.isabs(path) or not os.path.isdir(os.path.join(media_root, path)):
+    if path.startswith('.') or os.path.isabs(path) or not os.path.isdir(os.path.join(media_root, directory, path)):
         return None
     return path
 
 
-def get_file(path, filename, media_root=MEDIA_ROOT):
+def get_file(path, filename, media_root=MEDIA_ROOT, directory=DIRECTORY):
     """
     Get file (or folder).
     """
-    converted_path = smart_unicode(os.path.join(media_root, path, filename))
+    converted_path = smart_unicode(os.path.join(media_root, directory, path, filename))
     if not os.path.isfile(converted_path) and not os.path.isdir(converted_path):
         return None
     return filename
@@ -231,7 +243,7 @@ def get_filterdate(filterDate, dateTime):
     return returnvalue
 
 
-def get_settings_var(media_root=MEDIA_ROOT, media_url=MEDIA_URL):
+def get_settings_var(media_root=MEDIA_ROOT, directory=DIRECTORY, media_url=MEDIA_URL):
     """
     Get settings variables used for FileBrowser listing.
     """
@@ -240,6 +252,8 @@ def get_settings_var(media_root=MEDIA_ROOT, media_url=MEDIA_URL):
     # Main
     settings_var['MEDIA_ROOT'] = media_root
     settings_var['MEDIA_URL'] = media_url
+    settings_var['MEDIA_URL'] = MEDIA_URL
+    settings_var['DIRECTORY'] = directory
     # FileBrowser
     settings_var['URL_FILEBROWSER_MEDIA'] = URL_FILEBROWSER_MEDIA
     settings_var['PATH_FILEBROWSER_MEDIA'] = PATH_FILEBROWSER_MEDIA
