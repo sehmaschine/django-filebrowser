@@ -21,7 +21,13 @@ class SettingsTests(TestCase):
         Test that ``MEDIA_ROOT`` exists.
         """
         self.assertEqual(os.path.exists(MEDIA_ROOT), 1)
-
+    
+    def test_directory(self):
+        """
+        Test that ``MEDIA_ROOT`` plus ``DIRECTORY`` exists.
+        """
+        self.assertEqual(os.path.exists(os.path.join(MEDIA_ROOT,DIRECTORY)), 1)
+    
     def test_path_filebrowser_media(self):
         """
         Test that ``PATH_FILEBROWSER_MEDIA`` exists.
