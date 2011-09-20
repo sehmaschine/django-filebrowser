@@ -454,7 +454,7 @@ class FileBrowserSite(object):
                 old_file = smart_unicode(os.path.join(abs_path, filedata.name))
                 new_file = smart_unicode(os.path.join(abs_path, uploadedfile))
                 file_move_safe(new_file, old_file, allow_overwrite=True)
-            self.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(os.path.join(self.directory, folder, filedata.name)), media_root=self.media_root, media_url=self.media_url, media_url=self.media_url))
+            self.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(os.path.join(self.directory, folder, filedata.name)), media_root=self.media_root, directory=self.directory, media_url=self.media_url))
             # let Ajax Upload know whether we saved it or not
             ret_json = {'success': True, 'filename': filedata.name}
             return HttpResponse(json.dumps(ret_json))

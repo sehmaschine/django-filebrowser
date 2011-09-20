@@ -57,10 +57,7 @@ class FileBrowseWidget(Input):
         final_attrs['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
         if value != "":
             try:
-                if value.is_version and VERSIONS_BASEDIR:
-                    final_attrs['directory'] = os.path.split(value.original.path_relative_directory)[0]
-                else:
-                    final_attrs['directory'] = os.path.split(value.path_relative_directory)[0]
+                final_attrs['directory'] = os.path.split(value.original.path_relative_directory)[0]
             except:
                 pass
         return render_to_string("filebrowser/custom_field.html", locals())
