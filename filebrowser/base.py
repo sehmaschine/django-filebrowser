@@ -324,7 +324,7 @@ class FileObject():
     def _original(self):
         if self.is_version:
             return FileObject(get_original_path(self.path, media_root=self.media_root, directory=self.media_directory, media_url=self.media_url))
-        return None
+        return self
     original = property(_original)
     
     def _versions_basedir(self):
