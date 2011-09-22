@@ -105,6 +105,12 @@ class FileBrowseField(CharField):
         if not value:
             return value
         return value.url_save
+
+    def value_to_string(self, obj):
+        value = self._get_val_from_obj(obj)
+        if not value:
+            return value
+        return value.url_save
     
     def formfield(self, **kwargs):
         attrs = {}
