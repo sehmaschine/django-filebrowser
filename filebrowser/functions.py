@@ -153,6 +153,10 @@ def url_join(*args):
     
     if args[0].startswith("http://"):
         url = "http://"
+    elif args[0].startswith("https://"):
+        url = "https://"
+    elif args[0].startswith("//"):
+        url = "//"
     else:
         url = "/"
     for arg in args:
