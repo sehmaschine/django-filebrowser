@@ -10,7 +10,7 @@ from django.conf import settings
 from django.utils.encoding import force_unicode, smart_str
 
 # filebrowser imports
-from filebrowser.settings import MEDIA_ROOT, MEDIA_URL, VERSIONS
+from filebrowser.settings import DIRECTORY, VERSIONS
 from filebrowser.functions import path_to_url, get_version_path, version_generator
 from filebrowser.base import FileObject
 
@@ -38,15 +38,16 @@ class VersionNode(Node):
                 version_prefix = self.version_prefix_var.resolve(context)
             except VariableDoesNotExist:
                 return None
+        directory = context.get('directory', DIRECTORY)
         try:
             if isinstance(source, FileObject):
                 source = source.path
             source = force_unicode(source)
-            version_path = get_version_path(source, version_prefix, directory=context['directory'])
+            version_path = get_version_path(source, version_prefix, directory=directory)
             if not os.path.isfile(version_path):
-                version_path = version_generator(source, version_prefix, directory=context['directory'])
+                version_path = version_generator(source, version_prefix, directory=directory)
             elif os.path.getmtime(source) > os.path.getmtime(version_path):
-                version_path = version_generator(source, version_prefix, force=True, directory=context['directory'])
+                version_path = version_generator(source, version_prefix, force=True, directory=directory)
             return path_to_url(version_path)
         except:
             return ""
@@ -94,15 +95,16 @@ class VersionObjectNode(Node):
                 version_prefix = self.version_prefix_var.resolve(context)
             except VariableDoesNotExist:
                 return None
+        directory = context.get('directory', DIRECTORY)
         try:
             if isinstance(source, FileObject):
                 source = source.path
             source = force_unicode(source)
-            version_path = get_version_path(source, version_prefix, directory=context['directory'])
+            version_path = get_version_path(source, version_prefix, directory=directory)
             if not os.path.isfile(version_path):
-                version_path = version_generator(source, version_prefix, directory=context['directory'])
+                version_path = version_generator(source, version_prefix, directory=directory)
             elif os.path.getmtime(source) > os.path.getmtime(version_path):
-                version_path = version_generator(source, version_prefix, force=True, directory=context['directory'])
+                version_path = version_generator(source, version_prefix, force=True, directory=directory)
             context[self.var_name] = FileObject(version_path)
         except:
             context[self.var_name] = ""

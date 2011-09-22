@@ -2,7 +2,6 @@
 
 # imports
 import os, shutil, re, datetime
-import urlparse
 import mimetypes
 from time import gmtime, strftime, time
 
@@ -319,7 +318,7 @@ class FileObject():
     def _original(self):
         if self.is_version:
             return FileObject(get_original_path(self.path, directory=self.media_directory))
-        return None
+        return self
     original = property(_original)
     
     def _versions_basedir(self):

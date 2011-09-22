@@ -260,8 +260,7 @@ Server path to the file/folder, relative to ``MEDIA_ROOT``::
 ^^^^^^^^^^^^
 
 .. deprecated:: 3.3
-
-see ``url`` instead.
+    Use ``url`` instead.
 
 ``url``
 ^^^^^^^

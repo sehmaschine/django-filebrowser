@@ -27,6 +27,8 @@ Go to https://github.com/sehmaschine/django-filebrowser if you need to download 
 Installation
 ------------
 
+.. versionchanged:: 3.4
+
 Open ``settings.py`` and add ``filebrowser`` to your ``INSTALLED_APPS`` (before ``django.contrib.admin``)::
 
     INSTALLED_APPS = (
@@ -35,10 +37,14 @@ Open ``settings.py`` and add ``filebrowser`` to your ``INSTALLED_APPS`` (before 
         'django.contrib.admin',
     )
 
-Add URL-patterns (before any admin-urls)::
+In your ``url.py`` import the default FileBrowser site::
 
+    from filebrowser.sites import site
+
+and add the following URL-patterns (before any admin-urls)::
+    
     urlpatterns = patterns('',
-        (r'^admin/filebrowser/', include('filebrowser.urls')),
+       url(r'^admin/filebrowser/', include(site.urls)),
     )
 
 Collect the media files::
@@ -47,8 +53,6 @@ Collect the media files::
 
 .. note::
     Please refer to the `Staticfiles Documentation <http://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/>`_ for setting up and using ``staticfiles``.
-
-If you're not using ``staticfiles`` you can either use a symlink from your media-directory (given by ``MEDIA_ROOT`` and ``MEDIA_URL``) or copy the filebrowser media-files to your media-directory. Don't forget to change the ``settings`` accordingly.
 
 Testing
 -------

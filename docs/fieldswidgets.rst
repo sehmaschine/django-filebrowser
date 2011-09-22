@@ -24,13 +24,16 @@ Attributes
 ``max_length``
     Since the ``FileBrowseField`` is a ``CharField``, you have to define ``max_length``.
 
-``directory``
+``site`` (optional)
+    The FileBrowser site you want to use with this field. Defaults to the main site, if not given.
+
+``directory`` (optional)
     Subdirectory of ``DIRECTORY``. If ``DIRECTORY`` is not defined, subdirectory of ``MEDIA_ROOT``. Do not prepend a slash.
 
-``extensions``
+``extensions`` (optional)
     List of allowed extensions.
 
-``format``
+``format`` (optional)
     Use this attribute to restrict selection to specific filetypes. E.g., if you use format='image', only Images can be selected from the FileBrowser. Note: The ``format`` has to be defined within ``SELECT_FORMATS``.
 
 FileBrowseField in Templates
@@ -42,16 +45,16 @@ With the above Model, you can use::
 
     {{ blogentry.image }}
 
-to output the contents of your image-field. For example, this could result in something like "uploads/images/myimage.jpg".
+to output the contents of your image-field. For example, this could result in something like "myimage.jpg".
 
 Now, if you want to actually display the Image, you write::
 
-    <img src="{{ publication.image }}" />
+    <img src="{{ publication.image.url }}" />
 
 More complicated, if you want to display "Landscape" Images only (I know, bad example)::
 
     {% ifequal blogentry.image.image_orientation "landscape" %}
-        <img src="{{ blogentry.image }}" class="landscape" />
+        <img src="{{ blogentry.image.url }}" class="landscape" />
     {% endifequal %}
 
 Showing Thumbnail in the Changelist
@@ -63,7 +66,7 @@ If you want to show a Thumbnail in the Changelist, you can define a Model-/Admin
     
     def image_thumbnail(self, obj):
         if obj.image and obj.image.filetype == "Image":
-            return '<img src="%s" />' % obj.image.version(ADMIN_THUMBNAIL).url
+            return '<img src="%s" />' % obj.image.version_generate(ADMIN_THUMBNAIL).url
         else:
             return ""
     image_thumbnail.allow_tags = True
@@ -78,6 +81,18 @@ Just add these lines to your AdminModel::
 
     class Media:
         js = ['/path/to/tinymce/jscripts/tiny_mce/tiny_mce.js', '/path/to/your/tinymce_setup.js',]
+
+FileInput
+=========
+
+Subclass of ``FileInput`` with an additional Image-Thumbnail::
+    
+    from filebrowser.widgets import FileInput
+    
+    class BlogEntryOptions(admin.ModelAdmin):
+        formfield_overrides = {
+            models.ImageField: {'widget': FileInput},
+        }
 
 ClearableFileInput
 ==================
@@ -100,7 +115,7 @@ Generate a ``FileObject`` from a ``FileField`` or ``ImageField`` with::
     
     image_upload = models.ImageField(u"Image (Upload)", max_length=250, upload_to=image_upload_path, blank=True, null=True)
     
-    def image_upload_fileobject(self):
+    def image(self):
         if self.image_upload:
             return FileObject(self.image_upload.path)
         return None
@@ -109,15 +124,15 @@ To show a Thumbnail on your changelist, you could use a ModelAdmin-Method::
     
     from filebrowser.base import FileObject
     
-    def image_upload_thumbnail(self, obj):
+    def image_thumbnail(self, obj):
         if obj.image_upload:
-            image_upload_fileobject = FileObject(obj.image_upload.path)
-            if image_upload_fileobject.filetype == "Image":
-                return '<img src="%s" />' % image_upload_fileobject.version(ADMIN_THUMBNAIL).url
+            image = FileObject(obj.image_upload.path)
+            if image.filetype == "Image":
+                return '<img src="%s" />' % image.version_generate(ADMIN_THUMBNAIL).url
         else:
             return ""
-    image_upload_thumbnail.allow_tags = True
-    image_upload_thumbnail.short_description = "Thumbnail"
+    image_thumbnail.allow_tags = True
+    image_thumbnail.short_description = "Thumbnail"
 
 .. note::
     There's different ways to achive this. The above examples show one of several options.

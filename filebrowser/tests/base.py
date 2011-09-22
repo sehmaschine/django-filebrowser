@@ -34,7 +34,7 @@ class FileObjectPathTests(TestCase):
         filebrowser.base.MEDIA_ROOT = 'C:\\path\\to\\media\\'
         filebrowser.base.DIRECTORY = 'uploads/'
         filebrowser.base.MEDIA_URL = '/media/'
-        f = FileObject('C:\\path\\to\\media\\uploads\\testdir\\testfile.jpg')
+        f = FileObject('C:\\path\\to\\media\\uploads\\testdir\\testfile.jpg', directory=filebrowser.base.DIRECTORY)
         
         self.assertEqual(f.path_relative, 'uploads\\testdir\\testfile.jpg')
         self.assertEqual(f.path_relative_directory, 'testdir\\testfile.jpg')
@@ -52,7 +52,7 @@ class FileObjectPathTests(TestCase):
         filebrowser.base.MEDIA_ROOT = '/path/to/media/'
         filebrowser.base.DIRECTORY = 'uploads/'
         filebrowser.base.MEDIA_URL = '/media/'
-        f = FileObject('/path/to/media/uploads/testdir/testfile.jpg')
+        f = FileObject('/path/to/media/uploads/testdir/testfile.jpg', directory=filebrowser.base.DIRECTORY)
         
         self.assertEqual(f.path_relative, 'uploads/testdir/testfile.jpg')
         self.assertEqual(f.path_relative_directory, 'testdir/testfile.jpg')
@@ -91,7 +91,7 @@ class FileObjectVersionTests(TestCase):
         filebrowser.base.MEDIA_ROOT = 'C:\\path\\to\\media\\'
         filebrowser.base.DIRECTORY = 'uploads/'
         filebrowser.base.MEDIA_URL = '/media/'
-        f = FileObject('C:\\path\\to\\media\\uploads\\testdir\\testfile.jpg')
+        f = FileObject('C:\\path\\to\\media\\uploads\\testdir\\testfile.jpg', directory=filebrowser.base.DIRECTORY)
         
         self.assertEqual(f.path_relative, 'uploads\\testdir\\testfile.jpg')
         self.assertEqual(f.path_relative_directory, 'testdir\\testfile.jpg')
@@ -109,7 +109,7 @@ class FileObjectVersionTests(TestCase):
         filebrowser.base.MEDIA_ROOT = '/path/to/media/'
         filebrowser.base.DIRECTORY = 'uploads/'
         filebrowser.base.MEDIA_URL = '/media/'
-        f = FileObject('/path/to/media/uploads/testdir/testfile.jpg')
+        f = FileObject('/path/to/media/uploads/testdir/testfile.jpg', directory=filebrowser.base.DIRECTORY)
         
         self.assertEqual(f.path_relative, 'uploads/testdir/testfile.jpg')
         self.assertEqual(f.path_relative_directory, 'testdir/testfile.jpg')

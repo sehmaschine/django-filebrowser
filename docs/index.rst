@@ -10,7 +10,7 @@ Django FileBrowser Documentation
 
 **Media-Management with the Django admin-interface**.
 
-This documentation covers version 3.3.1 of the |filebrowser|. With the |filebrowser|, you're able to browse your media-directory
+This documentation covers version 3.4 of the |filebrowser|. With the |filebrowser|, you're able to browse your media-directory
 and upload/rename/delete files and folders.
 
 **Installation and Setup**
@@ -20,6 +20,13 @@ and upload/rename/delete files and folders.
    
    quickstart
    settings
+
+**FileBrowser Sites**
+
+.. toctree::
+   :maxdepth: 2
+   
+   sites
 
 **FileBrowser API**
 
@@ -49,6 +56,13 @@ and upload/rename/delete files and folders.
    
    versions
 
+**Custom Actions**
+
+.. toctree::
+   :maxdepth: 2
+   
+   actions
+
 **Help**
 
 .. toctree::
@@ -64,13 +78,14 @@ Main Features
 -------------
 
 * Browse your media-directory with the admin-interface.
-* Multiple Upload using `Uploadify <http://www.uploadify.com>`_.
+* Multiple Upload, including a progress bar.
 * Automatic Thumbnails.
 * Image-Versions to fit your websites grid.
 * Integration with TinyMCE (AdvImage & AdvLink).
 * ``FileBrowseField`` to select Images/Documents.
 * ``ClearableFileInput`` with Image-Preview.
 * Signals for Upload, Rename and Delete.
+* Custom Actions.
 
 Code
 ----

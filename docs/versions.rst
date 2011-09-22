@@ -44,7 +44,7 @@ A Model example::
 
     from filebrowser.fields import FileBrowseField
 
-    class MyModel(models.Model):
+    class BlogEntry(models.Model):
         image = FileBrowseField("Image", max_length=200, blank=True, null=True)
 
 First you need to load the templatetags with::
@@ -100,7 +100,7 @@ If you have a ``FileObject`` you can easily generate/retrieve a version with::
 So, if you need to generate/retrieve the admin thumbnail for an Image, you can type::
 
     from filebrowser.settings import ADMIN_THUMBNAIL
-    obj.image.version(ADMIN_THUMBNAIL).url
+    obj.image.version_generate(ADMIN_THUMBNAIL).url
 
 Management Commands
 ===================
