@@ -66,8 +66,8 @@ class FileBrowserSite(object):
             url(r'^upload/', path_exists(self, self.filebrowser_view(self.upload)), name="fb_upload"),
             url(r'^delete_confirm/$', file_exists(self, path_exists(self, self.filebrowser_view(self.delete_confirm))), name="fb_delete_confirm"),
             url(r'^delete/$', file_exists(self, path_exists(self, self.filebrowser_view(self.delete))), name="fb_delete"),
-            url(r'^version/$', file_exists(self, path_exists(self, self.filebrowser_view(self.detail))), name="fb_detail"),
-            url(r'^detail/$', file_exists(self, path_exists(self, self.filebrowser_view(self.version))), name="fb_version"),
+            url(r'^detail/$', file_exists(self, path_exists(self, self.filebrowser_view(self.detail))), name="fb_detail"),
+            url(r'^version/$', file_exists(self, path_exists(self, self.filebrowser_view(self.version))), name="fb_version"),
             # non-views
             url(r'^upload_file/$', csrf_exempt(self._upload_file), name="fb_do_upload"),
             
