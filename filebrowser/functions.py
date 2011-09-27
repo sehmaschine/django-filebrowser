@@ -337,9 +337,11 @@ def version_generator(value, version_prefix, force=None, directory=DIRECTORY):
         if not version:
             version = im
 
-        if 'grayscale' in VERSIONS[version_prefix]['opts']:
-            if version.mode != "L":
-                version = version.convert("L")
+        if 'methods' in VERSIONS[version_prefix].keys():
+            for f in VERSIONS[version_prefix]['methods']:
+                if callable(f):
+                    version = f(version)
+
         try:
             version.save(version_path, quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
         except IOError:
