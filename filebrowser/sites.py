@@ -11,7 +11,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
 from django import forms
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, get_urlconf, get_resolver
 from django.dispatch import Signal
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.utils.encoding import smart_unicode
@@ -41,6 +41,29 @@ try:
 except ImportError:
     from django.utils import simplejson as json
 
+# This cache contains all *instantiated* FileBrowser sites
+_sites_cache = {}
+
+def get_site_dict(app_name='filebrowser'):
+    """
+    Return a dict with all *deployed* FileBrowser sites that have 
+    a given app_name.
+    """
+    if not _sites_cache.has_key(app_name):
+        return {}
+    # Get names of all deployed filebrowser sites with a give app_name
+    deployed = get_resolver(get_urlconf()).app_dict[app_name]
+    # Get the deployed subset from the cache
+    return dict((k,v) for k, v in _sites_cache[app_name].iteritems() if k in deployed)
+
+def register_site(app_name, site_name, site):
+    """
+    Add a site into the site dict.
+    """
+    if not _sites_cache.has_key(app_name):
+        _sites_cache[app_name] = {}
+    _sites_cache[app_name][site_name] = site
+
 class FileBrowserSite(object):
 
     def __init__(self, name=None, app_name='filebrowser'):
@@ -48,9 +71,10 @@ class FileBrowserSite(object):
         self.app_name = app_name
         self._actions = {}
         self._global_actions = self._actions.copy()
+        # Register this site in the global site cache
+        register_site(self.app_name, self.name, self)
         # Per-site settings:
         self.directory = DIRECTORY
-
 
     def filebrowser_view(self, view):
         return staff_member_required(never_cache(view))
