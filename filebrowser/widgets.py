@@ -4,6 +4,7 @@
 from django.template.loader import render_to_string
 from django.forms.widgets import FileInput as DjangoFileInput
 from django.forms.widgets import ClearableFileInput as DjangoClearableFileInput
+from django.forms.widgets import CheckboxInput
 from django.forms.fields import FilePathField
 from django.utils.translation import ugettext, ugettext_lazy
 from django.utils.safestring import mark_safe
