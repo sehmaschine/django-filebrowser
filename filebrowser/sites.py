@@ -239,7 +239,7 @@ class FileBrowserSite(object):
         """
         from filebrowser.forms import CreateDirForm
         query = request.GET
-        abs_path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
+        abs_path = u'%s' % os.path.join(MEDIA_ROOT, self.directory, query.get('dir', ''))
         
         if request.method == 'POST':
             form = CreateDirForm(abs_path, request.POST)
@@ -329,7 +329,6 @@ class FileBrowserSite(object):
     def delete(self, request):
         """
         Delete existing File/Directory.
-        When trying to delete a Directory, the Directory has to be empty.
         """
         query = request.GET
         abs_path = u'%s' % os.path.join(MEDIA_ROOT, self.directory, query.get('dir', ''))
@@ -444,12 +443,14 @@ class FileBrowserSite(object):
                 except KeyError:
                     return HttpResponseBadRequest('Invalid request! No filename given.')
             else: # Basic (iframe) submission
+                # TODO: This needs some attention, do we use this at all?
                 folder = request.POST.get('folder')
                 if len(request.FILES) == 1:
                     filedata = request.FILES.values()[0]
                 else:
                     raise Http404('Invalid request! Multiple files included.')
-                filedata.name = convert_filename(upload.name)
+                # filedata.name = convert_filename(upload.name)
+                filedata.name = convert_filename(request.POST.get('file_name'))
 
             fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("filebrowser:fb_upload", current_app=self.name))
             folder = fb_uploadurl_re.sub('', folder)

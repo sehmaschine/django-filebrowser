@@ -30,7 +30,7 @@ def path_strip(path, root):
     root = os.path.normcase(root)
     if path.startswith(root):
         return path[len(root):]
-    return path
+    return ''
 
 def url_strip(url, root):
     if not url or not root:
