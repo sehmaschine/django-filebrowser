@@ -45,12 +45,15 @@ class FileListing():
     _results_listing_filtered = None
     _results_walk_total = None
     
-    def __init__(self, path, filter_func=None, sorting_by=None, sorting_order=None, directory=DIRECTORY):
+    def __init__(self, path, filter_func=None, sorting_by=None, sorting_order=None, site=None):
         self.path = path
         self.filter_func = filter_func
         self.sorting_by = sorting_by
         self.sorting_order = sorting_order
-        self.media_directory = directory
+        if not site:
+            from filebrowser.sites import site as default_site
+            site = default_site
+        self.site = site
     
     def listing(self):
         "List all files for path"
@@ -63,7 +66,7 @@ class FileListing():
         filelisting = []
         if os.path.isdir(self.path):
             for root, dirs, files in os.walk(self.path):
-                r = root.replace(os.path.join(MEDIA_ROOT, self.media_directory),'')
+                r = root.replace(os.path.join(MEDIA_ROOT, self.site.directory),'')
                 for d in dirs:
                     filelisting.append(os.path.join(r,d))
                 for f in files:
@@ -78,7 +81,7 @@ class FileListing():
         if self._fileobjects_total == None:
             self._fileobjects_total = []
             for item in self.listing():
-                fileobject = FileObject(os.path.join(self.path, item), directory=self.media_directory)
+                fileobject = FileObject(os.path.join(self.path, item), site=self.site)
                 self._fileobjects_total.append(fileobject)
         
         files = self._fileobjects_total
@@ -95,7 +98,7 @@ class FileListing():
         "Returns FileObjects for all files in walk"
         files = []
         for item in self.walk():
-            fileobject = FileObject(os.path.join(MEDIA_ROOT, self.media_directory, item), directory=self.media_directory)
+            fileobject = FileObject(os.path.join(MEDIA_ROOT, self.site.directory, item), site=self.site)
             files.append(fileobject)
         if self.sorting_by:
             files = sort_by_attr(files, self.sorting_by)
@@ -157,8 +160,11 @@ class FileObject():
         fileobject = FileObject(absolute_path_to_file)
     """
     
-    def __init__(self, path, relative=False, directory=DIRECTORY):
-        self.media_directory = directory
+    def __init__(self, path, relative=False, site=None):
+        if not site:
+            from filebrowser.sites import site as default_site
+            site = default_site
+        self.site = site
         if relative:
             self.path = os.path.join(MEDIA_ROOT, path)
         else:
@@ -169,6 +175,7 @@ class FileObject():
         self.filename_root = os.path.splitext(self.filename)[0]
         self.extension = os.path.splitext(self.filename)[1]
         self.mimetype = mimetypes.guess_type(self.filename)
+
     
     def __str__(self):
         return smart_str(self.filename)
@@ -229,7 +236,7 @@ class FileObject():
     
     def _path_relative_directory(self):
         "path relative to MEDIA_ROOT + DIRECTORY"
-        return path_strip(self.path, os.path.join(MEDIA_ROOT,self.media_directory))
+        return path_strip(self.path, os.path.join(MEDIA_ROOT,self.site.directory))
     path_relative_directory = property(_path_relative_directory)
     
     def _url(self):
@@ -285,11 +292,11 @@ class FileObject():
     # FOLDER ATTRIBUTES
     
     def _directory(self):
-        return path_strip(self.path, os.path.join(MEDIA_ROOT, self.media_directory))
+        return path_strip(self.path, os.path.join(MEDIA_ROOT, self.site.directory))
     directory = property(_directory)
     
     def _folder(self):
-        return path_strip(self.head, os.path.join(MEDIA_ROOT, self.media_directory))
+        return path_strip(self.head, os.path.join(MEDIA_ROOT, self.site.directory))
     folder = property(_folder)
     
     def _is_folder(self):
@@ -317,7 +324,7 @@ class FileObject():
     
     def _original(self):
         if self.is_version:
-            return FileObject(get_original_path(self.path, directory=self.media_directory))
+            return FileObject(get_original_path(self.path, site=self.site))
         return self
     original = property(_original)
     
@@ -347,12 +354,12 @@ class FileObject():
         return version_list
     
     def version_generate(self, version_suffix):
-        version_path = get_version_path(self.path, version_suffix, directory=self.media_directory)
+        version_path = get_version_path(self.path, version_suffix, directory=self.site.directory)
         if not os.path.isfile(version_path):
-            version_path = version_generator(self.path, version_suffix, directory=self.media_directory)
+            version_path = version_generator(self.path, version_suffix, directory=self.site.directory)
         elif os.path.getmtime(self.path) > os.path.getmtime(version_path):
-            version_path = version_generator(self.path, version_suffix, force=True, directory=self.media_directory)
-        return FileObject(version_path, directory=self.media_directory)
+            version_path = version_generator(self.path, version_suffix, force=True, directory=self.site.directory)
+        return FileObject(version_path, site=self.site)
     
     # FUNCTIONS
     

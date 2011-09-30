@@ -43,7 +43,7 @@ class FileBrowseWidget(Input):
         if value is None:
             value = ""
         if value != "" and not isinstance(value, FileObject):
-            value = FileObject(url_to_path(value), directory=self.site.directory)
+            value = FileObject(url_to_path(value), site=self.site)
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
         final_attrs['search_icon'] = URL_FILEBROWSER_MEDIA + 'img/filebrowser_icon_show.gif'
         final_attrs['url'] = url
@@ -99,7 +99,7 @@ class FileBrowseField(CharField):
     def to_python(self, value):
         if not value or isinstance(value, FileObject):
             return value
-        return FileObject(url_to_path(value), directory=self.site.directory)
+        return FileObject(url_to_path(value), site=self.site)
     
     def get_db_prep_value(self, value, connection, prepared=False):
         if not value:

@@ -179,7 +179,7 @@ class FileBrowserSite(object):
             filter_func=filter_browse,
             sorting_by=query.get('o', DEFAULT_SORTING_BY),
             sorting_order=query.get('ot', DEFAULT_SORTING_ORDER),
-            directory=self.directory)
+            site=self)
         
         files = []
         if SEARCH_TRAVERSE and query.get("q"):
@@ -226,7 +226,7 @@ class FileBrowserSite(object):
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': "",
-            'directory': self.directory,
+            'site': self
         }, context_instance=Context(request, current_app=self.name))
     
     # mkdir signals
@@ -268,7 +268,7 @@ class FileBrowserSite(object):
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'New Folder'),
-            'directory': self.directory,
+            'site': self
         }, context_instance=Context(request, current_app=self.name))
     
 
@@ -285,7 +285,7 @@ class FileBrowserSite(object):
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'Upload'),
-            'directory': self.directory,
+            'site': self
         }, context_instance=Context(request, current_app=self.name))
 
     def delete_confirm(self, request):
@@ -294,12 +294,12 @@ class FileBrowserSite(object):
         """
         query = request.GET
         abs_path = u'%s' % os.path.join(MEDIA_ROOT, self.directory, query.get('dir', ''))
-        fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')), directory=self.directory)
+        fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')), site=self)
         if fileobject.filetype == "Folder":
             filelisting = FileListing(os.path.join(abs_path, fileobject.filename),
                 sorting_by=query.get('o', 'filename'),
                 sorting_order=query.get('ot', DEFAULT_SORTING_ORDER),
-                directory=self.directory)
+                site=self)
             filelisting = filelisting.files_walk_total()
             if len(filelisting) > 100:
                 additional_files = len(filelisting) - 100
@@ -319,7 +319,7 @@ class FileBrowserSite(object):
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'Confirm delete'),
-            'directory': self.directory,
+            'site': self
         }, context_instance=Context(request, current_app=self.name))
 
     # delete signals
@@ -332,7 +332,7 @@ class FileBrowserSite(object):
         """
         query = request.GET
         abs_path = u'%s' % os.path.join(MEDIA_ROOT, self.directory, query.get('dir', ''))
-        fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')), directory=self.directory)
+        fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')), site=self)
         
         if request.GET:
             try:
@@ -363,7 +363,7 @@ class FileBrowserSite(object):
         from filebrowser.forms import ChangeForm
         query = request.GET
         abs_path = u'%s' % os.path.join(MEDIA_ROOT, self.directory, query.get('dir', ''))
-        fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')), directory=self.directory)
+        fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')), site=self)
         
         if request.method == 'POST':
             form = ChangeForm(request.POST, path=abs_path, fileobject=fileobject, site=self)
@@ -406,7 +406,7 @@ class FileBrowserSite(object):
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': u'%s' % fileobject.filename,
-            'directory': self.directory,
+            'site': self
         }, context_instance=Context(request, current_app=self.name))
 
     def version(self, request):
@@ -415,13 +415,13 @@ class FileBrowserSite(object):
         """
         query = request.GET
         abs_path = u'%s' % os.path.join(MEDIA_ROOT, self.directory, query.get('dir', ''))
-        fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')), directory=self.directory)
+        fileobject = FileObject(os.path.join(abs_path, query.get('filename', '')), site=self)
         
         return render_to_response('filebrowser/version.html', {
             'fileobject': fileobject,
             'query': query,
             'settings_var': get_settings_var(directory=self.directory),
-            'directory': self.directory,
+            'site': self
         }, context_instance=Context(request, current_app=self.name))
 
     # upload signals
@@ -463,7 +463,7 @@ class FileBrowserSite(object):
                 old_file = smart_unicode(os.path.join(abs_path, filedata.name))
                 new_file = smart_unicode(os.path.join(abs_path, uploadedfile))
                 file_move_safe(new_file, old_file, allow_overwrite=True)
-            self.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(os.path.join(self.directory, folder, filedata.name)), directory=self.directory))
+            self.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(os.path.join(self.directory, folder, filedata.name)), site=self))
             # let Ajax Upload know whether we saved it or not
             ret_json = {'success': True, 'filename': filedata.name}
             return HttpResponse(json.dumps(ret_json))

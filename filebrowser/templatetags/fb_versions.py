@@ -14,7 +14,7 @@ from django.utils.http import urlquote
 from filebrowser.settings import DIRECTORY, VERSIONS
 from filebrowser.functions import path_to_url, get_version_path, version_generator
 from filebrowser.base import FileObject
-
+from filebrowser.sites import site as default_site
 register = Library()
 
 
@@ -39,7 +39,8 @@ class VersionNode(Node):
                 version_prefix = self.version_prefix_var.resolve(context)
             except VariableDoesNotExist:
                 return None
-        directory = context.get('directory', DIRECTORY)
+        site = context.get('site', default_site)
+        directory = site.directory
         try:
             if isinstance(source, FileObject):
                 source = source.path
@@ -96,7 +97,8 @@ class VersionObjectNode(Node):
                 version_prefix = self.version_prefix_var.resolve(context)
             except VariableDoesNotExist:
                 return None
-        directory = context.get('directory', DIRECTORY)
+        site = context.get('site', default_site)
+        directory = site.directory
         try:
             if isinstance(source, FileObject):
                 source = source.path
@@ -106,7 +108,7 @@ class VersionObjectNode(Node):
                 version_path = version_generator(source, version_prefix, directory=directory)
             elif os.path.getmtime(source) > os.path.getmtime(version_path):
                 version_path = version_generator(source, version_prefix, force=True, directory=directory)
-            context[self.var_name] = FileObject(version_path)
+            context[self.var_name] = FileObject(version_path, site=site)
         except:
             context[self.var_name] = ""
         return ''

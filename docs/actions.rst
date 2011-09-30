@@ -25,7 +25,7 @@ Custom actions are simple functions of the form::
 
 the first parameter is an ``HttpRequest`` object (representing the submitted form in which a user selected the action) and the second parameter is a list of ``FileObjects`` to which the action should be applied.
 
-In the current |fb| version, the list contains exactly one instance of FileObject (representing the file from the detail view), but in the future this may change, as custom actions may be made available also in the listing of directories (similar to admin actions applied to a list of checked objects).
+In the current |fb| version, the list contains exactly one instance of FileObject (representing the file from the detail view), but this may change in the future, as custom actions may become available also in browse views (similar to admin actions applied to a list of checked objects).
 
 Registering an Action
 ---------------------
@@ -47,7 +47,7 @@ Each custom action can be associated with a specific file type (e.g., images, au
 
     foo.applies_to(lambda fileobject: fileobject.filetype == 'Image')
 
-In the above example, foo will be applicable exclusively to image files. That is, the action will appear in the action list only for image files. If you do not specify any filter function for your action, |fb| considers the action as applicable to all files.
+In the above example, foo will appear in the action list only for image files. If you do not specify any filter function for your action, |fb| considers the action as applicable to all files.
 
 Messages & Intermediate Pages
 -----------------------------

@@ -46,7 +46,7 @@ def test_browse(test):
     
     # Check directory was set correctly in the context. If this fails, it may indicate
     # that two sites were instantiated with the same name.
-    test.assertTrue(test.site.directory == response.context['directory'])
+    test.assertTrue(test.site.directory == response.context['site'].directory)
 
 def test_createdir(test):
     """
@@ -62,7 +62,7 @@ def test_createdir(test):
         tmpdir_name = '%s_%d' % (prefix, sufix)
     
     # Store the this temp directory (we need to delete it later)
-    test.tmpdir = FileObject(os.path.join(MEDIA_ROOT, test.site.directory, tmpdir_name), directory=test.site.directory)
+    test.tmpdir = FileObject(os.path.join(MEDIA_ROOT, test.site.directory, tmpdir_name), site=test.site)
     
     # Create the directory using the createdir view
     url = reverse('%s:fb_createdir' % test.site_name)
@@ -101,7 +101,7 @@ def test_do_upload(test):
     
     # Check the file now exists
     abs_path = os.path.join(test.tmpdir.path, 'testimage.jpg')
-    test.testfile = FileObject(abs_path, directory=test.site.directory)
+    test.testfile = FileObject(abs_path, site=test.site)
     test.assertTrue(os.path.exists(abs_path))
     
     # Check the file has the correct size
@@ -149,7 +149,7 @@ def test_detail(test):
     test.assertTrue(os.path.exists(os.path.join(test.testfile.head, 'testpic.jpg')))
     
     # Store the renamed file
-    test.testfile = FileObject(os.path.join(test.testfile.head, 'testpic.jpg'), directory=test.site.directory)
+    test.testfile = FileObject(os.path.join(test.testfile.head, 'testpic.jpg'), site=test.site)
     
     # Check all versions were deleted (after renaming):
     for version_suffix in VERSIONS:
