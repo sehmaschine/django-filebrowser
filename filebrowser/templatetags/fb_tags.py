@@ -4,6 +4,7 @@
 from django import template
 from django.utils.encoding import smart_unicode
 from django.utils.safestring import mark_safe
+from django.utils.http import urlquote
 
 # filebrowser imports
 from filebrowser.settings import SELECT_FORMATS
@@ -60,7 +61,7 @@ def get_query_string(p, new_params=None, remove=None):
             del p[k]
         elif v is not None:
             p[k] = v
-    return mark_safe('?' + '&'.join([u'%s=%s' % (k, v) for k, v in p.items()]).replace(' ', '%20'))
+    return mark_safe('?' + '&'.join([u'%s=%s' % (k, urlquote(v)) for k, v in p.items()]).replace(' ', '%20'))
 
 
 def string_to_dict(string):

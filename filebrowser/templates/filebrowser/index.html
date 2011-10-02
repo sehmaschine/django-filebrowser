@@ -99,7 +99,7 @@
                 {% if query.pop %}<input type="hidden" name="pop" value="{{ query.pop }}" />{% endif %}
                 {% if query.type %}<input type="hidden" name="type" value="{{ query.type }}" />{% endif %}
                 {% if query.format %}<input type="hidden" name="format" value="{{ query.format }}" />{% endif %}
-                {% if query.dir %}<input type="hidden" name="dir" value="{{ query.dir }}" />{% endif %}
+                {% if query.dir %}<input type="hidden" name="dir" value="{{ query.dir|urlencode }}" />{% endif %}
                 <button class="search" type="submit" value="">&nbsp;</button>
             </form>
         </div>
