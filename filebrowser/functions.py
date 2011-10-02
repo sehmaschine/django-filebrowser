@@ -3,15 +3,15 @@
 # imports
 import os
 from time import gmtime, strftime, localtime, mktime, time
+from tempfile import NamedTemporaryFile
 
 # django imports
 from django.utils.translation import ugettext as _
-from django.core.files.storage import FileSystemStorage
+from django.core.files import File
 from django.utils.encoding import smart_unicode
 
 # filebrowser imports
 from filebrowser.settings import *
-filebrowser_storage = FileSystemStorage(location=MEDIA_ROOT)
 
 # PIL import
 if STRICT_PIL:
@@ -39,43 +39,6 @@ def url_strip(url, root):
         return url[len(root):]
     return url
 
-
-def url_to_path(value):
-    """
-    Change URL to PATH.
-    value has to be an URL relative to MEDIA URL or a full URL (including MEDIA_URL).
-    
-    Returns an absolute server-path, including MEDIA_ROOT.
-    """
-    
-    value = url_strip(value, MEDIA_URL)
-    return os.path.join(MEDIA_ROOT, value)
-
-
-def path_to_url(value):
-    """
-    Change PATH to URL.
-    value has to be an absolute server-path, including MEDIA_ROOT.
-    
-    Return an URL including MEDIA_URL.
-    """
-    
-    value = path_strip(value, MEDIA_ROOT)
-    return url_join(MEDIA_URL, value)
-
-
-def dir_from_url(value, directory=DIRECTORY):
-    """
-    Get the relative server directory from a URL.
-    URL has to be an absolute URL including MEDIA_URL or
-    an URL relative to MEDIA_URL.
-    """
-    
-    value = url_strip(value, MEDIA_URL)
-    value = url_strip(value, directory)
-    return os.path.split(value)[0]
-
-
 def get_version_filename(filename, version_prefix):
     filename, ext = os.path.splitext(filename)
     version_filename = filename + "_" + version_prefix + ext
@@ -92,7 +55,7 @@ def get_original_filename(filename):
         return None
 
 
-def get_version_path(value, version_prefix, directory=DIRECTORY):
+def get_version_path(value, version_prefix, site=None):
     """
     Construct the PATH to an Image version.
     value has to be an absolute server-path, including MEDIA_ROOT.
@@ -101,20 +64,20 @@ def get_version_path(value, version_prefix, directory=DIRECTORY):
     Returns an absolute path, including MEDIA_ROOT.
     """
     
-    if os.path.isfile(value):
+    if site.storage.isfile(value):
         path, filename = os.path.split(value)
-        relative_path = path.replace(os.path.join(MEDIA_ROOT,directory), "")
+        relative_path = path.replace(site.directory, "")
         filename, ext = os.path.splitext(filename)
         version_filename = filename + "_" + version_prefix + ext
         if VERSIONS_BASEDIR:
-            return os.path.join(MEDIA_ROOT, VERSIONS_BASEDIR, relative_path, version_filename)
+            return os.path.join(VERSIONS_BASEDIR, relative_path, version_filename)
         else:
-            return os.path.join(MEDIA_ROOT, directory, relative_path, version_filename)
+            return os.path.join(site.directory, relative_path, version_filename)
     else:
         return None
 
 
-def get_original_path(value, directory=DIRECTORY):
+def get_original_path(value, site=None):
     """
     Construct the PATH to an original Image based on a Image version.
     value has to be an absolute server-path, including MEDIA_ROOT.
@@ -122,15 +85,15 @@ def get_original_path(value, directory=DIRECTORY):
     Returns an absolute path, including MEDIA_ROOT.
     """
     
-    if os.path.isfile(value):
+    if site.storage.isfile(value):
         path, filename = os.path.split(value)
         if VERSIONS_BASEDIR:
-            relative_path = path.replace(os.path.join(MEDIA_ROOT,VERSIONS_BASEDIR), "")
+            relative_path = path.replace(VERSIONS_BASEDIR, "")
         else:
-            relative_path = path.replace(os.path.join(MEDIA_ROOT,directory), "")
+            relative_path = path.replace(site.directory, "")
         relative_path = relative_path.lstrip("/")
         original_filename = get_original_filename(filename)
-        return os.path.join(MEDIA_ROOT, directory, relative_path, original_filename)
+        return os.path.join(site.directory, relative_path, original_filename)
     else:
         return None
 
@@ -179,21 +142,21 @@ def url_join(*args):
     return url
 
 
-def get_path(path, directory=DIRECTORY):
+def get_path(path, site=None):
     """
     Get path.
     """
-    if path.startswith('.') or os.path.isabs(path) or not os.path.isdir(os.path.join(MEDIA_ROOT, directory, path)):
+    if path.startswith('.') or os.path.isabs(path) or not site.storage.isdir(os.path.join(site.directory, path)):
         return None
     return path
 
 
-def get_file(path, filename, directory=DIRECTORY):
+def get_file(path, filename, site=None):
     """
     Get file (or folder).
     """
-    converted_path = smart_unicode(os.path.join(MEDIA_ROOT, directory, path, filename))
-    if not os.path.isfile(converted_path) and not os.path.isdir(converted_path):
+    converted_path = smart_unicode(os.path.join(site.directory, path, filename))
+    if not site.storage.isfile(converted_path) and not site.storage.isdir(converted_path):
         return None
     return filename
 
@@ -276,7 +239,7 @@ def get_settings_var(directory=DIRECTORY):
     return settings_var
 
 
-def handle_file_upload(path, file):
+def handle_file_upload(path, file, site):
     """
     Handle File Upload.
     """
@@ -284,8 +247,7 @@ def handle_file_upload(path, file):
     uploadedfile = None
     try:
         file_path = os.path.join(path, file.name)
-        uploadedfile = filebrowser_storage.save(file_path, file)
-        os.chmod(uploadedfile, DEFAULT_PERMISSIONS)
+        uploadedfile = site.storage.save(file_path, file)
     except Exception, inst:
         raise inst
     return uploadedfile
@@ -305,7 +267,7 @@ def is_selectable(filename, selecttype):
     return select_types
 
 
-def version_generator(value, version_prefix, force=None, directory=DIRECTORY):
+def version_generator(value, version_prefix, force=None, site=None):
     """
     Generate Version for an Image.
     value has to be a serverpath relative to MEDIA_ROOT.
@@ -322,30 +284,36 @@ def version_generator(value, version_prefix, force=None, directory=DIRECTORY):
             import ImageFile
     ImageFile.MAXBLOCK = IMAGE_MAXBLOCK # default is 64k
     
+    tmpfile = File(NamedTemporaryFile())
     try:
-        im = Image.open(smart_unicode(os.path.join(MEDIA_ROOT, value)))
-        version_path = get_version_path(value, version_prefix, directory=directory)
-        version_dir = os.path.split(version_path)[0]
-        if not os.path.isdir(version_dir):
-            os.makedirs(version_dir)
-            os.chmod(version_dir, DEFAULT_PERMISSIONS)
+        f = site.storage.open(value)
+        im = Image.open(f)
+        version_path = get_version_path(value, version_prefix, site=site)
+        version_dir, version_basename = os.path.split(version_path)
+        root, ext = os.path.splitext(version_basename)
         version = scale_and_crop(im, VERSIONS[version_prefix]['width'], VERSIONS[version_prefix]['height'], VERSIONS[version_prefix]['opts'])
         if version:
             try:
-                version.save(version_path, quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
+                version.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
             except IOError:
-                version.save(version_path, quality=VERSION_QUALITY)
+                version.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY)
         else:
             # version wasn't created
             # save the original image with the versions name
             try:
-                im.save(version_path, quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
+                im.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
             except IOError:
-                im.save(version_path, quality=VERSION_QUALITY)
+                im.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY)
+        # Remove the old version, if there's any
+        if version_path != site.storage.get_available_name(version_path):
+            site.storage.delete(version_path)
+        site.storage.save(version_path, tmpfile)
         return version_path
     except:
         return None
-
+    finally:
+        tmpfile.close()
+        f.close()
 
 def scale_and_crop(im, width, height, opts):
     """

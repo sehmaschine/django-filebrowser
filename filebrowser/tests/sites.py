@@ -57,12 +57,12 @@ def test_createdir(test):
     prefix = 'tmp_test'
     sufix = 0
     tmpdir_name = '%s_%d' % (prefix, sufix)
-    while os.path.exists(os.path.join(MEDIA_ROOT, test.site.directory, tmpdir_name)):
+    while test.site.storage.exists(os.path.join(test.site.directory, tmpdir_name)):
         sufix += 1
         tmpdir_name = '%s_%d' % (prefix, sufix)
     
     # Store the this temp directory (we need to delete it later)
-    test.tmpdir = FileObject(os.path.join(MEDIA_ROOT, test.site.directory, tmpdir_name), site=test.site)
+    test.tmpdir = FileObject(os.path.join(test.site.directory, tmpdir_name), site=test.site)
     
     # Create the directory using the createdir view
     url = reverse('%s:fb_createdir' % test.site_name)
@@ -72,7 +72,7 @@ def test_createdir(test):
     test.assertTrue(response.status_code == 302)
     
     # Check the directory now exists
-    test.assertTrue(os.path.exists(test.tmpdir.path))
+    test.assertTrue(test.site.storage.exists(test.tmpdir.path))
 
 def test_upload(test):
     """
@@ -100,12 +100,12 @@ def test_do_upload(test):
     test.assertTrue(response.status_code == 200)
     
     # Check the file now exists
-    abs_path = os.path.join(test.tmpdir.path, 'testimage.jpg')
-    test.testfile = FileObject(abs_path, site=test.site)
-    test.assertTrue(os.path.exists(abs_path))
+    path = os.path.join(test.tmpdir.path, 'testimage.jpg')
+    test.testfile = FileObject(path, site=test.site)
+    test.assertTrue(test.site.storage.exists(path))
     
     # Check the file has the correct size
-    test.assertTrue(file_size == os.path.getsize(abs_path))
+    test.assertTrue(file_size == test.site.storage.size(path))
     
     # ## Attemp an upload of the file using BASIC SUBMISSION
     # f = open(os.path.join(PATH_FILEBROWSER_MEDIA, 'img/testimage.jpg'))
@@ -118,7 +118,7 @@ def test_do_upload(test):
     
     # # Check the file now exists
     # abs_path = os.path.join(test.tmpdir.path, 'testimage_basic.jpg')
-    # test.assertTrue(os.path.exists(abs_path))
+    # test.assertTrue(test.site.storage.exists(abs_path))
     
     # # Check the file has the correct size
     # test.assertTrue(file_size == os.path.getsize(abs_path))
@@ -135,8 +135,8 @@ def test_detail(test):
     
     # At this moment all versions should be generated. Check that.
     for version_suffix in VERSIONS:
-        path = get_version_path(test.testfile.path, version_suffix, directory=test.site.directory)
-        test.assertTrue(os.path.exists(path))
+        path = get_version_path(test.testfile.path, version_suffix, site=test.site)
+        test.assertTrue(test.site.storage.exists(path))
     
     # Attemp renaming the file
     url = '?'.join([url, urlencode({'dir': test.testfile.folder, 'filename': test.testfile.filename})])
@@ -146,15 +146,15 @@ def test_detail(test):
     test.assertTrue(response.status_code == 302)
     
     # Check the file was renamed correctly:
-    test.assertTrue(os.path.exists(os.path.join(test.testfile.head, 'testpic.jpg')))
+    test.assertTrue(test.site.storage.exists(os.path.join(test.testfile.head, 'testpic.jpg')))
     
     # Store the renamed file
     test.testfile = FileObject(os.path.join(test.testfile.head, 'testpic.jpg'), site=test.site)
     
     # Check all versions were deleted (after renaming):
     for version_suffix in VERSIONS:
-        path = get_version_path(test.testfile.path, version_suffix, directory=test.site.directory)
-        test.assertFalse(os.path.exists(path))
+        path = get_version_path(test.testfile.path, version_suffix, site=test.site)
+        test.assertFalse(test.site.storage.exists(path))
 
 def test_delete_confirm(test):
     """
@@ -188,15 +188,15 @@ def test_delete(test):
     test.assertTrue(response.status_code == 302)
     
     # Check the file and its versions do not exist anymore
-    test.assertFalse(os.path.exists(test.testfile.path))
+    test.assertFalse(test.site.storage.exists(test.testfile.path))
     for version in versions:
-        test.assertFalse(os.path.exists(version.path))
+        test.assertFalse(test.site.storage.exists(version.path))
     test.testfile = None
 
     # Delete the tmp dir and check it does not exist anymore
     response = test.c.get(url, {'dir': test.tmpdir.folder, 'filename': test.tmpdir.filename})
     test.assertTrue(response.status_code == 302)
-    test.assertFalse(os.path.exists(test.tmpdir.path))
+    test.assertFalse(test.site.storage.exists(test.tmpdir.path))
     test.tmpdir = None
 
 
@@ -218,7 +218,7 @@ def tearDown(self):
     # Delete a left-over tmp directories, if there's any
     if self.tmpdir:
         print "Removing left-over tmp dir:", self.tmpdir.path
-        shutil.rmtree(self.tmpdir.path)
+        self.site.storage.rmtree(self.tmpdir.path)
 
 def runTest(self):
     # Login

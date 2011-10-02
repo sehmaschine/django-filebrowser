@@ -16,9 +16,7 @@ from django.core import urlresolvers
 # FILEBROWSER IMPORTS
 from filebrowser.settings import *
 from filebrowser.base import FileObject
-from filebrowser.functions import url_to_path
 from filebrowser.sites import site
-
 
 class FileBrowseWidget(Input):
     input_type = 'text'
@@ -28,7 +26,8 @@ class FileBrowseWidget(Input):
     
     def __init__(self, attrs=None):
         super(FileBrowseWidget, self).__init__(attrs)
-        self.site = attrs.get('site', '')
+        print "ATTRS:", attrs
+        self.site = attrs.get('site', None)
         self.directory = attrs.get('directory', '')
         self.extensions = attrs.get('extensions', '')
         self.format = attrs.get('format', '')
@@ -43,7 +42,7 @@ class FileBrowseWidget(Input):
         if value is None:
             value = ""
         if value != "" and not isinstance(value, FileObject):
-            value = FileObject(url_to_path(value), site=self.site)
+            value = FileObject(value, site=self.site)
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
         final_attrs['search_icon'] = URL_FILEBROWSER_MEDIA + 'img/filebrowser_icon_show.gif'
         final_attrs['url'] = url
@@ -51,6 +50,7 @@ class FileBrowseWidget(Input):
         final_attrs['extensions'] = self.extensions
         final_attrs['format'] = self.format
         final_attrs['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
+        site = self.site
         if value != "":
             try:
                 final_attrs['directory'] = os.path.split(value.original.path_relative_directory)[0]
@@ -99,7 +99,7 @@ class FileBrowseField(CharField):
     def to_python(self, value):
         if not value or isinstance(value, FileObject):
             return value
-        return FileObject(url_to_path(value), site=self.site)
+        return FileObject(value, site=self.site)
     
     def get_db_prep_value(self, value, connection, prepared=False):
         if not value:
