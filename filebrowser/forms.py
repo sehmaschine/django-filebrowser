@@ -36,7 +36,7 @@ class CreateDirForm(forms.Form):
         
     name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Name'), help_text=_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'), required=True)
     
-    def clean_dir_name(self):
+    def clean_name(self):
         if self.cleaned_data['name']:
             # only letters, numbers, underscores, spaces and hyphens are allowed.
             if not alnum_name_re.search(self.cleaned_data['name']):

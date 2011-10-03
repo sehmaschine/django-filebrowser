@@ -287,9 +287,6 @@ def handle_file_upload(path, file):
         uploadedfile = filebrowser_storage.save(file_path, file)
         os.chmod(uploadedfile, DEFAULT_PERMISSIONS)
     except Exception, inst:
-        print "___filebrowser.functions.handle_file_upload(): could not save uploaded file"
-        print "ERROR: ", inst
-        print "___"
         raise inst
     return uploadedfile
 

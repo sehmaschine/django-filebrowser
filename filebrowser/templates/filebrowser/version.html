@@ -41,7 +41,7 @@
         <script type="text/javascript" charset="utf-8">
             (function($) {
                 $(document).ready(function() {
-                    FileSubmit('{{ image_version.url_save }}', '{{ thumbnail_version.url }}', '{{ image_version.filetype }}');
+                    FileSubmit('{{ image_version.url_save }}', '{{ thumbnail_version.url|urlencode }}', '{{ image_version.filetype }}');
                 });
             })(django.jQuery);
         </script>
@@ -50,7 +50,7 @@
         <script type="text/javascript" charset="utf-8">
             (function($) {
                 $(document).ready(function() {
-                    FileBrowserDialogue.fileSubmit('{{ image_version.url|escapejs }}');
+                    FileBrowserDialogue.fileSubmit('{{ image_version.url|urlencode|escapejs }}');
                 });
             })(django.jQuery);
         </script>

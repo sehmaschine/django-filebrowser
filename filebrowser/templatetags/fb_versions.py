@@ -8,6 +8,7 @@ from time import gmtime
 from django.template import Library, Node, Variable, VariableDoesNotExist, TemplateSyntaxError
 from django.conf import settings
 from django.utils.encoding import force_unicode, smart_str
+from django.utils.http import urlquote
 
 # filebrowser imports
 from filebrowser.settings import DIRECTORY, VERSIONS
@@ -48,7 +49,7 @@ class VersionNode(Node):
                 version_path = version_generator(source, version_prefix, directory=directory)
             elif os.path.getmtime(source) > os.path.getmtime(version_path):
                 version_path = version_generator(source, version_prefix, force=True, directory=directory)
-            return path_to_url(version_path)
+            return urlquote(path_to_url(version_path))
         except:
             return ""
 

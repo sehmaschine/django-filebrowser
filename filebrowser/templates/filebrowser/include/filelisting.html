@@ -15,7 +15,7 @@
                 {% selectable fileobject.filetype query.type %}
                 {% if selectable %}
                     <!-- select original -->
-                    <button class="button fb_selectlink" onclick="FileSubmit('{{ fileobject.url_save }}', '{{ thumbnail_version.url }}', '{{ fileobject.filetype }}');">{% trans "Select" %}</button>
+                    <button class="button fb_selectlink" onclick="FileSubmit('{{ fileobject.url_save }}', '{{ thumbnail_version.url|urlencode }}', '{{ fileobject.filetype }}');">{% trans "Select" %}</button>
                     <!-- select versions -->
                     {% if fileobject.filetype == "Image" and settings_var.ADMIN_VERSIONS %}
                         <div class="pulldown-versions-container">
@@ -23,7 +23,7 @@
                             <ul class="pulldown-versions">
                                 {% for version in settings_var.ADMIN_VERSIONS %}
                                     {% version_setting version %}
-                                    <li{% if forloop.last %} class="last"{% endif %}><a href="{% url filebrowser:fb_version %}{% query_string '' 'filename' %}&amp;filename={{ fileobject.filename }}&amp;version={{ version }}" title="">{{ version_setting.verbose_name }}</a></li>
+                                    <li{% if forloop.last %} class="last"{% endif %}><a href="{% url filebrowser:fb_version %}{% query_string '' 'filename' %}&amp;filename={{ fileobject.filename|urlencode }}&amp;version={{ version }}" title="">{{ version_setting.verbose_name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -41,7 +41,7 @@
                 {% selectable fileobject.filetype query.type %}
                 {% if selectable %}
                     <!-- select original -->
-                    <button class="button fb_selectlink" onclick="FileBrowserDialogue.fileSubmit('{{ fileobject.url|escapejs }}');">{% trans "Select" %}</button>
+                    <button class="button fb_selectlink" onclick="FileBrowserDialogue.fileSubmit('{{ fileobject.url|urlencode|escapejs }}');">{% trans "Select" %}</button>
                     <!-- select versions -->
                     {% if fileobject.filetype == "Image" and settings_var.ADMIN_VERSIONS %}
                         <div class="pulldown-versions-container">
@@ -49,7 +49,7 @@
                             <ul class="pulldown-versions">
                                 {% for version in settings_var.ADMIN_VERSIONS  %}
                                     {% version_setting version %}
-                                    <li{% if forloop.last %} class="last"{% endif %}><a href="{% url filebrowser:fb_version %}{% query_string '' 'filename' %}&amp;filename={{ fileobject.filename }}&amp;version={{ version }}" title="">{{ version_setting.verbose_name }}</a></li>
+                                    <li{% if forloop.last %} class="last"{% endif %}><a href="{% url filebrowser:fb_version %}{% query_string '' 'filename' %}&amp;filename={{ fileobject.filename|urlencode }}&amp;version={{ version }}" title="">{{ version_setting.verbose_name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -66,7 +66,7 @@
                 {% selectable fileobject.filetype query.type %}
                 {% if selectable %}
                 <!-- select original -->
-                <button class="button fb_selectlink" onclick="OpenFile(ProtectPath('{{ fileobject.url|escapejs }}'));return false;">{% trans "Select" %}</button>
+                <button class="button fb_selectlink" onclick="OpenFile(ProtectPath('{{ fileobject.url|urlencode|escapejs }}'));return false;">{% trans "Select" %}</button>
                 <!-- select versions -->
                 {% if fileobject.filetype == "Image" and settings_var.ADMIN_VERSIONS %}
                     <div class="pulldown-versions-container">
@@ -97,7 +97,7 @@
         <!-- THUMBNAIL -->
         <td class="fb_thumbnail">
             {% if fileobject.filetype == "Image" %}
-                <a href="{{ fileobject.url }}" class="fb_viewlink"><img src="{{ thumbnail_version.url }}" title="{% trans 'View Image' %}" /></a>
+                <a href="{{ fileobject.url|urlencode }}" class="fb_viewlink"><img src="{{ thumbnail_version.url|urlencode }}" title="{% trans 'View Image' %}" /></a>
             {% endif %}
         </td>
         
