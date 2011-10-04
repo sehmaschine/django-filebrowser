@@ -60,17 +60,30 @@ class FileListing():
             dirs, files = self.site.storage.listdir(self.path)
             return (f for f in dirs + files)
         return []
+
+    def _walk(self, path, filelisting):
+        """
+        Recursively walks the path and collects all files and
+        directories.
+
+        Danger: Symbolic links can create cycles and this function
+        ends up in a regression.
+        """
+        dirs, files = self.site.storage.listdir(path)
+
+        if dirs:
+            for d in dirs:
+                self._walk(os.path.join(path, d), filelisting)
+
+        filelisting.extend(dirs)
+        filelisting.extend(files)
+
     
     def walk(self):
         "Walk all files for path"
         filelisting = []
         if self.site.storage.isdir(self.path):
-            for root, dirs, files in os.walk(self.path):
-                r = root.replace(os.path.join(MEDIA_ROOT, self.site.directory),'')
-                for d in dirs:
-                    filelisting.append(os.path.join(r,d))
-                for f in files:
-                    filelisting.append(os.path.join(r,f))
+            self._walk(self.path, filelisting)
         return filelisting
     
     # Cached results of files_listing_total (without any filters and sorting applied)
