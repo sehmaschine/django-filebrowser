@@ -37,14 +37,12 @@ class FileObjectPathTests(TestCase):
         filebrowser.base.MEDIA_URL = '/media/'
         f = FileObject('C:\\path\\to\\media\\uploads\\testdir\\testfile.jpg', site=site)
         
-        self.assertEqual(f.path_relative, 'uploads\\testdir\\testfile.jpg')
         self.assertEqual(f.path_relative_directory, 'testdir\\testfile.jpg')
         self.assertEqual(f.directory, 'testdir\\testfile.jpg')
         self.assertEqual(f.folder, r'testdir')
         
         self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
-        self.assertEqual(f.url_relative, 'uploads/testdir/testfile.jpg')
-    
+        
     def test_posix_paths(self):
         """
         Use posixpath to test posix paths independently from current os
@@ -55,14 +53,12 @@ class FileObjectPathTests(TestCase):
         filebrowser.base.MEDIA_URL = '/media/'
         f = FileObject('/path/to/media/uploads/testdir/testfile.jpg', site=site)
         
-        self.assertEqual(f.path_relative, 'uploads/testdir/testfile.jpg')
         self.assertEqual(f.path_relative_directory, 'testdir/testfile.jpg')
         self.assertEqual(f.directory, 'testdir/testfile.jpg')
         self.assertEqual(f.folder, r'testdir')
         
         self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
-        self.assertEqual(f.url_relative, 'uploads/testdir/testfile.jpg')
-    
+        
     def tearDown(self):
         """
         Restore original values/functions
@@ -94,14 +90,12 @@ class FileObjectVersionTests(TestCase):
         filebrowser.base.MEDIA_URL = '/media/'
         f = FileObject('C:\\path\\to\\media\\uploads\\testdir\\testfile.jpg', site=site)
         
-        self.assertEqual(f.path_relative, 'uploads\\testdir\\testfile.jpg')
         self.assertEqual(f.path_relative_directory, 'testdir\\testfile.jpg')
         self.assertEqual(f.directory, 'testdir\\testfile.jpg')
         self.assertEqual(f.folder, r'testdir')
         
         self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
-        self.assertEqual(f.url_relative, 'uploads/testdir/testfile.jpg')
-    
+        
     def test_posix_paths(self):
         """
         Use posixpath to test posix paths independently from current os
@@ -112,14 +106,12 @@ class FileObjectVersionTests(TestCase):
         filebrowser.base.MEDIA_URL = '/media/'
         f = FileObject('/path/to/media/uploads/testdir/testfile.jpg', site=site)
         
-        self.assertEqual(f.path_relative, 'uploads/testdir/testfile.jpg')
         self.assertEqual(f.path_relative_directory, 'testdir/testfile.jpg')
         self.assertEqual(f.directory, 'testdir/testfile.jpg')
         self.assertEqual(f.folder, r'testdir')
         
         self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
-        self.assertEqual(f.url_relative, 'uploads/testdir/testfile.jpg')
-    
+        
     def tearDown(self):
         """
         Restore original values/functions

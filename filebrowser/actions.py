@@ -4,9 +4,12 @@
 ##
 ##
 
+from tempfile import NamedTemporaryFile
+
 from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.core.files import File
 
 from filebrowser.settings import *
 
@@ -24,13 +27,26 @@ def applies_to_all_images(fileobject):
 
 def transpose_image(request, fileobjects, operation):
     for fileobject in fileobjects:
-        im = Image.open(fileobject.path)
+        root, ext = os.path.splitext(fileobject.filename)
+        f = fileobject.site.storage.open(fileobject.path)
+        im = Image.open(f)
         new_image = im.transpose(operation)
+        tmpfile = File(NamedTemporaryFile())
+        
         try:
-            new_image.save(fileobject.path, quality=VERSION_QUALITY, optimize=(os.path.splitext(fileobject.path)[1].lower() != '.gif'))
+            new_image.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY, optimize=(os.path.splitext(fileobject.path)[1].lower() != '.gif'))
         except IOError:
-            new_image.save(fileobject.path, quality=VERSION_QUALITY)
-        fileobject.delete_versions()
+            new_image.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY)
+        
+        try:
+            saved_under = fileobject.site.storage.save(fileobject.path, tmpfile)
+            if saved_under != fileobject.path:
+                fileobject.site.storage.move(saved_under, fileobject.path)
+            fileobject.delete_versions()
+        finally:
+            tmpfile.close()
+            f.close()
+            
         messages.add_message(request, messages.SUCCESS, _("Action applied successfully to '%s'" % (fileobject.filename)))
 
 

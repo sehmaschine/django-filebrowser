@@ -185,7 +185,7 @@ class FileObject():
         return "<%s: %s>" % (self.__class__.__name__, self or "None")
     
     def __len__(self):
-        return len(self.url_save)
+        return len(self.path)
     
     # GENERAL ATTRIBUTES
     _filetype_stored = None
@@ -227,31 +227,14 @@ class FileObject():
     
     # PATH/URL ATTRIBUTES
     
-    def _path_relative(self):
-        "path relative to MEDIA_ROOT"
-        return path_strip(self.path, MEDIA_ROOT)
-    path_relative = property(_path_relative)
-    
     def _path_relative_directory(self):
-        "path relative to MEDIA_ROOT + DIRECTORY"
+        "path relative to DIRECTORY"
         return path_strip(self.path, self.site.directory)
     path_relative_directory = property(_path_relative_directory)
     
     def _url(self):
         return self.site.storage.url(self.path)
     url = property(_url)
-    
-    def _url_relative(self):
-        "URL, not including MEDIA_URL"
-        return url_strip(self.url, MEDIA_URL)
-    url_relative = property(_url_relative)
-    
-    def _url_save(self):
-        "URL which is saved to the database, e.g. using the FileBrowseField"
-        if SAVE_FULL_URL:
-            return self.url
-        return self.url_relative
-    url_save = property(_url_save)
     
     # IMAGE ATTRIBUTES
     
@@ -293,7 +276,7 @@ class FileObject():
     directory = property(_directory)
     
     def _folder(self):
-        return path_strip(self.head, self.site.directory)
+        return path_strip(self.head + '/', self.site.directory)
     folder = property(_folder)
     
     def _is_folder(self):

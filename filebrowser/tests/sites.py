@@ -183,7 +183,7 @@ def test_delete(test):
     # Request the delete view
     url = reverse('%s:fb_delete' % test.site_name)
     response = test.c.get(url, {'dir': test.testfile.folder, 'filename': test.testfile.filename})
-    
+
     # Check we get 302 response for delete
     test.assertTrue(response.status_code == 302)
     

@@ -20,6 +20,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage, FileSystemStorage
+from django.core.exceptions import ImproperlyConfigured
 
 # filebrowser imports
 from filebrowser.settings import *
@@ -85,6 +86,19 @@ class FileBrowserSite(object):
         
         # Per-site settings:
         self.directory = DIRECTORY
+    
+    def _directory_get(self):
+        return self._directory
+    
+    def _directory_set(self, val):
+        if os.path.basename(val): # There's a trailing slash missing
+            raise ImproperlyConfigured("Directory '%(dir)s' for the site %(app_name)s.%(name)s does not end with a trailing slash." % {'dir': val, 'app_name': self.app_name, 'name': self.name})
+        if not self.storage.exists(val):
+            raise ImproperlyConfigured("Directory '%(dir)s' for the site %(app_name)s.%(name)s does not exist." % {'dir': val, 'app_name': self.app_name, 'name': self.name})
+        self._directory = val
+
+    directory = property(_directory_get, _directory_set)
+
 
     def filebrowser_view(self, view):
         return staff_member_required(never_cache(view))

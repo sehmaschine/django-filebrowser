@@ -26,7 +26,6 @@ class FileBrowseWidget(Input):
     
     def __init__(self, attrs=None):
         super(FileBrowseWidget, self).__init__(attrs)
-        print "ATTRS:", attrs
         self.site = attrs.get('site', None)
         self.directory = attrs.get('directory', '')
         self.extensions = attrs.get('extensions', '')
@@ -104,13 +103,13 @@ class FileBrowseField(CharField):
     def get_db_prep_value(self, value, connection, prepared=False):
         if not value:
             return value
-        return value.url_save
+        return value.path
 
     def value_to_string(self, obj):
         value = self._get_val_from_obj(obj)
         if not value:
             return value
-        return value.url_save
+        return value.path
     
     def formfield(self, **kwargs):
         attrs = {}
