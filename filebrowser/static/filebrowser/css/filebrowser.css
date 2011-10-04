@@ -188,7 +188,7 @@ ul.pulldown-versions a:hover, ul.pulldown-versions a:active {
     clear: both;
     margin-top: 8px;
     width: 350px;
-    border-top: 1px solid #e0e0e0;
+    /*border-top: 1px solid #e0e0e0;*/
 }
 .qq-upload-list:empty {
     margin-top: 0;
@@ -198,8 +198,10 @@ ul.pulldown-versions a:hover, ul.pulldown-versions a:active {
     font: 12px Arial, sans-serif;
     padding: 6px 0;
     width: 350px;
-    border-top: 1px solid #fff;
     border-bottom: 1px solid #e0e0e0;
+}
+.qq-upload-list li + li {
+    border-top: 1px solid #fff;
 }
 .qq-upload-list li:last-child {
     padding-bottom: 0;
@@ -212,15 +214,22 @@ span.qq-upload-file {
     display: none;
 }
 .qq-upload-fail .qq-upload-failed-text {
-    display: inline-block;
+    display: inline;
     margin-left: 10px;
+    color: #bf3030;
+    font-weight: bold;
 }
 .qq-upload-cancel {
     float: right;
+    margin: 0 -2px 0 0;
     text-indent: -10000px;
-    width: 15px;
-    height: 15px;
+    width: 16px;
+    height: 16px;
     background: url('../img/cancel.png') top left no-repeat;
+    cursor: pointer;
+}
+.qq-upload-cancel:hover {
+    background: url('../img/cancel_hover.png') top left no-repeat;
 }
 .qq-upload-size {
     font-size: 11px;
