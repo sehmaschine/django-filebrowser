@@ -74,7 +74,7 @@
                 },
                 onComplete: function(id, fileName, resp){
                     if (resp.success) {
-                        this.getItem(id).fadeOut();
+                        this.getItem(id).fadeOut('slow');
                     }
                 },
                 showMessage: function(message){ alert(message); }
