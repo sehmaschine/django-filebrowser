@@ -186,13 +186,7 @@ ul.pulldown-versions a:hover, ul.pulldown-versions a:active {
 }
 .qq-upload-list {
     clear: both;
-    margin-top: 8px;
     width: 350px;
-    /*border-top: 1px solid #e0e0e0;*/
-}
-.qq-upload-list:empty {
-    margin-top: 0;
-    border-top: 0;
 }
 .qq-upload-list li {
     font: 12px Arial, sans-serif;
