@@ -8,7 +8,6 @@ from time import gmtime
 from django.template import Library, Node, Variable, VariableDoesNotExist, TemplateSyntaxError
 from django.conf import settings
 from django.utils.encoding import force_unicode, smart_str
-from django.utils.http import urlquote
 
 # filebrowser imports
 from filebrowser.settings import DIRECTORY, VERSIONS

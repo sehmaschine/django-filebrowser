@@ -289,7 +289,7 @@ class FileObject():
     directory = property(_directory)
     
     def _folder(self):
-        return path_strip(self.head + '/', self.site.directory)
+        return os.path.dirname(path_strip(os.path.join(self.head,''), self.site.directory))
     folder = property(_folder)
     
     def _is_folder(self):

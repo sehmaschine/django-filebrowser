@@ -30,7 +30,7 @@
 {% block breadcrumbs %}{% endblock %}
 
 <!-- OBJECT-TOOLS -->
-{% block object-tools %}{% endblock %}
+{% block object-tools %}{{ image_version.path }}{% endblock %}
 
 <!-- CONTENT -->
 {% block content %}
@@ -41,7 +41,7 @@
         <script type="text/javascript" charset="utf-8">
             (function($) {
                 $(document).ready(function() {
-                    FileSubmit('{{ image_version.path }}', '{{ thumbnail_version.url }}', '{{ image_version.filetype }}');
+                    FileSubmit('{{ image_version.path|safe }}', '{{ thumbnail_version.url }}', '{{ image_version.filetype }}');
                 });
             })(django.jQuery);
         </script>
