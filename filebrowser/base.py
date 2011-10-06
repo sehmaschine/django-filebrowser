@@ -239,6 +239,11 @@ class FileObject():
             return datetime.datetime.fromtimestamp(self.date)
         return None
     datetime = property(_datetime)
+
+    def exists(self):
+        if os.path.isdir(self.path) or os.path.isfile(self.path):
+            return True
+        return False
     
     # PATH/URL ATTRIBUTES
     

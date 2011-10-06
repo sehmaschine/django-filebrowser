@@ -14,7 +14,6 @@
         <img id="previewimage_{{ final_attrs.id }}" class="preview" src="" />
     </a>
 </p>
-<ul class="errorlist"><li>{% trans "File not found" %}</li></ul>
 {% endif %}
 {% else %}
 <p class="preview" id="preview_{{ final_attrs.id }}" style="display: none;">
@@ -22,4 +21,7 @@
         <img id="previewimage_{{ final_attrs.id }}" class="preview" src="" />
     </a>
 </p>
+{% endif %}
+{% if value and not value.exists %}
+<ul class="errorlist"><li>{% trans "File not found" %}</li></ul>
 {% endif %}

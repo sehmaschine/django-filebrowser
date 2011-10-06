@@ -31,7 +31,8 @@ from filebrowser.decorators import path_exists, file_exists
 from filebrowser.storage import FileSystemStorageMixin, StorageMixin
 
 # Add some required methods to FileSystemStorage
-FileSystemStorage.__bases__ += (FileSystemStorageMixin,)
+if FileSystemStorageMixin not in FileSystemStorage.__bases__:
+    FileSystemStorage.__bases__ += (FileSystemStorageMixin,)
 
 # PIL import
 if STRICT_PIL:
@@ -495,7 +496,7 @@ class FileBrowserSite(object):
             if file_already_exists:
                 old_file = smart_unicode(file_name)
                 new_file = smart_unicode(uploadedfile)
-                self.storage.file_move_safe(new_file, old_file, allow_overwrite=True)
+                self.storage.move(new_file, old_file, allow_overwrite=True)
             
             self.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(file_name), site=self))
             
