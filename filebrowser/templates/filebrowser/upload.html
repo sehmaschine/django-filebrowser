@@ -42,8 +42,8 @@
                     '<span class="qq-upload-file"></span>' +
                     '<span class="qq-upload-spinner"></span>' +
                     '<span class="qq-upload-size"></span>' +
-                    '<a class="qq-upload-cancel" href="#">Cancel</a>' +
-                    '<span class="qq-upload-failed-text">Failed</span>' +
+                    '<a class="qq-upload-cancel" href="#">{% trans "Cancel" %}</a>' +
+                    '<span class="qq-upload-failed-text">{% trans "Failed" %}</span>' +
                     '<div class="progress-bar"><div class="content"></div></div>' +
                 '</li>',
 
@@ -55,6 +55,14 @@
                 sizeLimit: {{ settings_var.MAX_UPLOAD_SIZE }},
                 minSizeLimit: 0,
                 debug: false,
+                // messages
+                messages: {
+                    typeError: '{% trans "{file} has invalid extension. Only {extensions} are allowed." %}',
+                    sizeError: '{% trans "{file} is too large, maximum file size is {sizeLimit}." %}',
+                    minSizeError: '{% trans "{file} is too small, minimum file size is {minSizeLimit}." %}',
+                    emptyError: '{% trans "{file} is empty, please select files again without it." %}',
+                    onLeave: '{% trans "The files are being uploaded, if you leave now the upload will be cancelled." %}'
+                },
 
                 getItem: function(id) {
                     var items = $(this.element).find('.qq-upload-list li').get();
