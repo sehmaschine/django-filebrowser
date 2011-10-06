@@ -1,12 +1,13 @@
 # coding: utf-8
 
+# DJANGO IMPORTS
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.template import Library
 
 register = Library()
-
 DOT = '.'
+
 
 @register.inclusion_tag('filebrowser/include/paginator.html', takes_context=True)
 def pagination(context):
@@ -47,5 +48,6 @@ def pagination(context):
         'filelisting': context['filelisting'],
         'query': context['query'],
     }
+
 
 

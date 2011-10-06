@@ -1,15 +1,15 @@
 # coding: utf-8
 
-# imports
+# PYTHON IMPORTS
 import os, re
 from time import gmtime
 
-# django imports
+# DJANGO IMPORTS
 from django.template import Library, Node, Variable, VariableDoesNotExist, TemplateSyntaxError
 from django.conf import settings
 from django.utils.encoding import force_unicode, smart_str
 
-# filebrowser imports
+# FILEBROWSER IMPORTS
 from filebrowser.settings import DIRECTORY, VERSIONS
 from filebrowser.functions import get_version_path, version_generator
 from filebrowser.base import FileObject
@@ -176,5 +176,4 @@ def version_setting(parser, token):
 register.tag(version)
 register.tag(version_object)
 register.tag(version_setting)
-
 

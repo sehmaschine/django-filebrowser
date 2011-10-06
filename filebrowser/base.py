@@ -1,13 +1,13 @@
 # coding: utf-8
 
-# imports
+# PYTHON IMPORTS
 import os, shutil, re, datetime, time
 import mimetypes
 
-# django imports
+# DJANGO IMPORTS
 from django.utils.translation import ugettext as _
 
-# filebrowser imports
+# FILEBROWSER IMPORTS
 from filebrowser.settings import *
 from filebrowser.functions import get_file_type, url_join, get_version_path, get_original_path, sort_by_attr, version_generator, path_strip, url_strip
 from django.utils.encoding import smart_str, smart_unicode
@@ -20,6 +20,7 @@ else:
         from PIL import Image
     except ImportError:
         import Image
+
 
 class FileListing():
     """
@@ -161,6 +162,7 @@ class FileListing():
         if self._results_walk_filtered != None:
             return self._results_walk_filtered
         return len(self.files_walk_filtered())
+
 
 class FileObject():
     """

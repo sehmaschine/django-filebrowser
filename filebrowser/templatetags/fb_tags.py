@@ -1,12 +1,12 @@
 # coding: utf-8
 
-# django imports
+# DJANGO IMPORTS
 from django import template
 from django.utils.encoding import smart_unicode
 from django.utils.safestring import mark_safe
 from django.utils.http import urlquote
 
-# filebrowser imports
+# FILEBROWSER IMPORTS
 from filebrowser.settings import SELECT_FORMATS
 
 register = template.Library()
@@ -139,3 +139,5 @@ def selectable(parser, token):
     return SelectableNode(filetype, format)
     
 register.tag(selectable)
+
+

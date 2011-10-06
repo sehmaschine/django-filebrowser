@@ -8,19 +8,19 @@ This includes creation of TestCase subclasses at runtime and also creation of
 instance methods from functions.
 """
 
-# Python imports
+# PYTHON IMPORTS
 import os
 import sys
 import shutil
 from urllib import urlencode
 from types import MethodType
 
-# Django imports
+# DJANGO IMPORTS
 from django.test import TestCase
 from django.test.client import Client
 from django.core.urlresolvers import get_resolver, get_urlconf, resolve, reverse
 
-# FileBrowser imports
+# FILEBROWSER IMPORTS
 from filebrowser.settings import *
 from filebrowser.base import FileObject
 from filebrowser.sites import get_site_dict

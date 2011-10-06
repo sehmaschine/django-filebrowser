@@ -10,7 +10,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.utils.encoding import filepath_to_uri
 
-# PYTHON IMPORTS
+# FILEBROWSER IMPORTS
 from filebrowser.settings import *
 import filebrowser
 from filebrowser.base import FileObject

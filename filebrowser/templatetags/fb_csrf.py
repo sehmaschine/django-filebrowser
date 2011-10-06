@@ -1,10 +1,9 @@
 # coding: utf-8
 
-# django imports
+# DJANGO IMPORTS
 from django.template import Node
 from django.template import Library
 from django.utils.safestring import mark_safe
-
 register = Library()
 
 
@@ -28,3 +27,5 @@ class CsrfTokenNode(Node):
 def fb_csrf_token(parser, token):
     return CsrfTokenNode()
 register.tag(fb_csrf_token)
+
+

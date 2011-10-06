@@ -18,6 +18,7 @@ from filebrowser.settings import *
 from filebrowser.base import FileObject
 from filebrowser.sites import site
 
+
 class FileBrowseWidget(Input):
     input_type = 'text'
     
@@ -127,8 +128,11 @@ class FileBrowseField(CharField):
         }
         return super(FileBrowseField, self).formfield(**defaults)
 
+
 try:
     from south.modelsinspector import add_introspection_rules
     add_introspection_rules([], ["^filebrowser\.fields\.FileBrowseField"])
 except:
     pass
+
+

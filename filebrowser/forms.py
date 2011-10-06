@@ -1,18 +1,19 @@
 # coding: utf-8
 
-# imports
+# PYTHON IMPORTS
 import re, os
 
-# django imports
+# DJANGO IMPORTS
 from django import forms
 from django.forms.formsets import BaseFormSet
 from django.utils.translation import ugettext as _
 
-# filebrowser imports
+# FILEBROWSER IMPORTS
 from filebrowser.settings import MAX_UPLOAD_SIZE, FOLDER_REGEX
 from filebrowser.functions import convert_filename
 
 alnum_name_re = re.compile(FOLDER_REGEX, re.U)
+
 
 # CHOICES
 TRANSPOSE_CHOICES = (
@@ -46,6 +47,7 @@ class CreateDirForm(forms.Form):
             if self.site.storage.isdir(os.path.join(self.path, convert_filename(self.cleaned_data['name']))):
                 raise forms.ValidationError(_(u'The Folder already exists.'))
         return convert_filename(self.cleaned_data['name'])
+
 
 class ChangeForm(forms.Form):
     """
@@ -81,3 +83,5 @@ class ChangeForm(forms.Form):
             elif self.site.storage.isfile(os.path.join(self.path, convert_filename(self.cleaned_data['name'])))  and os.path.join(self.path, convert_filename(self.cleaned_data['name'])) != self.fileobject.path:
                 raise forms.ValidationError(_(u'The File already exists.'))
         return convert_filename(self.cleaned_data['name'])
+
+

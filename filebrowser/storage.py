@@ -1,9 +1,13 @@
 # coding: utf-8
+
+# PYTHON IMPORTS
 import os, shutil
 
+# DJANGO IMPORTS
 from django.core.files.move import file_move_safe
 from django.core.files.storage import FileSystemStorage, DefaultStorage
 from django.core.files.base import ContentFile
+
 
 class StorageMixin(object):
     """
@@ -47,6 +51,7 @@ class StorageMixin(object):
         Deletes a directory and everything it contains. Analogue to shutil.rmtree().
         """
         raise NotImplementedError()
+
 
 class FileSystemStorageMixin(StorageMixin):
 

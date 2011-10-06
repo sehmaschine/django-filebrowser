@@ -1,10 +1,10 @@
 # coding: utf-8
 
-# general imports
+# PYTHON IMPORTS
 import os, re
 from types import MethodType
 
-# django imports
+# DJANGO IMPORTS
 from django.shortcuts import render_to_response, HttpResponse
 from django.template import RequestContext as Context
 from django.http import HttpResponseRedirect
@@ -22,7 +22,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage, FileSystemStorage
 from django.core.exceptions import ImproperlyConfigured
 
-# filebrowser imports
+# FILEBROWSER IMPORTS
 from filebrowser.settings import *
 from filebrowser.functions import get_breadcrumbs, get_filterdate, get_settings_var, handle_file_upload, convert_filename
 from filebrowser.templatetags.fb_tags import query_helper
@@ -51,6 +51,7 @@ except ImportError:
 # This cache contains all *instantiated* FileBrowser sites
 _sites_cache = {}
 
+
 def get_site_dict(app_name='filebrowser'):
     """
     Return a dict with all *deployed* FileBrowser sites that have 
@@ -63,6 +64,7 @@ def get_site_dict(app_name='filebrowser'):
     # Get the deployed subset from the cache
     return dict((k,v) for k, v in _sites_cache[app_name].iteritems() if k in deployed)
 
+
 def register_site(app_name, site_name, site):
     """
     Add a site into the site dict.
@@ -70,6 +72,7 @@ def register_site(app_name, site_name, site):
     if not _sites_cache.has_key(app_name):
         _sites_cache[app_name] = {}
     _sites_cache[app_name][site_name] = site
+
 
 class FileBrowserSite(object):
 
@@ -98,7 +101,6 @@ class FileBrowserSite(object):
         self._directory = val
 
     directory = property(_directory_get, _directory_set)
-
 
     def filebrowser_view(self, view):
         return staff_member_required(never_cache(view))
@@ -511,3 +513,5 @@ site.add_action(flip_vertical)
 site.add_action(rotate_90_clockwise)
 site.add_action(rotate_90_counterclockwise)
 site.add_action(rotate_180)
+
+
