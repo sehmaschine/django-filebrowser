@@ -1,4 +1,4 @@
-function FileSubmit(FileURL, ThumbURL, FileType) {
+function FileSubmit(FilePath, FileURL, ThumbURL, FileType) {
     
     // var input_id=window.name.split("___").join(".");
     var input_id=window.name.replace(/____/g,'-').split("___").join(".");
@@ -10,7 +10,7 @@ function FileSubmit(FileURL, ThumbURL, FileType) {
     previewlink = opener.document.getElementById(previewlink_id);
     previewimage = opener.document.getElementById(previewimage_id);
     // set new value for input field
-    input.value = FileURL;
+    input.value = FilePath;
     
     if (ThumbURL && FileType != "") {
         // selected file is an image and thumbnail is available:
