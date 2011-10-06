@@ -63,6 +63,13 @@ and upload/rename/delete files and folders.
    
    actions
 
+**File Storage**
+
+.. toctree::
+   :maxdepth: 2
+   
+   file_storages
+
 **Help**
 
 .. toctree::
@@ -77,7 +84,7 @@ and upload/rename/delete files and folders.
 Main Features
 -------------
 
-* Browse your media-directory with the admin-interface.
+* Browse your media files with the admin-interface.
 * Multiple Upload, including a progress bar.
 * Automatic Thumbnails.
 * Image-Versions to fit your websites grid.
@@ -86,6 +93,7 @@ Main Features
 * ``ClearableFileInput`` with Image-Preview.
 * Signals for Upload, Rename and Delete.
 * Custom Actions.
+* Custom File Storage Engines
 
 Code
 ----

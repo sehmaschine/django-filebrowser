@@ -13,9 +13,9 @@ FileBrowser Sites
 As of version 3.4, the FileBrowser application is respresented by an object of ``filebrowser.sites.FileBrowserSite`` (in analogy to Django's admin site). FileBrowser sites allow you to:
 
 	- associate :ref:`actions` (analogy to Django's admin actions) to a site,
-	- define a *custom file storage* for a site (allows for browsing remote file servers)
+	- define a *file system storage* for a site (allows for browsing remote file servers) -- see :ref:`storages`,
 	- subclass from FileBrowserSite and redefine the default FileBrowser's behavior,
-	- and to use multiple FileBrowser sites in your project.
+	- use multiple FileBrowser sites in your project.
 
 The module variable ``site`` from filebrowser.sites is the default FileBrowser application.
 

@@ -35,7 +35,7 @@ class StorageMixin(object):
 
     def rename(self, old_file_name, new_file_name):
         """
-        Rename a file. See note at file_move_safe()
+        Rename a file.
         """
         raise NotImplementedError()
 
