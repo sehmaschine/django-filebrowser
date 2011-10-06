@@ -29,7 +29,7 @@ class StorageMixin(object):
         """
         Moves safely a file from one location to another.
 
-        If allow_ovewrite==False and old_file_name exists, raises an exception.
+        If allow_ovewrite==False and new_file_name exists, raises an exception.
         """
         raise NotImplementedError()
 
