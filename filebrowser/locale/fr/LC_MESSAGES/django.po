@@ -1,96 +1,99 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
+# Translators:
+#   <remy.hubscher@ionyse.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
 "POT-Creation-Date: 2011-10-06 15:00+0200\n"
-"PO-Revision-Date: 2011-06-01 15:23+0000\n"
+"PO-Revision-Date: 2011-10-06 14:40+0000\n"
 "Last-Translator: sehmaschine <patrick@vonautomatisch.at>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: French (http://www.transifex.net/projects/p/django-filebrowser/team/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
 #: actions.py:51
 #, python-format
 msgid "Action applied successfully to '%s'"
-msgstr ""
+msgstr "L'action sur '%s' a été réalisé avec succès"
 
 #: actions.py:56 forms.py:21
 msgid "Flip horizontal"
-msgstr ""
+msgstr "Retourner horizontalement"
 
 #: actions.py:62 forms.py:22
 msgid "Flip vertical"
-msgstr ""
+msgstr "Retourner verticalement"
 
 #: actions.py:68 forms.py:23
 msgid "Rotate 90° CW"
-msgstr ""
+msgstr "Tourner de 90° Horaire"
 
 #: actions.py:74 forms.py:24
 msgid "Rotate 90° CCW"
-msgstr ""
+msgstr "Tourner de 90° Anti-Horaire"
 
 #: actions.py:80 forms.py:25
 msgid "Rotate 180°"
-msgstr ""
+msgstr "Tourner de 180°"
 
 #: decorators.py:23
-#, fuzzy
 msgid ""
 "Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
 "exist?"
 msgstr ""
-"Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
-"exist?"
 
 #: decorators.py:25
 msgid "The requested Folder does not exist."
-msgstr "The requested Folder does not exist."
+msgstr "Le répertoire demandé n'existe pas."
 
 #: decorators.py:41
 msgid "The requested File does not exist."
-msgstr "The requested File does not exist."
+msgstr "Le fichier demandé n'existe pas."
 
 #: decorators.py:47
 msgid "You do not have permission to access this file!"
-msgstr ""
+msgstr "Vous n'avez pas la permission d’accéder à ce fichier !"
 
 #: fields.py:65
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
-msgstr "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
+msgstr ""
+"L'extension %(ext)s n'est pas autorisée. Seules les extensions suivantes "
+"sont disponibles : %(allowed)s"
 
 #: forms.py:39 forms.py:58
 msgid "Name"
-msgstr "Name"
+msgstr "Nom"
 
 #: forms.py:39 forms.py:45 forms.py:58 forms.py:79
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
-msgstr "Only letters, numbers, underscores, spaces and hyphens are allowed."
+msgstr ""
+"Seuls les lettres, chiffres, tirets-bas (_), espaces et tirets (-) sont "
+"autorisés."
 
 #: forms.py:48 forms.py:82
 msgid "The Folder already exists."
-msgstr "The Folder already exists."
+msgstr "Le répertoire existe déja."
 
 #: forms.py:57
 msgid "Actions"
-msgstr ""
+msgstr "Actions"
 
 #: forms.py:84
 msgid "The File already exists."
-msgstr "The File already exists."
+msgstr "Le fichier existe déjà."
 
 #: settings.py:111 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
-msgstr "Folder"
+msgstr "Répertoire"
 
 #: settings.py:112
 msgid "Image"
@@ -98,7 +101,7 @@ msgstr "Image"
 
 #: settings.py:113
 msgid "Video"
-msgstr "Video"
+msgstr "Vidéo"
 
 #: settings.py:114
 msgid "Document"
@@ -111,67 +114,67 @@ msgstr "Audio"
 #: sites.py:269 templates/filebrowser/include/breadcrumbs.html:8
 #: templates/filebrowser/include/breadcrumbs.html:10
 msgid "FileBrowser"
-msgstr "FileBrowser"
+msgstr "Gestionnaire de fichiers"
 
 #: sites.py:298
 #, python-format
 msgid "The Folder %s was successfully created."
-msgstr "The Folder %s was successfully created."
+msgstr "Le répertoire %s a bien été créé."
 
 #: sites.py:303
 msgid "Permission denied."
-msgstr "Permission denied."
+msgstr "Accès refusé."
 
 #: sites.py:305
 msgid "Error creating folder."
-msgstr "Error creating folder."
+msgstr "Error lors de la création du répertoire."
 
 #: sites.py:312 sites.py:315 templates/filebrowser/index.html:79
 msgid "New Folder"
-msgstr "New Folder"
+msgstr "Nouveau répertoire"
 
 #: sites.py:329
 msgid "Select files to upload"
-msgstr "Select files to upload"
+msgstr "Sélectionnez les fichiers à transférer."
 
 #: sites.py:332 templates/filebrowser/index.html:80
 msgid "Upload"
-msgstr "Upload"
+msgstr "Télécharger"
 
 #: sites.py:363 sites.py:366
 msgid "Confirm delete"
-msgstr "Confirm delete"
+msgstr "Confirmez la suppression"
 
 #: sites.py:388
 #, python-format
 msgid "Successfully deleted %s"
-msgstr "Successfully deleted %s"
+msgstr "%s a bien été supprimé"
 
 #: sites.py:433
 msgid "Renaming was successful."
-msgstr "Renaming was successful."
+msgstr "Correctement renommer."
 
 #: sites.py:442
 msgid "Error."
-msgstr "Error."
+msgstr "Erreur."
 
 #: widgets.py:19 widgets.py:52
 msgid "Currently"
-msgstr "Currently"
+msgstr "Actuellement"
 
 #: widgets.py:20 widgets.py:53
 #: templates/filebrowser/include/filelisting.html:130
 msgid "Change"
-msgstr "Change"
+msgstr "Modifier"
 
 #: widgets.py:21 widgets.py:54
 msgid "Clear"
-msgstr "Clear"
+msgstr "Vider"
 
 #: templates/filebrowser/createdir.html:24
 #: templates/filebrowser/detail.html:48 templates/filebrowser/rename.html:24
 msgid "Please correct the following errors."
-msgstr "Please correct the following errors."
+msgstr "Merci de corriger les erreurs suivantes."
 
 #: templates/filebrowser/createdir.html:33
 #: templates/filebrowser/upload.html:131
@@ -179,50 +182,50 @@ msgid ""
 "The Name will be converted to lowercase. Spaces will be replaced with "
 "underscores."
 msgstr ""
-"The Name will be converted to lowercase. Spaces will be replaced with "
-"underscores."
+"Le nom va être converti en minuscule. Les espaces vont être remplacés par "
+"des tirets-bas (_)"
 
 #: templates/filebrowser/createdir.html:40
 #: templates/filebrowser/rename.html:38
 msgid "Submit"
-msgstr "Submit"
+msgstr "Envoyer"
 
 #: templates/filebrowser/custom_field.html:26
 #: templates/filebrowser/widgets/clearablefileinput.html:11
 #: templates/filebrowser/widgets/fileinput.html:11
 msgid "File not found"
-msgstr "File not found"
+msgstr "Fichier introuvable"
 
 #: templates/filebrowser/delete_confirm.html:29
 #, python-format
 msgid ""
-"Are you sure you want to delete \"%(escaped_object)s\"? All of the following "
-"items will be deleted:"
+"Are you sure you want to delete \"%(escaped_object)s\"? All of the following"
+" items will be deleted:"
 msgstr ""
-"Are you sure you want to delete \"%(escaped_object)s\"? All of the following "
-"items will be deleted:"
+"Êtes-vous sûr de vouloir supprimer \"%(escaped_object)s\" ? Les objets "
+"suivant vont être supprimés :"
 
 #: templates/filebrowser/delete_confirm.html:42
 #, python-format
 msgid "... and %(escaped_object)s more Files."
-msgstr "... and %(escaped_object)s more Files."
+msgstr "... et %(escaped_object)s fichiers supplémentaires."
 
 #: templates/filebrowser/delete_confirm.html:48
 #: templates/filebrowser/upload.html:45
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Annuler"
 
 #: templates/filebrowser/delete_confirm.html:49
 msgid "Yes, I'm sure"
-msgstr "Yes, I'm sure"
+msgstr "Oui, j'en suis sûr."
 
 #: templates/filebrowser/detail.html:61
 msgid "Edit"
-msgstr "Edit"
+msgstr "Modifier"
 
 #: templates/filebrowser/detail.html:74
 msgid "Folder Information"
-msgstr "Folder Information"
+msgstr "Information sur le répertoire"
 
 #: templates/filebrowser/detail.html:76 templates/filebrowser/detail.html:105
 #: templates/filebrowser/include/tableheader.html:28
@@ -232,7 +235,7 @@ msgstr "Date"
 
 #: templates/filebrowser/detail.html:87
 msgid "File Information"
-msgstr "File Information"
+msgstr "Information sur le fichier"
 
 #: templates/filebrowser/detail.html:89
 msgid "URL"
@@ -240,44 +243,43 @@ msgstr "URL"
 
 #: templates/filebrowser/detail.html:97
 msgid "Filesize"
-msgstr "Filesize"
+msgstr "Taille du fichier"
 
 #: templates/filebrowser/detail.html:114
 #: templates/filebrowser/include/tableheader.html:25
 #: templates/filebrowser/include/tableheader.html:26
 msgid "Size"
-msgstr "Size"
+msgstr "Taille"
 
 #: templates/filebrowser/detail.html:126
 msgid "Image Versions"
-msgstr "Image Versions"
+msgstr "Autres tailles"
 
 #: templates/filebrowser/detail.html:129
 #: templates/filebrowser/include/tableheader.html:15
 msgid "Thumbnail"
-msgstr "Thumbnail"
+msgstr "Miniature"
 
 #: templates/filebrowser/detail.html:131
 #: templates/filebrowser/include/filelisting.html:100
 msgid "View Image"
-msgstr "View Image"
+msgstr "Voir l'image"
 
 #: templates/filebrowser/detail.html:151
 msgid "Delete"
-msgstr "Delete"
+msgstr "Supprimer"
 
 #: templates/filebrowser/detail.html:152
 msgid "Save"
-msgstr "Save"
+msgstr "Sauvegarder"
 
 #: templates/filebrowser/detail.html:153
 msgid "Save and continue editing"
-msgstr "Save and continue editing"
+msgstr "Sauvegarder et continuer l'édition"
 
 #: templates/filebrowser/upload.html:46
-#, fuzzy
 msgid "Failed"
-msgstr "Failed"
+msgstr ""
 
 #: templates/filebrowser/upload.html:60
 msgid "{file} has invalid extension. Only {extensions} are allowed."
@@ -306,25 +308,25 @@ msgstr ""
 
 #: templates/filebrowser/upload.html:115
 msgid "Help"
-msgstr "Help"
+msgstr "Aide"
 
 #: templates/filebrowser/upload.html:119
 msgid "Allowed"
-msgstr "Allowed"
+msgstr "Autorisé"
 
 #: templates/filebrowser/upload.html:125
 msgid "Max. Filesize"
-msgstr "Max. Filesize"
+msgstr "Taille maxi"
 
 #: templates/filebrowser/include/breadcrumbs.html:5
 msgid "Home"
-msgstr "Home"
+msgstr "Accueil"
 
 #: templates/filebrowser/include/filelisting.html:18
 #: templates/filebrowser/include/filelisting.html:44
 #: templates/filebrowser/include/filelisting.html:69
 msgid "Select"
-msgstr "Select"
+msgstr "Sélectionner"
 
 #: templates/filebrowser/include/filelisting.html:22
 #: templates/filebrowser/include/filelisting.html:48
@@ -334,47 +336,47 @@ msgstr "Versions"
 
 #: templates/filebrowser/include/filter.html:4
 msgid "Filter"
-msgstr "Filter"
+msgstr "Filtrer"
 
 #: templates/filebrowser/include/filter.html:7
 msgid "By Date"
-msgstr "By Date"
+msgstr "Par date"
 
 #: templates/filebrowser/include/filter.html:9
 msgid "Any Date"
-msgstr "Any Date"
+msgstr "Toute les dates"
 
 #: templates/filebrowser/include/filter.html:10
 msgid "Today"
-msgstr "Today"
+msgstr "Aujourd'hui"
 
 #: templates/filebrowser/include/filter.html:11
 msgid "Past 7 days"
-msgstr "Past 7 days"
+msgstr "7 derniers jours"
 
 #: templates/filebrowser/include/filter.html:12
 msgid "This Month"
-msgstr "This Month"
+msgstr "Ce mois"
 
 #: templates/filebrowser/include/filter.html:13
 msgid "This year"
-msgstr "This year"
+msgstr "Cette année"
 
 #: templates/filebrowser/include/filter.html:17
 msgid "By Type"
-msgstr "By Type"
+msgstr "Par type"
 
 #: templates/filebrowser/include/filter.html:19
 msgid "All"
-msgstr "All"
+msgstr "Tous"
 
 #: templates/filebrowser/include/paginator.html:5
 msgid "result"
-msgstr "result"
+msgstr "résultat"
 
 #: templates/filebrowser/include/paginator.html:5
 msgid "results"
-msgstr "results"
+msgstr "résultats"
 
 #: templates/filebrowser/include/paginator.html:9
 #: templates/filebrowser/include/paginator.html:11
@@ -389,27 +391,27 @@ msgstr "Type"
 #: templates/filebrowser/include/tableheader.html:17
 #: templates/filebrowser/include/tableheader.html:18
 msgid "Filename"
-msgstr "Filename"
+msgstr "Nom du fichier"
 
 #: templates/filebrowser/include/toolbar.html:6
 msgid "Results"
-msgstr "Results"
+msgstr "Résultats"
 
 #: templates/filebrowser/include/toolbar.html:8
 #, python-format
 msgid "%(counter)s result"
 msgid_plural "%(counter)s results"
-msgstr[0] "%(counter)s result"
-msgstr[1] "%(counter)s results"
+msgstr[0] "%(counter)s résultat"
+msgstr[1] "%(counter)s résultats"
 
 #: templates/filebrowser/include/toolbar.html:9
 #, python-format
 msgid "%(full_result_count)s total"
-msgstr "%(full_result_count)s total"
+msgstr "%(full_result_count)s au total"
 
 #: templates/filebrowser/include/toolbar.html:16
 msgid "Search"
-msgstr "Search"
+msgstr "Rechercher"
 
 #~ msgid "BROWSE"
 #~ msgstr "BROWSE"
@@ -440,3 +442,5 @@ msgstr "Search"
 
 #~ msgid "SELECT FILES"
 #~ msgstr "SELECT FILES"
+
+
