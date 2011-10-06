@@ -13,6 +13,7 @@ from django.utils.encoding import force_unicode, smart_str
 from filebrowser.settings import DIRECTORY, VERSIONS
 from filebrowser.functions import get_version_path, version_generator
 from filebrowser.base import FileObject
+from filebrowser.sites import get_default_site
 register = Library()
 
 
@@ -37,10 +38,11 @@ class VersionNode(Node):
                 version_prefix = self.version_prefix_var.resolve(context)
             except VariableDoesNotExist:
                 return None
-        site = context.get('site', None)
+        site = context.get('site', get_default_site())
         directory = site.directory
         try:
             if isinstance(source, FileObject):
+                site = source.site
                 source = source.path
             source = force_unicode(source)
             version_path = get_version_path(source, version_prefix, site=site)
@@ -95,10 +97,11 @@ class VersionObjectNode(Node):
                 version_prefix = self.version_prefix_var.resolve(context)
             except VariableDoesNotExist:
                 return None
-        site = context.get('site', None)
+        site = context.get('site', get_default_site())
         directory = site.directory
         try:
             if isinstance(source, FileObject):
+                site = source.site
                 source = source.path
             source = force_unicode(source)
             version_path = get_version_path(source, version_prefix, site=site)

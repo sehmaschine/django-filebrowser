@@ -75,6 +75,23 @@ def register_site(app_name, site_name, site):
     _sites_cache[app_name][site_name] = site
 
 
+def get_default_site(app_name='filebrowser'):
+    """
+    Returns the default site. This function uses Django's url resolution method to
+    obtain the name of the default site.
+    """
+    # Get the name of the default site:
+    resolver = get_resolver(get_urlconf())
+    name = 'filebrowser'
+
+    # Django's default name resolution method (see django.core.urlresolvers.reverse())
+    app_list = resolver.app_dict[app_name]
+    if not name in app_list:
+        name = app_list[0]
+    
+    return get_site_dict()[name]
+
+
 class FileBrowserSite(object):
 
     def __init__(self, name=None, app_name='filebrowser', storage=default_storage):
