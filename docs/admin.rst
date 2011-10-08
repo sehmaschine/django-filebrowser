@@ -38,7 +38,7 @@ Create a new folder on your server::
 Upload
 ------
 
-Multiple upload with Uploadify::
+Multiple upload::
 
     http://mysite.com/adminurl/filebrowser/upload/
 
@@ -60,7 +60,7 @@ Edit a file or folder::
 * Optional query string args: ``dir``
 * Signals: :ref:`filebrowser_pre_rename`, :ref:`filebrowser_post_rename`
 
-Editing is currently limited to renaming, deleting and transposing (flip/rotate).
+You are able to apply custom actions (see :ref:`actions`) to the edit-view.
 
 .. note::
     This won't check if you use the file or folder anywhere with your models.
@@ -205,6 +205,23 @@ Sent after an Item (File, Folder) has been renamed.
 * ``path``: Absolute server path to the file/folder
 * ``name``: Name of the file/folder
 * ``new_name``: New name of the file/folder
+
+``filebrowser_actions_pre_apply``
+---------------------------------
+
+Sent before a custom action is applied. Arguments:
+
+* ``action_name``: Name of the custom action
+* ``fileobjects``: A list of fileobjects the action will be applied to
+
+``filebrowser_actions_post_apply``
+----------------------------------
+
+Sent after a custom action has been applied.
+
+* ``action_name``: Name of the custom action
+* ``fileobjects``: A list of fileobjects the action has been be applied to
+* ``results``: The response you defined with your custom action
 
 .. _signals_examples:
 

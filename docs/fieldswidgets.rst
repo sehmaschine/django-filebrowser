@@ -51,7 +51,7 @@ Now, if you want to actually display the Image, you write::
 
     <img src="{{ publication.image.url }}" />
 
-More complicated, if you want to display "Landscape" Images only (I know, bad example)::
+More complicated, if you want to display "Landscape" Images only::
 
     {% ifequal blogentry.image.image_orientation "landscape" %}
         <img src="{{ blogentry.image.url }}" class="landscape" />

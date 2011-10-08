@@ -8,11 +8,7 @@
 Changelog
 =========
 
-3.4.0 (not yet released)
-^^^^^^^^^^^^^^^^^^^^^^^^
+3.4.0 (2011-10-10)
+^^^^^^^^^^^^^^^^^^
 
-* Added FileBrowser Sites
-* Added custom actions
-* Added ajax-based uploader
-* Removed flash-based uploader
-* Added widget ``FileInput``
+see :ref:`releasenotes`

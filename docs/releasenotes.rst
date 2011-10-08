@@ -37,12 +37,14 @@ you now need to define the urls like this::
 What's new in FileBrowser 3.4
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* Added FileBrowser sites
-* Added ajax-based uploader
-* Added custom actions
-* Added widget ``FileInput``
+* Added FileBrowser sites.
+* Added site-based storage engines.
+* Added custom actions.
+* Added widget ``FileInput``.
+* Replaced the flash-based upload with an ajax-based uploader (thanks to Steve Losh).
 
 Deprecated in 3.4
 ^^^^^^^^^^^^^^^^^
 
-* Removed flash-based upload with Uploadify
+* Removed flash-based upload with Uploadify.
+* Removed ``SAVE_FULL_URL``.

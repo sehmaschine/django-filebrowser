@@ -33,8 +33,9 @@ URL that handles the media served from ``MEDIA_ROOT``::
 DIRECTORY (relative to ``MEDIA_ROOT``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. deprecated:: 3.4
-    Use the FileBrowser Site to setup your main browsing directory.
+Main FileBrowser Directory. Leave empty in order to browse all files and folders within MEDIA_ROOT::
+
+    DIRECTORY = getattr(settings, "FILEBROWSER_DIRECTORY", 'uploads/')
 
 FileBrowser Media, TinyMCE Media
 --------------------------------
@@ -139,12 +140,8 @@ Extra Settings
 SAVE_FULL_URL
 ^^^^^^^^^^^^^
 
-.. versionchanged:: 3.3
-    Default value has changed from ``True`` to ``False``.
-
-``True`` to save the full URL to your model fields. ``False`` to save the URL relative to MEDIA_URL::
-
-    SAVE_FULL_URL = getattr(settings, "FILEBROWSER_SAVE_FULL_URL", False)
+.. deprecated:: 3.4
+    With custom storage engines, saving the full URL (including MEDIA_ROOT) doesn´t make sense anymore. Moreover, removing this settings allows for easily replacing a FileBrowseField with Djangos File- or ImageField.
 
 STRICT_PIL
 ^^^^^^^^^^

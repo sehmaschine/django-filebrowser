@@ -71,10 +71,6 @@ ADMIN_VERSIONS = getattr(settings, 'FILEBROWSER_ADMIN_VERSIONS', ['thumbnail', '
 ADMIN_THUMBNAIL = getattr(settings, 'FILEBROWSER_ADMIN_THUMBNAIL', 'admin_thumbnail')
 
 # EXTRA SETTINGS
-# True to save the URL including MEDIA_URL to your model fields
-# or False (default) to save path relative to MEDIA_URL.
-# Note: Full URL does not necessarily means absolute URL.
-SAVE_FULL_URL = getattr(settings, "FILEBROWSER_SAVE_FULL_URL", False)
 # If set to True, the FileBrowser will not try to import a mis-installed PIL.
 STRICT_PIL = getattr(settings, 'FILEBROWSER_STRICT_PIL', False)
 # PIL's Error "Suspension not allowed here" work around:

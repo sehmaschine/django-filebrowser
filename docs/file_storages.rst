@@ -11,7 +11,7 @@ File Storages
 
 .. versionadded:: 3.4
 
-Starting with |fb| 3.4, you have the option to specify which file storage engine should a |fb| use to browse/upload/modify your media files. This enables you to use a |fb| even if your media files are located at some remote system.
+Starting with |fb| 3.4, you have the option to specify which file storage engine a |fb| should use to browse/upload/modify your media files. This enables you to use a |fb| even if your media files are located at some remote system.
 
 To associate a |site| with a particular storage, set the ``storage`` property of a site object::
 
@@ -60,4 +60,5 @@ A |fb| uses the Django's Storage class to access media files. However, the API o
     Deletes a directory and everything it contains. Analogue to shutil.rmtree().
             
 
-|fb| provides these methods only for FileSystemStorage (by mixing-in the ``filebrowser.storage.FileSystemStorageMixin`` class). If you're using a custom storage engine, which does not inherit from Django's FileSystemStorage, you will need to provide those method yourself. 
+.. note::
+	|fb| provides these methods only for FileSystemStorage (by mixing-in the ``filebrowser.storage.FileSystemStorageMixin`` class). If you're using a custom storage engine, which does not inherit from Django's FileSystemStorage, you will need to provide those method yourself. 

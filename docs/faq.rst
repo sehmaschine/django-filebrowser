@@ -14,6 +14,7 @@ Why should I use the |filebrowser|?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you need your editors or customer to manage files, the |filebrowser| is an alternative to an FTP-client. Moreover, with the |filebrowser| you are able to define different image-versions according to your websites grid.
+Alternatives to the |filebrowser| can be found at http://djangopackages.com/grids/g/file-managers/.
 
 I want to use |filebrowser|, but I don't want to use |grappelli|?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -33,18 +34,12 @@ The |filebrowser| is about managing files. We think that you should prepare your
 How do I upload to another server?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-see http://www.uploadify.com/faqs/how-do-i-upload-files-from-one-server-to-another/
+Use a custom storage engine, see https://docs.djangoproject.com/en/1.3/howto/custom-file-storage/.
 
 Why should I need image-versions?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You need image-versions if your website is based on a *grid*.
-
-Upload does NOT work?
-^^^^^^^^^^^^^^^^^^^^^
-
-* Upload doesn't work if your server is setup using http-authentication.
-* Uploading from one server to another requires a crossdomain-policy, see http://www.uploadify.com/faqs/how-do-i-upload-files-from-one-server-to-another/.
 
 Is the |filebrowser| stable?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
