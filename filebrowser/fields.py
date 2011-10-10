@@ -107,7 +107,10 @@ class FileBrowseField(CharField):
         return value.url_save
 
     def value_to_string(self, obj):
-        value = self._get_val_from_obj(obj)
+        value = None
+        if hasattr(obj, self.attname):
+            value = getattr(obj, self.attname)
+
         if not value:
             return value
         return value.url_save
