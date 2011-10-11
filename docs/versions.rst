@@ -24,6 +24,21 @@ First you need to know which versions/sizes of an image you´d like to use on yo
         'large': {'verbose_name': 'Large (8 col)', 'width': 680, 'height': '', 'opts': ''},
       })
 
+.. versionadded:: 3.4.0
+    ``methods``
+
+If you need to add some filter for the version (like grayscale, sepia, ...), you can also use the ``methods`` argument::
+
+    def grayscale(im):
+        '''Convert the PIL image to grayscale'''
+        if im.mode != "L":
+            im = im.convert("L")
+        return im
+
+    FILEBROWSER_VERSIONS = {
+        'big': {'verbose_name': 'Big (6 col)', 'width': 460, 'height': '', 'opts': '', 'methods': [grayscale]},
+    })
+
 Versions with the admin-interface
 ---------------------------------
 

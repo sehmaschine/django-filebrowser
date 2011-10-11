@@ -41,6 +41,7 @@ What's new in FileBrowser 3.4
 * Added site-based storage engines.
 * Added custom actions.
 * Added widget ``FileInput``.
+* Added ``methods`` argument to versions.
 * Replaced the flash-based upload with an ajax-based uploader (thanks to Steve Losh).
 
 Deprecated in 3.4

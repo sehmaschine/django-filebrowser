@@ -292,18 +292,16 @@ def version_generator(value, version_prefix, force=None, site=None):
         version_dir, version_basename = os.path.split(version_path)
         root, ext = os.path.splitext(version_basename)
         version = scale_and_crop(im, VERSIONS[version_prefix]['width'], VERSIONS[version_prefix]['height'], VERSIONS[version_prefix]['opts'])
-        if version:
-            try:
-                version.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
-            except IOError:
-                version.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY)
-        else:
-            # version wasn't created
-            # save the original image with the versions name
-            try:
-                im.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
-            except IOError:
-                im.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY)
+        if not version:
+            version = im
+        if 'methods' in VERSIONS[version_prefix].keys():
+            for f in VERSIONS[version_prefix]['methods']:
+                if callable(f):
+                    version = f(version)
+        try:
+            version.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
+        except IOError:
+            version.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY)
         # Remove the old version, if there's any
         if version_path != site.storage.get_available_name(version_path):
             site.storage.delete(version_path)
