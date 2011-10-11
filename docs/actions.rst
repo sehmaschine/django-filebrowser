@@ -9,7 +9,7 @@
 Custom Actions
 ==============
 
-.. versionadded:: 3.4
+.. versionadded:: 3.4.0
 
 In analogy to Django's admin actions, you can define your |fb| actions and thus automate the typical tasks of your users. Registered custom actions are listed in the detail view of a file and a user can select a single action at a time. The selected action will then be applied to the file.
 

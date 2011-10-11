@@ -27,7 +27,7 @@ Go to https://github.com/sehmaschine/django-filebrowser if you need to download 
 Installation
 ------------
 
-.. versionchanged:: 3.4
+.. versionchanged:: 3.4.0
 
 Open ``settings.py`` and add ``filebrowser`` to your ``INSTALLED_APPS`` (before ``django.contrib.admin``)::
 

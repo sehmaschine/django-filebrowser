@@ -94,7 +94,7 @@ Versions
 VERSIONS_BASEDIR (relative to ``MEDIA_ROOT``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. versionchanged:: 3.4
+.. versionchanged:: 3.4.0
 
 Directory to save image versions (and thumbnails). If no directory is given, versions are stored at the same location as the original image::
 
@@ -140,7 +140,7 @@ Extra Settings
 SAVE_FULL_URL
 ^^^^^^^^^^^^^
 
-.. deprecated:: 3.4
+.. deprecated:: 3.4.0
     With custom storage engines, saving the full URL (including MEDIA_ROOT) doesn´t make sense anymore. Moreover, removing this settings allows for easily replacing a FileBrowseField with Djangos File- or ImageField.
 
 STRICT_PIL

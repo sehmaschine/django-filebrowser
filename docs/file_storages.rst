@@ -9,7 +9,7 @@
 File Storages
 =============
 
-.. versionadded:: 3.4
+.. versionadded:: 3.4.0
 
 Starting with |fb| 3.4, you have the option to specify which file storage engine a |fb| should use to browse/upload/modify your media files. This enables you to use a |fb| even if your media files are located at some remote system.
 

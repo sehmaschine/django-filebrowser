@@ -8,7 +8,7 @@
 Changelog
 =========
 
-3.4.0 (2011-10-10)
+3.4.0 (11/10/2011)
 ^^^^^^^^^^^^^^^^^^
 
-see :ref:`releasenotes`
+* Final release of 3.4, see :ref:`releasenotes`
