@@ -34,6 +34,7 @@ PATH_TINYMCE = getattr(settings, "FILEBROWSER_PATH_TINYMCE", DEFAULT_PATH_TINYMC
 # EXTENSIONS AND FORMATS
 # Allowed Extensions for File Upload. Lower case is important.
 EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
+    'Folder': [''],
     'Image': ['.jpg','.jpeg','.gif','.png','.tif','.tiff'],
     'Document': ['.pdf','.doc','.rtf','.txt','.xls','.csv'],
     'Video': ['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
@@ -98,7 +99,7 @@ DEFAULT_SORTING_ORDER = getattr(settings, "FILEBROWSER_DEFAULT_SORTING_ORDER", "
 # regex to clean dir names before creation
 FOLDER_REGEX = getattr(settings, "FILEBROWSER_FOLDER_REGEX", r'^[\w._/-]+$')
 # Traverse directories when searching
-SEARCH_TRAVERSE = getattr(settings, "FILEBROWSER_SEARCH_TRAVERSE", True)
+SEARCH_TRAVERSE = getattr(settings, "FILEBROWSER_SEARCH_TRAVERSE", False)
 # Default Upload and Version Permissions
 DEFAULT_PERMISSIONS = getattr(settings, "FILEBROWSER_DEFAULT_PERMISSIONS", 0755)
 
