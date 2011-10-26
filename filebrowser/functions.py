@@ -58,16 +58,16 @@ def get_original_filename(filename):
 def get_version_path(value, version_prefix, site=None):
     """
     Construct the PATH to an Image version.
-    value has to be an absolute server-path, including MEDIA_ROOT.
+    value has to be a path relative to the location of 
+    the site's storage.
     
     version_filename = filename + version_prefix + ext
-    Returns an absolute path, including MEDIA_ROOT.
+    Returns a relative path to the location of the site's storage.
     """
     
     if site.storage.isfile(value):
         path, filename = os.path.split(value)
-        relative_path = path.replace(MEDIA_ROOT, "")
-        relative_path = relative_path.replace(site.directory, "")
+        relative_path = path_strip(path, site.directory)
         filename, ext = os.path.splitext(filename)
         version_filename = filename + "_" + version_prefix + ext
         if VERSIONS_BASEDIR:

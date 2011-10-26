@@ -241,7 +241,7 @@ class FileObject():
     datetime = property(_datetime)
 
     def exists(self):
-        if self.storage.isdir or self.storage.isfile:
+        if self.storage.isdir(self.path) or self.storage.isfile(self.path):
             return True
         return False
     

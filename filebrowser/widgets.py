@@ -35,7 +35,7 @@ class FileInput(DjangoClearableFileInput):
         if value and hasattr(value, "url"):
             template = self.template_with_initial
             preview_template = render_to_string('filebrowser/widgets/fileinput.html', {
-                'value': FileObject(value.path),
+                'value': FileObject(value.name),
                 'ADMIN_THUMBNAIL': ADMIN_THUMBNAIL,
             })
             substitutions["preview"] = preview_template
@@ -80,7 +80,7 @@ class ClearableFileInput(DjangoClearableFileInput):
         
         if value and hasattr(value, "url"):
             preview_template = render_to_string('filebrowser/widgets/clearablefileinput.html', {
-                'value': FileObject(value.path),
+                'value': FileObject(value.name),
                 'ADMIN_THUMBNAIL': ADMIN_THUMBNAIL,
             })
             substitutions["preview"] = preview_template
