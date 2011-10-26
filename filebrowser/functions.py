@@ -66,7 +66,8 @@ def get_version_path(value, version_prefix, site=None):
     
     if site.storage.isfile(value):
         path, filename = os.path.split(value)
-        relative_path = path.replace(site.directory, "")
+        relative_path = path.replace(MEDIA_ROOT, "")
+        relative_path = relative_path.replace(site.directory, "")
         filename, ext = os.path.splitext(filename)
         version_filename = filename + "_" + version_prefix + ext
         if VERSIONS_BASEDIR:
