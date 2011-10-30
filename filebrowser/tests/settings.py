@@ -56,12 +56,6 @@ class SettingsTests(TestCase):
         for item in ADMIN_VERSIONS:
             self.assertIn(item, VERSIONS)
     
-    def test_save_full_url(self):
-        """
-        Test if ``SAVE_FULL_URL`` is in ``True, False``.
-        """
-        self.assertIn(SAVE_FULL_URL, [True, False])
-    
     def test_strict_pil(self):
         """
         Test if ``STRICT_PIL`` is in ``True, False``.
