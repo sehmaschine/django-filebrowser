@@ -8,6 +8,8 @@ from time import gmtime
 from django.template import Library, Node, Variable, VariableDoesNotExist, TemplateSyntaxError
 from django.conf import settings
 from django.utils.encoding import force_unicode, smart_str
+from django.core.files import File
+
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import DIRECTORY, VERSIONS
@@ -44,6 +46,8 @@ class VersionNode(Node):
             if isinstance(source, FileObject):
                 site = source.site
                 source = source.path
+            if isinstance(source, File):
+                source = source.name
             source = force_unicode(source)
             version_path = get_version_path(source, version_prefix, site=site)
             if not site.storage.isfile(version_path):
@@ -103,6 +107,8 @@ class VersionObjectNode(Node):
             if isinstance(source, FileObject):
                 site = source.site
                 source = source.path
+            if isinstance(source, File):
+                source = source.name
             source = force_unicode(source)
             version_path = get_version_path(source, version_prefix, site=site)
             if not site.storage.isfile(version_path):

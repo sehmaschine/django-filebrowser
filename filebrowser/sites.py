@@ -173,7 +173,6 @@ class FileBrowserSite(object):
     def applicable_actions(self, fileobject):
         """
         Return a list of tuples (name, action) of actions applicable to a given fileobject.
-        Sorted alphabetically.
         """
         res = []
         for name, action in self.actions:
@@ -502,7 +501,7 @@ class FileBrowserSite(object):
             file_name = os.path.join(path, filedata.name)
             file_already_exists = self.storage.exists(file_name)
 
-            # Is for name collision with a directory
+            # Check for name collision with a directory
             if file_already_exists and self.storage.isdir(file_name):
                 ret_json = {'success': False, 'filename': filedata.name}
                 return HttpResponse(json.dumps(ret_json)) 
