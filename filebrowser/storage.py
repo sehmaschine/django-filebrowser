@@ -5,8 +5,6 @@ import os, shutil
 
 # DJANGO IMPORTS
 from django.core.files.move import file_move_safe
-from django.core.files.base import ContentFile
-
 
 class StorageMixin(object):
     """
@@ -30,12 +28,6 @@ class StorageMixin(object):
         Moves safely a file from one location to another.
 
         If allow_ovewrite==False and new_file_name exists, raises an exception.
-        """
-        raise NotImplementedError()
-
-    def rename(self, old_file_name, new_file_name):
-        """
-        Rename a file.
         """
         raise NotImplementedError()
 
@@ -63,12 +55,8 @@ class FileSystemStorageMixin(StorageMixin):
     def move(self, old_file_name, new_file_name, allow_overwrite=False):
         file_move_safe(self.path(old_file_name), self.path(new_file_name), allow_overwrite=True)
 
-    def rename(self, old_file_name, new_file_name):
-        os.rename(self.path(old_file_name), self.path(new_file_name))
-    
     def makedirs(self, name):
         os.makedirs(self.path(name))
 
     def rmtree(self, name):
         shutil.rmtree(self.path(name))
-

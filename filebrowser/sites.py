@@ -427,7 +427,7 @@ class FileBrowserSite(object):
                     if new_name != fileobject.filename:
                         self.filebrowser_pre_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
                         fileobject.delete_versions()
-                        self.storage.rename(fileobject.path, os.path.join(fileobject.head, new_name))
+                        self.storage.move(fileobject.path, os.path.join(fileobject.head, new_name))
                         self.filebrowser_post_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
                         messages.add_message(request, messages.SUCCESS, _('Renaming was successful.'))
                     if isinstance(action_response, HttpResponse):
