@@ -196,6 +196,10 @@ class FileObject():
     def __unicode__(self):
         return smart_unicode(self.filename)
     
+    @property
+    def name(self):
+        return self.path
+
     def __repr__(self):
         return "<%s: %s>" % (self.__class__.__name__, self or "None")
     
