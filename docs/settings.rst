@@ -134,6 +134,29 @@ The version being used as the admin-thumbnail::
 
     ADMIN_THUMBNAIL = getattr(settings, 'FILEBROWSER_ADMIN_THUMBNAIL', 'admin_thumbnail')
 
+.. _settingsplaceholder:
+
+PLACEHOLDER
+^^^^^^^^^^^
+
+Path to placeholder image (relative to MEDIA_ROOT)::
+
+    PLACEHOLDER = getattr(settings, "FILEBROWSER_PLACEHOLDER", "")
+
+SHOW_PLACEHOLDER
+^^^^^^^^^^^^^^^^
+
+Show Placeholder (instead of a Version) if the original image does not exist::
+
+    SHOW_PLACEHOLDER = getattr(settings, "FILEBROWSER_SHOW_PLACEHOLDER", False)
+
+FORCE_PLACEHOLDER
+^^^^^^^^^^^^^^^^^
+
+Always show placeholder (even if the original image exists)::
+
+    FORCE_PLACEHOLDER = getattr(settings, "FILEBROWSER_FORCE_PLACEHOLDER", False)
+
 Extra Settings
 --------------
 
