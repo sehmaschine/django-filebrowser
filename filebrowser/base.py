@@ -283,6 +283,12 @@ class FileObject():
             return self.dimensions[1]
         return None
     height = property(_height)
+
+    def _aspectratio(self):
+        if self.dimensions:
+            return float(self.width)/float(self.height)
+        return None
+    aspectratio = property(_aspectratio)
     
     def _orientation(self):
         if self.dimensions:
