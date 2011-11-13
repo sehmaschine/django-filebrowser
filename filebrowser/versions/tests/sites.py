@@ -40,9 +40,7 @@ def test_browse(test):
     
     # Check we get OK response for browsing
     test.assertTrue(response.status_code == 200)
-    
-    import pdb; pdb.set_trace();
-    
+        
     # Check that a correct template was used:
     test.assertTrue('filebrowser/versions/index.html' in [t.name for t in response.templates])
     
