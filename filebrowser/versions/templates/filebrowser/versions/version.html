@@ -1,0 +1,60 @@
+{% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
+{% load i18n adminmedia fb_tags fb_versions %}
+
+<!-- STYLESHEETS -->
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+{% endblock %}
+
+<!-- JAVASCRIPTS -->
+{% block javascripts %}
+    {{ block.super }}
+    {% ifequal query.pop '1' %} <!-- FileBrowseField -->
+    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_FileBrowseField.js"></script>
+    {% endifequal %}
+    {% ifequal query.pop '2' %} <!-- TinyMCE -->
+    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_TINYMCE }}tiny_mce_popup.js"></script>
+    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_TinyMCE.js"></script>
+    {% if query.mce_rdomain %}<script language="javascript">document.domain = "{{ query.mce_rdomain }}"</script>{% endif %}
+    {% endifequal %}
+{% endblock %}
+
+<!-- COLTYPE/BODYCLASS-- >
+{% block bodyclass %}change-list filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+{% block content-class %}content-flexible{% endblock %}
+
+<!-- BREADCRUMBS -->
+{% block breadcrumbs %}{% endblock %}
+
+<!-- OBJECT-TOOLS -->
+{% block object-tools %}{{ image_version.path }}{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+    {% if fileobject.filetype == "Image" %}
+        {% version_object fileobject.path settings_var.ADMIN_THUMBNAIL as thumbnail_version %}
+        {% version_object fileobject.path query.version as image_version %}
+        {% ifequal query.pop '1' %} <!-- FileBrowseField -->
+        <script type="text/javascript" charset="utf-8">
+            (function($) {
+                $(document).ready(function() {
+                    FileSubmit('{{ image_version.path }}', '{{ image_version.url }}', '{{ thumbnail_version.url }}', '{{ image_version.filetype }}');
+                });
+            })(django.jQuery);
+        </script>
+        {% endifequal %}
+        {% ifequal query.pop '2' %} <!-- TinyMCE -->
+        <script type="text/javascript" charset="utf-8">
+            (function($) {
+                $(document).ready(function() {
+                    FileBrowserDialogue.fileSubmit('{{ image_version.url|escapejs }}');
+                });
+            })(django.jQuery);
+        </script>
+        {% endifequal %}
+    {% endif %}
+{% endblock %}
+

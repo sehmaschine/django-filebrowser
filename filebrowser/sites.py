@@ -24,7 +24,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import *
-from filebrowser.functions import get_breadcrumbs, get_filterdate, get_settings_var, handle_file_upload, convert_filename
+from filebrowser.functions import get_breadcrumbs, get_filterdate, handle_file_upload, convert_filename
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileListing, FileObject
 from filebrowser.decorators import path_exists, file_exists
@@ -93,6 +93,8 @@ def get_default_site(app_name='filebrowser'):
 
 
 class FileBrowserSite(object):
+    
+    file_class = FileObject
 
     def __init__(self, name=None, app_name='filebrowser', storage=default_storage):
         self.name = name
@@ -107,6 +109,33 @@ class FileBrowserSite(object):
         
         # Per-site settings:
         self.directory = DIRECTORY
+        
+    def _get_settings_var(self, directory):
+        """
+        Get settings variables used for FileBrowser listing.
+        """
+    
+        settings_var = {}
+        # Main
+        settings_var['MEDIA_ROOT'] = MEDIA_ROOT
+        settings_var['MEDIA_URL'] = MEDIA_URL
+        settings_var['DIRECTORY'] = directory
+        # FileBrowser
+        settings_var['URL_FILEBROWSER_MEDIA'] = URL_FILEBROWSER_MEDIA
+        settings_var['PATH_FILEBROWSER_MEDIA'] = PATH_FILEBROWSER_MEDIA
+        # TinyMCE
+        settings_var['URL_TINYMCE'] = URL_TINYMCE
+        settings_var['PATH_TINYMCE'] = PATH_TINYMCE
+        # Extensions/Formats (for FileBrowseField)
+        settings_var['EXTENSIONS'] = EXTENSIONS
+        settings_var['SELECT_FORMATS'] = SELECT_FORMATS
+        # FileBrowser Options
+        settings_var['MAX_UPLOAD_SIZE'] = MAX_UPLOAD_SIZE
+        # Convert Filenames
+        settings_var['CONVERT_FILENAME'] = CONVERT_FILENAME
+        # Traverse directories when searching
+        settings_var['SEARCH_TRAVERSE'] = SEARCH_TRAVERSE
+        return settings_var        
     
     def _directory_get(self):
         return self._directory
@@ -135,13 +164,18 @@ class FileBrowserSite(object):
             url(r'^delete_confirm/$', file_exists(self, path_exists(self, self.filebrowser_view(self.delete_confirm))), name="fb_delete_confirm"),
             url(r'^delete/$', file_exists(self, path_exists(self, self.filebrowser_view(self.delete))), name="fb_delete"),
             url(r'^detail/$', file_exists(self, path_exists(self, self.filebrowser_view(self.detail))), name="fb_detail"),
-            url(r'^version/$', file_exists(self, path_exists(self, self.filebrowser_view(self.version))), name="fb_version"),
             # non-views
             url(r'^upload_file/$', csrf_exempt(self._upload_file), name="fb_do_upload"),
             
         )
 
         return urlpatterns
+
+    def _get_filter_regex(self):
+        filter_re = []
+        for exp in EXCLUDE:
+           filter_re.append(re.compile(exp))
+        return filter_re
 
     def add_action(self, action, name=None):
         """
@@ -194,18 +228,15 @@ class FileBrowserSite(object):
     def urls(self):
         return self.get_urls(), self.app_name, self.name
 
-    def browse(self, request):
+    def browse(self, request, template='filebrowser/index.html',
+        header_template='filebrowser/include/tableheader.html',
+        item_template='filebrowser/include/filelisting.html'):
         """
         Browse Files/Directories.
         """
 
-        filter_re = []
-        for exp in EXCLUDE:
-           filter_re.append(re.compile(exp))
-        for k,v in VERSIONS.iteritems():
-            exp = (r'_%s(%s)') % (k, '|'.join(EXTENSION_LIST))
-            filter_re.append(re.compile(exp))
-
+        filter_re = self._get_filter_regex()
+        
         def filter_browse(item):
             filtered = item.filename.startswith('.')
             for re_prefix in filter_re:
@@ -260,23 +291,25 @@ class FileBrowserSite(object):
         except (EmptyPage, InvalidPage):
             page = p.page(p.num_pages)
         
-        return render_to_response('filebrowser/index.html', {
+        return render_to_response(template, {
             'p': p,
             'page': page,
             'filelisting': filelisting,
             'query': query,
             'title': _(u'FileBrowser'),
-            'settings_var': get_settings_var(directory=self.directory),
+            'settings_var': self._get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': "",
-            'site': self
+            'site': self,
+            'header_template': header_template,
+            'item_template': item_template,
         }, context_instance=Context(request, current_app=self.name))
     
     # mkdir signals
     filebrowser_pre_createdir = Signal(providing_args=["path", "name"])
     filebrowser_post_createdir = Signal(providing_args=["path", "name"])
 
-    def createdir(self, request):
+    def createdir(self, request, template='filebrowser/createdir.html'):
         """
         Create Directory.
         """
@@ -305,40 +338,40 @@ class FileBrowserSite(object):
         else:
             form = CreateDirForm(path, site=self)
         
-        return render_to_response('filebrowser/createdir.html', {
+        return render_to_response(template, {
             'form': form,
             'query': query,
             'title': _(u'New Folder'),
-            'settings_var': get_settings_var(directory=self.directory),
+            'settings_var': self._get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'New Folder'),
             'site': self
         }, context_instance=Context(request, current_app=self.name))
     
 
-    def upload(self, request):
+    def upload(self, request, template='filebrowser/upload.html'):
         """
         Multipe File Upload.
         """
         query = request.GET
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
         
-        return render_to_response('filebrowser/upload.html', {
+        return render_to_response(template, {
             'query': query,
             'title': _(u'Select files to upload'),
-            'settings_var': get_settings_var(directory=self.directory),
+            'settings_var': self._get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'Upload'),
             'site': self
         }, context_instance=Context(request, current_app=self.name))
 
-    def delete_confirm(self, request):
+    def delete_confirm(self, request, template='filebrowser/delete_confirm.html'):
         """
         Delete existing File/Directory.
         """
         query = request.GET
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
-        fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
+        fileobject = self.file_class(os.path.join(path, query.get('filename', '')), site=self)
         if fileobject.filetype == "Folder":
             filelisting = FileListing(os.path.join(path, fileobject.filename),
                 sorting_by=query.get('o', 'filename'),
@@ -354,13 +387,13 @@ class FileBrowserSite(object):
             filelisting = None
             additional_files = None
         
-        return render_to_response('filebrowser/delete_confirm.html', {
+        return render_to_response(template, {
             'fileobject': fileobject,
             'filelisting': filelisting,
             'additional_files': additional_files,
             'query': query,
             'title': _(u'Confirm delete'),
-            'settings_var': get_settings_var(directory=self.directory),
+            'settings_var': self._get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'Confirm delete'),
             'site': self
@@ -369,6 +402,8 @@ class FileBrowserSite(object):
     # delete signals
     filebrowser_pre_delete = Signal(providing_args=["path", "name"])
     filebrowser_post_delete = Signal(providing_args=["path", "name"])
+    # internal use
+    filebrowser_during_delete = Signal(providing_args=["fileobject"])
 
     def delete(self, request):
         """
@@ -376,15 +411,16 @@ class FileBrowserSite(object):
         """
         query = request.GET
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
-        fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
+        fileobject = self.file_class(os.path.join(path, query.get('filename', '')), site=self)
         
         if request.GET:
             try:
                 self.filebrowser_pre_delete.send(sender=request, path=fileobject.path, name=fileobject.filename)
-                fileobject.delete_versions()
+                self.filebrowser_during_delete.send(sender=request, fileobject=fileobject)
                 fileobject.delete()
                 self.filebrowser_post_delete.send(sender=request, path=fileobject.path, name=fileobject.filename)
                 messages.add_message(request, messages.SUCCESS, _('Successfully deleted %s') % fileobject.filename)
+            # XXX: Can't catch only OSError here, since remote storages won't raise that
             except OSError, (errno, strerror):
                 # TODO: define error-message
                 pass
@@ -394,20 +430,22 @@ class FileBrowserSite(object):
     # rename signals
     filebrowser_pre_rename = Signal(providing_args=["path", "name", "new_name"])
     filebrowser_post_rename = Signal(providing_args=["path", "name", "new_name"])
+    # internal use
+    filebrowser_during_rename = Signal(providing_args=["fileobject"])
 
     filebrowser_actions_pre_apply = Signal(providing_args=['action_name', 'fileobjects',])
     filebrowser_actions_post_apply = Signal(providing_args=['action_name', 'filebjects', 'result'])
 
-    def detail(self, request):
+    def detail(self, request, template='filebrowser/detail.html'):
         """
         Show detail page for a file.
         
-        Rename existing File/Directory (deletes existing Image Versions/Thumbnails).
+        Rename existing File/Directory.
         """
         from filebrowser.forms import ChangeForm
         query = request.GET
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
-        fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
+        fileobject = self.file_class(os.path.join(path, query.get('filename', '')), site=self)
         
         if request.method == 'POST':
             form = ChangeForm(request.POST, path=path, fileobject=fileobject, site=self)
@@ -426,7 +464,7 @@ class FileBrowserSite(object):
                         self.filebrowser_actions_post_apply.send(sender=request, action_name=action_name, fileobject=[fileobject], result=action_response)
                     if new_name != fileobject.filename:
                         self.filebrowser_pre_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
-                        fileobject.delete_versions()
+                        self.filebrowser_during_rename.send(sender=request, fileobject=fileobject)
                         self.storage.move(fileobject.path, os.path.join(fileobject.head, new_name))
                         self.filebrowser_post_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
                         messages.add_message(request, messages.SUCCESS, _('Renaming was successful.'))
@@ -442,29 +480,14 @@ class FileBrowserSite(object):
         else:
             form = ChangeForm(initial={"name": fileobject.filename}, path=path, fileobject=fileobject, site=self)
         
-        return render_to_response('filebrowser/detail.html', {
+        return render_to_response(template, {
             'form': form,
             'fileobject': fileobject,
             'query': query,
             'title': u'%s' % fileobject.filename,
-            'settings_var': get_settings_var(directory=self.directory),
+            'settings_var': self._get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': u'%s' % fileobject.filename,
-            'site': self
-        }, context_instance=Context(request, current_app=self.name))
-
-    def version(self, request):
-        """
-        Version detail.
-        """
-        query = request.GET
-        path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
-        fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
-        
-        return render_to_response('filebrowser/version.html', {
-            'fileobject': fileobject,
-            'query': query,
-            'settings_var': get_settings_var(directory=self.directory),
             'site': self
         }, context_instance=Context(request, current_app=self.name))
 
@@ -514,7 +537,7 @@ class FileBrowserSite(object):
                 new_file = smart_unicode(uploadedfile)
                 self.storage.move(new_file, old_file, allow_overwrite=True)
             
-            self.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(file_name), site=self))
+            self.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=self.file_class(smart_unicode(file_name), site=self))
             
             # let Ajax Upload know whether we saved it or not
             ret_json = {'success': True, 'filename': filedata.name}
@@ -522,13 +545,3 @@ class FileBrowserSite(object):
 
 # Default FileBrowser site
 site = FileBrowserSite(name='filebrowser')
-
-# Default actions
-from actions import *
-site.add_action(flip_horizontal)
-site.add_action(flip_vertical)
-site.add_action(rotate_90_clockwise)
-site.add_action(rotate_90_counterclockwise)
-site.add_action(rotate_180)
-
-

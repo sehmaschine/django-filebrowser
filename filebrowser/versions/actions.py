@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect
 from django.core.files import File
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import *
+from filebrowser.versions.settings import *
 
 # PIL import
 if STRICT_PIL:
