@@ -92,6 +92,7 @@ class FileBrowseFormField(forms.CharField):
 
 class FileBrowseField(CharField):
     description = "FileBrowseField"
+    file_class = FileObject
     form_class = FileBrowseFormField
     form_widget = FileBrowseWidget
     __metaclass__ = models.SubfieldBase

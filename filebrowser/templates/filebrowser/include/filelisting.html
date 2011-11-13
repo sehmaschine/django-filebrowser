@@ -10,7 +10,7 @@
                 {% selectable fileobject.filetype query.type %}
                 {% if selectable %}
                     <!-- select original -->
-                    <button class="button fb_selectlink" onclick="FileSubmit('{{ fileobject.path }}', '{{ fileobject.url }}', '{{ fileobject.url }}', '{{ fileobject.filetype }}');">{% trans "Select" %}</button>
+                    <button class="button fb_selectlink" onclick="FileSubmit('{{ fileobject.path }}', '{{ fileobject.url }}', '{{ fileobject.filetype }}');">{% trans "Select" %}</button>
                 {% else %}
                     &nbsp;
                 {% endif %}

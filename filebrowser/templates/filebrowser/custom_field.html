@@ -1,10 +1,5 @@
 {% load i18n %}
 <input id="{{ final_attrs.id }}" type="text" class="vFileBrowseField" name="{{ final_attrs.name }}" value="{{ value.path }}" /><a href="javascript:FileBrowser.show('{{ final_attrs.id }}', '{{ url }}?pop=1{% if final_attrs.directory %}&amp;dir={{ final_attrs.directory|urlencode|urlencode }}{% endif %}{% if final_attrs.format %}&amp;type={{ final_attrs.format }}{% endif %}');" class="fb_show"></a>
-<p class="preview" id="preview_{{ final_attrs.id }}">
-    <a href="{{ value.url }}" target="_blank" id="previewlink_{{ final_attrs.id }}">
-        {{ thumbnail_version.url }}
-    </a>
-</p>
 {% if value and not value.exists %}
 <ul class="errorlist"><li>{% trans "File not found" %}</li></ul>
 {% endif %}
