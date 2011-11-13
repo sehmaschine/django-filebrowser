@@ -6,6 +6,9 @@
 <!-- JAVASCRIPTS -->
 {% block javascripts %}
     {{ block.super }}
+    {% ifequal query.pop '1' %} <!-- VersionFileBrowseField -->
+    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_VersionFileBrowseField.js"></script>
+    {% endifequal %}
     <script type="text/javascript" charset="utf-8">
         (function($) {
             $(document).ready(function() {
