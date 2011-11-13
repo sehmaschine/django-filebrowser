@@ -35,27 +35,7 @@ class SettingsTests(TestCase):
         Test that ``PATH_FILEBROWSER_MEDIA`` exists.
         """
         self.assertEqual(os.path.exists(PATH_FILEBROWSER_MEDIA), 1)
-    
-    def test_versions_basedir(self):
-        """
-        Test that ``MEDIA_ROOT`` plus ``VERSIONS_BASEDIR`` exists.
-        """
-        self.assertEqual(os.path.exists(os.path.join(MEDIA_ROOT,VERSIONS_BASEDIR)), 1)
-    
-    def test_admin_thumbnail(self):
-        """
-        Test if ``ADMIN_THUMBNAIL`` is set and is part of ``VERSIONS``.
-        """
-        self.assertNotEqual(ADMIN_THUMBNAIL, '')
-        self.assertIn(ADMIN_THUMBNAIL, VERSIONS)
-    
-    def test_admin_versions(self):
-        """
-        Test if ``ADMIN_VERSIONS`` are part of ``VERSIONS``.
-        """
-        for item in ADMIN_VERSIONS:
-            self.assertIn(item, VERSIONS)
-    
+        
     def test_strict_pil(self):
         """
         Test if ``STRICT_PIL`` is in ``True, False``.

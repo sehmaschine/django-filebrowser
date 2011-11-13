@@ -21,10 +21,10 @@ from django.test.client import Client
 from django.core.urlresolvers import get_resolver, get_urlconf, resolve, reverse
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import *
-from filebrowser.base import FileObject
 from filebrowser.sites import get_site_dict
-from filebrowser.functions import get_version_path
+from filebrowser.versions.settings import *
+from filebrowser.versions.base import VersionFileObject
+from filebrowser.versions.functions import get_version_path
 
 # This module will test all FileBrowser sites with the following app_name
 APP_NAME = 'filebrowser'
@@ -41,8 +41,10 @@ def test_browse(test):
     # Check we get OK response for browsing
     test.assertTrue(response.status_code == 200)
     
+    import pdb; pdb.set_trace();
+    
     # Check that a correct template was used:
-    test.assertTrue('filebrowser/index.html' in [t.name for t in response.templates])
+    test.assertTrue('filebrowser/versions/index.html' in [t.name for t in response.templates])
     
     # Check directory was set correctly in the context. If this fails, it may indicate
     # that two sites were instantiated with the same name.
@@ -62,7 +64,7 @@ def test_createdir(test):
         tmpdir_name = '%s_%d' % (prefix, sufix)
     
     # Store the this temp directory (we need to delete it later)
-    test.tmpdir = FileObject(os.path.join(test.site.directory, tmpdir_name), site=test.site)
+    test.tmpdir = VersionFileObject(os.path.join(test.site.directory, tmpdir_name), site=test.site)
     
     # Create the directory using the createdir view
     url = reverse('%s:fb_createdir' % test.site_name)
@@ -101,7 +103,7 @@ def test_do_upload(test):
     
     # Check the file now exists
     path = os.path.join(test.tmpdir.path, 'testimage.jpg')
-    test.testfile = FileObject(path, site=test.site)
+    test.testfile = VersionFileObject(path, site=test.site)
     test.assertTrue(test.site.storage.exists(path))
     
     # Check the file has the correct size
@@ -132,7 +134,12 @@ def test_detail(test):
     
     # Check we get an OK response for the detail view
     test.assertTrue(response.status_code == 200)
-        
+    
+    # At this moment all versions should be generated. Check that.
+    for version_suffix in VERSIONS:
+        path = get_version_path(test.testfile.path, version_suffix, site=test.site)
+        test.assertTrue(test.site.storage.exists(path))
+    
     # Attemp renaming the file
     url = '?'.join([url, urlencode({'dir': test.testfile.folder, 'filename': test.testfile.filename})])
     response = test.c.post(url, {'name': 'testpic.jpg'})
@@ -144,8 +151,12 @@ def test_detail(test):
     test.assertTrue(test.site.storage.exists(os.path.join(test.testfile.head, 'testpic.jpg')))
     
     # Store the renamed file
-    test.testfile = FileObject(os.path.join(test.testfile.head, 'testpic.jpg'), site=test.site)
-
+    test.testfile = VersionFileObject(os.path.join(test.testfile.head, 'testpic.jpg'), site=test.site)
+    
+    # Check all versions were deleted (after renaming):
+    for version_suffix in VERSIONS:
+        path = get_version_path(test.testfile.path, version_suffix, site=test.site)
+        test.assertFalse(test.site.storage.exists(path))
 
 def test_delete_confirm(test):
     """
@@ -166,6 +177,10 @@ def test_delete(test):
     Generate all versions for the uploaded file and attempt a deletion of that file.
     Finally, attempt a deletion of the tmp dir.
     """
+    # Generate all versions of the file
+    versions = []
+    for version_suffix in VERSIONS:
+        versions.append(test.testfile.version_generate(version_suffix))
     
     # Request the delete view
     url = reverse('%s:fb_delete' % test.site_name)
@@ -176,6 +191,8 @@ def test_delete(test):
     
     # Check the file and its versions do not exist anymore
     test.assertFalse(test.site.storage.exists(test.testfile.path))
+    for version in versions:
+        test.assertFalse(test.site.storage.exists(version.path))
     test.testfile = None
 
     # Delete the tmp dir and check it does not exist anymore
@@ -201,7 +218,7 @@ def setUp(self):
 
 def tearDown(self):
     # Delete a left-over tmp directories, if there's any
-    if hasattr(self, 'tmpdir') and self.tmpdir:
+    if self.tmpdir:
         print "Removing left-over tmp dir:", self.tmpdir.path
         self.site.storage.rmtree(self.tmpdir.path)
 

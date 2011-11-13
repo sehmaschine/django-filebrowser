@@ -12,10 +12,10 @@ from django.core.files import File
 
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import DIRECTORY, VERSIONS, PLACEHOLDER, SHOW_PLACEHOLDER, FORCE_PLACEHOLDER
-from filebrowser.functions import get_version_path, version_generator
-from filebrowser.base import FileObject
 from filebrowser.sites import get_default_site
+from filebrowser.versions.settings import DIRECTORY, VERSIONS, PLACEHOLDER, SHOW_PLACEHOLDER, FORCE_PLACEHOLDER
+from filebrowser.versions.functions import get_version_path, version_generator
+from filebrowser.versions.base import VersionFileObject
 register = Library()
 
 
@@ -43,7 +43,7 @@ class VersionNode(Node):
         site = context.get('site', get_default_site())
         directory = site.directory
         try:
-            if isinstance(source, FileObject):
+            if isinstance(source, VersionFileObject):
                 site = source.site
                 source = source.path
             if isinstance(source, File):
@@ -108,7 +108,7 @@ class VersionObjectNode(Node):
         site = context.get('site', get_default_site())
         directory = site.directory
         try:
-            if isinstance(source, FileObject):
+            if isinstance(source, VersionFileObject):
                 site = source.site
                 source = source.path
             if isinstance(source, File):
@@ -123,7 +123,7 @@ class VersionObjectNode(Node):
                 version_path = version_generator(source, version_prefix, site=site)
             elif site.storage.modified_time(source) > site.storage.modified_time(version_path):
                 version_path = version_generator(source, version_prefix, force=True, site=site)
-            context[self.var_name] = FileObject(version_path, site=site)
+            context[self.var_name] = VersionFileObject(version_path, site=site)
         except:
             context[self.var_name] = ""
         return ''
