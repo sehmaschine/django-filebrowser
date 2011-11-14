@@ -27,7 +27,7 @@ from filebrowser.versions.base import VersionFileObject
 from filebrowser.versions.functions import get_version_path
 
 # This module will test all FileBrowser sites with the following app_name
-APP_NAME = 'filebrowser'
+APP_NAME = 'filebrowser.versions'
 
 ### TEST FUNCTIONS
 

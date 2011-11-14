@@ -122,7 +122,7 @@ class VersionFileBrowserSite(FileBrowserSite):
 
 
 # Default FileBrowser site
-site = VersionFileBrowserSite(name='versionfilebrowser')
+site = VersionFileBrowserSite(name='versionfilebrowser', app_name='filebrowser.versions')
 
 # Default actions
 from actions import *
