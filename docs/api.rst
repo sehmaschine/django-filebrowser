@@ -314,6 +314,14 @@ Image height in px::
     >>> print fileobject.height
     750
 
+``aspectratio``
+^^^^^^^^^^^^^^^
+
+Aspect ratio (float format)::
+
+    >>> print fileobject.aspectratio
+    1.33534908
+
 ``orientation``
 ^^^^^^^^^^^^^^^
 

@@ -117,6 +117,13 @@ So, if you need to generate/retrieve the admin thumbnail for an Image, you can t
     from filebrowser.settings import ADMIN_THUMBNAIL
     obj.image.version_generate(ADMIN_THUMBNAIL).url
 
+Placeholder
+-----------
+
+When developing on a locale machine or a development-server, you might not have all the images (resp. media-files) available that are on your production instance and downloading these files on a regular basis might not be an option.
+
+In that case, you might wanna use a placeholder instead of an image-version. You just need to define the ``PLACEHOLDER`` and overwrite the settings ``SHOW_PLACEHOLDER`` and/or ``FORCE_PLACEHOLDER`` (see :ref:`settingsplaceholder`).
+
 Management Commands
 ===================
 
