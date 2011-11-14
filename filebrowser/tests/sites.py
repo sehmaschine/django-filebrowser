@@ -216,7 +216,7 @@ def setUp(self):
 
 def tearDown(self):
     # Delete a left-over tmp directories, if there's any
-    if self.tmpdir:
+    if hasattr(self, 'tmpdir') and self.tmpdir:
         print "Removing left-over tmp dir:", self.tmpdir.path
         self.site.storage.rmtree(self.tmpdir.path)
 
