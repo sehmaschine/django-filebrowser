@@ -21,13 +21,13 @@ from django.test.client import Client
 from django.core.urlresolvers import get_resolver, get_urlconf, resolve, reverse
 
 # FILEBROWSER IMPORTS
-from filebrowser.sites import get_site_dict
-from filebrowser.settings import *
-from filebrowser.base import FileObject
-from filebrowser.functions import get_version_path
+from filebrowser.core.settings import *
+from filebrowser.core.base import FileObject
+from filebrowser.core.sites import get_site_dict
+from filebrowser.core.functions import get_version_path
 
 # This module will test all FileBrowser sites with the following app_name
-APP_NAME = 'filebrowser'
+APP_NAME = 'filebrowser.core'
 
 ### TEST FUNCTIONS
 
@@ -40,7 +40,7 @@ def test_browse(test):
     
     # Check we get OK response for browsing
     test.assertTrue(response.status_code == 200)
-        
+    
     # Check that a correct template was used:
     test.assertTrue('filebrowser/core/index.html' in [t.name for t in response.templates])
     
@@ -132,12 +132,7 @@ def test_detail(test):
     
     # Check we get an OK response for the detail view
     test.assertTrue(response.status_code == 200)
-    
-    # At this moment all versions should be generated. Check that.
-    for version_suffix in VERSIONS:
-        path = get_version_path(test.testfile.path, version_suffix, site=test.site)
-        test.assertTrue(test.site.storage.exists(path))
-    
+        
     # Attemp renaming the file
     url = '?'.join([url, urlencode({'dir': test.testfile.folder, 'filename': test.testfile.filename})])
     response = test.c.post(url, {'name': 'testpic.jpg'})
@@ -150,11 +145,7 @@ def test_detail(test):
     
     # Store the renamed file
     test.testfile = FileObject(os.path.join(test.testfile.head, 'testpic.jpg'), site=test.site)
-    
-    # Check all versions were deleted (after renaming):
-    for version_suffix in VERSIONS:
-        path = get_version_path(test.testfile.path, version_suffix, site=test.site)
-        test.assertFalse(test.site.storage.exists(path))
+
 
 def test_delete_confirm(test):
     """
@@ -175,10 +166,6 @@ def test_delete(test):
     Generate all versions for the uploaded file and attempt a deletion of that file.
     Finally, attempt a deletion of the tmp dir.
     """
-    # Generate all versions of the file
-    versions = []
-    for version_suffix in VERSIONS:
-        versions.append(test.testfile.version_generate(version_suffix))
     
     # Request the delete view
     url = reverse('%s:fb_delete' % test.site_name)
@@ -189,8 +176,6 @@ def test_delete(test):
     
     # Check the file and its versions do not exist anymore
     test.assertFalse(test.site.storage.exists(test.testfile.path))
-    for version in versions:
-        test.assertFalse(test.site.storage.exists(version.path))
     test.testfile = None
 
     # Delete the tmp dir and check it does not exist anymore

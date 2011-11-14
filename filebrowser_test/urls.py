@@ -4,8 +4,8 @@ from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
+from filebrowser.core.sites import site as corefilebrowser
 from filebrowser.sites import site as filebrowser
-from filebrowser.versions.sites import site as versionfilebrowser
 
 urlpatterns = patterns('',
     # Examples:
@@ -17,6 +17,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^corefilebrowser/', include(corefilebrowser.urls)),
     url(r'^filebrowser/', include(filebrowser.urls)),
-    url(r'^versionfilebrowser/', include(versionfilebrowser.urls)),
 )

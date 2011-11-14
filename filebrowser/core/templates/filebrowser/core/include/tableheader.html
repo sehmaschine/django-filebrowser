@@ -10,8 +10,6 @@
         <!-- FILETYPE -->
         {% if query.o == "filetype" %}<th class="sorted {{ query.ot }}ending"><a href="{% query_string "" "o,ot,p" %}&amp;ot={% ifequal query.ot "desc" %}asc{% else %}desc{% endifequal %}&amp;o=filetype">{% trans "Type" %}</a></th>{% endif %}
         {% if query.o != "filetype" %}<th><a href="{% query_string "" "o,ot,p" %}&amp;ot=asc&amp;o=filetype">{% trans "Type" %}</a></th>{% endif %}
-        <!-- THUMB -->
-        <th>{% trans "Thumbnail" %}</th>
         <!-- FILENAME / DIMENSIONS  -->
         {% if query.o == "filename_lower" %}<th class="filename sorted {{ query.ot }}ending"><a href="{% query_string "" "o,ot,p" %}&amp;ot={% ifequal query.ot "desc" %}asc{% else %}desc{% endifequal %}&amp;o=filename_lower">{% trans "Filename" %}</a></th>{% endif %}
         {% if query.o != "filename_lower" %}<th class="filename"><a href="{% query_string "" "o,ot,p" %}&amp;ot=asc&amp;o=filename_lower">{% trans "Filename" %}</a></th>{% endif %}
