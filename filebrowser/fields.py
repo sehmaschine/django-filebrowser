@@ -21,6 +21,8 @@ from filebrowser.sites import site
 
 class FileBrowseWidget(Input):
     input_type = 'text'
+    file_class = FileObject
+    template = "filebrowser/custom_field.html"
     
     class Media:
         js = (os.path.join(URL_FILEBROWSER_MEDIA, 'js/AddFileBrowser.js'), )
@@ -36,27 +38,30 @@ class FileBrowseWidget(Input):
         else:
             self.attrs = {}
         super(FileBrowseWidget, self).__init__(attrs)
-    
+        
+    def _get_extra_attrs(self):
+        return {}
+
     def render(self, name, value, attrs=None):
         url = urlresolvers.reverse(self.site.name + ":fb_browse")
         if value is None:
             value = ""
-        if value != "" and not isinstance(value, FileObject):
-            value = FileObject(value, site=self.site)
+        if value != "" and not isinstance(value, self.file_class):
+            value = self.file_class(value, site=self.site)
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
         final_attrs['search_icon'] = URL_FILEBROWSER_MEDIA + 'img/filebrowser_icon_show.gif'
         final_attrs['url'] = url
         final_attrs['directory'] = self.directory
         final_attrs['extensions'] = self.extensions
         final_attrs['format'] = self.format
-        final_attrs['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
+        final_attrs.update(self._get_extra_attrs())
         site = self.site
         if value != "":
             try:
                 final_attrs['directory'] = os.path.split(value.original.path_relative_directory)[0]
             except:
                 pass
-        return render_to_string("filebrowser/custom_field.html", locals())
+        return render_to_string(self.template, locals())
 
 
 class FileBrowseFormField(forms.CharField):
@@ -87,6 +92,9 @@ class FileBrowseFormField(forms.CharField):
 
 class FileBrowseField(CharField):
     description = "FileBrowseField"
+    file_class = FileObject
+    form_class = FileBrowseFormField
+    form_widget = FileBrowseWidget
     __metaclass__ = models.SubfieldBase
     
     def __init__(self, *args, **kwargs):
@@ -97,9 +105,9 @@ class FileBrowseField(CharField):
         return super(FileBrowseField, self).__init__(*args, **kwargs)
     
     def to_python(self, value):
-        if not value or isinstance(value, FileObject):
+        if not value or isinstance(value, self.file_class):
             return value
-        return FileObject(value, site=self.site)
+        return self.file_class(value, site=self.site)
     
     def get_db_prep_value(self, value, connection, prepared=False):
         if not value:
@@ -119,8 +127,8 @@ class FileBrowseField(CharField):
         attrs["extensions"] = self.extensions
         attrs["format"] = self.format
         defaults = {
-            'form_class': FileBrowseFormField,
-            'widget': FileBrowseWidget(attrs=attrs),
+            'form_class': self.form_class,
+            'widget': self.form_widget(attrs=attrs),
             'site': self.site,
             'directory': self.directory,
             'extensions': self.extensions,
@@ -132,7 +140,5 @@ class FileBrowseField(CharField):
 try:
     from south.modelsinspector import add_introspection_rules
     add_introspection_rules([], ["^filebrowser\.fields\.FileBrowseField"])
-except:
+except ImportError:
     pass
-
-
