@@ -24,7 +24,6 @@ from django.core.urlresolvers import get_resolver, get_urlconf, resolve, reverse
 from filebrowser.core.settings import *
 from filebrowser.core.base import FileObject
 from filebrowser.core.sites import get_site_dict
-from filebrowser.core.functions import get_version_path
 
 # This module will test all FileBrowser sites with the following app_name
 APP_NAME = 'filebrowser.core'

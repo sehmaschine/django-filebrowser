@@ -14,7 +14,7 @@ from django.utils.encoding import filepath_to_uri
 from filebrowser.core.settings import *
 from filebrowser.core.base import FileObject
 from filebrowser.core.sites import site
-import filebrowser
+import filebrowser.core as filebrowser
 
 
 class FileObjectPathTests(TestCase):
