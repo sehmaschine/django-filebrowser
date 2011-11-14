@@ -1,9 +1,6 @@
 var FileBrowser = {
     // this is set automatically
     admin_media_prefix: '',
-    // change this
-    thumb_prefix: 'thumb_',
-    no_thumb: 'filebrowser/img/no_thumb.gif',
     
     init: function() {
         // Deduce admin_media_prefix by looking at the <script>s in the

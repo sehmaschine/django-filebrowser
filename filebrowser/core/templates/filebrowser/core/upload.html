@@ -1,0 +1,139 @@
+{% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
+{% load i18n l10n adminmedia fb_tags %}
+
+<!-- STYLESHEETS -->
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
+    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+{% endblock %}
+
+<!-- JAVASCRIPTS -->
+{% block javascripts %}
+    {{ block.super }}
+    <script type="text/javascript" src="../../jsi18n/"></script>
+    <script type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/fileuploader.js"></script>
+    <script type="text/javascript">
+    (function($){
+        $(document).ready(function() {
+            $("div#content .collapse").grp_collapsible({
+                on_init: function(elem, options) {
+                    // open collapse (and all collapse parents) in case of errors
+                    if (elem.find("ul.errorlist").length > 0) {
+                        elem.removeClass("closed")
+                            .addClass("open");
+                        elem.parents(".collapse")
+                            .removeClass("closed")
+                            .addClass("open");
+                    }
+                }
+            });
+        });
+    })(django.jQuery);
+    (function($){
+        $(document).ready(function() {
+            var uploader = new qq.FileUploader({
+                element: $('#file-uploader').get(0),
+                action: '{% url filebrowser:fb_do_upload %}',
+
+                fileTemplate: '<li>' +
+                    '<span class="qq-upload-file"></span>' +
+                    '<span class="qq-upload-spinner"></span>' +
+                    '<span class="qq-upload-size"></span>' +
+                    '<a class="qq-upload-cancel" href="#">{% trans "Cancel" %}</a>' +
+                    '<span class="qq-upload-failed-text">{% trans "Failed" %}</span>' +
+                    '<div class="progress-bar"><div class="content"></div></div>' +
+                '</li>',
+
+                params: { 'csrf_token': '{{ csrf_token }}',
+                          'csrf_name': 'csrfmiddlewaretoken',
+                          'csrf_xname': 'X-CSRFToken',
+                          'folder': '{{ query.dir|escapejs }}', },
+
+                sizeLimit: {{ settings_var.MAX_UPLOAD_SIZE }},
+                minSizeLimit: 0,
+                debug: false,
+                // messages
+                messages: {
+                    typeError: '{% trans "{file} has invalid extension. Only {extensions} are allowed." %}',
+                    sizeError: '{% trans "{file} is too large, maximum file size is {sizeLimit}." %}',
+                    minSizeError: '{% trans "{file} is too small, minimum file size is {minSizeLimit}." %}',
+                    emptyError: '{% trans "{file} is empty, please select files again without it." %}',
+                    onLeave: '{% trans "The files are being uploaded, if you leave now the upload will be cancelled." %}'
+                },
+
+                getItem: function(id) {
+                    var items = $(this.element).find('.qq-upload-list li').get();
+                    var item = items.pop();
+
+                    while (typeof item != "undefined") {
+                        if (item.qqFileId == id) {
+                            return $(item);
+                        }
+                        item = items.pop();
+                    }
+                },
+                onProgress: function(id, fileName, loaded, total){
+                    var bar = this.getItem(id).find('.progress-bar .content');
+                    var new_width = '' + (loaded/total * 100) + '%';
+                    bar.css('width', new_width);
+                },
+                onComplete: function(id, fileName, resp){
+                    if (resp.success) {
+                        this.getItem(id).fadeOut('slow');
+                    }
+                },
+                showMessage: function(message){ alert(message); }
+            });
+        });
+    })(django.jQuery);
+    </script>
+{% endblock %}
+
+<!-- COLTYPE/BODYCLASS -->
+{% block bodyclass %}change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+{% block content-class %}content-flexible{% endblock %}
+
+<!-- BREADCRUMBS -->
+{% block breadcrumbs %}{% include "filebrowser/core/include/breadcrumbs.html" %}{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+<div class="container-flexible">
+    <div class="form-container">
+        <form>
+            <fieldset class="module aligned">
+            <div class="row" id="file-uploader">
+                <noscript>
+                    {% trans "Please enable Javascript to upload files." %}
+                </noscript>
+            </div>
+            </fieldset>
+            <fieldset class="module collapse closed">
+                <h2 class="collapse-handler">{% trans "Help" %}</h2>
+                <div class="row">
+                    {% for extension in settings_var.EXTENSIONS.items %}
+                        {% ifnotequal extension.0 'Folder' %}
+                            <div class="column span-4"><label class="required">{% if forloop.first %}{% trans "Allowed" %}:{% else %}&nbsp;{% endif %}</label></div>
+                            <div class="column span-12 last"><p>{{ extension.0|safe }} ({{ extension.1|join:", "|safe }})</p></div><br clear="all" />
+                        {% endifnotequal %}
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <div class="column span-4"><label class="required">{% trans "Max. Filesize" %}:</label></div>
+                    <div class="column span-12 last"><p>{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p></div><br clear="all" />
+                </div>
+                {% if settings_var.CONVERT_FILENAME %}
+                    <div class="row">
+                        <div class="column span-16 last"><p>
+                            {% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}
+                        </p></div><br clear="all" />
+                    </div>
+                {% endif %}
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}
