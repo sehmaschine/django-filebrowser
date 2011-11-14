@@ -11,21 +11,21 @@ function FileSubmit(FilePath, FileURL, ThumbURL, FileType) {
     previewimage = opener.document.getElementById(previewimage_id);
     // set new value for input field
     input.value = FilePath;
-    
+	
     if (ThumbURL && FileType != "") {
         // selected file is an image and thumbnail is available:
         // display the preview-image (thumbnail)
         // link the preview-image to the original image
         previewlink.setAttribute("href", FileURL);
-        previewlink.setAttribute("target", "_blank");
-        previewimage.setAttribute("src", ThumbURL);
-        preview.setAttribute("style", "display:block");
+        previewlink.setAttribute("target", "_blank");			
+		previewimage.setAttribute("src", ThumbURL);	
+		preview.setAttribute("style", "display:block");
     } else {
         // hide preview elements
         previewlink.setAttribute("href", "");
         previewlink.setAttribute("target", "");
-        previewimage.setAttribute("src", "");
-        preview.setAttribute("style", "display:none");
+       	previewimage.setAttribute("src", "");
+       	preview.setAttribute("style", "display:none");
     }
     this.close();
 }

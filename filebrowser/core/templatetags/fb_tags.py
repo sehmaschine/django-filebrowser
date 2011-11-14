@@ -7,12 +7,12 @@ from django.utils.safestring import mark_safe
 from django.utils.http import urlquote
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import SELECT_FORMATS
+from filebrowser.core.settings import SELECT_FORMATS
 
 register = template.Library()
 
 
-@register.inclusion_tag('filebrowser/include/_response.html', takes_context=True)
+@register.inclusion_tag('filebrowser/core/include/_response.html', takes_context=True)
 def query_string(context, add=None, remove=None):
     """
     Allows the addition and removal of query string parameters.

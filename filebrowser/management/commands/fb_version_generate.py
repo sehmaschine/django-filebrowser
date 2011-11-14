@@ -7,8 +7,8 @@ import os, re
 from django.core.management.base import BaseCommand, CommandError
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import EXTENSION_LIST, EXCLUDE, MEDIA_ROOT, DIRECTORY, VERSIONS, EXTENSIONS
-from filebrowser.functions import version_generator
+from filebrowser.versions.settings import EXTENSION_LIST, EXCLUDE, MEDIA_ROOT, DIRECTORY, VERSIONS, EXTENSIONS
+from filebrowser.versions.functions import version_generator
 
 
 class Command(BaseCommand):

@@ -1,7 +1,7 @@
 {% extends "admin/base_site.html" %}
 
 <!-- LOADING -->
-{% load i18n adminmedia fb_tags fb_versions %}
+{% load i18n adminmedia fb_tags %}
 
 <!-- STYLESHEETS -->
 {% block stylesheets %}
@@ -20,7 +20,7 @@
 {% block content-class %}content-flexible{% endblock %}
 
 <!-- BREADCRBUMBS -->
-{% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
+{% block breadcrumbs %}{% include "filebrowser/core/include/breadcrumbs.html" %}{% endblock %}
 
 <!-- CONTENT -->
 {% block content %}
