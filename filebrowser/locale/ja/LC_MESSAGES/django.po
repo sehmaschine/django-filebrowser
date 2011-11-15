@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
 "POT-Creation-Date: 2011-10-06 15:00+0200\n"
-"PO-Revision-Date: 2011-10-06 14:41+0000\n"
+"PO-Revision-Date: 2011-10-06 14:47+0000\n"
 "Last-Translator: slack4u <slack4u@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.net/projects/p/django-filebrowser/team/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -287,16 +287,16 @@ msgstr "{file} はファイルサイズが小さすぎます。1ファイルの�
 
 #: templates/filebrowser/upload.html:63
 msgid "{file} is empty, please select files again without it."
-msgstr ""
+msgstr "{file} は空ファイルです。もう一度選択しなおしてください。"
 
 #: templates/filebrowser/upload.html:64
 msgid ""
 "The files are being uploaded, if you leave now the upload will be cancelled."
-msgstr ""
+msgstr "現在ファイルのアップロード中です。他のページへ移動するとアップロードはキャンセルされます。"
 
 #: templates/filebrowser/upload.html:110
 msgid "Please enable Javascript to upload files."
-msgstr ""
+msgstr "ファイルをアップロードするにはJavaScriptを有効化してください。"
 
 #: templates/filebrowser/upload.html:115
 msgid "Help"

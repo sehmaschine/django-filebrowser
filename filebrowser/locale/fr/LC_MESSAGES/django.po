@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
 "POT-Creation-Date: 2011-10-06 15:00+0200\n"
-"PO-Revision-Date: 2011-10-06 14:40+0000\n"
-"Last-Translator: sehmaschine <patrick@vonautomatisch.at>\n"
+"PO-Revision-Date: 2011-10-13 13:46+0000\n"
+"Last-Translator: Natim <remy.hubscher@ionyse.com>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/django-filebrowser/team/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,6 +48,8 @@ msgid ""
 "Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
 "exist?"
 msgstr ""
+"Impossible de trouver le répertoire d'upload (MEDIA_ROOT + DIRECTORY). Peut-"
+"être qu'il n'existe pas ?"
 
 #: decorators.py:25
 msgid "The requested Folder does not exist."
@@ -279,32 +281,39 @@ msgstr "Sauvegarder et continuer l'édition"
 
 #: templates/filebrowser/upload.html:46
 msgid "Failed"
-msgstr ""
+msgstr "Échec"
 
 #: templates/filebrowser/upload.html:60
 msgid "{file} has invalid extension. Only {extensions} are allowed."
 msgstr ""
+"{file} n'a pas une extension valide. Seules les extensions suivantes sont "
+"autorisées : {extensions}."
 
 #: templates/filebrowser/upload.html:61
 msgid "{file} is too large, maximum file size is {sizeLimit}."
 msgstr ""
+"{file} est trop lourd, la taille maximale d'un fichier est {sizeLimit}"
 
 #: templates/filebrowser/upload.html:62
 msgid "{file} is too small, minimum file size is {minSizeLimit}."
-msgstr ""
+msgstr "{file} est trop léger, la taille minimale est {minSizeLimit}."
 
 #: templates/filebrowser/upload.html:63
 msgid "{file} is empty, please select files again without it."
 msgstr ""
+"{file} est vide, merci de sélectionner, à nouveau, les fichiers sans ce "
+"dernier."
 
 #: templates/filebrowser/upload.html:64
 msgid ""
 "The files are being uploaded, if you leave now the upload will be cancelled."
 msgstr ""
+"Les fichiers sont en cours de téléchargement. Si vous quitter maintenant le "
+"transfert va être annulé."
 
 #: templates/filebrowser/upload.html:110
 msgid "Please enable Javascript to upload files."
-msgstr ""
+msgstr "Merci d'activer javascript pour télécharger des fichiers."
 
 #: templates/filebrowser/upload.html:115
 msgid "Help"
