@@ -35,7 +35,7 @@ def test_browse(test):
     """
     Check the browse view functions as expected.
     """
-    url = reverse('%s:fb_browse' % test.site_name)
+    url = reverse('%s:fb_browse' % APP_NAME, current_app=test.site_name)
     response = test.c.get(url)
     
     # Check we get OK response for browsing
@@ -65,7 +65,7 @@ def test_createdir(test):
     test.tmpdir = FileObject(os.path.join(test.site.directory, tmpdir_name), site=test.site)
     
     # Create the directory using the createdir view
-    url = reverse('%s:fb_createdir' % test.site_name)
+    url = reverse('%s:fb_createdir' % APP_NAME, current_app=test.site_name)
     response = test.c.post(url,{'name' : tmpdir_name})
     
     # Check we got Redirection response for createdir
@@ -78,7 +78,7 @@ def test_upload(test):
     """
     Check the upload view functions as expected. Does not check the uploading itself.
     """
-    url = reverse('%s:fb_upload' % test.site_name)
+    url = reverse('%s:fb_upload' % APP_NAME, current_app=test.site_name)
     response = test.c.get(url, {'name': test.tmpdir.path_relative_directory})
     
     # Check we get OK response for upload view
@@ -91,7 +91,7 @@ def test_do_upload(test):
     ## Attemp an upload using AJAX SUBMISSION
     f = open(os.path.join(PATH_FILEBROWSER_MEDIA, 'img/testimage.jpg'), "rb")
     file_size = os.path.getsize(f.name)
-    url = reverse('%s:fb_do_upload' % test.site_name)
+    url = reverse('%s:fb_do_upload' % APP_NAME, current_app=test.site_name)
     url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage.jpg'})])
     response = test.c.post(url, data=f.read(), content_type='application/octet-stream', HTTP_X_REQUESTED_WITH='XMLHttpRequest', X_File_Name='testimage.jpg')
     f.close()
@@ -109,7 +109,7 @@ def test_do_upload(test):
     
     # ## Attemp an upload of the file using BASIC SUBMISSION
     # f = open(os.path.join(PATH_FILEBROWSER_MEDIA, 'img/testimage.jpg'))
-    # url = reverse('%s:fb_do_upload' % test.site_name)
+    # url = reverse('%s:fb_do_upload' % APP_NAME, current_app=test.site_name)
     # response = test.c.post(url, {'file':f, 'folder': test.tmpdir.path_relative_directory, 'file_name': 'testimage_basic.jpg'})
     # f.close()
     
@@ -127,7 +127,7 @@ def test_detail(test):
     """
     Check the detail view and version generation. Check also renaming of files.
     """
-    url = reverse('%s:fb_detail' % test.site_name)
+    url = reverse('%s:fb_detail' % APP_NAME, current_app=test.site_name)
     response = test.c.get(url, {'dir': test.testfile.folder, 'filename': test.testfile.filename})
     
     # Check we get an OK response for the detail view
@@ -161,7 +161,7 @@ def test_delete_confirm(test):
     Check that the delete view functions as expected. Does not check the deletion itself, 
     that happens in test_delete().
     """
-    url = reverse('%s:fb_delete_confirm' % test.site_name)
+    url = reverse('%s:fb_delete_confirm' % APP_NAME, current_app=test.site_name)
     response = test.c.get(url, {'dir': test.testfile.folder, 'filename': test.testfile.filename})
     
     # Check we get OK response for delete_confirm
@@ -181,7 +181,7 @@ def test_delete(test):
         versions.append(test.testfile.version_generate(version_suffix))
     
     # Request the delete view
-    url = reverse('%s:fb_delete' % test.site_name)
+    url = reverse('%s:fb_delete' % APP_NAME, current_app=test.site_name)
     response = test.c.get(url, {'dir': test.testfile.folder, 'filename': test.testfile.filename})
 
     # Check we get 302 response for delete
