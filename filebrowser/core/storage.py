@@ -110,3 +110,4 @@ class S3BotoStorageMixin(StorageMixin):
         dirlist = self.bucket.list(self._encode_name(name))
         for item in dirlist:
             item.delete()
+            
