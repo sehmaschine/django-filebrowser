@@ -14,7 +14,7 @@ from filebrowser.base import FileObject
 from filebrowser.settings import ADMIN_THUMBNAIL
 
 
-class FileInput(DjangoClearableFileInput):
+class FileInput(DjangoFileInput):
 
     initial_text = ugettext_lazy('Currently')
     input_text = ugettext_lazy('Change')
