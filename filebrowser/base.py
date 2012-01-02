@@ -54,10 +54,17 @@ class FileListing():
             from filebrowser.sites import site as default_site
             site = default_site
         self.site = site
-    
+
+    _is_folder_stored = None
+    def _is_folder(self):
+        if self._is_folder_stored == None:
+            self._is_folder_stored = self.site.storage.isdir(self.path)
+        return self._is_folder_stored
+    is_folder = property(_is_folder)
+
     def listing(self):
         "List all files for path"
-        if self.site.storage.isdir(self.path):
+        if self.is_folder:
             dirs, files = self.site.storage.listdir(self.path)
             return (f for f in dirs + files)
         return []
@@ -83,7 +90,7 @@ class FileListing():
     def walk(self):
         "Walk all files for path"
         filelisting = []
-        if self.site.storage.isdir(self.path):
+        if self.is_folder:
             self._walk(self.path, filelisting)
         return filelisting
     
@@ -211,7 +218,7 @@ class FileObject():
     def _filetype(self):
         if self._filetype_stored != None:
             return self._filetype_stored
-        if self.site.storage.isdir(self.path):
+        if self.is_folder:
             self._filetype_stored = 'Folder'
         else:
             self._filetype_stored = get_file_type(self.filename)
@@ -313,12 +320,15 @@ class FileObject():
         return os.path.dirname(path_strip(os.path.join(self.head,''), self.site.directory))
     folder = property(_folder)
     
+    _is_folder_stored = None
     def _is_folder(self):
-        return self.site.storage.isdir(self.path)
+        if self._is_folder_stored == None:
+            self._is_folder_stored = self.site.storage.isdir(self.path)
+        return self._is_folder_stored
     is_folder = property(_is_folder)
     
     def _is_empty(self):
-        if self.site.storage.isdir(self.path):
+        if self.is_folder:
             dirs, files = self.site.storage.listdir(self.path)
             if not dirs and not files:
                 return True
