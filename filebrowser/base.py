@@ -259,19 +259,23 @@ class FileObject():
     def _url(self):
         return self.site.storage.url(self.path)
     url = property(_url)
-    
+
     # IMAGE ATTRIBUTES
-    
+
+    _dimensions_stored = None
     def _dimensions(self):
-        if self.filetype == 'Image':
-            try:
-                im = Image.open(self.site.storage.open(self.path))
-                return im.size
-            except:
-                pass
-        return None
+        if self.filetype != 'Image':
+            return None
+        if self._dimensions_stored != None:
+            return self._dimensions_stored
+        try:
+            im = Image.open(self.site.storage.open(self.path))
+            self._dimensions_stored = im.size
+        except:
+            pass
+        return self._dimensions_stored
     dimensions = property(_dimensions)
-    
+
     def _width(self):
         if self.dimensions:
             return self.dimensions[0]
