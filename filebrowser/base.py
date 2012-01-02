@@ -229,7 +229,7 @@ class FileObject():
     def _filesize(self):
         if self._filesize_stored != None:
             return self._filesize_stored
-        if self.site.storage.exists(self.path):
+        if self.exists():
             self._filesize_stored = self.site.storage.size(self.path)
             return self._filesize_stored
         return None
@@ -239,7 +239,7 @@ class FileObject():
     def _date(self):
         if self._date_stored != None:
             return self._date_stored
-        if self.site.storage.exists(self.path):
+        if self.exists():
             self._date_stored = time.mktime(self.site.storage.modified_time(self.path).timetuple())
             return self._date_stored
         return None
@@ -251,10 +251,11 @@ class FileObject():
         return None
     datetime = property(_datetime)
 
+    _exists_stored = None
     def exists(self):
-        if self.storage.isdir(self.path) or self.storage.isfile(self.path):
-            return True
-        return False
+        if self._exists_stored == None:
+            self._exists_stored = self.site.storage.exists(self.path)
+        return self._exists_stored
     
     # PATH/URL ATTRIBUTES
     
