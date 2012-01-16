@@ -284,7 +284,9 @@ def version_generator(value, version_prefix, force=None, site=None):
         except ImportError:
             import ImageFile
     ImageFile.MAXBLOCK = IMAGE_MAXBLOCK # default is 64k
-    
+    if not site:
+        from filebrowser.sites import site as default_site
+        site = default_site
     tmpfile = File(NamedTemporaryFile())
     try:
         f = site.storage.open(value)
@@ -296,9 +298,9 @@ def version_generator(value, version_prefix, force=None, site=None):
         if not version:
             version = im
         if 'methods' in VERSIONS[version_prefix].keys():
-            for f in VERSIONS[version_prefix]['methods']:
-                if callable(f):
-                    version = f(version)
+            for m in VERSIONS[version_prefix]['methods']:
+                if callable(m):
+                    version = m(version)
         try:
             version.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
         except IOError:
@@ -312,7 +314,10 @@ def version_generator(value, version_prefix, force=None, site=None):
         return None
     finally:
         tmpfile.close()
-        f.close()
+        try:
+            f.close()
+        except:
+            pass
 
 def scale_and_crop(im, width, height, opts):
     """
