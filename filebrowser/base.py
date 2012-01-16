@@ -54,10 +54,17 @@ class FileListing():
             from filebrowser.sites import site as default_site
             site = default_site
         self.site = site
-    
+
+    _is_folder_stored = None
+    def _is_folder(self):
+        if self._is_folder_stored == None:
+            self._is_folder_stored = self.site.storage.isdir(self.path)
+        return self._is_folder_stored
+    is_folder = property(_is_folder)
+
     def listing(self):
         "List all files for path"
-        if self.site.storage.isdir(self.path):
+        if self.is_folder:
             dirs, files = self.site.storage.listdir(self.path)
             return (f for f in dirs + files)
         return []
@@ -83,7 +90,7 @@ class FileListing():
     def walk(self):
         "Walk all files for path"
         filelisting = []
-        if self.site.storage.isdir(self.path):
+        if self.is_folder:
             self._walk(self.path, filelisting)
         return filelisting
     
@@ -211,7 +218,7 @@ class FileObject():
     def _filetype(self):
         if self._filetype_stored != None:
             return self._filetype_stored
-        if self.site.storage.isdir(self.path):
+        if self.is_folder:
             self._filetype_stored = 'Folder'
         else:
             self._filetype_stored = get_file_type(self.filename)
@@ -222,7 +229,7 @@ class FileObject():
     def _filesize(self):
         if self._filesize_stored != None:
             return self._filesize_stored
-        if self.site.storage.exists(self.path):
+        if self.exists():
             self._filesize_stored = self.site.storage.size(self.path)
             return self._filesize_stored
         return None
@@ -232,7 +239,7 @@ class FileObject():
     def _date(self):
         if self._date_stored != None:
             return self._date_stored
-        if self.site.storage.exists(self.path):
+        if self.exists():
             self._date_stored = time.mktime(self.site.storage.modified_time(self.path).timetuple())
             return self._date_stored
         return None
@@ -244,10 +251,11 @@ class FileObject():
         return None
     datetime = property(_datetime)
 
+    _exists_stored = None
     def exists(self):
-        if self.storage.isdir(self.path) or self.storage.isfile(self.path):
-            return True
-        return False
+        if self._exists_stored == None:
+            self._exists_stored = self.site.storage.exists(self.path)
+        return self._exists_stored
     
     # PATH/URL ATTRIBUTES
     
@@ -259,19 +267,23 @@ class FileObject():
     def _url(self):
         return self.site.storage.url(self.path)
     url = property(_url)
-    
+
     # IMAGE ATTRIBUTES
-    
+
+    _dimensions_stored = None
     def _dimensions(self):
-        if self.filetype == 'Image':
-            try:
-                im = Image.open(self.site.storage.open(self.path))
-                return im.size
-            except:
-                pass
-        return None
+        if self.filetype != 'Image':
+            return None
+        if self._dimensions_stored != None:
+            return self._dimensions_stored
+        try:
+            im = Image.open(self.site.storage.open(self.path))
+            self._dimensions_stored = im.size
+        except:
+            pass
+        return self._dimensions_stored
     dimensions = property(_dimensions)
-    
+
     def _width(self):
         if self.dimensions:
             return self.dimensions[0]
@@ -309,12 +321,15 @@ class FileObject():
         return os.path.dirname(path_strip(os.path.join(self.head,''), self.site.directory))
     folder = property(_folder)
     
+    _is_folder_stored = None
     def _is_folder(self):
-        return self.site.storage.isdir(self.path)
+        if self._is_folder_stored == None:
+            self._is_folder_stored = self.site.storage.isdir(self.path)
+        return self._is_folder_stored
     is_folder = property(_is_folder)
     
     def _is_empty(self):
-        if self.site.storage.isdir(self.path):
+        if self.is_folder:
             dirs, files = self.site.storage.listdir(self.path)
             if not dirs and not files:
                 return True
