@@ -410,7 +410,7 @@ class FileBrowserSite(object):
         fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
         
         if request.method == 'POST':
-            form = ChangeForm(request.POST, path=path, fileobject=fileobject, site=self)
+            form = ChangeForm(request.POST, path=path, fileobject=fileobject, filebrowser_site=self)
             if form.is_valid():
                 new_name = form.cleaned_data['name']
                 action_name = form.cleaned_data['custom_action']
@@ -440,7 +440,7 @@ class FileBrowserSite(object):
                 except OSError, (errno, strerror):
                     form.errors['name'] = forms.util.ErrorList([_('Error.')])
         else:
-            form = ChangeForm(initial={"name": fileobject.filename}, path=path, fileobject=fileobject, site=self)
+            form = ChangeForm(initial={"name": fileobject.filename}, path=path, fileobject=fileobject, filebrowser_site=self)
         
         return render_to_response('filebrowser/detail.html', {
             'form': form,

@@ -33,7 +33,7 @@ class CreateDirForm(forms.Form):
     
     def __init__(self, path, *args, **kwargs):
         self.path = path
-        self.site = kwargs.pop("site", None)
+        self.site = kwargs.pop("filebrowser_site", None)
         super(CreateDirForm, self).__init__(*args, **kwargs)
         
     name = forms.CharField(widget=forms.TextInput(attrs=dict({ 'class': 'vTextField' }, max_length=50, min_length=3)), label=_(u'Name'), help_text=_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'), required=True)
@@ -61,7 +61,7 @@ class ChangeForm(forms.Form):
         self.path = kwargs.pop("path", None)
         self.fileobject = kwargs.pop("fileobject", None)
         from filebrowser.sites import site
-        self.site = kwargs.pop("site", None)
+        self.site = kwargs.pop("filebrowser_site", None)
         super(ChangeForm, self).__init__(*args, **kwargs)
         
         # Initialize choices of custom actions 

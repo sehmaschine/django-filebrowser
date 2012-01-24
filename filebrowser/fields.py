@@ -67,7 +67,7 @@ class FileBrowseFormField(forms.CharField):
     
     def __init__(self, max_length=None, min_length=None, site=None, directory=None, extensions=None, format=None, *args, **kwargs):
         self.max_length, self.min_length = max_length, min_length
-        self.site = site
+        self.site = kwargs.pop('filebrowser_site', site)
         self.directory = directory
         self.extensions = extensions
         if format:
@@ -114,7 +114,7 @@ class FileBrowseField(CharField):
     
     def formfield(self, **kwargs):
         attrs = {}
-        attrs["site"] = self.site
+        attrs["filebrowser_site"] = self.site
         attrs["directory"] = self.directory
         attrs["extensions"] = self.extensions
         attrs["format"] = self.format
