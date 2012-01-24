@@ -46,7 +46,7 @@ def test_browse(test):
     
     # Check directory was set correctly in the context. If this fails, it may indicate
     # that two sites were instantiated with the same name.
-    test.assertTrue(test.site.directory == response.context['site'].directory)
+    test.assertTrue(test.site.directory == response.context['filebrowser_site'].directory)
 
 def test_createdir(test):
     """

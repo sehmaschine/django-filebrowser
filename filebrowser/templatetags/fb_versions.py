@@ -40,7 +40,7 @@ class VersionNode(Node):
                 version_prefix = self.version_prefix_var.resolve(context)
             except VariableDoesNotExist:
                 return None
-        site = context.get('site', get_default_site())
+        site = context.get('filebrowser_site', get_default_site())
         directory = site.directory
         try:
             if isinstance(source, FileObject):
@@ -105,7 +105,7 @@ class VersionObjectNode(Node):
                 version_prefix = self.version_prefix_var.resolve(context)
             except VariableDoesNotExist:
                 return None
-        site = context.get('site', get_default_site())
+        site = context.get('filebrowser_site', get_default_site())
         directory = site.directory
         try:
             if isinstance(source, FileObject):

@@ -27,7 +27,7 @@ class FileBrowseWidget(Input):
     
     def __init__(self, attrs=None):
         super(FileBrowseWidget, self).__init__(attrs)
-        self.site = attrs.get('site', None)
+        self.site = attrs.get('filebrowser_site', None)
         self.directory = attrs.get('directory', '')
         self.extensions = attrs.get('extensions', '')
         self.format = attrs.get('format', '')
@@ -90,7 +90,7 @@ class FileBrowseField(CharField):
     __metaclass__ = models.SubfieldBase
     
     def __init__(self, *args, **kwargs):
-        self.site = kwargs.pop('site', site)
+        self.site = kwargs.pop('filebrowser_site', site)
         self.directory = kwargs.pop('directory', '')
         self.extensions = kwargs.pop('extensions', '')
         self.format = kwargs.pop('format', '')
@@ -121,7 +121,7 @@ class FileBrowseField(CharField):
         defaults = {
             'form_class': FileBrowseFormField,
             'widget': FileBrowseWidget(attrs=attrs),
-            'site': self.site,
+            'filebrowser_site': self.site,
             'directory': self.directory,
             'extensions': self.extensions,
             'format': self.format

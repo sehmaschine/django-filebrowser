@@ -269,7 +269,7 @@ class FileBrowserSite(object):
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': "",
-            'site': self
+            'filebrowser_site': self
         }, context_instance=Context(request, current_app=self.name))
     
     # mkdir signals
@@ -312,7 +312,7 @@ class FileBrowserSite(object):
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'New Folder'),
-            'site': self
+            'filebrowser_site': self
         }, context_instance=Context(request, current_app=self.name))
     
 
@@ -329,7 +329,7 @@ class FileBrowserSite(object):
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'Upload'),
-            'site': self
+            'filebrowser_site': self
         }, context_instance=Context(request, current_app=self.name))
 
     def delete_confirm(self, request):
@@ -363,7 +363,7 @@ class FileBrowserSite(object):
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'Confirm delete'),
-            'site': self
+            'filebrowser_site': self
         }, context_instance=Context(request, current_app=self.name))
 
     # delete signals
@@ -450,7 +450,7 @@ class FileBrowserSite(object):
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': u'%s' % fileobject.filename,
-            'site': self
+            'filebrowser_site': self
         }, context_instance=Context(request, current_app=self.name))
 
     def version(self, request):
@@ -465,7 +465,7 @@ class FileBrowserSite(object):
             'fileobject': fileobject,
             'query': query,
             'settings_var': get_settings_var(directory=self.directory),
-            'site': self
+            'filebrowser_site': self
         }, context_instance=Context(request, current_app=self.name))
 
     # upload signals
