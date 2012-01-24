@@ -285,7 +285,7 @@ class FileBrowserSite(object):
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
         
         if request.method == 'POST':
-            form = CreateDirForm(path, request.POST, site=self)
+            form = CreateDirForm(path, request.POST, filebrowser_site=self)
             if form.is_valid():
                 server_path = os.path.join(path, form.cleaned_data['name'])
                 try:
@@ -303,7 +303,7 @@ class FileBrowserSite(object):
                     else:
                         form.errors['name'] = forms.util.ErrorList([_('Error creating folder.')])
         else:
-            form = CreateDirForm(path, site=self)
+            form = CreateDirForm(path, filebrowser_site=self)
         
         return render_to_response('filebrowser/createdir.html', {
             'form': form,
