@@ -30,7 +30,15 @@
                     {% if form.dir_name.errors %}<ul class="errorlist">{{ form.name.errors }}</ul>{% endif %}
                     <p class="help">
                         {{ form.name.help_text|safe }}
-                        {% if settings_var.CONVERT_FILENAME %}<br />{% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}{% endif %}
+                        {% if settings_var.NORMALIZE_FILENAME or settings_var.CONVERT_FILENAME %}
+                            <br />
+                            {% if settings_var.NORMALIZE_FILENAME %}
+                                {% trans "The Name will be normalized by converting or stripping all non-standard characters." %} <br />
+                            {% endif %}
+                            {% if settings_var.CONVERT_FILENAME %}
+                                {% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}
+                            {% endif %}
+                        {% endif %}
                     </p>
                 </div>
             </div>
