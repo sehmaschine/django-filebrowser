@@ -366,14 +366,14 @@ def convert_filename(value):
     """
 
     if NORMALIZE_FILENAME:
-        filename, ext = os.path.splitext(value)
+        chunks = value.split(os.extsep)
         normalized = []
-        for v in filename, ext:
+        for v in chunks:
             v = unicodedata.normalize('NFKD', unicode(v)).encode('ascii', 'ignore')
             v = re.sub('[^\w\s-]', '', v).strip()
             normalized.append(v)
 
-        if normalized[1]:
+        if len(normalized) > 1:
             value = '.'.join(normalized)
         else:
             value = normalized[0]
