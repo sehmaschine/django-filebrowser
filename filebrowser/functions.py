@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # imports
-import os
+import os, unicodedata, re
 from time import gmtime, strftime, localtime, mktime, time
 from tempfile import NamedTemporaryFile
 
@@ -233,6 +233,8 @@ def get_settings_var(directory=DIRECTORY):
     settings_var['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
     # FileBrowser Options
     settings_var['MAX_UPLOAD_SIZE'] = MAX_UPLOAD_SIZE
+    # Normalize Filenames
+    settings_var['NORMALIZE_FILENAME'] = NORMALIZE_FILENAME
     # Convert Filenames
     settings_var['CONVERT_FILENAME'] = CONVERT_FILENAME
     # Traverse directories when searching
@@ -362,10 +364,21 @@ def convert_filename(value):
     """
     Convert Filename.
     """
-    
+
+    if NORMALIZE_FILENAME:
+        chunks = value.split(os.extsep)
+        normalized = []
+        for v in chunks:
+            v = unicodedata.normalize('NFKD', unicode(v)).encode('ascii', 'ignore')
+            v = re.sub('[^\w\s-]', '', v).strip()
+            normalized.append(v)
+
+        if len(normalized) > 1:
+            value = '.'.join(normalized)
+        else:
+            value = normalized[0]
+
     if CONVERT_FILENAME:
-        return value.replace(" ", "_").lower()
-    else:
-        return value
+        value = value.replace(" ", "_").lower()
 
-
+    return value
