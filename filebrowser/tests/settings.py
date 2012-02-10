@@ -61,7 +61,13 @@ class SettingsTests(TestCase):
         Test if ``STRICT_PIL`` is in ``True, False``.
         """
         self.assertIn(STRICT_PIL, [True, False])
-    
+
+    def test_normalize_filename(self):
+        """
+        Test if ``NORMALIZE_FILENAME`` is in ``True, False``.
+        """
+        self.assertIn(NORMALIZE_FILENAME, [True, False])
+
     def test_convert_filename(self):
         """
         Test if ``CONVERT_FILENAME`` is in ``True, False``.
