@@ -25,7 +25,7 @@ class FileBrowseWidget(Input):
     class Media:
         js = (os.path.join(URL_FILEBROWSER_MEDIA, 'js/AddFileBrowser.js'), )
     
-    def __init__(self, attrs=None):
+    def __init__(self, attrs={}):
         super(FileBrowseWidget, self).__init__(attrs)
         self.site = attrs.get('filebrowser_site', None)
         self.directory = attrs.get('directory', '')
