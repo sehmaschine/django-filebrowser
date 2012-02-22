@@ -137,7 +137,7 @@ def url_join(*args):
         arg = arg.replace("\\", "/")
         arg_split = arg.split("/")
         for elem in arg_split:
-            if elem != "" and elem != "http:"and elem != "https:":
+            if elem != "" and elem != "http:" and elem != "https:":
                 url = url + elem + "/"
     # remove trailing slash for filenames
     if os.path.splitext(args[-1])[1]:
