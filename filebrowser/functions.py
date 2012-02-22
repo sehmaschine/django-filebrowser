@@ -129,13 +129,15 @@ def url_join(*args):
     
     if args[0].startswith("http://"):
         url = "http://"
+    elif args[0].startswith("https://"):
+        url = "https://"
     else:
         url = "/"
     for arg in args:
         arg = arg.replace("\\", "/")
         arg_split = arg.split("/")
         for elem in arg_split:
-            if elem != "" and elem != "http:":
+            if elem != "" and elem != "http:"and elem != "https:":
                 url = url + elem + "/"
     # remove trailing slash for filenames
     if os.path.splitext(args[-1])[1]:
