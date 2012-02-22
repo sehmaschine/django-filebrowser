@@ -112,10 +112,6 @@ class FileBrowserSite(object):
         return self._directory
     
     def _directory_set(self, val):
-        if os.path.basename(val): # There's a trailing slash missing
-            raise ImproperlyConfigured("Directory '%(dir)s' for the site %(app_name)s.%(name)s does not end with a trailing slash." % {'dir': val, 'app_name': self.app_name, 'name': self.name})
-        if not self.storage.exists(val):
-            raise ImproperlyConfigured("Directory '%(dir)s' for the site %(app_name)s.%(name)s does not exist." % {'dir': val, 'app_name': self.app_name, 'name': self.name})
         self._directory = val
 
     directory = property(_directory_get, _directory_set)

@@ -40,7 +40,6 @@ class FileObjectPathTests(TestCase):
         self.assertEqual(f.directory, 'testdir\\testfile.jpg')
         self.assertEqual(f.folder, r'testdir')
         
-        self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
         
     def test_posix_paths(self):
         """
@@ -55,7 +54,6 @@ class FileObjectPathTests(TestCase):
         self.assertEqual(f.directory, 'testdir/testfile.jpg')
         self.assertEqual(f.folder, r'testdir')
         
-        self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
         
     def tearDown(self):
         """
@@ -89,8 +87,6 @@ class FileObjectUnicodeTests(TestCase):
         self.assertEqual(f.directory, '$%^&*\\測試文件.jpg')
         self.assertEqual(f.folder, r'$%^&*')
         
-        # Check url gets well encoded
-        self.assertEqual(f.url, filepath_to_uri('/media/uploads/$%^&*/測試文件.jpg'))
         
     def test_posix_paths(self):
         """
@@ -105,8 +101,6 @@ class FileObjectUnicodeTests(TestCase):
         self.assertEqual(f.directory, '$%^&*/測試文件.jpg')
         self.assertEqual(f.folder, r'$%^&*')
         
-        # Check url gets well encoded
-        self.assertEqual(f.url, filepath_to_uri('/media/uploads/$%^&*/測試文件.jpg'))
         
     def tearDown(self):
         """
@@ -140,8 +134,6 @@ class FileObjectVersionTests(TestCase):
         self.assertEqual(f.directory, 'testdir\\testfile.jpg')
         self.assertEqual(f.folder, r'testdir')
         
-        self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
-        
     def test_posix_paths(self):
         """
         Use posixpath to test posix paths independently from current os
@@ -154,8 +146,6 @@ class FileObjectVersionTests(TestCase):
         self.assertEqual(f.path_relative_directory, 'testdir/testfile.jpg')
         self.assertEqual(f.directory, 'testdir/testfile.jpg')
         self.assertEqual(f.folder, r'testdir')
-        
-        self.assertEqual(f.url, '/media/uploads/testdir/testfile.jpg')
         
     def tearDown(self):
         """
