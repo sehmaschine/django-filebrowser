@@ -11,7 +11,7 @@ File Storages
 
 .. versionadded:: 3.4.0
 
-Starting with |fb| 3.4, you have the option to specify which file storage engine a |fb| should use to browse/upload/modify your media files. This enables you to use a |fb| even if your media files are located at some remote system.
+Starting with |fb| 3.4, you have the option to specify which file storage engine a |fb| should use to browse/upload/modify your media files. This enables you to use a |fb| even if your media files are located at some remote system. See also the Django's documentation on storages https://docs.djangoproject.com/en/dev/topics/files/.
 
 To associate a |site| with a particular storage, set the ``storage`` property of a site object::
 
@@ -21,7 +21,10 @@ To associate a |site| with a particular storage, set the ``storage`` property of
 For storage classes other than FileSystemStorage (or those that inherit from that class), there's a little bit more effort involved in providing a storage object that can be used with |fb|. See :ref:`mixin`
 
 .. note::
-	Prior |fb| 3.4, the way to specify |fb|'s  MEDIA_ROOT and MEDIA_URL was via ``settings.py``. Starting from version 3.4, those variables are associated with the storage instance and you can set them as illustrated in the above example.
+	Prior |fb| 3.4, the way to specify |fb|'s  MEDIA_ROOT and MEDIA_URL was via ``settings.py``. Starting from version 3.4, those variables are associated with the storage instance and you can set them as illustrated in the above example. 
+
+.. warning::
+	For the reason of backward compatibility, |fb| settings ``FILEBROWSER_MEDIA_ROOT`` and ``FILEBROWSER_MEDIA_URL`` can still be used to customize |fb| as long as you're using the default |fb|'s site without having changed its storage engine. In the next major release of |fb| these settings will be removed.
 
 
 .. _mixin:

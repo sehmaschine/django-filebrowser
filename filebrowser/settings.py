@@ -17,7 +17,9 @@ except ImportError:
     DEFAULT_PATH_TINYMCE = os.path.join(settings.STATIC_ROOT, 'admin/tinymce/jscripts/tiny_mce/')
 
 # PATH AND URL SETTINGS
-# Main Media Settings
+# Main Media Settings 
+# WARNING: FILEBROWSER_MEDIA_ROOT and FILEBROWSER_MEDIA_URL will be removed in the next major release of Filebrowser.
+# Read the documentation on FileBrowser's storages (http://readthedocs.org/docs/django-filebrowser/en/latest/file_storages.html)
 MEDIA_ROOT = getattr(settings, "FILEBROWSER_MEDIA_ROOT", settings.MEDIA_ROOT)
 MEDIA_URL = getattr(settings, "FILEBROWSER_MEDIA_URL", settings.MEDIA_URL)
 # Main FileBrowser Directory. This has to be a directory within MEDIA_ROOT.
