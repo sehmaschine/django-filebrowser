@@ -1,14 +1,15 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 #   <remy.hubscher@ionyse.com>, 2011.
+#   <cyberj@arcagenis.org>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
-"POT-Creation-Date: 2011-10-06 15:00+0200\n"
+"POT-Creation-Date: 2012-02-25 10:37+0100\n"
 "PO-Revision-Date: 2011-10-13 13:46+0000\n"
 "Last-Translator: Natim <remy.hubscher@ionyse.com>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/django-filebrowser/team/fr/)\n"
@@ -92,71 +93,71 @@ msgstr "Actions"
 msgid "The File already exists."
 msgstr "Le fichier existe déjà."
 
-#: settings.py:111 templates/filebrowser/include/tableheader.html:21
+#: settings.py:121 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
 msgstr "Répertoire"
 
-#: settings.py:112
+#: settings.py:122
 msgid "Image"
 msgstr "Image"
 
-#: settings.py:113
+#: settings.py:123
 msgid "Video"
 msgstr "Vidéo"
 
-#: settings.py:114
+#: settings.py:124
 msgid "Document"
 msgstr "Document"
 
-#: settings.py:115
+#: settings.py:125
 msgid "Audio"
 msgstr "Audio"
 
-#: sites.py:269 templates/filebrowser/include/breadcrumbs.html:8
+#: sites.py:264 templates/filebrowser/include/breadcrumbs.html:8
 #: templates/filebrowser/include/breadcrumbs.html:10
 msgid "FileBrowser"
 msgstr "Gestionnaire de fichiers"
 
-#: sites.py:298
+#: sites.py:293
 #, python-format
 msgid "The Folder %s was successfully created."
 msgstr "Le répertoire %s a bien été créé."
 
-#: sites.py:303
+#: sites.py:298
 msgid "Permission denied."
 msgstr "Accès refusé."
 
-#: sites.py:305
+#: sites.py:300
 msgid "Error creating folder."
 msgstr "Error lors de la création du répertoire."
 
-#: sites.py:312 sites.py:315 templates/filebrowser/index.html:79
+#: sites.py:307 sites.py:310 templates/filebrowser/index.html:79
 msgid "New Folder"
 msgstr "Nouveau répertoire"
 
-#: sites.py:329
+#: sites.py:324
 msgid "Select files to upload"
 msgstr "Sélectionnez les fichiers à transférer."
 
-#: sites.py:332 templates/filebrowser/index.html:80
+#: sites.py:327 templates/filebrowser/index.html:80
 msgid "Upload"
 msgstr "Télécharger"
 
-#: sites.py:363 sites.py:366
+#: sites.py:358 sites.py:361
 msgid "Confirm delete"
 msgstr "Confirmez la suppression"
 
-#: sites.py:388
+#: sites.py:383
 #, python-format
 msgid "Successfully deleted %s"
 msgstr "%s a bien été supprimé"
 
-#: sites.py:433
+#: sites.py:428
 msgid "Renaming was successful."
 msgstr "Correctement renommer."
 
-#: sites.py:442
+#: sites.py:437
 msgid "Error."
 msgstr "Erreur."
 
@@ -178,8 +179,16 @@ msgstr "Vider"
 msgid "Please correct the following errors."
 msgstr "Merci de corriger les erreurs suivantes."
 
-#: templates/filebrowser/createdir.html:33
-#: templates/filebrowser/upload.html:131
+#: templates/filebrowser/createdir.html:36
+#: templates/filebrowser/upload.html:132
+msgid ""
+"The Name will be normalized by converting or stripping all non-standard "
+"characters."
+msgstr "Le nom va être normalisé en convertissant ou en retirant tous les"
+"caractères non standard."
+
+#: templates/filebrowser/createdir.html:39
+#: templates/filebrowser/upload.html:135
 msgid ""
 "The Name will be converted to lowercase. Spaces will be replaced with "
 "underscores."
@@ -187,7 +196,7 @@ msgstr ""
 "Le nom va être converti en minuscule. Les espaces vont être remplacés par "
 "des tirets-bas (_)"
 
-#: templates/filebrowser/createdir.html:40
+#: templates/filebrowser/createdir.html:48
 #: templates/filebrowser/rename.html:38
 msgid "Submit"
 msgstr "Envoyer"
@@ -201,8 +210,8 @@ msgstr "Fichier introuvable"
 #: templates/filebrowser/delete_confirm.html:29
 #, python-format
 msgid ""
-"Are you sure you want to delete \"%(escaped_object)s\"? All of the following"
-" items will be deleted:"
+"Are you sure you want to delete \"%(escaped_object)s\"? All of the following "
+"items will be deleted:"
 msgstr ""
 "Êtes-vous sûr de vouloir supprimer \"%(escaped_object)s\" ? Les objets "
 "suivant vont être supprimés :"
@@ -286,13 +295,13 @@ msgstr "Échec"
 #: templates/filebrowser/upload.html:60
 msgid "{file} has invalid extension. Only {extensions} are allowed."
 msgstr ""
-"{file} n'a pas une extension valide. Seules les extensions suivantes sont "
+"{file} n\\'a pas une extension valide. Seules les extensions suivantes sont "
 "autorisées : {extensions}."
 
 #: templates/filebrowser/upload.html:61
 msgid "{file} is too large, maximum file size is {sizeLimit}."
 msgstr ""
-"{file} est trop lourd, la taille maximale d'un fichier est {sizeLimit}"
+"{file} est trop lourd, la taille maximale d\\'un fichier est {sizeLimit}"
 
 #: templates/filebrowser/upload.html:62
 msgid "{file} is too small, minimum file size is {minSizeLimit}."
@@ -451,5 +460,3 @@ msgstr "Rechercher"
 
 #~ msgid "SELECT FILES"
 #~ msgstr "SELECT FILES"
-
-
