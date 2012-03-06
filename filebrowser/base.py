@@ -198,10 +198,10 @@ class FileObject():
 
     
     def __str__(self):
-        return smart_str(self.filename)
+        return smart_str(self.path)
     
     def __unicode__(self):
-        return smart_unicode(self.filename)
+        return smart_unicode(self.path)
     
     @property
     def name(self):
