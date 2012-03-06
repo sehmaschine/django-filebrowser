@@ -4,3 +4,4 @@ dist
 *.egg-info
 *.pot
 .DS_store
+fabfile.py
