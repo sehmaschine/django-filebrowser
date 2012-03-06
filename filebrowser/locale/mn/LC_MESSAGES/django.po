@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Анхбаяр Анхаа <l.ankhbayar@gmail.com>, 2011.
+# Анхбаяр Анхаа <l.ankhbayar@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
 "POT-Creation-Date: 2011-10-06 15:00+0200\n"
-"PO-Revision-Date: 2011-10-12 15:24+0000\n"
-"Last-Translator: Ankhbayar <l.ankhbayar@gmail.com>\n"
-"Language-Team: Mongolian (http://www.transifex.net/projects/p/django-filebrowser/team/mn/)\n"
+"PO-Revision-Date: 2012-02-15 12:34+0000\n"
+"Last-Translator: Анхбаяр Анхаа <l.ankhbayar@gmail.com>\n"
+"Language-Team: Mongolian (http://www.transifex.net/projects/p/django-filebrowser/language/mn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -64,9 +64,7 @@ msgstr "Энэ файлруу хандах эрх хүрэлцэхгүй бай�
 #: fields.py:65
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
-msgstr ""
-"%(ext)s файлын өргөтгөлийг зөвшөөрөхгүй. Зөвхөн %(allowed)s эдгээрийг "
-"зөвшөөрнө."
+msgstr "%(ext)s файлын өргөтгөлийг зөвшөөрөхгүй. Зөвхөн %(allowed)s эдгээрийг зөвшөөрнө."
 
 #: forms.py:39 forms.py:58
 msgid "Name"
@@ -74,8 +72,7 @@ msgstr "Нэр"
 
 #: forms.py:39 forms.py:45 forms.py:58 forms.py:79
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
-msgstr ""
-"Зөвхөн үсэг, тоо, доогуур зураас, хоосон зай, дундуур зураасыг зөвшөөрнө."
+msgstr "Зөвхөн үсэг, тоо, доогуур зураас, хоосон зай, дундуур зураасыг зөвшөөрнө."
 
 #: forms.py:48 forms.py:82
 msgid "The Folder already exists."
@@ -198,9 +195,7 @@ msgstr "Файл олдсонгүй"
 msgid ""
 "Are you sure you want to delete \"%(escaped_object)s\"? All of the following"
 " items will be deleted:"
-msgstr ""
-"Та \"%(escaped_object)s\"-ийг устгахын хүсэж байна уу? Үүнтэй хамт дараах "
-"зүйлүүд утсах болно:"
+msgstr "Та \"%(escaped_object)s\"-ийг устгахын хүсэж байна уу? Үүнтэй хамт дараах зүйлүүд утсах болно:"
 
 #: templates/filebrowser/delete_confirm.html:42
 #, python-format
@@ -284,15 +279,11 @@ msgstr ""
 
 #: templates/filebrowser/upload.html:61
 msgid "{file} is too large, maximum file size is {sizeLimit}."
-msgstr ""
-"{file} файлын хэмжээ хэт том байна. Файлын дээд хэмжээ {sizeLimit} хэтрэж "
-"болохгүй."
+msgstr "{file} файлын хэмжээ хэт том байна. Файлын дээд хэмжээ {sizeLimit} хэтрэж болохгүй."
 
 #: templates/filebrowser/upload.html:62
 msgid "{file} is too small, minimum file size is {minSizeLimit}."
-msgstr ""
-"{file} файлын хэмжээ хэт бага байна. Файлын доод хэмжээ  {minSizeLimit} бага"
-" байж болохгүй."
+msgstr "{file} файлын хэмжээ хэт бага байна. Файлын доод хэмжээ  {minSizeLimit} бага байж болохгүй."
 
 #: templates/filebrowser/upload.html:63
 msgid "{file} is empty, please select files again without it."
@@ -305,7 +296,7 @@ msgstr ""
 
 #: templates/filebrowser/upload.html:110
 msgid "Please enable Javascript to upload files."
-msgstr ""
+msgstr "Файлууд хуулахын тулд Javascript ийг идвэхжүүлнэ үү."
 
 #: templates/filebrowser/upload.html:115
 msgid "Help"
@@ -443,5 +434,3 @@ msgstr "Хайх"
 
 #~ msgid "SELECT FILES"
 #~ msgstr "SELECT FILES"
-
-

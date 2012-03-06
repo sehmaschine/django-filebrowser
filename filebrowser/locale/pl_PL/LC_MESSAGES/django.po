@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
 "POT-Creation-Date: 2011-10-06 15:00+0200\n"
-"PO-Revision-Date: 2011-10-06 21:56+0000\n"
-"Last-Translator: vbert <wsobczak@gmail.com>\n"
-"Language-Team: Polish (Poland) (http://www.transifex.net/projects/p/django-filebrowser/team/pl_PL/)\n"
+"PO-Revision-Date: 2012-02-14 08:24+0000\n"
+"Last-Translator: Wojciech Sobczak <wsobczak@gmail.com>\n"
+"Language-Team: Polish (Poland) (http://www.transifex.net/projects/p/django-filebrowser/language/pl_PL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -47,8 +47,7 @@ msgstr "Obróć o 180°"
 msgid ""
 "Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
 "exist?"
-msgstr ""
-"Błąd w szukaniu katalogu Upload (MEDIA_ROOT + DIRECTORY). Może nie istnieje?"
+msgstr "Błąd w szukaniu katalogu Upload (MEDIA_ROOT + DIRECTORY). Może nie istnieje?"
 
 #: decorators.py:25
 msgid "The requested Folder does not exist."
@@ -65,8 +64,7 @@ msgstr "Nie masz uprawnień dostępu do tego pliku!"
 #: fields.py:65
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
-msgstr ""
-"Rozszerzenie %(ext)s nie jest dozwolone. Tylko %(allowed)s jest dozwolone."
+msgstr "Rozszerzenie %(ext)s nie jest dozwolone. Tylko %(allowed)s jest dozwolone."
 
 #: forms.py:39 forms.py:58
 msgid "Name"
@@ -179,9 +177,7 @@ msgstr "Proszę poprawić następujące błędy."
 msgid ""
 "The Name will be converted to lowercase. Spaces will be replaced with "
 "underscores."
-msgstr ""
-"Nazwa zostanie zamieniona na małe litery. Spacje zostaną zastąpione przez "
-"podkreślenia."
+msgstr "Nazwa zostanie zamieniona na małe litery. Spacje zostaną zastąpione przez podkreślenia."
 
 #: templates/filebrowser/createdir.html:40
 #: templates/filebrowser/rename.html:38
@@ -199,9 +195,7 @@ msgstr "Nie znaleziono pliku"
 msgid ""
 "Are you sure you want to delete \"%(escaped_object)s\"? All of the following"
 " items will be deleted:"
-msgstr ""
-"Czy na pewno chcesz usunąć \"%(escaped_object)s\"? Wszystkie wymienione "
-"pozycje będą usunięte:"
+msgstr "Czy na pewno chcesz usunąć \"%(escaped_object)s\"? Wszystkie wymienione pozycje będą usunięte:"
 
 #: templates/filebrowser/delete_confirm.html:42
 #, python-format
@@ -281,8 +275,7 @@ msgstr "Niepowodzenie"
 
 #: templates/filebrowser/upload.html:60
 msgid "{file} has invalid extension. Only {extensions} are allowed."
-msgstr ""
-"{file} ma nieprawidłowe rozszerzenie. Tylko {extensions} są dozwolone."
+msgstr "{file} ma nieprawidłowe rozszerzenie. Tylko {extensions} są dozwolone."
 
 #: templates/filebrowser/upload.html:61
 msgid "{file} is too large, maximum file size is {sizeLimit}."
@@ -299,8 +292,7 @@ msgstr "{file} jest pusty, wybierz pliki ponownie bez niego."
 #: templates/filebrowser/upload.html:64
 msgid ""
 "The files are being uploaded, if you leave now the upload will be cancelled."
-msgstr ""
-"Pliki są wysyłane, jeśli przerwiesz teraz wysyłanie zostanie anulowane."
+msgstr "Pliki są wysyłane, jeśli przerwiesz teraz wysyłanie zostanie anulowane."
 
 #: templates/filebrowser/upload.html:110
 msgid "Please enable Javascript to upload files."
@@ -443,5 +435,3 @@ msgstr "Szukaj"
 
 #~ msgid "SELECT FILES"
 #~ msgstr "SELECT FILES"
-
-

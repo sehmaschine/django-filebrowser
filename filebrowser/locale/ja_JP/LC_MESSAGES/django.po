@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
 "POT-Creation-Date: 2011-10-06 15:00+0200\n"
-"PO-Revision-Date: 2011-10-06 14:40+0000\n"
-"Last-Translator: sehmaschine <patrick@vonautomatisch.at>\n"
-"Language-Team: Japanese (Japan) (http://www.transifex.net/projects/p/django-filebrowser/team/ja_JP/)\n"
+"PO-Revision-Date: 2012-02-14 08:24+0000\n"
+"Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
+"Language-Team: Japanese (Japan) (http://www.transifex.net/projects/p/django-filebrowser/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -432,5 +432,3 @@ msgstr ""
 
 #~ msgid "SELECT FILES"
 #~ msgstr "SELECT FILES"
-
-

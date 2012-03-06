@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
 "POT-Creation-Date: 2011-10-06 15:00+0200\n"
-"PO-Revision-Date: 2011-10-20 16:42+0000\n"
-"Last-Translator: maz <bnafta@gmail.com>\n"
-"Language-Team: Portuguese (Brazilian) (http://www.transifex.net/projects/p/django-filebrowser/team/pt_BR/)\n"
+"PO-Revision-Date: 2012-02-14 08:24+0000\n"
+"Last-Translator: Fábio <bnafta@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.net/projects/p/django-filebrowser/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -47,9 +47,7 @@ msgstr "Girar 180°"
 msgid ""
 "Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
 "exist?"
-msgstr ""
-"Erro ao buscar Pasta de Upload (MEDIA_ROOT + DIRECTORY). Talvez ela não "
-"existe?"
+msgstr "Erro ao buscar Pasta de Upload (MEDIA_ROOT + DIRECTORY). Talvez ela não existe?"
 
 #: decorators.py:25
 msgid "The requested Folder does not exist."
@@ -74,8 +72,7 @@ msgstr "Nome"
 
 #: forms.py:39 forms.py:45 forms.py:58 forms.py:79
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
-msgstr ""
-"São permitidos somente letras, números, sublinhados, espaços e hífens."
+msgstr "São permitidos somente letras, números, sublinhados, espaços e hífens."
 
 #: forms.py:48 forms.py:82
 msgid "The Folder already exists."
@@ -180,9 +177,7 @@ msgstr "Corrija os seguintes erros."
 msgid ""
 "The Name will be converted to lowercase. Spaces will be replaced with "
 "underscores."
-msgstr ""
-"O nome será convertida em minúsculas. Espaços serão substituídos por "
-"sublinhados."
+msgstr "O nome será convertida em minúsculas. Espaços serão substituídos por sublinhados."
 
 #: templates/filebrowser/createdir.html:40
 #: templates/filebrowser/rename.html:38
@@ -200,9 +195,7 @@ msgstr "Arquivo não encontrado"
 msgid ""
 "Are you sure you want to delete \"%(escaped_object)s\"? All of the following"
 " items will be deleted:"
-msgstr ""
-"Tem certeza de que deseja excluir \"%(escaped_object)s\"? Todos os itens a "
-"seguir serão excluídos:"
+msgstr "Tem certeza de que deseja excluir \"%(escaped_object)s\"? Todos os itens a seguir serão excluídos:"
 
 #: templates/filebrowser/delete_confirm.html:42
 #, python-format
@@ -299,9 +292,7 @@ msgstr "{file} está vazio, selecione os arquivos novamente, exceto este."
 #: templates/filebrowser/upload.html:64
 msgid ""
 "The files are being uploaded, if you leave now the upload will be cancelled."
-msgstr ""
-"Os arquivos estão sendo carregados, se você sair agora o upload será "
-"cancelado."
+msgstr "Os arquivos estão sendo carregados, se você sair agora o upload será cancelado."
 
 #: templates/filebrowser/upload.html:110
 msgid "Please enable Javascript to upload files."
@@ -443,5 +434,3 @@ msgstr "Pesquisar"
 
 #~ msgid "SELECT FILES"
 #~ msgstr "SELECT FILES"
-
-

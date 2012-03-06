@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
 "POT-Creation-Date: 2011-10-06 15:00+0200\n"
-"PO-Revision-Date: 2011-10-06 23:12+0000\n"
+"PO-Revision-Date: 2012-02-14 08:24+0000\n"
 "Last-Translator: iElectric <domen@dev.si>\n"
-"Language-Team: Slovenian (Slovenia) (http://www.transifex.net/projects/p/django-filebrowser/team/sl_SI/)\n"
+"Language-Team: Slovenian (Slovenia) (http://www.transifex.net/projects/p/django-filebrowser/language/sl_SI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -64,8 +64,7 @@ msgstr "Nimaš pravic za dostop do te datoteke!"
 #: fields.py:65
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
-msgstr ""
-"Končnica %(ext)s ni dovoljena. Samo %(allowed)s spadajo pod dovoljene."
+msgstr "Končnica %(ext)s ni dovoljena. Samo %(allowed)s spadajo pod dovoljene."
 
 #: forms.py:39 forms.py:58
 msgid "Name"
@@ -196,9 +195,7 @@ msgstr "Datoteka ne obstaja"
 msgid ""
 "Are you sure you want to delete \"%(escaped_object)s\"? All of the following"
 " items will be deleted:"
-msgstr ""
-"Si prepričan, da želiš pobrisati \"%(escaped_object)s\"? Naslednji elementi "
-"bodo pobrisani:"
+msgstr "Si prepričan, da želiš pobrisati \"%(escaped_object)s\"? Naslednji elementi bodo pobrisani:"
 
 #: templates/filebrowser/delete_confirm.html:42
 #, python-format
@@ -439,5 +436,3 @@ msgstr "Išči"
 
 #~ msgid "SELECT FILES"
 #~ msgstr "SELECT FILES"
-
-
