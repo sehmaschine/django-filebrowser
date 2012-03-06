@@ -8,8 +8,21 @@
 Changelog
 =========
 
-3.4.1 (not yet released)
-^^^^^^^^^^^^^^^^^^^^^^^^
+3.4.1 (7.3.2012)
+^^^^^^^^^^^^^^^^
+
+* Fixed an error with quotes (french translation) in upload.html.
+* Updated translations.
+* FileObject now returns path (with __unicode__ and __str__), instead of filename. This is needed because otherwise form.has_changed will always be triggerde when using a FileBrowseField.
+* Fixed a bug with versions and "f referenced before assignment" (e.g. when an image is being deleted)
+* Updated docs (warning that FILEBROWSER_MEDIA_ROOT and FILEBROWSER_MEDIA_URL will be removed with the next major release – use custom storage engine instead).
+* Fixed issue with MEDIA_URL hardcoded in tests.
+* Fixed issue when MEDIA_URL starts with https://.
+* Fixed issue with default-site (if no site is given).
+* Fixed bug with using L10N and MAX_UPLOAD_SIZE in upload.html.
+* Fixed small bug with importing Http404 in sites.py.
+* Fixed bug with Fileobject.exists.
+* Added NORMALIZE_FILENAME.
 
 3.4.0 (15/11/2011)
 ^^^^^^^^^^^^^^^^^^
