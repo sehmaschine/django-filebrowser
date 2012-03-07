@@ -15,7 +15,7 @@ Requirements
 FileBrowser 3.4.1 requires
 
 * Django 1.3 (http://www.djangoproject.com)
-* Grappelli 2.3.5 (https://github.com/sehmaschine/django-grappelli)
+* Grappelli 2.3.7 (https://github.com/sehmaschine/django-grappelli)
 * PIL (http://www.pythonware.com/products/pil/)
 
 Documentation
