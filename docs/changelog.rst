@@ -12,6 +12,7 @@ Changelog
 ^^^^^^^^^^^^^^^^^
 
 * Fixed security bug: added staff_member_required decorator to the upload-function.
+* Fixed a XSS vulnerability with fb_tags. 
 
 3.4.1 (7.3.2012)
 ^^^^^^^^^^^^^^^^
