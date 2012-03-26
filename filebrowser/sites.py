@@ -133,7 +133,7 @@ class FileBrowserSite(object):
             url(r'^detail/$', file_exists(self, path_exists(self, self.filebrowser_view(self.detail))), name="fb_detail"),
             url(r'^version/$', file_exists(self, path_exists(self, self.filebrowser_view(self.version))), name="fb_version"),
             # non-views
-            url(r'^upload_file/$', csrf_exempt(self._upload_file), name="fb_do_upload"),
+            url(r'^upload_file/$', staff_member_required(csrf_exempt(self._upload_file)), name="fb_do_upload"),
             
         )
 
