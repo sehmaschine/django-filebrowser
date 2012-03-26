@@ -8,6 +8,11 @@
 Changelog
 =========
 
+3.4.2 (26.3.2012)
+^^^^^^^^^^^^^^^^^
+
+* Fixed security bug: added staff_member_required decorator to the upload-function.
+
 3.4.1 (7.3.2012)
 ^^^^^^^^^^^^^^^^
 
