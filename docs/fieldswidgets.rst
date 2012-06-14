@@ -135,4 +135,4 @@ To show a Thumbnail on your changelist, you could use a ModelAdmin-Method::
     image_thumbnail.short_description = "Thumbnail"
 
 .. note::
-    There's different ways to achive this. The above examples show one of several options.
+    There are different ways to achieve this. The above examples show one of several options.

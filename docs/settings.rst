@@ -8,7 +8,7 @@
 Settings
 ========
 
-There's quite a few possibilities of customizing the |filebrowser| to fit your needs. Nonetheless, you should be able to start with the default settings.
+There are quite a few possibilities of customizing the |filebrowser| to fit your needs. Nonetheless, you should be able to start with the default settings.
 
 .. note::
     All settings can be defined in your projects settings-file or the FileBrowsers settings-file (``settings.py``). When using the projects settings-file, you have to use the prefix ``FILEBROWSER_`` for every setting (e.g. ``FILEBROWSER_MEDIA_URL`` instead of ``MEDIA_URL``). 
