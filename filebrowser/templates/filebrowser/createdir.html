@@ -12,23 +12,23 @@
 
 <!-- COLTYPE/BODYCLASS -->
 {% block bodyclass %}change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
-{% block content-class %}content-flexible{% endblock %}
+{% block content-class %}{% endblock %}
 
 <!-- BREADCRUMBS -->
 {% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
 
 <!-- CONTENT -->
 {% block content %}
-<div id="content-main">
+<div id="grp-content-container">
     <form action="{% query_string '' 'p' %}" method="post">{% fb_csrf_token %}
         {% if form.errors %}<p class="errornote">{% trans 'Please correct the following errors.' %}</p>{% endif %}
-        <fieldset class="module aligned">
-            <div class="row {% if form.dir_name.errors %}errors{% endif %}">
-                <div class="column span-4"><label class="required" for="id_dir_name">{{ form.name.label }}</label></div>
-                <div class="column span-flexible">
+        <fieldset class="grp-module aligned">
+            <div class="grp-row {% if form.dir_name.errors %}grp-errors{% endif %}">
+                <div class="g-d-4"><label class="required" for="id_dir_name">{{ form.name.label }}</label></div>
+                <div class="g-d-fluid">
                     {{ form.name }}
                     {% if form.dir_name.errors %}<ul class="errorlist">{{ form.name.errors }}</ul>{% endif %}
-                    <p class="help">
+                    <p class="grp-help">
                         {{ form.name.help_text|safe }}
                         {% if settings_var.NORMALIZE_FILENAME or settings_var.CONVERT_FILENAME %}
                             <br />
@@ -43,9 +43,10 @@
                 </div>
             </div>
         </fieldset>
-        <div class="module footer">
-            <ul class="submit-row">
-                <li class="submit-button-container"><input type="submit" value="{% trans 'Submit' %}" class="default" /></li>
+        <footer class="grp-module grp-submit-row grp-fixed-footer">
+            <header style="display:none"><h1>Submit Options</h1></header>
+            <ul>
+                <li><input type="submit" value="{% trans 'Submit' %}" class="grp-button grp-default" /></li>
             </ul>
         </div>
     </form>
