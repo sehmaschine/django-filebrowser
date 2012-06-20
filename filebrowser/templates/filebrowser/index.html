@@ -67,48 +67,56 @@
 {% endblock %}
 
 <!-- COLTYPE/BODYCLASS -->
-{% block bodyclass %}change-list filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
-{% block content-class %}content-flexible{% endblock %}
+{% block bodyclass %}grp-change-list filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+{% block content-class %}{% endblock %}
 
 <!-- BREADCRUMBS -->
 {% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
 
 <!-- OBJECT-TOOLS -->
 {% block object-tools %}
-<ul class="tools">
-    <li><a href="{% url filebrowser:fb_createdir %}{% query_string '' 'p' %}">{% trans "New Folder" %}</a></li>
-    <li><a href="{% url filebrowser:fb_upload %}{% query_string '' 'p' %}" class="focus">{% trans "Upload" %}</a></li>
-</ul>
+    <ul class="grp-object-tools">
+        <li><a href="{% url filebrowser:fb_createdir %}{% query_string '' 'p' %}">{% trans "New Folder" %}</a></li>
+        <li><a href="{% url filebrowser:fb_upload %}{% query_string '' 'p' %}" class="grp-state-focus">{% trans "Upload" %}</a></li>
+    </ul>
 {% endblock %}
 
 <!-- CONTENT -->
 {% block content %}
-    <div class="module changelist-filters">
-        <!-- PAGINATION -->
-        {% pagination %}
-        <!-- FILTERS -->
-        {% include "filebrowser/include/filter.html" %}
-        <!-- SEARCH -->
-        <div id="search" class="module search span-6">
-            <form id="changelist-search" action="." method="get">
-                <input type="text" size="40" name="q" value="{{ query.q }}" id="searchbar" />
-                {% if query.filter_type %}<input type="hidden" name="filter_type" value="{{ query.filter_type }}" />{% endif %}
-                {% if query.filter_date %}<input type="hidden" name="filter_date" value="{{ query.filter_date }}" />{% endif %}
-                {% if query.o %}<input type="hidden" name="o" value="{{ query.o }}" />{% endif %}
-                {% if query.ot %}<input type="hidden" name="ot" value="{{ query.ot }}" />{% endif %}
-                {% if query.pop %}<input type="hidden" name="pop" value="{{ query.pop }}" />{% endif %}
-                {% if query.type %}<input type="hidden" name="type" value="{{ query.type }}" />{% endif %}
-                {% if query.format %}<input type="hidden" name="format" value="{{ query.format }}" />{% endif %}
-                {% if query.dir %}<input type="hidden" name="dir" value="{{ query.dir|urlencode }}" />{% endif %}
-                <button class="search" type="submit" value="">&nbsp;</button>
-            </form>
+    <div class="grp-module grp-changelist-filters">
+        <div class="grp-row">
+            <div class="g-d-c-fluid">
+                <div class="g-d-fluid">
+                    <!-- PAGINATION -->
+                    {% pagination %}
+                </div>
+                <!-- SEARCH -->
+                <aside class="g-d-12 g-d-l">
+                    <header style="display:none"><h1>Search</h1></header>
+                    <div id="search" class="g-d-6">
+                        <form id="grp-changelist-search" action="." method="get">
+                            <input type="text" size="40" name="q" value="{{ query.q }}" id="grp-changelist-search" class="grp-search-field grp-form-field-contained" />
+                            {% if query.filter_type %}<input type="hidden" name="filter_type" value="{{ query.filter_type }}" />{% endif %}
+                            {% if query.filter_date %}<input type="hidden" name="filter_date" value="{{ query.filter_date }}" />{% endif %}
+                            {% if query.o %}<input type="hidden" name="o" value="{{ query.o }}" />{% endif %}
+                            {% if query.ot %}<input type="hidden" name="ot" value="{{ query.ot }}" />{% endif %}
+                            {% if query.pop %}<input type="hidden" name="pop" value="{{ query.pop }}" />{% endif %}
+                            {% if query.type %}<input type="hidden" name="type" value="{{ query.type }}" />{% endif %}
+                            {% if query.format %}<input type="hidden" name="format" value="{{ query.format }}" />{% endif %}
+                            {% if query.dir %}<input type="hidden" name="dir" value="{{ query.dir|urlencode }}" />{% endif %}
+                            <button class="grp-search-button" type="submit" value="">&nbsp;</button>
+                        </form>
+                    </div>
+                    <!-- FILTERS -->
+                    {% include "filebrowser/include/filter.html" %}
+                </aside>
+            </div>
         </div>
-        <br clear="all" />
     </div>
     <div id="changelist" class="container-full">
         <!-- RESULTS -->
         {% if filelisting.results_current %}
-            <div class="module changelist-results">
+            <div class="grp-module changelist-results">
                 <table cellspacing="0">
                     {% include "filebrowser/include/tableheader.html" %}
                     <tbody>

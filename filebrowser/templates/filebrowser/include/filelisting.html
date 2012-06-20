@@ -7,7 +7,7 @@
         {% version_object fileobject settings_var.ADMIN_THUMBNAIL as thumbnail_version %}
     {% endif %}
     
-    <tr class="{% cycle 'row1' 'row2' %}{% if fileobject.filetype == "Folder" %} fb_folder{% endif %}">
+    <tr class="grp-row {% cycle 'grp-row-even' 'grp-row-odd' %}{% if fileobject.filetype == "Folder" %} fb_folder{% endif %}">
         
         <!-- FILESELECT FOR FILEBROWSEFIELD -->
         {% if query.pop == "1" %}
