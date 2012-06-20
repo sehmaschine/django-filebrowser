@@ -101,44 +101,44 @@
 
 <!-- CONTENT -->
 {% block content %}
-<div class="container-flexible">
-    <div class="form-container">
-        <form>
-            <fieldset class="module aligned">
-            <div class="row" id="file-uploader">
-                <noscript>
-                    {% trans "Please enable Javascript to upload files." %}
-                </noscript>
-            </div>
-            </fieldset>
-            <fieldset class="module collapse closed">
-                <h2 class="collapse-handler">{% trans "Help" %}</h2>
-                <div class="row">
+<div id="grp-content-container">
+    <form>
+        <fieldset class="grp-module aligned">
+        <div class="grp-row" id="file-uploader">
+            <noscript>
+                {% trans "Please enable Javascript to upload files." %}
+            </noscript>
+        </div>
+        </fieldset>
+        <fieldset class="grp-module grp-collapse grp-open">
+            <h2 class="grp-collapse-handler">{% trans "Help" %}</h2>
+            <div class="grp-row">
+                <div class="g-d-4"><label class="required">{% trans "Allowed" %}</label></div>
+                <div class="g-d-fluid">
                     {% for extension in settings_var.EXTENSIONS.items %}
                         {% ifnotequal extension.0 'Folder' %}
-                            <div class="column span-4"><label class="required">{% if forloop.first %}{% trans "Allowed" %}:{% else %}&nbsp;{% endif %}</label></div>
-                            <div class="column span-12 last"><p>{{ extension.0|safe }} ({{ extension.1|join:", "|safe }})</p></div><br clear="all" />
+                            <p>{{ extension.0|safe }} ({{ extension.1|join:", "|safe }})</p>
                         {% endifnotequal %}
                     {% endfor %}
                 </div>
-                <div class="row">
-                    <div class="column span-4"><label class="required">{% trans "Max. Filesize" %}:</label></div>
-                    <div class="column span-12 last"><p>{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p></div><br clear="all" />
+            </div>
+            <div class="grp-row">
+                <div class="g-d-4"><label class="required">{% trans "Max. Filesize" %}:</label></div>
+                <div class="g-d-fluid"><p>{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p></div><br clear="all" />
+            </div>
+            {% if settings_var.NORMALIZE_FILENAME or settings_var.CONVERT_FILENAME %}
+                <div class="grp-row">
+                    <div class="g-d-fluid"><p>
+                        {% if settings_var.NORMALIZE_FILENAME %}
+                            {% trans "The Name will be normalized by converting or stripping all non-standard characters." %} <br />
+                        {% endif %}
+                        {% if settings_var.CONVERT_FILENAME %}
+                            {% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}
+                        {% endif %}
+                    </p></div>
                 </div>
-                {% if settings_var.NORMALIZE_FILENAME or settings_var.CONVERT_FILENAME %}
-                    <div class="row">
-                        <div class="column span-16 last"><p>
-                            {% if settings_var.NORMALIZE_FILENAME %}
-                                {% trans "The Name will be normalized by converting or stripping all non-standard characters." %} <br />
-                            {% endif %}
-                            {% if settings_var.CONVERT_FILENAME %}
-                                {% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}
-                            {% endif %}
-                        </p></div><br clear="all" />
-                    </div>
-                {% endif %}
-            </fieldset>
-        </form>
-    </div>
+            {% endif %}
+        </fieldset>
+    </form>
 </div>
 {% endblock %}
