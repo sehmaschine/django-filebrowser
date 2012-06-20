@@ -10,7 +10,7 @@ Django FileBrowser Documentation
 
 **Media-Management with Grappelli**.
 
-This documentation covers version 3.4.4 of the |filebrowser|.
+This documentation covers version 3.5 of the |filebrowser|.
 
 **Installation and Setup**
 
