@@ -306,9 +306,9 @@ def version_generator(value, version_prefix, force=None, site=None):
                 if callable(m):
                     version = m(version)
         try:
-            version.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1].lower() != '.gif'))
+            version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1] != '.gif'))
         except IOError:
-            version.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY)
+            version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=VERSION_QUALITY)
         # Remove the old version, if there's any
         if version_path != site.storage.get_available_name(version_path):
             site.storage.delete(version_path)
