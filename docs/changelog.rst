@@ -8,6 +8,11 @@
 Changelog
 =========
 
+3.4.3 (20.6.2012)
+^^^^^^^^^^^^^^^^^
+
+* Fixed a bug with versions not being generated (in case of capitalized extensions).
+
 3.4.2 (26.3.2012)
 ^^^^^^^^^^^^^^^^^
 
