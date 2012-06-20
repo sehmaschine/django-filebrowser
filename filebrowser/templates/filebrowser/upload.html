@@ -18,15 +18,15 @@
     <script type="text/javascript">
     (function($){
         $(document).ready(function() {
-            $("div#content .collapse").grp_collapsible({
+            $("div#grp-content-container .grp-collapse").grp_collapsible({
                 on_init: function(elem, options) {
                     // open collapse (and all collapse parents) in case of errors
-                    if (elem.find("ul.errorlist").length > 0) {
-                        elem.removeClass("closed")
-                            .addClass("open");
-                        elem.parents(".collapse")
-                            .removeClass("closed")
-                            .addClass("open");
+                    if (elem.find("ul.grp-errorlist").length > 0) {
+                        elem.removeClass("grp-closed")
+                            .addClass("grp-open");
+                        elem.parents(".grp-collapse")
+                            .removeClass("grp-closed")
+                            .addClass("grp-open");
                     }
                 }
             });
@@ -115,25 +115,27 @@
             <div class="grp-row">
                 <div class="g-d-4"><label class="required">{% trans "Allowed" %}</label></div>
                 <div class="g-d-fluid">
+                    <p class="grp-readonly">
                     {% for extension in settings_var.EXTENSIONS.items %}
                         {% ifnotequal extension.0 'Folder' %}
-                            <p>{{ extension.0|safe }} ({{ extension.1|join:", "|safe }})</p>
+                            {{ extension.0|safe }} ({{ extension.1|join:", "|safe }})<br />
                         {% endifnotequal %}
                     {% endfor %}
+                    </p>
                 </div>
             </div>
             <div class="grp-row">
                 <div class="g-d-4"><label class="required">{% trans "Max. Filesize" %}:</label></div>
-                <div class="g-d-fluid"><p>{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p></div><br clear="all" />
+                <div class="g-d-fluid"><p class="grp-readonly">{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p></div>
             </div>
             {% if settings_var.NORMALIZE_FILENAME or settings_var.CONVERT_FILENAME %}
                 <div class="grp-row">
                     <div class="g-d-fluid"><p>
                         {% if settings_var.NORMALIZE_FILENAME %}
-                            {% trans "The Name will be normalized by converting or stripping all non-standard characters." %} <br />
+                            <p class="grp-readonly">{% trans "The Name will be normalized by converting or stripping all non-standard characters." %}</p>
                         {% endif %}
                         {% if settings_var.CONVERT_FILENAME %}
-                            {% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}
+                            <p class="grp-readonly">{% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}</p>
                         {% endif %}
                     </p></div>
                 </div>
