@@ -67,7 +67,7 @@
 {% endblock %}
 
 <!-- COLTYPE/BODYCLASS -->
-{% block bodyclass %}grp-change-list filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+{% block bodyclass %}grp-change-list grp-filebrowser{% if query.pop %} grp-popup{% endif %}{% endblock %}
 {% block content-class %}{% endblock %}
 
 <!-- BREADCRUMBS -->
@@ -116,7 +116,7 @@
     <div id="changelist" class="container-full">
         <!-- RESULTS -->
         {% if filelisting.results_current %}
-            <div class="grp-module changelist-results">
+            <div class="grp-module grp-changelist-results">
                 <table cellspacing="0">
                     {% include "filebrowser/include/tableheader.html" %}
                     <tbody>
