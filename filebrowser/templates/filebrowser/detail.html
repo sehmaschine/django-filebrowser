@@ -15,15 +15,15 @@
     <script type="text/javascript">
     (function($){
         $(document).ready(function() {
-            $("div#content .collapse").grp_collapsible({
+            $("div#grp-content-container .grp-collapse").grp_collapsible({
                 on_init: function(elem, options) {
                     // open collapse (and all collapse parents) in case of errors
-                    if (elem.find("ul.errorlist").length > 0) {
-                        elem.removeClass("closed")
-                            .addClass("open");
-                        elem.parents(".collapse")
-                            .removeClass("closed")
-                            .addClass("open");
+                    if (elem.find("ul.grp-errorlist").length > 0) {
+                        elem.removeClass("grp-closed")
+                            .addClass("grp-open");
+                        elem.parents(".grp-collapse")
+                            .removeClass("grp-closed")
+                            .addClass("grp-open");
                     }
                 }
             });
@@ -46,7 +46,7 @@
     <form action="{% query_string "" "filter_date,filter_type,q,p" %}" method="post">{% csrf_token %}
         {% if form.errors %}<p class="errornote">{% trans 'Please correct the following errors.' %}</p>{% endif %}
         <fieldset class="grp-module">
-            <div class="grp-row {% if form.name.errors %}errors{% endif %}">
+            <div class="grp-row {% if form.name.errors %}grp-errors{% endif %}">
                 <div class="g-d-4"><label class="required" for="id_name">{{ form.name.label }}</label></div>
                 <div class="g-d-fluid">
                     {{ form.name }}
@@ -56,9 +56,9 @@
             </div>
         </fieldset>
         {% if fileobject.filetype == "Image" %}
-        <fieldset class="grp-module collapse open">
+        <fieldset class="grp-module grp-collapse grp-open">
             <h2 class="grp-collapse-handler">{% trans "Edit" %}</h2>
-            <div class="grp-row {% if form.custom_action.errors %}errors{% endif %}">
+            <div class="grp-row {% if form.custom_action.errors %}grp-errors{% endif %}">
                 <div class="g-d-4"><label class="required" for="id_custom_action">{{ form.custom_action.label }}</label></div>
                 <div class="g-d-fluid">
                     {{ form.custom_action }}
@@ -69,7 +69,7 @@
         </fieldset>
         {% endif %}
         {% if fileobject.filetype == "Folder" %}
-        <fieldset class="grp-module collapse open">
+        <fieldset class="grp-module grp-collapse grp-open">
             <h2 class="grp-collapse-handler">{% trans "Folder Information" %}</h2>
             <div class="grp-row">
                 <div class="g-d-4"><label>{% trans "Date" %}</label></div>
@@ -82,7 +82,7 @@
         </fieldset>
         {% endif %}
         {% if fileobject.filetype != "Folder" %}
-        <fieldset class="grp-module collapse open">
+        <fieldset class="grp-module grp-collapse grp-open">
             <h2 class="grp-collapse-handler">{% trans "File Information" %}</h2>
             <div class="grp-row">
                 <div class="g-d-4"><label>{% trans "URL" %}</label></div>
@@ -121,8 +121,8 @@
         </fieldset>
         {% endif %}
         {% if fileobject.filetype == "Image" %}
-        <fieldset class="grp-module collapse closed">
-            <h2 class="collapse-handler">{% trans "Image Versions" %}</h2>
+        <fieldset class="grp-module grp-collapse grp-closed">
+            <h2 class="grp-collapse-handler">{% trans "Image Versions" %}</h2>
             {% if settings_var.ADMIN_THUMBNAIL %}
             <div class="grp-row">
                 <div class="g-d-4"><label>{% trans "Thumbnail" %}</label></div>
