@@ -80,11 +80,11 @@
                     var new_width = '' + (loaded/total * 100) + '%';
                     bar.css('width', new_width);
                 },
-                onComplete: function(id, fileName, resp){
-                    if (resp.success) {
-                        this.getItem(id).fadeOut('slow');
-                    }
-                },
+                // onComplete: function(id, fileName, resp){
+                //     if (resp.success) {
+                //         this.getItem(id).fadeOut('slow');
+                //     }
+                // },
                 showMessage: function(message){ alert(message); }
             });
         });
@@ -115,29 +115,30 @@
             <div class="grp-row">
                 <div class="g-d-4"><label class="required">{% trans "Allowed" %}</label></div>
                 <div class="g-d-fluid">
-                    <p class="grp-readonly">
+                    <p class="grp-text">
                     {% for extension in settings_var.EXTENSIONS.items %}
                         {% ifnotequal extension.0 'Folder' %}
-                            {{ extension.0|safe }} ({{ extension.1|join:", "|safe }})<br />
+                            <strong>{{ extension.0|safe }}</strong> ({{ extension.1|join:", "|safe }})<br />
                         {% endifnotequal %}
                     {% endfor %}
                     </p>
                 </div>
             </div>
             <div class="grp-row">
-                <div class="g-d-4"><label class="required">{% trans "Max. Filesize" %}:</label></div>
-                <div class="g-d-fluid"><p class="grp-readonly">{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p></div>
+                <div class="g-d-4"><label class="required">{% trans "Max. Filesize" %}</label></div>
+                <div class="g-d-fluid"><p class="grp-text">{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p></div>
             </div>
             {% if settings_var.NORMALIZE_FILENAME or settings_var.CONVERT_FILENAME %}
                 <div class="grp-row">
-                    <div class="g-d-fluid"><p>
+                    <div class="g-d-4"><label class="required">{% trans "Filename" %}</label></div>
+                    <div class="g-d-fluid">
                         {% if settings_var.NORMALIZE_FILENAME %}
-                            <p class="grp-readonly">{% trans "The Name will be normalized by converting or stripping all non-standard characters." %}</p>
+                            <p class="grp-text">{% trans "The Name will be normalized by converting or stripping all non-standard characters." %}</p>
                         {% endif %}
                         {% if settings_var.CONVERT_FILENAME %}
-                            <p class="grp-readonly">{% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}</p>
+                            <p class="grp-text">{% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}</p>
                         {% endif %}
-                    </p></div>
+                    </div>
                 </div>
             {% endif %}
         </fieldset>

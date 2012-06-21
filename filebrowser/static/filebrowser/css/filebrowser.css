@@ -1,7 +1,11 @@
 
 
 body.grp-filebrowser.grp-popup #grp-content {
-    top: 28px;
+    top: 44px;
+}
+
+fieldset.grp-module p.grp-text {
+    margin: 4px 0 1px;
 }
 
 
