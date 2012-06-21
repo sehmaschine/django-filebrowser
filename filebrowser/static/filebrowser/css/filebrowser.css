@@ -1,24 +1,28 @@
 
 
+body.grp-filebrowser.grp-popup #grp-content {
+    top: 28px;
+}
+
 
 /*  Filebrowser Table
 ------------------------------------------------------------------------------------------------------ */
 
-.filebrowser table {
+/*.filebrowser table {
     font-size: 11px;
 }
 .filebrowser thead th.sorted a {
     padding-right: 13px;
-}
-.filebrowser thead th.filename {
+}*/
+.grp-filebrowser thead th.filename {
     min-width: 160px;
 }
-.filebrowser td {
+/*.filebrowser td {
     padding: 9px 10px 6px 10px !important;
 }
 .filebrowser td.fb_thumbnail {
     line-height: 11px;
-}
+}*/
 
 
 
@@ -51,60 +55,67 @@ button.fb_selectlink {
     margin-bottom: -5px !important;
 }
 button.fb_selectlink {
-    padding-top: 3px;
-    padding-bottom: 4px;
+    padding: 3px 6px 4px;
+    width: auto !important;
     height: 24px;
+    /*padding-top: 3px;
+    padding-bottom: 4px;
+    height: 24px;*/
     font-size: 11px;
 }
-@media screen and (-webkit-min-device-pixel-ratio:0) {
+/*@media screen and (-webkit-min-device-pixel-ratio:0) {
     button.fb_selectlink {
         padding-top: 4px;
     }
-}
+}*/
 
 
 
 /*  Filebrowser Pulldown Actions
 ------------------------------------------------------------------------------------------------------ */
 
-.pulldown-versions-container {
+.grp-pulldown-versions-container {
     position: relative;
     float: left;
 }
-.pulldown-versions-handler {
+.grp-pulldown-versions-handler {
     position: relative;
     display: block;
     top: -4px;
     margin-left: 2px;
-    width: 24px;
-    height: 24px;
+    padding: 0 !important;
+    width: 22px;
+    height: 22px;
     border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
 }
-.pulldown-versions-handler:link, .pulldown-versions-handler:visited {
-    background: #309bbf url('../img/icon-pulldown-versions.png') 50% 10px no-repeat scroll;
-    background: url('../img/icon-pulldown-versions.png') 50% 10px no-repeat scroll, 
-                -moz-linear-gradient(top, #33a6cc, #309bbf);
-    background: url('../img/icon-pulldown-versions.png') 50% 10px no-repeat scroll, 
-                -webkit-gradient(linear, left top, left bottom, from(#33a6cc), to(#309bbf));
+.grp-pulldown-versions-handler:link, .grp-pulldown-versions-handler:visited {
+    border: 1px solid #2B8AAB;
+    background: #309bbf url('../img/icon-pulldown-versions.png') 50% 9px no-repeat scroll;
+    background: url('../img/icon-pulldown-versions.png') 50% 9px no-repeat scroll, 
+                -moz-linear-gradient(top, #4FB2D3, #309bbf);
+    background: url('../img/icon-pulldown-versions.png') 50% 9px no-repeat scroll, 
+                -webkit-gradient(linear, left top, left bottom, from(#4FB2D3), to(#309bbf));
 }
-.pulldown-versions-handler:hover, .pulldown-versions-handler:active {
-    background: #666 url('../img/icon-pulldown-versions-hover.png') 50% 10px no-repeat scroll;
-    background: url('../img/icon-pulldown-versions-hover.png') 50% 10px no-repeat scroll, 
+.grp-pulldown-versions-handler:hover, .grp-pulldown-versions-handler:active {
+    border: 1px solid #373737;
+    background: #666 url('../img/icon-pulldown-versions-hover.png') 50% 9px no-repeat scroll;
+    background: url('../img/icon-pulldown-versions-hover.png') 50% 9px no-repeat scroll, 
                 -moz-linear-gradient(top, #555, #444);
-    background: url('../img/icon-pulldown-versions-hover.png') 50% 10px no-repeat scroll, 
+    background: url('../img/icon-pulldown-versions-hover.png') 50% 9px no-repeat scroll, 
                 -webkit-gradient(linear, left top, left bottom, from(#555), to(#444));
 }
-.open .pulldown-versions-handler {
-    background: #666 url('../img/icon-pulldown-versions-active.png') 50% 9px no-repeat scroll;
-    background: url('../img/icon-pulldown-versions-active.png') 50% 9px no-repeat scroll, 
+.grp-open .grp-pulldown-versions-handler {
+    border: 1px solid #373737;
+    background: #666 url('../img/icon-pulldown-versions-active.png') 50% 8px no-repeat scroll;
+    background: url('../img/icon-pulldown-versions-active.png') 50% 8px no-repeat scroll, 
                 -moz-linear-gradient(top, #555, #444);
-    background: url('../img/icon-pulldown-versions-active.png') 50% 9px no-repeat scroll, 
+    background: url('../img/icon-pulldown-versions-active.png') 50% 8px no-repeat scroll, 
                 -webkit-gradient(linear, left top, left bottom, from(#555), to(#444));
 }
-ul.pulldown-versions {
+ul.grp-pulldown-versions {
     display: none;
 }
-.open ul.pulldown-versions {
+.grp-open ul.grp-pulldown-versions {
     display: block;
     position: absolute;
     z-index: 1000;
@@ -115,35 +126,35 @@ ul.pulldown-versions {
     background: #309bbf;
     box-shadow: 0 0 50px #333; -moz-box-shadow: 0 0 50px #333; -webkit-box-shadow: 0 0 50px #333;
 }
-ul.pulldown-versions li {
+ul.grp-pulldown-versions li {
     border-top: 1px solid #3da8cc;
     border-bottom: 1px solid #2987a6;
 }
-ul.pulldown-versions li:first-child {
+ul.grp-pulldown-versions li:first-child {
     border-top: 0;
 }
-ul.pulldown-versions li:last-child {
+ul.grp-pulldown-versions li:last-child {
     border-bottom: 0;
 }
-ul.pulldown-versions a {
+ul.grp-pulldown-versions a {
     display: block;
     padding: 5px 30px 5px 10px;
     font-weight: bold;
     white-space: nowrap;
 }
-ul.pulldown-versions li:first-child a {
+ul.grp-pulldown-versions li:first-child a {
     border-top-left-radius: 5px; -moz-border-radius-topleft: 5px; -webkit-border-top-left-radius: 5px;
     border-top-right-radius: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-right-radius: 5px;
 }
-ul.pulldown-versions li.last a {
+ul.grp-pulldown-versions li.grp-last a {
     border-bottom-left-radius: 5px; -moz-border-radius-bottomleft: 5px; -webkit-border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px; -moz-border-radius-bottomright: 5px; -webkit-border-bottom-right-radius: 5px;
 }
-ul.pulldown-versions a:link, ul.pulldown-versions a:visited {
+ul.grp-pulldown-versions a:link, ul.grp-pulldown-versions a:visited {
     color: #fff;
     background: #309bbf;
 }
-ul.pulldown-versions a:hover, ul.pulldown-versions a:active {
+ul.grp-pulldown-versions a:hover, ul.grp-pulldown-versions a:active {
     color: #fff;
     background: #444;
 }

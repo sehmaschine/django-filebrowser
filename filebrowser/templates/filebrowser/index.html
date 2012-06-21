@@ -35,29 +35,29 @@
     <script type="text/javascript" charset="utf-8">
         (function($) {
             $(document).ready(function() {
-                $("a.pulldown-versions-handler").bind("click", function() {
-                    if (!$(this).parent().hasClass("open")) {
-                        $("tr").removeClass("selected");
-                        $(".pulldown-versions-container").removeClass("open");
-                        $(this).parent().addClass("open");
-                        $(this).parent().parent().parent().addClass("selected");
+                $("a.grp-pulldown-versions-handler").bind("click", function() {
+                    if (!$(this).parent().hasClass("grp-open")) {
+                        $("tr").removeClass("grp-selected");
+                        $(".grp-pulldown-versions-container").removeClass("grp-open");
+                        $(this).parent().addClass("grp-open");
+                        $(this).parent().parent().parent().addClass("grp-selected");
                     } else {
-                        $(this).parent().removeClass("open");
-                        $(this).parent().parent().parent().removeClass("selected");
+                        $(this).parent().removeClass("grp-open");
+                        $(this).parent().parent().parent().removeClass("grp-selected");
                     }
                 });
                 $(document).keypress(function(evt) {
                     if (evt.keyCode == '27') {
-                        $(".pulldown-versions-container:visible").removeClass("open");
-                        $(".pulldown-versions-container").parent().parent().removeClass("selected");
+                        $(".grp-pulldown-versions-container:visible").removeClass("grp-open");
+                        $(".grp-pulldown-versions-container").parent().parent().removeClass("grp-selected");
                     }
                 });
                 $(document).mousedown(function(evt) {
-                    if ($(".pulldown-versions-container").is(":visible")) {
+                    if ($(".grp-pulldown-versions-container").is(":visible")) {
                         var $target = $(evt.target);
-                        if (!$(evt.target).hasClass("pulldown-versions-container") && $target.parents(".pulldown-versions-container").length == 0) {
-                            $(".pulldown-versions-container").removeClass("open");
-                            $(".pulldown-versions-container").parent().parent().removeClass("selected");
+                        if (!$(evt.target).hasClass("pulldown-versions-container") && $target.parents(".grp-pulldown-versions-container").length == 0) {
+                            $(".grp-pulldown-versions-container").removeClass("grp-open");
+                            $(".grp-pulldown-versions-container").parent().parent().removeClass("grp-selected");
                         }
                     }
                 });
