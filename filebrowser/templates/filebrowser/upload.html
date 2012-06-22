@@ -1,12 +1,11 @@
 {% extends "admin/base_site.html" %}
 
 <!-- LOADING -->
-{% load i18n l10n adminmedia fb_tags %}
+{% load i18n l10n fb_tags %}
 
 <!-- STYLESHEETS -->
 {% block stylesheets %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
     <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
 {% endblock %}
 
