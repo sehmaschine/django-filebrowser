@@ -13,8 +13,8 @@ try:
     DEFAULT_URL_TINYMCE = tinymce.settings.JS_BASE_URL + '/'
     DEFAULT_PATH_TINYMCE = tinymce.settings.JS_ROOT + '/'
 except ImportError:
-    DEFAULT_URL_TINYMCE = settings.STATIC_URL + "tinymce/jscripts/tiny_mce/"
-    DEFAULT_PATH_TINYMCE = os.path.join(settings.STATIC_ROOT, 'admin/tinymce/jscripts/tiny_mce/')
+    DEFAULT_URL_TINYMCE = settings.STATIC_URL + "grappelli/tinymce/jscripts/tiny_mce/"
+    DEFAULT_PATH_TINYMCE = os.path.join(settings.STATIC_ROOT, 'grappelli/tinymce/jscripts/tiny_mce/')
 
 # PATH AND URL SETTINGS
 # Main Media Settings 
