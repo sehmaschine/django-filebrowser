@@ -50,7 +50,7 @@ class FileBrowseWidget(Input):
         final_attrs['extensions'] = self.extensions
         final_attrs['format'] = self.format
         final_attrs['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
-        site = self.site
+        filebrowser_site = self.site
         if value != "":
             try:
                 final_attrs['directory'] = os.path.split(value.original.path_relative_directory)[0]
