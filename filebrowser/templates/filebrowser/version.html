@@ -43,7 +43,7 @@
                 $(document).ready(function() {
                     FileSubmit('{{ image_version.path }}', '{{ image_version.url }}', '{{ thumbnail_version.url }}', '{{ image_version.filetype }}');
                 });
-            })(django.jQuery);
+            })(grp.jQuery);
         </script>
         {% endifequal %}
         {% ifequal query.pop '2' %} <!-- TinyMCE -->
@@ -52,7 +52,7 @@
                 $(document).ready(function() {
                     FileBrowserDialogue.fileSubmit('{{ image_version.url|escapejs }}');
                 });
-            })(django.jQuery);
+            })(grp.jQuery);
         </script>
         {% endifequal %}
     {% endif %}
