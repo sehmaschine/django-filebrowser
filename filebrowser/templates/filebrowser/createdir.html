@@ -22,9 +22,9 @@
     <form action="{% query_string '' 'p' %}" method="post">{% fb_csrf_token %}
         {% if form.errors %}<p class="errornote">{% trans 'Please correct the following errors.' %}</p>{% endif %}
         <fieldset class="grp-module aligned">
-            <div class="grp-row {% if form.dir_name.errors %}grp-errors{% endif %}">
-                <div class="g-d-4"><label class="required" for="id_dir_name">{{ form.name.label }}</label></div>
-                <div class="g-d-fluid">
+            <div class="grp-row l-2c-fluid l-2c-d-4 {% if form.dir_name.errors %}grp-errors{% endif %}">
+                <div class="c-1"><label class="required" for="id_dir_name">{{ form.name.label }}</label></div>
+                <div class="c-2">
                     {{ form.name }}
                     {% if form.dir_name.errors %}<ul class="errorlist">{{ form.name.errors }}</ul>{% endif %}
                     <p class="grp-help">

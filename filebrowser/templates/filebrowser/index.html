@@ -85,13 +85,9 @@
 {% block content %}
     <div class="grp-module grp-changelist-filters">
         <div class="grp-row">
-            <div class="g-d-c-fluid">
-                <div class="g-d-fluid">
-                    <!-- PAGINATION -->
-                    {% pagination %}
-                </div>
+            <div class="l-2cr-fluid l-2c-d-12">
                 <!-- SEARCH -->
-                <aside class="g-d-12 g-d-l">
+                <aside class="c-1">
                     <header style="display:none"><h1>Search</h1></header>
                     <div id="search" class="g-d-6">
                         <form id="grp-changelist-search" action="." method="get">
@@ -110,6 +106,10 @@
                     <!-- FILTERS -->
                     {% include "filebrowser/include/filter.html" %}
                 </aside>
+                <div class="c-2">
+                    <!-- PAGINATION -->
+                    {% pagination %}
+                </div>
             </div>
         </div>
     </div>

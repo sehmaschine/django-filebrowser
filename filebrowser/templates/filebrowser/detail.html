@@ -46,9 +46,9 @@
     <form action="{% query_string "" "filter_date,filter_type,q,p" %}" method="post">{% csrf_token %}
         {% if form.errors %}<p class="errornote">{% trans 'Please correct the following errors.' %}</p>{% endif %}
         <fieldset class="grp-module">
-            <div class="grp-row {% if form.name.errors %}grp-errors{% endif %}">
-                <div class="g-d-4"><label class="required" for="id_name">{{ form.name.label }}</label></div>
-                <div class="g-d-fluid">
+            <div class="grp-row l-2c-fluid l-2c-d-4 {% if form.name.errors %}grp-errors{% endif %}">
+                <div class="c-1"><label class="required" for="id_name">{{ form.name.label }}</label></div>
+                <div class="c-2">
                     {{ form.name }}
                     {% if form.name.errors %}<ul class="errorlist">{{ form.name.errors }}</ul>{% endif %}
                     {% if form.name.help_text %}<p class="grp-help">{{ form.name.help_text|safe }}</p>{% endif %}
@@ -58,9 +58,9 @@
         {% if fileobject.filetype == "Image" %}
         <fieldset class="grp-module grp-collapse grp-open">
             <h2 class="grp-collapse-handler">{% trans "Edit" %}</h2>
-            <div class="grp-row {% if form.custom_action.errors %}grp-errors{% endif %}">
-                <div class="g-d-4"><label class="required" for="id_custom_action">{{ form.custom_action.label }}</label></div>
-                <div class="g-d-fluid">
+            <div class="grp-row l-2c-fluid l-2c-d-4 {% if form.custom_action.errors %}grp-errors{% endif %}">
+                <div class="c-1"><label class="required" for="id_custom_action">{{ form.custom_action.label }}</label></div>
+                <div class="c-2">
                     {{ form.custom_action }}
                     {% if form.custom_action.errors %}<ul class="errorlist">{{ form.custom_action.errors }}</ul>{% endif %}
                     {% if form.custom_action.help_text %}<p class="help">{{ form.custom_action.help_text|safe }}</p>{% endif %}
@@ -71,9 +71,9 @@
         {% if fileobject.filetype == "Folder" %}
         <fieldset class="grp-module grp-collapse grp-open">
             <h2 class="grp-collapse-handler">{% trans "Folder Information" %}</h2>
-            <div class="grp-row">
-                <div class="g-d-4"><label>{% trans "Date" %}</label></div>
-                <div class="g-d-fluid">
+            <div class="grp-row l-2c-fluid l-2c-d-4">
+                <div class="c-1"><label>{% trans "Date" %}</label></div>
+                <div class="c-2">
                     <p class="grp-readonly">
                         {{ fileobject.datetime|date:"N j, Y" }}
                     </p>
@@ -84,34 +84,34 @@
         {% if fileobject.filetype != "Folder" %}
         <fieldset class="grp-module grp-collapse grp-open">
             <h2 class="grp-collapse-handler">{% trans "File Information" %}</h2>
-            <div class="grp-row">
-                <div class="g-d-4"><label>{% trans "URL" %}</label></div>
-                <div class="g-d-fluid">
+            <div class="grp-row l-2c-fluid l-2c-d-4">
+                <div class="c-1"><label>{% trans "URL" %}</label></div>
+                <div class="c-2">
                     <p class="grp-readonly">
                         <a href="{{ fileobject.url }}">{{ fileobject.url }}</a>
                     </p>
                 </div>
             </div>
-            <div class="grp-row">
-                <div class="g-d-4"><label>{% trans "Filesize" %}</label></div>
-                <div class="g-d-fluid">
+            <div class="grp-row l-2c-fluid l-2c-d-4">
+                <div class="c-1"><label>{% trans "Filesize" %}</label></div>
+                <div class="c-2">
                     <p class="grp-readonly">
                         {{ fileobject.filesize|filesizeformat }}
                     </p>
                 </div>
             </div>
-            <div class="grp-row">
-                <div class="g-d-4"><label>{% trans "Date" %}</label></div>
-                <div class="g-d-fluid">
+            <div class="grp-row l-2c-fluid l-2c-d-4">
+                <div class="c-1"><label>{% trans "Date" %}</label></div>
+                <div class="c-2">
                     <p class="grp-readonly">
                         {{ fileobject.datetime|date:"N j, Y" }}
                     </p>
                 </div>
             </div>
             {% if fileobject.filetype == "Image" %}
-                <div class="grp-row">
-                    <div class="g-d-4"><label>{% trans "Size" %}</label></div>
-                    <div class="g-d-fluid">
+                <div class="grp-row l-2c-fluid l-2c-d-4">
+                    <div class="c-1"><label>{% trans "Size" %}</label></div>
+                    <div class="c-2">
                         <p class="grp-readonly">
                             {{ fileobject.width }} x {{ fileobject.height }} px
                         </p>
@@ -124,9 +124,9 @@
         <fieldset class="grp-module grp-collapse grp-closed">
             <h2 class="grp-collapse-handler">{% trans "Image Versions" %}</h2>
             {% if settings_var.ADMIN_THUMBNAIL %}
-            <div class="grp-row">
-                <div class="g-d-4"><label>{% trans "Thumbnail" %}</label></div>
-                <div class="g-d-fluid">
+            <div class="grp-row l-2c-fluid l-2c-d-4">
+                <div class="c-1"><label>{% trans "Thumbnail" %}</label></div>
+                <div class="c-2">
                     <img src="{% version fileobject.path settings_var.ADMIN_THUMBNAIL %}" title="{% trans 'View Image' %}" />
                 </div>
             </div>
@@ -135,9 +135,9 @@
                 {% for version in settings_var.ADMIN_VERSIONS %}
                     {% version_object fileobject version as image_version %}
                     {% version_setting version %}
-                    <div class="grp-row">
-                        <div class="g-d-4"><label>{{ version_setting.verbose_name }}</label></div>
-                        <div class="g-d-fluid">
+                    <div class="grp-row l-2c-fluid l-2c-d-4">
+                        <div class="c-1"><label>{{ version_setting.verbose_name }}</label></div>
+                        <div class="c-2">
                             <img src="{{ image_version.url }}" />
                         </div>
                     </div>
