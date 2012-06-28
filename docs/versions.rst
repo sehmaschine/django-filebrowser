@@ -8,7 +8,7 @@
 Image Versions
 ==============
 
-With the FileBrowser, you are able to define different versions/sizes for Images. This enables you to save an Original Image on your Server while having different versions of that Image to automatically fit your websites Grid.
+With the FileBrowser, you are able to define different versions/sizes for Images. This enables you to save an Original Image on your Server while having different versions of that Image to automatically fit your websites Grid. Versions are also useful for responsive/adaptive layouts.
 
 Versions and the grid
 ---------------------

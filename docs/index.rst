@@ -77,7 +77,7 @@ Main Features
 * Browse your media files with the admin-interface.
 * Multiple Upload, including a progress bar.
 * Automatic Thumbnails.
-* Image-Versions to fit your websites grid.
+* Image-Versions to fit your websites grid (esp. useful with adaptive/responsive layouts).
 * Integration with TinyMCE (AdvImage & AdvLink).
 * ``FileBrowseField`` to select Images/Documents.
 * ``FileInput`` and ``ClearableFileInput`` with Image-Preview.
