@@ -256,6 +256,19 @@ span.qq-upload-file {
     margin: 4px 0 2px;
 }
 .progress-bar .content {
+    background: #309bbf; /* Old browsers */
+    background: -moz-linear-gradient(top, #36b0d9 0%, #309bbf 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#36b0d9), color-stop(100%,#309bbf)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #36b0d9 0%,#309bbf 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #36b0d9 0%,#309bbf 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, #36b0d9 0%,#309bbf 100%); /* IE10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#444444', endColorstr='#309bbf',GradientType=0 ); /* IE6-9 */
+    background: linear-gradient(top, #36b0d9 0%,#309bbf 100%); /* W3C */
+
+    height: 6px;
+    width: 0%;
+}
+.qq-upload-success .progress-bar .content {
     background: #333333; /* Old browsers */
     background: -moz-linear-gradient(top, #444444 0%, #333333 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#444444), color-stop(100%,#333333)); /* Chrome,Safari4+ */
@@ -264,7 +277,4 @@ span.qq-upload-file {
     background: -ms-linear-gradient(top, #444444 0%,#333333 100%); /* IE10+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#444444', endColorstr='#333333',GradientType=0 ); /* IE6-9 */
     background: linear-gradient(top, #444444 0%,#333333 100%); /* W3C */
-
-    height: 6px;
-    width: 0%;
 }
