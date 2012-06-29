@@ -111,32 +111,38 @@
         </fieldset>
         <fieldset class="grp-module grp-collapse grp-closed">
             <h2 class="grp-collapse-handler">{% trans "Help" %}</h2>
-            <div class="grp-row l-2c-fluid l-d-4">
-                <div class="c-1"><label class="required">{% trans "Allowed" %}</label></div>
-                <div class="c-2">
-                    <p class="grp-text">
-                    {% for extension in settings_var.EXTENSIONS.items %}
-                        {% ifnotequal extension.0 'Folder' %}
-                            <strong>{{ extension.0|safe }}</strong> ({{ extension.1|join:", "|safe }})<br />
-                        {% endifnotequal %}
-                    {% endfor %}
-                    </p>
+            <div class="grp-row">
+                <div class="l-2c-fluid l-d-4">
+                    <div class="c-1"><label class="required">{% trans "Allowed" %}</label></div>
+                    <div class="c-2">
+                        <p class="grp-text">
+                        {% for extension in settings_var.EXTENSIONS.items %}
+                            {% ifnotequal extension.0 'Folder' %}
+                                <strong>{{ extension.0|safe }}</strong> ({{ extension.1|join:", "|safe }})<br />
+                            {% endifnotequal %}
+                        {% endfor %}
+                        </p>
+                    </div>
                 </div>
             </div>
-            <div class="grp-row l-2c-fluid l-d-4">
-                <div class="c-1"><label class="required">{% trans "Max. Filesize" %}</label></div>
-                <div class="c-2"><p class="grp-text">{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p></div>
+            <div class="grp-row">
+                <div class="l-2c-fluid l-d-4">
+                    <div class="c-1"><label class="required">{% trans "Max. Filesize" %}</label></div>
+                    <div class="c-2"><p class="grp-text">{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p></div>
+                </div>
             </div>
             {% if settings_var.NORMALIZE_FILENAME or settings_var.CONVERT_FILENAME %}
-                <div class="grp-row l-2c-fluid l-d-4">
-                    <div class="c-1"><label class="required">{% trans "Filename" %}</label></div>
-                    <div class="c-2">
-                        {% if settings_var.NORMALIZE_FILENAME %}
-                            <p class="grp-text">{% trans "The Name will be normalized by converting or stripping all non-standard characters." %}</p>
-                        {% endif %}
-                        {% if settings_var.CONVERT_FILENAME %}
-                            <p class="grp-text">{% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}</p>
-                        {% endif %}
+                <div class="grp-row">
+                    <div class="l-2c-fluid l-d-4">
+                        <div class="c-1"><label class="required">{% trans "Filename" %}</label></div>
+                        <div class="c-2">
+                            {% if settings_var.NORMALIZE_FILENAME %}
+                                <p class="grp-text">{% trans "The Name will be normalized by converting or stripping all non-standard characters." %}</p>
+                            {% endif %}
+                            {% if settings_var.CONVERT_FILENAME %}
+                                <p class="grp-text">{% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}</p>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             {% endif %}
