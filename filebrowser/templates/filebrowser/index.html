@@ -113,7 +113,8 @@
             </div>
         </div>
     </div>
-    <div id="changelist" class="container-full">
+    <section id="grp-changelist">
+        <header style="display:none"><h1>Results</h1></header>
         <!-- RESULTS -->
         {% if filelisting.results_current %}
             <div class="grp-module grp-changelist-results">
@@ -125,7 +126,10 @@
                 </table>
             </div>
         {% endif %}
-        <!-- PAGINATION -->
-        {% pagination %}
-    </div>
+    </section>
+    {% if not filelisting.results_current == 0 %}
+        <div class="grp-module">
+            <div class="grp-row">{% pagination %}</div>
+        </div>
+    {% endif %}
 {% endblock %}
