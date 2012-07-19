@@ -12,7 +12,7 @@ Requirements
 ------------
 
 * Django 1.4, http://www.djangoproject.com
-* Grappelli 2.2, https://github.com/sehmaschine/django-grappelli
+* Grappelli 2.4, https://github.com/sehmaschine/django-grappelli
 * PIL, http://www.pythonware.com/products/pil/
 
 Download
