@@ -29,4 +29,7 @@ setup(
     install_requires = [
         'django-grappelli >= 2.4.0',
     ],
+    dependency_links = [
+        'https://github.com/sehmaschine/django-grappelli.git@grappelli_2_4#egg=django-grappelli',
+    ]
 )
