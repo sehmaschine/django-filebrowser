@@ -27,3 +27,11 @@ Translation
 -----------
 
 https://www.transifex.net/projects/p/django-filebrowser/
+
+Releases
+--------
+
+* FileBrowser 3.5.0 (July 20 2012): Compatible with Django 1.4
+* FileBrowser 3.4.3 (April 2012): Compatible with Django 1.3
+
+Older versions are availabe at GitHub, but are not supported anymore.

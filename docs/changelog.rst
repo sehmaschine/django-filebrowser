@@ -8,7 +8,7 @@
 Changelog
 =========
 
-3.5 (not yet relased)
+3.5.0 (July 20, 2012)
 ^^^^^^^^^^^^^^^^^^^^^
 
 * Compatibility with Django 1.4 and Grappelli 2.4.
