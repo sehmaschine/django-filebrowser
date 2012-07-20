@@ -13,8 +13,8 @@ try:
     DEFAULT_URL_TINYMCE = tinymce.settings.JS_BASE_URL + '/'
     DEFAULT_PATH_TINYMCE = tinymce.settings.JS_ROOT + '/'
 except ImportError:
-    DEFAULT_URL_TINYMCE = settings.ADMIN_MEDIA_PREFIX + "tinymce/jscripts/tiny_mce/"
-    DEFAULT_PATH_TINYMCE = os.path.join(settings.STATIC_ROOT, 'admin/tinymce/jscripts/tiny_mce/')
+    DEFAULT_URL_TINYMCE = settings.STATIC_URL + "grappelli/tinymce/jscripts/tiny_mce/"
+    DEFAULT_PATH_TINYMCE = os.path.join(settings.STATIC_ROOT, 'grappelli/tinymce/jscripts/tiny_mce/')
 
 # PATH AND URL SETTINGS
 # Main Media Settings 
@@ -110,7 +110,7 @@ DEFAULT_SORTING_BY = getattr(settings, "FILEBROWSER_DEFAULT_SORTING_BY", "date")
 # Sorting Order: asc, desc
 DEFAULT_SORTING_ORDER = getattr(settings, "FILEBROWSER_DEFAULT_SORTING_ORDER", "desc")
 # regex to clean dir names before creation
-FOLDER_REGEX = getattr(settings, "FILEBROWSER_FOLDER_REGEX", r'^[\w._/-]+$')
+FOLDER_REGEX = getattr(settings, "FILEBROWSER_FOLDER_REGEX", r'^[\w._\ /-]+$')
 # Traverse directories when searching
 SEARCH_TRAVERSE = getattr(settings, "FILEBROWSER_SEARCH_TRAVERSE", False)
 # Default Upload and Version Permissions

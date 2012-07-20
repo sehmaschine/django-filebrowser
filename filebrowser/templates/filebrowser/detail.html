@@ -1,7 +1,7 @@
 {% extends "admin/base_site.html" %}
 
 <!-- LOADING -->
-{% load i18n adminmedia fb_tags fb_versions %}
+{% load i18n fb_tags fb_versions %}
 
 <!-- STYLESHEETS -->
 {% block stylesheets %}
@@ -15,145 +15,162 @@
     <script type="text/javascript">
     (function($){
         $(document).ready(function() {
-            $("div#content .collapse").grp_collapsible({
+            $("div#grp-content-container .grp-collapse").grp_collapsible({
                 on_init: function(elem, options) {
                     // open collapse (and all collapse parents) in case of errors
-                    if (elem.find("ul.errorlist").length > 0) {
-                        elem.removeClass("closed")
-                            .addClass("open");
-                        elem.parents(".collapse")
-                            .removeClass("closed")
-                            .addClass("open");
+                    if (elem.find("ul.grp-errorlist").length > 0) {
+                        elem.removeClass("grp-closed")
+                            .addClass("grp-open");
+                        elem.parents(".grp-collapse")
+                            .removeClass("grp-closed")
+                            .addClass("grp-open");
                     }
                 }
             });
         });
-    })(django.jQuery);
+    })(grp.jQuery);
     </script>
     {{ media }}
 {% endblock %}
 
 <!-- COLTYPE/BODYCLASS -->
-{% block bodyclass %}change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
-{% block content-class %}content-flexible{% endblock %}
+{% block bodyclass %}grp-change-form grp-filebrowser{% if query.pop %} grp-popup{% endif %}{% endblock %}
+{% block content-class %}{% endblock %}
 
 <!-- BREADCRBUMBS -->
 {% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
 
 <!-- CONTENT -->
 {% block content %}
-<div class="container-flexible">
-    <div class="form-container">
-        <form action="{% query_string "" "filter_date,filter_type,q,p" %}" method="post">{% csrf_token %}
-            {% if form.errors %}<p class="errornote">{% trans 'Please correct the following errors.' %}</p>{% endif %}
-            <fieldset class="module">
-                <div class="row {% if form.name.errors %}errors{% endif %}">
-                    <div class="column span-4"><label class="required" for="id_name">{{ form.name.label }}</label></div>
-                    <div class="column span-flexible">
+<div id="grp-content-container">
+    <form action="{% query_string "" "filter_date,filter_type,q,p" %}" method="post">{% csrf_token %}
+        {% if form.errors %}<p class="errornote">{% trans 'Please correct the following errors.' %}</p>{% endif %}
+        <fieldset class="grp-module">
+            <div class="grp-row {% if form.name.errors %}grp-errors{% endif %}">
+                <div class="l-2c-fluid l-d-4">
+                    <div class="c-1"><label class="required" for="id_name">{{ form.name.label }}</label></div>
+                    <div class="c-2">
                         {{ form.name }}
                         {% if form.name.errors %}<ul class="errorlist">{{ form.name.errors }}</ul>{% endif %}
-                        {% if form.name.help_text %}<p class="help">{{ form.name.help_text|safe }}</p>{% endif %}
+                        {% if form.name.help_text %}<p class="grp-help">{{ form.name.help_text|safe }}</p>{% endif %}
                     </div>
                 </div>
-            </fieldset>
-            {% if fileobject.filetype == "Image" %}
-            <fieldset class="module collapse open">
-                <h2 class="collapse-handler">{% trans "Edit" %}</h2>
-                <div class="row {% if form.custom_action.errors %}errors{% endif %}">
-                    <div class="column span-4"><label class="required" for="id_custom_action">{{ form.custom_action.label }}</label></div>
-                    <div class="column span-8">
+            </div>
+        </fieldset>
+        {% if fileobject.filetype == "Image" %}
+        <fieldset class="grp-module grp-collapse grp-open">
+            <h2 class="grp-collapse-handler">{% trans "Edit" %}</h2>
+            <div class="grp-row {% if form.custom_action.errors %}grp-errors{% endif %}">
+                <div class="l-2c-fluid l-d-4">
+                    <div class="c-1"><label class="required" for="id_custom_action">{{ form.custom_action.label }}</label></div>
+                    <div class="c-2">
                         {{ form.custom_action }}
                         {% if form.custom_action.errors %}<ul class="errorlist">{{ form.custom_action.errors }}</ul>{% endif %}
                         {% if form.custom_action.help_text %}<p class="help">{{ form.custom_action.help_text|safe }}</p>{% endif %}
                     </div>
                 </div>
-            </fieldset>
-            {% endif %}
-            {% if fileobject.filetype == "Folder" %}
-            <fieldset class="module collapse open">
-                <h2 class="collapse-handler">{% trans "Folder Information" %}</h2>
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "Date" %}</label></div>
-                    <div class="column span-flexible">
-                        <p class="readonly">
+            </div>
+        </fieldset>
+        {% endif %}
+        {% if fileobject.filetype == "Folder" %}
+        <fieldset class="grp-module grp-collapse grp-open">
+            <h2 class="grp-collapse-handler">{% trans "Folder Information" %}</h2>
+            <div class="grp-row">
+                <div class="l-2c-fluid l-d-4">
+                    <div class="c-1"><label>{% trans "Date" %}</label></div>
+                    <div class="c-2">
+                        <p class="grp-readonly">
                             {{ fileobject.datetime|date:"N j, Y" }}
                         </p>
                     </div>
                 </div>
-            </fieldset>
-            {% endif %}
-            {% if fileobject.filetype != "Folder" %}
-            <fieldset class="module collapse open">
-                <h2 class="collapse-handler">{% trans "File Information" %}</h2>
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "URL" %}</label></div>
-                    <div class="column span-flexible">
-                        <p class="readonly">
+            </div>
+        </fieldset>
+        {% endif %}
+        {% if fileobject.filetype != "Folder" %}
+        <fieldset class="grp-module grp-collapse grp-open">
+            <h2 class="grp-collapse-handler">{% trans "File Information" %}</h2>
+            <div class="grp-row">
+                <div class="l-2c-fluid l-d-4">
+                    <div class="c-1"><label>{% trans "URL" %}</label></div>
+                    <div class="c-2">
+                        <p class="grp-readonly">
                             <a href="{{ fileobject.url }}">{{ fileobject.url }}</a>
                         </p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "Filesize" %}</label></div>
-                    <div class="column span-flexible">
-                        <p class="readonly">
+            </div>
+            <div class="grp-row">
+                <div class="l-2c-fluid l-d-4">
+                    <div class="c-1"><label>{% trans "Filesize" %}</label></div>
+                    <div class="c-2">
+                        <p class="grp-readonly">
                             {{ fileobject.filesize|filesizeformat }}
                         </p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "Date" %}</label></div>
-                    <div class="column span-flexible">
-                        <p class="readonly">
+            </div>
+            <div class="grp-row">
+                <div class="l-2c-fluid l-d-4">
+                    <div class="c-1"><label>{% trans "Date" %}</label></div>
+                    <div class="c-2">
+                        <p class="grp-readonly">
                             {{ fileobject.datetime|date:"N j, Y" }}
                         </p>
                     </div>
                 </div>
-                {% if fileobject.filetype == "Image" %}
-                    <div class="row">
-                        <div class="column span-4"><label>{% trans "Size" %}</label></div>
-                        <div class="column span-flexible">
-                            <p class="readonly">
+            </div>
+            {% if fileobject.filetype == "Image" %}
+                <div class="grp-row">
+                    <div class="l-2c-fluid l-d-4">
+                        <div class="c-1"><label>{% trans "Size" %}</label></div>
+                        <div class="c-2">
+                            <p class="grp-readonly">
                                 {{ fileobject.width }} x {{ fileobject.height }} px
                             </p>
                         </div>
                     </div>
-                {% endif %}
-            </fieldset>
+                </div>
             {% endif %}
-            {% if fileobject.filetype == "Image" %}
-            <fieldset class="module collapse closed">
-                <h2 class="collapse-handler">{% trans "Image Versions" %}</h2>
-                {% if settings_var.ADMIN_THUMBNAIL %}
-                <div class="row">
-                    <div class="column span-4"><label>{% trans "Thumbnail" %}</label></div>
-                    <div class="column span-flexible">
+        </fieldset>
+        {% endif %}
+        {% if fileobject.filetype == "Image" %}
+        <fieldset class="grp-module grp-collapse grp-closed">
+            <h2 class="grp-collapse-handler">{% trans "Image Versions" %}</h2>
+            {% if settings_var.ADMIN_THUMBNAIL %}
+            <div class="grp-row">
+                <div class="l-2c-fluid l-d-4">
+                    <div class="c-1"><label>{% trans "Thumbnail" %}</label></div>
+                    <div class="c-2">
                         <img src="{% version fileobject.path settings_var.ADMIN_THUMBNAIL %}" title="{% trans 'View Image' %}" />
                     </div>
                 </div>
-                {% endif %}
-                {% if settings_var.ADMIN_VERSIONS %}
-                    {% for version in settings_var.ADMIN_VERSIONS %}
-                        {% version_object fileobject version as image_version %}
-                        {% version_setting version %}
-                        <div class="row">
-                            <div class="column span-4"><label>{{ version_setting.verbose_name }}</label></div>
-                            <div class="column span-flexible">
+            </div>
+            {% endif %}
+            {% if settings_var.ADMIN_VERSIONS %}
+                {% for version in settings_var.ADMIN_VERSIONS %}
+                    {% version_object fileobject version as image_version %}
+                    {% version_setting version %}
+                    <div class="grp-row">
+                        <div class="l-2c-fluid l-d-4">
+                            <div class="c-1"><label>{{ version_setting.verbose_name }}</label></div>
+                            <div class="c-2">
                                 <img src="{{ image_version.url }}" />
                             </div>
                         </div>
-                    {% endfor %}
-                {% endif %}
-            </fieldset>
+                    </div>
+                {% endfor %}
             {% endif %}
-            <div class="module footer">
-                <ul class="submit-row">
-                    <li class="left delete-link-container"><a href="{% url filebrowser:fb_delete_confirm %}{% query_string %}" class="delete-link">{% trans "Delete" %}</a></li>
-                    <li class="submit-button-container"><input type="submit" value="{% trans 'Save' %}" class="default" /></li>
-                    <li class="submit-button-container"><input type="submit" value="{% trans 'Save and continue editing' %}" name="_continue" /></li>
-                </ul><br clear="all" />
-            </div>
-        </form>
-    </div>
+        </fieldset>
+        {% endif %}
+        <footer class="grp-module grp-submit-row grp-fixed-footer">
+            <header style="display:none"><h1>Submit Options</h1></header>
+            <ul>
+                <li class="grp-float-left"><a href="{% url filebrowser:fb_delete_confirm %}{% query_string %}" class="grp-button grp-delete-link">{% trans "Delete" %}</a></li>
+                <li><input type="submit" value="{% trans 'Save' %}" class="grp-button grp-default" /></li>
+                <li><input type="submit" value="{% trans 'Save and continue editing' %}" class="grp-button" name="_continue" /></li>
+            </ul>
+        </footer>
+    </form>
 </div>
 {% endblock %}

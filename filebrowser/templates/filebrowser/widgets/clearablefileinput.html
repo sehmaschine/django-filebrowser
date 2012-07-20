@@ -3,7 +3,7 @@
 {% version_object value.path ADMIN_THUMBNAIL as thumbnail_version %}
 {% if thumbnail_version %}
 <p class="preview">
-    <a href="{{ value.url }}" target="_blank">
+	<a href="{{ value.url }}" target="_blank">
         <img src="{{ thumbnail_version.url }}" class="preview" />
     </a>
 </p>

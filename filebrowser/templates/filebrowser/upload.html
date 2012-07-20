@@ -1,12 +1,11 @@
 {% extends "admin/base_site.html" %}
 
 <!-- LOADING -->
-{% load i18n l10n adminmedia fb_tags %}
+{% load i18n l10n fb_tags %}
 
 <!-- STYLESHEETS -->
 {% block stylesheets %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
     <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
 {% endblock %}
 
@@ -18,20 +17,20 @@
     <script type="text/javascript">
     (function($){
         $(document).ready(function() {
-            $("div#content .collapse").grp_collapsible({
+            $("div#grp-content-container .grp-collapse").grp_collapsible({
                 on_init: function(elem, options) {
                     // open collapse (and all collapse parents) in case of errors
-                    if (elem.find("ul.errorlist").length > 0) {
-                        elem.removeClass("closed")
-                            .addClass("open");
-                        elem.parents(".collapse")
-                            .removeClass("closed")
-                            .addClass("open");
+                    if (elem.find("ul.grp-errorlist").length > 0) {
+                        elem.removeClass("grp-closed")
+                            .addClass("grp-open");
+                        elem.parents(".grp-collapse")
+                            .removeClass("grp-closed")
+                            .addClass("grp-open");
                     }
                 }
             });
         });
-    })(django.jQuery);
+    })(grp.jQuery);
     (function($){
         $(document).ready(function() {
             var uploader = new qq.FileUploader({
@@ -81,19 +80,19 @@
                     bar.css('width', new_width);
                 },
                 onComplete: function(id, fileName, resp){
-                    if (resp.success) {
-                        this.getItem(id).fadeOut('slow');
-                    }
+                    // if (resp.success) {
+                    //     this.getItem(id).fadeOut('slow');
+                    // }
                 },
                 showMessage: function(message){ alert(message); }
             });
         });
-    })(django.jQuery);
+    })(grp.jQuery);
     </script>
 {% endblock %}
 
 <!-- COLTYPE/BODYCLASS -->
-{% block bodyclass %}change-form filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
+{% block bodyclass %}change-form grp-filebrowser{% if query.pop %} grp-popup{% endif %}{% endblock %}
 {% block content-class %}content-flexible{% endblock %}
 
 <!-- BREADCRUMBS -->
@@ -101,44 +100,53 @@
 
 <!-- CONTENT -->
 {% block content %}
-<div class="container-flexible">
-    <div class="form-container">
-        <form>
-            <fieldset class="module aligned">
-            <div class="row" id="file-uploader">
-                <noscript>
-                    {% trans "Please enable Javascript to upload files." %}
-                </noscript>
+<div id="grp-content-container">
+    <form>
+        <fieldset class="grp-module aligned">
+        <div class="grp-row" id="file-uploader">
+            <noscript>
+                {% trans "Please enable Javascript to upload files." %}
+            </noscript>
+        </div>
+        </fieldset>
+        <fieldset class="grp-module grp-collapse grp-closed">
+            <h2 class="grp-collapse-handler">{% trans "Help" %}</h2>
+            <div class="grp-row">
+                <div class="l-2c-fluid l-d-4">
+                    <div class="c-1"><label class="required">{% trans "Allowed" %}</label></div>
+                    <div class="c-2">
+                        <p class="grp-text">
+                        {% for extension in settings_var.EXTENSIONS.items %}
+                            {% ifnotequal extension.0 'Folder' %}
+                                <strong>{{ extension.0|safe }}</strong> ({{ extension.1|join:", "|safe }})<br />
+                            {% endifnotequal %}
+                        {% endfor %}
+                        </p>
+                    </div>
+                </div>
             </div>
-            </fieldset>
-            <fieldset class="module collapse closed">
-                <h2 class="collapse-handler">{% trans "Help" %}</h2>
-                <div class="row">
-                    {% for extension in settings_var.EXTENSIONS.items %}
-                        {% ifnotequal extension.0 'Folder' %}
-                            <div class="column span-4"><label class="required">{% if forloop.first %}{% trans "Allowed" %}:{% else %}&nbsp;{% endif %}</label></div>
-                            <div class="column span-12 last"><p>{{ extension.0|safe }} ({{ extension.1|join:", "|safe }})</p></div><br clear="all" />
-                        {% endifnotequal %}
-                    {% endfor %}
+            <div class="grp-row">
+                <div class="l-2c-fluid l-d-4">
+                    <div class="c-1"><label class="required">{% trans "Max. Filesize" %}</label></div>
+                    <div class="c-2"><p class="grp-text">{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p></div>
                 </div>
-                <div class="row">
-                    <div class="column span-4"><label class="required">{% trans "Max. Filesize" %}:</label></div>
-                    <div class="column span-12 last"><p>{{ settings_var.MAX_UPLOAD_SIZE|filesizeformat }}</p></div><br clear="all" />
-                </div>
-                {% if settings_var.NORMALIZE_FILENAME or settings_var.CONVERT_FILENAME %}
-                    <div class="row">
-                        <div class="column span-16 last"><p>
+            </div>
+            {% if settings_var.NORMALIZE_FILENAME or settings_var.CONVERT_FILENAME %}
+                <div class="grp-row">
+                    <div class="l-2c-fluid l-d-4">
+                        <div class="c-1"><label class="required">{% trans "Filename" %}</label></div>
+                        <div class="c-2">
                             {% if settings_var.NORMALIZE_FILENAME %}
-                                {% trans "The Name will be normalized by converting or stripping all non-standard characters." %} <br />
+                                <p class="grp-text">{% trans "The Name will be normalized by converting or stripping all non-standard characters." %}</p>
                             {% endif %}
                             {% if settings_var.CONVERT_FILENAME %}
-                                {% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}
+                                <p class="grp-text">{% trans "The Name will be converted to lowercase. Spaces will be replaced with underscores." %}</p>
                             {% endif %}
-                        </p></div><br clear="all" />
+                        </div>
                     </div>
-                {% endif %}
-            </fieldset>
-        </form>
-    </div>
+                </div>
+            {% endif %}
+        </fieldset>
+    </form>
 </div>
 {% endblock %}

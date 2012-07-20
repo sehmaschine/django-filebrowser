@@ -53,8 +53,14 @@ class ClearableFileInput(DjangoClearableFileInput):
     input_text = ugettext_lazy('Change')
     clear_checkbox_label = ugettext_lazy('Clear')
     
-    template_with_initial = u'%(clear_template)s<br />%(input)s %(preview)s'
+    template_with_initial = u'<p class="file-upload">%(initial_text)s: %(initial)s<span class="clearable-file-input">%(clear_template)s</span><br />%(input_text)s: %(input)s %(preview)s</p>'
     template_with_clear = u'%(clear)s <label for="%(clear_checkbox_id)s">%(clear_checkbox_label)s</label>'
+
+    # template_with_initial = u'%(initial_text)s: %(initial)s %(clear_template)s<br />%(input_text)s: %(input)s'
+    # template_with_clear = u'%(clear)s <label for="%(clear_checkbox_id)s">%(clear_checkbox_label)s</label>'
+
+    # template_with_initial = (u'<p class="file-upload">%s</p>'% DjangoClearableFileInput.template_with_initial)
+    # template_with_clear = (u'<span class="clearable-file-input">%s</span>'% DjangoClearableFileInput.template_with_clear)
     
     def render(self, name, value, attrs=None):
         substitutions = {

@@ -1,7 +1,7 @@
 {% extends "admin/base_site.html" %}
 
 <!-- LOADING -->
-{% load i18n adminmedia fb_tags fb_versions %}
+{% load i18n fb_tags fb_versions %}
 
 <!-- STYLESHEETS -->
 {% block stylesheets %}
@@ -23,8 +23,8 @@
 {% endblock %}
 
 <!-- COLTYPE/BODYCLASS -->
-{% block bodyclass %}change-list filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
-{% block content-class %}content-flexible{% endblock %}
+{% block bodyclass %}grp-change-list grp-filebrowser{% if query.pop %} grp-popup{% endif %}{% endblock %}
+{% block content-class %}{% endblock %}
 
 <!-- BREADCRUMBS -->
 {% block breadcrumbs %}{% endblock %}
@@ -43,7 +43,7 @@
                 $(document).ready(function() {
                     FileSubmit('{{ image_version.path }}', '{{ image_version.url }}', '{{ thumbnail_version.url }}', '{{ image_version.filetype }}');
                 });
-            })(django.jQuery);
+            })(grp.jQuery);
         </script>
         {% endifequal %}
         {% ifequal query.pop '2' %} <!-- TinyMCE -->
@@ -52,7 +52,7 @@
                 $(document).ready(function() {
                     FileBrowserDialogue.fileSubmit('{{ image_version.url|escapejs }}');
                 });
-            })(django.jQuery);
+            })(grp.jQuery);
         </script>
         {% endifequal %}
     {% endif %}

@@ -68,6 +68,7 @@ EXTENSIONS
 Allowed extensions for file upload::
 
     EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
+        'Folder': [''],
         'Image': ['.jpg','.jpeg','.gif','.png','.tif','.tiff'],
         'Document': ['.pdf','.doc','.rtf','.txt','.xls','.csv'],
         'Video': ['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
@@ -228,6 +229,13 @@ Default sorting order::
     DEFAULT_SORTING_ORDER = getattr(settings, "FILEBROWSER_DEFAULT_SORTING_ORDER", "desc")
 
 Options are: ``asc`` or ``desc``
+
+FOLDER_REGEX
+^^^^^^^^^^^^
+
+regex to clean dir names before creation::
+
+    FOLDER_REGEX = getattr(settings, "FILEBROWSER_FOLDER_REGEX", r'^[\w._\ /-]+$')
 
 SEARCH_TRAVERSE
 ^^^^^^^^^^^^^^^

@@ -1,7 +1,7 @@
 {% extends "admin/base_site.html" %}
 
 <!-- LOADING -->
-{% load i18n adminmedia fb_tags fb_pagination %}
+{% load i18n fb_tags fb_pagination %}
 
 <!-- STYLESHEETS -->
 {% block stylesheets %}
@@ -30,85 +30,94 @@
                 grappelli.initSearchbar();
                 grappelli.initFilter();
             });
-        })(django.jQuery);
+        })(grp.jQuery);
     </script>
     <script type="text/javascript" charset="utf-8">
         (function($) {
             $(document).ready(function() {
-                $("a.pulldown-versions-handler").bind("click", function() {
-                    if (!$(this).parent().hasClass("open")) {
-                        $("tr").removeClass("selected");
-                        $(".pulldown-versions-container").removeClass("open");
-                        $(this).parent().addClass("open");
-                        $(this).parent().parent().parent().addClass("selected");
+                $("a.grp-pulldown-versions-handler").bind("click", function() {
+                    if (!$(this).parent().hasClass("grp-open")) {
+                        $("tr").removeClass("grp-selected");
+                        $(".grp-pulldown-versions-container").removeClass("grp-open");
+                        $(this).parent().addClass("grp-open");
+                        $(this).parent().parent().parent().addClass("grp-selected");
                     } else {
-                        $(this).parent().removeClass("open");
-                        $(this).parent().parent().parent().removeClass("selected");
+                        $(this).parent().removeClass("grp-open");
+                        $(this).parent().parent().parent().removeClass("grp-selected");
                     }
                 });
                 $(document).keypress(function(evt) {
                     if (evt.keyCode == '27') {
-                        $(".pulldown-versions-container:visible").removeClass("open");
-                        $(".pulldown-versions-container").parent().parent().removeClass("selected");
+                        $(".grp-pulldown-versions-container:visible").removeClass("grp-open");
+                        $(".grp-pulldown-versions-container").parent().parent().removeClass("grp-selected");
                     }
                 });
                 $(document).mousedown(function(evt) {
-                    if ($(".pulldown-versions-container").is(":visible")) {
+                    if ($(".grp-pulldown-versions-container").is(":visible")) {
                         var $target = $(evt.target);
-                        if (!$(evt.target).hasClass("pulldown-versions-container") && $target.parents(".pulldown-versions-container").length == 0) {
-                            $(".pulldown-versions-container").removeClass("open");
-                            $(".pulldown-versions-container").parent().parent().removeClass("selected");
+                        if (!$(evt.target).hasClass("pulldown-versions-container") && $target.parents(".grp-pulldown-versions-container").length == 0) {
+                            $(".grp-pulldown-versions-container").removeClass("grp-open");
+                            $(".grp-pulldown-versions-container").parent().parent().removeClass("grp-selected");
                         }
                     }
                 });
             });
-        })(django.jQuery);
+        })(grp.jQuery);
     </script>
 {% endblock %}
 
 <!-- COLTYPE/BODYCLASS -->
-{% block bodyclass %}change-list filebrowser{% if query.pop %} popup{% endif %}{% endblock %}
-{% block content-class %}content-flexible{% endblock %}
+{% block bodyclass %}grp-change-list grp-filebrowser{% if query.pop %} grp-popup{% endif %}{% endblock %}
+{% block content-class %}{% endblock %}
 
 <!-- BREADCRUMBS -->
 {% block breadcrumbs %}{% include "filebrowser/include/breadcrumbs.html" %}{% endblock %}
 
 <!-- OBJECT-TOOLS -->
 {% block object-tools %}
-<ul class="tools">
-    <li><a href="{% url filebrowser:fb_createdir %}{% query_string '' 'p' %}">{% trans "New Folder" %}</a></li>
-    <li><a href="{% url filebrowser:fb_upload %}{% query_string '' 'p' %}" class="focus">{% trans "Upload" %}</a></li>
-</ul>
+    <ul class="grp-object-tools">
+        <li><a href="{% url filebrowser:fb_createdir %}{% query_string '' 'p' %}">{% trans "New Folder" %}</a></li>
+        <li><a href="{% url filebrowser:fb_upload %}{% query_string '' 'p' %}" class="grp-state-focus">{% trans "Upload" %}</a></li>
+    </ul>
 {% endblock %}
 
 <!-- CONTENT -->
 {% block content %}
-    <div class="module changelist-filters">
-        <!-- PAGINATION -->
-        {% pagination %}
-        <!-- FILTERS -->
-        {% include "filebrowser/include/filter.html" %}
-        <!-- SEARCH -->
-        <div id="search" class="module search span-6">
-            <form id="changelist-search" action="." method="get">
-                <input type="text" size="40" name="q" value="{{ query.q }}" id="searchbar" />
-                {% if query.filter_type %}<input type="hidden" name="filter_type" value="{{ query.filter_type }}" />{% endif %}
-                {% if query.filter_date %}<input type="hidden" name="filter_date" value="{{ query.filter_date }}" />{% endif %}
-                {% if query.o %}<input type="hidden" name="o" value="{{ query.o }}" />{% endif %}
-                {% if query.ot %}<input type="hidden" name="ot" value="{{ query.ot }}" />{% endif %}
-                {% if query.pop %}<input type="hidden" name="pop" value="{{ query.pop }}" />{% endif %}
-                {% if query.type %}<input type="hidden" name="type" value="{{ query.type }}" />{% endif %}
-                {% if query.format %}<input type="hidden" name="format" value="{{ query.format }}" />{% endif %}
-                {% if query.dir %}<input type="hidden" name="dir" value="{{ query.dir|urlencode }}" />{% endif %}
-                <button class="search" type="submit" value="">&nbsp;</button>
-            </form>
+    <div class="grp-module grp-changelist-filters">
+        <div class="grp-row">
+            <div class="l-2cr-fluid l-d-12">
+                <!-- SEARCH -->
+                <aside class="c-1">
+                    <header style="display:none"><h1>Search</h1></header>
+                    <div id="search" class="g-d-6">
+                        <form id="grp-changelist-search" action="." method="get">
+                            <input type="text" size="40" name="q" value="{{ query.q }}" id="grp-changelist-search" class="grp-search-field grp-form-field-contained" />
+                            {% if query.filter_type %}<input type="hidden" name="filter_type" value="{{ query.filter_type }}" />{% endif %}
+                            {% if query.filter_date %}<input type="hidden" name="filter_date" value="{{ query.filter_date }}" />{% endif %}
+                            {% if query.o %}<input type="hidden" name="o" value="{{ query.o }}" />{% endif %}
+                            {% if query.ot %}<input type="hidden" name="ot" value="{{ query.ot }}" />{% endif %}
+                            {% if query.pop %}<input type="hidden" name="pop" value="{{ query.pop }}" />{% endif %}
+                            {% if query.type %}<input type="hidden" name="type" value="{{ query.type }}" />{% endif %}
+                            {% if query.format %}<input type="hidden" name="format" value="{{ query.format }}" />{% endif %}
+                            {% if query.dir %}<input type="hidden" name="dir" value="{{ query.dir|urlencode }}" />{% endif %}
+                            <button class="grp-search-button" type="submit" value="">&nbsp;</button>
+                        </form>
+                    </div>
+                    <!-- FILTERS -->
+                    {% include "filebrowser/include/filter.html" %}
+                </aside>
+                <div class="c-2">
+                    <!-- PAGINATION -->
+                    {% pagination %}
+                </div>
+            </div>
         </div>
-        <br clear="all" />
     </div>
-    <div id="changelist" class="container-full">
+    <section id="grp-changelist">
+        <header style="display:none"><h1>Results</h1></header>
         <!-- RESULTS -->
         {% if filelisting.results_current %}
-            <div class="module changelist-results">
+            <div class="grp-module grp-changelist-results">
                 <table cellspacing="0">
                     {% include "filebrowser/include/tableheader.html" %}
                     <tbody>
@@ -117,7 +126,10 @@
                 </table>
             </div>
         {% endif %}
-        <!-- PAGINATION -->
-        {% pagination %}
-    </div>
+    </section>
+    {% if not filelisting.results_current == 0 %}
+        <div class="grp-module">
+            <div class="grp-row">{% pagination %}</div>
+        </div>
+    {% endif %}
 {% endblock %}
