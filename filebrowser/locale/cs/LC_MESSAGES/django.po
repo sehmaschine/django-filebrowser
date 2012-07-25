@@ -114,7 +114,7 @@ msgstr "Hudba"
 #: sites.py:264 templates/filebrowser/include/breadcrumbs.html:8
 #: templates/filebrowser/include/breadcrumbs.html:10
 msgid "FileBrowser"
-msgstr "Prohlížeč Souborů"
+msgstr "Správce Souborů"
 
 #: sites.py:293
 #, python-format
@@ -197,7 +197,7 @@ msgstr "Odeslat"
 #: templates/filebrowser/widgets/clearablefileinput.html:11
 #: templates/filebrowser/widgets/fileinput.html:11
 msgid "File not found"
-msgstr "SOubr nenalezen"
+msgstr "Soubor nenalezen"
 
 #: templates/filebrowser/delete_confirm.html:29
 #, python-format
@@ -343,7 +343,7 @@ msgstr ""
 #: templates/filebrowser/include/filelisting.html:44
 #: templates/filebrowser/include/filelisting.html:69
 msgid "Select"
-msgstr ""
+msgstr "Vybrat"
 
 #: templates/filebrowser/include/filelisting.html:22
 #: templates/filebrowser/include/filelisting.html:48
