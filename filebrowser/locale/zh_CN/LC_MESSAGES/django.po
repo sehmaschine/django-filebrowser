@@ -406,7 +406,7 @@ msgstr[0] "%(counter)s results"
 #: templates/filebrowser/include/toolbar.html:9
 #, python-format
 msgid "%(full_result_count)s total"
-msgstr "%共(full_result_count)s项"
+msgstr "共%(full_result_count)s项"
 
 #: templates/filebrowser/include/toolbar.html:16
 msgid "Search"
