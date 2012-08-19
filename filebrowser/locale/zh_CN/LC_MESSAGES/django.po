@@ -1,47 +1,48 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 #   <zhangbarney@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
-"POT-Creation-Date: 2011-10-06 15:00+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-08-19 15:50+0800\n"
 "PO-Revision-Date: 2012-02-14 08:24+0000\n"
 "Last-Translator: zhangchao <zhangbarney@gmail.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.net/projects/p/django-filebrowser/language/zh_CN/)\n"
+"Language-Team: Chinese (China) (http://www.transifex.net/projects/p/django-"
+"filebrowser/language/zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
 #: actions.py:51
 #, python-format
 msgid "Action applied successfully to '%s'"
-msgstr ""
+msgstr "对'%s'执行操作成功"
 
 #: actions.py:56 forms.py:21
 msgid "Flip horizontal"
-msgstr ""
+msgstr "水平翻转"
 
 #: actions.py:62 forms.py:22
 msgid "Flip vertical"
-msgstr ""
+msgstr "垂直翻转"
 
 #: actions.py:68 forms.py:23
 msgid "Rotate 90° CW"
-msgstr ""
+msgstr "顺时针旋转90°"
 
 #: actions.py:74 forms.py:24
 msgid "Rotate 90° CCW"
-msgstr ""
+msgstr "逆时针旋转90°"
 
 #: actions.py:80 forms.py:25
 msgid "Rotate 180°"
-msgstr ""
+msgstr "旋转180°"
 
 #: decorators.py:23
 msgid ""
@@ -59,7 +60,7 @@ msgstr "请求的文件不存在."
 
 #: decorators.py:47
 msgid "You do not have permission to access this file!"
-msgstr ""
+msgstr "你没有权限访问该文件！"
 
 #: fields.py:65
 #, python-format
@@ -80,77 +81,77 @@ msgstr "文件夹已存在。"
 
 #: forms.py:57
 msgid "Actions"
-msgstr ""
+msgstr "操作"
 
 #: forms.py:84
 msgid "The File already exists."
 msgstr "文件已存在。"
 
-#: settings.py:111 templates/filebrowser/include/tableheader.html:21
+#: settings.py:121 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
 msgstr "文件夹"
 
-#: settings.py:112
+#: settings.py:122
 msgid "Image"
 msgstr "图片"
 
-#: settings.py:113
+#: settings.py:123
 msgid "Video"
 msgstr "视频"
 
-#: settings.py:114
+#: settings.py:124
 msgid "Document"
-msgstr "文件"
+msgstr "文档"
 
-#: settings.py:115
+#: settings.py:125
 msgid "Audio"
 msgstr "音频"
 
-#: sites.py:269 templates/filebrowser/include/breadcrumbs.html:8
+#: sites.py:264 templates/filebrowser/include/breadcrumbs.html:8
 #: templates/filebrowser/include/breadcrumbs.html:10
 msgid "FileBrowser"
 msgstr "浏览图片"
 
-#: sites.py:298
+#: sites.py:293
 #, python-format
 msgid "The Folder %s was successfully created."
 msgstr "文件夹%s成功创建。"
 
-#: sites.py:303
+#: sites.py:298
 msgid "Permission denied."
 msgstr "拒绝访问。"
 
-#: sites.py:305
+#: sites.py:300
 msgid "Error creating folder."
 msgstr "创建文件夹出错。"
 
-#: sites.py:312 sites.py:315 templates/filebrowser/index.html:79
+#: sites.py:307 sites.py:310 templates/filebrowser/index.html:79
 msgid "New Folder"
 msgstr "创建文件夹"
 
-#: sites.py:329
+#: sites.py:324
 msgid "Select files to upload"
 msgstr "选择文件上传。"
 
-#: sites.py:332 templates/filebrowser/index.html:80
+#: sites.py:327 templates/filebrowser/index.html:80
 msgid "Upload"
 msgstr "上传"
 
-#: sites.py:363 sites.py:366
+#: sites.py:358 sites.py:361
 msgid "Confirm delete"
 msgstr "确认删除"
 
-#: sites.py:388
+#: sites.py:383
 #, python-format
 msgid "Successfully deleted %s"
 msgstr "成功删除%s"
 
-#: sites.py:433
+#: sites.py:428
 msgid "Renaming was successful."
 msgstr "重命名成功。"
 
-#: sites.py:442
+#: sites.py:437
 msgid "Error."
 msgstr "出错。"
 
@@ -167,20 +168,26 @@ msgstr "更改"
 msgid "Clear"
 msgstr "清除"
 
-#: templates/filebrowser/createdir.html:24
-#: templates/filebrowser/detail.html:48 templates/filebrowser/rename.html:24
+#: templates/filebrowser/createdir.html:23
+#: templates/filebrowser/detail.html:47
 msgid "Please correct the following errors."
 msgstr "请改正以下错误"
 
-#: templates/filebrowser/createdir.html:33
-#: templates/filebrowser/upload.html:131
+#: templates/filebrowser/createdir.html:36
+#: templates/filebrowser/upload.html:140
+msgid ""
+"The Name will be normalized by converting or stripping all non-standard "
+"characters."
+msgstr ""
+
+#: templates/filebrowser/createdir.html:39
+#: templates/filebrowser/upload.html:143
 msgid ""
 "The Name will be converted to lowercase. Spaces will be replaced with "
 "underscores."
 msgstr "文件名将被转成小写，空格将被转成下划线。"
 
-#: templates/filebrowser/createdir.html:40
-#: templates/filebrowser/rename.html:38
+#: templates/filebrowser/createdir.html:50
 msgid "Submit"
 msgstr "提交"
 
@@ -193,8 +200,8 @@ msgstr "文件不存在。"
 #: templates/filebrowser/delete_confirm.html:29
 #, python-format
 msgid ""
-"Are you sure you want to delete \"%(escaped_object)s\"? All of the following"
-" items will be deleted:"
+"Are you sure you want to delete \"%(escaped_object)s\"? All of the following "
+"items will be deleted:"
 msgstr "确认删除\"%(escaped_object)s\"吗？所以的文件都将被删除。"
 
 #: templates/filebrowser/delete_confirm.html:42
@@ -202,117 +209,123 @@ msgstr "确认删除\"%(escaped_object)s\"吗？所以的文件都将被删除�
 msgid "... and %(escaped_object)s more Files."
 msgstr "... and %(escaped_object)s more Files."
 
-#: templates/filebrowser/delete_confirm.html:48
-#: templates/filebrowser/upload.html:45
+#: templates/filebrowser/delete_confirm.html:49
+#: templates/filebrowser/upload.html:44
 msgid "Cancel"
 msgstr "取消"
 
-#: templates/filebrowser/delete_confirm.html:49
+#: templates/filebrowser/delete_confirm.html:50
 msgid "Yes, I'm sure"
-msgstr "确定"
+msgstr "我确定"
 
-#: templates/filebrowser/detail.html:61
+#: templates/filebrowser/detail.html:62
 msgid "Edit"
 msgstr "修改"
 
-#: templates/filebrowser/detail.html:74
+#: templates/filebrowser/detail.html:77
 msgid "Folder Information"
 msgstr "文件夹信息"
 
-#: templates/filebrowser/detail.html:76 templates/filebrowser/detail.html:105
+#: templates/filebrowser/detail.html:80 templates/filebrowser/detail.html:115
 #: templates/filebrowser/include/tableheader.html:28
 #: templates/filebrowser/include/tableheader.html:29
 msgid "Date"
 msgstr "日期"
 
-#: templates/filebrowser/detail.html:87
+#: templates/filebrowser/detail.html:92
 msgid "File Information"
 msgstr "文件信息"
 
-#: templates/filebrowser/detail.html:89
+#: templates/filebrowser/detail.html:95
 msgid "URL"
 msgstr "URL"
 
-#: templates/filebrowser/detail.html:97
+#: templates/filebrowser/detail.html:105
 msgid "Filesize"
 msgstr "文件大小"
 
-#: templates/filebrowser/detail.html:114
+#: templates/filebrowser/detail.html:126
 #: templates/filebrowser/include/tableheader.html:25
 #: templates/filebrowser/include/tableheader.html:26
 msgid "Size"
 msgstr "大小"
 
-#: templates/filebrowser/detail.html:126
+#: templates/filebrowser/detail.html:139
 msgid "Image Versions"
 msgstr "图片版本"
 
-#: templates/filebrowser/detail.html:129
+#: templates/filebrowser/detail.html:143
 #: templates/filebrowser/include/tableheader.html:15
 msgid "Thumbnail"
 msgstr "缩略图"
 
-#: templates/filebrowser/detail.html:131
+#: templates/filebrowser/detail.html:145
 #: templates/filebrowser/include/filelisting.html:100
 msgid "View Image"
 msgstr "查看图片"
 
-#: templates/filebrowser/detail.html:151
+#: templates/filebrowser/detail.html:169
 msgid "Delete"
 msgstr "删除"
 
-#: templates/filebrowser/detail.html:152
+#: templates/filebrowser/detail.html:170
 msgid "Save"
 msgstr "保存"
 
-#: templates/filebrowser/detail.html:153
+#: templates/filebrowser/detail.html:171
 msgid "Save and continue editing"
 msgstr "保存并继续编辑"
 
-#: templates/filebrowser/upload.html:46
+#: templates/filebrowser/upload.html:45
 msgid "Failed"
-msgstr ""
+msgstr "失败"
+
+#: templates/filebrowser/upload.html:59
+msgid "{file} has invalid extension. Only {extensions} are allowed."
+msgstr "{file}的扩展名无效，仅支持{extensions}."
 
 #: templates/filebrowser/upload.html:60
-msgid "{file} has invalid extension. Only {extensions} are allowed."
-msgstr ""
+msgid "{file} is too large, maximum file size is {sizeLimit}."
+msgstr "{file}过大，文件大小最大限制为{sizeLimit}."
 
 #: templates/filebrowser/upload.html:61
-msgid "{file} is too large, maximum file size is {sizeLimit}."
-msgstr ""
+msgid "{file} is too small, minimum file size is {minSizeLimit}."
+msgstr "{file}过小，文件大小最小限制为{sizeLimit}."
 
 #: templates/filebrowser/upload.html:62
-msgid "{file} is too small, minimum file size is {minSizeLimit}."
-msgstr ""
+msgid "{file} is empty, please select files again without it."
+msgstr "{file}为空，请重新选择其它文件。"
 
 #: templates/filebrowser/upload.html:63
-msgid "{file} is empty, please select files again without it."
-msgstr ""
-
-#: templates/filebrowser/upload.html:64
 msgid ""
 "The files are being uploaded, if you leave now the upload will be cancelled."
 msgstr ""
 
-#: templates/filebrowser/upload.html:110
+#: templates/filebrowser/upload.html:108
 msgid "Please enable Javascript to upload files."
-msgstr ""
+msgstr "请打开Javascript支持以上传文件。"
 
-#: templates/filebrowser/upload.html:115
+#: templates/filebrowser/upload.html:113
 msgid "Help"
 msgstr "帮助"
 
-#: templates/filebrowser/upload.html:119
+#: templates/filebrowser/upload.html:116
 msgid "Allowed"
 msgstr "允许"
 
-#: templates/filebrowser/upload.html:125
+#: templates/filebrowser/upload.html:130
 msgid "Max. Filesize"
 msgstr "文件最大"
 
+#: templates/filebrowser/upload.html:137
+#: templates/filebrowser/include/tableheader.html:17
+#: templates/filebrowser/include/tableheader.html:18
+msgid "Filename"
+msgstr "文件名"
+
 #: templates/filebrowser/include/breadcrumbs.html:5
 msgid "Home"
-msgstr "图片目录页"
+msgstr "首页"
 
 #: templates/filebrowser/include/filelisting.html:18
 #: templates/filebrowser/include/filelisting.html:44
@@ -362,16 +375,16 @@ msgstr "按照图片类型"
 msgid "All"
 msgstr "全部"
 
-#: templates/filebrowser/include/paginator.html:5
+#: templates/filebrowser/include/paginator.html:6
 msgid "result"
 msgstr "结果"
 
-#: templates/filebrowser/include/paginator.html:5
+#: templates/filebrowser/include/paginator.html:6
 msgid "results"
 msgstr "结果"
 
-#: templates/filebrowser/include/paginator.html:9
-#: templates/filebrowser/include/paginator.html:11
+#: templates/filebrowser/include/paginator.html:10
+#: templates/filebrowser/include/paginator.html:12
 msgid "total"
 msgstr "全部"
 
@@ -379,11 +392,6 @@ msgstr "全部"
 #: templates/filebrowser/include/tableheader.html:13
 msgid "Type"
 msgstr "类型"
-
-#: templates/filebrowser/include/tableheader.html:17
-#: templates/filebrowser/include/tableheader.html:18
-msgid "Filename"
-msgstr "文件名"
 
 #: templates/filebrowser/include/toolbar.html:6
 msgid "Results"
@@ -398,7 +406,7 @@ msgstr[0] "%(counter)s results"
 #: templates/filebrowser/include/toolbar.html:9
 #, python-format
 msgid "%(full_result_count)s total"
-msgstr "%(full_result_count)s total"
+msgstr "共%(full_result_count)s项"
 
 #: templates/filebrowser/include/toolbar.html:16
 msgid "Search"
