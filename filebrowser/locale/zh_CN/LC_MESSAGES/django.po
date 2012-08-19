@@ -312,7 +312,7 @@ msgstr "文件最大"
 
 #: templates/filebrowser/include/breadcrumbs.html:5
 msgid "Home"
-msgstr "图片目录页"
+msgstr "首页"
 
 #: templates/filebrowser/include/filelisting.html:18
 #: templates/filebrowser/include/filelisting.html:44
