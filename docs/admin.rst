@@ -230,7 +230,7 @@ Example for using these Signals
 
 Here's a small example for using the above Signals::
 
-    from filebrowser.views import filebrowser_pre_upload, filebrowser_post_upload
+    from filebrowser import signals
     
     def pre_upload_callback(sender, **kwargs):
         """
@@ -238,7 +238,7 @@ Here's a small example for using the above Signals::
         """
         print "Pre Upload Callback"
         print "kwargs:", kwargs
-    filebrowser_pre_upload.connect(pre_upload_callback)
+    signals.filebrowser_pre_upload.connect(pre_upload_callback)
     
     def post_upload_callback(sender, **kwargs):
         """
@@ -251,4 +251,4 @@ Here's a small example for using the above Signals::
         print "Filesize:", kwargs['file'].filesize
         print "Orientation:", kwargs['file'].orientation
         print "Extension:", kwargs['file'].extension
-    filebrowser_post_upload.connect(post_upload_callback)
+    signals.filebrowser_post_upload.connect(post_upload_callback)

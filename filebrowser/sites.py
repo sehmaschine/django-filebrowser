@@ -13,7 +13,6 @@ from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
 from django import forms
 from django.core.urlresolvers import reverse, get_urlconf, get_resolver
-from django.dispatch import Signal
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.utils.encoding import smart_unicode
 from django.contrib import messages
@@ -29,6 +28,7 @@ from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileListing, FileObject
 from filebrowser.decorators import path_exists, file_exists
 from filebrowser.storage import FileSystemStorageMixin, StorageMixin
+from filebrowser import signals
 
 # Add some required methods to FileSystemStorage
 if FileSystemStorageMixin not in FileSystemStorage.__bases__:
@@ -267,10 +267,6 @@ class FileBrowserSite(object):
             'breadcrumbs_title': "",
             'filebrowser_site': self
         }, context_instance=Context(request, current_app=self.name))
-    
-    # mkdir signals
-    filebrowser_pre_createdir = Signal(providing_args=["path", "name"])
-    filebrowser_post_createdir = Signal(providing_args=["path", "name"])
 
     def createdir(self, request):
         """
@@ -285,11 +281,11 @@ class FileBrowserSite(object):
             if form.is_valid():
                 server_path = os.path.join(path, form.cleaned_data['name'])
                 try:
-                    self.filebrowser_pre_createdir.send(sender=request, path=server_path, name=form.cleaned_data['name'])
+                    signals.filebrowser_pre_createdir.send(sender=request, path=server_path, name=form.cleaned_data['name'])
                     self.storage.makedirs(server_path)
                     # os.mkdir(server_path)
                     # os.chmod(server_path, 0775) # ??? PERMISSIONS
-                    self.filebrowser_post_createdir.send(sender=request, path=server_path, name=form.cleaned_data['name'])
+                    signals.filebrowser_post_createdir.send(sender=request, path=server_path, name=form.cleaned_data['name'])
                     messages.add_message(request, messages.SUCCESS, _('The Folder %s was successfully created.') % form.cleaned_data['name'])
                     redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, "ot=desc,o=date", "ot,o,filter_type,filter_date,q,p")
                     return HttpResponseRedirect(redirect_url)
@@ -362,10 +358,6 @@ class FileBrowserSite(object):
             'filebrowser_site': self
         }, context_instance=Context(request, current_app=self.name))
 
-    # delete signals
-    filebrowser_pre_delete = Signal(providing_args=["path", "name"])
-    filebrowser_post_delete = Signal(providing_args=["path", "name"])
-
     def delete(self, request):
         """
         Delete existing File/Directory.
@@ -376,23 +368,16 @@ class FileBrowserSite(object):
         
         if request.GET:
             try:
-                self.filebrowser_pre_delete.send(sender=request, path=fileobject.path, name=fileobject.filename)
+                signals.filebrowser_pre_delete.send(sender=request, path=fileobject.path, name=fileobject.filename)
                 fileobject.delete_versions()
                 fileobject.delete()
-                self.filebrowser_post_delete.send(sender=request, path=fileobject.path, name=fileobject.filename)
+                signals.filebrowser_post_delete.send(sender=request, path=fileobject.path, name=fileobject.filename)
                 messages.add_message(request, messages.SUCCESS, _('Successfully deleted %s') % fileobject.filename)
             except OSError, (errno, strerror):
                 # TODO: define error-message
                 pass
         redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, "", "filename,filetype")
         return HttpResponseRedirect(redirect_url)
-
-    # rename signals
-    filebrowser_pre_rename = Signal(providing_args=["path", "name", "new_name"])
-    filebrowser_post_rename = Signal(providing_args=["path", "name", "new_name"])
-
-    filebrowser_actions_pre_apply = Signal(providing_args=['action_name', 'fileobjects',])
-    filebrowser_actions_post_apply = Signal(providing_args=['action_name', 'filebjects', 'result'])
 
     def detail(self, request):
         """
@@ -415,16 +400,16 @@ class FileBrowserSite(object):
                     if action_name:
                         action = self.get_action(action_name)
                         # Pre-action signal
-                        self.filebrowser_actions_pre_apply.send(sender=request, action_name=action_name, fileobject=[fileobject])
+                        signals.filebrowser_actions_pre_apply.send(sender=request, action_name=action_name, fileobject=[fileobject])
                         # Call the action to action
                         action_response = action(request=request, fileobjects=[fileobject])
                         # Post-action signal
-                        self.filebrowser_actions_post_apply.send(sender=request, action_name=action_name, fileobject=[fileobject], result=action_response)
+                        signals.filebrowser_actions_post_apply.send(sender=request, action_name=action_name, fileobject=[fileobject], result=action_response)
                     if new_name != fileobject.filename:
-                        self.filebrowser_pre_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
+                        signals.filebrowser_pre_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
                         fileobject.delete_versions()
                         self.storage.move(fileobject.path, os.path.join(fileobject.head, new_name))
-                        self.filebrowser_post_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
+                        signals.filebrowser_post_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name)
                         messages.add_message(request, messages.SUCCESS, _('Renaming was successful.'))
                     if isinstance(action_response, HttpResponse):
                         return action_response
@@ -464,10 +449,6 @@ class FileBrowserSite(object):
             'filebrowser_site': self
         }, context_instance=Context(request, current_app=self.name))
 
-    # upload signals
-    filebrowser_pre_upload = Signal(providing_args=["path", "file"])
-    filebrowser_post_upload = Signal(providing_args=["path", "file"])
-
     def _upload_file(self, request):
         """
         Upload file to the server.
@@ -502,7 +483,7 @@ class FileBrowserSite(object):
                 ret_json = {'success': False, 'filename': filedata.name}
                 return HttpResponse(json.dumps(ret_json)) 
             
-            self.filebrowser_pre_upload.send(sender=request, path=request.POST.get('folder'), file=filedata)
+            signals.filebrowser_pre_upload.send(sender=request, path=request.POST.get('folder'), file=filedata)
             uploadedfile = handle_file_upload(path, filedata, site=self)
             
             if file_already_exists:
@@ -510,7 +491,7 @@ class FileBrowserSite(object):
                 new_file = smart_unicode(uploadedfile)
                 self.storage.move(new_file, old_file, allow_overwrite=True)
             
-            self.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(file_name), site=self))
+            signals.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(file_name), site=self))
             
             # let Ajax Upload know whether we saved it or not
             ret_json = {'success': True, 'filename': filedata.name}

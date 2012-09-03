@@ -8,6 +8,11 @@
 Changelog
 =========
 
+3.5.1 (not yet released)
+------------------------
+
+* Fixed Documentation with Signals.
+
 3.5.0 (July 20, 2012)
 ---------------------
 
