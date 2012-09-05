@@ -314,11 +314,6 @@ def version_generator(value, version_prefix, force=None, site=None):
         site.storage.delete(version_path)
     site.storage.save(version_path, tmpfile)
     return version_path
-    tmpfile.close()
-    try:
-        f.close()
-    except OsError:
-        pass
 
 def scale_and_crop(im, width, height, opts):
     """
