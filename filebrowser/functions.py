@@ -292,36 +292,33 @@ def version_generator(value, version_prefix, force=None, site=None):
         from filebrowser.sites import site as default_site
         site = default_site
     tmpfile = File(NamedTemporaryFile())
+
+    f = site.storage.open(value)
+    im = Image.open(f)
+    version_path = get_version_path(value, version_prefix, site=site)
+    version_dir, version_basename = os.path.split(version_path)
+    root, ext = os.path.splitext(version_basename)
+    version = scale_and_crop(im, VERSIONS[version_prefix]['width'], VERSIONS[version_prefix]['height'], VERSIONS[version_prefix]['opts'])
+    if not version:
+        version = im
+    if 'methods' in VERSIONS[version_prefix].keys():
+        for m in VERSIONS[version_prefix]['methods']:
+            if callable(m):
+                version = m(version)
     try:
-        f = site.storage.open(value)
-        im = Image.open(f)
-        version_path = get_version_path(value, version_prefix, site=site)
-        version_dir, version_basename = os.path.split(version_path)
-        root, ext = os.path.splitext(version_basename)
-        version = scale_and_crop(im, VERSIONS[version_prefix]['width'], VERSIONS[version_prefix]['height'], VERSIONS[version_prefix]['opts'])
-        if not version:
-            version = im
-        if 'methods' in VERSIONS[version_prefix].keys():
-            for m in VERSIONS[version_prefix]['methods']:
-                if callable(m):
-                    version = m(version)
-        try:
-            version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1] != '.gif'))
-        except IOError:
-            version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=VERSION_QUALITY)
-        # Remove the old version, if there's any
-        if version_path != site.storage.get_available_name(version_path):
-            site.storage.delete(version_path)
-        site.storage.save(version_path, tmpfile)
-        return version_path
-    except:
-        return None
-    finally:
-        tmpfile.close()
-        try:
-            f.close()
-        except:
-            pass
+        version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1] != '.gif'))
+    except IOError:
+        version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=VERSION_QUALITY)
+    # Remove the old version, if there's any
+    if version_path != site.storage.get_available_name(version_path):
+        site.storage.delete(version_path)
+    site.storage.save(version_path, tmpfile)
+    return version_path
+    tmpfile.close()
+    try:
+        f.close()
+    except OsError:
+        pass
 
 def scale_and_crop(im, width, height, opts):
     """
