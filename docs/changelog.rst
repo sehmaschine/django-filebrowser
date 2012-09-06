@@ -11,7 +11,9 @@ Changelog
 3.5.1 (not yet released)
 ------------------------
 
-* Fixed Documentation with Signals.
+* Added file ``signals.py`.
+* Fixed: Documentation with Signals.
+* New: Setting OVERWRITE_EXISTING
 
 3.5.0 (July 20, 2012)
 ---------------------

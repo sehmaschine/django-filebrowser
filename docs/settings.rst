@@ -254,3 +254,13 @@ DEFAULT_PERMISSIONS
 Default Upload and Version Permissions::
 
     DEFAULT_PERMISSIONS = getattr(settings, "FILEBROWSER_DEFAULT_PERMISSIONS", 0755)
+
+
+OVERWRITE_EXISTING
+^^^^^^^^^^^^^^^^^^
+
+.. versionadded:: 3.5.1
+
+``True`` in order to overwrite existing files, ``False`` to use the behaviour of the storage engine::
+
+    OVERWRITE_EXISTING = getattr(settings, "FILEBROWSER_OVERWRITE_EXISTING", True)
