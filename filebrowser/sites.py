@@ -486,7 +486,7 @@ class FileBrowserSite(object):
             signals.filebrowser_pre_upload.send(sender=request, path=request.POST.get('folder'), file=filedata)
             uploadedfile = handle_file_upload(path, filedata, site=self)
             
-            if file_already_exists:
+            if file_already_exists and OVERWRITE_EXISTING:
                 old_file = smart_unicode(file_name)
                 new_file = smart_unicode(uploadedfile)
                 self.storage.move(new_file, old_file, allow_overwrite=True)
