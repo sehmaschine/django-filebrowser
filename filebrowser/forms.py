@@ -6,7 +6,7 @@ import re, os
 # DJANGO IMPORTS
 from django import forms
 from django.forms.formsets import BaseFormSet
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import MAX_UPLOAD_SIZE, FOLDER_REGEX

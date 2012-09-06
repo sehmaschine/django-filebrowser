@@ -4,7 +4,7 @@
 from tempfile import NamedTemporaryFile
 
 # DJANGO IMPORTS
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.core.files import File
