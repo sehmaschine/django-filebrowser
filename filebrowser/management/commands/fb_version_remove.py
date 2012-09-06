@@ -107,7 +107,7 @@ class Command(BaseCommand):
         
         # walkt throu the filebrowser directory
         # for all/new files (except file versions itself and excludes)
-        for dirpath,dirnames,filenames in os.walk(path):
+        for dirpath,dirnames,filenames in os.walk(path, followlinks=True):
             for filename in filenames:
                 filtered = False
                 # no "hidden" files (stating with ".")
