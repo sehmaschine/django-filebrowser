@@ -11,9 +11,11 @@ Changelog
 3.5.1 (not yet released)
 ------------------------
 
-* Added file ``signals.py`.
-* Fixed: Documentation with Signals.
 * New: Setting OVERWRITE_EXISTING
+* New: Added file ``signals.py`.
+* Fixed: Documentation with Signals.
+* Improved: Don´t hide errors during generate-command.
+* Improved: Follow symlinks with generate-command.
 
 3.5.0 (July 20, 2012)
 ---------------------
