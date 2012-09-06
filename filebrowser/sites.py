@@ -490,6 +490,8 @@ class FileBrowserSite(object):
                 old_file = smart_unicode(file_name)
                 new_file = smart_unicode(uploadedfile)
                 self.storage.move(new_file, old_file, allow_overwrite=True)
+            else:
+                file_name = smart_unicode(uploadedfile)
             
             signals.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(file_name), site=self))
             
