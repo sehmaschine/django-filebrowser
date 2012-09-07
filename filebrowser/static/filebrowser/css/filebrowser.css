@@ -308,3 +308,27 @@ span.qq-upload-file {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#444444', endColorstr='#333333',GradientType=0 ); /* IE6-9 */
     background: linear-gradient(top, #444444 0%,#333333 100%); /* W3C */
 }
+
+body.rtl .qq-upload-cancel {
+    left: auto;
+    right: 336px;
+    margin: 0;
+}
+body.rtl .qq-upload-list li {
+    position: relative;
+    float: right;
+    clear: both;
+    line-height: 14px;
+}
+body.rtl .qq-upload-list li .progress-bar{
+    position: relative;
+    float: right;
+    clear: both;
+}
+body.rtl .qq-upload-list li span, 
+body.rtl .qq-upload-list li a {
+    float: right;
+    margin-right: 0;
+    margin-left: 10px;
+    vertical-align: baseline;
+}
