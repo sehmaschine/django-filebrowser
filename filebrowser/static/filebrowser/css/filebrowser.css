@@ -73,6 +73,14 @@ button.fb_selectlink {
     }
 }*/
 
+body.rtl a.fb_viewlink, 
+body.rtl button.fb_selectlink {
+    float: right;
+    top: -4px !important;
+    margin-bottom: -5px !important;
+    margin-right: 0;
+}
+
 
 
 /*  Filebrowser Pulldown Actions
@@ -162,6 +170,18 @@ ul.grp-pulldown-versions a:hover, ul.grp-pulldown-versions a:active {
     color: #fff;
     background: #444;
 }
+
+body.rtl .grp-pulldown-versions-handler {
+    margin-right: 2px;
+    margin-left: 0;
+}
+body.rtl .grp-open ul.grp-pulldown-versions {
+    margin: -2px 2px 0 0;
+}
+body.rtl ul.grp-pulldown-versions a {
+    padding: 5px 10px 5px 30px;
+}
+
 
 /* Upload button
 ------------------------------------------------------------------------------------------------------ */
