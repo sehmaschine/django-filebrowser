@@ -54,6 +54,11 @@ Collect the media files::
 .. note::
     Please refer to the `Staticfiles Documentation <http://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/>`_ for setting up and using ``staticfiles``.
 
+Settings
+--------
+
+Check the :ref:`settings`. You need to add a folder "Uploads" within your ``MEDIA_ROOT`` when using the default settings.
+
 Testing
 -------
 
