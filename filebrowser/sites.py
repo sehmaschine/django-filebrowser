@@ -454,22 +454,19 @@ class FileBrowserSite(object):
         Upload file to the server.
         """
         if request.method == "POST":
+            folder = request.GET.get('folder', '')
+
             if request.is_ajax(): # Advanced (AJAX) submission
-                folder = request.GET.get('folder')
                 filedata = ContentFile(request.raw_post_data)
-                try:
-                    filedata.name = convert_filename(request.GET['qqfile'])
-                except KeyError:
-                    return HttpResponseBadRequest('Invalid request! No filename given.')
             else: # Basic (iframe) submission
-                # TODO: This needs some attention, do we use this at all?
-                folder = request.POST.get('folder')
-                if len(request.FILES) == 1:
-                    filedata = request.FILES.values()[0]
-                else:
+                if len(request.FILES) != 1:
                     raise Http404('Invalid request! Multiple files included.')
-                # filedata.name = convert_filename(upload.name)
-                filedata.name = convert_filename(request.POST.get('file_name'))
+                filedata = request.FILES.values()[0]
+
+            try:
+                filedata.name = convert_filename(request.GET['qqfile'])
+            except KeyError:
+                return HttpResponseBadRequest('Invalid request! No filename given.')
 
             fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("filebrowser:fb_upload", current_app=self.name))
             folder = fb_uploadurl_re.sub('', folder)

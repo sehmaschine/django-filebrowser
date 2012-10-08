@@ -9,6 +9,7 @@ instance methods from functions.
 """
 
 # PYTHON IMPORTS
+from __future__ import with_statement
 import os
 import sys
 import shutil
@@ -89,12 +90,13 @@ def test_upload(test):
 
 def test_do_upload(test):
     ## Attemp an upload using AJAX SUBMISSION
-    f = open(os.path.join(PATH_FILEBROWSER_MEDIA, 'img/testimage.jpg'), "rb")
-    file_size = os.path.getsize(f.name)
+
     url = reverse('%s:fb_do_upload' % test.site_name)
     url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage.jpg'})])
-    response = test.c.post(url, data=f.read(), content_type='application/octet-stream', HTTP_X_REQUESTED_WITH='XMLHttpRequest', X_File_Name='testimage.jpg')
-    f.close()
+
+    with open(os.path.join(PATH_FILEBROWSER_MEDIA, 'img/testimage.jpg'), "rb") as f:
+        file_size = os.path.getsize(f.name)
+        response = test.c.post(url, data=f.read(), content_type='application/octet-stream', HTTP_X_REQUESTED_WITH='XMLHttpRequest', X_File_Name='testimage.jpg')
     
     # Check we get OK response
     test.assertTrue(response.status_code == 200)
@@ -106,22 +108,25 @@ def test_do_upload(test):
     
     # Check the file has the correct size
     test.assertTrue(file_size == test.site.storage.size(path))
+
+    ## Attemp an upload of the file using BASIC SUBMISSION
+
+    url = reverse('%s:fb_do_upload' % test.site_name)
+    url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage_basic.jpg'})])
+
+    with open(os.path.join(PATH_FILEBROWSER_MEDIA, 'img/testimage.jpg'), 'rb') as f:
+        file_size = os.path.getsize(f.name)
+        response = test.c.post(url, {'qqfile': f})
+
+    # Check we get OK response
+    test.assertTrue(response.status_code == 200)
     
-    # ## Attemp an upload of the file using BASIC SUBMISSION
-    # f = open(os.path.join(PATH_FILEBROWSER_MEDIA, 'img/testimage.jpg'))
-    # url = reverse('%s:fb_do_upload' % test.site_name)
-    # response = test.c.post(url, {'file':f, 'folder': test.tmpdir.path_relative_directory, 'file_name': 'testimage_basic.jpg'})
-    # f.close()
-    
-    # # Check we get OK response
-    # test.assertTrue(response.status_code == 200)
-    
-    # # Check the file now exists
-    # abs_path = os.path.join(test.tmpdir.path, 'testimage_basic.jpg')
-    # test.assertTrue(test.site.storage.exists(abs_path))
-    
-    # # Check the file has the correct size
-    # test.assertTrue(file_size == os.path.getsize(abs_path))
+    # Check the file now exists
+    path = os.path.join(test.tmpdir.path, 'testimage_basic.jpg')
+    test.assertTrue(test.site.storage.exists(path))
+
+    # Check the file has the correct size
+    test.assertTrue(file_size == test.site.storage.size(path))
 
 def test_detail(test):
     """
