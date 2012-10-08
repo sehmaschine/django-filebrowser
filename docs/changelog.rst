@@ -14,6 +14,7 @@ Changelog
 * New: Setting OVERWRITE_EXISTING.
 * New: Added file ``signals.py`.
 * Fixed: Documentation with Signals.
+* Fixed: File Upload using basic submission.
 * Improved: Don´t hide errors during generate-command.
 * Improved: Follow symlinks with generate-command.
 * Improved: Added some translations (e.g. for "Upload File").
