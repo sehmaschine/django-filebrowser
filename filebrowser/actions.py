@@ -42,7 +42,7 @@ def transpose_image(request, fileobjects, operation):
         try:
             saved_under = fileobject.site.storage.save(fileobject.path, tmpfile)
             if saved_under != fileobject.path:
-                fileobject.site.storage.move(saved_under, fileobject.path)
+                fileobject.site.storage.move(saved_under, fileobject.path, allow_overwrite=True)
             fileobject.delete_versions()
         finally:
             tmpfile.close()
