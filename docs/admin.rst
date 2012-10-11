@@ -133,6 +133,7 @@ Sent before a an Upload starts. Arguments:
 
 * ``path``: Absolute server path to the file/folder
 * ``name``: Name of the file/folder
+* ``site``: Current ``FileBrowserSite`` instance
 
 .. _filebrowser_post_upload:
 
@@ -143,6 +144,7 @@ Sent after an Upload has finished. Arguments:
 
 * ``path``: Absolute server path to the file/folder
 * ``name``: Name of the file/folder
+* ``site``: Current ``FileBrowserSite`` instance
 
 .. _filebrowser_pre_delete:
 
@@ -153,6 +155,7 @@ Sent before an Item (File, Folder) is deleted. Arguments:
 
 * ``path``: Absolute server path to the file/folder
 * ``name``: Name of the file/folder
+* ``site``: Current ``FileBrowserSite`` instance
 
 .. _filebrowser_post_delete:
 
@@ -163,6 +166,7 @@ Sent after an Item (File, Folder) has been deleted. Arguments:
 
 * ``path``: Absolute server path to the file/folder
 * ``name``: Name of the file/folder
+* ``site``: Current ``FileBrowserSite`` instance
 
 .. _filebrowser_pre_createdir:
 
@@ -173,6 +177,7 @@ Sent before a new Folder is created. Arguments:
 
 * ``path``: Absolute server path to the folder
 * ``name``: Name of the new folder
+* ``site``: Current ``FileBrowserSite`` instance
 
 .. _filebrowser_post_createdir:
 
@@ -183,6 +188,7 @@ Sent after a new Folder has been created. Arguments:
 
 * ``path``: Absolute server path to the folder
 * ``name``: Name of the new folder
+* ``site``: Current ``FileBrowserSite`` instance
 
 .. _filebrowser_pre_rename:
 
@@ -194,6 +200,7 @@ Sent before an Item (File, Folder) is renamed. Arguments:
 * ``path``: Absolute server path to the file/folder
 * ``name``: Name of the file/folder
 * ``new_name``: New name of the file/folder
+* ``site``: Current ``FileBrowserSite`` instance
 
 .. _filebrowser_post_rename:
 
@@ -205,6 +212,7 @@ Sent after an Item (File, Folder) has been renamed.
 * ``path``: Absolute server path to the file/folder
 * ``name``: Name of the file/folder
 * ``new_name``: New name of the file/folder
+* ``site``: Current ``FileBrowserSite`` instance
 
 ``filebrowser_actions_pre_apply``
 ---------------------------------
@@ -213,6 +221,7 @@ Sent before a custom action is applied. Arguments:
 
 * ``action_name``: Name of the custom action
 * ``fileobjects``: A list of fileobjects the action will be applied to
+* ``site``: Current ``FileBrowserSite`` instance
 
 ``filebrowser_actions_post_apply``
 ----------------------------------
@@ -222,6 +231,7 @@ Sent after a custom action has been applied.
 * ``action_name``: Name of the custom action
 * ``fileobjects``: A list of fileobjects the action has been be applied to
 * ``results``: The response you defined with your custom action
+* ``site``: Current ``FileBrowserSite`` instance
 
 .. _signals_examples:
 
