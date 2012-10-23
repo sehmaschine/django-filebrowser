@@ -2,6 +2,7 @@
 
 <!-- LOADING -->
 {% load i18n fb_tags fb_pagination %}
+{% load url from future %}
 
 <!-- STYLESHEETS -->
 {% block stylesheets %}
@@ -76,8 +77,8 @@
 <!-- OBJECT-TOOLS -->
 {% block object-tools %}
     <ul class="grp-object-tools">
-        <li><a href="{% url filebrowser:fb_createdir %}{% query_string '' 'p' %}">{% trans "New Folder" %}</a></li>
-        <li><a href="{% url filebrowser:fb_upload %}{% query_string '' 'p' %}" class="grp-state-focus">{% trans "Upload" %}</a></li>
+        <li><a href="{% url 'filebrowser:fb_createdir' %}{% query_string '' 'p' %}">{% trans "New Folder" %}</a></li>
+        <li><a href="{% url 'filebrowser:fb_upload' %}{% query_string '' 'p' %}" class="grp-state-focus">{% trans "Upload" %}</a></li>
     </ul>
 {% endblock %}
 

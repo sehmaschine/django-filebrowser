@@ -2,6 +2,7 @@
 
 <!-- LOADING -->
 {% load i18n fb_tags fb_versions %}
+{% load url from future %}
 
 <!-- STYLESHEETS -->
 {% block stylesheets %}
@@ -46,8 +47,8 @@
         <footer class="grp-module grp-submit-row grp-fixed-footer">
             <header style="display:none"><h1>Submit Options</h1></header>
             <ul {% if is_popup %}style="overflow: auto;"{% endif %}>
-                <li class="grp-float-left"><a href="{% url filebrowser:fb_detail %}{% query_string %}" class="grp-button grp-cancel-link">{% trans "Cancel" %}</a></li>
-                <li><a href="{% url filebrowser:fb_delete %}{% query_string %}" class="grp-button">{% trans "Yes, I'm sure" %}</a></li>
+                <li class="grp-float-left"><a href="{% url 'filebrowser:fb_detail' %}{% query_string %}" class="grp-button grp-cancel-link">{% trans "Cancel" %}</a></li>
+                <li><a href="{% url 'filebrowser:fb_delete' %}{% query_string %}" class="grp-button">{% trans "Yes, I'm sure" %}</a></li>
             </ul>
         </footer>
     </div>

@@ -1,4 +1,5 @@
 {% load i18n fb_tags fb_versions %}
+{% load url from future %}
 
 {% for fileobject in page.object_list %}
     
@@ -23,7 +24,7 @@
                             <ul class="grp-pulldown-versions">
                                 {% for version in settings_var.ADMIN_VERSIONS %}
                                     {% version_setting version %}
-                                    <li><a href="{% url filebrowser:fb_version %}{% query_string '' 'filename' %}&amp;filename={{ fileobject.filename|urlencode }}&amp;version={{ version }}" title="">{{ version_setting.verbose_name }}</a></li>
+                                    <li><a href="{% url 'filebrowser:fb_version' %}{% query_string '' 'filename' %}&amp;filename={{ fileobject.filename|urlencode }}&amp;version={{ version }}" title="">{{ version_setting.verbose_name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -49,7 +50,7 @@
                             <ul class="grp-pulldown-versions">
                                 {% for version in settings_var.ADMIN_VERSIONS  %}
                                     {% version_setting version %}
-                                    <li><a href="{% url filebrowser:fb_version %}{% query_string '' 'filename' %}&amp;filename={{ fileobject.filename|urlencode }}&amp;version={{ version }}" title="">{{ version_setting.verbose_name }}</a></li>
+                                    <li><a href="{% url 'filebrowser:fb_version' %}{% query_string '' 'filename' %}&amp;filename={{ fileobject.filename|urlencode }}&amp;version={{ version }}" title="">{{ version_setting.verbose_name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -103,7 +104,7 @@
         
         <!-- FILENAME/DIMENSIONS -->
         {% if fileobject.filetype == "Folder" %}
-            <td><a href="{% url filebrowser:fb_browse %}{% query_string "" "q,dir,p" %}&amp;dir={{ fileobject.directory|urlencode }}"><strong>{{ fileobject.filename }}</strong></a></td>
+            <td><a href="{% url 'filebrowser:fb_browse' %}{% query_string "" "q,dir,p" %}&amp;dir={{ fileobject.directory|urlencode }}"><strong>{{ fileobject.filename }}</strong></a></td>
         {% else %}
             <td>
                 <strong>{{ fileobject.filename }}</strong>
@@ -115,7 +116,7 @@
         
         <!-- FOLDER -->
         {% if query.q and settings_var.SEARCH_TRAVERSE %}
-            <td><a href="{% url filebrowser:fb_browse %}{% query_string "" "dir,p" %}&amp;dir={{ fileobject.folder|urlencode }}"><strong>{{ fileobject.folder }}</strong></a></td>
+            <td><a href="{% url 'filebrowser:fb_browse' %}{% query_string "" "dir,p" %}&amp;dir={{ fileobject.folder|urlencode }}"><strong>{{ fileobject.folder }}</strong></a></td>
         {% endif %}
         
         <!-- SIZE -->
@@ -127,7 +128,7 @@
         <!-- EDIT -->
         <td>
             <ul class="grp-actions">
-                <li class="grp-change-link"><a href="{% url filebrowser:fb_detail %}{% query_string "" "p" %}&amp;filename={{ fileobject.filename|urlencode }}"><strong>{% trans "Change" %}</strong></a></li>
+                <li class="grp-change-link"><a href="{% url 'filebrowser:fb_detail' %}{% query_string "" "p" %}&amp;filename={{ fileobject.filename|urlencode }}"><strong>{% trans "Change" %}</strong></a></li>
             </ul>
         </td>
         
