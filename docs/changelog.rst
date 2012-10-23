@@ -8,16 +8,21 @@
 Changelog
 =========
 
-3.5.1 (not yet released)
+3.5.2 (not yet released)
 ------------------------
 
-* New: Setting OVERWRITE_EXISTING.
-* New: Added file ``signals.py`.
+3.5.1 (October 23, 2012)
+------------------------
+
 * Fixed: Documentation with Signals.
 * Fixed: File Upload using basic submission.
+* Fixed: Added site instance to Signals.
 * Improved: Don´t hide errors during generate-command.
 * Improved: Follow symlinks with generate-command.
 * Improved: Added some translations (e.g. for "Upload File").
+* New: Setting OVERWRITE_EXISTING.
+* New: Added file ``signals.py`.
+* New: Support for Django 1.5.
 
 3.5.0 (July 20, 2012)
 ---------------------
