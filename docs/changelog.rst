@@ -11,8 +11,8 @@ Changelog
 3.5.2 (not yet released)
 ------------------------
 
-3.5.1 (October 23, 2012)
-------------------------
+3.5.1 (November 09, 2012)
+-------------------------
 
 * Fixed: Documentation with Signals.
 * Fixed: File Upload using basic submission.
