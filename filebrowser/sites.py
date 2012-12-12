@@ -462,12 +462,7 @@ class FileBrowserSite(object):
                 return HttpResponseBadRequest('Invalid request! Multiple files included.')
             
             filedata = request.FILES.values()[0]
-
-            try:
-                filedata.name = convert_filename(request.GET['qqfile'])
-            except KeyError:
-                return HttpResponseBadRequest('Invalid request! No filename given.')
-
+            
             fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("filebrowser:fb_upload", current_app=self.name))
             folder = fb_uploadurl_re.sub('', folder)
 
