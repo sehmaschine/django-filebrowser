@@ -1133,7 +1133,7 @@ qq.UploadHandlerXhr.isSupported = function(){
         'multiple' in input &&
         typeof File != "undefined" && 
         typeof (new XMLHttpRequest()).upload != "undefined" ) &&
-        window.FormData === undefined      
+        window.FormData !== undefined      
 };
 
 // @inherits qq.UploadHandlerAbstract
