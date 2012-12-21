@@ -378,11 +378,19 @@ class FileObject():
         return version_list
     
     def version_generate(self, version_suffix):
-        version_path = get_version_path(self.path, version_suffix, site=self.site)
+        path = self.path
+
+        if FORCE_PLACEHOLDER or (
+            SHOW_PLACEHOLDER and not self.site.storage.isfile(path)):
+            path = PLACEHOLDER
+        
+        version_path = get_version_path(path, version_suffix, site=self.site)
+
         if not self.site.storage.isfile(version_path):
-            version_path = version_generator(self.path, version_suffix, site=self.site)
-        elif self.site.storage.modified_time(self.path) > self.site.storage.modified_time(version_path):
-            version_path = version_generator(self.path, version_suffix, force=True, site=self.site)
+            version_path = version_generator(path, version_suffix, site=self.site)
+        elif self.site.storage.modified_time(path) > self.site.storage.modified_time(version_path):
+            version_path = version_generator(path, version_suffix, force=True, site=self.site)
+
         return FileObject(version_path, site=self.site)
     
     # FUNCTIONS
