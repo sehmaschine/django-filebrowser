@@ -94,7 +94,7 @@ class FileBrowseField(CharField):
         self.directory = kwargs.pop('directory', '')
         self.extensions = kwargs.pop('extensions', '')
         self.format = kwargs.pop('format', '')
-        return super(FileBrowseField, self).__init__(*args, **kwargs)
+        super(FileBrowseField, self).__init__(*args, **kwargs)
     
     def to_python(self, value):
         if not value or isinstance(value, FileObject):
