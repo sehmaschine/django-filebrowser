@@ -1,27 +1,33 @@
 {% load i18n fb_tags %}
 <div id="filters" class="filter g-d-6 g-d-l">
-    <div class="grp-pulldown-container">
-        <a href="javascript://" class="grp-button grp-pulldown-handler">{% trans 'Filter' %}</a>
-        <ul class="grp-pulldown-content" style="display: none">
-            <li>
-                <label>{% trans "By Date" %}</label>
-                <select class="grp-filter-choice">
-                    <option value="{% query_string "" "filter_date,p" %}">{% trans "Any Date" %}</option>
-                    <option value="{% query_string "" "filter_date,p" %}&amp;filter_date=today"{% if query.filter_date == "today" %} selected="selected"{% endif %}>{% trans "Today" %}</option>
-                    <option value="{% query_string "" "filter_date,p" %}&amp;filter_date=past7days"{% if query.filter_date == "past7days" %} selected="selected"{% endif %}>{% trans "Past 7 days" %}</option>
-                    <option value="{% query_string "" "filter_date,p" %}&amp;filter_date=thismonth"{% if query.filter_date == "thismonth" %} selected="selected"{% endif %}>{% trans "This Month" %}</option>
-                    <option value="{% query_string "" "filter_date,p" %}&amp;filter_date=thisyear"{% if query.filter_date == "thisyear" %} selected="selected"{% endif %}>{% trans "This year" %}</option>
-                </select>
-            </li>
-            <li>
-                <label>{% trans "By Type" %}</label>
-                <select class="grp-filter-choice">
-                    <option value="{% query_string "" "filter_type,p" %}">{% trans "All" %}</option>
-                    {% for extension in settings_var.EXTENSIONS %}
-                        <option value="{% query_string "" "filter_type,p" %}&amp;filter_type={{ extension }}"{% if query.filter_type == extension %} selected="selected"{% endif %}>{% trans extension %}</option>
-                    {% endfor %}
-                </select>
-            </li>
-        </ul>
+    <div class="grp-filter">
+        <div class="grp-pulldown-container">
+            <a href="javascript://" class="grp-button grp-pulldown-handler">{% trans 'Filter' %}</a>
+            <div class="grp-pulldown-content" style="display: none;">
+                <div class="grp-module">
+                    <div class="grp-row">
+                        <label>{% trans "By Date" %}</label>
+                        <select class="grp-filter-choice">
+                            <option value="{% query_string "" "filter_date,p" %}">{% trans "Any Date" %}</option>
+                            <option value="{% query_string "" "filter_date,p" %}&amp;filter_date=today"{% if query.filter_date == "today" %} selected="selected"{% endif %}>{% trans "Today" %}</option>
+                            <option value="{% query_string "" "filter_date,p" %}&amp;filter_date=past7days"{% if query.filter_date == "past7days" %} selected="selected"{% endif %}>{% trans "Past 7 days" %}</option>
+                            <option value="{% query_string "" "filter_date,p" %}&amp;filter_date=thismonth"{% if query.filter_date == "thismonth" %} selected="selected"{% endif %}>{% trans "This Month" %}</option>
+                            <option value="{% query_string "" "filter_date,p" %}&amp;filter_date=thisyear"{% if query.filter_date == "thisyear" %} selected="selected"{% endif %}>{% trans "This year" %}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grp-module">
+                    <div class="grp-row">
+                        <label>{% trans "By Type" %}</label>
+                        <select class="grp-filter-choice">
+                            <option value="{% query_string "" "filter_type,p" %}">{% trans "All" %}</option>
+                            {% for extension in settings_var.EXTENSIONS %}
+                            <option value="{% query_string "" "filter_type,p" %}&amp;filter_type={{ extension }}"{% if query.filter_type == extension %} selected="selected"{% endif %}>{% trans extension %}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
