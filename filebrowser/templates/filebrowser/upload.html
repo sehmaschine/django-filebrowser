@@ -125,7 +125,7 @@
                         <p class="grp-text">
                         {% for extension in settings_var.EXTENSIONS.items %}
                             {% ifnotequal extension.0 'Folder' %}
-                                <strong>{{ extension.0|safe }}</strong> ({{ extension.1|join:", "|safe }})<br />
+                                <strong>{% trans extension.0|safe %}</strong> ({{ extension.1|join:", "|safe }})<br />
                             {% endifnotequal %}
                         {% endfor %}
                         </p>
