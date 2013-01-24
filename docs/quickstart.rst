@@ -57,7 +57,7 @@ Collect the media files::
 Settings
 --------
 
-Check the :ref:`settings`. You need to add a folder "Uploads" within your ``MEDIA_ROOT`` when using the default settings.
+Check the :ref:`settings`. You need to add a folder "uploads" within your ``MEDIA_ROOT`` when using the default settings.
 
 Testing
 -------
