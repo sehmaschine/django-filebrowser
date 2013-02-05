@@ -83,6 +83,9 @@ class FileListing():
             for d in dirs:
                 self._walk(os.path.join(path, d), filelisting)
 
+        rel_path = path.replace(self.site.directory, '')
+        files = map(lambda x: os.path.join(rel_path, x), files)
+
         filelisting.extend(dirs)
         filelisting.extend(files)
 
