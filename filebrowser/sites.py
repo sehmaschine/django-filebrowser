@@ -466,7 +466,7 @@ class FileBrowserSite(object):
             try:
                 filedata.name = convert_filename(request.GET['qqfile'])
             except KeyError:
-                return HttpResponseBadRequest('Invalid request! No filename given.')
+                filedata.name = convert_filename(request.FILES['qqfile'].name)
 
             fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("filebrowser:fb_upload", current_app=self.name))
             folder = fb_uploadurl_re.sub('', folder)
@@ -480,7 +480,7 @@ class FileBrowserSite(object):
                 ret_json = {'success': False, 'filename': filedata.name}
                 return HttpResponse(json.dumps(ret_json)) 
             
-            signals.filebrowser_pre_upload.send(sender=request, path=request.POST.get('folder'), file=filedata, site=self)
+            signals.filebrowser_pre_upload.send(sender=request, path=request.REQUEST.get('folder'), file=filedata, site=self)
             uploadedfile = handle_file_upload(path, filedata, site=self)
             
             if file_already_exists and OVERWRITE_EXISTING:
@@ -490,7 +490,7 @@ class FileBrowserSite(object):
             else:
                 file_name = smart_unicode(uploadedfile)
             
-            signals.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(file_name), site=self), site=self)
+            signals.filebrowser_post_upload.send(sender=request, path=request.REQUEST.get('folder'), file=FileObject(smart_unicode(file_name), site=self), site=self)
             
             # let Ajax Upload know whether we saved it or not
             ret_json = {'success': True, 'filename': filedata.name}
