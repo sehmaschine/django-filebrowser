@@ -82,9 +82,11 @@ class FileListing():
         if dirs:
             for d in dirs:
                 self._walk(os.path.join(path, d), filelisting)
+                filelisting.extend([path_strip(os.path.join(path,d), self.site.directory)])
 
-        filelisting.extend(dirs)
-        filelisting.extend(files)
+        if files:
+            for f in files:
+                filelisting.extend([path_strip(os.path.join(path,f), self.site.directory)])
 
     
     def walk(self):
