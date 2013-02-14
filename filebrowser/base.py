@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # PYTHON IMPORTS
-import os, shutil, re, datetime, time
+import os, shutil, re, datetime, time, platform
 import mimetypes
 
 # DJANGO IMPORTS
@@ -191,7 +191,10 @@ class FileObject():
             from filebrowser.sites import site as default_site
             site = default_site
         self.site = site
-        self.path = path
+        if platform.system() == 'Windows':
+            self.path = path.replace('\\','/')
+        else:
+            self.path = path
         self.head = os.path.dirname(path)
         self.filename = os.path.basename(path)
         self.filename_lower = self.filename.lower()
