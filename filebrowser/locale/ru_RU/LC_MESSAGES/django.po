@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Kirill Fomichev <fanatid@ya.ru>, 2013.
 # Евгений Лошинский <eloshinsky@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
-"POT-Creation-Date: 2011-10-06 15:00+0200\n"
-"PO-Revision-Date: 2012-10-24 08:18+0000\n"
-"Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
+"POT-Creation-Date: 2012-10-23 12:55+0200\n"
+"PO-Revision-Date: 2013-01-04 08:42+0000\n"
+"Last-Translator: Kirill Fomichev <fanatid@ya.ru>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/django-filebrowser/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,71 +87,71 @@ msgstr "Действия"
 msgid "The File already exists."
 msgstr "Файл уже существует."
 
-#: settings.py:111 templates/filebrowser/include/tableheader.html:21
+#: settings.py:123 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
 msgstr "Папка"
 
-#: settings.py:112
+#: settings.py:124
 msgid "Image"
 msgstr "Изображение"
 
-#: settings.py:113
+#: settings.py:125
 msgid "Video"
 msgstr "Видео"
 
-#: settings.py:114
+#: settings.py:126
 msgid "Document"
 msgstr "Документ"
 
-#: settings.py:115
+#: settings.py:127
 msgid "Audio"
 msgstr "Аудио"
 
-#: sites.py:269 templates/filebrowser/include/breadcrumbs.html:8
-#: templates/filebrowser/include/breadcrumbs.html:10
+#: sites.py:264 templates/filebrowser/include/breadcrumbs.html:9
+#: templates/filebrowser/include/breadcrumbs.html:11
 msgid "FileBrowser"
 msgstr "Менеджер файлов"
 
-#: sites.py:298
+#: sites.py:289
 #, python-format
 msgid "The Folder %s was successfully created."
 msgstr "Папка %s была успешно создана."
 
-#: sites.py:303
+#: sites.py:294
 msgid "Permission denied."
 msgstr "Доступ запрещен."
 
-#: sites.py:305
+#: sites.py:296
 msgid "Error creating folder."
 msgstr "Ошибка создания папки."
 
-#: sites.py:312 sites.py:315 templates/filebrowser/index.html:79
+#: sites.py:303 sites.py:306 templates/filebrowser/index.html:80
 msgid "New Folder"
 msgstr "Новая папка"
 
-#: sites.py:329
+#: sites.py:320
 msgid "Select files to upload"
 msgstr "Выберите файлы для загрузки"
 
-#: sites.py:332 templates/filebrowser/index.html:80
+#: sites.py:323 templates/filebrowser/index.html:81
 msgid "Upload"
 msgstr "Загрузить"
 
-#: sites.py:363 sites.py:366
+#: sites.py:354 sites.py:357
 msgid "Confirm delete"
 msgstr "Подтвердить удаление"
 
-#: sites.py:388
+#: sites.py:375
 #, python-format
 msgid "Successfully deleted %s"
 msgstr "%s успешно удален"
 
-#: sites.py:433
+#: sites.py:413
 msgid "Renaming was successful."
 msgstr "Переименование прошло успешно."
 
-#: sites.py:442
+#: sites.py:422
 msgid "Error."
 msgstr "Ошибка."
 
@@ -159,7 +160,7 @@ msgid "Currently"
 msgstr "Текущий"
 
 #: widgets.py:20 widgets.py:53
-#: templates/filebrowser/include/filelisting.html:130
+#: templates/filebrowser/include/filelisting.html:131
 msgid "Change"
 msgstr "Изменить"
 
@@ -167,20 +168,26 @@ msgstr "Изменить"
 msgid "Clear"
 msgstr "Очистить"
 
-#: templates/filebrowser/createdir.html:24
-#: templates/filebrowser/detail.html:48 templates/filebrowser/rename.html:24
+#: templates/filebrowser/createdir.html:23
+#: templates/filebrowser/detail.html:48
 msgid "Please correct the following errors."
 msgstr "Пожалуйста, исправьте следующие ошибки."
 
-#: templates/filebrowser/createdir.html:33
-#: templates/filebrowser/upload.html:131
+#: templates/filebrowser/createdir.html:36
+#: templates/filebrowser/upload.html:147
+msgid ""
+"The Name will be normalized by converting or stripping all non-standard "
+"characters."
+msgstr "Имена файлов будут изменены путем конвертирования или удаления всех нестандартных символов"
+
+#: templates/filebrowser/createdir.html:39
+#: templates/filebrowser/upload.html:150
 msgid ""
 "The Name will be converted to lowercase. Spaces will be replaced with "
 "underscores."
 msgstr "Имена файлов будут преобразованы в нижний регистр. Пробелы будут заменены символом подчеркивания."
 
-#: templates/filebrowser/createdir.html:40
-#: templates/filebrowser/rename.html:38
+#: templates/filebrowser/createdir.html:50
 msgid "Submit"
 msgstr "Подтвердить"
 
@@ -190,139 +197,153 @@ msgstr "Подтвердить"
 msgid "File not found"
 msgstr "Файл не найден"
 
-#: templates/filebrowser/delete_confirm.html:29
+#: templates/filebrowser/delete_confirm.html:30
 #, python-format
 msgid ""
 "Are you sure you want to delete \"%(escaped_object)s\"? All of the following"
 " items will be deleted:"
 msgstr "Вы уверенны что хотите удалить \"%(escaped_object)s\"? Все отмеченные будут удалены:"
 
-#: templates/filebrowser/delete_confirm.html:42
+#: templates/filebrowser/delete_confirm.html:43
 #, python-format
 msgid "... and %(escaped_object)s more Files."
 msgstr "и %(escaped_object)s more Files."
 
-#: templates/filebrowser/delete_confirm.html:48
-#: templates/filebrowser/upload.html:45
+#: templates/filebrowser/delete_confirm.html:50
+#: templates/filebrowser/upload.html:51
 msgid "Cancel"
 msgstr "Отменить"
 
-#: templates/filebrowser/delete_confirm.html:49
+#: templates/filebrowser/delete_confirm.html:51
 msgid "Yes, I'm sure"
 msgstr "Да, я уверен."
 
-#: templates/filebrowser/detail.html:61
+#: templates/filebrowser/detail.html:63
 msgid "Edit"
 msgstr "Изменить"
 
-#: templates/filebrowser/detail.html:74
+#: templates/filebrowser/detail.html:78
 msgid "Folder Information"
 msgstr "Информации о папке"
 
-#: templates/filebrowser/detail.html:76 templates/filebrowser/detail.html:105
+#: templates/filebrowser/detail.html:81 templates/filebrowser/detail.html:116
 #: templates/filebrowser/include/tableheader.html:28
 #: templates/filebrowser/include/tableheader.html:29
 msgid "Date"
 msgstr "Дата"
 
-#: templates/filebrowser/detail.html:87
+#: templates/filebrowser/detail.html:93
 msgid "File Information"
 msgstr "Информация о файле"
 
-#: templates/filebrowser/detail.html:89
+#: templates/filebrowser/detail.html:96
 msgid "URL"
 msgstr "URL"
 
-#: templates/filebrowser/detail.html:97
+#: templates/filebrowser/detail.html:106
 msgid "Filesize"
 msgstr "Размер файла"
 
-#: templates/filebrowser/detail.html:114
+#: templates/filebrowser/detail.html:127
 #: templates/filebrowser/include/tableheader.html:25
 #: templates/filebrowser/include/tableheader.html:26
 msgid "Size"
 msgstr "Размер"
 
-#: templates/filebrowser/detail.html:126
+#: templates/filebrowser/detail.html:140
 msgid "Image Versions"
 msgstr "Версии изображений"
 
-#: templates/filebrowser/detail.html:129
+#: templates/filebrowser/detail.html:144
 #: templates/filebrowser/include/tableheader.html:15
 msgid "Thumbnail"
 msgstr "Миниатюра"
 
-#: templates/filebrowser/detail.html:131
-#: templates/filebrowser/include/filelisting.html:100
+#: templates/filebrowser/detail.html:146
+#: templates/filebrowser/include/filelisting.html:101
 msgid "View Image"
 msgstr "Просмотр изображения"
 
-#: templates/filebrowser/detail.html:151
+#: templates/filebrowser/detail.html:170
 msgid "Delete"
 msgstr "Удалить"
 
-#: templates/filebrowser/detail.html:152
+#: templates/filebrowser/detail.html:171
 msgid "Save"
 msgstr "Сохранить"
 
-#: templates/filebrowser/detail.html:153
+#: templates/filebrowser/detail.html:172
 msgid "Save and continue editing"
 msgstr "Сохранить и продолжить редактирование"
 
-#: templates/filebrowser/upload.html:46
+#: templates/filebrowser/upload.html:42
+msgid "Drop files here to upload"
+msgstr "Выберите файлы для загрузки"
+
+#: templates/filebrowser/upload.html:43
+msgid "Upload a file"
+msgstr "Загрузить"
+
+#: templates/filebrowser/upload.html:52
 msgid "Failed"
 msgstr "Неудачно"
 
-#: templates/filebrowser/upload.html:60
+#: templates/filebrowser/upload.html:66
 msgid "{file} has invalid extension. Only {extensions} are allowed."
 msgstr "Недопустимое расширение {file}. Только {extensions} разрешены."
 
-#: templates/filebrowser/upload.html:61
+#: templates/filebrowser/upload.html:67
 msgid "{file} is too large, maximum file size is {sizeLimit}."
 msgstr "{file} слишком большой, максимальный размер файла {sizeLimit}."
 
-#: templates/filebrowser/upload.html:62
+#: templates/filebrowser/upload.html:68
 msgid "{file} is too small, minimum file size is {minSizeLimit}."
 msgstr "{file} слишком маленький, минимальный размер файла {minSizeLimit}."
 
-#: templates/filebrowser/upload.html:63
+#: templates/filebrowser/upload.html:69
 msgid "{file} is empty, please select files again without it."
 msgstr "{file} пустой, пожалуйста, выберите файлы заново без него. "
 
-#: templates/filebrowser/upload.html:64
+#: templates/filebrowser/upload.html:70
 msgid ""
 "The files are being uploaded, if you leave now the upload will be cancelled."
 msgstr "Файлы загружаются, если уйдете сейчас, то загрузка будет отменена."
 
-#: templates/filebrowser/upload.html:110
+#: templates/filebrowser/upload.html:115
 msgid "Please enable Javascript to upload files."
 msgstr "Пожалуйста, включите Javascript для загрузки файлов"
 
-#: templates/filebrowser/upload.html:115
+#: templates/filebrowser/upload.html:120
 msgid "Help"
 msgstr "Справка"
 
-#: templates/filebrowser/upload.html:119
+#: templates/filebrowser/upload.html:123
 msgid "Allowed"
 msgstr "Допустимые расширения"
 
-#: templates/filebrowser/upload.html:125
+#: templates/filebrowser/upload.html:137
 msgid "Max. Filesize"
 msgstr "Макс. размер"
 
-#: templates/filebrowser/include/breadcrumbs.html:5
+#: templates/filebrowser/upload.html:144
+#: templates/filebrowser/include/tableheader.html:17
+#: templates/filebrowser/include/tableheader.html:18
+msgid "Filename"
+msgstr "Имя файла"
+
+#: templates/filebrowser/include/breadcrumbs.html:6
 msgid "Home"
 msgstr "Домой"
 
-#: templates/filebrowser/include/filelisting.html:18
-#: templates/filebrowser/include/filelisting.html:44
-#: templates/filebrowser/include/filelisting.html:69
+#: templates/filebrowser/include/filelisting.html:19
+#: templates/filebrowser/include/filelisting.html:45
+#: templates/filebrowser/include/filelisting.html:70
 msgid "Select"
 msgstr "Выбрать"
 
-#: templates/filebrowser/include/filelisting.html:22
-#: templates/filebrowser/include/filelisting.html:48
-#: templates/filebrowser/include/filelisting.html:73
+#: templates/filebrowser/include/filelisting.html:23
+#: templates/filebrowser/include/filelisting.html:49
+#: templates/filebrowser/include/filelisting.html:74
 msgid "Versions"
 msgstr "Версии"
 
@@ -362,16 +383,16 @@ msgstr "По типу файла"
 msgid "All"
 msgstr "Все"
 
-#: templates/filebrowser/include/paginator.html:5
+#: templates/filebrowser/include/paginator.html:6
 msgid "result"
 msgstr "результат"
 
-#: templates/filebrowser/include/paginator.html:5
+#: templates/filebrowser/include/paginator.html:6
 msgid "results"
 msgstr "результаты"
 
-#: templates/filebrowser/include/paginator.html:9
-#: templates/filebrowser/include/paginator.html:11
+#: templates/filebrowser/include/paginator.html:10
+#: templates/filebrowser/include/paginator.html:12
 msgid "total"
 msgstr "итого"
 
@@ -379,11 +400,6 @@ msgstr "итого"
 #: templates/filebrowser/include/tableheader.html:13
 msgid "Type"
 msgstr "Тип"
-
-#: templates/filebrowser/include/tableheader.html:17
-#: templates/filebrowser/include/tableheader.html:18
-msgid "Filename"
-msgstr "Имя файла"
 
 #: templates/filebrowser/include/toolbar.html:6
 msgid "Results"

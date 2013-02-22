@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
-"POT-Creation-Date: 2011-10-06 15:00+0200\n"
-"PO-Revision-Date: 2012-10-24 08:18+0000\n"
-"Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
+"POT-Creation-Date: 2012-10-23 12:55+0200\n"
+"PO-Revision-Date: 2012-11-29 13:09+0000\n"
+"Last-Translator: Анхбаяр Анхаа <l.ankhbayar@gmail.com>\n"
 "Language-Team: Mongolian (http://www.transifex.com/projects/p/django-filebrowser/language/mn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,71 +86,71 @@ msgstr "Үйлдэлүүд"
 msgid "The File already exists."
 msgstr "Ийм файл байна. Давхардлаа."
 
-#: settings.py:111 templates/filebrowser/include/tableheader.html:21
+#: settings.py:123 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
 msgstr "Хавтас"
 
-#: settings.py:112
+#: settings.py:124
 msgid "Image"
 msgstr "Зураг"
 
-#: settings.py:113
+#: settings.py:125
 msgid "Video"
 msgstr "Бичлэг"
 
-#: settings.py:114
+#: settings.py:126
 msgid "Document"
 msgstr "Баримт"
 
-#: settings.py:115
+#: settings.py:127
 msgid "Audio"
 msgstr "Дуу"
 
-#: sites.py:269 templates/filebrowser/include/breadcrumbs.html:8
-#: templates/filebrowser/include/breadcrumbs.html:10
+#: sites.py:264 templates/filebrowser/include/breadcrumbs.html:9
+#: templates/filebrowser/include/breadcrumbs.html:11
 msgid "FileBrowser"
 msgstr "Файл хөтөч"
 
-#: sites.py:298
+#: sites.py:289
 #, python-format
 msgid "The Folder %s was successfully created."
 msgstr "Хавтас %s амжилттай үүслээ."
 
-#: sites.py:303
+#: sites.py:294
 msgid "Permission denied."
 msgstr "Эрх хүрэлцэхгүй байна."
 
-#: sites.py:305
+#: sites.py:296
 msgid "Error creating folder."
 msgstr "Хавтас үүсгэхэд алдаа гарлаа"
 
-#: sites.py:312 sites.py:315 templates/filebrowser/index.html:79
+#: sites.py:303 sites.py:306 templates/filebrowser/index.html:80
 msgid "New Folder"
 msgstr "Шинэ хавтас"
 
-#: sites.py:329
+#: sites.py:320
 msgid "Select files to upload"
 msgstr "Сонгосон файлуудыг хуул"
 
-#: sites.py:332 templates/filebrowser/index.html:80
+#: sites.py:323 templates/filebrowser/index.html:81
 msgid "Upload"
 msgstr "Хуул"
 
-#: sites.py:363 sites.py:366
+#: sites.py:354 sites.py:357
 msgid "Confirm delete"
 msgstr "Устгахыг баталгаажуул"
 
-#: sites.py:388
+#: sites.py:375
 #, python-format
 msgid "Successfully deleted %s"
 msgstr "%s амжилттай утсгав."
 
-#: sites.py:433
+#: sites.py:413
 msgid "Renaming was successful."
 msgstr "Нэрийг амжилттай өөрчиллөө."
 
-#: sites.py:442
+#: sites.py:422
 msgid "Error."
 msgstr "Алдаа."
 
@@ -159,7 +159,7 @@ msgid "Currently"
 msgstr "Одоогоор"
 
 #: widgets.py:20 widgets.py:53
-#: templates/filebrowser/include/filelisting.html:130
+#: templates/filebrowser/include/filelisting.html:131
 msgid "Change"
 msgstr "Өөрчлөх"
 
@@ -167,20 +167,26 @@ msgstr "Өөрчлөх"
 msgid "Clear"
 msgstr "Цэврэл"
 
-#: templates/filebrowser/createdir.html:24
-#: templates/filebrowser/detail.html:48 templates/filebrowser/rename.html:24
+#: templates/filebrowser/createdir.html:23
+#: templates/filebrowser/detail.html:48
 msgid "Please correct the following errors."
 msgstr "Доорх алдаануудыг засна уу."
 
-#: templates/filebrowser/createdir.html:33
-#: templates/filebrowser/upload.html:131
+#: templates/filebrowser/createdir.html:36
+#: templates/filebrowser/upload.html:147
+msgid ""
+"The Name will be normalized by converting or stripping all non-standard "
+"characters."
+msgstr "Файлын нэрийн стандарт биш тэмдэгтүүдийг хөрвүүлэх ба хасаж  үүснэ. "
+
+#: templates/filebrowser/createdir.html:39
+#: templates/filebrowser/upload.html:150
 msgid ""
 "The Name will be converted to lowercase. Spaces will be replaced with "
 "underscores."
 msgstr "Нэрийг жижиг үсгээр хоосон зайг доогуур зураас болгож хөрвүүлэнэ. "
 
-#: templates/filebrowser/createdir.html:40
-#: templates/filebrowser/rename.html:38
+#: templates/filebrowser/createdir.html:50
 msgid "Submit"
 msgstr "Оруул"
 
@@ -190,139 +196,153 @@ msgstr "Оруул"
 msgid "File not found"
 msgstr "Файл олдсонгүй"
 
-#: templates/filebrowser/delete_confirm.html:29
+#: templates/filebrowser/delete_confirm.html:30
 #, python-format
 msgid ""
 "Are you sure you want to delete \"%(escaped_object)s\"? All of the following"
 " items will be deleted:"
 msgstr "Та \"%(escaped_object)s\"-ийг устгахын хүсэж байна уу? Үүнтэй хамт дараах зүйлүүд утсах болно:"
 
-#: templates/filebrowser/delete_confirm.html:42
+#: templates/filebrowser/delete_confirm.html:43
 #, python-format
 msgid "... and %(escaped_object)s more Files."
 msgstr "... ба %(escaped_object)s бусад Файлууд."
 
-#: templates/filebrowser/delete_confirm.html:48
-#: templates/filebrowser/upload.html:45
+#: templates/filebrowser/delete_confirm.html:50
+#: templates/filebrowser/upload.html:51
 msgid "Cancel"
 msgstr "Болих"
 
-#: templates/filebrowser/delete_confirm.html:49
+#: templates/filebrowser/delete_confirm.html:51
 msgid "Yes, I'm sure"
 msgstr "Тийм, Би итгэлтэй байна."
 
-#: templates/filebrowser/detail.html:61
+#: templates/filebrowser/detail.html:63
 msgid "Edit"
 msgstr "Засах"
 
-#: templates/filebrowser/detail.html:74
+#: templates/filebrowser/detail.html:78
 msgid "Folder Information"
 msgstr "Хавтасын мэдээлэл"
 
-#: templates/filebrowser/detail.html:76 templates/filebrowser/detail.html:105
+#: templates/filebrowser/detail.html:81 templates/filebrowser/detail.html:116
 #: templates/filebrowser/include/tableheader.html:28
 #: templates/filebrowser/include/tableheader.html:29
 msgid "Date"
 msgstr "Огноо"
 
-#: templates/filebrowser/detail.html:87
+#: templates/filebrowser/detail.html:93
 msgid "File Information"
 msgstr "Файлын мэдээлэл"
 
-#: templates/filebrowser/detail.html:89
+#: templates/filebrowser/detail.html:96
 msgid "URL"
 msgstr "URL"
 
-#: templates/filebrowser/detail.html:97
+#: templates/filebrowser/detail.html:106
 msgid "Filesize"
 msgstr "Файлын хэмжээ"
 
-#: templates/filebrowser/detail.html:114
+#: templates/filebrowser/detail.html:127
 #: templates/filebrowser/include/tableheader.html:25
 #: templates/filebrowser/include/tableheader.html:26
 msgid "Size"
 msgstr "Хэмжээ"
 
-#: templates/filebrowser/detail.html:126
+#: templates/filebrowser/detail.html:140
 msgid "Image Versions"
 msgstr "Зургын хувилбарууд"
 
-#: templates/filebrowser/detail.html:129
+#: templates/filebrowser/detail.html:144
 #: templates/filebrowser/include/tableheader.html:15
 msgid "Thumbnail"
 msgstr "Жижиг зураг"
 
-#: templates/filebrowser/detail.html:131
-#: templates/filebrowser/include/filelisting.html:100
+#: templates/filebrowser/detail.html:146
+#: templates/filebrowser/include/filelisting.html:101
 msgid "View Image"
 msgstr "Зураг үзэх"
 
-#: templates/filebrowser/detail.html:151
+#: templates/filebrowser/detail.html:170
 msgid "Delete"
 msgstr "Утсгах"
 
-#: templates/filebrowser/detail.html:152
+#: templates/filebrowser/detail.html:171
 msgid "Save"
 msgstr "Хадгал"
 
-#: templates/filebrowser/detail.html:153
+#: templates/filebrowser/detail.html:172
 msgid "Save and continue editing"
 msgstr "Хадлалаад  үргэлжилүүлж засах"
 
-#: templates/filebrowser/upload.html:46
+#: templates/filebrowser/upload.html:42
+msgid "Drop files here to upload"
+msgstr "Хуулах файлуудаа сонгох"
+
+#: templates/filebrowser/upload.html:43
+msgid "Upload a file"
+msgstr "Хуулах"
+
+#: templates/filebrowser/upload.html:52
 msgid "Failed"
 msgstr "Алдаа"
 
-#: templates/filebrowser/upload.html:60
+#: templates/filebrowser/upload.html:66
 msgid "{file} has invalid extension. Only {extensions} are allowed."
 msgstr "{file} төрөл буруу байна. Зөвхөн {extensions} төрлүүдийг зөвшөөрнө."
 
-#: templates/filebrowser/upload.html:61
+#: templates/filebrowser/upload.html:67
 msgid "{file} is too large, maximum file size is {sizeLimit}."
 msgstr "{file} файлын хэмжээ хэт том байна. Файлын дээд хэмжээ {sizeLimit} хэтрэж болохгүй."
 
-#: templates/filebrowser/upload.html:62
+#: templates/filebrowser/upload.html:68
 msgid "{file} is too small, minimum file size is {minSizeLimit}."
 msgstr "{file} файлын хэмжээ хэт бага байна. Файлын доод хэмжээ  {minSizeLimit} бага байж болохгүй."
 
-#: templates/filebrowser/upload.html:63
+#: templates/filebrowser/upload.html:69
 msgid "{file} is empty, please select files again without it."
 msgstr "{file} хоосон байна, энээс өөр файлууд сонгоно уу."
 
-#: templates/filebrowser/upload.html:64
+#: templates/filebrowser/upload.html:70
 msgid ""
 "The files are being uploaded, if you leave now the upload will be cancelled."
 msgstr "Файлуудыг хуулж эхлсэн байна хэрвээ та одоо энэ хуудасыг хаавал хуулалт цуцлагдах болно. "
 
-#: templates/filebrowser/upload.html:110
+#: templates/filebrowser/upload.html:115
 msgid "Please enable Javascript to upload files."
 msgstr "Файлууд хуулахын тулд Javascript ийг идвэхжүүлнэ үү."
 
-#: templates/filebrowser/upload.html:115
+#: templates/filebrowser/upload.html:120
 msgid "Help"
 msgstr "Тусламж"
 
-#: templates/filebrowser/upload.html:119
+#: templates/filebrowser/upload.html:123
 msgid "Allowed"
 msgstr "Зөвшөөрөгдсөн"
 
-#: templates/filebrowser/upload.html:125
+#: templates/filebrowser/upload.html:137
 msgid "Max. Filesize"
 msgstr "Файлын хэмжээний хязгаар."
 
-#: templates/filebrowser/include/breadcrumbs.html:5
+#: templates/filebrowser/upload.html:144
+#: templates/filebrowser/include/tableheader.html:17
+#: templates/filebrowser/include/tableheader.html:18
+msgid "Filename"
+msgstr "Файлын нэр"
+
+#: templates/filebrowser/include/breadcrumbs.html:6
 msgid "Home"
 msgstr "Эхлэл"
 
-#: templates/filebrowser/include/filelisting.html:18
-#: templates/filebrowser/include/filelisting.html:44
-#: templates/filebrowser/include/filelisting.html:69
+#: templates/filebrowser/include/filelisting.html:19
+#: templates/filebrowser/include/filelisting.html:45
+#: templates/filebrowser/include/filelisting.html:70
 msgid "Select"
 msgstr "Сонго"
 
-#: templates/filebrowser/include/filelisting.html:22
-#: templates/filebrowser/include/filelisting.html:48
-#: templates/filebrowser/include/filelisting.html:73
+#: templates/filebrowser/include/filelisting.html:23
+#: templates/filebrowser/include/filelisting.html:49
+#: templates/filebrowser/include/filelisting.html:74
 msgid "Versions"
 msgstr "Хувилбарууд"
 
@@ -362,16 +382,16 @@ msgstr "Төрлөөр"
 msgid "All"
 msgstr "Бүгд"
 
-#: templates/filebrowser/include/paginator.html:5
+#: templates/filebrowser/include/paginator.html:6
 msgid "result"
 msgstr "үр дүн"
 
-#: templates/filebrowser/include/paginator.html:5
+#: templates/filebrowser/include/paginator.html:6
 msgid "results"
 msgstr "үр дүн"
 
-#: templates/filebrowser/include/paginator.html:9
-#: templates/filebrowser/include/paginator.html:11
+#: templates/filebrowser/include/paginator.html:10
+#: templates/filebrowser/include/paginator.html:12
 msgid "total"
 msgstr "нийт"
 
@@ -379,11 +399,6 @@ msgstr "нийт"
 #: templates/filebrowser/include/tableheader.html:13
 msgid "Type"
 msgstr "Төрөл"
-
-#: templates/filebrowser/include/tableheader.html:17
-#: templates/filebrowser/include/tableheader.html:18
-msgid "Filename"
-msgstr "Файлын нэр"
 
 #: templates/filebrowser/include/toolbar.html:6
 msgid "Results"

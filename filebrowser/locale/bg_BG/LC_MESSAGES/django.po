@@ -3,45 +3,44 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Ali Ismayilov <ali@ismailov.info>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
 "POT-Creation-Date: 2012-10-23 12:55+0200\n"
-"PO-Revision-Date: 2012-11-10 08:20+0000\n"
-"Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
-"Language-Team: Azerbaijani (http://www.transifex.com/projects/p/django-filebrowser/language/az/)\n"
+"PO-Revision-Date: 2011-06-01 11:15+0000\n"
+"Last-Translator: sehmaschine <patrick@vonautomatisch.at>\n"
+"Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/django-filebrowser/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: az\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: bg_BG\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: actions.py:51
 #, python-format
 msgid "Action applied successfully to '%s'"
-msgstr "\"%s\" üzərində əməliyyat uğurla həyata keçirildi."
+msgstr ""
 
 #: actions.py:56 forms.py:21
 msgid "Flip horizontal"
-msgstr "Üfüqi çevir"
+msgstr ""
 
 #: actions.py:62 forms.py:22
 msgid "Flip vertical"
-msgstr "Şaquli çevir"
+msgstr ""
 
 #: actions.py:68 forms.py:23
 msgid "Rotate 90° CW"
-msgstr "Saat əqrəbi istiqamətində 90° döndər"
+msgstr ""
 
 #: actions.py:74 forms.py:24
 msgid "Rotate 90° CCW"
-msgstr "Saat əqrəbinin əksi istiqamətində 90° döndər"
+msgstr ""
 
 #: actions.py:80 forms.py:25
 msgid "Rotate 180°"
-msgstr "180° döndər"
+msgstr ""
 
 #: decorators.py:23
 msgid ""
@@ -51,126 +50,126 @@ msgstr ""
 
 #: decorators.py:25
 msgid "The requested Folder does not exist."
-msgstr "Bu Qovluq mövcud deyil."
+msgstr ""
 
 #: decorators.py:41
 msgid "The requested File does not exist."
-msgstr "Bu Fayl mövcud deyil."
+msgstr ""
 
 #: decorators.py:47
 msgid "You do not have permission to access this file!"
-msgstr "Bu fayldan istifadə etmək icazəniz yoxdur."
+msgstr ""
 
 #: fields.py:65
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
-msgstr "%(ext)s genişlənməsinə icazə yoxdur. Ancaq bunlara icazə var: %(allowed)s."
+msgstr ""
 
 #: forms.py:39 forms.py:58
 msgid "Name"
-msgstr "Adı"
+msgstr ""
 
 #: forms.py:39 forms.py:45 forms.py:58 forms.py:79
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
-msgstr "Ancaq hərf, rəqəm, altdan xətt, ağ və defis simvollarından istifadə etmək olar."
+msgstr ""
 
 #: forms.py:48 forms.py:82
 msgid "The Folder already exists."
-msgstr "Qovluq mövcud deyil."
+msgstr ""
 
 #: forms.py:57
 msgid "Actions"
-msgstr "Əməliyyatlar"
+msgstr ""
 
 #: forms.py:84
 msgid "The File already exists."
-msgstr "Belə Fayl artıq var."
+msgstr ""
 
 #: settings.py:123 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
-msgstr "Qovluq"
+msgstr ""
 
 #: settings.py:124
 msgid "Image"
-msgstr "Şəkil"
+msgstr ""
 
 #: settings.py:125
 msgid "Video"
-msgstr "Video"
+msgstr ""
 
 #: settings.py:126
 msgid "Document"
-msgstr "Sənəd"
+msgstr ""
 
 #: settings.py:127
 msgid "Audio"
-msgstr "Audio"
+msgstr ""
 
 #: sites.py:264 templates/filebrowser/include/breadcrumbs.html:9
 #: templates/filebrowser/include/breadcrumbs.html:11
 msgid "FileBrowser"
-msgstr "Faylbrauzer"
+msgstr ""
 
 #: sites.py:289
 #, python-format
 msgid "The Folder %s was successfully created."
-msgstr "%s qovluğu yaradıldı."
+msgstr ""
 
 #: sites.py:294
 msgid "Permission denied."
-msgstr "İcazə yoxdur."
+msgstr ""
 
 #: sites.py:296
 msgid "Error creating folder."
-msgstr "Qovluğu yaradanda xəta baş verdi."
+msgstr ""
 
 #: sites.py:303 sites.py:306 templates/filebrowser/index.html:80
 msgid "New Folder"
-msgstr "Yeni qovluq"
+msgstr ""
 
 #: sites.py:320
 msgid "Select files to upload"
-msgstr "Göndərmək üçün faylları seçin"
+msgstr ""
 
 #: sites.py:323 templates/filebrowser/index.html:81
 msgid "Upload"
-msgstr "Göndər"
+msgstr ""
 
 #: sites.py:354 sites.py:357
 msgid "Confirm delete"
-msgstr "Silməyi təsdiqlə"
+msgstr ""
 
 #: sites.py:375
 #, python-format
 msgid "Successfully deleted %s"
-msgstr "%s uğurla silindi"
+msgstr ""
 
 #: sites.py:413
 msgid "Renaming was successful."
-msgstr "Ad uğurla dəyişildi."
+msgstr ""
 
 #: sites.py:422
 msgid "Error."
-msgstr "Xəta."
+msgstr ""
 
 #: widgets.py:19 widgets.py:52
 msgid "Currently"
-msgstr "Hazırda"
+msgstr ""
 
 #: widgets.py:20 widgets.py:53
 #: templates/filebrowser/include/filelisting.html:131
 msgid "Change"
-msgstr "Dəyiş"
+msgstr ""
 
 #: widgets.py:21 widgets.py:54
 msgid "Clear"
-msgstr "Təmizlə"
+msgstr ""
 
 #: templates/filebrowser/createdir.html:23
 #: templates/filebrowser/detail.html:48
 msgid "Please correct the following errors."
-msgstr "Aşağıdakı səhvləri düzəldin."
+msgstr ""
 
 #: templates/filebrowser/createdir.html:36
 #: templates/filebrowser/upload.html:147
@@ -184,96 +183,96 @@ msgstr ""
 msgid ""
 "The Name will be converted to lowercase. Spaces will be replaced with "
 "underscores."
-msgstr "Adı balaca hərflərlə veriləcək. Boşluqlar isə altdan xətt ilə əvəz olunacaq."
+msgstr ""
 
 #: templates/filebrowser/createdir.html:50
 msgid "Submit"
-msgstr "Göndər"
+msgstr ""
 
 #: templates/filebrowser/custom_field.html:26
 #: templates/filebrowser/widgets/clearablefileinput.html:11
 #: templates/filebrowser/widgets/fileinput.html:11
 msgid "File not found"
-msgstr "Fayl tapılmadı"
+msgstr ""
 
 #: templates/filebrowser/delete_confirm.html:30
 #, python-format
 msgid ""
 "Are you sure you want to delete \"%(escaped_object)s\"? All of the following"
 " items will be deleted:"
-msgstr "\"%(escaped_object)s\" silməkdə əminsiniz? Bütün bu faylların hamısı silinəcək:"
+msgstr ""
 
 #: templates/filebrowser/delete_confirm.html:43
 #, python-format
 msgid "... and %(escaped_object)s more Files."
-msgstr "... və %(escaped_object)s daha fayl."
+msgstr ""
 
 #: templates/filebrowser/delete_confirm.html:50
 #: templates/filebrowser/upload.html:51
 msgid "Cancel"
-msgstr "Ləğv et"
+msgstr ""
 
 #: templates/filebrowser/delete_confirm.html:51
 msgid "Yes, I'm sure"
-msgstr "Hə, əminəm"
+msgstr ""
 
 #: templates/filebrowser/detail.html:63
 msgid "Edit"
-msgstr "Redaktə et"
+msgstr ""
 
 #: templates/filebrowser/detail.html:78
 msgid "Folder Information"
-msgstr "Qovluq haqda"
+msgstr ""
 
 #: templates/filebrowser/detail.html:81 templates/filebrowser/detail.html:116
 #: templates/filebrowser/include/tableheader.html:28
 #: templates/filebrowser/include/tableheader.html:29
 msgid "Date"
-msgstr "Tarix"
+msgstr ""
 
 #: templates/filebrowser/detail.html:93
 msgid "File Information"
-msgstr "Fayl haqda"
+msgstr ""
 
 #: templates/filebrowser/detail.html:96
 msgid "URL"
-msgstr "URL"
+msgstr ""
 
 #: templates/filebrowser/detail.html:106
 msgid "Filesize"
-msgstr "Faylın ölçüsü"
+msgstr ""
 
 #: templates/filebrowser/detail.html:127
 #: templates/filebrowser/include/tableheader.html:25
 #: templates/filebrowser/include/tableheader.html:26
 msgid "Size"
-msgstr "Ölçüsü"
+msgstr ""
 
 #: templates/filebrowser/detail.html:140
 msgid "Image Versions"
-msgstr "Şəklin versiyaları"
+msgstr ""
 
 #: templates/filebrowser/detail.html:144
 #: templates/filebrowser/include/tableheader.html:15
 msgid "Thumbnail"
-msgstr "Rəsmcik"
+msgstr ""
 
 #: templates/filebrowser/detail.html:146
 #: templates/filebrowser/include/filelisting.html:101
 msgid "View Image"
-msgstr "Şəkli göstər"
+msgstr ""
 
 #: templates/filebrowser/detail.html:170
 msgid "Delete"
-msgstr "Sil"
+msgstr ""
 
 #: templates/filebrowser/detail.html:171
 msgid "Save"
-msgstr "Yadda saxla"
+msgstr ""
 
 #: templates/filebrowser/detail.html:172
 msgid "Save and continue editing"
-msgstr "Yadda saxla və redaktəyə davam et"
+msgstr ""
 
 #: templates/filebrowser/upload.html:42
 msgid "Drop files here to upload"
@@ -314,110 +313,111 @@ msgstr ""
 
 #: templates/filebrowser/upload.html:120
 msgid "Help"
-msgstr "Kömək"
+msgstr ""
 
 #: templates/filebrowser/upload.html:123
 msgid "Allowed"
-msgstr "Olar"
+msgstr ""
 
 #: templates/filebrowser/upload.html:137
 msgid "Max. Filesize"
-msgstr "Maksimum ölçü"
+msgstr ""
 
 #: templates/filebrowser/upload.html:144
 #: templates/filebrowser/include/tableheader.html:17
 #: templates/filebrowser/include/tableheader.html:18
 msgid "Filename"
-msgstr "Adı"
+msgstr ""
 
 #: templates/filebrowser/include/breadcrumbs.html:6
 msgid "Home"
-msgstr "Ev"
+msgstr ""
 
 #: templates/filebrowser/include/filelisting.html:19
 #: templates/filebrowser/include/filelisting.html:45
 #: templates/filebrowser/include/filelisting.html:70
 msgid "Select"
-msgstr "Seç"
+msgstr ""
 
 #: templates/filebrowser/include/filelisting.html:23
 #: templates/filebrowser/include/filelisting.html:49
 #: templates/filebrowser/include/filelisting.html:74
 msgid "Versions"
-msgstr "Versiyaları"
+msgstr ""
 
 #: templates/filebrowser/include/filter.html:4
 msgid "Filter"
-msgstr "Filtr"
+msgstr ""
 
 #: templates/filebrowser/include/filter.html:7
 msgid "By Date"
-msgstr "Tarixə görə"
+msgstr ""
 
 #: templates/filebrowser/include/filter.html:9
 msgid "Any Date"
-msgstr "İstənilən tarix"
+msgstr ""
 
 #: templates/filebrowser/include/filter.html:10
 msgid "Today"
-msgstr "Bu gün"
+msgstr ""
 
 #: templates/filebrowser/include/filter.html:11
 msgid "Past 7 days"
-msgstr "Ötən 7 gün"
+msgstr ""
 
 #: templates/filebrowser/include/filter.html:12
 msgid "This Month"
-msgstr "Bu ay"
+msgstr ""
 
 #: templates/filebrowser/include/filter.html:13
 msgid "This year"
-msgstr "Bu il"
+msgstr ""
 
 #: templates/filebrowser/include/filter.html:17
 msgid "By Type"
-msgstr "Tipinə görə"
+msgstr ""
 
 #: templates/filebrowser/include/filter.html:19
 msgid "All"
-msgstr "Hamısı"
+msgstr ""
 
 #: templates/filebrowser/include/paginator.html:6
 msgid "result"
-msgstr "nəticə"
+msgstr ""
 
 #: templates/filebrowser/include/paginator.html:6
 msgid "results"
-msgstr "nəticə"
+msgstr ""
 
 #: templates/filebrowser/include/paginator.html:10
 #: templates/filebrowser/include/paginator.html:12
 msgid "total"
-msgstr "yekun"
+msgstr ""
 
 #: templates/filebrowser/include/tableheader.html:12
 #: templates/filebrowser/include/tableheader.html:13
 msgid "Type"
-msgstr "Tipi"
+msgstr ""
 
 #: templates/filebrowser/include/toolbar.html:6
 msgid "Results"
-msgstr "Nəticələr"
+msgstr ""
 
 #: templates/filebrowser/include/toolbar.html:8
 #, python-format
 msgid "%(counter)s result"
 msgid_plural "%(counter)s results"
-msgstr[0] "%(counter)s nəticə"
+msgstr[0] ""
+msgstr[1] ""
 
 #: templates/filebrowser/include/toolbar.html:9
 #, python-format
 msgid "%(full_result_count)s total"
-msgstr "yekun %(full_result_count)s"
+msgstr ""
 
 #: templates/filebrowser/include/toolbar.html:16
 msgid "Search"
-msgstr "Axtar"
+msgstr ""
 
 #~ msgid "BROWSE"
 #~ msgstr "BROWSE"
