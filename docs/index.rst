@@ -98,9 +98,8 @@ Use the `FileBrowser Google Group <http://groups.google.com/group/django-filebro
 Versions and Compatibility
 --------------------------
 
-* |filebrowser| 3.5.x: Requires |grappelli| 2.4 and Django 1.4 (3.5.1 is also compatible with Django 1.5)
-* |filebrowser| 3.4.x: Requires |grappelli| 2.3 and Django 1.3
+* FileBrowser 3.5.3 (Development Version, not yet released, see Branch Stable/3.5.x)
+* FileBrowser 3.5.2 (February 22 2013): Compatible with Django 1.4/1.5
+* FileBrowser 3.4.3 (April 2012): Compatible with Django 1.3
 
 Older versions are availabe at GitHub, but are not supported anymore.
-
-

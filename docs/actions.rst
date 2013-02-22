@@ -66,6 +66,3 @@ Some actions may require user confirmation (e.g., in order to prevent accidental
     def crop_image(request, fileobjects):
         files = '&f='.join([f.path_relative for f in fileobjects])
         return HttpResponseRedirect('/confirm/?action=crop_image&f=%s' % files)
-
-
-

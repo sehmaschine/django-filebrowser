@@ -165,7 +165,7 @@ SAVE_FULL_URL
 ^^^^^^^^^^^^^
 
 .. deprecated:: 3.4.0
-    With custom storage engines, saving the full URL (including MEDIA_ROOT) doesn´t make sense anymore. Moreover, removing this settings allows for easily replacing a FileBrowseField with Djangos File- or ImageField.
+    With custom storage engines, saving the full URL (including MEDIA_ROOT) doesn't make sense anymore. Moreover, removing this settings allows for easily replacing a FileBrowseField with Djangos File- or ImageField.
 
 STRICT_PIL
 ^^^^^^^^^^

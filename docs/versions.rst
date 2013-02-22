@@ -13,7 +13,7 @@ With the FileBrowser, you are able to define different versions/sizes for Images
 Versions and the grid
 ---------------------
 
-First you need to know which versions/sizes of an image you´d like to use on your website. Let´s say you´re using a 12 column grid with 60px for each column and 20px margin (which is a total of 940px). With this grid, you could (for example) generate these image versions::
+First you need to know which versions/sizes of an image you'd like to use on your website. Let's say you're using a 12 column grid with 60px for each column and 20px margin (which is a total of 940px). With this grid, you could (for example) generate these image versions::
 
       VERSIONS = getattr(settings, "FILEBROWSER_VERSIONS", {
         'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
@@ -53,7 +53,7 @@ Don't forget to select one version for your admin-thumbnail::
 Versions on your website
 ------------------------
 
-In order to generate versions, you have two different tags to choose from: ``version`` and ``version_object``. With either using the version-tag or the version_object-tag, the Image-version will be generated "on the fly" if the version doesn´t already exist or if the original Image is newer than the version. This means that if you need to update an Image, you just overwrite the original Image - the versions will be re-generated automatically (as you request them within your template).
+In order to generate versions, you have two different tags to choose from: ``version`` and ``version_object``. With either using the version-tag or the version_object-tag, the Image-version will be generated "on the fly" if the version doesn't already exist or if the original Image is newer than the version. This means that if you need to update an Image, you just overwrite the original Image - the versions will be re-generated automatically (as you request them within your template).
 
 A Model example::
 
@@ -143,5 +143,3 @@ If you need to generate certain (or all) versions, type::
 
 .. warning::
     Please be very careful with this command.
-
-

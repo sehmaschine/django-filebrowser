@@ -8,8 +8,20 @@
 Changelog
 =========
 
-3.5.2 (not yet released)
+3.5.3 (not yet released)
 ------------------------
+
+3.5.2 (February 22, 2013)
+------------------------
+
+* Fixed: Use placeholder with version_generate (not only templatetags).
+* Fixed: translate extension group name in upload form.
+* Fixed: updated filter dropdown HTML.
+* Fixed: Make setup.py work with Python 3.
+* Fixed: File submit with search traversal.
+* Fixed: Fixed fileobject path with Windows.
+* Improved: Throwing an exception when in DEBUG and version is not generated (with using the templatetag).
+* Compatibility with Django 1.5.
 
 3.5.1 (November 09, 2012)
 -------------------------
@@ -17,7 +29,7 @@ Changelog
 * Fixed: Documentation with Signals.
 * Fixed: File Upload using basic submission.
 * Fixed: Added site instance to Signals.
-* Improved: Don´t hide errors during generate-command.
+* Improved: Don't hide errors during generate-command.
 * Improved: Follow symlinks with generate-command.
 * Improved: Added some translations (e.g. for "Upload File").
 * New: Setting OVERWRITE_EXISTING.
