@@ -59,6 +59,7 @@ class Command(BaseCommand):
         # walkt throu the filebrowser directory
         # for all/new files (except file versions itself and excludes)
         for dirpath,dirnames,filenames in os.walk(path, followlinks=True):
+            rel_dir = os.path.relpath(dirpath, os.path.realpath(MEDIA_ROOT))
             for filename in filenames:
                 filtered = False
                 # no "hidden" files (stating with ".")
@@ -72,7 +73,7 @@ class Command(BaseCommand):
                     continue
                 (tmp, extension) = os.path.splitext(filename)
                 if extension in EXTENSIONS["Image"]:
-                    self.createVersions(os.path.join(dirpath, filename), selected_version)
+                    self.createVersions(os.path.join(rel_dir, filename), selected_version)
     
     def createVersions(self, path, selected_version):
         if selected_version:
