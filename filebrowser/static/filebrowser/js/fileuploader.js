@@ -1131,8 +1131,9 @@ qq.UploadHandlerXhr.isSupported = function(){
     
     return (
         'multiple' in input &&
-        typeof File != "undefined" &&
-        typeof (new XMLHttpRequest()).upload != "undefined" );       
+        typeof File != "undefined" && 
+        typeof (new XMLHttpRequest()).upload != "undefined" ) &&
+        window.FormData !== undefined      
 };
 
 // @inherits qq.UploadHandlerAbstract
@@ -1194,14 +1195,16 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
 
         // build query string
         params = params || {};
-        params['qqfile'] = name;
         var queryString = qq.obj2url(params, this._options.action);
-
+        
+        // Django requires form-data for file upload handlers to work
+        var formData = new FormData();
+        formData.append('file', file);
+        formData.append('qqfile', name);
+        
         xhr.open("POST", queryString, true);
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-        xhr.setRequestHeader("X-File-Name", encodeURIComponent(name));
-        xhr.setRequestHeader("Content-Type", "application/octet-stream");
-        xhr.send(file);
+        xhr.send(formData);
     },
     _onComplete: function(id, xhr){
         // the request was aborted/cancelled
