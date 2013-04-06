@@ -24,7 +24,7 @@
                             <ul class="grp-pulldown-versions">
                                 {% for version in settings_var.ADMIN_VERSIONS %}
                                     {% version_setting version %}
-                                    <li><a href="{% url 'filebrowser:fb_version' %}{% query_string '' 'filename' %}&amp;filename={{ fileobject.filename|urlencode }}&amp;version={{ version }}" title="">{{ version_setting.verbose_name }}</a></li>
+                                    <li><a href="{% url 'filebrowser:fb_version' %}{% query_string '' 'filename, dirname' %}&amp;dir={{ fileobject.dirname|urlencode }}&amp;filename={{ fileobject.filename|urlencode }}&amp;version={{ version }}" title="">{{ version_setting.verbose_name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>

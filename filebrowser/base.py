@@ -268,7 +268,11 @@ class FileObject():
         "path relative to DIRECTORY"
         return path_strip(self.path, self.site.directory)
     path_relative_directory = property(_path_relative_directory)
-    
+
+    def _dirname(self):
+        return os.path.dirname(self.path_relative_directory)
+    dirname = property(_dirname)
+
     def _url(self):
         return self.site.storage.url(self.path)
     url = property(_url)
