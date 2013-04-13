@@ -96,7 +96,7 @@ def test_do_upload(test):
 
     with open(os.path.join(PATH_FILEBROWSER_MEDIA, 'img/testimage.jpg'), "rb") as f:
         file_size = os.path.getsize(f.name)
-        response = test.c.post(url, data=f.read(), content_type='application/octet-stream', HTTP_X_REQUESTED_WITH='XMLHttpRequest', X_File_Name='testimage.jpg')
+        response = test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     
     # Check we get OK response
     test.assertTrue(response.status_code == 200)
@@ -106,25 +106,6 @@ def test_do_upload(test):
     test.testfile = FileObject(path, site=test.site)
     test.assertTrue(test.site.storage.exists(path))
     
-    # Check the file has the correct size
-    test.assertTrue(file_size == test.site.storage.size(path))
-
-    ## Attemp an upload of the file using BASIC SUBMISSION
-
-    url = reverse('%s:fb_do_upload' % test.site_name)
-    url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage_basic.jpg'})])
-
-    with open(os.path.join(PATH_FILEBROWSER_MEDIA, 'img/testimage.jpg'), 'rb') as f:
-        file_size = os.path.getsize(f.name)
-        response = test.c.post(url, {'qqfile': f})
-
-    # Check we get OK response
-    test.assertTrue(response.status_code == 200)
-    
-    # Check the file now exists
-    path = os.path.join(test.tmpdir.path, 'testimage_basic.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-
     # Check the file has the correct size
     test.assertTrue(file_size == test.site.storage.size(path))
 
@@ -139,8 +120,10 @@ def test_detail(test):
     test.assertTrue(response.status_code == 200)
     
     # At this moment all versions should be generated. Check that.
+    pre_rename_versions = []
     for version_suffix in VERSIONS:
         path = get_version_path(test.testfile.path, version_suffix, site=test.site)
+        pre_rename_versions.append(path)
         test.assertTrue(test.site.storage.exists(path))
     
     # Attemp renaming the file
@@ -156,7 +139,11 @@ def test_detail(test):
     # Store the renamed file
     test.testfile = FileObject(os.path.join(test.testfile.head, 'testpic.jpg'), site=test.site)
     
-    # Check all versions were deleted (after renaming):
+    # Check if all pre-rename versions were deleted:
+    for path in pre_rename_versions:
+        test.assertFalse(test.site.storage.exists(path))
+
+    # Check if all post–rename versions were deleted (resp. not being generated):
     for version_suffix in VERSIONS:
         path = get_version_path(test.testfile.path, version_suffix, site=test.site)
         test.assertFalse(test.site.storage.exists(path))

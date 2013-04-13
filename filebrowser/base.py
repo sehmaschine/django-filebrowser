@@ -375,15 +375,14 @@ class FileObject():
         version_list = []
         if self.filetype == "Image":
             for version in VERSIONS:
-                version_list.append(os.path.join(self.versions_basedir, self.version_name(version)))
+                version_list.append(os.path.join(self.versions_basedir, self.folder, self.version_name(version)))
         return version_list
     
     def admin_versions(self):
         version_list = []
         if self.filetype == "Image":
             for version in ADMIN_VERSIONS:
-                version_list.append(os.path.join(self.versions_basedir, self.version_name(version)))
-                #version_list.append(FileObject(os.path.join(self.versions_basedir, self.version_name(version))))
+                version_list.append(os.path.join(self.versions_basedir, self.folder, self.version_name(version)))
         return version_list
     
     def version_generate(self, version_suffix):
