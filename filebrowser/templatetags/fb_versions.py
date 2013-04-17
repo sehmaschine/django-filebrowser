@@ -124,9 +124,9 @@ class VersionObjectNode(Node):
             elif site.storage.modified_time(source) > site.storage.modified_time(version_path):
                 version_path = version_generator(source, version_prefix, force=True, site=site)
             context[self.var_name] = FileObject(version_path, site=site)
-        except Exception as e:
+        except Exception:
             if settings.TEMPLATE_DEBUG:
-                raise e
+                raise
             context[self.var_name] = ""
         return ''
 
