@@ -489,6 +489,7 @@ class FileBrowserSite(object):
                 self.storage.move(new_file, old_file, allow_overwrite=True)
             else:
                 file_name = smart_unicode(uploadedfile)
+                filedata.name = os.path.relpath(file_name, path)
             
             signals.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(file_name), site=self), site=self)
             
