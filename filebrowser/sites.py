@@ -502,7 +502,7 @@ class FileBrowserSite(object):
                 ret_json = {'success': False, 'filename': filedata.name}
                 return HttpResponse(json.dumps(ret_json)) 
             
-            self.filebrowser_pre_upload.send(sender=request, path=request.POST.get('folder'), file=filedata)
+            self.filebrowser_pre_upload.send(sender=request, path=folder, file=filedata)
             uploadedfile = handle_file_upload(path, filedata, site=self)
             
             if file_already_exists:
@@ -510,7 +510,7 @@ class FileBrowserSite(object):
                 new_file = smart_unicode(uploadedfile)
                 self.storage.move(new_file, old_file, allow_overwrite=True)
             
-            self.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(file_name), site=self))
+            self.filebrowser_post_upload.send(sender=request, path=folder, file=FileObject(smart_unicode(file_name), site=self))
             
             # let Ajax Upload know whether we saved it or not
             ret_json = {'success': True, 'filename': filedata.name}
