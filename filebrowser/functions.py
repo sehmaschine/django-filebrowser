@@ -216,21 +216,10 @@ def get_settings_var(directory=DIRECTORY):
     
     settings_var = {}
     # Main
-    settings_var['MEDIA_ROOT'] = MEDIA_ROOT
-    settings_var['MEDIA_URL'] = MEDIA_URL
-    settings_var['DIRECTORY'] = directory
-    # FileBrowser
-    settings_var['URL_FILEBROWSER_MEDIA'] = URL_FILEBROWSER_MEDIA
-    settings_var['PATH_FILEBROWSER_MEDIA'] = PATH_FILEBROWSER_MEDIA
-    # TinyMCE
-    settings_var['URL_TINYMCE'] = URL_TINYMCE
-    settings_var['PATH_TINYMCE'] = PATH_TINYMCE
     # Extensions/Formats (for FileBrowseField)
     settings_var['EXTENSIONS'] = EXTENSIONS
     settings_var['SELECT_FORMATS'] = SELECT_FORMATS
     # Versions
-    settings_var['VERSIONS_BASEDIR'] = VERSIONS_BASEDIR
-    settings_var['VERSIONS'] = VERSIONS
     settings_var['ADMIN_VERSIONS'] = ADMIN_VERSIONS
     settings_var['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
     # FileBrowser Options
