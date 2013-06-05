@@ -12,7 +12,7 @@ from django.core.files import File
 
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import DIRECTORY, VERSIONS, PLACEHOLDER, SHOW_PLACEHOLDER, FORCE_PLACEHOLDER
+from filebrowser.settings import VERSIONS, PLACEHOLDER, SHOW_PLACEHOLDER, FORCE_PLACEHOLDER
 from filebrowser.functions import get_version_path, version_generator
 from filebrowser.base import FileObject
 from filebrowser.sites import get_default_site
