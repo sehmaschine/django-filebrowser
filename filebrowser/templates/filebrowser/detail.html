@@ -1,13 +1,13 @@
 {% extends "admin/base_site.html" %}
 
 <!-- LOADING -->
-{% load i18n fb_tags fb_versions %}
+{% load admin_static i18n fb_tags fb_versions %}
 {% load url from future %}
 
 <!-- STYLESHEETS -->
 {% block stylesheets %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+    <link rel="stylesheet" type="text/css" href="{% static "filebrowser/css/filebrowser.css" %}" />
 {% endblock %}
 
 <!-- JAVASCRIPTS -->
