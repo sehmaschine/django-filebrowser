@@ -3,9 +3,9 @@
 """
 Tests for FileBrowser sites and their views. 
 
-Note that we *dynamically generate* test cases for each deployed FileBrowser site. 
-This includes creation of TestCase subclasses at runtime and also creation of 
-instance methods from functions.
+Note that we *dynamically generate* test cases for each deployed FileBrowser
+site. This includes creation of TestCase subclasses at runtime and also
+creation of instance methods from functions.
 """
 
 # PYTHON IMPORTS
@@ -89,7 +89,9 @@ def test_upload(test):
     test.assertTrue('filebrowser/upload.html' in [t.name for t in response.templates])
 
 def test_do_upload(test):
-    ## Attemp an upload using AJAX SUBMISSION
+    """
+    Test the actual uploading
+    """
 
     url = reverse('%s:fb_do_upload' % test.site_name)
     url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage.jpg'})])
