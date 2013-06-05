@@ -278,12 +278,12 @@ class FileObject():
     # url
     
     def _path_relative_directory(self):
-        "Server path relative to DIRECTORY"
+        "Server path relative to site.directory"
         return path_strip(self.path, self.site.directory)
     path_relative_directory = property(_path_relative_directory)
 
     def _dirname(self):
-        "The directory (not including DIRECTORY)"
+        "The directory (not including site.directory)"
         return os.path.dirname(self.path_relative_directory)
     dirname = property(_dirname)
 
@@ -352,7 +352,7 @@ class FileObject():
     # is_empty
     
     def _directory(self):
-        "Folder(s) relative from DIRECTORY" # FIXME: needed/rename?
+        "Folder(s) relative from site.directory" # FIXME: needed/rename?
         return path_strip(self.path, self.site.directory)
     directory = property(_directory)
     
@@ -370,7 +370,7 @@ class FileObject():
     is_folder = property(_is_folder)
     
     def _is_empty(self):
-        "True, if path is a folder"
+        "True, if folder is empty"
         if self.is_folder:
             dirs, files = self.site.storage.listdir(self.path)
             if not dirs and not files:
@@ -404,7 +404,7 @@ class FileObject():
     original = property(_original)
     
     def _versions_basedir(self):
-        "Main directory for storing versions (either VERSIONS_BASEDIR, DIRECTORY or MEDIA_ROOT)"
+        "Main directory for storing versions (either VERSIONS_BASEDIR or site.directory)"
         if VERSIONS_BASEDIR:
             return VERSIONS_BASEDIR
         elif self.site.directory:

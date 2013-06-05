@@ -81,9 +81,9 @@ def get_version_path(value, version_prefix, site=None):
 def get_original_path(value, site=None):
     """
     Construct the PATH to an original Image based on a Image version.
-    value has to be an absolute server-path, including MEDIA_ROOT.
+    value has to be an absolute server-path, including site.storage.location.
     
-    Returns an absolute path, including MEDIA_ROOT.
+    Returns an absolute path, including site.storage.location.
     """
     
     if site.storage.isfile(value):
@@ -275,7 +275,7 @@ def is_selectable(filename, selecttype):
 def version_generator(value, version_prefix, force=None, site=None):
     """
     Generate Version for an Image.
-    value has to be a serverpath relative to MEDIA_ROOT.
+    value has to be a serverpath relative to site.storage.location.
     """
     
     # PIL's Error "Suspension not allowed here" work around:

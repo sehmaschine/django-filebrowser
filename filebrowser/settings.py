@@ -53,7 +53,7 @@ SELECT_FORMATS = getattr(settings, "FILEBROWSER_SELECT_FORMATS", {
 })
 
 # VERSIONS
-# Directory to Save Image Versions (and Thumbnails). Relative to MEDIA_ROOT.
+# Directory to Save Image Versions (and Thumbnails). Relative to site.storage.location.
 # If no directory is given, versions are stored within the Image directory.
 # VERSION URL: VERSIONS_BASEDIR/original_path/originalfilename_versionsuffix.extension
 VERSIONS_BASEDIR = getattr(settings, 'FILEBROWSER_VERSIONS_BASEDIR', '')
