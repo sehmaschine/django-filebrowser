@@ -6,6 +6,7 @@ import os, shutil
 # DJANGO IMPORTS
 from django.core.files.move import file_move_safe
 
+
 class StorageMixin(object):
     """
     Adds some useful methods to the Storage class.
@@ -60,6 +61,7 @@ class FileSystemStorageMixin(StorageMixin):
 
     def rmtree(self, name):
         shutil.rmtree(self.path(name))
+
 
 class S3BotoStorageMixin(StorageMixin):
 
