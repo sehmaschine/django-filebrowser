@@ -283,8 +283,6 @@ class FileBrowserSite(object):
                 try:
                     signals.filebrowser_pre_createdir.send(sender=request, path=server_path, name=form.cleaned_data['name'], site=self)
                     self.storage.makedirs(server_path)
-                    # os.mkdir(server_path)
-                    # os.chmod(server_path, 0775) # ??? PERMISSIONS
                     signals.filebrowser_post_createdir.send(sender=request, path=server_path, name=form.cleaned_data['name'], site=self)
                     messages.add_message(request, messages.SUCCESS, _('The Folder %s was successfully created.') % form.cleaned_data['name'])
                     redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, "ot=desc,o=date", "ot,o,filter_type,filter_date,q,p")

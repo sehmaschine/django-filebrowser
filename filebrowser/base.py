@@ -8,7 +8,7 @@ import mimetypes
 from django.utils.translation import ugettext as _
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import *
+from filebrowser.settings import VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, FORCE_PLACEHOLDER, SHOW_PLACEHOLDER, STRICT_PIL
 from filebrowser.functions import get_file_type, url_join, get_version_path, get_original_path, sort_by_attr, version_generator, path_strip, url_strip
 from django.utils.encoding import smart_str, smart_unicode
 
@@ -180,10 +180,9 @@ class FileObject():
     An example::
         
         from filebrowser.base import FileObject
-        
         fileobject = FileObject(path)
     
-    where path is a relative path to a storage location.
+    where path is a relative path to a storage location
     """
     
     def __init__(self, path, site=None):
@@ -200,7 +199,6 @@ class FileObject():
         self.filename_lower = self.filename.lower()
         self.filename_root, self.extension = os.path.splitext(self.filename)
         self.mimetype = mimetypes.guess_type(self.filename)
-
     
     def __str__(self):
         return smart_str(self.path)
@@ -219,8 +217,15 @@ class FileObject():
         return len(self.path)
     
     # GENERAL ATTRIBUTES
+    # filetype
+    # filesize
+    # date
+    # datetime
+    # exists
+
     _filetype_stored = None
     def _filetype(self):
+        "Filetype as defined with EXTENSIONS"
         if self._filetype_stored != None:
             return self._filetype_stored
         if self.is_folder:
@@ -232,6 +237,7 @@ class FileObject():
     
     _filesize_stored = None
     def _filesize(self):
+        "Filesize in bytes"
         if self._filesize_stored != None:
             return self._filesize_stored
         if self.exists():
@@ -242,6 +248,7 @@ class FileObject():
     
     _date_stored = None
     def _date(self):
+        "Modified time (from site.storage) as float (mktime)"
         if self._date_stored != None:
             return self._date_stored
         if self.exists():
@@ -251,6 +258,7 @@ class FileObject():
     date = property(_date)
     
     def _datetime(self):
+        "Modified time (from site.storage) as datetime"
         if self.date:
             return datetime.datetime.fromtimestamp(self.date)
         return None
@@ -258,29 +266,42 @@ class FileObject():
 
     _exists_stored = None
     def exists(self):
+        "True, if the path exists, False otherwise"
         if self._exists_stored == None:
             self._exists_stored = self.site.storage.exists(self.path)
         return self._exists_stored
     
     # PATH/URL ATTRIBUTES
+    # path (see init)
+    # path_relative_directory
+    # dirname
+    # url
     
     def _path_relative_directory(self):
-        "path relative to DIRECTORY"
+        "Server path relative to DIRECTORY"
         return path_strip(self.path, self.site.directory)
     path_relative_directory = property(_path_relative_directory)
 
     def _dirname(self):
+        "The directory (not including DIRECTORY)"
         return os.path.dirname(self.path_relative_directory)
     dirname = property(_dirname)
 
     def _url(self):
+        "URL for the file/folder (including MEDIA_URL)"
         return self.site.storage.url(self.path)
     url = property(_url)
 
     # IMAGE ATTRIBUTES
+    # dimensions
+    # width
+    # height
+    # aspectratio
+    # orientation
 
     _dimensions_stored = None
     def _dimensions(self):
+        "Image dimensions as a tuple"
         if self.filetype != 'Image':
             return None
         if self._dimensions_stored != None:
@@ -294,24 +315,28 @@ class FileObject():
     dimensions = property(_dimensions)
 
     def _width(self):
+        "Image width in px"
         if self.dimensions:
             return self.dimensions[0]
         return None
     width = property(_width)
     
     def _height(self):
+        "Image height in px"
         if self.dimensions:
             return self.dimensions[1]
         return None
     height = property(_height)
 
     def _aspectratio(self):
+        "Aspect ratio (float format)"
         if self.dimensions:
             return float(self.width)/float(self.height)
         return None
     aspectratio = property(_aspectratio)
     
     def _orientation(self):
+        "Image orientation, either 'Landscape' or 'Portrait'"
         if self.dimensions:
             if self.dimensions[0] >= self.dimensions[1]:
                 return "Landscape"
@@ -321,23 +346,31 @@ class FileObject():
     orientation = property(_orientation)
     
     # FOLDER ATTRIBUTES
+    # directory
+    # folder
+    # is_folder
+    # is_empty
     
     def _directory(self):
+        "Folder(s) relative from DIRECTORY" # FIXME: needed/rename?
         return path_strip(self.path, self.site.directory)
     directory = property(_directory)
     
     def _folder(self):
+        "Parent folder(s)" # FIXME: needed/rename?
         return os.path.dirname(path_strip(os.path.join(self.head,''), self.site.directory))
     folder = property(_folder)
     
     _is_folder_stored = None
     def _is_folder(self):
+        "True, if path is a folder"
         if self._is_folder_stored == None:
             self._is_folder_stored = self.site.storage.isdir(self.path)
         return self._is_folder_stored
     is_folder = property(_is_folder)
     
     def _is_empty(self):
+        "True, if path is a folder"
         if self.is_folder:
             dirs, files = self.site.storage.listdir(self.path)
             if not dirs and not files:
@@ -346,8 +379,16 @@ class FileObject():
     is_empty = property(_is_empty)
     
     # VERSIONS
+    # is_version
+    # original
+    # versions_basedir
+    # versions
+    # admin_versions
+    # version_name(suffix)
+    # version_generate(suffix)
     
     def _is_version(self):
+        "True if file is a version, false otherwise"
         tmp = self.filename_root.split("_")
         if tmp[len(tmp)-1] in VERSIONS:
             return True
@@ -356,22 +397,24 @@ class FileObject():
     is_version = property(_is_version)
     
     def _original(self):
+        "Returns the original FileObject"
         if self.is_version:
             return FileObject(get_original_path(self.path, site=self.site), site=self.site)
         return self
     original = property(_original)
     
     def _versions_basedir(self):
-        if VERSIONS_BASEDIR and self.site.storage.exists(VERSIONS_BASEDIR):
+        "Main directory for storing versions (either VERSIONS_BASEDIR, DIRECTORY or MEDIA_ROOT)"
+        if VERSIONS_BASEDIR:
             return VERSIONS_BASEDIR
+        elif self.site.directory:
+            return self.site.directory
         else:
-            return self.head
+            return ""
     versions_basedir = property(_versions_basedir)
     
-    def version_name(self, version_suffix):
-        return self.filename_root + "_" + version_suffix + self.extension
-    
     def versions(self):
+        "List of versions (not checking if they actually exist)"
         version_list = []
         if self.filetype == "Image":
             for version in VERSIONS:
@@ -379,13 +422,19 @@ class FileObject():
         return version_list
     
     def admin_versions(self):
+        "List of admin versions (not checking if they actually exist)"
         version_list = []
         if self.filetype == "Image":
             for version in ADMIN_VERSIONS:
                 version_list.append(os.path.join(self.versions_basedir, self.folder, self.version_name(version)))
         return version_list
-    
+
+    def version_name(self, version_suffix):
+        "Name of a version, depending on the suffix"
+        return self.filename_root + "_" + version_suffix + self.extension
+
     def version_generate(self, version_suffix):
+        "Generate a version, depending on the suffix"
         path = self.path
 
         if FORCE_PLACEHOLDER or (
@@ -401,16 +450,20 @@ class FileObject():
 
         return FileObject(version_path, site=self.site)
     
-    # FUNCTIONS
+    # DELETE FUNCTIONS
+    # delete
+    # delete_versions
+    # delete_admin_versions
     
     def delete(self):
+        "Delete FileObject (deletes a folder recursively)"
         if self.is_folder:
             self.site.storage.rmtree(self.path)
-            # shutil.rmtree(self.path)
         else:
             self.site.storage.delete(self.path)
     
     def delete_versions(self):
+        "Delete versions"
         for version in self.versions():
             try:
                 self.site.storage.delete(version)
@@ -418,6 +471,7 @@ class FileObject():
                 pass
     
     def delete_admin_versions(self):
+        "Delete admin versions"
         for version in self.admin_versions():
             try:
                 self.site.storage.delete(version)
