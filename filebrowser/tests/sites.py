@@ -20,6 +20,7 @@ from types import MethodType
 from django.test import TestCase
 from django.test.client import Client
 from django.core.urlresolvers import get_resolver, get_urlconf, resolve, reverse
+from django.contrib.admin.templatetags.admin_static import static
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import *
@@ -29,6 +30,9 @@ from filebrowser.functions import get_version_path
 
 # This module will test all FileBrowser sites with the following app_name
 APP_NAME = 'filebrowser'
+
+TESTS_PATH = os.path.dirname(os.path.abspath(__file__))
+FILEBROWSER_PATH = os.path.split(TESTS_PATH)[0]
 
 ### TEST FUNCTIONS
 
@@ -96,7 +100,7 @@ def test_do_upload(test):
     url = reverse('%s:fb_do_upload' % test.site_name)
     url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage.jpg'})])
 
-    with open(os.path.join(PATH_FILEBROWSER_MEDIA, 'img/testimage.jpg'), "rb") as f:
+    with open(os.path.join(FILEBROWSER_PATH, 'static/filebrowser/img/testimage.jpg'), "rb") as f:
         file_size = os.path.getsize(f.name)
         response = test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     

@@ -30,12 +30,6 @@ class SettingsTests(TestCase):
         # Check for trailing slash
         self.assertEqual(os.path.basename(DIRECTORY), '')
     
-    def test_path_filebrowser_media(self):
-        """
-        Test that ``PATH_FILEBROWSER_MEDIA`` exists.
-        """
-        self.assertEqual(os.path.exists(PATH_FILEBROWSER_MEDIA), 1)
-    
     def test_versions_basedir(self):
         """
         Test that ``MEDIA_ROOT`` plus ``VERSIONS_BASEDIR`` exists.
