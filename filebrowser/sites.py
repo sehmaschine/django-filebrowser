@@ -24,7 +24,6 @@ from django.core.exceptions import ImproperlyConfigured
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import *
-from filebrowser.functions import  handle_file_upload
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileListing, FileObject
 from filebrowser.decorators import path_exists, file_exists
@@ -146,6 +145,20 @@ def get_settings_var(directory=DIRECTORY):
     # Traverse directories when searching
     settings_var['SEARCH_TRAVERSE'] = SEARCH_TRAVERSE
     return settings_var
+
+
+def handle_file_upload(path, file, site):
+    """
+    Handle File Upload.
+    """
+    
+    uploadedfile = None
+    try:
+        file_path = os.path.join(path, file.name)
+        uploadedfile = site.storage.save(file_path, file)
+    except Exception, inst:
+        raise inst
+    return uploadedfile
 
 
 class FileBrowserSite(object):

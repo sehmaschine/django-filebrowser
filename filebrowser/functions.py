@@ -104,20 +104,6 @@ def get_file(path, filename, site=None):
     return filename
 
 
-def handle_file_upload(path, file, site):
-    """
-    Handle File Upload.
-    """
-    
-    uploadedfile = None
-    try:
-        file_path = os.path.join(path, file.name)
-        uploadedfile = site.storage.save(file_path, file)
-    except Exception, inst:
-        raise inst
-    return uploadedfile
-
-
 def version_generator(value, version_prefix, force=None, site=None):
     """
     Generate Version for an Image.
