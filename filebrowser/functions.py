@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # imports
-import os, unicodedata, re
+import os, re
 from tempfile import NamedTemporaryFile
 
 # django imports
@@ -199,27 +199,3 @@ def scale_and_crop(im, width, height, opts):
     return im
     
 scale_and_crop.valid_options = ('crop', 'upscale')
-
-
-def convert_filename(value):
-    """
-    Convert Filename.
-    """
-
-    if NORMALIZE_FILENAME:
-        chunks = value.split(os.extsep)
-        normalized = []
-        for v in chunks:
-            v = unicodedata.normalize('NFKD', unicode(v)).encode('ascii', 'ignore')
-            v = re.sub('[^\w\s-]', '', v).strip()
-            normalized.append(v)
-
-        if len(normalized) > 1:
-            value = '.'.join(normalized)
-        else:
-            value = normalized[0]
-
-    if CONVERT_FILENAME:
-        value = value.replace(" ", "_").lower()
-
-    return value

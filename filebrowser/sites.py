@@ -24,7 +24,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import *
-from filebrowser.functions import  handle_file_upload, convert_filename
+from filebrowser.functions import  handle_file_upload
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileListing, FileObject
 from filebrowser.decorators import path_exists, file_exists
