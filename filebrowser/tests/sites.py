@@ -23,7 +23,7 @@ from django.core.urlresolvers import get_resolver, get_urlconf, resolve, reverse
 from django.contrib.admin.templatetags.admin_static import static
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import *
+from filebrowser.settings import DIRECTORY, VERSIONS
 from filebrowser.base import FileObject
 from filebrowser.sites import get_site_dict
 from filebrowser.functions import get_version_path
