@@ -32,12 +32,14 @@ def path_strip(path, root):
         return path[len(root):]
     return path
 
+
 def url_strip(url, root):
     if not url or not root:
         return url
     if url.startswith(root):
         return url[len(root):]
     return url
+
 
 def get_version_filename(filename, version_prefix):
     filename, ext = os.path.splitext(filename)
@@ -57,12 +59,11 @@ def get_original_filename(filename):
 
 def get_version_path(value, version_prefix, site=None):
     """
-    Construct the PATH to an Image version.
-    value has to be a path relative to the location of 
-    the site's storage.
+    Construct the path to an image version.
+    value has to be a path relative to the storage location.
     
     version_filename = filename + version_prefix + ext
-    Returns a relative path to the location of the site's storage.
+    Returns a relative path to the storage location.
     """
     
     if site.storage.isfile(value):
@@ -80,10 +81,10 @@ def get_version_path(value, version_prefix, site=None):
 
 def get_original_path(value, site=None):
     """
-    Construct the PATH to an original Image based on a Image version.
-    value has to be an absolute server-path, including site.storage.location.
+    Construct the path to an original image based on a version.
+    value has to be an path relative to storage location.
     
-    Returns an absolute path, including site.storage.location.
+    Returns a path relative to storage location.
     """
     
     if site.storage.isfile(value):
@@ -264,7 +265,7 @@ def is_selectable(filename, selecttype):
 def version_generator(value, version_prefix, force=None, site=None):
     """
     Generate Version for an Image.
-    value has to be a serverpath relative to site.storage.location.
+    value has to be a path relative to the storage location.
     """
     
     # PIL's Error "Suspension not allowed here" work around:

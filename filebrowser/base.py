@@ -9,7 +9,7 @@ from django.utils.translation import ugettext as _
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, FORCE_PLACEHOLDER, SHOW_PLACEHOLDER, STRICT_PIL
-from filebrowser.functions import get_file_type, url_join, get_version_path, get_original_path, sort_by_attr, version_generator, path_strip, url_strip
+from filebrowser.functions import get_file_type, url_join, get_version_path, get_original_path, version_generator, path_strip, url_strip
 from django.utils.encoding import smart_str, smart_unicode
 
 # PIL import
@@ -53,6 +53,28 @@ class FileListing():
             from filebrowser.sites import site as default_site
             site = default_site
         self.site = site
+
+    def sort_by_attr(self, seq, attr):
+        """
+        Sort the sequence of objects by object's attribute
+        
+        Arguments:
+        seq  - the list or any sequence (including immutable one) of objects to sort.
+        attr - the name of attribute to sort by
+        
+        Returns:
+        the sorted list of objects.
+        """
+        import operator
+        
+        # Use the "Schwartzian transform"
+        # Create the auxiliary list of tuples where every i-th tuple has form
+        # (seq[i].attr, i, seq[i]) and sort it. The second item of tuple is needed not
+        # only to provide stable sorting, but mainly to eliminate comparison of objects
+        # (which can be expensive or prohibited) in case of equal attribute values.
+        intermed = map(None, map(getattr, seq, (attr,)*len(seq)), xrange(len(seq)), seq)
+        intermed.sort()
+        return map(operator.getitem, intermed, (-1,) * len(intermed))
 
     _is_folder_stored = None
     def _is_folder(self):
@@ -109,7 +131,7 @@ class FileListing():
         files = self._fileobjects_total
         
         if self.sorting_by:
-            files = sort_by_attr(files, self.sorting_by)
+            files = self.sort_by_attr(files, self.sorting_by)
         if self.sorting_order == "desc":
             files.reverse()
         
@@ -123,7 +145,7 @@ class FileListing():
             fileobject = FileObject(os.path.join(self.site.directory, item), site=self.site)
             files.append(fileobject)
         if self.sorting_by:
-            files = sort_by_attr(files, self.sorting_by)
+            files = self.sort_by_attr(files, self.sorting_by)
         if self.sorting_order == "desc":
             files.reverse()
         self._results_walk_total = len(files)
@@ -273,6 +295,7 @@ class FileObject():
     # PATH/URL ATTRIBUTES
     # path (see init)
     # path_relative_directory
+    # path_full
     # dirname
     # url
     
@@ -281,13 +304,18 @@ class FileObject():
         return path_strip(self.path, self.site.directory)
     path_relative_directory = property(_path_relative_directory)
 
+    def _path_full(self):
+        "Full path as defined with site.storage"
+        return self.site.storage.path(self.path)
+    path_full = property(_path_full)
+
     def _dirname(self):
         "The directory (not including site.directory)"
         return os.path.dirname(self.path_relative_directory)
     dirname = property(_dirname)
 
     def _url(self):
-        "URL for the file/folder (including MEDIA_URL)"
+        "URL for the file/folder as defined with site.storage"
         return self.site.storage.url(self.path)
     url = property(_url)
 
