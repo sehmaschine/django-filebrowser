@@ -33,12 +33,6 @@ def path_strip(path, root):
     return path
 
 
-def get_version_filename(filename, version_prefix):
-    filename, ext = os.path.splitext(filename)
-    version_filename = filename + "_" + version_prefix + ext
-    return version_filename
-
-
 def get_original_filename(filename):
     filename, ext = os.path.splitext(filename)
     tmp = filename.split("_")
