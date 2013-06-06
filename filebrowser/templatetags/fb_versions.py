@@ -20,24 +20,24 @@ register = Library()
 
 
 class VersionNode(Node):
-    def __init__(self, src, version_prefix):
+    def __init__(self, src, version_suffix):
         self.src = Variable(src)
-        if (version_prefix[0] == version_prefix[-1] and version_prefix[0] in ('"', "'")):
-            self.version_prefix = version_prefix[1:-1]
+        if (version_suffix[0] == version_suffix[-1] and version_suffix[0] in ('"', "'")):
+            self.version_suffix = version_suffix[1:-1]
         else:
-            self.version_prefix = None
-            self.version_prefix_var = Variable(version_prefix)
+            self.version_suffix = None
+            self.version_suffix_var = Variable(version_suffix)
         
     def render(self, context):
         try:
             source = self.src.resolve(context)
         except VariableDoesNotExist:
             return None
-        if self.version_prefix:
-            version_prefix = self.version_prefix
+        if self.version_suffix:
+            version_suffix = self.version_suffix
         else:
             try:
-                version_prefix = self.version_prefix_var.resolve(context)
+                version_suffix = self.version_suffix_var.resolve(context)
             except VariableDoesNotExist:
                 return None
         site = context.get('filebrowser_site', get_default_site())
@@ -53,11 +53,11 @@ class VersionNode(Node):
                 source = PLACEHOLDER
             elif SHOW_PLACEHOLDER and not site.storage.isfile(source):
                 source = PLACEHOLDER
-            version_path = get_version_path(source, version_prefix, site=site)
+            version_path = get_version_path(source, version_suffix, site=site)
             if not site.storage.isfile(version_path):
-                version_path = version_generator(source, version_prefix, site=site)
+                version_path = version_generator(source, version_suffix, site=site)
             elif site.storage.modified_time(source) > site.storage.modified_time(version_path):
-                version_path = version_generator(source, version_prefix, force=True, site=site)
+                version_path = version_generator(source, version_suffix, force=True, site=site)
             return site.storage.url(version_path)
         except:
             return ""
@@ -66,43 +66,43 @@ class VersionNode(Node):
 def version(parser, token):
     """
     Displaying a version of an existing Image according to the predefined VERSIONS settings (see filebrowser settings).
-    {% version field_name.path version_prefix %}
+    {% version field_name.path version_suffix %}
     
     Use {% version my_image.path 'medium' %} in order to display the medium-size
     version of an Image stored in a field name my_image.
     
-    version_prefix can be a string or a variable. if version_prefix is a string, use quotes.
+    version_suffix can be a string or a variable. if version_suffix is a string, use quotes.
     """
     
     try:
-        tag, src, version_prefix = token.split_contents()
+        tag, src, version_suffix = token.split_contents()
     except:
         raise TemplateSyntaxError, "%s tag requires 2 arguments" % token.contents.split()[0]
-    if (version_prefix[0] == version_prefix[-1] and version_prefix[0] in ('"', "'")) and version_prefix.lower()[1:-1] not in VERSIONS:
-        raise TemplateSyntaxError, "%s tag received bad version_prefix %s" % (tag, version_prefix)
-    return VersionNode(src, version_prefix)
+    if (version_suffix[0] == version_suffix[-1] and version_suffix[0] in ('"', "'")) and version_suffix.lower()[1:-1] not in VERSIONS:
+        raise TemplateSyntaxError, "%s tag received bad version_suffix %s" % (tag, version_suffix)
+    return VersionNode(src, version_suffix)
 
 
 class VersionObjectNode(Node):
-    def __init__(self, src, version_prefix, var_name):
+    def __init__(self, src, version_suffix, var_name):
         self.var_name = var_name
         self.src = Variable(src)
-        if (version_prefix[0] == version_prefix[-1] and version_prefix[0] in ('"', "'")):
-            self.version_prefix = version_prefix[1:-1]
+        if (version_suffix[0] == version_suffix[-1] and version_suffix[0] in ('"', "'")):
+            self.version_suffix = version_suffix[1:-1]
         else:
-            self.version_prefix = None
-            self.version_prefix_var = Variable(version_prefix)
+            self.version_suffix = None
+            self.version_suffix_var = Variable(version_suffix)
     
     def render(self, context):
         try:
             source = self.src.resolve(context)
         except VariableDoesNotExist:
             return None
-        if self.version_prefix:
-            version_prefix = self.version_prefix
+        if self.version_suffix:
+            version_suffix = self.version_suffix
         else:
             try:
-                version_prefix = self.version_prefix_var.resolve(context)
+                version_suffix = self.version_suffix_var.resolve(context)
             except VariableDoesNotExist:
                 return None
         site = context.get('filebrowser_site', get_default_site())
@@ -118,11 +118,11 @@ class VersionObjectNode(Node):
                 source = PLACEHOLDER
             elif SHOW_PLACEHOLDER and not site.storage.isfile(source):
                 source = PLACEHOLDER
-            version_path = get_version_path(source, version_prefix, site=site)
+            version_path = get_version_path(source, version_suffix, site=site)
             if not site.storage.isfile(version_path):
-                version_path = version_generator(source, version_prefix, site=site)
+                version_path = version_generator(source, version_suffix, site=site)
             elif site.storage.modified_time(source) > site.storage.modified_time(version_path):
-                version_path = version_generator(source, version_prefix, force=True, site=site)
+                version_path = version_generator(source, version_suffix, force=True, site=site)
             context[self.var_name] = FileObject(version_path, site=site)
         except Exception, e:
             if settings.TEMPLATE_DEBUG:
@@ -134,47 +134,47 @@ class VersionObjectNode(Node):
 def version_object(parser, token):
     """
     Returns a context variable 'version_object'.
-    {% version_object field_name.path version_prefix %}
+    {% version_object field_name.path version_suffix %}
     
     Use {% version_object my_image.path 'medium' %} in order to retrieve the medium
     version of an Image stored in a field name my_image.
     Use {% version_object my_image.path 'medium' as var %} in order to use 'var' as
     your context variable.
     
-    version_prefix can be a string or a variable. if version_prefix is a string, use quotes.
+    version_suffix can be a string or a variable. if version_suffix is a string, use quotes.
     """
     
     try:
-        #tag, src, version_prefix = token.split_contents()
+        #tag, src, version_suffix = token.split_contents()
         tag, arg = token.contents.split(None, 1)
     except:
         raise TemplateSyntaxError, "%s tag requires arguments" % token.contents.split()[0]
     m = re.search(r'(.*?) (.*?) as (\w+)', arg)
     if not m:
         raise TemplateSyntaxError, "%r tag had invalid arguments" % tag
-    src, version_prefix, var_name = m.groups()
-    if (version_prefix[0] == version_prefix[-1] and version_prefix[0] in ('"', "'")) and version_prefix.lower()[1:-1] not in VERSIONS:
-        raise TemplateSyntaxError, "%s tag received bad version_prefix %s" % (tag, version_prefix)
-    return VersionObjectNode(src, version_prefix, var_name)
+    src, version_suffix, var_name = m.groups()
+    if (version_suffix[0] == version_suffix[-1] and version_suffix[0] in ('"', "'")) and version_suffix.lower()[1:-1] not in VERSIONS:
+        raise TemplateSyntaxError, "%s tag received bad version_suffix %s" % (tag, version_suffix)
+    return VersionObjectNode(src, version_suffix, var_name)
 
 
 class VersionSettingNode(Node):
-    def __init__(self, version_prefix):
-        if (version_prefix[0] == version_prefix[-1] and version_prefix[0] in ('"', "'")):
-            self.version_prefix = version_prefix[1:-1]
+    def __init__(self, version_suffix):
+        if (version_suffix[0] == version_suffix[-1] and version_suffix[0] in ('"', "'")):
+            self.version_suffix = version_suffix[1:-1]
         else:
-            self.version_prefix = None
-            self.version_prefix_var = Variable(version_prefix)
+            self.version_suffix = None
+            self.version_suffix_var = Variable(version_suffix)
     
     def render(self, context):
-        if self.version_prefix:
-            version_prefix = self.version_prefix
+        if self.version_suffix:
+            version_suffix = self.version_suffix
         else:
             try:
-                version_prefix = self.version_prefix_var.resolve(context)
+                version_suffix = self.version_suffix_var.resolve(context)
             except VariableDoesNotExist:
                 return None
-        context['version_setting'] = VERSIONS[version_prefix]
+        context['version_setting'] = VERSIONS[version_suffix]
         return ''
 
 
@@ -184,12 +184,12 @@ def version_setting(parser, token):
     """
     
     try:
-        tag, version_prefix = token.split_contents()
+        tag, version_suffix = token.split_contents()
     except:
         raise TemplateSyntaxError, "%s tag requires 1 argument" % token.contents.split()[0]
-    if (version_prefix[0] == version_prefix[-1] and version_prefix[0] in ('"', "'")) and version_prefix.lower()[1:-1] not in VERSIONS:
-        raise TemplateSyntaxError, "%s tag received bad version_prefix %s" % (tag, version_prefix)
-    return VersionSettingNode(version_prefix)
+    if (version_suffix[0] == version_suffix[-1] and version_suffix[0] in ('"', "'")) and version_suffix.lower()[1:-1] not in VERSIONS:
+        raise TemplateSyntaxError, "%s tag received bad version_suffix %s" % (tag, version_suffix)
+    return VersionSettingNode(version_suffix)
 
 
 register.tag(version)
