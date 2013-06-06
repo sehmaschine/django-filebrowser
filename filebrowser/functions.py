@@ -2,7 +2,6 @@
 
 # imports
 import os, unicodedata, re
-from time import gmtime, strftime, localtime, mktime, time
 from tempfile import NamedTemporaryFile
 
 # django imports
@@ -103,61 +102,6 @@ def get_file(path, filename, site=None):
     if not site.storage.isfile(converted_path) and not site.storage.isdir(converted_path):
         return None
     return filename
-
-
-def get_breadcrumbs(query, path):
-    """
-    Get breadcrumbs.
-    """
-    
-    breadcrumbs = []
-    dir_query = ""
-    if path:
-        for item in path.split(os.sep):
-            dir_query = os.path.join(dir_query,item)
-            breadcrumbs.append([item,dir_query])
-    return breadcrumbs
-
-
-def get_filterdate(filterDate, dateTime):
-    """
-    Get filterdate.
-    """
-    
-    returnvalue = ''
-    dateYear = strftime("%Y", gmtime(dateTime))
-    dateMonth = strftime("%m", gmtime(dateTime))
-    dateDay = strftime("%d", gmtime(dateTime))
-    if filterDate == 'today' and int(dateYear) == int(localtime()[0]) and int(dateMonth) == int(localtime()[1]) and int(dateDay) == int(localtime()[2]): returnvalue = 'true'
-    elif filterDate == 'thismonth' and dateTime >= time()-2592000: returnvalue = 'true'
-    elif filterDate == 'thisyear' and int(dateYear) == int(localtime()[0]): returnvalue = 'true'
-    elif filterDate == 'past7days' and dateTime >= time()-604800: returnvalue = 'true'
-    elif filterDate == '': returnvalue = 'true'
-    return returnvalue
-
-
-def get_settings_var(directory=DIRECTORY):
-    """
-    Get settings variables used for FileBrowser listing.
-    """
-    
-    settings_var = {}
-    # Main
-    # Extensions/Formats (for FileBrowseField)
-    settings_var['EXTENSIONS'] = EXTENSIONS
-    settings_var['SELECT_FORMATS'] = SELECT_FORMATS
-    # Versions
-    settings_var['ADMIN_VERSIONS'] = ADMIN_VERSIONS
-    settings_var['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
-    # FileBrowser Options
-    settings_var['MAX_UPLOAD_SIZE'] = MAX_UPLOAD_SIZE
-    # Normalize Filenames
-    settings_var['NORMALIZE_FILENAME'] = NORMALIZE_FILENAME
-    # Convert Filenames
-    settings_var['CONVERT_FILENAME'] = CONVERT_FILENAME
-    # Traverse directories when searching
-    settings_var['SEARCH_TRAVERSE'] = SEARCH_TRAVERSE
-    return settings_var
 
 
 def handle_file_upload(path, file, site):
