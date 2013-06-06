@@ -118,20 +118,6 @@ def handle_file_upload(path, file, site):
     return uploadedfile
 
 
-def is_selectable(filename, selecttype):
-    """
-    Get select type as defined in FORMATS.
-    """
-    
-    file_extension = os.path.splitext(filename)[1].lower()
-    select_types = []
-    for k,v in SELECT_FORMATS.iteritems():
-        for extension in v:
-            if file_extension == extension.lower():
-                select_types.append(k)
-    return select_types
-
-
 def version_generator(value, version_prefix, force=None, site=None):
     """
     Generate Version for an Image.
