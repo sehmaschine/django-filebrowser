@@ -33,14 +33,6 @@ def path_strip(path, root):
     return path
 
 
-def url_strip(url, root):
-    if not url or not root:
-        return url
-    if url.startswith(root):
-        return url[len(root):]
-    return url
-
-
 def get_version_filename(filename, version_prefix):
     filename, ext = os.path.splitext(filename)
     version_filename = filename + "_" + version_prefix + ext
