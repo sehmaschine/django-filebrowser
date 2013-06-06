@@ -9,7 +9,7 @@ from django.utils.translation import ugettext as _
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, FORCE_PLACEHOLDER, SHOW_PLACEHOLDER, STRICT_PIL
-from filebrowser.functions import get_file_type, url_join, get_version_path, get_original_path, version_generator, path_strip, url_strip
+from filebrowser.functions import get_file_type, get_version_path, get_original_path, version_generator, path_strip, url_strip
 from django.utils.encoding import smart_str, smart_unicode
 
 # PIL import
