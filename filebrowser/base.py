@@ -8,8 +8,8 @@ import mimetypes
 from django.utils.translation import ugettext as _
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, FORCE_PLACEHOLDER, SHOW_PLACEHOLDER, STRICT_PIL
-from filebrowser.functions import get_file_type, get_version_path, get_original_path, version_generator, path_strip
+from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, FORCE_PLACEHOLDER, SHOW_PLACEHOLDER, STRICT_PIL
+from filebrowser.functions import get_version_path, get_original_path, version_generator, path_strip
 from django.utils.encoding import smart_str, smart_unicode
 
 # PIL import
@@ -53,6 +53,9 @@ class FileListing():
             from filebrowser.sites import site as default_site
             site = default_site
         self.site = site
+
+    # HELPER METHODS
+    # sort_by_attr
 
     def sort_by_attr(self, seq, attr):
         """
@@ -236,6 +239,18 @@ class FileObject():
     
     def __len__(self):
         return len(self.path)
+
+    # HELPER METHODS
+    # get_file_type
+
+    def get_file_type(self):
+        "Get file type as defined in EXTENSIONS."
+        file_type = ''
+        for k,v in EXTENSIONS.iteritems():
+            for extension in v:
+                if self.extension.lower() == extension.lower():
+                    file_type = k
+        return file_type
     
     # GENERAL ATTRIBUTES
     # filetype
@@ -252,7 +267,7 @@ class FileObject():
         if self.is_folder:
             self._filetype_stored = 'Folder'
         else:
-            self._filetype_stored = get_file_type(self.filename)
+            self._filetype_stored = self.get_file_type()
         return self._filetype_stored
     filetype = property(_filetype)
     

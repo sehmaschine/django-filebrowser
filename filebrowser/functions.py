@@ -105,20 +105,6 @@ def get_file(path, filename, site=None):
     return filename
 
 
-def get_file_type(filename):
-    """
-    Get file type as defined in EXTENSIONS.
-    """
-    
-    file_extension = os.path.splitext(filename)[1].lower()
-    file_type = ''
-    for k,v in EXTENSIONS.iteritems():
-        for extension in v:
-            if file_extension == extension.lower():
-                file_type = k
-    return file_type
-
-
 def get_breadcrumbs(query, path):
     """
     Get breadcrumbs.
