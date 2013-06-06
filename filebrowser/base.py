@@ -28,15 +28,14 @@ class FileListing():
     
     An example::
         
-        import os
-        from filebrowser.settings import MEDIA_ROOT, DIRECTORY
         from filebrowser.base import FileListing
-        
-        filelisting = FileListing(os.path.join(MEDIA_ROOT, DIRECTORY), sorting_by='date', sorting_order='desc')
+        filelisting = FileListing(path, sorting_by='date', sorting_order='desc')
         print filelisting.files_listing_total()
         print filelisting.results_listing_total()
         for fileobject in filelisting.files_listing_total():
             print fileobject.filetype
+
+    where path is a relative path to a storage location
     """
     # Four variables to store the length of a listing obtained by various listing methods
     # (updated whenever a particular listing method is called).
