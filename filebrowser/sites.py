@@ -492,8 +492,6 @@ class FileBrowserSite(object):
             return HttpResponse(json.dumps(ret_json))
 
 storage = DefaultStorage()
-storage.location = MEDIA_ROOT
-storage.base_url = MEDIA_URL
 # Default FileBrowser site
 site = FileBrowserSite(name='filebrowser', storage=storage)
 
