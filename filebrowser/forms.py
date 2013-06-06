@@ -5,7 +5,6 @@ import re, os, unicodedata
 
 # DJANGO IMPORTS
 from django import forms
-from django.forms.formsets import BaseFormSet
 from django.utils.translation import ugettext_lazy as _
 
 # FILEBROWSER IMPORTS
