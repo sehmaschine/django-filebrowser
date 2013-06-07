@@ -10,7 +10,7 @@ Django FileBrowser Documentation
 
 **Media-Management with Grappelli**.
 
-This documentation covers version 3.5.2 of the |filebrowser|.
+This documentation covers version 3.5.3 of the |filebrowser|.
 
 .. note::
     |filebrowser| |version| requires Django 1.4/1.5 and |grappelli| 2.4. |filebrowser| is always developed against the lastest stable Django release and is NOT tested with Djangos trunk.

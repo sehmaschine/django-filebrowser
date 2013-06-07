@@ -2,6 +2,7 @@
 
 # PYTHON IMPORTS
 import os, re
+from time import gmtime, strftime, localtime, mktime, time
 from types import MethodType
 
 # DJANGO IMPORTS
@@ -23,7 +24,6 @@ from django.core.exceptions import ImproperlyConfigured
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import *
-from filebrowser.functions import get_breadcrumbs, get_filterdate, get_settings_var, handle_file_upload, convert_filename
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileListing, FileObject
 from filebrowser.decorators import path_exists, file_exists
@@ -90,6 +90,75 @@ def get_default_site(app_name='filebrowser'):
         name = app_list[0]
     
     return get_site_dict()[name]
+
+
+def get_breadcrumbs(query, path):
+    """
+    Get breadcrumbs.
+    """
+    
+    breadcrumbs = []
+    dir_query = ""
+    if path:
+        for item in path.split(os.sep):
+            dir_query = os.path.join(dir_query,item)
+            breadcrumbs.append([item,dir_query])
+    return breadcrumbs
+
+
+def get_filterdate(filterDate, dateTime):
+    """
+    Get filterdate.
+    """
+    
+    returnvalue = ''
+    dateYear = strftime("%Y", gmtime(dateTime))
+    dateMonth = strftime("%m", gmtime(dateTime))
+    dateDay = strftime("%d", gmtime(dateTime))
+    if filterDate == 'today' and int(dateYear) == int(localtime()[0]) and int(dateMonth) == int(localtime()[1]) and int(dateDay) == int(localtime()[2]): returnvalue = 'true'
+    elif filterDate == 'thismonth' and dateTime >= time()-2592000: returnvalue = 'true'
+    elif filterDate == 'thisyear' and int(dateYear) == int(localtime()[0]): returnvalue = 'true'
+    elif filterDate == 'past7days' and dateTime >= time()-604800: returnvalue = 'true'
+    elif filterDate == '': returnvalue = 'true'
+    return returnvalue
+
+
+def get_settings_var(directory=DIRECTORY):
+    """
+    Get settings variables used for FileBrowser listing.
+    """
+    
+    settings_var = {}
+    # Main
+    # Extensions/Formats (for FileBrowseField)
+    settings_var['EXTENSIONS'] = EXTENSIONS
+    settings_var['SELECT_FORMATS'] = SELECT_FORMATS
+    # Versions
+    settings_var['ADMIN_VERSIONS'] = ADMIN_VERSIONS
+    settings_var['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
+    # FileBrowser Options
+    settings_var['MAX_UPLOAD_SIZE'] = MAX_UPLOAD_SIZE
+    # Normalize Filenames
+    settings_var['NORMALIZE_FILENAME'] = NORMALIZE_FILENAME
+    # Convert Filenames
+    settings_var['CONVERT_FILENAME'] = CONVERT_FILENAME
+    # Traverse directories when searching
+    settings_var['SEARCH_TRAVERSE'] = SEARCH_TRAVERSE
+    return settings_var
+
+
+def handle_file_upload(path, file, site):
+    """
+    Handle File Upload.
+    """
+    
+    uploadedfile = None
+    try:
+        file_path = os.path.join(path, file.name)
+        uploadedfile = site.storage.save(file_path, file)
+    except Exception, inst:
+        raise inst
+    return uploadedfile
 
 
 class FileBrowserSite(object):
@@ -283,8 +352,6 @@ class FileBrowserSite(object):
                 try:
                     signals.filebrowser_pre_createdir.send(sender=request, path=server_path, name=form.cleaned_data['name'], site=self)
                     self.storage.makedirs(server_path)
-                    # os.mkdir(server_path)
-                    # os.chmod(server_path, 0775) # ??? PERMISSIONS
                     signals.filebrowser_post_createdir.send(sender=request, path=server_path, name=form.cleaned_data['name'], site=self)
                     messages.add_message(request, messages.SUCCESS, _('The Folder %s was successfully created.') % form.cleaned_data['name'])
                     redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, "ot=desc,o=date", "ot,o,filter_type,filter_date,q,p")
@@ -437,6 +504,7 @@ class FileBrowserSite(object):
     def version(self, request):
         """
         Version detail.
+        This just exists in order to select a version with a filebrowser–popup.
         """
         query = request.GET
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
@@ -455,19 +523,14 @@ class FileBrowserSite(object):
         """
         if request.method == "POST":
             folder = request.GET.get('folder', '')
-
-            if request.is_ajax(): # Advanced (AJAX) submission
-                filedata = ContentFile(request.raw_post_data)
-            else: # Basic (iframe) submission
-                if len(request.FILES) != 1:
-                    raise Http404('Invalid request! Multiple files included.')
-                filedata = request.FILES.values()[0]
-
-            try:
-                filedata.name = convert_filename(request.GET['qqfile'])
-            except KeyError:
-                return HttpResponseBadRequest('Invalid request! No filename given.')
-
+            
+            if len(request.FILES) == 0:
+                return HttpResponseBadRequest('Invalid request! No files included.')    
+            if len(request.FILES) > 1:
+                return HttpResponseBadRequest('Invalid request! Multiple files included.')
+            
+            filedata = request.FILES.values()[0]
+            
             fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("filebrowser:fb_upload", current_app=self.name))
             folder = fb_uploadurl_re.sub('', folder)
 
@@ -480,7 +543,7 @@ class FileBrowserSite(object):
                 ret_json = {'success': False, 'filename': filedata.name}
                 return HttpResponse(json.dumps(ret_json)) 
             
-            signals.filebrowser_pre_upload.send(sender=request, path=request.POST.get('folder'), file=filedata, site=self)
+            signals.filebrowser_pre_upload.send(sender=request, path=folder, file=filedata, site=self)
             uploadedfile = handle_file_upload(path, filedata, site=self)
             
             if file_already_exists and OVERWRITE_EXISTING:
@@ -489,16 +552,15 @@ class FileBrowserSite(object):
                 self.storage.move(new_file, old_file, allow_overwrite=True)
             else:
                 file_name = smart_unicode(uploadedfile)
+                filedata.name = os.path.relpath(file_name, path)
             
-            signals.filebrowser_post_upload.send(sender=request, path=request.POST.get('folder'), file=FileObject(smart_unicode(file_name), site=self), site=self)
+            signals.filebrowser_post_upload.send(sender=request, path=folder, file=FileObject(smart_unicode(file_name), site=self), site=self)
             
             # let Ajax Upload know whether we saved it or not
             ret_json = {'success': True, 'filename': filedata.name}
             return HttpResponse(json.dumps(ret_json))
 
 storage = DefaultStorage()
-storage.location = MEDIA_ROOT
-storage.base_url = MEDIA_URL
 # Default FileBrowser site
 site = FileBrowserSite(name='filebrowser', storage=storage)
 

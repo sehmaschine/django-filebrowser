@@ -14,6 +14,7 @@ Requirements
 * Django 1.4/1.5, http://www.djangoproject.com
 * Grappelli 2.4, https://github.com/sehmaschine/django-grappelli
 * PIL, http://www.pythonware.com/products/pil/
+* Instead of PIL, we recommend using Pillow, https://github.com/python-imaging/Pillow
 
 Download
 --------

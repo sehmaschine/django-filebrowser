@@ -1,8 +1,7 @@
 # coding: utf-8
 
 # imports
-import os, unicodedata, re
-from time import gmtime, strftime, localtime, mktime, time
+import os, re
 from tempfile import NamedTemporaryFile
 
 # django imports
@@ -32,18 +31,6 @@ def path_strip(path, root):
         return path[len(root):]
     return path
 
-def url_strip(url, root):
-    if not url or not root:
-        return url
-    if url.startswith(root):
-        return url[len(root):]
-    return url
-
-def get_version_filename(filename, version_prefix):
-    filename, ext = os.path.splitext(filename)
-    version_filename = filename + "_" + version_prefix + ext
-    return version_filename
-
 
 def get_original_filename(filename):
     filename, ext = os.path.splitext(filename)
@@ -57,12 +44,11 @@ def get_original_filename(filename):
 
 def get_version_path(value, version_prefix, site=None):
     """
-    Construct the PATH to an Image version.
-    value has to be a path relative to the location of 
-    the site's storage.
+    Construct the path to an image version.
+    value has to be a path relative to the storage location.
     
     version_filename = filename + version_prefix + ext
-    Returns a relative path to the location of the site's storage.
+    Returns a relative path to the storage location.
     """
     
     if site.storage.isfile(value):
@@ -80,10 +66,10 @@ def get_version_path(value, version_prefix, site=None):
 
 def get_original_path(value, site=None):
     """
-    Construct the PATH to an original Image based on a Image version.
-    value has to be an absolute server-path, including MEDIA_ROOT.
+    Construct the path to an original image based on a version.
+    value has to be an path relative to storage location.
     
-    Returns an absolute path, including MEDIA_ROOT.
+    Returns a path relative to storage location.
     """
     
     if site.storage.isfile(value):
@@ -97,52 +83,6 @@ def get_original_path(value, site=None):
         return os.path.join(site.directory, relative_path, original_filename)
     else:
         return None
-
-
-def sort_by_attr(seq, attr):
-    """
-    Sort the sequence of objects by object's attribute
-    
-    Arguments:
-    seq  - the list or any sequence (including immutable one) of objects to sort.
-    attr - the name of attribute to sort by
-    
-    Returns:
-    the sorted list of objects.
-    """
-    import operator
-    
-    # Use the "Schwartzian transform"
-    # Create the auxiliary list of tuples where every i-th tuple has form
-    # (seq[i].attr, i, seq[i]) and sort it. The second item of tuple is needed not
-    # only to provide stable sorting, but mainly to eliminate comparison of objects
-    # (which can be expensive or prohibited) in case of equal attribute values.
-    intermed = map(None, map(getattr, seq, (attr,)*len(seq)), xrange(len(seq)), seq)
-    intermed.sort()
-    return map(operator.getitem, intermed, (-1,) * len(intermed))
-
-
-def url_join(*args):
-    """
-    URL join routine.
-    """
-    
-    if args[0].startswith("http://"):
-        url = "http://"
-    elif args[0].startswith("https://"):
-        url = "https://"
-    else:
-        url = "/"
-    for arg in args:
-        arg = arg.replace("\\", "/")
-        arg_split = arg.split("/")
-        for elem in arg_split:
-            if elem != "" and elem != "http:" and elem != "https:":
-                url = url + elem + "/"
-    # remove trailing slash for filenames
-    if os.path.splitext(args[-1])[1]:
-        url = url.rstrip("/")
-    return url
 
 
 def get_path(path, site=None):
@@ -164,118 +104,10 @@ def get_file(path, filename, site=None):
     return filename
 
 
-def get_file_type(filename):
-    """
-    Get file type as defined in EXTENSIONS.
-    """
-    
-    file_extension = os.path.splitext(filename)[1].lower()
-    file_type = ''
-    for k,v in EXTENSIONS.iteritems():
-        for extension in v:
-            if file_extension == extension.lower():
-                file_type = k
-    return file_type
-
-
-def get_breadcrumbs(query, path):
-    """
-    Get breadcrumbs.
-    """
-    
-    breadcrumbs = []
-    dir_query = ""
-    if path:
-        for item in path.split(os.sep):
-            dir_query = os.path.join(dir_query,item)
-            breadcrumbs.append([item,dir_query])
-    return breadcrumbs
-
-
-def get_filterdate(filterDate, dateTime):
-    """
-    Get filterdate.
-    """
-    
-    returnvalue = ''
-    dateYear = strftime("%Y", gmtime(dateTime))
-    dateMonth = strftime("%m", gmtime(dateTime))
-    dateDay = strftime("%d", gmtime(dateTime))
-    if filterDate == 'today' and int(dateYear) == int(localtime()[0]) and int(dateMonth) == int(localtime()[1]) and int(dateDay) == int(localtime()[2]): returnvalue = 'true'
-    elif filterDate == 'thismonth' and dateTime >= time()-2592000: returnvalue = 'true'
-    elif filterDate == 'thisyear' and int(dateYear) == int(localtime()[0]): returnvalue = 'true'
-    elif filterDate == 'past7days' and dateTime >= time()-604800: returnvalue = 'true'
-    elif filterDate == '': returnvalue = 'true'
-    return returnvalue
-
-
-def get_settings_var(directory=DIRECTORY):
-    """
-    Get settings variables used for FileBrowser listing.
-    """
-    
-    settings_var = {}
-    # Main
-    settings_var['MEDIA_ROOT'] = MEDIA_ROOT
-    settings_var['MEDIA_URL'] = MEDIA_URL
-    settings_var['DIRECTORY'] = directory
-    # FileBrowser
-    settings_var['URL_FILEBROWSER_MEDIA'] = URL_FILEBROWSER_MEDIA
-    settings_var['PATH_FILEBROWSER_MEDIA'] = PATH_FILEBROWSER_MEDIA
-    # TinyMCE
-    settings_var['URL_TINYMCE'] = URL_TINYMCE
-    settings_var['PATH_TINYMCE'] = PATH_TINYMCE
-    # Extensions/Formats (for FileBrowseField)
-    settings_var['EXTENSIONS'] = EXTENSIONS
-    settings_var['SELECT_FORMATS'] = SELECT_FORMATS
-    # Versions
-    settings_var['VERSIONS_BASEDIR'] = VERSIONS_BASEDIR
-    settings_var['VERSIONS'] = VERSIONS
-    settings_var['ADMIN_VERSIONS'] = ADMIN_VERSIONS
-    settings_var['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
-    # FileBrowser Options
-    settings_var['MAX_UPLOAD_SIZE'] = MAX_UPLOAD_SIZE
-    # Normalize Filenames
-    settings_var['NORMALIZE_FILENAME'] = NORMALIZE_FILENAME
-    # Convert Filenames
-    settings_var['CONVERT_FILENAME'] = CONVERT_FILENAME
-    # Traverse directories when searching
-    settings_var['SEARCH_TRAVERSE'] = SEARCH_TRAVERSE
-    return settings_var
-
-
-def handle_file_upload(path, file, site):
-    """
-    Handle File Upload.
-    """
-    
-    uploadedfile = None
-    try:
-        file_path = os.path.join(path, file.name)
-        uploadedfile = site.storage.save(file_path, file)
-    except Exception, inst:
-        raise inst
-    return uploadedfile
-
-
-def is_selectable(filename, selecttype):
-    """
-    Get select type as defined in FORMATS.
-    """
-    
-    file_extension = os.path.splitext(filename)[1].lower()
-    select_types = []
-    for k,v in SELECT_FORMATS.iteritems():
-        for extension in v:
-            if file_extension == extension.lower():
-                select_types.append(k)
-    return select_types
-
-
 def version_generator(value, version_prefix, force=None, site=None):
     """
     Generate Version for an Image.
-    value has to be a serverpath relative to MEDIA_ROOT.
+    value has to be a path relative to the storage location.
     """
     
     # PIL's Error "Suspension not allowed here" work around:
@@ -353,27 +185,3 @@ def scale_and_crop(im, width, height, opts):
     return im
     
 scale_and_crop.valid_options = ('crop', 'upscale')
-
-
-def convert_filename(value):
-    """
-    Convert Filename.
-    """
-
-    if NORMALIZE_FILENAME:
-        chunks = value.split(os.extsep)
-        normalized = []
-        for v in chunks:
-            v = unicodedata.normalize('NFKD', unicode(v)).encode('ascii', 'ignore')
-            v = re.sub('[^\w\s-]', '', v).strip()
-            normalized.append(v)
-
-        if len(normalized) > 1:
-            value = '.'.join(normalized)
-        else:
-            value = normalized[0]
-
-    if CONVERT_FILENAME:
-        value = value.replace(" ", "_").lower()
-
-    return value

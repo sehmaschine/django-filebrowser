@@ -3,9 +3,9 @@
 """
 Tests for FileBrowser sites and their views. 
 
-Note that we *dynamically generate* test cases for each deployed FileBrowser site. 
-This includes creation of TestCase subclasses at runtime and also creation of 
-instance methods from functions.
+Note that we *dynamically generate* test cases for each deployed FileBrowser
+site. This includes creation of TestCase subclasses at runtime and also
+creation of instance methods from functions.
 """
 
 # PYTHON IMPORTS
@@ -20,15 +20,19 @@ from types import MethodType
 from django.test import TestCase
 from django.test.client import Client
 from django.core.urlresolvers import get_resolver, get_urlconf, resolve, reverse
+from django.contrib.admin.templatetags.admin_static import static
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import *
+from filebrowser.settings import DIRECTORY, VERSIONS
 from filebrowser.base import FileObject
 from filebrowser.sites import get_site_dict
 from filebrowser.functions import get_version_path
 
 # This module will test all FileBrowser sites with the following app_name
 APP_NAME = 'filebrowser'
+
+TESTS_PATH = os.path.dirname(os.path.abspath(__file__))
+FILEBROWSER_PATH = os.path.split(TESTS_PATH)[0]
 
 ### TEST FUNCTIONS
 
@@ -89,14 +93,16 @@ def test_upload(test):
     test.assertTrue('filebrowser/upload.html' in [t.name for t in response.templates])
 
 def test_do_upload(test):
-    ## Attemp an upload using AJAX SUBMISSION
+    """
+    Test the actual uploading
+    """
 
     url = reverse('%s:fb_do_upload' % test.site_name)
     url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage.jpg'})])
 
-    with open(os.path.join(PATH_FILEBROWSER_MEDIA, 'img/testimage.jpg'), "rb") as f:
+    with open(os.path.join(FILEBROWSER_PATH, 'static/filebrowser/img/testimage.jpg'), "rb") as f:
         file_size = os.path.getsize(f.name)
-        response = test.c.post(url, data=f.read(), content_type='application/octet-stream', HTTP_X_REQUESTED_WITH='XMLHttpRequest', X_File_Name='testimage.jpg')
+        response = test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     
     # Check we get OK response
     test.assertTrue(response.status_code == 200)
@@ -106,25 +112,6 @@ def test_do_upload(test):
     test.testfile = FileObject(path, site=test.site)
     test.assertTrue(test.site.storage.exists(path))
     
-    # Check the file has the correct size
-    test.assertTrue(file_size == test.site.storage.size(path))
-
-    ## Attemp an upload of the file using BASIC SUBMISSION
-
-    url = reverse('%s:fb_do_upload' % test.site_name)
-    url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage_basic.jpg'})])
-
-    with open(os.path.join(PATH_FILEBROWSER_MEDIA, 'img/testimage.jpg'), 'rb') as f:
-        file_size = os.path.getsize(f.name)
-        response = test.c.post(url, {'qqfile': f})
-
-    # Check we get OK response
-    test.assertTrue(response.status_code == 200)
-    
-    # Check the file now exists
-    path = os.path.join(test.tmpdir.path, 'testimage_basic.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-
     # Check the file has the correct size
     test.assertTrue(file_size == test.site.storage.size(path))
 
@@ -139,8 +126,10 @@ def test_detail(test):
     test.assertTrue(response.status_code == 200)
     
     # At this moment all versions should be generated. Check that.
+    pre_rename_versions = []
     for version_suffix in VERSIONS:
         path = get_version_path(test.testfile.path, version_suffix, site=test.site)
+        pre_rename_versions.append(path)
         test.assertTrue(test.site.storage.exists(path))
     
     # Attemp renaming the file
@@ -156,7 +145,11 @@ def test_detail(test):
     # Store the renamed file
     test.testfile = FileObject(os.path.join(test.testfile.head, 'testpic.jpg'), site=test.site)
     
-    # Check all versions were deleted (after renaming):
+    # Check if all pre-rename versions were deleted:
+    for path in pre_rename_versions:
+        test.assertFalse(test.site.storage.exists(path))
+
+    # Check if all post–rename versions were deleted (resp. not being generated):
     for version_suffix in VERSIONS:
         path = get_version_path(test.testfile.path, version_suffix, site=test.site)
         test.assertFalse(test.site.storage.exists(path))

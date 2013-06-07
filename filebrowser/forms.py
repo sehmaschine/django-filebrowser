@@ -1,16 +1,14 @@
 # coding: utf-8
 
 # PYTHON IMPORTS
-import re, os
+import re, os, unicodedata
 
 # DJANGO IMPORTS
 from django import forms
-from django.forms.formsets import BaseFormSet
 from django.utils.translation import ugettext_lazy as _
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import MAX_UPLOAD_SIZE, FOLDER_REGEX
-from filebrowser.functions import convert_filename
+from filebrowser.settings import MAX_UPLOAD_SIZE, FOLDER_REGEX, NORMALIZE_FILENAME, CONVERT_FILENAME
 
 alnum_name_re = re.compile(FOLDER_REGEX, re.U)
 
@@ -24,6 +22,30 @@ TRANSPOSE_CHOICES = (
     ("4", _(u"Rotate 90° CCW")),
     ("3", _(u"Rotate 180°")),
 )
+
+
+def convert_filename(value):
+    """
+    Convert Filename.
+    """
+
+    if NORMALIZE_FILENAME:
+        chunks = value.split(os.extsep)
+        normalized = []
+        for v in chunks:
+            v = unicodedata.normalize('NFKD', unicode(v)).encode('ascii', 'ignore')
+            v = re.sub('[^\w\s-]', '', v).strip()
+            normalized.append(v)
+
+        if len(normalized) > 1:
+            value = '.'.join(normalized)
+        else:
+            value = normalized[0]
+
+    if CONVERT_FILENAME:
+        value = value.replace(" ", "_").lower()
+
+    return value
 
 
 class CreateDirForm(forms.Form):

@@ -30,12 +30,6 @@ class SettingsTests(TestCase):
         # Check for trailing slash
         self.assertEqual(os.path.basename(DIRECTORY), '')
     
-    def test_path_filebrowser_media(self):
-        """
-        Test that ``PATH_FILEBROWSER_MEDIA`` exists.
-        """
-        self.assertEqual(os.path.exists(PATH_FILEBROWSER_MEDIA), 1)
-    
     def test_versions_basedir(self):
         """
         Test that ``MEDIA_ROOT`` plus ``VERSIONS_BASEDIR`` exists.
@@ -55,7 +49,19 @@ class SettingsTests(TestCase):
         """
         for item in ADMIN_VERSIONS:
             self.assertIn(item, VERSIONS)
-    
+
+    def test_show_placeholder(self):
+        """
+        Test if ``SHOW_PLACEHOLDER`` is in ``True, False``.
+        """
+        self.assertIn(SHOW_PLACEHOLDER, [True, False])
+
+    def test_force_placeholder(self):
+        """
+        Test if ``FORCE_PLACEHOLDER`` is in ``True, False``.
+        """
+        self.assertIn(FORCE_PLACEHOLDER, [True, False])
+
     def test_strict_pil(self):
         """
         Test if ``STRICT_PIL`` is in ``True, False``.
@@ -91,5 +97,11 @@ class SettingsTests(TestCase):
         Test if ``SEARCH_TRAVERSE`` is in ``True, False``.
         """
         self.assertIn(SEARCH_TRAVERSE, [True, False])
+
+    def test_overwrite_existing(self):
+        """
+        Test if ``OVERWRITE_EXISTING`` is in ``True, False``.
+        """
+        self.assertIn(OVERWRITE_EXISTING, [True, False])
 
 
