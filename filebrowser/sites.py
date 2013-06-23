@@ -120,10 +120,14 @@ class FileBrowserSite(object):
         return staff_member_required(never_cache(view))
 
     def get_urls(self):
-        from django.conf.urls.defaults import patterns, url, include    
+        try:
+            from django.conf.urls import url, patterns, include
+        except ImportError:
+            # for Django version less then 1.4
+            from django.conf.urls.defaults import url, patterns, include
 
         urlpatterns = patterns('',
-    
+
             # filebrowser urls (views)
             url(r'^browse/$', path_exists(self, self.filebrowser_view(self.browse)), name="fb_browse"),
             url(r'^createdir/', path_exists(self, self.filebrowser_view(self.createdir)), name="fb_createdir"),
