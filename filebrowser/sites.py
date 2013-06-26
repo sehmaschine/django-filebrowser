@@ -457,7 +457,9 @@ class FileBrowserSite(object):
             folder = request.GET.get('folder', '')
 
             if request.is_ajax(): # Advanced (AJAX) submission
-                filedata = ContentFile(request.raw_post_data)
+                # "raw_post_data" was renamed to "body" since Django 1.4
+                # TODO: Remove "raw_post_data" when Django 1.4 becames unsupported.
+                filedata = ContentFile(getattr(request, 'body', 'raw_post_data'))
             else: # Basic (iframe) submission
                 if len(request.FILES) != 1:
                     raise Http404('Invalid request! Multiple files included.')
