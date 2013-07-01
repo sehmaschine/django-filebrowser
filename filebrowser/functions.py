@@ -8,6 +8,7 @@ from tempfile import NamedTemporaryFile
 # django imports
 from django.utils.translation import ugettext as _
 from django.core.files import File
+from django.core.files.uploadhandler import StopFutureHandlers
 from django.utils.encoding import smart_unicode
 
 # filebrowser imports
@@ -244,9 +245,68 @@ def get_settings_var(directory=DIRECTORY):
     return settings_var
 
 
-def handle_file_upload(path, file, site):
+def handle_file_upload(request, file_name):
     """
-    Handle File Upload.
+    Stream upload to disk unless file <= FILE_UPLOAD_MAX_MEMORY_SIZE. 
+    
+    Uses request.upload_handlers so handlers can be overridden, 
+    check out FILE_UPLOAD_HANDLERS setting.
+    
+    Returns a file-like object.
+    """
+    META = request.META
+    # For compatibility with low-level network APIs (with 32-bit integers),
+    # the chunk size should be < 2^31, but still divisible by 4.
+    possible_sizes = [x.chunk_size for x in request.upload_handlers if x.chunk_size]
+    chunk_size = min([2**31-4] + possible_sizes)
+    
+    try:
+        content_length = int(META.get('HTTP_CONTENT_LENGTH', META.get('CONTENT_LENGTH', 0)))
+    except (ValueError, TypeError):
+        content_length = 0
+
+    if content_length < 0:
+        # This means we shouldn't continue...raise an error.
+        raise ValueError("Invalid content length: %r" % content_length)
+            
+    encoding = request.encoding or settings.DEFAULT_CHARSET
+    handlers = request.upload_handlers
+    final_handler = handlers[0]
+    
+    # See if the handler will want to take care of the parsing.
+    # This allows overriding everything if somebody wants it.
+    for handler in handlers:
+        result = handler.handle_raw_input(request, META, content_length, None, encoding)
+        if result is not None:
+            return result
+        
+        final_handler = handler
+        
+        try:
+            handler.new_file(None, file_name, None, content_length, encoding)
+        except StopFutureHandlers:
+            break
+    
+    counter = 0
+    
+    # Grab the upload from the request stream in chunks.
+    # Will be written to memory or disk depending on the handler. 
+    while True:
+        chunk = request.read(size=chunk_size)
+        if not chunk:
+            break
+        final_handler.receive_data_chunk(chunk, counter)
+        counter += len(chunk)
+            
+    # Signal that the upload has completed, return the file from handler. 
+    final_handler.upload_complete()
+    file_obj = final_handler.file_complete(counter)
+    return file_obj
+    
+    
+def save_file_upload(path, file, site):
+    """
+    Save file upload.
     """
     
     uploadedfile = None
@@ -256,8 +316,8 @@ def handle_file_upload(path, file, site):
     except Exception, inst:
         raise inst
     return uploadedfile
-
-
+        
+        
 def is_selectable(filename, selecttype):
     """
     Get select type as defined in FORMATS.

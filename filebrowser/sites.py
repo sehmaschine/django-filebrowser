@@ -17,13 +17,14 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.utils.encoding import smart_unicode
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import TemporaryUploadedFile
 from django.core.files.storage import DefaultStorage, default_storage, FileSystemStorage
 from django.core.exceptions import ImproperlyConfigured
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import *
-from filebrowser.functions import get_breadcrumbs, get_filterdate, get_settings_var, handle_file_upload, convert_filename
+from filebrowser.functions import (get_breadcrumbs, get_filterdate, get_settings_var, 
+                                  handle_file_upload, save_file_upload, convert_filename)
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileListing, FileObject
 from filebrowser.decorators import path_exists, file_exists
@@ -452,22 +453,23 @@ class FileBrowserSite(object):
     def _upload_file(self, request):
         """
         Upload file to the server.
-        """
+        """        
         if request.method == "POST":
-            folder = request.GET.get('folder', '')
-
+            folder = request.GET.get('folder', '')            
             if request.is_ajax(): # Advanced (AJAX) submission
-                filedata = ContentFile(request.raw_post_data)
+                try:
+                    file_name = request.GET['qqfile']
+                except KeyError:
+                    return HttpResponseBadRequest('Invalid request! No filename given.')
+                filedata = handle_file_upload(request, file_name)
+                
             else: # Basic (iframe) submission
                 if len(request.FILES) != 1:
-                    raise Http404('Invalid request! Multiple files included.')
+                    raise HttpResponseBadRequest('Invalid request! Multiple files included.')
+                file_name = request.FILES['qqfile'].name
                 filedata = request.FILES.values()[0]
 
-            try:
-                filedata.name = convert_filename(request.GET['qqfile'])
-            except KeyError:
-                return HttpResponseBadRequest('Invalid request! No filename given.')
-
+            filedata.name = convert_filename(file_name)
             fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("filebrowser:fb_upload", current_app=self.name))
             folder = fb_uploadurl_re.sub('', folder)
 
@@ -481,7 +483,7 @@ class FileBrowserSite(object):
                 return HttpResponse(json.dumps(ret_json)) 
             
             signals.filebrowser_pre_upload.send(sender=request, path=request.POST.get('folder'), file=filedata, site=self)
-            uploadedfile = handle_file_upload(path, filedata, site=self)
+            uploadedfile = save_file_upload(path, filedata, site=self)
             
             if file_already_exists and OVERWRITE_EXISTING:
                 old_file = smart_unicode(file_name)
