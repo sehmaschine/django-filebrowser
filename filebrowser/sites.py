@@ -199,7 +199,7 @@ class FileBrowserSite(object):
         for exp in EXCLUDE:
            filter_re.append(re.compile(exp))
         for k,v in VERSIONS.iteritems():
-            exp = (r'_%s(%s)') % (k, '|'.join(EXTENSION_LIST))
+            exp = (r'_%s(%s)$') % (k, '|'.join(EXTENSION_LIST))
             filter_re.append(re.compile(exp))
 
         def filter_browse(item):
