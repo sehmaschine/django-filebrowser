@@ -11,13 +11,17 @@ Settings
 There are quite a few possibilities of customizing the |filebrowser| to fit your needs. Nonetheless, you should be able to start with the default settings.
 
 .. note::
-    All settings can be defined in your projects settings-file or the FileBrowsers settings-file (``settings.py``). When using the projects settings-file, you have to use the prefix ``FILEBROWSER_`` for every setting (e.g. ``FILEBROWSER_MEDIA_URL`` instead of ``MEDIA_URL``). 
+    All settings can be defined in your projects settings-file or the FileBrowsers settings-file (``settings.py``). When using the projects settings-file, you have to use the prefix ``FILEBROWSER_`` for every setting (e.g. ``FILEBROWSER_EXTENSIONS`` instead of ``EXTENSIONS``). 
 
 Main URL/Paths Settings
 -----------------------
 
 MEDIA_ROOT
 ^^^^^^^^^^
+
+.. warning::
+
+    Will be removed with version 3.6.0. Since 3.4, ``MEDIA_ROOT`` is defined with your storage engine.
 
 The absolute path to the directory that holds the media-files you want to browse::
 
@@ -26,38 +30,31 @@ The absolute path to the directory that holds the media-files you want to browse
 MEDIA_URL
 ^^^^^^^^^
 
+.. warning::
+
+    Will be removed with version 3.6.0. Since 3.4, ``MEDIA_URL`` is defined with your storage engine.
+
 URL that handles the media served from ``MEDIA_ROOT``::
 
     MEDIA_URL = getattr(settings, "FILEBROWSER_MEDIA_URL", settings.MEDIA_URL)
 
-DIRECTORY (relative to ``MEDIA_ROOT``)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+DIRECTORY (relative to storage location)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Main FileBrowser Directory. Leave empty in order to browse all files and folders within MEDIA_ROOT::
+Main FileBrowser Directory. Leave empty in order to browse all files and folders within a storage location::
 
     DIRECTORY = getattr(settings, "FILEBROWSER_DIRECTORY", 'uploads/')
+
+You can override this setting on a per–site basis::
+
+    from filebrowser.sites import site
+    site.directory = "uploads/"
 
 FileBrowser Media, TinyMCE Media
 --------------------------------
 
-URL_FILEBROWSER_MEDIA, PATH_FILEBROWSER_MEDIA
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The URL and Path to your FileBrowser media-files::
-
-    URL_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_URL_FILEBROWSER_MEDIA", settings.STATIC_URL + "filebrowser/")
-    PATH_FILEBROWSER_MEDIA = getattr(settings, "FILEBROWSER_PATH_FILEBROWSER_MEDIA", os.path.join(settings.STATIC_ROOT, 'filebrowser/'))
-
-URL_TINYMCE, PATH_TINYMCE
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The URL to your TinyMCE Installation::
-
-    URL_TINYMCE = getattr(settings, "FILEBROWSER_URL_TINYMCE", settings.ADMIN_MEDIA_PREFIX + "tinymce/jscripts/tiny_mce/")
-    PATH_TINYMCE = getattr(settings, "FILEBROWSER_PATH_TINYMCE", settings.ADMIN_MEDIA_PREFIX + "tinymce/jscripts/tiny_mce/")
-
-.. note::
-    Only change these settings if you're absolutely sure about what you're doing.
+.. deprecated:: 3.5.3
+    Using staticfiles instead.
 
 Extensions and Formats
 ----------------------
@@ -92,8 +89,8 @@ When using the browse-function for selecting Files/Folders, you can use an addit
 Versions
 --------
 
-VERSIONS_BASEDIR (relative to ``MEDIA_ROOT``)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+VERSIONS_BASEDIR (relative to storage location)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. versionchanged:: 3.4.0
 
@@ -102,10 +99,7 @@ Directory to save image versions (and thumbnails). If no directory is given, ver
     VERSIONS_BASEDIR = getattr(settings, 'FILEBROWSER_VERSIONS_BASEDIR', '')
 
 .. note::
-
-    In versions previous to FileBrowser 3.4, it was possible to have VERSION_BASEDIR placed at a path which was not browsed by FileBrowser (by placing VERSION_BASEDIR anywhere else than under DIRECTORY). 
-
-    However, this is not possible as of FileBrowser 3.4 because DIRECTORY variable is not used anymore and FileBrowser browses anything under MEDIA_ROOT. If you don't want FileBrowser to browse/display the contents of VERSION_BASEDIR, make this directory *hidden*.
+    If ``VERSIONS_BASEDIR`` is within ``site.directory`` it will be browsed. If you don't want FileBrowser to browse/display the contents of VERSION_BASEDIR, make this directory *hidden*.
 
 VERSIONS
 ^^^^^^^^
@@ -121,6 +115,13 @@ Define the versions according to your websites grid::
         'large': {'verbose_name': 'Large (8 col)', 'width': 680, 'height': '', 'opts': ''},
     })
 
+VERSION_QUALITY
+^^^^^^^^^^^^^^^
+
+Quality of saved versions::
+
+    VERSION_QUALITY = getattr(settings, 'FILEBROWSER_VERSION_QUALITY', 90)
+
 ADMIN_VERSIONS
 ^^^^^^^^^^^^^^
 
@@ -135,19 +136,20 @@ The version being used as the admin-thumbnail::
 
     ADMIN_THUMBNAIL = getattr(settings, 'FILEBROWSER_ADMIN_THUMBNAIL', 'admin_thumbnail')
 
-.. _settingsplaceholder:
+Placeholder
+-----------
 
 PLACEHOLDER
 ^^^^^^^^^^^
 
-Path to placeholder image (relative to MEDIA_ROOT)::
+Path to placeholder image (relative to storage location)::
 
     PLACEHOLDER = getattr(settings, "FILEBROWSER_PLACEHOLDER", "")
 
 SHOW_PLACEHOLDER
 ^^^^^^^^^^^^^^^^
 
-Show Placeholder (instead of a Version) if the original image does not exist::
+Show placeholder (instead of a version) if the original image does not exist::
 
     SHOW_PLACEHOLDER = getattr(settings, "FILEBROWSER_SHOW_PLACEHOLDER", False)
 
@@ -165,7 +167,7 @@ SAVE_FULL_URL
 ^^^^^^^^^^^^^
 
 .. deprecated:: 3.4.0
-    With custom storage engines, saving the full URL (including MEDIA_ROOT) doesn't make sense anymore. Moreover, removing this settings allows for easily replacing a FileBrowseField with Djangos File- or ImageField.
+    With custom storage engines, saving the full URL doesn't make sense anymore. Moreover, removing this settings allows for easily replacing a FileBrowseField with Djangos File- or ImageField.
 
 STRICT_PIL
 ^^^^^^^^^^
@@ -197,6 +199,13 @@ MAX_UPLOAD_SIZE
 Max. Upload Size in Bytes::
 
     MAX_UPLOAD_SIZE = getattr(settings, "FILEBROWSER_MAX_UPLOAD_SIZE", 10485760)
+
+NORMALIZE_FILENAME
+^^^^^^^^^^^^^^^^^^
+
+``True`` if you want to normalize filename on upload and remove all non-alphanumeric characters (except for underscores, spaces & dashes)::
+
+    NORMALIZE_FILENAME = getattr(settings, "FILEBROWSER_NORMALIZE_FILENAME", False)
 
 CONVERT_FILENAME
 ^^^^^^^^^^^^^^^^^
@@ -233,7 +242,7 @@ Options are: ``asc`` or ``desc``
 FOLDER_REGEX
 ^^^^^^^^^^^^
 
-regex to clean dir names before creation::
+regex to clean directory names before creation::
 
     FOLDER_REGEX = getattr(settings, "FILEBROWSER_FOLDER_REGEX", r'^[\w._\ /-]+$')
 

@@ -11,8 +11,25 @@ Changelog
 3.5.3 (not yet released)
 ------------------------
 
+* New: added ``path_full`` to FileObject.
+* Improved: added docx to EXTENSIONS.
+* Improved: Recommend pillow instead of PIL as a requirement.
+* Improved: Added additional test cases.
+* Improved: Updated documentation.
+* Improved: Consistent use of storage (e.g. storage.location, storage.url).
+* Improved: Removed unnecessary functions (e.g. url_join, url_strip).
+* Improved: Moved sort_by_attr to FileListing.
+* Improved: Regex matches with file versions on browse.
+* Improved: Using django.conf.urls (with django.conf.urls.defaults as fallback).
+* Improved: Adding CONTRIBUTING.rst.
+* Fixed: fixed exception handling with python 2.5.
+* Fixed: fixes dir with SEARCH_TRAVERSE true and version select.
+* Fixed: Make Django FileUploadHandlers work (also fixed a memory leak).
+* Fixed: return correct filename with ``OVERWRITE_EXISTING``.
+* Fixed: fb_version_generate with ``FILEBROWSER_VERSIONS_BASEDIR``.
+
 3.5.2 (February 22, 2013)
-------------------------
+-------------------------
 
 * Fixed: Use placeholder with version_generate (not only templatetags).
 * Fixed: translate extension group name in upload form.
@@ -33,7 +50,7 @@ Changelog
 * Improved: Follow symlinks with generate-command.
 * Improved: Added some translations (e.g. for "Upload File").
 * New: Setting OVERWRITE_EXISTING.
-* New: Added file ``signals.py`.
+* New: Added file ``signals.py``.
 * New: Support for Django 1.5.
 
 3.5.0 (July 20, 2012)

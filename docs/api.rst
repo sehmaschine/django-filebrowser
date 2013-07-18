@@ -12,11 +12,11 @@ The ``FileListing`` is a group of ``FileObjects`` for a given directory::
 
     filelisting = FileListing(path, filter_func=None, sorting_by=None, sorting_order=None)
 
-For example, if you want to list all files for ``MEDIA_ROOT`` you can type::
+For example, if you want to list all files within a storage location you can type::
 
-    from filebrowser.settings import MEDIA_ROOT
-    filelisting = FileListing(MEDIA_ROOT, sorting_by='date', sorting_order='desc')
-
+    from filebrowser.sites import site
+    from filebrowser.base import FileListing
+    filelisting = FileListing(site.storage.location, sorting_by='date', sorting_order='desc')
 
 Options
 -------
@@ -167,13 +167,15 @@ Number of filtered files, based on ``files_walk_filtered``::
 ``FileObject`` class
 ====================
 
-When browsing a directory on the server, you get a ``FileObject`` (see ``base.py``) for every file within that directory. The ``FileObject`` is also returned when using the ``FileBrowseField``::
+When browsing a directory on the server, you get a ``FileObject`` for every file within that directory. The ``FileObject`` is also returned when using the ``FileBrowseField``::
 
     fileobject = FileObject("relative/server/path/to/storage/location/file.ext")
 
 For the examples below we use::
 
-    fileobject = FileObject(os.path.join(MEDIA_ROOT,DIRECTORY,"testfolder","testimage.jpg"))
+    from filebrowser.sites import site
+    from filebrowser.base import FileObject
+    fileobject = FileObject(os.path.join(site.directory,"testfolder","testimage.jpg"))
 
 General attributes
 ------------------
@@ -183,15 +185,15 @@ General attributes
 
 Name of the file (including the extension) or name of the folder::
 
-    >>> print fileobject.filename
+    >>> fileobject.filename
     'testimage.jpg'
 
 ``filetype``
 ^^^^^^^^^^^^
 
-Type of the file, as defined with ``EXTENSIONS``. With a folder, the filetype is "Folder"::
+Type of the file, as defined with ``EXTENSIONS``::
 
-    >>> print fileobject.filetype
+    >>> fileobject.filetype
     'Image'
 
 ``mimetype``
@@ -201,15 +203,15 @@ Type of the file, as defined with ``EXTENSIONS``. With a folder, the filetype is
 
 Mimetype, based on http://docs.python.org/library/mimetypes.html::
 
-    >>> print fileobject.mimetype
+    >>> fileobject.mimetype
     ('image/jpeg', None)
 
 ``filesize``
 ^^^^^^^^^^^^
 
-Filesize in Bytes. Display with ``filesizeformat``::
+Filesize in Bytes::
 
-    >>> print fileobject.filesize
+    >>> fileobject.filesize
     870037L
 
 ``extension``
@@ -217,15 +219,15 @@ Filesize in Bytes. Display with ``filesizeformat``::
 
 File extension, including the dot. With a folder, the extensions is ``None``::
 
-    >>> print fileobject.extension
+    >>> fileobject.extension
     '.jpg'
 
 ``date``
 ^^^^^^^^
 
-Date, based on ``getmtime``::
+Date, based on ``time.mktime``::
 
-    >>> print fileobject.date
+    >>> fileobject.date
     1299760347.0
 
 ``datetime``
@@ -233,8 +235,16 @@ Date, based on ``getmtime``::
 
 Datetime object::
 
-    >>> print fileobject.datetime
+    >>> fileobject.datetime
     datetime.datetime(2011, 3, 10, 13, 32, 27)
+
+``exists``
+^^^^^^^^^^^^
+
+``True``, if the path exists, ``False`` otherwise::
+
+    >>> fileobject.exists()
+    True
 
 Path and URL attributes
 -----------------------
@@ -242,60 +252,64 @@ Path and URL attributes
 ``path``
 ^^^^^^^^
 
-Absolute server path to the file/folder, including ``MEDIA_ROOT``::
+Path relative to a storage location (including ``site.directory``)::
 
-    >>> print fileobject.path
-    '/var/www/testsite/media/uploads/testfolder/testimage.jpg'
+    >>> fileobject.path
+    'uploads/testfolder/testimage.jpg'
 
-``path_relative``
-^^^^^^^^^^^^^^^^^
+``path_relative_directory``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Server path to the file/folder, relative to ``MEDIA_ROOT``::
+Path relative to ``site.directory``::
 
-    >>> print fileobject.path_relative
-    u'uploads/testfolder/testimage.jpg'
+    >>> fileobject.path_relative_directory
+    u'testfolder/testimage.jpg'
 
-``url_full``
-^^^^^^^^^^^^
+``path_full``
+^^^^^^^^^^^^^
 
-.. deprecated:: 3.3
-    Use ``url`` instead.
+Absolute server path (equals ``storage.path``)::
+
+    >>> fileobject.path_full
+    u'/absolute/path/to/server/location/testfolder/testimage.jpg'
+
+``dirname``
+^^^^^^^^^^^
+
+.. versionadded:: 3.4
+
+The directory (not including ``site.directory``)::
+
+    >>> fileobject.dirname
+    u'testfolder'
 
 ``url``
 ^^^^^^^
 
 .. versionadded:: 3.3
 
-URL for the file/folder, including ``MEDIA_URL``::
+URL for the file/folder (equals ``storage.url``)::
 
-    >>> print fileobject.url
+    >>> fileobject.url
     u'/media/uploads/testfolder/testimage.jpg'
 
-``url_relative``
-^^^^^^^^^^^^^^^^
+``url_full``, ``url_relative``, ``url_save``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-URL for the file/folder, relative to ``MEDIA_URL``::
-
-    >>> print fileobject.url_relative
-    u'uploads/testfolder/testimage.jpg'
-
-``url_save``
-^^^^^^^^^^^^
-
-URL for the file/folder, based on the setting ``SAVE_FULL_URL`` used for the ``FileBrowseField`` (either ``url`` or ``url_relative``)::
-
-    >>> print fileobject.url_save
-    u'uploads/testfolder/testimage.jpg'
+.. deprecated:: 3.3
+    Use ``url`` instead.
 
 Image attributes
 ----------------
+
+The image attributes are only useful if the ``FileObject`` represents an image.
 
 ``dimensions``
 ^^^^^^^^^^^^^^
 
 Image dimensions as a tuple::
 
-    >>> print fileobject.dimensions
+    >>> fileobject.dimensions
     (1000, 750)
 
 ``width``
@@ -303,7 +317,7 @@ Image dimensions as a tuple::
 
 Image width in px::
 
-    >>> print fileobject.width
+    >>> fileobject.width
     1000
 
 ``height``
@@ -311,7 +325,7 @@ Image width in px::
 
 Image height in px::
 
-    >>> print fileobject.height
+    >>> fileobject.height
     750
 
 ``aspectratio``
@@ -319,41 +333,53 @@ Image height in px::
 
 Aspect ratio (float format)::
 
-    >>> print fileobject.aspectratio
+    >>> fileobject.aspectratio
     1.33534908
 
 ``orientation``
 ^^^^^^^^^^^^^^^
 
-Image orientation, either "landscape" or "portrait"::
+Image orientation, either ``Landscape`` or ``Portrait``::
 
-    >>> print fileobject.orientation
+    >>> fileobject.orientation
     'Landscape'
 
 Folder attributes
 -----------------
 
+The folder attributes make sense when the ``FileObject`` represents a directory (not a file).
+
+``directory``
+^^^^^^^^^^^^^
+
+Folder(s) relative from ``site.directory``::
+
+    >>> fileobject.directory
+    u'testfolder'
 
 ``folder``
 ^^^^^^^^^^
 
-    >>> print fileobject.folder
+Parent folder(s)::
+
+    >>> fileobject.folder
     u'testfolder'
 
 ``is_folder``
 ^^^^^^^^^^^^^
 
-``true``, if path is a folder::
+``True``, if path is a folder::
 
-    >>> print fileobject.is_folder
+    >>> fileobject.is_folder
     False
 
 ``is_empty``
 ^^^^^^^^^^^^
 
-``true``, if the folder is empty::
+``True``, if the folder is empty::
 
-    >>> print fileobject.is_empty
+    >>> fileobject.is_empty
+    False
 
 Version attributes
 ------------------
@@ -363,23 +389,23 @@ Version attributes
 
 ``true`` if the File is a ``version`` of another File::
 
-    >>> print fileobject.is_version
+    >>> fileobject.is_version
     False
 
-``version_basedir``
+``versions_basedir``
 ^^^^^^^^^^^^^^^^^^^
 
-The absolute path to the versions-folder::
+The relative path (from storage location) to the main versions folder. Either ``VERSIONS_BASEDIR`` or ``site.directory`::
 
-    >>> print fileobject.version_basedir
-    '/var/www/testsite/media/uploads/testfolder'
+    >>> fileobject.versions_basedir
+    'uploads'
 
 ``version_name(version_suffix)``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Get the filename for a version::
 
-    >>> print fileobject.version_name("medium")
+    >>> fileobject.version_name("medium")
     'testimage_medium.jpg'
 
 .. note::
@@ -390,7 +416,7 @@ Get the filename for a version::
 
 List all filenames based on ``VERSIONS``::
 
-    >>> print fileobject.versions()
+    >>> fileobject.versions()
     ['/var/www/testsite/media/uploads/testfolder/testimage_admin_thumbnail.jpg',
     '/var/www/testsite/media/uploads/testfolder/testimage_thumbnail.jpg',
     '/var/www/testsite/media/uploads/testfolder/testimage_small.jpg',
@@ -406,7 +432,7 @@ List all filenames based on ``VERSIONS``::
 
 List all filenames based on ``ADMIN_VERSIONS``::
 
-    >>> print fileobject.admin_versions()
+    >>> fileobject.admin_versions()
     ['/var/www/testsite/media/uploads/testfolder/testimage_thumbnail.jpg',
     '/var/www/testsite/media/uploads/testfolder/testimage_small.jpg',
     '/var/www/testsite/media/uploads/testfolder/testimage_medium.jpg',
@@ -421,11 +447,11 @@ List all filenames based on ``ADMIN_VERSIONS``::
 
 Generate a version::
 
-    >>> print fileobject.version("medium")
-    uploads/testfolder/testimage_medium.jpg
+    >>> fileobject.version_generate("medium")
+    <FileObject: uploads/testfolder/testimage_medium.jpg>
 
-Functions
----------
+Delete Functions
+----------------
 
 ``delete()``
 ^^^^^^^^^^^^
