@@ -5,6 +5,23 @@
 
 .. _views:
 
+Adding Sites
+============
+
+Similar to ``django.contrib.admin``, you first need to add a ``filebrowser.site`` to your admin interface.
+
+In your ``urls.py`` import the default FileBrowser site (or your custom site)::
+
+    from filebrowser.sites import site
+
+and add the site to your URL-patterns (before any admin-urls)::
+    
+    urlpatterns = patterns('',
+       url(r'^adminurl/filebrowser/', include(site.urls)),
+    )
+
+Now you are able to browse the location defined with the storage engine associated to your site.
+
 Views
 =====
 
@@ -15,7 +32,7 @@ Browse
 
 Browse a directory on your server. Returns a :ref:`filelisting`::
 
-    http://mysite.com/adminurl/filebrowser/browse/
+    /adminurl/filebrowser/browse/
 
 * URL: ``fb_browse``
 * Optional query string args: ``dir``, ``o``, ``ot``, ``q``, ``p``, ``filter_date``, ``filter_type``, ``type``
@@ -27,7 +44,7 @@ Create directory
 
 Create a new folder on your server::
 
-    http://mysite.com/adminurl/filebrowser/createdir/
+    /adminurl/filebrowser/createdir/
 
 * URL: ``fb_createdir``
 * Optional query string args: ``dir``
@@ -40,7 +57,7 @@ Upload
 
 Multiple upload::
 
-    http://mysite.com/adminurl/filebrowser/upload/
+    /adminurl/filebrowser/upload/
 
 * URL: ``fb_upload``
 * Optional query string args: ``dir``
@@ -53,7 +70,7 @@ Edit
 
 Edit a file or folder::
 
-    http://mysite.com/adminurl/filebrowser/edit/?filename=testimage.jpg
+    /adminurl/filebrowser/edit/?filename=testimage.jpg
 
 * URL: ``fb_edit``
 * Required query string args: ``filename``
@@ -72,7 +89,7 @@ Confirm delete
 
 Confirm the deletion of a file or folder::
 
-    http://mysite.com/adminurl/filebrowser/confirm_delete/?filename=testimage.jpg
+    /adminurl/filebrowser/confirm_delete/?filename=testimage.jpg
 
 * URL: ``fb_confirm_delete``
 * Required query string args: ``filename``
@@ -88,7 +105,7 @@ Delete
 
 Delete a file or folder::
 
-    http://mysite.com/adminurl/filebrowser/delete/?filename=testimage.jpg
+    /adminurl/filebrowser/delete/?filename=testimage.jpg
 
 * URL: ``fb_delete``
 * Required query string args: ``filename``
@@ -108,7 +125,7 @@ Version
 
 Generate a version of an Image as defined with ``ADMIN_VERSIONS``::
 
-    http://mysite.com/adminurl/filebrowser/version/?filename=testimage.jpg
+    /adminurl/filebrowser/version/?filename=testimage.jpg
 
 * URL: ``fb_version``
 * Required query string args: ``filename``
