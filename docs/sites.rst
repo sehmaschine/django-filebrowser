@@ -22,4 +22,6 @@ The module variable ``site`` from filebrowser.sites is the default FileBrowser a
 Backward Incompatibilites
 -------------------------
 
-The only thing that you need to pay attention to when migrating to FileBrowser 3.4, is the specification of your URL-patterns. URL-patterns are now associated with a FileBrowser site, that is, each FileBrowser site can have different URL-patterns. See :ref:`quickstart` for how to setup your URL-patterns.
+The only thing that you need to pay attention to when migrating to FileBrowser 3.4 is the specification of your URL–patterns. URL–patterns are now associated with a FileBrowser site, that is, each FileBrowser site can have different URL–patterns.
+
+See :ref:`quickstart` for how to setup your URL–patterns.
