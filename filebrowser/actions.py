@@ -6,11 +6,10 @@ from tempfile import NamedTemporaryFile
 # DJANGO IMPORTS
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
-from django.http import HttpResponseRedirect
 from django.core.files import File
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import *
+from filebrowser.settings import VERSION_QUALITY, STRICT_PIL
 
 # PIL import
 if STRICT_PIL:
