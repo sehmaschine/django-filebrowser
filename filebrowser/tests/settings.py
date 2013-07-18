@@ -50,6 +50,12 @@ class SettingsTests(TestCase):
         for item in ADMIN_VERSIONS:
             self.assertIn(item, VERSIONS)
 
+    def test_placeholder(self):
+        """
+        Test if ``PLACEHOLDER`` exists.
+        """
+        self.assertEqual(os.path.exists(os.path.join(MEDIA_ROOT,PLACEHOLDER)), 1)
+
     def test_show_placeholder(self):
         """
         Test if ``SHOW_PLACEHOLDER`` is in ``True, False``.
