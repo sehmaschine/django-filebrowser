@@ -62,7 +62,7 @@ ADMIN_THUMBNAIL = getattr(settings, 'FILEBROWSER_ADMIN_THUMBNAIL', 'admin_thumbn
 
 # PLACEHOLDER
 
-# Path to placeholder image
+# Path to placeholder image (relative to storage location)
 PLACEHOLDER = getattr(settings, "FILEBROWSER_PLACEHOLDER", "")
 # Show Placeholder if the original image does not exist
 SHOW_PLACEHOLDER = getattr(settings, "FILEBROWSER_SHOW_PLACEHOLDER", False)
