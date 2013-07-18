@@ -190,7 +190,7 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(self.f_image.filetype, 'Image')
         self.assertEqual(self.f_image.filesize, 870037)
         # FIXME: test date/datetime
-        self.assertEqual(self.f_image.exists(), True)
+        self.assertEqual(self.f_image.exists, True)
 
     def test_path_url_attributes(self):
         """
@@ -280,13 +280,13 @@ class FileObjectAttributeTests(TestCase):
 
         # version does not exist yet
         f_version = FileObject(os.path.join(self.directory, self.tmpdir_name, "testimage_large.jpg"), site=site)
-        self.assertEqual(f_version.exists(), False)
+        self.assertEqual(f_version.exists, False)
         # generate version
         f_version = self.f_image.version_generate("large")
         self.assertEqual(f_version.path, "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")
-        self.assertEqual(f_version.exists(), True)
+        self.assertEqual(f_version.exists, True)
         self.assertEqual(f_version.is_version, True)
-        self.assertEqual(f_version.original_filename(), "testimage.jpg")
+        self.assertEqual(f_version.original_filename, "testimage.jpg")
         self.assertEqual(f_version.original.path, self.f_image.path)
         # FIXME: versions should not have versions or admin_versions
 
@@ -324,13 +324,13 @@ class FileObjectAttributeTests(TestCase):
 
         # version does not exist yet
         f_version = FileObject(os.path.join(self.directory, self.tmpdir_name, "testimage_large.jpg"), site=site)
-        self.assertEqual(f_version.exists(), False)
+        self.assertEqual(f_version.exists, False)
         # generate version
         f_version = self.f_image.version_generate("large")
         self.assertEqual(f_version.path, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")
-        self.assertEqual(f_version.exists(), True)
+        self.assertEqual(f_version.exists, True)
         self.assertEqual(f_version.is_version, True)
-        self.assertEqual(f_version.original_filename(), "testimage.jpg")
+        self.assertEqual(f_version.original_filename, "testimage.jpg")
         self.assertEqual(f_version.original.path, self.f_image.path)
         # FIXME: versions should not have versions or admin_versions
 
@@ -368,13 +368,13 @@ class FileObjectAttributeTests(TestCase):
 
         # version does not exist yet
         f_version = FileObject(os.path.join(self.directory, self.tmpdir_name, "testimage_large.jpg"), site=site)
-        self.assertEqual(f_version.exists(), False)
+        self.assertEqual(f_version.exists, False)
         # generate version
         f_version = self.f_image.version_generate("large")
         self.assertEqual(f_version.path, "_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")
-        self.assertEqual(f_version.exists(), True)
+        self.assertEqual(f_version.exists, True)
         self.assertEqual(f_version.is_version, True)
-        self.assertEqual(f_version.original_filename(), "testimage.jpg")
+        self.assertEqual(f_version.original_filename, "testimage.jpg")
         self.assertEqual(f_version.original.path, self.f_image.path)
         # FIXME: versions should not have versions or admin_versions
 
@@ -397,12 +397,12 @@ class FileObjectAttributeTests(TestCase):
 
         # version does not exist yet
         f_version = FileObject(os.path.join(self.directory, self.tmpdir_name, "testimage_large.jpg"), site=site)
-        self.assertEqual(f_version.exists(), False)
+        self.assertEqual(f_version.exists, False)
         # generate version
         f_version = self.f_image.version_generate("large")
         f_version_thumb = self.f_image.version_generate("admin_thumbnail")
-        self.assertEqual(f_version.exists(), True)
-        self.assertEqual(f_version_thumb.exists(), True)
+        self.assertEqual(f_version.exists, True)
+        self.assertEqual(f_version_thumb.exists, True)
         self.assertEqual(f_version.path, "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")
         self.assertEqual(f_version_thumb.path, "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg")
 

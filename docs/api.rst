@@ -243,7 +243,7 @@ Datetime object::
 
 ``True``, if the path exists, ``False`` otherwise::
 
-    >>> fileobject.exists()
+    >>> fileobject.exists
     True
 
 Path and URL attributes

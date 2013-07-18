@@ -84,11 +84,11 @@ class FileListing():
         return map(operator.getitem, intermed, (-1,) * len(intermed))
 
     _is_folder_stored = None
-    def _is_folder(self):
+    @property
+    def is_folder(self):
         if self._is_folder_stored == None:
             self._is_folder_stored = self.site.storage.isdir(self.path)
         return self._is_folder_stored
-    is_folder = property(_is_folder)
 
     def listing(self):
         "List all files for path"
@@ -264,7 +264,8 @@ class FileObject():
     # exists
 
     _filetype_stored = None
-    def _filetype(self):
+    @property
+    def filetype(self):
         "Filetype as defined with EXTENSIONS"
         if self._filetype_stored != None:
             return self._filetype_stored
@@ -273,38 +274,38 @@ class FileObject():
         else:
             self._filetype_stored = self._get_file_type()
         return self._filetype_stored
-    filetype = property(_filetype)
     
     _filesize_stored = None
-    def _filesize(self):
+    @property
+    def filesize(self):
         "Filesize in bytes"
         if self._filesize_stored != None:
             return self._filesize_stored
-        if self.exists():
+        if self.exists:
             self._filesize_stored = self.site.storage.size(self.path)
             return self._filesize_stored
         return None
-    filesize = property(_filesize)
     
     _date_stored = None
-    def _date(self):
+    @property
+    def date(self):
         "Modified time (from site.storage) as float (mktime)"
         if self._date_stored != None:
             return self._date_stored
-        if self.exists():
+        if self.exists:
             self._date_stored = time.mktime(self.site.storage.modified_time(self.path).timetuple())
             return self._date_stored
         return None
-    date = property(_date)
     
-    def _datetime(self):
+    @property
+    def datetime(self):
         "Modified time (from site.storage) as datetime"
         if self.date:
             return datetime.datetime.fromtimestamp(self.date)
         return None
-    datetime = property(_datetime)
 
     _exists_stored = None
+    @property
     def exists(self):
         "True, if the path exists, False otherwise"
         if self._exists_stored == None:
@@ -318,25 +319,25 @@ class FileObject():
     # dirname
     # url
     
-    def _path_relative_directory(self):
+    @property
+    def path_relative_directory(self):
         "Path relative to site.directory"
         return path_strip(self.path, self.site.directory)
-    path_relative_directory = property(_path_relative_directory)
 
-    def _path_full(self):
+    @property
+    def path_full(self):
         "Absolute path as defined with site.storage"
         return self.site.storage.path(self.path)
-    path_full = property(_path_full)
 
-    def _dirname(self):
+    @property
+    def dirname(self):
         "The directory (not including site.directory)"
         return os.path.dirname(self.path_relative_directory)
-    dirname = property(_dirname)
 
-    def _url(self):
+    @property
+    def url(self):
         "URL for the file/folder as defined with site.storage"
         return self.site.storage.url(self.path)
-    url = property(_url)
 
     # IMAGE ATTRIBUTES
     # dimensions
@@ -346,7 +347,8 @@ class FileObject():
     # orientation
 
     _dimensions_stored = None
-    def _dimensions(self):
+    @property
+    def dimensions(self):
         "Image dimensions as a tuple"
         if self.filetype != 'Image':
             return None
@@ -358,30 +360,30 @@ class FileObject():
         except:
             pass
         return self._dimensions_stored
-    dimensions = property(_dimensions)
 
-    def _width(self):
+    @property
+    def width(self):
         "Image width in px"
         if self.dimensions:
             return self.dimensions[0]
         return None
-    width = property(_width)
     
-    def _height(self):
+    @property
+    def height(self):
         "Image height in px"
         if self.dimensions:
             return self.dimensions[1]
         return None
-    height = property(_height)
 
-    def _aspectratio(self):
+    @property
+    def aspectratio(self):
         "Aspect ratio (float format)"
         if self.dimensions:
             return float(self.width)/float(self.height)
         return None
-    aspectratio = property(_aspectratio)
     
-    def _orientation(self):
+    @property
+    def orientation(self):
         "Image orientation, either 'Landscape' or 'Portrait'"
         if self.dimensions:
             if self.dimensions[0] >= self.dimensions[1]:
@@ -389,7 +391,6 @@ class FileObject():
             else:
                 return "Portrait"
         return None
-    orientation = property(_orientation)
     
     # FOLDER ATTRIBUTES
     # directory
@@ -397,37 +398,38 @@ class FileObject():
     # is_folder
     # is_empty
     
-    def _directory(self):
+    @property
+    def directory(self):
         "Folder(s) relative from site.directory" # FIXME: needed/rename?
         return path_strip(self.path, self.site.directory)
-    directory = property(_directory)
     
-    def _folder(self):
+    @property
+    def folder(self):
         "Parent folder(s)" # FIXME: needed/rename?
         return os.path.dirname(path_strip(os.path.join(self.head,''), self.site.directory))
-    folder = property(_folder)
     
     _is_folder_stored = None
-    def _is_folder(self):
+    @property
+    def is_folder(self):
         "True, if path is a folder"
         if self._is_folder_stored == None:
             self._is_folder_stored = self.site.storage.isdir(self.path)
         return self._is_folder_stored
-    is_folder = property(_is_folder)
     
-    def _is_empty(self):
+    @property
+    def is_empty(self):
         "True, if folder is empty"
         if self.is_folder:
             dirs, files = self.site.storage.listdir(self.path)
             if not dirs and not files:
                 return True
         return False
-    is_empty = property(_is_empty)
     
     # ORIGINAL
     # original_filename
     # original
 
+    @property
     def original_filename(self):
         "Get the filename of an original image from a version"
         tmp = self.filename_root.split("_")
@@ -435,13 +437,13 @@ class FileObject():
             return u"%s%s" % (self.filename_root.replace("_%s" % tmp[len(tmp)-1], ""), self.extension)
         return self.filename
 
-    def _original(self):
+    @property
+    def original(self):
         "Returns the original FileObject"
         if self.is_version:
             relative_path = self.head.replace(self.versions_basedir, "").lstrip("/")
-            return FileObject(os.path.join(self.site.directory, relative_path, self.original_filename()), site=self.site)
+            return FileObject(os.path.join(self.site.directory, relative_path, self.original_filename), site=self.site)
         return self
-    original = property(_original)
 
     # VERSIONS
     # is_version
@@ -453,15 +455,16 @@ class FileObject():
     # version_path(suffix)
     # version_generate(suffix)
     
-    def _is_version(self):
+    @property
+    def is_version(self):
         "True if file is a version, false otherwise"
         tmp = self.filename_root.split("_")
         if tmp[len(tmp)-1] in VERSIONS:
             return True
         return False
-    is_version = property(_is_version)
     
-    def _versions_basedir(self):
+    @property
+    def versions_basedir(self):
         "Main directory for storing versions (either VERSIONS_BASEDIR or site.directory)"
         if VERSIONS_BASEDIR:
             return VERSIONS_BASEDIR
@@ -469,7 +472,6 @@ class FileObject():
             return self.site.directory
         else:
             return ""
-    versions_basedir = property(_versions_basedir)
     
     def versions(self):
         "List of versions (not checking if they actually exist)"
