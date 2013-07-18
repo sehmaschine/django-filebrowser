@@ -26,7 +26,6 @@ from django.contrib.admin.templatetags.admin_static import static
 from filebrowser.settings import DIRECTORY, VERSIONS
 from filebrowser.base import FileObject
 from filebrowser.sites import get_site_dict
-from filebrowser.functions import get_version_path
 
 # This module will test all FileBrowser sites with the following app_name
 APP_NAME = 'filebrowser'
@@ -128,7 +127,7 @@ def test_detail(test):
     # At this moment all versions should be generated. Check that.
     pre_rename_versions = []
     for version_suffix in VERSIONS:
-        path = get_version_path(test.testfile.path, version_suffix, site=test.site)
+        path = test.testfile.version_path(version_suffix)
         pre_rename_versions.append(path)
         test.assertTrue(test.site.storage.exists(path))
     
@@ -151,7 +150,7 @@ def test_detail(test):
 
     # Check if all post–rename versions were deleted (resp. not being generated):
     for version_suffix in VERSIONS:
-        path = get_version_path(test.testfile.path, version_suffix, site=test.site)
+        path = test.testfile.version_path(version_suffix)
         test.assertFalse(test.site.storage.exists(path))
 
 def test_delete_confirm(test):

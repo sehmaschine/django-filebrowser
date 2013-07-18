@@ -10,10 +10,8 @@ import shutil
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.utils.encoding import filepath_to_uri
-from django.test.utils import override_settings
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import *
 import filebrowser
 from filebrowser.base import FileObject, FileListing
 from filebrowser.sites import site
@@ -113,7 +111,6 @@ class FileObjectAttributeTests(TestCase):
         self.original_path = filebrowser.base.os.path
         self.original_directory = site.directory
         self.original_versions_basedir = filebrowser.base.VERSIONS_BASEDIR
-        self.original_functions_versions_basedir = filebrowser.functions.VERSIONS_BASEDIR
         self.original_versions = filebrowser.base.VERSIONS
         self.original_admin_versions = filebrowser.base.ADMIN_VERSIONS
 
@@ -122,7 +119,7 @@ class FileObjectAttributeTests(TestCase):
         # and we cannot rely on filebrowser.settings
         # FIXME: find better directory name
         self.directory = "fb_test_directory/"
-        self.directory_path = os.path.join(MEDIA_ROOT, self.directory)
+        self.directory_path = os.path.join(site.storage.location, self.directory)
         if os.path.exists(self.directory_path):
             self.fail("Test directory already exists.")
         else:
@@ -130,10 +127,18 @@ class FileObjectAttributeTests(TestCase):
         # set site directory
         site.directory = self.directory
 
+        # VERSIONS
+        self.versions = "_versionstestdirectory"
+        self.versions_path = os.path.join(site.storage.location, self.versions)
+        if os.path.exists(self.versions_path):
+            self.fail("Versions directory already exists.")
+        else:
+            os.makedirs(self.versions_path)
+
         # create temporary test folder and move testimage
         # FIXME: find better path names
         self.tmpdir_name = os.path.join("fb_tmp_dir", "fb_tmp_dir_sub")
-        self.tmpdir_path = os.path.join(MEDIA_ROOT, self.directory, self.tmpdir_name)
+        self.tmpdir_path = os.path.join(site.storage.location, self.directory, self.tmpdir_name)
         if os.path.exists(self.tmpdir_path):
             self.fail("Temporary testfolder already exists.")
         else:
@@ -164,6 +169,7 @@ class FileObjectAttributeTests(TestCase):
         # extension
         # mimetype
         """
+        self.assertEqual(self.f_image.path, "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg")
         self.assertEqual(self.f_image.head, 'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub')
         self.assertEqual(self.f_image.filename, 'testimage.jpg')
         self.assertEqual(self.f_image.filename_lower, 'testimage.jpg')
@@ -192,13 +198,15 @@ class FileObjectAttributeTests(TestCase):
 
         # path (see init)
         # path_relative_directory
+        # path_full
         # dirname
         # url
         """
         self.assertEqual(self.f_image.path, "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg")
         self.assertEqual(self.f_image.path_relative_directory, "fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg")
+        self.assertEqual(self.f_image.path_full, os.path.join(site.storage.location, site.directory, "fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg"))
         self.assertEqual(self.f_image.dirname, "fb_tmp_dir/fb_tmp_dir_sub")
-        self.assertEqual(self.f_image.url, os.path.join(MEDIA_URL, "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg"))
+        self.assertEqual(self.f_image.url, site.storage.url(self.f_image.path))
 
     def test_image_attributes(self):
         """
@@ -237,7 +245,7 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(self.f_folder.is_folder, True)
         self.assertEqual(self.f_folder.is_empty, False)
 
-    def test_version_attributes(self):
+    def test_version_attributes_1(self):
         """
         FileObject version attributes/methods
         without versions_basedir
@@ -248,11 +256,11 @@ class FileObjectAttributeTests(TestCase):
         # versions
         # admin_versions
         # version_name(suffix)
+        # version_path(suffix)
         # version_generate(suffix)
         """
         # new settings
         filebrowser.base.VERSIONS_BASEDIR = ""
-        filebrowser.functions.VERSIONS_BASEDIR = ""
         filebrowser.base.VERSIONS = {
             'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
             'large': {'verbose_name': 'Large', 'width': 600, 'height': '', 'opts': ''},
@@ -268,6 +276,7 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(self.f_image.versions(), version_list)
         self.assertEqual(self.f_image.admin_versions(), admin_version_list)
         self.assertEqual(self.f_image.version_name("large"), "testimage_large.jpg")
+        self.assertEqual(self.f_image.version_path("large"), "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")
 
         # version does not exist yet
         f_version = FileObject(os.path.join(self.directory, self.tmpdir_name, "testimage_large.jpg"), site=site)
@@ -277,10 +286,11 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(f_version.path, "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")
         self.assertEqual(f_version.exists(), True)
         self.assertEqual(f_version.is_version, True)
+        self.assertEqual(f_version.original_filename(), "testimage.jpg")
         self.assertEqual(f_version.original.path, self.f_image.path)
         # FIXME: versions should not have versions or admin_versions
 
-    def test_version_basedir_attributes(self):
+    def test_version_attributes_2(self):
         """
         FileObject version attributes/methods
         with versions_basedir
@@ -295,7 +305,6 @@ class FileObjectAttributeTests(TestCase):
         """
         # new settings
         filebrowser.base.VERSIONS_BASEDIR = "fb_test_directory/_versions"
-        filebrowser.functions.VERSIONS_BASEDIR = "fb_test_directory/_versions"
         filebrowser.base.VERSIONS = {
             'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
             'large': {'verbose_name': 'Large', 'width': 600, 'height': '', 'opts': ''},
@@ -311,6 +320,7 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(self.f_image.versions(), version_list)
         self.assertEqual(self.f_image.admin_versions(), admin_version_list)
         self.assertEqual(self.f_image.version_name("large"), "testimage_large.jpg")
+        self.assertEqual(self.f_image.version_path("large"), "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")
 
         # version does not exist yet
         f_version = FileObject(os.path.join(self.directory, self.tmpdir_name, "testimage_large.jpg"), site=site)
@@ -320,6 +330,51 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(f_version.path, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")
         self.assertEqual(f_version.exists(), True)
         self.assertEqual(f_version.is_version, True)
+        self.assertEqual(f_version.original_filename(), "testimage.jpg")
+        self.assertEqual(f_version.original.path, self.f_image.path)
+        # FIXME: versions should not have versions or admin_versions
+
+    def test_version_attributes_3(self):
+        """
+        FileObject version attributes/methods
+        with alternative versions_basedir
+
+        # is_version
+        # original
+        # versions_basedir
+        # versions
+        # admin_versions
+        # version_name(suffix)
+        # version_generate(suffix)
+        """
+        # new settings
+        filebrowser.base.VERSIONS_BASEDIR = "_versionstestdirectory"
+        filebrowser.base.VERSIONS = {
+            'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
+            'large': {'verbose_name': 'Large', 'width': 600, 'height': '', 'opts': ''},
+        }
+        filebrowser.base.ADMIN_VERSIONS = ['large']
+        # expected test results
+        version_list = ['_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg', '_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg']
+        admin_version_list = ['_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
+
+        self.assertEqual(self.f_image.is_version, False)
+        self.assertEqual(self.f_image.original.path, self.f_image.path)
+        self.assertEqual(self.f_image.versions_basedir, "_versionstestdirectory")
+        self.assertEqual(self.f_image.versions(), version_list)
+        self.assertEqual(self.f_image.admin_versions(), admin_version_list)
+        self.assertEqual(self.f_image.version_name("large"), "testimage_large.jpg")
+        self.assertEqual(self.f_image.version_path("large"), "_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")
+
+        # version does not exist yet
+        f_version = FileObject(os.path.join(self.directory, self.tmpdir_name, "testimage_large.jpg"), site=site)
+        self.assertEqual(f_version.exists(), False)
+        # generate version
+        f_version = self.f_image.version_generate("large")
+        self.assertEqual(f_version.path, "_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")
+        self.assertEqual(f_version.exists(), True)
+        self.assertEqual(f_version.is_version, True)
+        self.assertEqual(f_version.original_filename(), "testimage.jpg")
         self.assertEqual(f_version.original.path, self.f_image.path)
         # FIXME: versions should not have versions or admin_versions
 
@@ -334,7 +389,6 @@ class FileObjectAttributeTests(TestCase):
 
         # new settings
         filebrowser.base.VERSIONS_BASEDIR = ""
-        filebrowser.functions.VERSIONS_BASEDIR = ""
         filebrowser.base.VERSIONS = {
             'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
             'large': {'verbose_name': 'Large', 'width': 600, 'height': '', 'opts': ''},
@@ -368,12 +422,12 @@ class FileObjectAttributeTests(TestCase):
         filebrowser.base.os.path = self.original_path
         site.directory = self.original_directory
         filebrowser.base.VERSIONS_BASEDIR = self.original_versions_basedir
-        filebrowser.functions.VERSIONS_BASEDIR = self.original_functions_versions_basedir
         filebrowser.base.VERSIONS = self.original_versions
         filebrowser.base.ADMIN_VERSIONS = self.original_admin_versions
 
         # remove temporary directory and test folder
         shutil.rmtree(self.directory_path)
+        shutil.rmtree(self.versions_path)
 
 
 class FileListingTests(TestCase):
@@ -393,7 +447,6 @@ class FileListingTests(TestCase):
         self.original_path = filebrowser.base.os.path
         self.original_directory = site.directory
         self.original_versions_basedir = filebrowser.base.VERSIONS_BASEDIR
-        self.original_functions_versions_basedir = filebrowser.functions.VERSIONS_BASEDIR
         self.original_versions = filebrowser.base.VERSIONS
         self.original_admin_versions = filebrowser.base.ADMIN_VERSIONS
 
@@ -402,7 +455,7 @@ class FileListingTests(TestCase):
         # and we cannot rely on filebrowser.settings
         # FIXME: find better directory name
         self.directory = "fb_test_directory/"
-        self.directory_path = os.path.join(MEDIA_ROOT, self.directory)
+        self.directory_path = os.path.join(site.storage.location, self.directory)
         if os.path.exists(self.directory_path):
             self.fail("Test directory already exists.")
         else:
@@ -413,7 +466,7 @@ class FileListingTests(TestCase):
         # create temporary test folder and move testimage
         # FIXME: find better path names
         self.tmpdir_name = os.path.join("fb_tmp_dir", "fb_tmp_dir_sub")
-        self.tmpdir_path = os.path.join(MEDIA_ROOT, self.directory, self.tmpdir_name)
+        self.tmpdir_path = os.path.join(site.storage.location, self.directory, self.tmpdir_name)
         if os.path.exists(self.tmpdir_path):
             self.fail("Temporary testfolder already exists.")
         else:
@@ -505,7 +558,6 @@ class FileListingTests(TestCase):
         filebrowser.base.os.path = self.original_path
         site.directory = self.original_directory
         filebrowser.base.VERSIONS_BASEDIR = self.original_versions_basedir
-        filebrowser.functions.VERSIONS_BASEDIR = self.original_functions_versions_basedir
         filebrowser.base.VERSIONS = self.original_versions
         filebrowser.base.ADMIN_VERSIONS = self.original_admin_versions
 
