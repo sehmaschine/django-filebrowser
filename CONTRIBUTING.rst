@@ -16,7 +16,7 @@ But be aware that some of the tests are copying files to the location of your st
 2. Add Details
 --------------
 
-If you add a ticket, you need to tell us which version of the FileBrowser you're using.
+If you add a ticket, you need to tell us which **versions of the FileBrowser, Grappelli and Django** you're using.
 Otherwise we won't be able to review the ticket.
 
 3. Example
