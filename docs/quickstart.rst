@@ -13,8 +13,7 @@ Requirements
 
 * Django 1.4/1.5, http://www.djangoproject.com
 * Grappelli 2.4, https://github.com/sehmaschine/django-grappelli
-* PIL, http://www.pythonware.com/products/pil/
-* Instead of PIL, we recommend using Pillow, https://github.com/python-imaging/Pillow
+* Pillow, https://github.com/python-imaging/Pillow
 
 Download
 --------
@@ -58,7 +57,7 @@ Collect the media files::
 Settings
 --------
 
-Check the :ref:`settings`. You need to add a folder "uploads" within your ``MEDIA_ROOT`` when using the default settings.
+Check the :ref:`settings`. You need to add a folder "uploads" within ``site.storage.location`` when using the default settings.
 
 Testing
 -------
@@ -66,6 +65,9 @@ Testing
 Run the |filebrowser| tests::
 
     python manage.py test filebrowser
+
+.. warning::
+    Please note that the tests will copy files to your filesystem.
 
 Start the devserver and login to your admin site::
 

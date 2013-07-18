@@ -26,6 +26,9 @@ Start the shell and type::
 
     python manage.py test filebrowser
 
+.. warning::
+    Please note that the tests will copy files to your filesystem.
+
 Check issues
 ^^^^^^^^^^^^
 
