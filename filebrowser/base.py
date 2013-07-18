@@ -1,25 +1,29 @@
 # coding: utf-8
 
 # PYTHON IMPORTS
-import os, shutil, re, datetime, time, platform
+import os, re, datetime, time, platform
 import mimetypes
+from tempfile import NamedTemporaryFile
 
 # DJANGO IMPORTS
 from django.utils.translation import ugettext as _
+from django.core.files import File
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, FORCE_PLACEHOLDER, SHOW_PLACEHOLDER, STRICT_PIL
-from filebrowser.functions import get_version_path, get_original_path, version_generator, path_strip
+from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, FORCE_PLACEHOLDER, SHOW_PLACEHOLDER, STRICT_PIL, IMAGE_MAXBLOCK
+from filebrowser.utils import path_strip, scale_and_crop
 from django.utils.encoding import smart_str, smart_unicode
 
 # PIL import
 if STRICT_PIL:
-    from PIL import Image
+    from PIL import Image, ImageFile
 else:
     try:
-        from PIL import Image
+        from PIL import Image, ImageFile
     except ImportError:
-        import Image
+        import Image, ImageFile
+
+ImageFile.MAXBLOCK = IMAGE_MAXBLOCK # default is 64k
 
 
 class FileListing():
@@ -241,9 +245,9 @@ class FileObject():
         return len(self.path)
 
     # HELPER METHODS
-    # get_file_type
+    # _get_file_type
 
-    def get_file_type(self):
+    def _get_file_type(self):
         "Get file type as defined in EXTENSIONS."
         file_type = ''
         for k,v in EXTENSIONS.iteritems():
@@ -267,7 +271,7 @@ class FileObject():
         if self.is_folder:
             self._filetype_stored = 'Folder'
         else:
-            self._filetype_stored = self.get_file_type()
+            self._filetype_stored = self._get_file_type()
         return self._filetype_stored
     filetype = property(_filetype)
     
@@ -315,12 +319,12 @@ class FileObject():
     # url
     
     def _path_relative_directory(self):
-        "Server path relative to site.directory"
+        "Path relative to site.directory"
         return path_strip(self.path, self.site.directory)
     path_relative_directory = property(_path_relative_directory)
 
     def _path_full(self):
-        "Full path as defined with site.storage"
+        "Absolute path as defined with site.storage"
         return self.site.storage.path(self.path)
     path_full = property(_path_full)
 
@@ -420,6 +424,25 @@ class FileObject():
         return False
     is_empty = property(_is_empty)
     
+    # ORIGINAL
+    # original_filename
+    # original
+
+    def original_filename(self):
+        "Get the filename of an original image from a version"
+        tmp = self.filename_root.split("_")
+        if tmp[len(tmp)-1] in VERSIONS:
+            return u"%s%s" % (self.filename_root.replace("_%s" % tmp[len(tmp)-1], ""), self.extension)
+        return self.filename
+
+    def _original(self):
+        "Returns the original FileObject"
+        if self.is_version:
+            relative_path = self.head.replace(self.versions_basedir, "").lstrip("/")
+            return FileObject(os.path.join(self.site.directory, relative_path, self.original_filename()), site=self.site)
+        return self
+    original = property(_original)
+
     # VERSIONS
     # is_version
     # original
@@ -427,6 +450,7 @@ class FileObject():
     # versions
     # admin_versions
     # version_name(suffix)
+    # version_path(suffix)
     # version_generate(suffix)
     
     def _is_version(self):
@@ -434,16 +458,8 @@ class FileObject():
         tmp = self.filename_root.split("_")
         if tmp[len(tmp)-1] in VERSIONS:
             return True
-        else:
-            return False
+        return False
     is_version = property(_is_version)
-    
-    def _original(self):
-        "Returns the original FileObject"
-        if self.is_version:
-            return FileObject(get_original_path(self.path, site=self.site), site=self.site)
-        return self
-    original = property(_original)
     
     def _versions_basedir(self):
         "Main directory for storing versions (either VERSIONS_BASEDIR or site.directory)"
@@ -472,25 +488,59 @@ class FileObject():
         return version_list
 
     def version_name(self, version_suffix):
-        "Name of a version, depending on the suffix"
+        "Name of a version"
         return self.filename_root + "_" + version_suffix + self.extension
 
+    def version_path(self, version_suffix):
+        "Path to a version (relative to storage location)"
+        return os.path.join(self.versions_basedir, self.folder, self.version_name(version_suffix))
+
     def version_generate(self, version_suffix):
-        "Generate a version, depending on the suffix"
+        "Generate a version"
         path = self.path
-
-        if FORCE_PLACEHOLDER or (
-            SHOW_PLACEHOLDER and not self.site.storage.isfile(path)):
+        if FORCE_PLACEHOLDER or (SHOW_PLACEHOLDER and not self.site.storage.isfile(path)):
             path = PLACEHOLDER
-        
-        version_path = get_version_path(path, version_suffix, site=self.site)
-
+        version_path = self.version_path(version_suffix)
         if not self.site.storage.isfile(version_path):
-            version_path = version_generator(path, version_suffix, site=self.site)
+            version_path = self._generate_version(version_suffix)
         elif self.site.storage.modified_time(path) > self.site.storage.modified_time(version_path):
-            version_path = version_generator(path, version_suffix, force=True, site=self.site)
-
+            version_path = self._generate_version(version_suffix)
         return FileObject(version_path, site=self.site)
+
+    def _generate_version(self, version_suffix):
+        """
+        Generate Version for an Image.
+        value has to be a path relative to the storage location.
+        """
+        
+        tmpfile = File(NamedTemporaryFile())
+
+        try:
+            f = self.site.storage.open(self.path)
+        except IOError:
+            return ""
+        im = Image.open(f)
+        version_path = self.version_path(version_suffix)
+        version_dir, version_basename = os.path.split(version_path)
+        root, ext = os.path.splitext(version_basename)
+        version = scale_and_crop(im, VERSIONS[version_suffix]['width'], VERSIONS[version_suffix]['height'], VERSIONS[version_suffix]['opts'])
+        if not version:
+            version = im
+        # version methods as defined with VERSIONS
+        if 'methods' in VERSIONS[version_suffix].keys():
+            for m in VERSIONS[version_suffix]['methods']:
+                if callable(m):
+                    version = m(version)
+        # save version
+        try:
+            version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1] != '.gif'))
+        except IOError:
+            version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=VERSION_QUALITY)
+        # remove old version, if any
+        if version_path != self.site.storage.get_available_name(version_path):
+            self.site.storage.delete(version_path)
+        self.site.storage.save(version_path, tmpfile)
+        return version_path
     
     # DELETE FUNCTIONS
     # delete

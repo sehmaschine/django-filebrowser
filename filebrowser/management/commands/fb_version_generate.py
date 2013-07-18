@@ -5,27 +5,36 @@ import os, re
 
 # DJANGO IMPORTS
 from django.core.management.base import BaseCommand, CommandError
+from django.conf import settings
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import EXTENSION_LIST, EXCLUDE, MEDIA_ROOT, DIRECTORY, VERSIONS, EXTENSIONS
-from filebrowser.functions import version_generator
+from filebrowser.settings import EXTENSION_LIST, EXCLUDE, DIRECTORY, VERSIONS, EXTENSIONS
+from filebrowser.base import FileListing, FileObject
+
+
+filter_re = []
+for exp in EXCLUDE:
+   filter_re.append(re.compile(exp))
+for k,v in VERSIONS.iteritems():
+    exp = (r'_%s(%s)') % (k, '|'.join(EXTENSION_LIST))
+    filter_re.append(re.compile(exp))
 
 
 class Command(BaseCommand):
     args = '<media_path>'
-    help = "(Re)Generate Image-Versions within FILEBROWSER_DIRECTORY/MEDIA_ROOT."
+    help = "(Re)Generate image versions."
     
     def handle(self, *args, **options):
         media_path = ""
         
         if len(args):
             media_path = args[0]
-            path = os.path.join(MEDIA_ROOT, media_path)
+            path = media_path
         else:
-            path = os.path.join(MEDIA_ROOT, DIRECTORY)
+            path = DIRECTORY
         
-        if not os.path.isdir(path):
-            raise CommandError('<media_path> must be a directory in MEDIA_ROOT (If you don\'t add a media_path the default path is FILEBROWSER_DIRECTORY).\n"%s" is no directory.' % path);
+        if not os.path.isdir(os.path.join(settings.MEDIA_ROOT, path)):
+            raise CommandError('<media_path> must be a directory in MEDIA_ROOT (If you don\'t add a media_path the default path is DIRECTORY).\n"%s" is no directory.' % path);
         
         # get version name
         while 1:
@@ -47,41 +56,45 @@ class Command(BaseCommand):
                     self.stderr.write('Error: Version "%s" doesn\'t exist.\n' % version_name)
                     version_name = None
                     continue
+
+        # filelisting
+        filelisting = FileListing(path, filter_func=self.filter_images) # FIXME filterfunc: no hidden files, exclude list, no versions, just images!
+        for fileobject in filelisting.files_walk_filtered():
+            if fileobject.filetype == "Image":
+                if selected_version:
+                    self.stdout.write('generating version "%s" for: %s\n' % (selected_version, fileobject.path))
+                    versionobject = fileobject.version_generate(selected_version) # FIXME force?
+                else:
+                    self.stdout.write('generating all versions for: %s\n' % fileobject.path)
+                    for version in VERSIONS:
+                        versionobject = fileobject.version_generate(selected_version) # FIXME force?
         
-        # Precompile regular expressions
-        filter_re = []
-        for exp in EXCLUDE:
-           filter_re.append(re.compile(exp))
-        for k,v in VERSIONS.iteritems():
-            exp = (r'_%s(%s)') % (k, '|'.join(EXTENSION_LIST))
-            filter_re.append(re.compile(exp))
-        
-        # walkt throu the filebrowser directory
-        # for all/new files (except file versions itself and excludes)
-        for dirpath,dirnames,filenames in os.walk(path, followlinks=True):
-            rel_dir = os.path.relpath(dirpath, os.path.realpath(MEDIA_ROOT))
-            for filename in filenames:
-                filtered = False
-                # no "hidden" files (stating with ".")
-                if filename.startswith('.'):
-                    continue
-                # check the exclude list
-                for re_prefix in filter_re:
-                    if re_prefix.search(filename):
-                        filtered = True
-                if filtered:
-                    continue
-                (tmp, extension) = os.path.splitext(filename)
-                if extension in EXTENSIONS["Image"]:
-                    self.createVersions(os.path.join(rel_dir, filename), selected_version)
-    
-    def createVersions(self, path, selected_version):
-        if selected_version:
-            self.stdout.write('generating version "%s" for: %s\n' % (selected_version, path))
-            version_generator(path, selected_version, True)
-        else:
-            self.stdout.write('generating all versions for: %s\n' % path)
-            for version in VERSIONS:
-                version_generator(path, version, True)
+        # # walkt throu the filebrowser directory
+        # # for all/new files (except file versions itself and excludes)
+        # for dirpath,dirnames,filenames in os.walk(path, followlinks=True):
+        #     rel_dir = os.path.relpath(dirpath, os.path.realpath(settings.MEDIA_ROOT))
+        #     for filename in filenames:
+        #         filtered = False
+        #         # no "hidden" files (stating with ".")
+        #         if filename.startswith('.'):
+        #             continue
+        #         # check the exclude list
+        #         for re_prefix in filter_re:
+        #             if re_prefix.search(filename):
+        #                 filtered = True
+        #         if filtered:
+        #             continue
+        #         (tmp, extension) = os.path.splitext(filename)
+        #         if extension in EXTENSIONS["Image"]:
+        #             self.createVersions(os.path.join(rel_dir, filename), selected_version)
+
+    def filter_images(self, item):
+        filtered = item.filename.startswith('.')
+        for re_prefix in filter_re:
+            if re_prefix.search(item.filename):
+                filtered = True
+        if filtered:
+            return False
+        return True
 
 

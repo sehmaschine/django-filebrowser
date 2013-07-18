@@ -5,9 +5,10 @@ import os, re
 
 # DJANGO IMPORTS
 from django.core.management.base import BaseCommand, CommandError
+from django.conf import settings
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import EXTENSION_LIST, EXCLUDE, MEDIA_ROOT, DIRECTORY, VERSIONS, EXTENSIONS
+from filebrowser.settings import EXTENSION_LIST, EXCLUDE, DIRECTORY, VERSIONS, EXTENSIONS
 
 
 class Command(BaseCommand):
@@ -21,7 +22,7 @@ class Command(BaseCommand):
         if len(args):
             media_path = args[0]
         
-        path = os.path.join(MEDIA_ROOT, media_path)
+        path = os.path.join(settings.MEDIA_ROOT, media_path)
         
         if not os.path.isdir(path):
             raise CommandError('<media_path> must be a directory in MEDIA_ROOT. "%s" is no directory.' % path);
