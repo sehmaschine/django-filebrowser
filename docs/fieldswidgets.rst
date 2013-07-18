@@ -28,7 +28,7 @@ Attributes
     The FileBrowser site you want to use with this field. Defaults to the main site, if not given.
 
 ``directory`` (optional)
-    Subdirectory of ``DIRECTORY``. If ``DIRECTORY`` is not defined, subdirectory of ``MEDIA_ROOT``. Do not prepend a slash.
+    Subdirectory of ``site.directory``. If ``site.directory`` is not defined, subdirectory of ``site.storage.location``. Do not prepend a slash.
 
 ``extensions`` (optional)
     List of allowed extensions.
@@ -75,7 +75,7 @@ If you want to show a Thumbnail in the Changelist, you can define a Model-/Admin
 Using the FileBrowseField with TinyMCE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You can also replace the TinyMCE Image/File Manager with the FileBrowser. What you have to do is a FileBrowser Callback. There's an example in /media/js/ called TinyMCEAdmin.js (a TinyMCE Configuration File). You can copy the FileBrowserCallback to your own file, take a look at http://wiki.moxiecode.com/index.php/TinyMCE:Custom_filebrowser or just use tinymce_setup.js (which comes with django-grappelli).
+You can also replace the TinyMCE Image/File Manager with the FileBrowser. What you have to do is a FileBrowser Callback. There's an example in /media/js/ called TinyMCEAdmin.js (a TinyMCE Configuration File). You can copy the FileBrowserCallback to your own file, take a look at http://www.tinymce.com/wiki.php/Configuration:file_browser_callback or just use tinymce_setup.js (which comes with django-grappelli).
 
 Just add these lines to your AdminModel::
 
