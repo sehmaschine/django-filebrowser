@@ -2,13 +2,12 @@
 
 # PYTHON IMPORTS
 import os, re
-from time import gmtime, strftime, localtime, mktime, time
-from types import MethodType
+from time import gmtime, strftime, localtime, time
 
 # DJANGO IMPORTS
 from django.shortcuts import render_to_response, HttpResponse
 from django.template import RequestContext as Context
-from django.http import HttpResponseRedirect, HttpResponseBadRequest, Http404
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
@@ -17,10 +16,8 @@ from django.core.urlresolvers import reverse, get_urlconf, get_resolver
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.utils.encoding import smart_unicode
 from django.contrib import messages
-from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from django.core.files.base import ContentFile
+from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import DefaultStorage, default_storage, FileSystemStorage
-from django.core.exceptions import ImproperlyConfigured
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import *
@@ -268,7 +265,7 @@ class FileBrowserSite(object):
         for exp in EXCLUDE:
            filter_re.append(re.compile(exp))
         for k,v in VERSIONS.iteritems():
-            exp = (r'_%s(%s)') % (k, '|'.join(EXTENSION_LIST))
+            exp = (r'_%s(%s)$') % (k, '|'.join(EXTENSION_LIST))
             filter_re.append(re.compile(exp))
 
         def filter_browse(item):
