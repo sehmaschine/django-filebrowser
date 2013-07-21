@@ -1,16 +1,15 @@
 # coding: utf-8
 
 # PYTHON IMPORTS
-import os, re, datetime, time, platform
+import os, datetime, time, platform
 import mimetypes
 from tempfile import NamedTemporaryFile
 
 # DJANGO IMPORTS
-from django.utils.translation import ugettext as _
 from django.core.files import File
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, FORCE_PLACEHOLDER, SHOW_PLACEHOLDER, STRICT_PIL, IMAGE_MAXBLOCK
+from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, PLACEHOLDER, FORCE_PLACEHOLDER, SHOW_PLACEHOLDER, STRICT_PIL, IMAGE_MAXBLOCK
 from filebrowser.utils import path_strip, scale_and_crop
 from django.utils.encoding import smart_str, smart_unicode
 
@@ -110,11 +109,11 @@ class FileListing():
         if dirs:
             for d in dirs:
                 self._walk(os.path.join(path, d), filelisting)
-                filelisting.extend([path_strip(os.path.join(path,d), self.site.directory)])
+                filelisting.extend([path_strip(os.path.join(path, d), self.site.directory)])
 
         if files:
             for f in files:
-                filelisting.extend([path_strip(os.path.join(path,f), self.site.directory)])
+                filelisting.extend([path_strip(os.path.join(path, f), self.site.directory)])
 
     
     def walk(self):
@@ -250,7 +249,7 @@ class FileObject():
     def _get_file_type(self):
         "Get file type as defined in EXTENSIONS."
         file_type = ''
-        for k,v in EXTENSIONS.iteritems():
+        for k, v in EXTENSIONS.iteritems():
             for extension in v:
                 if self.extension.lower() == extension.lower():
                     file_type = k

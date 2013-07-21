@@ -60,7 +60,7 @@ def get_site_dict(app_name='filebrowser'):
     # Get names of all deployed filebrowser sites with a give app_name
     deployed = get_resolver(get_urlconf()).app_dict[app_name]
     # Get the deployed subset from the cache
-    return dict((k,v) for k, v in _sites_cache[app_name].iteritems() if k in deployed)
+    return dict((k, v) for k, v in _sites_cache[app_name].iteritems() if k in deployed)
 
 
 def register_site(app_name, site_name, site):
@@ -98,25 +98,30 @@ def get_breadcrumbs(query, path):
     dir_query = ""
     if path:
         for item in path.split(os.sep):
-            dir_query = os.path.join(dir_query,item)
-            breadcrumbs.append([item,dir_query])
+            dir_query = os.path.join(dir_query, item)
+            breadcrumbs.append([item, dir_query])
     return breadcrumbs
 
 
-def get_filterdate(filterDate, dateTime):
+def get_filterdate(filter_date, date_time):
     """
     Get filterdate.
     """
     
     returnvalue = ''
-    dateYear = strftime("%Y", gmtime(dateTime))
-    dateMonth = strftime("%m", gmtime(dateTime))
-    dateDay = strftime("%d", gmtime(dateTime))
-    if filterDate == 'today' and int(dateYear) == int(localtime()[0]) and int(dateMonth) == int(localtime()[1]) and int(dateDay) == int(localtime()[2]): returnvalue = 'true'
-    elif filterDate == 'thismonth' and dateTime >= time()-2592000: returnvalue = 'true'
-    elif filterDate == 'thisyear' and int(dateYear) == int(localtime()[0]): returnvalue = 'true'
-    elif filterDate == 'past7days' and dateTime >= time()-604800: returnvalue = 'true'
-    elif filterDate == '': returnvalue = 'true'
+    date_year = strftime("%Y", gmtime(date_time))
+    date_month = strftime("%m", gmtime(date_time))
+    date_day = strftime("%d", gmtime(date_time))
+    if filter_date == 'today' and int(date_year) == int(localtime()[0]) and int(date_month) == int(localtime()[1]) and int(date_day) == int(localtime()[2]):
+        returnvalue = 'true'
+    elif filter_date == 'thismonth' and date_time >= time()-2592000:
+        returnvalue = 'true'
+    elif filter_date == 'thisyear' and int(date_year) == int(localtime()[0]):
+        returnvalue = 'true'
+    elif filter_date == 'past7days' and date_time >= time()-604800:
+        returnvalue = 'true'
+    elif filter_date == '':
+        returnvalue = 'true'
     return returnvalue
 
 
@@ -158,7 +163,15 @@ def handle_file_upload(path, file, site):
     return uploadedfile
 
 
+def filebrowser_view(view):
+    "Only let staff browse the files"
+    return staff_member_required(never_cache(view))
+
+
 class FileBrowserSite(object):
+    """
+    A filebrowser.site defines admin views for browsing your servers media files.
+    """
 
     def __init__(self, name=None, app_name='filebrowser', storage=default_storage):
         self.name = name
@@ -175,32 +188,32 @@ class FileBrowserSite(object):
         self.directory = DIRECTORY
     
     def _directory_get(self):
+        "Set directory"
         return self._directory
     
     def _directory_set(self, val):
+        "Get directory"
         self._directory = val
 
     directory = property(_directory_get, _directory_set)
 
-    def filebrowser_view(self, view):
-        return staff_member_required(never_cache(view))
-
     def get_urls(self):
+        "URLs for a filebrowser.site"
         try:
-            from django.conf.urls import url, patterns, include
+            from django.conf.urls import url, patterns
         except ImportError:
             # for Django version less then 1.4
-            from django.conf.urls.defaults import url, patterns, include
+            from django.conf.urls.defaults import url, patterns
 
         urlpatterns = patterns('',
             # filebrowser urls (views)
-            url(r'^browse/$', path_exists(self, self.filebrowser_view(self.browse)), name="fb_browse"),
-            url(r'^createdir/', path_exists(self, self.filebrowser_view(self.createdir)), name="fb_createdir"),
-            url(r'^upload/', path_exists(self, self.filebrowser_view(self.upload)), name="fb_upload"),
-            url(r'^delete_confirm/$', file_exists(self, path_exists(self, self.filebrowser_view(self.delete_confirm))), name="fb_delete_confirm"),
-            url(r'^delete/$', file_exists(self, path_exists(self, self.filebrowser_view(self.delete))), name="fb_delete"),
-            url(r'^detail/$', file_exists(self, path_exists(self, self.filebrowser_view(self.detail))), name="fb_detail"),
-            url(r'^version/$', file_exists(self, path_exists(self, self.filebrowser_view(self.version))), name="fb_version"),
+            url(r'^browse/$', path_exists(self, filebrowser_view(self.browse)), name="fb_browse"),
+            url(r'^createdir/', path_exists(self, filebrowser_view(self.createdir)), name="fb_createdir"),
+            url(r'^upload/', path_exists(self, filebrowser_view(self.upload)), name="fb_upload"),
+            url(r'^delete_confirm/$', file_exists(self, path_exists(self, filebrowser_view(self.delete_confirm))), name="fb_delete_confirm"),
+            url(r'^delete/$', file_exists(self, path_exists(self, filebrowser_view(self.delete))), name="fb_delete"),
+            url(r'^detail/$', file_exists(self, path_exists(self, filebrowser_view(self.detail))), name="fb_detail"),
+            url(r'^version/$', file_exists(self, path_exists(self, filebrowser_view(self.version))), name="fb_version"),
             # non-views
             url(r'^upload_file/$', staff_member_required(csrf_exempt(self._upload_file)), name="fb_do_upload"),
         )
@@ -255,21 +268,20 @@ class FileBrowserSite(object):
 
     @property
     def urls(self):
+        "filebrowser.site URLs"
         return self.get_urls(), self.app_name, self.name
 
     def browse(self, request):
-        """
-        Browse Files/Directories.
-        """
-
+        "Browse Files/Directories."
         filter_re = []
         for exp in EXCLUDE:
-           filter_re.append(re.compile(exp))
-        for k,v in VERSIONS.iteritems():
+            filter_re.append(re.compile(exp))
+        for k, v in VERSIONS.iteritems():
             exp = (r'_%s(%s)$') % (k, '|'.join(EXTENSION_LIST))
             filter_re.append(re.compile(exp))
 
         def filter_browse(item):
+            "Defining a browse filter"
             filtered = item.filename.startswith('.')
             for re_prefix in filter_re:
                 if re_prefix.search(item.filename):
@@ -336,9 +348,7 @@ class FileBrowserSite(object):
         }, context_instance=Context(request, current_app=self.name))
 
     def createdir(self, request):
-        """
-        Create Directory.
-        """
+        "Create Directory"
         from filebrowser.forms import CreateDirForm
         query = request.GET
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
@@ -374,11 +384,8 @@ class FileBrowserSite(object):
     
 
     def upload(self, request):
-        """
-        Multipe File Upload.
-        """
+        "Multipe File Upload."
         query = request.GET
-        path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
         
         return render_to_response('filebrowser/upload.html', {
             'query': query,
@@ -390,9 +397,7 @@ class FileBrowserSite(object):
         }, context_instance=Context(request, current_app=self.name))
 
     def delete_confirm(self, request):
-        """
-        Delete existing File/Directory.
-        """
+        "Delete existing File/Directory."
         query = request.GET
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
@@ -424,9 +429,7 @@ class FileBrowserSite(object):
         }, context_instance=Context(request, current_app=self.name))
 
     def delete(self, request):
-        """
-        Delete existing File/Directory.
-        """
+        "Delete existing File/Directory."
         query = request.GET
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
@@ -447,7 +450,6 @@ class FileBrowserSite(object):
     def detail(self, request):
         """
         Show detail page for a file.
-        
         Rename existing File/Directory (deletes existing Image Versions/Thumbnails).
         """
         from filebrowser.forms import ChangeForm
@@ -563,7 +565,7 @@ storage = DefaultStorage()
 site = FileBrowserSite(name='filebrowser', storage=storage)
 
 # Default actions
-from actions import *
+from filebrowser.actions import flip_horizontal, flip_vertical, rotate_90_clockwise, rotate_90_counterclockwise, rotate_180
 site.add_action(flip_horizontal)
 site.add_action(flip_vertical)
 site.add_action(rotate_90_clockwise)

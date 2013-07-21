@@ -16,18 +16,14 @@ from filebrowser.templatetags.fb_tags import query_helper
 
 
 def get_path(path, site=None):
-    """
-    Get path.
-    """
+    "Get path."
     if path.startswith('.') or os.path.isabs(path) or not site.storage.isdir(os.path.join(site.directory, path)):
         return None
     return path
 
 
 def get_file(path, filename, site=None):
-    """
-    Get file (or folder).
-    """
+    "Get file (or folder)."
     converted_path = smart_unicode(os.path.join(site.directory, path, filename))
     if not site.storage.isfile(converted_path) and not site.storage.isdir(converted_path):
         return None
@@ -35,9 +31,7 @@ def get_file(path, filename, site=None):
 
 
 def path_exists(site, function):
-    """
-    Check if the given path exists.
-    """
+    "Check if the given path exists."
     
     def decorator(request, *args, **kwargs):
         if get_path('', site=site) == None:
@@ -53,9 +47,7 @@ def path_exists(site, function):
 
 
 def file_exists(site, function):
-    """
-    Check if the given file exists.
-    """
+    "Check if the given file exists."
     
     def decorator(request, *args, **kwargs):
         file_path = get_file(request.GET.get('dir', ''), request.GET.get('filename', ''), site=site)
@@ -72,5 +64,3 @@ def file_exists(site, function):
             return HttpResponseRedirect(redirect_url)
         return function(request, *args, **kwargs)
     return decorator
-
-
