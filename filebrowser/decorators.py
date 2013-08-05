@@ -9,7 +9,7 @@ from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import smart_text
 
 # FILEBROWSER IMPORTS
 from filebrowser.templatetags.fb_tags import query_helper
@@ -24,7 +24,7 @@ def get_path(path, site=None):
 
 def get_file(path, filename, site=None):
     "Get file (or folder)."
-    converted_path = smart_unicode(os.path.join(site.directory, path, filename))
+    converted_path = smart_text(os.path.join(site.directory, path, filename))
     if not site.storage.isfile(converted_path) and not site.storage.isdir(converted_path):
         return None
     return filename
@@ -32,7 +32,7 @@ def get_file(path, filename, site=None):
 
 def path_exists(site, function):
     "Check if the given path exists."
-    
+
     def decorator(request, *args, **kwargs):
         if get_path('', site=site) == None:
             # The storage location does not exist, raise an error to prevent eternal redirecting.
@@ -48,7 +48,7 @@ def path_exists(site, function):
 
 def file_exists(site, function):
     "Check if the given file exists."
-    
+
     def decorator(request, *args, **kwargs):
         file_path = get_file(request.GET.get('dir', ''), request.GET.get('filename', ''), site=site)
         if file_path == None:
