@@ -10,7 +10,6 @@ from django.db.models.fields import Field, CharField
 from django import forms
 from django.forms.widgets import Input
 from django.template.loader import render_to_string
-from django.templatetags.static import static
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext_lazy as _
 
@@ -45,7 +44,6 @@ class FileBrowseWidget(Input):
         if value != "" and not isinstance(value, FileObject):
             value = FileObject(value, site=self.site)
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
-        final_attrs['search_icon'] = static('filebrowser/img/filebrowser_icon_show.gif')
         final_attrs['url'] = url
         final_attrs['directory'] = self.directory
         final_attrs['extensions'] = self.extensions
