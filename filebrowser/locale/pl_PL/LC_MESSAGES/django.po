@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+
 # Translators:
 # Wojciech Sobczak <wsobczak@gmail.com>, 2011.
 msgid ""
@@ -177,7 +177,7 @@ msgstr "Proszę poprawić następujące błędy."
 msgid ""
 "The Name will be normalized by converting or stripping all non-standard "
 "characters."
-msgstr ""
+msgstr "Nazwa zostanie znormalizowana przez zmianę bądź usunięcie wszystkich znaków niestandardowych."
 
 #: templates/filebrowser/createdir.html:39
 #: templates/filebrowser/upload.html:150
@@ -277,11 +277,11 @@ msgstr "Zapisz i kontynuuj edycję"
 
 #: templates/filebrowser/upload.html:42
 msgid "Drop files here to upload"
-msgstr ""
+msgstr "Przeciągnij tutaj pliki do przesłania"
 
 #: templates/filebrowser/upload.html:43
 msgid "Upload a file"
-msgstr ""
+msgstr "Prześlij plik"
 
 #: templates/filebrowser/upload.html:52
 msgid "Failed"
