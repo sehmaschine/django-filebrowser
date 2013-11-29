@@ -177,7 +177,7 @@ For the examples below we use::
     from filebrowser.base import FileObject
     fileobject = FileObject(os.path.join(site.directory,"testfolder","testimage.jpg"))
 
-General attributes
+General properties
 ------------------
 
 ``filename``
@@ -246,7 +246,7 @@ Datetime object::
     >>> fileobject.exists
     True
 
-Path and URL attributes
+Path and URL properties
 -----------------------
 
 ``path``
@@ -299,7 +299,7 @@ URL for the file/folder (equals ``storage.url``)::
 .. deprecated:: 3.3
     Use ``url`` instead.
 
-Image attributes
+Image properties
 ----------------
 
 The image attributes are only useful if the ``FileObject`` represents an image.
@@ -344,7 +344,7 @@ Image orientation, either ``Landscape`` or ``Portrait``::
     >>> fileobject.orientation
     'Landscape'
 
-Folder attributes
+Folder properties
 -----------------
 
 The folder attributes make sense when the ``FileObject`` represents a directory (not a file).
@@ -381,7 +381,7 @@ Parent folder(s)::
     >>> fileobject.is_empty
     False
 
-Version attributes
+Version properties
 ------------------
 
 ``is_version``
@@ -393,12 +393,46 @@ Version attributes
     False
 
 ``versions_basedir``
-^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
 
 The relative path (from storage location) to the main versions folder. Either ``VERSIONS_BASEDIR`` or ``site.directory`::
 
     >>> fileobject.versions_basedir
     'uploads'
+
+``versions``
+^^^^^^^^^^^^
+
+List all filenames based on ``VERSIONS``::
+
+    >>> fileobject.versions
+    ['/var/www/testsite/media/uploads/testfolder/testimage_admin_thumbnail.jpg',
+    '/var/www/testsite/media/uploads/testfolder/testimage_thumbnail.jpg',
+    '/var/www/testsite/media/uploads/testfolder/testimage_small.jpg',
+    '/var/www/testsite/media/uploads/testfolder/testimage_medium.jpg',
+    '/var/www/testsite/media/uploads/testfolder/testimage_big.jpg',
+    '/var/www/testsite/media/uploads/testfolder/testimage_large.jpg']
+
+.. note::
+    The versions are not being generated.
+
+``admin_versions``
+^^^^^^^^^^^^^^^^^^
+
+List all filenames based on ``ADMIN_VERSIONS``::
+
+    >>> fileobject.admin_versions
+    ['/var/www/testsite/media/uploads/testfolder/testimage_thumbnail.jpg',
+    '/var/www/testsite/media/uploads/testfolder/testimage_small.jpg',
+    '/var/www/testsite/media/uploads/testfolder/testimage_medium.jpg',
+    '/var/www/testsite/media/uploads/testfolder/testimage_big.jpg',
+    '/var/www/testsite/media/uploads/testfolder/testimage_large.jpg']
+
+.. note::
+    The versions are not being generated.
+
+Version methods
+---------------
 
 ``version_name(version_suffix)``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -411,36 +445,16 @@ Get the filename for a version::
 .. note::
     The version is not being generated.
 
-``versions()``
-^^^^^^^^^^^^^^
+``version_path(version_suffix)``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-List all filenames based on ``VERSIONS``::
+Get the path for a version::
 
-    >>> fileobject.versions()
-    ['/var/www/testsite/media/uploads/testfolder/testimage_admin_thumbnail.jpg',
-    '/var/www/testsite/media/uploads/testfolder/testimage_thumbnail.jpg',
-    '/var/www/testsite/media/uploads/testfolder/testimage_small.jpg',
-    '/var/www/testsite/media/uploads/testfolder/testimage_medium.jpg',
-    '/var/www/testsite/media/uploads/testfolder/testimage_big.jpg',
-    '/var/www/testsite/media/uploads/testfolder/testimage_large.jpg']
+    >>> fileobject.version_path("medium")
+    'testimage_medium.jpg'
 
 .. note::
-    The versions are not being generated.
-
-``admin_versions()``
-^^^^^^^^^^^^^^^^^^^^
-
-List all filenames based on ``ADMIN_VERSIONS``::
-
-    >>> fileobject.admin_versions()
-    ['/var/www/testsite/media/uploads/testfolder/testimage_thumbnail.jpg',
-    '/var/www/testsite/media/uploads/testfolder/testimage_small.jpg',
-    '/var/www/testsite/media/uploads/testfolder/testimage_medium.jpg',
-    '/var/www/testsite/media/uploads/testfolder/testimage_big.jpg',
-    '/var/www/testsite/media/uploads/testfolder/testimage_large.jpg']
-
-.. note::
-    The versions are not being generated.
+    The version is not being generated.
 
 ``version_generate(version_suffix)``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -450,8 +464,10 @@ Generate a version::
     >>> fileobject.version_generate("medium")
     <FileObject: uploads/testfolder/testimage_medium.jpg>
 
-Delete Functions
-----------------
+Please note that a version is only generated, if it does not already exist or if the original image is newer than the existing version.
+
+Delete methods
+--------------
 
 ``delete()``
 ^^^^^^^^^^^^
