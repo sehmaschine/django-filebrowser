@@ -255,7 +255,7 @@ class FileObject():
                     file_type = k
         return file_type
     
-    # GENERAL ATTRIBUTES
+    # GENERAL ATTRIBUTES/PROPERTIES
     # filetype
     # filesize
     # date
@@ -311,7 +311,7 @@ class FileObject():
             self._exists_stored = self.site.storage.exists(self.path)
         return self._exists_stored
     
-    # PATH/URL ATTRIBUTES
+    # PATH/URL ATTRIBUTES/PROPERTIES
     # path (see init)
     # path_relative_directory
     # path_full
@@ -338,7 +338,7 @@ class FileObject():
         "URL for the file/folder as defined with site.storage"
         return self.site.storage.url(self.path)
 
-    # IMAGE ATTRIBUTES
+    # IMAGE ATTRIBUTES/PROPERTIES
     # dimensions
     # width
     # height
@@ -391,7 +391,7 @@ class FileObject():
                 return "Portrait"
         return None
     
-    # FOLDER ATTRIBUTES
+    # FOLDER ATTRIBUTES/PROPERTIES
     # directory
     # folder
     # is_folder
@@ -424,17 +424,9 @@ class FileObject():
                 return True
         return False
     
-    # ORIGINAL
-    # original_filename
+    # ORIGINAL ATTRIBUTES/PROPERTIES
     # original
-
-    @property
-    def original_filename(self):
-        "Get the filename of an original image from a version"
-        tmp = self.filename_root.split("_")
-        if tmp[len(tmp)-1] in VERSIONS:
-            return u"%s%s" % (self.filename_root.replace("_%s" % tmp[len(tmp)-1], ""), self.extension)
-        return self.filename
+    # original_filename
 
     @property
     def original(self):
@@ -444,15 +436,17 @@ class FileObject():
             return FileObject(os.path.join(self.site.directory, relative_path, self.original_filename), site=self.site)
         return self
 
-    # VERSIONS
+    @property
+    def original_filename(self):
+        "Get the filename of an original image from a version"
+        tmp = self.filename_root.split("_")
+        if tmp[len(tmp)-1] in VERSIONS:
+            return u"%s%s" % (self.filename_root.replace("_%s" % tmp[len(tmp)-1], ""), self.extension)
+        return self.filename
+
+    # VERSION ATTRIBUTES/PROPERTIES
     # is_version
-    # original
     # versions_basedir
-    # versions
-    # admin_versions
-    # version_name(suffix)
-    # version_path(suffix)
-    # version_generate(suffix)
     
     @property
     def is_version(self):
@@ -471,7 +465,14 @@ class FileObject():
             return self.site.directory
         else:
             return ""
-    
+
+    # VERSION METHODS
+    # versions
+    # admin_versions
+    # version_name(suffix)
+    # version_path(suffix)
+    # version_generate(suffix)
+
     def versions(self):
         "List of versions (not checking if they actually exist)"
         version_list = []
@@ -543,7 +544,7 @@ class FileObject():
         self.site.storage.save(version_path, tmpfile)
         return version_path
     
-    # DELETE FUNCTIONS
+    # DELETE METHODS
     # delete
     # delete_versions
     # delete_admin_versions
