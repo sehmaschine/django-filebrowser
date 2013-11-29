@@ -9,7 +9,7 @@ from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import smart_text
 
 # FILEBROWSER IMPORTS
 from filebrowser.templatetags.fb_tags import query_helper
@@ -24,7 +24,7 @@ def get_path(path, site=None):
 
 def get_file(path, filename, site=None):
     "Get file (or folder)."
-    converted_path = smart_unicode(os.path.join(site.directory, path, filename))
+    converted_path = smart_text(os.path.join(site.directory, path, filename))
     if not site.storage.isfile(converted_path) and not site.storage.isdir(converted_path):
         return None
     return filename

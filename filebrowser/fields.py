@@ -10,7 +10,6 @@ from django.db.models.fields import Field, CharField
 from django import forms
 from django.forms.widgets import Input
 from django.template.loader import render_to_string
-from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext_lazy as _
 
 # FILEBROWSER IMPORTS
