@@ -21,14 +21,14 @@ FILEBROWSER_PATH = os.path.split(TESTS_PATH)[0]
 
 
 class FileObjectPathTests(TestCase):
-    
+
     def setUp(self):
         """
         Save original values/functions so they can be restored in tearDown
         """
         self.original_directory = site.directory
         self.original_path = filebrowser.base.os.path
-    
+
     def test_windows_paths(self):
         """
         Use ntpath to test windows paths independently from current os
@@ -36,11 +36,11 @@ class FileObjectPathTests(TestCase):
         site.directory = 'uploads/'
         filebrowser.base.os.path = ntpath
         f = FileObject('uploads\\testdir\\testfile.jpg', site=site)
-        
+
         self.assertEqual(f.path_relative_directory, 'testdir\\testfile.jpg')
         self.assertEqual(f.directory, 'testdir\\testfile.jpg')
         self.assertEqual(f.folder, r'testdir')
-        
+
     def test_posix_paths(self):
         """
         Use posixpath to test posix paths independently from current os
@@ -48,11 +48,11 @@ class FileObjectPathTests(TestCase):
         filebrowser.base.os.path = posixpath
         site.directory = 'uploads/'
         f = FileObject('uploads/testdir/testfile.jpg', site=site)
-        
+
         self.assertEqual(f.path_relative_directory, 'testdir/testfile.jpg')
         self.assertEqual(f.directory, 'testdir/testfile.jpg')
         self.assertEqual(f.folder, r'testdir')
-        
+
     def tearDown(self):
         """
         Restore original values/functions
@@ -62,14 +62,14 @@ class FileObjectPathTests(TestCase):
 
 
 class FileObjectUnicodeTests(TestCase):
-    
+
     def setUp(self):
         """
         Save original values/functions so they can be restored in tearDown
         """
         self.original_path = filebrowser.base.os.path
         self.original_directory = site.directory
-    
+
     def test_windows_paths(self):
         """
         Use ntpath to test windows paths independently from current os
@@ -77,11 +77,11 @@ class FileObjectUnicodeTests(TestCase):
         site.directory = 'uploads/'
         filebrowser.base.os.path = ntpath
         f = FileObject('uploads\\$%^&*\\測試文件.jpg', site=site)
-        
+
         self.assertEqual(f.path_relative_directory, '$%^&*\\測試文件.jpg')
         self.assertEqual(f.directory, '$%^&*\\測試文件.jpg')
         self.assertEqual(f.folder, r'$%^&*')
-        
+
     def test_posix_paths(self):
         """
         Use posixpath to test posix paths independently from current os
@@ -89,11 +89,11 @@ class FileObjectUnicodeTests(TestCase):
         filebrowser.base.os.path = posixpath
         site.directory = 'uploads/'
         f = FileObject('uploads/$%^&*/測試文件.jpg', site=site)
-        
+
         self.assertEqual(f.path_relative_directory, '$%^&*/測試文件.jpg')
         self.assertEqual(f.directory, '$%^&*/測試文件.jpg')
         self.assertEqual(f.folder, r'$%^&*')
-        
+
     def tearDown(self):
         """
         Restore original values/functions
@@ -103,7 +103,7 @@ class FileObjectUnicodeTests(TestCase):
 
 
 class FileObjectAttributeTests(TestCase):
-    
+
     def setUp(self):
         """
         Save original values/functions so they can be restored in tearDown
@@ -117,7 +117,6 @@ class FileObjectAttributeTests(TestCase):
         # DIRECTORY
         # custom directory because this could be set with sites
         # and we cannot rely on filebrowser.settings
-        # FIXME: find better directory name
         self.directory = "fb_test_directory/"
         self.directory_path = os.path.join(site.storage.location, self.directory)
         if os.path.exists(self.directory_path):
@@ -136,7 +135,6 @@ class FileObjectAttributeTests(TestCase):
             os.makedirs(self.versions_path)
 
         # create temporary test folder and move testimage
-        # FIXME: find better path names
         self.tmpdir_name = os.path.join("fb_tmp_dir", "fb_tmp_dir_sub")
         self.tmpdir_path = os.path.join(site.storage.location, self.directory, self.tmpdir_name)
         if os.path.exists(self.tmpdir_path):
@@ -235,13 +233,13 @@ class FileObjectAttributeTests(TestCase):
         """
         # test with image
         self.assertEqual(self.f_image.directory, "fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg")
-        self.assertEqual(self.f_image.folder, "fb_tmp_dir/fb_tmp_dir_sub") # FIXME: equals dirname?
+        self.assertEqual(self.f_image.folder, "fb_tmp_dir/fb_tmp_dir_sub")  # FIXME: equals dirname?
         self.assertEqual(self.f_image.is_folder, False)
         self.assertEqual(self.f_image.is_empty, False)
 
         # test with actual folder
         self.assertEqual(self.f_folder.directory, "fb_tmp_dir/fb_tmp_dir_sub")
-        self.assertEqual(self.f_folder.folder, "fb_tmp_dir") # FIXME: equals dirname?
+        self.assertEqual(self.f_folder.folder, "fb_tmp_dir")  # FIXME: equals dirname?
         self.assertEqual(self.f_folder.is_folder, True)
         self.assertEqual(self.f_folder.is_empty, False)
 
@@ -414,7 +412,6 @@ class FileObjectAttributeTests(TestCase):
         self.f_image.delete_versions()
         self.assertEqual(site.storage.exists(f_version_thumb.path), False)
 
-        
     def tearDown(self):
         """
         Restore original values/functions
@@ -431,7 +428,7 @@ class FileObjectAttributeTests(TestCase):
 
 
 class FileListingTests(TestCase):
-    
+
     def setUp(self):
         """
         Save original values/functions so they can be restored in tearDown
@@ -563,4 +560,3 @@ class FileListingTests(TestCase):
 
         # remove temporary directory and test folder
         shutil.rmtree(self.directory_path)
-

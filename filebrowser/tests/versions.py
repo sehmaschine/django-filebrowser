@@ -24,7 +24,7 @@ FILEBROWSER_PATH = os.path.split(TESTS_PATH)[0]
 
 
 class VersionTemplateTagsTests(TestCase):
-    
+
     def setUp(self):
         """
         Save original values/functions so they can be restored in tearDown
@@ -94,14 +94,14 @@ class VersionTemplateTagsTests(TestCase):
         filebrowser.templatetags.fb_versions.VERSIONS = filebrowser.base.VERSIONS
 
         # templatetag version with wrong token
-        self.assertRaises(TemplateSyntaxError, lambda:Template('{% load fb_versions %}{% version obj.path %}'))
-        self.assertRaises(TemplateSyntaxError, lambda:Template('{% load fb_versions %}{% version %}'))
+        self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version obj.path %}'))
+        self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version %}'))
 
         # templatetag version without path
         t = Template('{% load fb_versions %}{% version obj "medium" %}')
         c = Context({"obj": self.f_image})
         r = t.render(c)
-        self.assertEqual(r, "") # FIXME: should this throw an error?
+        self.assertEqual(r, "")  # FIXME: should this throw an error?
 
         # templatetag version with hardcoded path
         t = Template('{% load fb_versions %}{% version path "large" %}')
@@ -150,9 +150,9 @@ class VersionTemplateTagsTests(TestCase):
         filebrowser.templatetags.fb_versions.VERSIONS = filebrowser.base.VERSIONS
 
         # templatetag with wrong token
-        self.assertRaises(TemplateSyntaxError, lambda:Template('{% load fb_versions %}{% version_object obj.path %}'))
-        self.assertRaises(TemplateSyntaxError, lambda:Template('{% load fb_versions %}{% version_object %}'))
-        self.assertRaises(TemplateSyntaxError, lambda:Template('{% load fb_versions %}{% version_object obj.path "medium" %}'))
+        self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version_object obj.path %}'))
+        self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version_object %}'))
+        self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version_object obj.path "medium" %}'))
 
         # templatetag version_object with hardcoded path
         t = Template('{% load fb_versions %}{% version_object path "large" as version_large %}{{ version_large.url }}')
@@ -193,7 +193,7 @@ class VersionTemplateTagsTests(TestCase):
 
     def test_version_setting(self):
         pass
-        
+
     def tearDown(self):
         """
         Restore original values/functions
@@ -209,4 +209,3 @@ class VersionTemplateTagsTests(TestCase):
         # remove temporary directory and test folder
         shutil.rmtree(self.directory_path)
         shutil.rmtree(self.versions_path)
-

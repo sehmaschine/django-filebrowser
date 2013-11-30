@@ -1,7 +1,7 @@
 # coding: utf-8
 
 """
-Tests for FileBrowser sites and their views. 
+Tests for FileBrowser sites and their views.
 
 Note that we *dynamically generate* test cases for each deployed FileBrowser
 site. This includes creation of TestCase subclasses at runtime and also
@@ -35,22 +35,24 @@ FILEBROWSER_PATH = os.path.split(TESTS_PATH)[0]
 
 ### TEST FUNCTIONS
 
+
 def test_browse(test):
     """
     Check the browse view functions as expected.
     """
     url = reverse('%s:fb_browse' % test.site_name)
     response = test.c.get(url)
-    
+
     # Check we get OK response for browsing
     test.assertTrue(response.status_code == 200)
-    
+
     # Check that a correct template was used:
     test.assertTrue('filebrowser/index.html' in [t.name for t in response.templates])
-    
+
     # Check directory was set correctly in the context. If this fails, it may indicate
     # that two sites were instantiated with the same name.
     test.assertTrue(test.site.directory == response.context['filebrowser_site'].directory)
+
 
 def test_createdir(test):
     """
@@ -64,19 +66,20 @@ def test_createdir(test):
     while test.site.storage.exists(os.path.join(test.site.directory, tmpdir_name)):
         sufix += 1
         tmpdir_name = '%s_%d' % (prefix, sufix)
-    
+
     # Store the this temp directory (we need to delete it later)
     test.tmpdir = FileObject(os.path.join(test.site.directory, tmpdir_name), site=test.site)
-    
+
     # Create the directory using the createdir view
     url = reverse('%s:fb_createdir' % test.site_name)
-    response = test.c.post(url,{'name' : tmpdir_name})
-    
+    response = test.c.post(url, {'name': tmpdir_name})
+
     # Check we got Redirection response for createdir
     test.assertTrue(response.status_code == 302)
-    
+
     # Check the directory now exists
     test.assertTrue(test.site.storage.exists(test.tmpdir.path))
+
 
 def test_upload(test):
     """
@@ -84,12 +87,13 @@ def test_upload(test):
     """
     url = reverse('%s:fb_upload' % test.site_name)
     response = test.c.get(url, {'name': test.tmpdir.path_relative_directory})
-    
+
     # Check we get OK response for upload view
     test.assertTrue(response.status_code == 200)
-    
+
     # Check the correct template was used
     test.assertTrue('filebrowser/upload.html' in [t.name for t in response.templates])
+
 
 def test_do_upload(test):
     """
@@ -102,17 +106,18 @@ def test_do_upload(test):
     with open(os.path.join(FILEBROWSER_PATH, 'static/filebrowser/img/testimage.jpg'), "rb") as f:
         file_size = os.path.getsize(f.name)
         response = test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-    
+
     # Check we get OK response
     test.assertTrue(response.status_code == 200)
-    
+
     # Check the file now exists
     path = os.path.join(test.tmpdir.path, 'testimage.jpg')
     test.testfile = FileObject(path, site=test.site)
     test.assertTrue(test.site.storage.exists(path))
-    
+
     # Check the file has the correct size
     test.assertTrue(file_size == test.site.storage.size(path))
+
 
 def test_detail(test):
     """
@@ -120,30 +125,30 @@ def test_detail(test):
     """
     url = reverse('%s:fb_detail' % test.site_name)
     response = test.c.get(url, {'dir': test.testfile.folder, 'filename': test.testfile.filename})
-    
+
     # Check we get an OK response for the detail view
     test.assertTrue(response.status_code == 200)
-    
+
     # At this moment all versions should be generated. Check that.
     pre_rename_versions = []
     for version_suffix in VERSIONS:
         path = test.testfile.version_path(version_suffix)
         pre_rename_versions.append(path)
         test.assertTrue(test.site.storage.exists(path))
-    
+
     # Attemp renaming the file
     url = '?'.join([url, urlencode({'dir': test.testfile.folder, 'filename': test.testfile.filename})])
     response = test.c.post(url, {'name': 'testpic.jpg'})
-    
+
     # Check we get 302 response for renaming
     test.assertTrue(response.status_code == 302)
-    
+
     # Check the file was renamed correctly:
     test.assertTrue(test.site.storage.exists(os.path.join(test.testfile.head, 'testpic.jpg')))
-    
+
     # Store the renamed file
     test.testfile = FileObject(os.path.join(test.testfile.head, 'testpic.jpg'), site=test.site)
-    
+
     # Check if all pre-rename versions were deleted:
     for path in pre_rename_versions:
         test.assertFalse(test.site.storage.exists(path))
@@ -153,19 +158,21 @@ def test_detail(test):
         path = test.testfile.version_path(version_suffix)
         test.assertFalse(test.site.storage.exists(path))
 
+
 def test_delete_confirm(test):
     """
-    Check that the delete view functions as expected. Does not check the deletion itself, 
+    Check that the delete view functions as expected. Does not check the deletion itself,
     that happens in test_delete().
     """
     url = reverse('%s:fb_delete_confirm' % test.site_name)
     response = test.c.get(url, {'dir': test.testfile.folder, 'filename': test.testfile.filename})
-    
+
     # Check we get OK response for delete_confirm
     test.assertTrue(response.status_code == 200)
-    
+
     # Check the correct template was used
     test.assertTrue('filebrowser/delete_confirm.html' in [t.name for t in response.templates])
+
 
 def test_delete(test):
     """
@@ -176,14 +183,14 @@ def test_delete(test):
     versions = []
     for version_suffix in VERSIONS:
         versions.append(test.testfile.version_generate(version_suffix))
-    
+
     # Request the delete view
     url = reverse('%s:fb_delete' % test.site_name)
     response = test.c.get(url, {'dir': test.testfile.folder, 'filename': test.testfile.filename})
 
     # Check we get 302 response for delete
     test.assertTrue(response.status_code == 302)
-    
+
     # Check the file and its versions do not exist anymore
     test.assertFalse(test.site.storage.exists(test.testfile.path))
     for version in versions:
@@ -199,7 +206,7 @@ def test_delete(test):
 
 ### INSTANCE METHODS
 
-## setUp, tearDown, and runTest methods for the dynamically created 
+## setUp, tearDown, and runTest methods for the dynamically created
 ## test cases (they will become instance methods)
 
 def setUp(self):
@@ -211,11 +218,13 @@ def setUp(self):
     # Obtain the site object
     self.site = get_site_dict(APP_NAME)[self.site_name]
 
+
 def tearDown(self):
     # Delete a left-over tmp directories, if there's any
     if hasattr(self, 'tmpdir') and self.tmpdir:
         print "Removing left-over tmp dir:", self.tmpdir.path
         self.site.storage.rmtree(self.tmpdir.path)
+
 
 def runTest(self):
     # Login
@@ -237,7 +246,7 @@ all_sites = get_resolver(get_urlconf()).app_dict[APP_NAME]
 
 this_module = sys.modules[__name__]
 
-## Create a test class for each deployed filebrowser site        
+## Create a test class for each deployed filebrowser site
 for site in all_sites:
     print 'Creating Test for the FileBrowser site:', site
     # Create a subclass of TestCase
@@ -249,6 +258,6 @@ for site in all_sites:
     # Add the test case class to this module
     setattr(this_module, 'TestSite_' + site, testcase_class)
 
-# Delete the attribute test_class, otherwise it will be 
-# considered as a test case by django 
+# Delete the attribute test_class, otherwise it will be
+# considered as a test case by django
 delattr(this_module, 'testcase_class')
