@@ -18,7 +18,7 @@ class FileInput(DjangoClearableFileInput):
     input_text = ugettext_lazy('Change')
     clear_checkbox_label = ugettext_lazy('Clear')
     template_with_initial = u'%(input)s %(preview)s'
-    
+
     def render(self, name, value, attrs=None):
         substitutions = {
             'initial_text': self.initial_text,
@@ -29,7 +29,7 @@ class FileInput(DjangoClearableFileInput):
         }
         template = u'%(input)s'
         substitutions['input'] = super(DjangoClearableFileInput, self).render(name, value, attrs)
-        
+
         if value and hasattr(value, "url"):
             template = self.template_with_initial
             preview_template = render_to_string('filebrowser/widgets/fileinput.html', {
@@ -37,7 +37,7 @@ class FileInput(DjangoClearableFileInput):
                 'ADMIN_THUMBNAIL': ADMIN_THUMBNAIL,
             })
             substitutions["preview"] = preview_template
-        
+
         return mark_safe(template % substitutions)
 
 
@@ -46,14 +46,14 @@ class ClearableFileInput(DjangoClearableFileInput):
     A FileField Widget that shows its current value if it has one.
     If value is an Image, a thumbnail is shown.
     """
-    
+
     initial_text = ugettext_lazy('Currently')
     input_text = ugettext_lazy('Change')
     clear_checkbox_label = ugettext_lazy('Clear')
-    
+
     template_with_initial = u'<p class="file-upload">%(initial_text)s: %(initial)s<span class="clearable-file-input">%(clear_template)s</span><br />%(input_text)s: %(input)s %(preview)s</p>'
     template_with_clear = u'%(clear)s <label for="%(clear_checkbox_id)s">%(clear_checkbox_label)s</label>'
-    
+
     def render(self, name, value, attrs=None):
         substitutions = {
             'initial_text': self.initial_text,
@@ -64,7 +64,7 @@ class ClearableFileInput(DjangoClearableFileInput):
         }
         template = u'%(input)s'
         substitutions['input'] = super(DjangoClearableFileInput, self).render(name, value, attrs)
-        
+
         if value and hasattr(value, "url"):
             template = self.template_with_initial
             substitutions['initial'] = (u'<a target="_blank" href="%s">%s</a>' % (value.url, value))
@@ -75,14 +75,12 @@ class ClearableFileInput(DjangoClearableFileInput):
                 substitutions['clear_checkbox_id'] = checkbox_id
                 substitutions['clear'] = CheckboxInput().render(checkbox_name, False, attrs={'id': checkbox_id})
                 substitutions['clear_template'] = self.template_with_clear % substitutions
-        
+
         if value and hasattr(value, "url"):
             preview_template = render_to_string('filebrowser/widgets/clearablefileinput.html', {
                 'value': FileObject(value.name),
                 'ADMIN_THUMBNAIL': ADMIN_THUMBNAIL,
             })
             substitutions["preview"] = preview_template
-        
+
         return mark_safe(template % substitutions)
-
-

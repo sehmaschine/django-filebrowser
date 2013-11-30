@@ -1,7 +1,10 @@
 # coding: utf-8
 
 # PYTHON IMPORTS
-import os, datetime, time, platform
+import os
+import datetime
+import time
+import platform
 import mimetypes
 from tempfile import NamedTemporaryFile
 
@@ -15,22 +18,25 @@ from django.utils.encoding import smart_str, smart_text
 
 # PIL import
 if STRICT_PIL:
-    from PIL import Image, ImageFile
+    from PIL import Image
+    from PIL import ImageFile
 else:
     try:
-        from PIL import Image, ImageFile
+        from PIL import Image
+        from PIL import ImageFile
     except ImportError:
-        import Image, ImageFile
+        import Image
+        import ImageFile
 
-ImageFile.MAXBLOCK = IMAGE_MAXBLOCK # default is 64k
+ImageFile.MAXBLOCK = IMAGE_MAXBLOCK  # default is 64k
 
 
 class FileListing():
     """
     The FileListing represents a group of FileObjects/FileDirObjects.
-    
+
     An example::
-        
+
         from filebrowser.base import FileListing
         filelisting = FileListing(path, sorting_by='date', sorting_order='desc')
         print filelisting.files_listing_total()
@@ -46,7 +52,7 @@ class FileListing():
     _results_walk_total = None
     _results_listing_filtered = None
     _results_walk_total = None
-    
+
     def __init__(self, path, filter_func=None, sorting_by=None, sorting_order=None, site=None):
         self.path = path
         self.filter_func = filter_func
@@ -63,16 +69,16 @@ class FileListing():
     def sort_by_attr(self, seq, attr):
         """
         Sort the sequence of objects by object's attribute
-        
+
         Arguments:
         seq  - the list or any sequence (including immutable one) of objects to sort.
         attr - the name of attribute to sort by
-        
+
         Returns:
         the sorted list of objects.
         """
         import operator
-        
+
         # Use the "Schwartzian transform"
         # Create the auxiliary list of tuples where every i-th tuple has form
         # (seq[i].attr, i, seq[i]) and sort it. The second item of tuple is needed not
@@ -84,7 +90,7 @@ class FileListing():
     _is_folder_stored = None
     @property
     def is_folder(self):
-        if self._is_folder_stored == None:
+        if self._is_folder_stored is None:
             self._is_folder_stored = self.site.storage.isdir(self.path)
         return self._is_folder_stored
 
@@ -114,35 +120,34 @@ class FileListing():
             for f in files:
                 filelisting.extend([path_strip(os.path.join(path, f), self.site.directory)])
 
-    
     def walk(self):
         "Walk all files for path"
         filelisting = []
         if self.is_folder:
             self._walk(self.path, filelisting)
         return filelisting
-    
+
     # Cached results of files_listing_total (without any filters and sorting applied)
     _fileobjects_total = None
-    
+
     def files_listing_total(self):
         "Returns FileObjects for all files in listing"
-        if self._fileobjects_total == None:
+        if self._fileobjects_total is None:
             self._fileobjects_total = []
             for item in self.listing():
                 fileobject = FileObject(os.path.join(self.path, item), site=self.site)
                 self._fileobjects_total.append(fileobject)
-        
+
         files = self._fileobjects_total
-        
+
         if self.sorting_by:
             files = self.sort_by_attr(files, self.sorting_by)
         if self.sorting_order == "desc":
             files.reverse()
-        
+
         self._results_listing_total = len(files)
         return files
-    
+
     def files_walk_total(self):
         "Returns FileObjects for all files in walk"
         files = []
@@ -155,7 +160,7 @@ class FileListing():
             files.reverse()
         self._results_walk_total = len(files)
         return files
-    
+
     def files_listing_filtered(self):
         "Returns FileObjects for filtered files in listing"
         if self.filter_func:
@@ -164,7 +169,7 @@ class FileListing():
             listing = self.files_listing_total()
         self._results_listing_filtered = len(listing)
         return listing
-    
+
     def files_walk_filtered(self):
         "Returns FileObjects for filtered files in walk"
         if self.filter_func:
@@ -173,28 +178,28 @@ class FileListing():
             listing = self.files_walk_total()
         self._results_walk_filtered = len(listing)
         return listing
-    
+
     def results_listing_total(self):
         "Counter: all files"
-        if self._results_listing_total != None:
+        if self._results_listing_total is not None:
             return self._results_listing_total
         return len(self.files_listing_total())
-    
+
     def results_walk_total(self):
         "Counter: all files"
-        if self._results_walk_total != None:
+        if self._results_walk_total is not None:
             return self._results_walk_total
         return len(self.files_walk_total())
-    
+
     def results_listing_filtered(self):
         "Counter: filtered files"
-        if self._results_listing_filtered != None:
+        if self._results_listing_filtered is not None:
             return self._results_listing_filtered
         return len(self.files_listing_filtered())
-    
+
     def results_walk_filtered(self):
         "Counter: filtered files"
-        if self._results_walk_filtered != None:
+        if self._results_walk_filtered is not None:
             return self._results_walk_filtered
         return len(self.files_walk_filtered())
 
@@ -202,22 +207,22 @@ class FileListing():
 class FileObject():
     """
     The FileObject represents a file (or directory) on the server.
-    
+
     An example::
-        
+
         from filebrowser.base import FileObject
         fileobject = FileObject(path)
-    
+
     where path is a relative path to a storage location
     """
-    
+
     def __init__(self, path, site=None):
         if not site:
             from filebrowser.sites import site as default_site
             site = default_site
         self.site = site
         if platform.system() == 'Windows':
-            self.path = path.replace('\\','/')
+            self.path = path.replace('\\', '/')
         else:
             self.path = path
         self.head = os.path.dirname(path)
@@ -225,20 +230,20 @@ class FileObject():
         self.filename_lower = self.filename.lower()
         self.filename_root, self.extension = os.path.splitext(self.filename)
         self.mimetype = mimetypes.guess_type(self.filename)
-    
+
     def __str__(self):
         return smart_str(self.path)
-    
+
     def __unicode__(self):
         return smart_text(self.path)
-    
+
     @property
     def name(self):
         return self.path
 
     def __repr__(self):
         return "<%s: %s>" % (self.__class__.__name__, self or "None")
-    
+
     def __len__(self):
         return len(self.path)
 
@@ -253,7 +258,7 @@ class FileObject():
                 if self.extension.lower() == extension.lower():
                     file_type = k
         return file_type
-    
+
     # GENERAL ATTRIBUTES/PROPERTIES
     # filetype
     # filesize
@@ -265,36 +270,36 @@ class FileObject():
     @property
     def filetype(self):
         "Filetype as defined with EXTENSIONS"
-        if self._filetype_stored != None:
+        if self._filetype_stored is not None:
             return self._filetype_stored
         if self.is_folder:
             self._filetype_stored = 'Folder'
         else:
             self._filetype_stored = self._get_file_type()
         return self._filetype_stored
-    
+
     _filesize_stored = None
     @property
     def filesize(self):
         "Filesize in bytes"
-        if self._filesize_stored != None:
+        if self._filesize_stored is not None:
             return self._filesize_stored
         if self.exists:
             self._filesize_stored = self.site.storage.size(self.path)
             return self._filesize_stored
         return None
-    
+
     _date_stored = None
     @property
     def date(self):
         "Modified time (from site.storage) as float (mktime)"
-        if self._date_stored != None:
+        if self._date_stored is not None:
             return self._date_stored
         if self.exists:
             self._date_stored = time.mktime(self.site.storage.modified_time(self.path).timetuple())
             return self._date_stored
         return None
-    
+
     @property
     def datetime(self):
         "Modified time (from site.storage) as datetime"
@@ -306,17 +311,17 @@ class FileObject():
     @property
     def exists(self):
         "True, if the path exists, False otherwise"
-        if self._exists_stored == None:
+        if self._exists_stored is None:
             self._exists_stored = self.site.storage.exists(self.path)
         return self._exists_stored
-    
+
     # PATH/URL ATTRIBUTES/PROPERTIES
     # path (see init)
     # path_relative_directory
     # path_full
     # dirname
     # url
-    
+
     @property
     def path_relative_directory(self):
         "Path relative to site.directory"
@@ -350,7 +355,7 @@ class FileObject():
         "Image dimensions as a tuple"
         if self.filetype != 'Image':
             return None
-        if self._dimensions_stored != None:
+        if self._dimensions_stored is not None:
             return self._dimensions_stored
         try:
             im = Image.open(self.site.storage.open(self.path))
@@ -365,7 +370,7 @@ class FileObject():
         if self.dimensions:
             return self.dimensions[0]
         return None
-    
+
     @property
     def height(self):
         "Image height in px"
@@ -379,7 +384,7 @@ class FileObject():
         if self.dimensions:
             return float(self.width)/float(self.height)
         return None
-    
+
     @property
     def orientation(self):
         "Image orientation, either 'Landscape' or 'Portrait'"
@@ -389,31 +394,31 @@ class FileObject():
             else:
                 return "Portrait"
         return None
-    
+
     # FOLDER ATTRIBUTES/PROPERTIES
     # directory
     # folder
     # is_folder
     # is_empty
-    
+
     @property
     def directory(self):
-        "Folder(s) relative from site.directory" # FIXME: needed/rename?
+        "Folder(s) relative from site.directory"  # FIXME: needed/rename?
         return path_strip(self.path, self.site.directory)
-    
+
     @property
     def folder(self):
-        "Parent folder(s)" # FIXME: needed/rename?
-        return os.path.dirname(path_strip(os.path.join(self.head,''), self.site.directory))
-    
+        "Parent folder(s)"  # FIXME: needed/rename?
+        return os.path.dirname(path_strip(os.path.join(self.head, ''), self.site.directory))
+
     _is_folder_stored = None
     @property
     def is_folder(self):
         "True, if path is a folder"
-        if self._is_folder_stored == None:
+        if self._is_folder_stored is None:
             self._is_folder_stored = self.site.storage.isdir(self.path)
         return self._is_folder_stored
-    
+
     @property
     def is_empty(self):
         "True, if folder is empty"
@@ -422,7 +427,7 @@ class FileObject():
             if not dirs and not files:
                 return True
         return False
-    
+
     # ORIGINAL ATTRIBUTES/PROPERTIES
     # original
     # original_filename
@@ -446,7 +451,7 @@ class FileObject():
     # VERSION ATTRIBUTES/PROPERTIES
     # is_version
     # versions_basedir
-    
+
     @property
     def is_version(self):
         "True if file is a version, false otherwise"
@@ -454,7 +459,7 @@ class FileObject():
         if tmp[len(tmp)-1] in VERSIONS:
             return True
         return False
-    
+
     @property
     def versions_basedir(self):
         "Main directory for storing versions (either VERSIONS_BASEDIR or site.directory)"
@@ -479,7 +484,7 @@ class FileObject():
             for version in VERSIONS:
                 version_list.append(os.path.join(self.versions_basedir, self.folder, self.version_name(version)))
         return version_list
-    
+
     def admin_versions(self):
         "List of admin versions (not checking if they actually exist)"
         version_list = []
@@ -513,7 +518,7 @@ class FileObject():
         Generate Version for an Image.
         value has to be a path relative to the storage location.
         """
-        
+
         tmpfile = File(NamedTemporaryFile())
 
         try:
@@ -542,19 +547,19 @@ class FileObject():
             self.site.storage.delete(version_path)
         self.site.storage.save(version_path, tmpfile)
         return version_path
-    
+
     # DELETE METHODS
     # delete
     # delete_versions
     # delete_admin_versions
-    
+
     def delete(self):
         "Delete FileObject (deletes a folder recursively)"
         if self.is_folder:
             self.site.storage.rmtree(self.path)
         else:
             self.site.storage.delete(self.path)
-    
+
     def delete_versions(self):
         "Delete versions"
         for version in self.versions():
@@ -562,7 +567,7 @@ class FileObject():
                 self.site.storage.delete(version)
             except:
                 pass
-    
+
     def delete_admin_versions(self):
         "Delete admin versions"
         for version in self.admin_versions():
@@ -570,4 +575,3 @@ class FileObject():
                 self.site.storage.delete(version)
             except:
                 pass
-

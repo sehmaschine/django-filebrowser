@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 # PATH AND URL SETTINGS
 
-# Main Media Settings 
+# Main Media Settings
 # WARNING: FILEBROWSER_MEDIA_ROOT and FILEBROWSER_MEDIA_URL will be removed in the next major release of Filebrowser.
 # Read the documentation on FileBrowser's storages (http://readthedocs.org/docs/django-filebrowser/en/latest/file_storages.html)
 MEDIA_ROOT = getattr(settings, "FILEBROWSER_MEDIA_ROOT", settings.MEDIA_ROOT)
@@ -20,19 +20,19 @@ DIRECTORY = getattr(settings, "FILEBROWSER_DIRECTORY", 'uploads/')
 # Allowed Extensions for File Upload. Lower case is important.
 EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
     'Folder': [''],
-    'Image': ['.jpg','.jpeg','.gif','.png','.tif','.tiff'],
-    'Document': ['.pdf','.doc','.rtf','.txt','.xls','.csv','.docx'],
-    'Video': ['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
-    'Audio': ['.mp3','.mp4','.wav','.aiff','.midi','.m4p']
+    'Image': ['.jpg', '.jpeg', '.gif', '.png', '.tif', '.tiff'],
+    'Document': ['.pdf', '.doc', '.rtf', '.txt', '.xls', '.csv', '.docx'],
+    'Video': ['.mov', '.wmv', '.mpeg', '.mpg', '.avi', '.rm'],
+    'Audio': ['.mp3', '.mp4', '.wav', '.aiff', '.midi', '.m4p']
 })
 # Define different formats for allowed selections.
 # This has to be a subset of EXTENSIONS.
 # e.g., add ?type=image to the browse-URL ...
 SELECT_FORMATS = getattr(settings, "FILEBROWSER_SELECT_FORMATS", {
-    'file': ['Folder','Image','Document','Video','Audio'],
+    'file': ['Folder', 'Image', 'Document', 'Video', 'Audio'],
     'image': ['Image'],
     'document': ['Document'],
-    'media': ['Video','Audio'],
+    'media': ['Video', 'Audio'],
 })
 
 # VERSIONS

@@ -35,12 +35,12 @@ def transpose_image(request, fileobjects, operation):
         im = Image.open(f)
         new_image = im.transpose(operation)
         tmpfile = File(NamedTemporaryFile())
-        
+
         try:
             new_image.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY, optimize=(os.path.splitext(fileobject.path)[1].lower() != '.gif'))
         except IOError:
             new_image.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY)
-        
+
         try:
             saved_under = fileobject.site.storage.save(fileobject.path, tmpfile)
             if saved_under != fileobject.path:
@@ -49,7 +49,7 @@ def transpose_image(request, fileobjects, operation):
         finally:
             tmpfile.close()
             f.close()
-            
+
         messages.add_message(request, messages.SUCCESS, _("Action applied successfully to '%s'" % (fileobject.filename)))
 
 
@@ -86,4 +86,3 @@ def rotate_180(request, fileobjects):
     transpose_image(request, fileobjects, 3)
 rotate_180.short_description = _(u'Rotate 180°')
 rotate_180.applies_to = applies_to_all_images
-

@@ -32,12 +32,12 @@ def get_file(path, filename, site=None):
 
 def path_exists(site, function):
     "Check if the given path exists."
-    
+
     def decorator(request, *args, **kwargs):
-        if get_path('', site=site) == None:
+        if get_path('', site=site) is None:
             # The storage location does not exist, raise an error to prevent eternal redirecting.
             raise ImproperlyConfigured, _("Error finding Upload-Folder (site.storage.location + site.directory). Maybe it does not exist?")
-        if get_path(request.GET.get('dir', ''), site=site) == None:
+        if get_path(request.GET.get('dir', ''), site=site) is None:
             msg = _('The requested Folder does not exist.')
             messages.add_message(request, messages.ERROR, msg)
             redirect_url = reverse("filebrowser:fb_browse", current_app=site.name) + query_helper(request.GET, "", "dir")
@@ -48,10 +48,10 @@ def path_exists(site, function):
 
 def file_exists(site, function):
     "Check if the given file exists."
-    
+
     def decorator(request, *args, **kwargs):
         file_path = get_file(request.GET.get('dir', ''), request.GET.get('filename', ''), site=site)
-        if file_path == None:
+        if file_path is None:
             msg = _('The requested File does not exist.')
             messages.add_message(request, messages.ERROR, msg)
             redirect_url = reverse("filebrowser:fb_browse", current_app=site.name) + query_helper(request.GET, "", "dir")

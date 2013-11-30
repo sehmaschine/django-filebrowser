@@ -24,8 +24,7 @@ class CsrfTokenNode(Node):
                 warnings.warn("A {% csrf_token %} was used in a template, but the context did not provide the value.  This is usually caused by not using RequestContext.")
             return u''
 
+
 def fb_csrf_token(parser, token):
     return CsrfTokenNode()
 register.tag(fb_csrf_token)
-
-
