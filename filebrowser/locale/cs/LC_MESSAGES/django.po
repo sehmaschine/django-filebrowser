@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <cuchac@email.cz>, 2012.
+# cuchac <cuchac@email.cz>, 2013
+# cuchac <cuchac@email.cz>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-23 12:55+0200\n"
-"PO-Revision-Date: 2012-11-10 08:20+0000\n"
-"Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
+"PO-Revision-Date: 2013-11-20 09:30+0000\n"
+"Last-Translator: cuchac <cuchac@email.cz>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/django-filebrowser/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -177,7 +178,7 @@ msgstr "Prosím opravte následující chyby."
 msgid ""
 "The Name will be normalized by converting or stripping all non-standard "
 "characters."
-msgstr ""
+msgstr "Jméno souboru bude upraveno tak, aby neobsahovalo nestandardní znaky."
 
 #: templates/filebrowser/createdir.html:39
 #: templates/filebrowser/upload.html:150
@@ -277,11 +278,11 @@ msgstr "Uložit a pokračovat v úpravách"
 
 #: templates/filebrowser/upload.html:42
 msgid "Drop files here to upload"
-msgstr ""
+msgstr "Vyberte soubor, který chcete nahrát"
 
 #: templates/filebrowser/upload.html:43
 msgid "Upload a file"
-msgstr ""
+msgstr "Nahrát soubor"
 
 #: templates/filebrowser/upload.html:52
 msgid "Failed"

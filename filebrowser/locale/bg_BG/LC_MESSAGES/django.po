@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Todor Lube <tlubenov@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-23 12:55+0200\n"
-"PO-Revision-Date: 2011-06-01 11:15+0000\n"
-"Last-Translator: sehmaschine <patrick@vonautomatisch.at>\n"
+"PO-Revision-Date: 2013-11-20 09:30+0000\n"
+"Last-Translator: Todor Lube <tlubenov@gmail.com>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/django-filebrowser/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,11 +25,11 @@ msgstr ""
 
 #: actions.py:56 forms.py:21
 msgid "Flip horizontal"
-msgstr ""
+msgstr "Завърта хоризонтално"
 
 #: actions.py:62 forms.py:22
 msgid "Flip vertical"
-msgstr ""
+msgstr "Завърта вертикално"
 
 #: actions.py:68 forms.py:23
 msgid "Rotate 90° CW"
@@ -40,7 +41,7 @@ msgstr ""
 
 #: actions.py:80 forms.py:25
 msgid "Rotate 180°"
-msgstr ""
+msgstr "Завърта 180°"
 
 #: decorators.py:23
 msgid ""
@@ -50,15 +51,15 @@ msgstr ""
 
 #: decorators.py:25
 msgid "The requested Folder does not exist."
-msgstr ""
+msgstr "Папката не съществува."
 
 #: decorators.py:41
 msgid "The requested File does not exist."
-msgstr ""
+msgstr "Файлът не съществува."
 
 #: decorators.py:47
 msgid "You do not have permission to access this file!"
-msgstr ""
+msgstr "Нямате права за достъп до този файл!"
 
 #: fields.py:65
 #, python-format
@@ -67,7 +68,7 @@ msgstr ""
 
 #: forms.py:39 forms.py:58
 msgid "Name"
-msgstr ""
+msgstr "Име"
 
 #: forms.py:39 forms.py:45 forms.py:58 forms.py:79
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
@@ -75,36 +76,36 @@ msgstr ""
 
 #: forms.py:48 forms.py:82
 msgid "The Folder already exists."
-msgstr ""
+msgstr "Папката вече съществува."
 
 #: forms.py:57
 msgid "Actions"
-msgstr ""
+msgstr "Действия"
 
 #: forms.py:84
 msgid "The File already exists."
-msgstr ""
+msgstr "Файлът вече съществува."
 
 #: settings.py:123 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
-msgstr ""
+msgstr "Папка."
 
 #: settings.py:124
 msgid "Image"
-msgstr ""
+msgstr "Изображение"
 
 #: settings.py:125
 msgid "Video"
-msgstr ""
+msgstr "Видео"
 
 #: settings.py:126
 msgid "Document"
-msgstr ""
+msgstr "Документ"
 
 #: settings.py:127
 msgid "Audio"
-msgstr ""
+msgstr "Аудио"
 
 #: sites.py:264 templates/filebrowser/include/breadcrumbs.html:9
 #: templates/filebrowser/include/breadcrumbs.html:11
@@ -118,15 +119,15 @@ msgstr ""
 
 #: sites.py:294
 msgid "Permission denied."
-msgstr ""
+msgstr "Достъп отказан."
 
 #: sites.py:296
 msgid "Error creating folder."
-msgstr ""
+msgstr "Грешка при създаване на папка."
 
 #: sites.py:303 sites.py:306 templates/filebrowser/index.html:80
 msgid "New Folder"
-msgstr ""
+msgstr "Нова папка"
 
 #: sites.py:320
 msgid "Select files to upload"
@@ -138,7 +139,7 @@ msgstr ""
 
 #: sites.py:354 sites.py:357
 msgid "Confirm delete"
-msgstr ""
+msgstr "Потвърди изтриване"
 
 #: sites.py:375
 #, python-format
@@ -147,11 +148,11 @@ msgstr ""
 
 #: sites.py:413
 msgid "Renaming was successful."
-msgstr ""
+msgstr "Преименуването беше успешно."
 
 #: sites.py:422
 msgid "Error."
-msgstr ""
+msgstr "Грешка."
 
 #: widgets.py:19 widgets.py:52
 msgid "Currently"
@@ -160,16 +161,16 @@ msgstr ""
 #: widgets.py:20 widgets.py:53
 #: templates/filebrowser/include/filelisting.html:131
 msgid "Change"
-msgstr ""
+msgstr "Промени"
 
 #: widgets.py:21 widgets.py:54
 msgid "Clear"
-msgstr ""
+msgstr "Изчисти"
 
 #: templates/filebrowser/createdir.html:23
 #: templates/filebrowser/detail.html:48
 msgid "Please correct the following errors."
-msgstr ""
+msgstr "Моля коригирайте следните грешки."
 
 #: templates/filebrowser/createdir.html:36
 #: templates/filebrowser/upload.html:147
@@ -193,7 +194,7 @@ msgstr ""
 #: templates/filebrowser/widgets/clearablefileinput.html:11
 #: templates/filebrowser/widgets/fileinput.html:11
 msgid "File not found"
-msgstr ""
+msgstr "Файлът не е намерен"
 
 #: templates/filebrowser/delete_confirm.html:30
 #, python-format
@@ -210,25 +211,25 @@ msgstr ""
 #: templates/filebrowser/delete_confirm.html:50
 #: templates/filebrowser/upload.html:51
 msgid "Cancel"
-msgstr ""
+msgstr "Откажи"
 
 #: templates/filebrowser/delete_confirm.html:51
 msgid "Yes, I'm sure"
-msgstr ""
+msgstr "Да сигурен съм"
 
 #: templates/filebrowser/detail.html:63
 msgid "Edit"
-msgstr ""
+msgstr "Редакция"
 
 #: templates/filebrowser/detail.html:78
 msgid "Folder Information"
-msgstr ""
+msgstr "Информация за папка"
 
 #: templates/filebrowser/detail.html:81 templates/filebrowser/detail.html:116
 #: templates/filebrowser/include/tableheader.html:28
 #: templates/filebrowser/include/tableheader.html:29
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: templates/filebrowser/detail.html:93
 msgid "File Information"
@@ -246,7 +247,7 @@ msgstr ""
 #: templates/filebrowser/include/tableheader.html:25
 #: templates/filebrowser/include/tableheader.html:26
 msgid "Size"
-msgstr ""
+msgstr "Размер"
 
 #: templates/filebrowser/detail.html:140
 msgid "Image Versions"
@@ -264,11 +265,11 @@ msgstr ""
 
 #: templates/filebrowser/detail.html:170
 msgid "Delete"
-msgstr ""
+msgstr "Изтриване"
 
 #: templates/filebrowser/detail.html:171
 msgid "Save"
-msgstr ""
+msgstr "Запис"
 
 #: templates/filebrowser/detail.html:172
 msgid "Save and continue editing"
@@ -280,7 +281,7 @@ msgstr ""
 
 #: templates/filebrowser/upload.html:43
 msgid "Upload a file"
-msgstr ""
+msgstr "Качване."
 
 #: templates/filebrowser/upload.html:52
 msgid "Failed"
@@ -309,11 +310,11 @@ msgstr ""
 
 #: templates/filebrowser/upload.html:115
 msgid "Please enable Javascript to upload files."
-msgstr ""
+msgstr "Моля активирайте Javascript за качване на файлове."
 
 #: templates/filebrowser/upload.html:120
 msgid "Help"
-msgstr ""
+msgstr "Помощ"
 
 #: templates/filebrowser/upload.html:123
 msgid "Allowed"
@@ -327,23 +328,23 @@ msgstr ""
 #: templates/filebrowser/include/tableheader.html:17
 #: templates/filebrowser/include/tableheader.html:18
 msgid "Filename"
-msgstr ""
+msgstr "Име на файл"
 
 #: templates/filebrowser/include/breadcrumbs.html:6
 msgid "Home"
-msgstr ""
+msgstr "Начало"
 
 #: templates/filebrowser/include/filelisting.html:19
 #: templates/filebrowser/include/filelisting.html:45
 #: templates/filebrowser/include/filelisting.html:70
 msgid "Select"
-msgstr ""
+msgstr "Избери"
 
 #: templates/filebrowser/include/filelisting.html:23
 #: templates/filebrowser/include/filelisting.html:49
 #: templates/filebrowser/include/filelisting.html:74
 msgid "Versions"
-msgstr ""
+msgstr "Версии"
 
 #: templates/filebrowser/include/filter.html:4
 msgid "Filter"
@@ -351,7 +352,7 @@ msgstr ""
 
 #: templates/filebrowser/include/filter.html:7
 msgid "By Date"
-msgstr ""
+msgstr "По Дата"
 
 #: templates/filebrowser/include/filter.html:9
 msgid "Any Date"
@@ -359,7 +360,7 @@ msgstr ""
 
 #: templates/filebrowser/include/filter.html:10
 msgid "Today"
-msgstr ""
+msgstr "Днес"
 
 #: templates/filebrowser/include/filter.html:11
 msgid "Past 7 days"
@@ -371,33 +372,33 @@ msgstr ""
 
 #: templates/filebrowser/include/filter.html:13
 msgid "This year"
-msgstr ""
+msgstr "Тази година"
 
 #: templates/filebrowser/include/filter.html:17
 msgid "By Type"
-msgstr ""
+msgstr "По Тип"
 
 #: templates/filebrowser/include/filter.html:19
 msgid "All"
-msgstr ""
+msgstr "Всичко"
 
 #: templates/filebrowser/include/paginator.html:6
 msgid "result"
-msgstr ""
+msgstr "резултат"
 
 #: templates/filebrowser/include/paginator.html:6
 msgid "results"
-msgstr ""
+msgstr "резултати"
 
 #: templates/filebrowser/include/paginator.html:10
 #: templates/filebrowser/include/paginator.html:12
 msgid "total"
-msgstr ""
+msgstr "общо"
 
 #: templates/filebrowser/include/tableheader.html:12
 #: templates/filebrowser/include/tableheader.html:13
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 #: templates/filebrowser/include/toolbar.html:6
 msgid "Results"
@@ -417,7 +418,7 @@ msgstr ""
 
 #: templates/filebrowser/include/toolbar.html:16
 msgid "Search"
-msgstr ""
+msgstr "Търси"
 
 #~ msgid "BROWSE"
 #~ msgstr "BROWSE"

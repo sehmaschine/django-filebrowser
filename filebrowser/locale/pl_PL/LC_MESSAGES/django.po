@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Wojciech Sobczak <wsobczak@gmail.com>, 2011.
+# Irek Zuchowski <ikutek@gmail.com>, 2013
+# Wojciech Sobczak <wsobczak@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-23 12:55+0200\n"
-"PO-Revision-Date: 2012-11-10 08:20+0000\n"
-"Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
+"PO-Revision-Date: 2013-11-25 11:41+0000\n"
+"Last-Translator: Irek Zuchowski <ikutek@gmail.com>\n"
 "Language-Team: Polish (Poland) (http://www.transifex.com/projects/p/django-filebrowser/language/pl_PL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -177,7 +178,7 @@ msgstr "Proszę poprawić następujące błędy."
 msgid ""
 "The Name will be normalized by converting or stripping all non-standard "
 "characters."
-msgstr ""
+msgstr "Nazwa zostanie znormalizowana przez zmianę lub usunięcie znaków niestandardowych."
 
 #: templates/filebrowser/createdir.html:39
 #: templates/filebrowser/upload.html:150
@@ -277,11 +278,11 @@ msgstr "Zapisz i kontynuuj edycję"
 
 #: templates/filebrowser/upload.html:42
 msgid "Drop files here to upload"
-msgstr ""
+msgstr "Wybierz pliki do przesłania"
 
 #: templates/filebrowser/upload.html:43
 msgid "Upload a file"
-msgstr ""
+msgstr "Prześlij"
 
 #: templates/filebrowser/upload.html:52
 msgid "Failed"

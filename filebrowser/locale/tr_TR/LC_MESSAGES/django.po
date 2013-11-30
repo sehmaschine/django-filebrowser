@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <cihadgundogdu@gmail.com>, 2012.
-# Tolga GÜNDOĞAN <tgundogan@gmail.com>, 2012.
+# cihad <cihadgundogdu@gmail.com>, 2012
+# mozgur <mozgurbayhan@gmail.com>, 2013
+# Tolga GÜNDOĞAN <tgundogan@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-23 12:55+0200\n"
-"PO-Revision-Date: 2012-11-10 08:20+0000\n"
-"Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
+"PO-Revision-Date: 2013-11-29 18:06+0000\n"
+"Last-Translator: mozgur <mozgurbayhan@gmail.com>\n"
 "Language-Team: Turkish (Turkey) (http://www.transifex.com/projects/p/django-filebrowser/language/tr_TR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -178,7 +179,7 @@ msgstr "Lütfen hataları düzeltin"
 msgid ""
 "The Name will be normalized by converting or stripping all non-standard "
 "characters."
-msgstr ""
+msgstr "İsim, standart olmayan karakterler çıkartılarak veya dönüştürülerek normalleştirilecek"
 
 #: templates/filebrowser/createdir.html:39
 #: templates/filebrowser/upload.html:150
@@ -278,11 +279,11 @@ msgstr "Kaydet ve düzenlemeye devam et"
 
 #: templates/filebrowser/upload.html:42
 msgid "Drop files here to upload"
-msgstr ""
+msgstr "Yüklenecek dosyaları seçin"
 
 #: templates/filebrowser/upload.html:43
 msgid "Upload a file"
-msgstr ""
+msgstr "Yükle"
 
 #: templates/filebrowser/upload.html:52
 msgid "Failed"

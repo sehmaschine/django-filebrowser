@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Анхбаяр Анхаа <l.ankhbayar@gmail.com>, 2011-2012.
+# Анхбаяр Анхаа <l.ankhbayar@gmail.com>, 2011-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-23 12:55+0200\n"
-"PO-Revision-Date: 2012-11-29 13:09+0000\n"
+"PO-Revision-Date: 2013-11-20 09:30+0000\n"
 "Last-Translator: Анхбаяр Анхаа <l.ankhbayar@gmail.com>\n"
 "Language-Team: Mongolian (http://www.transifex.com/projects/p/django-filebrowser/language/mn/)\n"
 "MIME-Version: 1.0\n"
@@ -84,7 +84,7 @@ msgstr "Үйлдэлүүд"
 
 #: forms.py:84
 msgid "The File already exists."
-msgstr "Ийм файл байна. Давхардлаа."
+msgstr "Ийм файл өмнө нь үүссэн байна."
 
 #: settings.py:123 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
@@ -161,7 +161,7 @@ msgstr "Одоогоор"
 #: widgets.py:20 widgets.py:53
 #: templates/filebrowser/include/filelisting.html:131
 msgid "Change"
-msgstr "Өөрчлөх"
+msgstr "Өөрчил"
 
 #: widgets.py:21 widgets.py:54
 msgid "Clear"
@@ -188,7 +188,7 @@ msgstr "Нэрийг жижиг үсгээр хоосон зайг доогуу�
 
 #: templates/filebrowser/createdir.html:50
 msgid "Submit"
-msgstr "Оруул"
+msgstr "Илгээх"
 
 #: templates/filebrowser/custom_field.html:26
 #: templates/filebrowser/widgets/clearablefileinput.html:11
@@ -265,7 +265,7 @@ msgstr "Зураг үзэх"
 
 #: templates/filebrowser/detail.html:170
 msgid "Delete"
-msgstr "Утсгах"
+msgstr "Утсга"
 
 #: templates/filebrowser/detail.html:171
 msgid "Save"

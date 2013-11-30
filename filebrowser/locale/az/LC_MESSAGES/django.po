@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Ali Ismayilov <ali@ismailov.info>, 2011.
+# Ali Ismayilov <ali@ismailov.info>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-23 12:55+0200\n"
-"PO-Revision-Date: 2012-11-10 08:20+0000\n"
+"PO-Revision-Date: 2013-11-20 09:30+0000\n"
 "Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/django-filebrowser/language/az/)\n"
 "MIME-Version: 1.0\n"
