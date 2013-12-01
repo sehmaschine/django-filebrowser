@@ -26,7 +26,7 @@ setup(
     ],
     zip_safe = False,
     install_requires = [
-        'django-grappelli>=2.4,<2.4.99',
+        'django-grappelli>=2.4,<2.5.99',
     ],
     use_2to3=True,
 )
