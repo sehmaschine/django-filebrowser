@@ -495,15 +495,15 @@ class FileObject():
         return version_list
 
     def version_name(self, version_suffix):
-        "Name of a version"
+        "Name of a version"  # FIXME: version_name for version?
         return self.filename_root + "_" + version_suffix + self.extension
 
     def version_path(self, version_suffix):
-        "Path to a version (relative to storage location)"
+        "Path to a version (relative to storage location)"  # FIXME: version_path for version?
         return os.path.join(self.versions_basedir, self.dirname, self.version_name(version_suffix))
 
     def version_generate(self, version_suffix):
-        "Generate a version"
+        "Generate a version"  # FIXME: version_generate for version?
         path = self.path
         if FORCE_PLACEHOLDER or (SHOW_PLACEHOLDER and not self.site.storage.isfile(path)):
             path = PLACEHOLDER
