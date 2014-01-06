@@ -431,29 +431,11 @@ class FileObject():
                 return True
         return False
 
-    # ORIGINAL ATTRIBUTES/PROPERTIES
-    # original
-    # original_filename
-
-    @property
-    def original(self):
-        "Returns the original FileObject"
-        if self.is_version:
-            relative_path = self.head.replace(self.versions_basedir, "").lstrip("/")
-            return FileObject(os.path.join(self.site.directory, relative_path, self.original_filename), site=self.site)
-        return self
-
-    @property
-    def original_filename(self):
-        "Get the filename of an original image from a version"
-        tmp = self.filename_root.split("_")
-        if tmp[len(tmp)-1] in VERSIONS:
-            return u"%s%s" % (self.filename_root.replace("_%s" % tmp[len(tmp)-1], ""), self.extension)
-        return self.filename
-
     # VERSION ATTRIBUTES/PROPERTIES
     # is_version
     # versions_basedir
+    # original
+    # original_filename
 
     @property
     def is_version(self):
@@ -473,9 +455,25 @@ class FileObject():
         else:
             return ""
 
+    @property
+    def original(self):
+        "Returns the original FileObject"
+        if self.is_version:
+            relative_path = self.head.replace(self.versions_basedir, "").lstrip("/")
+            return FileObject(os.path.join(self.site.directory, relative_path, self.original_filename), site=self.site)
+        return self
+
+    @property
+    def original_filename(self):
+        "Get the filename of an original image from a version"
+        tmp = self.filename_root.split("_")
+        if tmp[len(tmp)-1] in VERSIONS:
+            return u"%s%s" % (self.filename_root.replace("_%s" % tmp[len(tmp)-1], ""), self.extension)
+        return self.filename
+
     # VERSION METHODS
-    # versions
-    # admin_versions
+    # versions()
+    # admin_versions()
     # version_name(suffix)
     # version_path(suffix)
     # version_generate(suffix)
@@ -483,7 +481,7 @@ class FileObject():
     def versions(self):
         "List of versions (not checking if they actually exist)"
         version_list = []
-        if self.filetype == "Image":
+        if self.filetype == "Image" and not self.is_version:
             for version in VERSIONS:
                 version_list.append(os.path.join(self.versions_basedir, self.dirname, self.version_name(version)))
         return version_list
@@ -491,7 +489,7 @@ class FileObject():
     def admin_versions(self):
         "List of admin versions (not checking if they actually exist)"
         version_list = []
-        if self.filetype == "Image":
+        if self.filetype == "Image" and not self.is_version:
             for version in ADMIN_VERSIONS:
                 version_list.append(os.path.join(self.versions_basedir, self.dirname, self.version_name(version)))
         return version_list
@@ -552,9 +550,9 @@ class FileObject():
         return version_path
 
     # DELETE METHODS
-    # delete
-    # delete_versions
-    # delete_admin_versions
+    # delete()
+    # delete_versions()
+    # delete_admin_versions()
 
     def delete(self):
         "Delete FileObject (deletes a folder recursively)"

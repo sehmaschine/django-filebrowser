@@ -285,6 +285,7 @@ class FileObjectAttributeTests(TestCase):
 
         # is_version
         # original
+        # original_filename
         # versions_basedir
         # versions
         # admin_versions
@@ -330,6 +331,7 @@ class FileObjectAttributeTests(TestCase):
 
         # is_version
         # original
+        # original_filename
         # versions_basedir
         # versions
         # admin_versions
@@ -365,7 +367,8 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(f_version.is_version, True)
         self.assertEqual(f_version.original_filename, "testimage.jpg")
         self.assertEqual(f_version.original.path, self.f_image.path)
-        # FIXME: versions should not have versions or admin_versions
+        self.assertEqual(f_version.versions(), [])
+        self.assertEqual(f_version.admin_versions(), [])
 
     def test_version_attributes_3(self):
         """
@@ -374,6 +377,7 @@ class FileObjectAttributeTests(TestCase):
 
         # is_version
         # original
+        # original_filename
         # versions_basedir
         # versions
         # admin_versions
@@ -409,7 +413,8 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(f_version.is_version, True)
         self.assertEqual(f_version.original_filename, "testimage.jpg")
         self.assertEqual(f_version.original.path, self.f_image.path)
-        # FIXME: versions should not have versions or admin_versions
+        self.assertEqual(f_version.versions(), [])
+        self.assertEqual(f_version.admin_versions(), [])
 
     def test_delete(self):
         """
