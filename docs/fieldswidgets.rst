@@ -3,55 +3,45 @@
 .. |grappelli| replace:: Grappelli
 .. |filebrowser| replace:: FileBrowser
 
+Fields & Widgets
+================
+
+The :ref:`filebrowsefield` is a custom model field which returns a :ref:`fileobject`. The widgets :ref:`fileinputwidget` and :ref:`clearablefileinputwidget` are used with the admin app in order to show an additional thumbnail for images.
+
 .. _filebrowsefield:
 
 FileBrowseField
-===============
+---------------
 
-The ``FileBrowseField`` is a ``Model field`` for selecting a file from your Media Server::
+.. py:class:: FileBrowseField(max_length[, site, directory, extensions, format, **options])
+
+    A subclass of `CharField <https://docs.djangoproject.com/en/1.6/ref/models/fields/#charfield>`_, referencing a media file within.
+    Returns a :ref:`fileobject`.
+
+    :param site: A FileBrowser site (defaults to the main site), see :ref:`site`.
+    :param directory: Directory to browse when clicking the search icon.
+    :param extensions: List of allowed extensions, see :ref:`settingsextensionsformats`.
+    :param format: A key from SELECT_FORMATS in order to restrict the selection to specific filetypes, , see :ref:`settingsextensionsformats`.
+
+For example:
+
+.. code-block:: python
 
     from filebrowser.fields import FileBrowseField
     
     class BlogEntry(models.Model):
-        
         image = FileBrowseField("Image", max_length=200, directory="images/", extensions=[".jpg"], blank=True, null=True)
         document = FileBrowseField("PDF", max_length=200, directory="documents/", extensions=[".pdf",".doc"], blank=True, null=True)
-        ...
-
-Attributes
-^^^^^^^^^^
-
-``max_length``
-    Since the ``FileBrowseField`` is a ``CharField``, you have to define ``max_length``.
-
-``site`` (optional)
-    The FileBrowser site you want to use with this field. Defaults to the main site, if not given.
-
-``directory`` (optional)
-    Subdirectory of ``site.directory``. If ``site.directory`` is not defined, subdirectory of ``site.storage.location``. Do not prepend a slash.
-
-``extensions`` (optional)
-    List of allowed extensions.
-
-``format`` (optional)
-    Use this attribute to restrict selection to specific filetypes. E.g., if you use format='image', only Images can be selected from the FileBrowser. Note: The ``format`` has to be defined within ``SELECT_FORMATS``.
 
 FileBrowseField in Templates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-When using a ``FileBrowseField``, you'll get a :ref:`fileobject` back.
+You can use all attributes from :ref:`fileobject`:
 
-With the above Model, you can use::
+.. code-block:: html
 
     {{ blogentry.image }}
-
-to output the contents of your image-field. For example, this could result in something like "myimage.jpg".
-
-Now, if you want to actually display the Image, you write::
-
     <img src="{{ publication.image.url }}" />
-
-More complicated, if you want to display "Landscape" Images only::
 
     {% ifequal blogentry.image.image_orientation "landscape" %}
         <img src="{{ blogentry.image.url }}" class="landscape" />
@@ -60,7 +50,9 @@ More complicated, if you want to display "Landscape" Images only::
 Showing Thumbnail in the Changelist
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you want to show a Thumbnail in the Changelist, you can define a Model-/Admin-Method::
+To show a thumbnail with the changelist, you can define a ModelAdmin method:
+
+.. code-block:: python
 
     from filebrowser.settings import ADMIN_THUMBNAIL
     
@@ -75,17 +67,24 @@ If you want to show a Thumbnail in the Changelist, you can define a Model-/Admin
 Using the FileBrowseField with TinyMCE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You can also replace the TinyMCE Image/File Manager with the FileBrowser. What you have to do is a FileBrowser Callback. There's an example in /media/js/ called TinyMCEAdmin.js (a TinyMCE Configuration File). You can copy the FileBrowserCallback to your own file, take a look at http://www.tinymce.com/wiki.php/Configuration:file_browser_callback or just use tinymce_setup.js (which comes with django-grappelli).
+In order to replace the TinyMCE image/file manager with the FileBrowser, you have to use a `FileBrowser Callback <http://www.tinymce.com/wiki.php/Configuration:file_browser_callback>`_. There's an example TinyMCE configuration file in /static/js/ called TinyMCEAdmin.js. You can either copy the FileBrowserCallback to your own file or just use tinymce_setup.js (which comes with django-grappelli).
 
-Just add these lines to your AdminModel::
+Just add these lines to your `ModelAdmin asset definitions <https://docs.djangoproject.com/en/1.6/ref/contrib/admin/#modeladmin-asset-definitions>`_:
+
+.. code-block:: python
 
     class Media:
-        js = ['/path/to/tinymce/jscripts/tiny_mce/tiny_mce.js', '/path/to/your/tinymce_setup.js',]
+        js = ['/path/to/tinymce/jscripts/tiny_mce/tiny_mce.js',
+              '/path/to/your/tinymce_setup.js']
+
+.. _fileinputwidget:
 
 FileInput
-=========
+---------
 
-Subclass of ``FileInput`` with an additional Image-Thumbnail::
+Subclass of `FileInput <https://docs.djangoproject.com/en/1.6/ref/forms/widgets/#fileinput>`_ with an additional thumbnail:
+
+.. code-block:: python
     
     from filebrowser.widgets import FileInput
     
@@ -94,10 +93,14 @@ Subclass of ``FileInput`` with an additional Image-Thumbnail::
             models.ImageField: {'widget': FileInput},
         }
 
-ClearableFileInput
-==================
+.. _clearablefileinputwidget:
 
-Subclass of ``ClearableFileInput`` with an additional Image-Thumbnail::
+ClearableFileInput
+------------------
+
+Subclass of `ClearableFileInput <https://docs.djangoproject.com/en/1.6/ref/forms/widgets/#clearablefileinput>`_ with an additional thumbnail:
+
+.. code-block:: python
     
     from filebrowser.widgets import ClearableFileInput
     
@@ -106,10 +109,12 @@ Subclass of ``ClearableFileInput`` with an additional Image-Thumbnail::
             models.ImageField: {'widget': ClearableFileInput},
         }
 
-Django ``FileField`` and the FileBrowser
-========================================
+Django FileField and the FileBrowser
+------------------------------------
 
-Generate a ``FileObject`` from a ``FileField`` or ``ImageField`` with::
+Return a :ref:`fileobject` from a `FileField <https://docs.djangoproject.com/en/1.6/ref/models/fields/#filefield>`_ or `ImageField <https://docs.djangoproject.com/en/1.6/ref/models/fields/#imagefield>`_ with:
+
+.. code-block:: python
     
     from filebrowser.base import FileObject
     
@@ -120,7 +125,9 @@ Generate a ``FileObject`` from a ``FileField`` or ``ImageField`` with::
             return FileObject(self.image_upload.path)
         return None
 
-To show a Thumbnail on your changelist, you could use a ModelAdmin-Method::
+In order show a thumbnail with your changelist, you could use a ModelAdmin method:
+
+.. code-block:: python
     
     from filebrowser.base import FileObject
     

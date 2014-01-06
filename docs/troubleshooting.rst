@@ -1,4 +1,4 @@
-:tocdepth: 1
+:orphan:
 
 .. |grappelli| replace:: Grappelli
 .. |filebrowser| replace:: FileBrowser
@@ -8,21 +8,21 @@
 Troubleshooting
 ===============
 
-Sometimes you might have a problem installing/using the |filebrowser|.
-
 Check your setup
 ^^^^^^^^^^^^^^^^
 
-First, please check if the problem is caused by your setup.
+Please check if the problem is caused by your setup.
 
 * Read :ref:`quickstart`.
 * Check if the static/media-files are served correctly.
-* Make sure you have removed all customized filebrowser templates from all locations in TEMPLATE_DIRS paths or check that these templates are compatible with the |filebrowser|.
+* Make sure you have removed all custom |filebrowser| templates from all locations in ``TEMPLATE_DIRS`` or check that these templates are compatible with the |filebrowser|.
 
-Run the |filebrowser| tests
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Run the tests
+^^^^^^^^^^^^^
 
-Start the shell and type::
+Start the shell and type:
+
+.. code-block:: console
 
     python manage.py test filebrowser
 

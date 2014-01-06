@@ -10,12 +10,11 @@ Django FileBrowser Documentation
 
 **Media-Management with Grappelli**.
 
-This documentation covers version 3.5.3 of the |filebrowser|.
-
 .. note::
-    |filebrowser| |version| requires Django 1.4/1.5 and |grappelli| 2.4. |filebrowser| is always developed against the lastest stable Django release and is NOT tested with Djangos trunk.
+    |filebrowser| |version| requires Django 1.4 or 1.5 or 1.6 and |grappelli| 2.4 or 2.5.
 
-**Installation and Setup**
+Installation and Setup
+----------------------
 
 .. toctree::
    :maxdepth: 3
@@ -23,67 +22,60 @@ This documentation covers version 3.5.3 of the |filebrowser|.
    quickstart
    settings
 
-**FileBrowser Sites**
+API
+---
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    
-   sites  
-   actions
-   file_storages
+   api
 
-**FileBrowser API**
-
-.. toctree::
-  :maxdepth: 2
-
-  api
-
-**Admin Interface**
-
-.. toctree::
-   :maxdepth: 3
-   
-   admin
-
-**Fields and Widgets**
+Fields & Widgets
+----------------
 
 .. toctree::
    :maxdepth: 3
    
    fieldswidgets
 
-**Image Versions**
+Admin Interface
+---------------
+
+.. toctree::
+   :maxdepth: 3
+
+   admin
+
+Image Versions
+--------------
 
 .. toctree::
    :maxdepth: 3
    
    versions
 
-**Help**
+Help
+----
 
 .. toctree::
    :maxdepth: 2
    
-   faq
-   troubleshooting
-   translation
-   releasenotes
+   help
    changelog
 
 Main Features
 -------------
 
-* Browse your media files with the admin-interface.
-* Multiple Upload, including a progress bar.
-* Automatic Thumbnails.
-* Image-Versions to fit your websites grid (esp. useful with adaptive/responsive layouts).
-* Integration with TinyMCE (AdvImage & AdvLink).
-* ``FileBrowseField`` to select Images/Documents.
-* ``FileInput`` and ``ClearableFileInput`` with Image-Preview.
-* Signals for Upload, Rename and Delete.
-* Custom Actions.
-* Custom File Storage Engines.
+* Browse your media files with the admin interface.
+* Multiple upload, including a progress bar.
+* Automatic thumbnails.
+* Image versions to fit your websites grid (esp. useful with adaptive/responsive layouts).
+* Integration with TinyMCE.
+* FileBrowseField to select images/documents.
+* FileInput and ClearableFileInput with image preview.
+* Signals for upload, rename and delete.
+* Custom actions.
+* Custom file storage engines.
 
 Code
 ----
@@ -98,8 +90,7 @@ Use the `FileBrowser Google Group <http://groups.google.com/group/django-filebro
 Versions and Compatibility
 --------------------------
 
-* FileBrowser 3.5.3 (Development Version, not yet released, see Branch Stable/3.5.x)
-* FileBrowser 3.5.2 (February 22 2013): Compatible with Django 1.4/1.5
-* FileBrowser 3.4.3 (April 2012): Compatible with Django 1.3
+* FileBrowser 3.5.4 (Development Version, not yet released, see Branch Stable/3.5.x)
+* FileBrowser 3.5.3 (January 7, 2014): Compatible with Django 1.4/1.5/1.6
 
 Older versions are availabe at GitHub, but are not supported anymore.

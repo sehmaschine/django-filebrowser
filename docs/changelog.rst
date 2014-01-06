@@ -8,8 +8,11 @@
 Changelog
 =========
 
-3.5.3 (not yet released)
+3.5.4 (not yet released)
 ------------------------
+
+3.5.3 (January 7, 2014)
+-----------------------
 
 * New: added ``path_full`` to FileObject.
 * Improved: added docx to EXTENSIONS.
@@ -22,11 +25,17 @@ Changelog
 * Improved: Regex matches with file versions on browse.
 * Improved: Using django.conf.urls (with django.conf.urls.defaults as fallback).
 * Improved: Adding CONTRIBUTING.rst.
+* Improved: Removed static Media inner class with fields.
+* Improved: Removed search icon with fields (has not being used).
+* Improved: Added custom class attributes with filebrowser field.
+* Improved: Updated translations.
 * Fixed: fixed exception handling with python 2.5.
 * Fixed: fixes dir with SEARCH_TRAVERSE true and version select.
 * Fixed: Make Django FileUploadHandlers work (also fixed a memory leak).
 * Fixed: return correct filename with ``OVERWRITE_EXISTING``.
 * Fixed: fb_version_generate with ``FILEBROWSER_VERSIONS_BASEDIR``.
+* Fixed: Table sorting with asc/desc.
+* Fixed: Added DeprecationWarning for ``FileObject.directory`` and ``FileObject.folder``.
 
 3.5.2 (February 22, 2013)
 -------------------------

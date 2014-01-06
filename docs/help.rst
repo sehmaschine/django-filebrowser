@@ -1,11 +1,13 @@
 .. |grappelli| replace:: Grappelli
 .. |filebrowser| replace:: FileBrowser
 
-API
-===
+Help
+====
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
    
-   filelisting
-   fileobject
+   faq
+   troubleshooting
+   translation
+   releasenotes
