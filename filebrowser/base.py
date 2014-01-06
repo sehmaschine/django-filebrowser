@@ -7,6 +7,7 @@ import time
 import platform
 import mimetypes
 from tempfile import NamedTemporaryFile
+import warnings
 
 # DJANGO IMPORTS
 from django.core.files import File
@@ -396,19 +397,21 @@ class FileObject():
         return None
 
     # FOLDER ATTRIBUTES/PROPERTIES
-    # directory
-    # folder
+    # directory (deprecated)
+    # folder (deprecated)
     # is_folder
     # is_empty
 
     @property
     def directory(self):
-        "Folder(s) relative from site.directory"  # FIXME: needed/rename?
+        "Folder(s) relative from site.directory"
+        warnings.warn("directory will be removed with 3.6, use path_relative_directory instead.", DeprecationWarning)
         return path_strip(self.path, self.site.directory)
 
     @property
     def folder(self):
-        "Parent folder(s)"  # FIXME: needed/rename?
+        "Parent folder(s)"
+        warnings.warn("directory will be removed with 3.6, use dirname instead.", DeprecationWarning)
         return os.path.dirname(path_strip(os.path.join(self.head, ''), self.site.directory))
 
     _is_folder_stored = None
@@ -421,7 +424,7 @@ class FileObject():
 
     @property
     def is_empty(self):
-        "True, if folder is empty"
+        "True, if folder is empty. False otherwise, or if the object is not a folder."
         if self.is_folder:
             dirs, files = self.site.storage.listdir(self.path)
             if not dirs and not files:
@@ -482,7 +485,7 @@ class FileObject():
         version_list = []
         if self.filetype == "Image":
             for version in VERSIONS:
-                version_list.append(os.path.join(self.versions_basedir, self.folder, self.version_name(version)))
+                version_list.append(os.path.join(self.versions_basedir, self.dirname, self.version_name(version)))
         return version_list
 
     def admin_versions(self):
@@ -490,7 +493,7 @@ class FileObject():
         version_list = []
         if self.filetype == "Image":
             for version in ADMIN_VERSIONS:
-                version_list.append(os.path.join(self.versions_basedir, self.folder, self.version_name(version)))
+                version_list.append(os.path.join(self.versions_basedir, self.dirname, self.version_name(version)))
         return version_list
 
     def version_name(self, version_suffix):
@@ -499,7 +502,7 @@ class FileObject():
 
     def version_path(self, version_suffix):
         "Path to a version (relative to storage location)"
-        return os.path.join(self.versions_basedir, self.folder, self.version_name(version_suffix))
+        return os.path.join(self.versions_basedir, self.dirname, self.version_name(version_suffix))
 
     def version_generate(self, version_suffix):
         "Generate a version"

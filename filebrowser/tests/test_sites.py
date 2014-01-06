@@ -124,7 +124,7 @@ def test_detail(test):
     Check the detail view and version generation. Check also renaming of files.
     """
     url = reverse('%s:fb_detail' % test.site_name)
-    response = test.c.get(url, {'dir': test.testfile.folder, 'filename': test.testfile.filename})
+    response = test.c.get(url, {'dir': test.testfile.dirname, 'filename': test.testfile.filename})
 
     # Check we get an OK response for the detail view
     test.assertTrue(response.status_code == 200)
@@ -137,7 +137,7 @@ def test_detail(test):
         test.assertTrue(test.site.storage.exists(path))
 
     # Attemp renaming the file
-    url = '?'.join([url, urlencode({'dir': test.testfile.folder, 'filename': test.testfile.filename})])
+    url = '?'.join([url, urlencode({'dir': test.testfile.dirname, 'filename': test.testfile.filename})])
     response = test.c.post(url, {'name': 'testpic.jpg'})
 
     # Check we get 302 response for renaming
@@ -165,7 +165,7 @@ def test_delete_confirm(test):
     that happens in test_delete().
     """
     url = reverse('%s:fb_delete_confirm' % test.site_name)
-    response = test.c.get(url, {'dir': test.testfile.folder, 'filename': test.testfile.filename})
+    response = test.c.get(url, {'dir': test.testfile.dirname, 'filename': test.testfile.filename})
 
     # Check we get OK response for delete_confirm
     test.assertTrue(response.status_code == 200)
@@ -186,7 +186,7 @@ def test_delete(test):
 
     # Request the delete view
     url = reverse('%s:fb_delete' % test.site_name)
-    response = test.c.get(url, {'dir': test.testfile.folder, 'filename': test.testfile.filename})
+    response = test.c.get(url, {'dir': test.testfile.dirname, 'filename': test.testfile.filename})
 
     # Check we get 302 response for delete
     test.assertTrue(response.status_code == 302)
@@ -198,7 +198,7 @@ def test_delete(test):
     test.testfile = None
 
     # Delete the tmp dir and check it does not exist anymore
-    response = test.c.get(url, {'dir': test.tmpdir.folder, 'filename': test.tmpdir.filename})
+    response = test.c.get(url, {'dir': test.tmpdir.dirname, 'filename': test.tmpdir.filename})
     test.assertTrue(response.status_code == 302)
     test.assertFalse(test.site.storage.exists(test.tmpdir.path))
     test.tmpdir = None

@@ -104,7 +104,7 @@
         
         <!-- FILENAME/DIMENSIONS -->
         {% if fileobject.filetype == "Folder" %}
-            <td><a href="{% url 'filebrowser:fb_browse' %}{% query_string "" "q,dir,p" %}&amp;dir={{ fileobject.directory|urlencode }}"><strong>{{ fileobject.filename }}</strong></a></td>
+            <td><a href="{% url 'filebrowser:fb_browse' %}{% query_string "" "q,dir,p" %}&amp;dir={{ fileobject.path_relative_directory|urlencode }}"><strong>{{ fileobject.filename }}</strong></a></td>
         {% else %}
             <td>
                 <strong>{{ fileobject.filename }}</strong>
