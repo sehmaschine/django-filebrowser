@@ -504,13 +504,15 @@ class FileObject():
 
     def version_generate(self, version_suffix):
         "Generate a version"  # FIXME: version_generate for version?
-        path = self.path
-        if FORCE_PLACEHOLDER or (SHOW_PLACEHOLDER and not self.site.storage.isfile(path)):
-            path = PLACEHOLDER
-        version_path = self.version_path(version_suffix)
+        if FORCE_PLACEHOLDER or (SHOW_PLACEHOLDER and not self.site.storage.isfile(self.path)):
+            # Create FileObject from placeholder and update ourselves.
+            self.__dict__.update(FileObject(PLACEHOLDER).__dict__)
+            version_path = self._generate_version(version_suffix)
+        else:
+            version_path = self.version_path(version_suffix)
         if not self.site.storage.isfile(version_path):
             version_path = self._generate_version(version_suffix)
-        elif self.site.storage.modified_time(path) > self.site.storage.modified_time(version_path):
+        elif self.site.storage.modified_time(self.path) > self.site.storage.modified_time(version_path):
             version_path = self._generate_version(version_suffix)
         return FileObject(version_path, site=self.site)
 
