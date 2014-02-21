@@ -12,7 +12,7 @@ from django.core.files import File
 
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import VERSIONS
+from filebrowser.settings import VERSIONS, PLACEHOLDER, SHOW_PLACEHOLDER, FORCE_PLACEHOLDER
 from filebrowser.base import FileObject
 from filebrowser.sites import get_default_site
 register = Library()
@@ -38,6 +38,8 @@ class VersionNode(Node):
         else:  # string
             source = source
         site = context.get('filebrowser_site', get_default_site())
+        if FORCE_PLACEHOLDER or (SHOW_PLACEHOLDER and not site.storage.isfile(source)):
+            source = PLACEHOLDER
         fileobject = FileObject(source, site=site)
         try:
             version = fileobject.version_generate(version_suffix)
@@ -85,6 +87,8 @@ class VersionObjectNode(Node):
         else:  # string
             source = source
         site = context.get('filebrowser_site', get_default_site())
+        if FORCE_PLACEHOLDER or (SHOW_PLACEHOLDER and not site.storage.isfile(source)):
+            source = PLACEHOLDER
         fileobject = FileObject(source, site=site)
         try:
             version = fileobject.version_generate(version_suffix)
