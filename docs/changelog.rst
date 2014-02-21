@@ -8,8 +8,15 @@
 Changelog
 =========
 
-3.5.4 (not yet released)
+3.5.5 (not yet released)
 ------------------------
+
+3.5.4 (February 21st, 2014)
+---------------------------
+
+* Fixed: Placeholder functionality (including tests).
+* Fixed: Convert/normalize filenames (including tests).
+* Fixed: Handling uppercase extensions with browse.
 
 3.5.3 (January 7, 2014)
 -----------------------
