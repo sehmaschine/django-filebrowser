@@ -101,6 +101,10 @@
                             {% if query.type %}<input type="hidden" name="type" value="{{ query.type }}" />{% endif %}
                             {% if query.format %}<input type="hidden" name="format" value="{{ query.format }}" />{% endif %}
                             {% if query.dir %}<input type="hidden" name="dir" value="{{ query.dir|urlencode }}" />{% endif %}
+                            {% ifequal query.pop '3' %} {# Custom CKEditor fields #}
+                                {% if query.CKEditor %}<input type="hidden" name="CKEditor" value="{{ query.CKEditor }}" />{% endif %}
+                                {% if query.CKEditorFuncNum %}<input type="hidden" name="CKEditorFuncNum" value="{{ query.CKEditorFuncNum }}" />{% endif %}
+                            {% endifequal %}
                             <button class="grp-search-button" type="submit" value="">&nbsp;</button>
                         </form>
                     </div>
