@@ -56,6 +56,26 @@ def test_browse(test):
     test.assertTrue(test.site.directory == response.context['filebrowser_site'].directory)
 
 
+def test_ckeditor_params_in_search_form(test):
+    """
+    The CKEditor GET params must be included in the search form as hidden
+    inputs so they persist after searching.
+    """
+    url = reverse('%s:fb_browse' % test.site_name)
+    response = test.c.get(url, {
+        'pop': '3',
+        'type': 'image',
+        'CKEditor': 'id_body',
+        'CKEditorFuncNum': '1',
+    })
+
+    test.assertTrue(response.status_code == 200)
+    test.assertContains(response, '<input type="hidden" name="pop" value="3" />')
+    test.assertContains(response, '<input type="hidden" name="type" value="image" />')
+    test.assertContains(response, '<input type="hidden" name="CKEditor" value="id_body" />')
+    test.assertContains(response, '<input type="hidden" name="CKEditorFuncNum" value="1" />')
+
+
 def test_createdir(test):
     """
     Check the createdir view functions as expected. Creates a new tmp directory
@@ -378,6 +398,7 @@ def runTest(self):
     self.assertTrue(response)
     # Execute tests
     test_browse(self)
+    test_ckeditor_params_in_search_form(self)
     test_createdir(self)
     test_upload(self)
     test_do_upload(self)
