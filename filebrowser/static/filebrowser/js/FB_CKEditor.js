@@ -17,8 +17,7 @@ function gup( name ) {
 
 function OpenFile(fileUrl) {
     var CKEditorFuncNum = gup('CKEditorFuncNum');
-    window.top.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum,encodeURI(fileUrl).replace('#','%23'));
+    window.top.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, fileUrl);
     window.top.close();
     window.top.opener.focus();
 }
-
