@@ -11,6 +11,10 @@ Changelog
 3.5.5 (not yet released)
 ------------------------
 
+* Improved tests with convert/normalize (removed special chars from test filename).
+* Fixed file selection after using search box (CKEditor).
+* Removed encoding of file URIs with CKEditor.
+
 3.5.4 (February 21st, 2014)
 ---------------------------
 
