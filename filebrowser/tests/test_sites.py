@@ -13,7 +13,6 @@ from __future__ import with_statement
 import os
 import sys
 import shutil
-from urllib import urlencode
 from types import MethodType
 
 # DJANGO IMPORTS
@@ -22,6 +21,7 @@ from django.test.client import Client
 from django.core.urlresolvers import get_resolver, get_urlconf, resolve, reverse
 from django.contrib.admin.templatetags.admin_static import static
 from django.test.utils import override_settings
+from django.utils.six.moves.urllib.parse import urlencode
 
 # FILEBROWSER IMPORTS
 import filebrowser.settings
@@ -388,7 +388,7 @@ def setUp(self):
 def tearDown(self):
     # Delete a left-over tmp directories, if there's any
     if hasattr(self, 'tmpdir') and self.tmpdir:
-        print "Removing left-over tmp dir:", self.tmpdir.path
+        print("Removing left-over tmp dir:", self.tmpdir.path)
         self.site.storage.rmtree(self.tmpdir.path)
 
 
@@ -417,13 +417,13 @@ this_module = sys.modules[__name__]
 
 ## Create a test class for each deployed filebrowser site
 for site in all_sites:
-    print 'Creating Test for the FileBrowser site:', site
+    print('Creating Test for the FileBrowser site:', site)
     # Create a subclass of TestCase
     testcase_class = type('TestSite_' + site, (TestCase,), {'site_name': site, 'c': Client(), 'tmpdirs': None})
     # Add setUp, tearDown, and runTest methods
-    setattr(testcase_class, 'setUp', MethodType(setUp, None, testcase_class))
-    setattr(testcase_class, 'tearDown', MethodType(tearDown, None, testcase_class))
-    setattr(testcase_class, 'runTest', MethodType(runTest, None, testcase_class))
+    setattr(testcase_class, 'setUp', setUp)
+    setattr(testcase_class, 'tearDown', tearDown)
+    setattr(testcase_class, 'runTest', runTest)
     # Add the test case class to this module
     setattr(this_module, 'TestSite_' + site, testcase_class)
 

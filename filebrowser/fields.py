@@ -10,6 +10,7 @@ from django.db.models.fields import Field, CharField
 from django import forms
 from django.forms.widgets import Input
 from django.template.loader import render_to_string
+from django.utils.six import with_metaclass
 from django.utils.translation import ugettext_lazy as _
 
 # FILEBROWSER IMPORTS
@@ -83,9 +84,8 @@ class FileBrowseFormField(forms.CharField):
         return value
 
 
-class FileBrowseField(CharField):
+class FileBrowseField(with_metaclass(models.SubfieldBase, CharField)):
     description = "FileBrowseField"
-    __metaclass__ = models.SubfieldBase
 
     def __init__(self, *args, **kwargs):
         self.site = kwargs.pop('filebrowser_site', site)

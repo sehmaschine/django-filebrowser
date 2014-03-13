@@ -7,6 +7,7 @@ import re
 # DJANGO IMPORTS
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
+from django.utils.six.moves import input
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import EXTENSION_LIST, EXCLUDE, DIRECTORY, VERSIONS, EXTENSIONS
@@ -36,7 +37,7 @@ class Command(BaseCommand):
         while 1:
             self.stdout.write('\nOlder versions of the FileBrowser used to prefix the filename with the version name.\n')
             self.stdout.write('Current version of the FileBrowser adds the version name as suffix.\n')
-            prefix_or_suffix = raw_input('"p" for prefix or "s" for suffix (leave blank for "%s"): ' % default_prefix_or_suffix)
+            prefix_or_suffix = input('"p" for prefix or "s" for suffix (leave blank for "%s"): ' % default_prefix_or_suffix)
 
             if default_prefix_or_suffix and prefix_or_suffix == '':
                 prefix_or_suffix = default_prefix_or_suffix
@@ -48,7 +49,7 @@ class Command(BaseCommand):
 
         # get version name
         while 1:
-            version_name = raw_input('\nversion name as defined with VERSIONS: ')
+            version_name = input('\nversion name as defined with VERSIONS: ')
 
             if version_name == "":
                 self.stderr.write('Error: You have to enter a version name.\n')
@@ -84,7 +85,7 @@ class Command(BaseCommand):
         # ask to make sure
         do_remove = ""
         self.stdout.write('Are Sure you want to delete these files?\n')
-        do_remove = raw_input('"y" for Yes or "n" for No (leave blank for "n"): ')
+        do_remove = input('"y" for Yes or "n" for No (leave blank for "n"): ')
 
         # if "yes" we delete. any different case we finish without removing anything
         if do_remove == "y":

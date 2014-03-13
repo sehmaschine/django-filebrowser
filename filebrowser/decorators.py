@@ -36,7 +36,7 @@ def path_exists(site, function):
     def decorator(request, *args, **kwargs):
         if get_path('', site=site) is None:
             # The storage location does not exist, raise an error to prevent eternal redirecting.
-            raise ImproperlyConfigured, _("Error finding Upload-Folder (site.storage.location + site.directory). Maybe it does not exist?")
+            raise ImproperlyConfigured(_("Error finding Upload-Folder (site.storage.location + site.directory). Maybe it does not exist?"))
         if get_path(request.GET.get('dir', ''), site=site) is None:
             msg = _('The requested Folder does not exist.')
             messages.add_message(request, messages.ERROR, msg)
