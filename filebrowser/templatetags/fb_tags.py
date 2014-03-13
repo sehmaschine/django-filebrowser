@@ -5,7 +5,7 @@ from django import template
 from django.utils.http import urlquote
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import SELECT_FORMATS
+from filebrowser.settings import EXTENSIONS, SELECT_FORMATS
 
 register = template.Library()
 
@@ -141,3 +141,12 @@ def selectable(parser, token):
     return SelectableNode(filetype, format)
 
 register.tag(selectable)
+
+
+def get_file_extensions_for_file_type(query_format):
+    extensions = []
+    for format in SELECT_FORMATS.get(query_format, []):
+        extensions.extend(EXTENSIONS[format])
+    return extensions
+
+register.simple_tag(get_file_extensions_for_file_type)

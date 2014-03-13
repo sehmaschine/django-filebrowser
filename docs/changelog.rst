@@ -14,6 +14,7 @@ Changelog
 * Improved tests with convert/normalize (removed special chars from test filename).
 * Fixed file selection after using search box (CKEditor).
 * Removed encoding of file URIs with CKEditor.
+* Added client-side (JavaScript) file extension validation to the AJAX uploader.
 
 3.5.4 (February 21st, 2014)
 ---------------------------
