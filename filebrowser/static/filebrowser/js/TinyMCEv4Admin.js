@@ -1,6 +1,12 @@
 tinyMCE.init({
 
     // see http://www.tinymce.com/wiki.php
+    //
+    // docs/fieldswidgets.rst - Using the FileBrowseField with TinyMCE
+    // class Media:
+    //     js = ['/path/to/your/tinymce/tinymce.min.js',
+    //           '/path/to/your/tinymce_setup.js']
+
     selector:'textarea',
     plugins: [
         "hr link image charmap paste print preview anchor pagebreak spellchecker searchreplace visualblocks visualchars code fullscreen",
