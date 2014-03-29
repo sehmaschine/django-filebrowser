@@ -11,11 +11,11 @@ Changelog
 3.5.5 (not yet released)
 ------------------------
 
-* Improved tests with convert/normalize (removed special chars from test filename).
-* Fixed file selection after using search box (CKEditor).
-* Removed encoding of file URIs with CKEditor.
-* Added client-side (JavaScript) file extension validation to the AJAX uploader.
-* Added experimental Python 3.3 support.
+* New: Added client-side (JavaScript) file extension validation to the AJAX uploader.
+* New: Added experimental Python 3.3 support.
+* Improved: Tests with convert/normalize (removed special chars from test filename).
+* Fixed: File selection after using search box (CKEditor).
+* Fixed: Removed encoding of file URIs with CKEditor.
 
 3.5.4 (February 21st, 2014)
 ---------------------------
