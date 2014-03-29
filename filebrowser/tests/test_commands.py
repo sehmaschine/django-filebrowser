@@ -6,7 +6,6 @@ import ntpath
 import posixpath
 import shutil
 import sys
-import StringIO
 
 # DJANGO IMPORTS
 from django.conf import settings
@@ -15,6 +14,7 @@ from django.contrib.auth.models import User
 from django.utils.encoding import filepath_to_uri
 from django.template import Context, Template, TemplateSyntaxError
 from django.core.management import call_command
+from django.utils.six import StringIO
 
 # FILEBROWSER IMPORTS
 import filebrowser
@@ -100,7 +100,7 @@ class CommandsTests(TestCase):
         # no versions
         self.assertEqual(os.path.exists(os.path.join(settings.MEDIA_ROOT, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")), False)
 
-        sys.stdin = StringIO.StringIO("large")
+        sys.stdin = StringIO("large")
         call_command('fb_version_generate', 'fb_test_directory')
 
         # versions

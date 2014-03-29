@@ -52,7 +52,7 @@ def get_query_string(p, new_params=None, remove=None):
     if remove is None:
         remove = []
     for r in remove:
-        for k in p.keys():
+        for k in list(p):
             #if k.startswith(r):
             if k == r:
                 del p[k]
@@ -136,7 +136,7 @@ def selectable(parser, token):
     try:
         tag, filetype, format = token.split_contents()
     except:
-        raise TemplateSyntaxError, "%s tag requires 2 arguments" % token.contents.split()[0]
+        raise TemplateSyntaxError("%s tag requires 2 arguments" % token.contents.split()[0])
 
     return SelectableNode(filetype, format)
 

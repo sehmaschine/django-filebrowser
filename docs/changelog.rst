@@ -15,6 +15,7 @@ Changelog
 * Fixed file selection after using search box (CKEditor).
 * Removed encoding of file URIs with CKEditor.
 * Added client-side (JavaScript) file extension validation to the AJAX uploader.
+* Added experimental Python 3.3 support.
 
 3.5.4 (February 21st, 2014)
 ---------------------------
@@ -88,7 +89,7 @@ Changelog
 -----------------
 
 * Fixed security bug: added staff_member_required decorator to the upload-function.
-* Fixed a XSS vulnerability with fb_tags. 
+* Fixed a XSS vulnerability with fb_tags.
 
 3.4.1 (7.3.2012)
 ----------------

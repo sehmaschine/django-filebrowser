@@ -5,6 +5,9 @@ import re
 import os
 import unicodedata
 
+# DJANGO IMPORTS
+from django.utils import six
+
 # FILEBROWSER IMPORTS
 from filebrowser.settings import STRICT_PIL, NORMALIZE_FILENAME, CONVERT_FILENAME
 
@@ -27,7 +30,7 @@ def convert_filename(value):
         chunks = value.split(os.extsep)
         normalized = []
         for v in chunks:
-            v = unicodedata.normalize('NFKD', unicode(v)).encode('ascii', 'ignore')
+            v = unicodedata.normalize('NFKD', six.text_type(v)).encode('ascii', 'ignore').decode('ascii')
             v = re.sub(r'[^\w\s-]', '', v).strip()
             normalized.append(v)
 

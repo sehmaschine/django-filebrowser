@@ -301,7 +301,7 @@ class FileObjectAttributeTests(TestCase):
         }
         filebrowser.base.ADMIN_VERSIONS = ['large']
         # expected test results
-        version_list = ['fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg', 'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg']
+        version_list = ['fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg', 'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg',]
         admin_version_list = ['fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
 
         self.assertEqual(self.f_image.is_version, False)
@@ -346,7 +346,7 @@ class FileObjectAttributeTests(TestCase):
         }
         filebrowser.base.ADMIN_VERSIONS = ['large']
         # expected test results
-        version_list = ['fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg', 'fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg']
+        version_list = ['fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg', 'fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
         admin_version_list = ['fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
 
         self.assertEqual(self.f_image.is_version, False)
@@ -392,7 +392,7 @@ class FileObjectAttributeTests(TestCase):
         }
         filebrowser.base.ADMIN_VERSIONS = ['large']
         # expected test results
-        version_list = ['_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg', '_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg']
+        version_list = ['_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg', '_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
         admin_version_list = ['_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
 
         self.assertEqual(self.f_image.is_version, False)

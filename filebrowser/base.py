@@ -15,7 +15,7 @@ from django.core.files import File
 # FILEBROWSER IMPORTS
 from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, PLACEHOLDER, FORCE_PLACEHOLDER, SHOW_PLACEHOLDER, STRICT_PIL, IMAGE_MAXBLOCK
 from filebrowser.utils import path_strip, scale_and_crop
-from django.utils.encoding import smart_str, smart_text
+from django.utils.encoding import python_2_unicode_compatible, smart_str
 
 # PIL import
 if STRICT_PIL:
@@ -86,7 +86,7 @@ class FileListing():
         # only to provide stable sorting, but mainly to eliminate comparison of objects
         # (which can be expensive or prohibited) in case of equal attribute values.
         intermed = sorted(zip(map(getattr, seq, (attr,)*len(seq)), range(len(seq)), seq))
-        return map(operator.getitem, intermed, (-1,) * len(intermed))
+        return list(map(operator.getitem, intermed, (-1,) * len(intermed)))
 
     _is_folder_stored = None
     @property
@@ -165,7 +165,7 @@ class FileListing():
     def files_listing_filtered(self):
         "Returns FileObjects for filtered files in listing"
         if self.filter_func:
-            listing = filter(self.filter_func, self.files_listing_total())
+            listing = list(filter(self.filter_func, self.files_listing_total()))
         else:
             listing = self.files_listing_total()
         self._results_listing_filtered = len(listing)
@@ -174,7 +174,7 @@ class FileListing():
     def files_walk_filtered(self):
         "Returns FileObjects for filtered files in walk"
         if self.filter_func:
-            listing = filter(self.filter_func, self.files_walk_total())
+            listing = list(filter(self.filter_func, self.files_walk_total()))
         else:
             listing = self.files_walk_total()
         self._results_walk_filtered = len(listing)
@@ -205,6 +205,7 @@ class FileListing():
         return len(self.files_walk_filtered())
 
 
+@python_2_unicode_compatible
 class FileObject():
     """
     The FileObject represents a file (or directory) on the server.
@@ -235,9 +236,6 @@ class FileObject():
     def __str__(self):
         return smart_str(self.path)
 
-    def __unicode__(self):
-        return smart_text(self.path)
-
     @property
     def name(self):
         return self.path
@@ -254,7 +252,7 @@ class FileObject():
     def _get_file_type(self):
         "Get file type as defined in EXTENSIONS."
         file_type = ''
-        for k, v in EXTENSIONS.iteritems():
+        for k, v in EXTENSIONS.items():
             for extension in v:
                 if self.extension.lower() == extension.lower():
                     file_type = k
@@ -482,7 +480,7 @@ class FileObject():
         "List of versions (not checking if they actually exist)"
         version_list = []
         if self.filetype == "Image" and not self.is_version:
-            for version in VERSIONS:
+            for version in sorted(VERSIONS):
                 version_list.append(os.path.join(self.versions_basedir, self.dirname, self.version_name(version)))
         return version_list
 

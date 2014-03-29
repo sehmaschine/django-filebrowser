@@ -44,7 +44,7 @@ class VersionNode(Node):
         try:
             version = fileobject.version_generate(version_suffix)
             return version.url
-        except Exception, e:
+        except Exception as e:
             if settings.TEMPLATE_DEBUG:
                 raise e
         return ""
@@ -93,7 +93,7 @@ class VersionObjectNode(Node):
         try:
             version = fileobject.version_generate(version_suffix)
             context[self.var_name] = version
-        except Exception, e:
+        except Exception as e:
             if settings.TEMPLATE_DEBUG:
                 raise e
             context[self.var_name] = ""
@@ -146,9 +146,9 @@ def version_setting(parser, token):
     try:
         tag, version_suffix = token.split_contents()
     except:
-        raise TemplateSyntaxError, "%s tag requires 1 argument" % token.contents.split()[0]
+        raise TemplateSyntaxError("%s tag requires 1 argument" % token.contents.split()[0])
     if (version_suffix[0] == version_suffix[-1] and version_suffix[0] in ('"', "'")) and version_suffix.lower()[1:-1] not in VERSIONS:
-        raise TemplateSyntaxError, "%s tag received bad version_suffix %s" % (tag, version_suffix)
+        raise TemplateSyntaxError("%s tag received bad version_suffix %s" % (tag, version_suffix))
     return VersionSettingNode(version_suffix)
 
 
