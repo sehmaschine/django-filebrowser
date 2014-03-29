@@ -182,7 +182,7 @@ All views use the ``staff_member_requird`` and ``path_exists`` decorator in orde
 * Upload, ``fb_upload``
     Multiple upload.
 
-    * Optional query string args: ``dir``
+    * Optional query string args: ``dir``, ``type``
     * Signals: `filebrowser_pre_upload`, `filebrowser_post_upload`
 
 * Edit, ``fb_edit``

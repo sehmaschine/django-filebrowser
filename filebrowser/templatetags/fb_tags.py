@@ -143,10 +143,15 @@ def selectable(parser, token):
 register.tag(selectable)
 
 
-def get_file_extensions_for_file_type(query_format):
+def get_file_extensions(qs):
     extensions = []
-    for format in SELECT_FORMATS.get(query_format, []):
-        extensions.extend(EXTENSIONS[format])
+    if "type" in qs and qs.get("type") in SELECT_FORMATS:
+        for format in SELECT_FORMATS.get(qs.get("type"), []):
+            extensions.extend(EXTENSIONS[format])
+    else:
+        for k, v in EXTENSIONS.items():
+            for item in v:
+                if item: extensions.append(item)
     return extensions
 
-register.simple_tag(get_file_extensions_for_file_type)
+register.simple_tag(get_file_extensions)

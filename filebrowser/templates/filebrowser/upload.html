@@ -58,7 +58,7 @@
                           'csrf_xname': 'X-CSRFToken',
                           'folder': '{{ query.dir|escapejs }}', },
 
-                allowedExtensions: {% get_file_extensions_for_file_type request.GET.type %},
+                allowedExtensions: {% get_file_extensions request.GET %},
                 sizeLimit: {{ settings_var.MAX_UPLOAD_SIZE|unlocalize }},
                 minSizeLimit: 0,
                 debug: false,
