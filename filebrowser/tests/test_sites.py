@@ -21,7 +21,10 @@ from django.test.client import Client
 from django.core.urlresolvers import get_resolver, get_urlconf, resolve, reverse
 from django.contrib.admin.templatetags.admin_static import static
 from django.test.utils import override_settings
-from django.utils.six.moves.urllib.parse import urlencode
+try:
+    from django.utils.six.moves.urllib.parse import urlencode
+except:
+    from django.utils.http import urlencode
 
 # FILEBROWSER IMPORTS
 import filebrowser.settings
