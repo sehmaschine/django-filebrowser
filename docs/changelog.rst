@@ -8,7 +8,10 @@
 Changelog
 =========
 
-3.5.5 (not yet released)
+3.5.6 (not yet released)
+------------------------
+
+3.5.5 (April 13th, 2014)
 ------------------------
 
 * New: Added client-side (JavaScript) file extension validation to the AJAX uploader.
