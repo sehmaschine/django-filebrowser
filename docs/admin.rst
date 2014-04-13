@@ -22,7 +22,7 @@ FileBrowser Site
 
 .. py:class:: FileBrowserSite(name=None, app_name='filebrowser', storage=default_storage)
     
-    Respresens the FileBrowser admin application (similar to Django's admin site).
+    Respresents the FileBrowser admin application (similar to Django's admin site).
 
     :param name: A name for the site, defaults to None.
     :param app_name: Defaults to 'filebrowser'.
@@ -41,7 +41,7 @@ Now you are able to browse the location defined with the storage engine associat
 .. code-block:: python
 
     from django.core.files.storage import DefaultStorage
-    from filebrowser.sites import import FileBrowserSite
+    from filebrowser.sites import FileBrowserSite
     
     # Default FileBrowser site
     site = FileBrowserSite(name='filebrowser', storage=DefaultStorage())
