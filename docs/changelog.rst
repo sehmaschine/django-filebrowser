@@ -8,8 +8,13 @@
 Changelog
 =========
 
-3.5.6 (not yet released)
+3.5.7 (not yet released)
 ------------------------
+
+3.5.6 (April 16th, 2014)
+------------------------
+
+* Fixed: Displaying pagination correctly with lots of entries.
 
 3.5.5 (April 13th, 2014)
 ------------------------
