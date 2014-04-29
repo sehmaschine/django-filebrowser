@@ -63,6 +63,13 @@ class FileSystemStorageMixin(StorageMixin):
     def rmtree(self, name):
         shutil.rmtree(self.path(name))
 
+    def copy(self, old_file_name, new_file_name):
+        if old_file_name != new_file_name:
+            if os.path.isdir(self.path(old_file_name)):
+                shutil.copytree(self.path(old_file_name), self.path(new_file_name))
+            else:
+                shutil.copy(self.path(old_file_name), self.path(new_file_name))
+
 
 class S3BotoStorageMixin(StorageMixin):
 

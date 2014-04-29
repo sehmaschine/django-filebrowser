@@ -32,6 +32,14 @@ filebrowser_post_delete = Signal(providing_args=["path", "name", "site"])
 filebrowser_pre_rename = Signal(providing_args=["path", "name", "new_name", "site"])
 filebrowser_post_rename = Signal(providing_args=["path", "name", "new_name", "site"])
 
+# copy signals
+# path: Absolute server path to the file/folder
+# name: Name of the file/folder
+# site: Current FileBrowserSite instance
+# new_name: New name of the file/folder
+filebrowser_pre_copy = Signal(providing_args=["path", "name", "new_name", "site"])
+filebrowser_post_copy = Signal(providing_args=["path", "name", "new_name", "site"])
+
 # action signals
 # action_name: Name of the custom action
 # fileobjects: A list of fileobjects the action will be applied to

@@ -9,7 +9,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import FOLDER_REGEX
+from filebrowser.settings import FOLDER_REGEX, OVERWRITE_EXISTING
 from filebrowser.utils import convert_filename
 
 ALNUM_NAME_RE = re.compile(FOLDER_REGEX, re.U)
@@ -76,8 +76,8 @@ class ChangeForm(forms.Form):
             if not ALNUM_NAME_RE.search(self.cleaned_data['name']):
                 raise forms.ValidationError(_(u'Only letters, numbers, underscores, spaces and hyphens are allowed.'))
             #  folder/file must not already exist.
-            if self.site.storage.isdir(os.path.join(self.path, convert_filename(self.cleaned_data['name']))) and os.path.join(self.path, convert_filename(self.cleaned_data['name'])) != self.fileobject.path:
+            if not OVERWRITE_EXISTING and self.site.storage.isdir(os.path.join(self.path, convert_filename(self.cleaned_data['name']))) and os.path.join(self.path, convert_filename(self.cleaned_data['name'])) != self.fileobject.path:
                 raise forms.ValidationError(_(u'The Folder already exists.'))
-            elif self.site.storage.isfile(os.path.join(self.path, convert_filename(self.cleaned_data['name']))) and os.path.join(self.path, convert_filename(self.cleaned_data['name'])) != self.fileobject.path:
+            elif not OVERWRITE_EXISTING and self.site.storage.isfile(os.path.join(self.path, convert_filename(self.cleaned_data['name']))) and os.path.join(self.path, convert_filename(self.cleaned_data['name'])) != self.fileobject.path:
                 raise forms.ValidationError(_(u'The File already exists.'))
         return convert_filename(self.cleaned_data['name'])
