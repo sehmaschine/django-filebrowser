@@ -168,8 +168,10 @@
             <header style="display:none"><h1>Submit Options</h1></header>
             <ul>
                 <li class="grp-float-left"><a href="{% url 'filebrowser:fb_delete_confirm' %}{% query_string %}" class="grp-button grp-delete-link">{% trans "Delete" %}</a></li>
-                <li><input type="submit" value="{% trans 'Save' %}" class="grp-button grp-default" /></li>
-                <li><input type="submit" value="{% trans 'Save and continue editing' %}" class="grp-button" name="_continue" /></li>
+                <li><input type="submit" value="{% trans 'Save' %}" class="grp-button grp-default" name="_save" /></li>
+                <li><input type="submit" value="{% trans 'Save and continue editing' %}" class="grp-button" name="_save_continue" /></li>
+                <li><input type="submit" value="{% trans 'Copy' %}" class="grp-button grp-default" name="_copy" /></li>
+                <li><input type="submit" value="{% trans 'Copy and continue editing' %}" class="grp-button" name="_copy_continue" /></li>
             </ul>
         </footer>
     </form>

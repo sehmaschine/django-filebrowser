@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Bertrand Bordage <bordage.bertrand@gmail.com>, 2013
 # Natim <remy.hubscher@ionyse.com>, 2011
@@ -9,14 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-30 18:48+0100\n"
+"POT-Creation-Date: 2014-04-29 19:00+0400\n"
 "PO-Revision-Date: 2013-12-06 08:13+0000\n"
 "Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/django-filebrowser/language/fr/)\n"
+"Language-Team: French (http://www.transifex.com/projects/p/django-"
+"filebrowser/language/fr/)\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: actions.py:53
@@ -48,7 +49,9 @@ msgstr "Tourner de 180°"
 msgid ""
 "Error finding Upload-Folder (site.storage.location + site.directory). Maybe "
 "it does not exist?"
-msgstr "Impossible de trouver le répertoire d'upload (site.storage.location + site.directory). Peut-être ne l'avez-vous pas créé ?"
+msgstr ""
+"Impossible de trouver le répertoire d'upload (site.storage.location + site."
+"directory). Peut-être ne l'avez-vous pas créé ?"
 
 #: decorators.py:41
 msgid "The requested Folder does not exist."
@@ -62,28 +65,32 @@ msgstr "Le fichier demandé n'existe pas."
 msgid "You do not have permission to access this file!"
 msgstr "Vous n'avez pas la permission d’accéder à ce fichier !"
 
-#: fields.py:63
+#: fields.py:64
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
-msgstr "L'extension %(ext)s n'est pas autorisée. Seules les extensions suivantes sont disponibles : %(allowed)s"
+msgstr ""
+"L'extension %(ext)s n'est pas autorisée. Seules les extensions suivantes "
+"sont disponibles : %(allowed)s"
 
-#: forms.py:57 forms.py:82
+#: forms.py:33 forms.py:58
 msgid "Name"
 msgstr "Nom"
 
-#: forms.py:57 forms.py:69 forms.py:82 forms.py:101
+#: forms.py:33 forms.py:45 forms.py:58 forms.py:77
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
-msgstr "Seuls les lettres, chiffres, tirets-bas (_), espaces et tirets (-) sont autorisés."
+msgstr ""
+"Seuls les lettres, chiffres, tirets-bas (_), espaces et tirets (-) sont "
+"autorisés."
 
-#: forms.py:72 forms.py:104
+#: forms.py:48 forms.py:80
 msgid "The Folder already exists."
 msgstr "Le répertoire existe déja."
 
-#: forms.py:81
+#: forms.py:57
 msgid "Actions"
 msgstr "Actions"
 
-#: forms.py:106
+#: forms.py:82
 msgid "The File already exists."
 msgstr "Le fichier existe déjà."
 
@@ -108,50 +115,55 @@ msgstr "Document"
 msgid "Audio"
 msgstr "Audio"
 
-#: sites.py:348 templates/filebrowser/include/breadcrumbs.html:9
+#: sites.py:351 templates/filebrowser/include/breadcrumbs.html:9
 #: templates/filebrowser/include/breadcrumbs.html:11
 msgid "FileBrowser"
 msgstr "Gestionnaire de fichiers"
 
-#: sites.py:369
+#: sites.py:372
 #, python-format
 msgid "The Folder %s was successfully created."
 msgstr "Le répertoire %s a bien été créé."
 
-#: sites.py:374
+#: sites.py:378
 msgid "Permission denied."
 msgstr "Accès refusé."
 
-#: sites.py:376
+#: sites.py:380
 msgid "Error creating folder."
 msgstr "Error lors de la création du répertoire."
 
-#: sites.py:383 sites.py:386 templates/filebrowser/index.html:80
+#: sites.py:387 sites.py:390 templates/filebrowser/index.html:80
 msgid "New Folder"
 msgstr "Nouveau répertoire"
 
-#: sites.py:396
+#: sites.py:400
 msgid "Select files to upload"
 msgstr "Sélectionnez les fichiers à transférer."
 
-#: sites.py:399 templates/filebrowser/index.html:81
+#: sites.py:403 templates/filebrowser/index.html:81
 msgid "Upload"
 msgstr "Télécharger"
 
-#: sites.py:429 sites.py:432
+#: sites.py:433 sites.py:436
 msgid "Confirm delete"
 msgstr "Confirmez la suppression"
 
-#: sites.py:448
+#: sites.py:452
 #, python-format
 msgid "Successfully deleted %s"
 msgstr "%s a bien été supprimé"
 
-#: sites.py:485
+#: sites.py:479
+#, fuzzy
+msgid "Copying was successful."
+msgstr "Correctement renommer."
+
+#: sites.py:491
 msgid "Renaming was successful."
 msgstr "Correctement renommer."
 
-#: sites.py:494
+#: sites.py:528
 msgid "Error."
 msgstr "Erreur."
 
@@ -174,18 +186,22 @@ msgid "Please correct the following errors."
 msgstr "Merci de corriger les erreurs suivantes."
 
 #: templates/filebrowser/createdir.html:36
-#: templates/filebrowser/upload.html:147
+#: templates/filebrowser/upload.html:148
 msgid ""
 "The Name will be normalized by converting or stripping all non-standard "
 "characters."
-msgstr "Le nom sera normalisé par la conversion ou suppression de tout caractère non-standard."
+msgstr ""
+"Le nom sera normalisé par la conversion ou suppression de tout caractère non-"
+"standard."
 
 #: templates/filebrowser/createdir.html:39
-#: templates/filebrowser/upload.html:150
+#: templates/filebrowser/upload.html:151
 msgid ""
 "The Name will be converted to lowercase. Spaces will be replaced with "
 "underscores."
-msgstr "Le nom va être converti en minuscule. Les espaces vont être remplacés par des tirets-bas (_)"
+msgstr ""
+"Le nom va être converti en minuscule. Les espaces vont être remplacés par "
+"des tirets-bas (_)"
 
 #: templates/filebrowser/createdir.html:50
 msgid "Submit"
@@ -200,9 +216,11 @@ msgstr "Fichier introuvable"
 #: templates/filebrowser/delete_confirm.html:30
 #, python-format
 msgid ""
-"Are you sure you want to delete \"%(escaped_object)s\"? All of the following"
-" items will be deleted:"
-msgstr "Êtes-vous sûr de vouloir supprimer \"%(escaped_object)s\" ? Les objets suivant vont être supprimés :"
+"Are you sure you want to delete \"%(escaped_object)s\"? All of the following "
+"items will be deleted:"
+msgstr ""
+"Êtes-vous sûr de vouloir supprimer \"%(escaped_object)s\" ? Les objets "
+"suivant vont être supprimés :"
 
 #: templates/filebrowser/delete_confirm.html:43
 #, python-format
@@ -276,6 +294,15 @@ msgstr "Sauvegarder"
 msgid "Save and continue editing"
 msgstr "Sauvegarder et continuer l'édition"
 
+#: templates/filebrowser/detail.html:173
+msgid "Copy"
+msgstr ""
+
+#: templates/filebrowser/detail.html:174
+#, fuzzy
+msgid "Copy and continue editing"
+msgstr "Sauvegarder et continuer l'édition"
+
 #: templates/filebrowser/upload.html:42
 msgid "Drop files here to upload"
 msgstr "Sélectionner les fichiers à transférer"
@@ -288,44 +315,50 @@ msgstr "Transférer"
 msgid "Failed"
 msgstr "Échec"
 
-#: templates/filebrowser/upload.html:66
-msgid "{file} has invalid extension. Only {extensions} are allowed."
-msgstr "{file} n'a pas une extension valide. Seules les extensions suivantes sont autorisées : {extensions}."
-
 #: templates/filebrowser/upload.html:67
+msgid "{file} has invalid extension. Only {extensions} are allowed."
+msgstr ""
+"{file} n'a pas une extension valide. Seules les extensions suivantes sont "
+"autorisées : {extensions}."
+
+#: templates/filebrowser/upload.html:68
 msgid "{file} is too large, maximum file size is {sizeLimit}."
 msgstr "{file} est trop lourd, la taille maximale d'un fichier est {sizeLimit}"
 
-#: templates/filebrowser/upload.html:68
+#: templates/filebrowser/upload.html:69
 msgid "{file} is too small, minimum file size is {minSizeLimit}."
 msgstr "{file} est trop léger, la taille minimale est {minSizeLimit}."
 
-#: templates/filebrowser/upload.html:69
-msgid "{file} is empty, please select files again without it."
-msgstr "{file} est vide, merci de sélectionner, à nouveau, les fichiers sans ce dernier."
-
 #: templates/filebrowser/upload.html:70
+msgid "{file} is empty, please select files again without it."
+msgstr ""
+"{file} est vide, merci de sélectionner, à nouveau, les fichiers sans ce "
+"dernier."
+
+#: templates/filebrowser/upload.html:71
 msgid ""
 "The files are being uploaded, if you leave now the upload will be cancelled."
-msgstr "Les fichiers sont en cours de téléchargement. Si vous quitter maintenant le transfert va être annulé."
+msgstr ""
+"Les fichiers sont en cours de téléchargement. Si vous quitter maintenant le "
+"transfert va être annulé."
 
-#: templates/filebrowser/upload.html:115
+#: templates/filebrowser/upload.html:116
 msgid "Please enable Javascript to upload files."
 msgstr "Merci d'activer javascript pour télécharger des fichiers."
 
-#: templates/filebrowser/upload.html:120
+#: templates/filebrowser/upload.html:121
 msgid "Help"
 msgstr "Aide"
 
-#: templates/filebrowser/upload.html:123
+#: templates/filebrowser/upload.html:124
 msgid "Allowed"
 msgstr "Autorisé"
 
-#: templates/filebrowser/upload.html:137
+#: templates/filebrowser/upload.html:138
 msgid "Max. Filesize"
 msgstr "Taille maxi"
 
-#: templates/filebrowser/upload.html:144
+#: templates/filebrowser/upload.html:145
 #: templates/filebrowser/include/tableheader.html:17
 #: templates/filebrowser/include/tableheader.html:18
 msgid "Filename"

@@ -466,7 +466,34 @@ class FileBrowserSite(object):
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
 
+
+        def copy_item(old_name, new_name):
+            if not OVERWRITE_EXISTING and self.storage.exists(os.path.join(fileobject.head, new_name)):
+                _new_path_name, _new_path_ext = os.path.splitext(new_name)
+                new_name = u'%s_%s%s' % (_new_path_name, int(time()*1000), _new_path_ext)
+            signals.filebrowser_pre_copy.send(sender=request, path=fileobject.path, name=old_name, new_name=new_name, site=self)
+            fileobject.delete_versions()
+
+            self.storage.copy(fileobject.path, os.path.join(fileobject.head, new_name))
+            signals.filebrowser_post_copy.send(sender=request, path=fileobject.path, name=old_name, new_name=new_name, site=self)
+            messages.add_message(request, messages.SUCCESS, _('Copying was successful.'))
+
+            return new_name
+
+        def move_item(old_name, new_name):
+            if not OVERWRITE_EXISTING and self.storage.exists(os.path.join(fileobject.head, new_name)):
+                _new_path_name, _new_path_ext = os.path.splitext(new_name)
+                new_name = u'%s_%s%s' % (_new_path_name, int(time()*1000), _new_path_ext)
+            signals.filebrowser_pre_rename.send(sender=request, path=fileobject.path, name=old_name, new_name=new_name, site=self)
+            fileobject.delete_versions()
+            self.storage.move(fileobject.path, os.path.join(fileobject.head, new_name))
+            signals.filebrowser_post_rename.send(sender=request, path=fileobject.path, name=old_name, new_name=new_name, site=self)
+            messages.add_message(request, messages.SUCCESS, _('Renaming was successful.'))
+
+            return new_name
+
         if request.method == 'POST':
+            print OVERWRITE_EXISTING
             form = ChangeForm(request.POST, path=path, fileobject=fileobject, filebrowser_site=self)
             if form.is_valid():
                 new_name = form.cleaned_data['name']
@@ -481,16 +508,19 @@ class FileBrowserSite(object):
                         action_response = action(request=request, fileobjects=[fileobject])
                         # Post-action signal
                         signals.filebrowser_actions_post_apply.send(sender=request, action_name=action_name, fileobject=[fileobject], result=action_response, site=self)
-                    if new_name != fileobject.filename:
-                        signals.filebrowser_pre_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name, site=self)
-                        fileobject.delete_versions()
-                        self.storage.move(fileobject.path, os.path.join(fileobject.head, new_name))
-                        signals.filebrowser_post_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name, site=self)
-                        messages.add_message(request, messages.SUCCESS, _('Renaming was successful.'))
+                    if "_copy" in request.POST:
+                        new_name  = copy_item(fileobject.filename, new_name)
+                    elif "_save" in request.POST and new_name != fileobject.filename:
+                        new_name = move_item(fileobject.filename, new_name)
+
                     if isinstance(action_response, HttpResponse):
                         return action_response
-                    if "_continue" in request.POST:
-                        redirect_url = reverse("filebrowser:fb_detail", current_app=self.name) + query_helper(query, "filename="+new_name, "filename")
+                    if "_copy_continue" in request.POST:
+                        new_name = copy_item(fileobject.filename, new_name)
+                        redirect_url = reverse("filebrowser:fb_detail", current_app=self.name) + query_helper(query, "filename="+os.path.basename(new_name)+',dir='+os.path.join(query.get('dir', ''), os.path.dirname(new_name)), "filename")
+                    elif "_save_continue" in request.POST and new_name != fileobject.filename:
+                        new_name = move_item(fileobject.filename, new_name)
+                        redirect_url = reverse("filebrowser:fb_detail", current_app=self.name) + query_helper(query, "filename="+os.path.basename(new_name)+',dir='+os.path.join(query.get('dir', ''), os.path.dirname(new_name)), "filename")
                     else:
                         redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, "", "filename")
                     return HttpResponseRedirect(redirect_url)
