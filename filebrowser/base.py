@@ -430,10 +430,19 @@ class FileObject():
         return False
 
     # VERSION ATTRIBUTES/PROPERTIES
+    # version
     # is_version
     # versions_basedir
     # original
     # original_filename
+
+    @property
+    def version(self):
+        "Returns version name"
+        tmp = self.filename_root.split("_")
+        if tmp[-1] in VERSIONS:
+            return tmp[-1]
+        return None
 
     @property
     def is_version(self):
