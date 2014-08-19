@@ -370,7 +370,7 @@ class FileBrowserSite(object):
                     self.storage.makedirs(server_path)
                     signals.filebrowser_post_createdir.send(sender=request, path=server_path, name=form.cleaned_data['name'], site=self)
                     messages.add_message(request, messages.SUCCESS, _('The Folder %s was successfully created.') % form.cleaned_data['name'])
-                    redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, "ot=desc,o=date", "ot,o,filter_type,filter_date,q,p")
+                    redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, u"ot=desc,o=date", "ot,o,filter_type,filter_date,q,p")
                     return HttpResponseRedirect(redirect_url)
                 except OSError as e:
                     errno = e.args[0]
@@ -453,7 +453,7 @@ class FileBrowserSite(object):
             except OSError:
                 # TODO: define error-message
                 pass
-        redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, "", "filename,filetype")
+        redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, u"", "filename,filetype")
         return HttpResponseRedirect(redirect_url)
 
     def detail(self, request):
@@ -490,9 +490,9 @@ class FileBrowserSite(object):
                     if isinstance(action_response, HttpResponse):
                         return action_response
                     if "_continue" in request.POST:
-                        redirect_url = reverse("filebrowser:fb_detail", current_app=self.name) + query_helper(query, "filename="+new_name, "filename")
+                        redirect_url = reverse("filebrowser:fb_detail", current_app=self.name) + query_helper(query, u"filename=" + new_name, "filename")
                     else:
-                        redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, "", "filename")
+                        redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, u"", "filename")
                     return HttpResponseRedirect(redirect_url)
                 except OSError:
                     form.errors['name'] = forms.util.ErrorList([_('Error.')])
