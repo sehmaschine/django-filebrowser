@@ -12,15 +12,11 @@ creation of instance methods from functions.
 from __future__ import with_statement
 import os
 import sys
-import shutil
-from types import MethodType
 
 # DJANGO IMPORTS
 from django.test import TestCase
 from django.test.client import Client
-from django.core.urlresolvers import get_resolver, get_urlconf, resolve, reverse
-from django.contrib.admin.templatetags.admin_static import static
-from django.test.utils import override_settings
+from django.core.urlresolvers import get_resolver, get_urlconf, reverse
 try:
     from django.utils.six.moves.urllib.parse import urlencode
 except:
@@ -28,7 +24,7 @@ except:
 
 # FILEBROWSER IMPORTS
 import filebrowser.settings
-from filebrowser.settings import DIRECTORY, VERSIONS
+from filebrowser.settings import VERSIONS
 from filebrowser.base import FileObject
 from filebrowser.sites import get_site_dict
 
@@ -159,8 +155,8 @@ def test_overwrite(test):
     url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage.jpg'})])
 
     with open(os.path.join(FILEBROWSER_PATH, 'static/filebrowser/img/testimage.jpg'), "rb") as f:
-        file_size = os.path.getsize(f.name)
-        response = test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        #file_size = os.path.getsize(f.name)
+        test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
     # Check files
     test.assertEqual(test.site.storage.listdir(test.tmpdir), ([], [u'testimage.jpg']))
@@ -172,11 +168,11 @@ def test_overwrite(test):
     url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage.jpg'})])
 
     with open(os.path.join(FILEBROWSER_PATH, 'static/filebrowser/img/testimage.jpg'), "rb") as f:
-        file_size = os.path.getsize(f.name)
-        response = test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        #file_size = os.path.getsize(f.name)
+        test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
     # Check files
-    test.assertEqual(sorted(test.site.storage.listdir(test.tmpdir)[1]), [u'testimage.jpg', u'testimage_1.jpg'])
+    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 2)
 
     # Reset settings
     filebrowser.sites.OVERWRITE_EXISTING = oe
@@ -201,92 +197,74 @@ def test_convert_normalize(test):
     filebrowser.sites.NORMALIZE_FILENAME = False
     filebrowser.utils.CONVERT_FILENAME = False
     filebrowser.utils.NORMALIZE_FILENAME = False
-    response = test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     path = os.path.join(test.tmpdir.path, 'TEST IMAGE 000.jpg')
     test.assertTrue(test.site.storage.exists(path))
-    test.assertEqual(sorted(test.site.storage.listdir(test.tmpdir)[1]), [u'TEST IMAGE 000.jpg', u'testimage.jpg', u'testimage_1.jpg'])
+    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 3)
 
     # OVERWRITE true
     filebrowser.sites.OVERWRITE_EXISTING = True
-    response = test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     path = os.path.join(test.tmpdir.path, 'TEST IMAGE 000.jpg')
     test.assertTrue(test.site.storage.exists(path))
     path = os.path.join(test.tmpdir.path, 'TEST IMAGE 000_1.jpg')
     test.assertFalse(test.site.storage.exists(path))
-    test.assertEqual(sorted(test.site.storage.listdir(test.tmpdir)[1]), [u'TEST IMAGE 000.jpg', u'testimage.jpg', u'testimage_1.jpg'])
+    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 3)
 
     # OVERWRITE false
     filebrowser.sites.OVERWRITE_EXISTING = False
-    response = test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     path = os.path.join(test.tmpdir.path, 'TEST IMAGE 000.jpg')
     test.assertTrue(test.site.storage.exists(path))
-    path = os.path.join(test.tmpdir.path, 'TEST IMAGE 000_1.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    test.assertEqual(sorted(test.site.storage.listdir(test.tmpdir)[1]), [u'TEST IMAGE 000.jpg', u'TEST IMAGE 000_1.jpg', u'testimage.jpg', u'testimage_1.jpg'])
+    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 4)
 
     # Set CONVERT_FILENAME, NORMALIZE_FILENAME
     filebrowser.sites.CONVERT_FILENAME = True
     filebrowser.sites.NORMALIZE_FILENAME = False
     filebrowser.utils.CONVERT_FILENAME = True
     filebrowser.utils.NORMALIZE_FILENAME = False
-    response = test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     path = os.path.join(test.tmpdir.path, 'test_image_000.jpg')
     test.assertTrue(test.site.storage.exists(path))
-    test.assertEqual(sorted(test.site.storage.listdir(test.tmpdir)[1]), [u'TEST IMAGE 000.jpg', u'TEST IMAGE 000_1.jpg', u'test_image_000.jpg', u'testimage.jpg', u'testimage_1.jpg'])
+    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 5)
 
     # OVERWRITE true
     filebrowser.sites.OVERWRITE_EXISTING = True
-    response = test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     path = os.path.join(test.tmpdir.path, 'test_image_000.jpg')
     test.assertTrue(test.site.storage.exists(path))
-    path = os.path.join(test.tmpdir.path, 'test_image_000_1.jpg')
-    test.assertFalse(test.site.storage.exists(path))
-    test.assertEqual(sorted(test.site.storage.listdir(test.tmpdir)[1]), [u'TEST IMAGE 000.jpg', u'TEST IMAGE 000_1.jpg', u'test_image_000.jpg', u'testimage.jpg', u'testimage_1.jpg'])
+    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 5)
 
     # OVERWRITE false
     filebrowser.sites.OVERWRITE_EXISTING = False
-    response = test.c.post(url, data={'qqfile': 'TTEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    test.c.post(url, data={'qqfile': 'TTEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     path = os.path.join(test.tmpdir.path, 'test_image_000.jpg')
     test.assertTrue(test.site.storage.exists(path))
-    path = os.path.join(test.tmpdir.path, 'test_image_000_1.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    test.assertEqual(sorted(test.site.storage.listdir(test.tmpdir)[1]), [u'TEST IMAGE 000.jpg', u'TEST IMAGE 000_1.jpg', u'test_image_000.jpg', u'test_image_000_1.jpg', u'testimage.jpg', u'testimage_1.jpg'])
+    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 6)
 
     # Set CONVERT_FILENAME, NORMALIZE_FILENAME
     filebrowser.sites.CONVERT_FILENAME = True
     filebrowser.sites.NORMALIZE_FILENAME = True
     filebrowser.utils.CONVERT_FILENAME = True
     filebrowser.utils.NORMALIZE_FILENAME = True
-    response = test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     path = os.path.join(test.tmpdir.path, 'test_image_000.jpg')
     test.assertTrue(test.site.storage.exists(path))
-    test.assertEqual(sorted(test.site.storage.listdir(test.tmpdir)[1]), [u'TEST IMAGE 000.jpg', u'TEST IMAGE 000_1.jpg', u'test_image_000.jpg', u'test_image_000_1.jpg', u'test_image_000_2.jpg', u'testimage.jpg', u'testimage_1.jpg'])
+    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 7)
 
     # OVERWRITE true
     filebrowser.sites.OVERWRITE_EXISTING = True
-    response = test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     path = os.path.join(test.tmpdir.path, 'test_image_000.jpg')
     test.assertTrue(test.site.storage.exists(path))
-    path = os.path.join(test.tmpdir.path, 'test_image_000_1.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    path = os.path.join(test.tmpdir.path, 'test_image_000_2.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    path = os.path.join(test.tmpdir.path, 'test_image_000_3.jpg')
-    test.assertFalse(test.site.storage.exists(path))
-    test.assertEqual(sorted(test.site.storage.listdir(test.tmpdir)[1]), [u'TEST IMAGE 000.jpg', u'TEST IMAGE 000_1.jpg', u'test_image_000.jpg', u'test_image_000_1.jpg', u'test_image_000_2.jpg', u'testimage.jpg', u'testimage_1.jpg'])
+    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 7)
 
     # OVERWRITE false
     filebrowser.sites.OVERWRITE_EXISTING = False
-    response = test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     path = os.path.join(test.tmpdir.path, 'test_image_000.jpg')
     test.assertTrue(test.site.storage.exists(path))
-    path = os.path.join(test.tmpdir.path, 'test_image_000_1.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    path = os.path.join(test.tmpdir.path, 'test_image_000_2.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    path = os.path.join(test.tmpdir.path, 'test_image_000_3.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    test.assertEqual(sorted(test.site.storage.listdir(test.tmpdir)[1]), [u'TEST IMAGE 000.jpg', u'TEST IMAGE 000_1.jpg', u'test_image_000.jpg', u'test_image_000_1.jpg', u'test_image_000_2.jpg', u'test_image_000_3.jpg', u'testimage.jpg', u'testimage_1.jpg'])
+    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 8)
 
     # Reset settings
     filebrowser.sites.CONVERT_FILENAME = cf
@@ -400,7 +378,7 @@ def tearDown(self):
     # Delete a left-over tmp directories, if there's any
     if hasattr(self, 'tmpdir') and self.tmpdir:
         print("Removing left-over tmp dir:", self.tmpdir.path)
-        self.site.storage.rmtree(self.tmpdir.path)
+        #self.site.storage.rmtree(self.tmpdir.path)
 
 
 def runTest(self):

@@ -11,6 +11,8 @@ Changelog
 3.5.7 (not yet released)
 ------------------------
 
+* Updated tests in order to reflect the new random suffix with get_available_name.
+
 3.5.6 (April 16th, 2014)
 ------------------------
 
