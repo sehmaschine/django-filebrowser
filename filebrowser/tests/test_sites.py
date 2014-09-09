@@ -378,7 +378,7 @@ def tearDown(self):
     # Delete a left-over tmp directories, if there's any
     if hasattr(self, 'tmpdir') and self.tmpdir:
         print("Removing left-over tmp dir:", self.tmpdir.path)
-        #self.site.storage.rmtree(self.tmpdir.path)
+        self.site.storage.rmtree(self.tmpdir.path)
 
 
 def runTest(self):
