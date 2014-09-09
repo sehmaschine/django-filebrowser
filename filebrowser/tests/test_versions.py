@@ -15,6 +15,7 @@ from django.template import Context, Template, TemplateSyntaxError
 
 # FILEBROWSER IMPORTS
 import filebrowser
+from filebrowser.settings import DEFAULT_PERMISSIONS
 from filebrowser.base import FileObject, FileListing
 from filebrowser.templatetags.fb_versions import version, version_object, version_setting
 from filebrowser.sites import site
@@ -177,6 +178,11 @@ class VersionTemplateTagsTests(TestCase):
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
 
+        # Check permissions
+        if DEFAULT_PERMISSIONS is not None:
+            permissions_default = oct(DEFAULT_PERMISSIONS)
+            permissions_file = oct(os.stat(os.path.join(settings.MEDIA_ROOT, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")).st_mode & 0777)
+            self.assertEqual(permissions_default, permissions_file)
 
     def test_version_object(self):
         """

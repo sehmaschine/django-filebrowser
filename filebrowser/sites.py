@@ -26,7 +26,7 @@ from django.core.files.storage import DefaultStorage, default_storage, FileSyste
 # FILEBROWSER IMPORTS
 from filebrowser.settings import STRICT_PIL, DIRECTORY, EXTENSIONS, SELECT_FORMATS, ADMIN_VERSIONS, ADMIN_THUMBNAIL, MAX_UPLOAD_SIZE,\
     NORMALIZE_FILENAME, CONVERT_FILENAME, SEARCH_TRAVERSE, EXCLUDE, VERSIONS, EXTENSION_LIST, DEFAULT_SORTING_BY, DEFAULT_SORTING_ORDER,\
-    LIST_PER_PAGE, OVERWRITE_EXISTING
+    LIST_PER_PAGE, OVERWRITE_EXISTING, DEFAULT_PERMISSIONS
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileListing, FileObject
 from filebrowser.decorators import path_exists, file_exists
@@ -563,9 +563,15 @@ class FileBrowserSite(object):
                 old_file = smart_text(file_path)
                 new_file = smart_text(uploadedfile)
                 self.storage.move(new_file, old_file, allow_overwrite=True)
+                full_path = FileObject(smart_text(old_file), site=self).path_full
             else:
                 file_name = smart_text(uploadedfile)
                 filedata.name = os.path.relpath(file_name, path)
+                full_path = FileObject(smart_text(file_name), site=self).path_full
+
+            # set permissions
+            if DEFAULT_PERMISSIONS is not None:
+                os.chmod(full_path, DEFAULT_PERMISSIONS)
 
             signals.filebrowser_post_upload.send(sender=request, path=folder, file=FileObject(smart_text(file_name), site=self), site=self)
 

@@ -13,7 +13,7 @@ import warnings
 from django.core.files import File
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, PLACEHOLDER, FORCE_PLACEHOLDER, SHOW_PLACEHOLDER, STRICT_PIL, IMAGE_MAXBLOCK
+from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, PLACEHOLDER, FORCE_PLACEHOLDER, SHOW_PLACEHOLDER, STRICT_PIL, IMAGE_MAXBLOCK, DEFAULT_PERMISSIONS
 from filebrowser.utils import path_strip, scale_and_crop
 from django.utils.encoding import python_2_unicode_compatible, smart_str
 
@@ -543,6 +543,9 @@ class FileObject():
         if version_path != self.site.storage.get_available_name(version_path):
             self.site.storage.delete(version_path)
         self.site.storage.save(version_path, tmpfile)
+        # set permissions
+        if DEFAULT_PERMISSIONS is not None:
+            os.chmod(self.site.storage.path(version_path), DEFAULT_PERMISSIONS)
         return version_path
 
     # DELETE METHODS

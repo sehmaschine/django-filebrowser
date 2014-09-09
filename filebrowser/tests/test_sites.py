@@ -24,7 +24,7 @@ except:
 
 # FILEBROWSER IMPORTS
 import filebrowser.settings
-from filebrowser.settings import VERSIONS
+from filebrowser.settings import VERSIONS, DEFAULT_PERMISSIONS
 from filebrowser.base import FileObject
 from filebrowser.sites import get_site_dict
 
@@ -138,6 +138,12 @@ def test_do_upload(test):
 
     # Check the file has the correct size
     test.assertTrue(file_size == test.site.storage.size(path))
+
+    # Check permissions
+    if DEFAULT_PERMISSIONS is not None:
+        permissions_default = oct(DEFAULT_PERMISSIONS)
+        permissions_file = oct(os.stat(test.testfile.path_full).st_mode & 0777)
+        test.assertTrue(permissions_default == permissions_file)
 
 
 def test_overwrite(test):
