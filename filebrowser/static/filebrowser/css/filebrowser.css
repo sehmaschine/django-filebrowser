@@ -274,6 +274,20 @@ span.qq-upload-file {
     font-size: 11px;
     margin-left: 10px;
 }
+.qq-upload-complete {
+    display: none;
+    position: absolute;
+    float: right;
+    left: 334px;
+    margin: -15px -2px 0 0;
+    color: transparent !important;
+    width: 16px;
+    height: 16px;
+    background: url('../img/completed.png') top left no-repeat;
+}
+.qq-upload-success .qq-upload-complete {
+    display: block;
+}
 .progress-bar {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -308,6 +322,10 @@ span.qq-upload-file {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#444444', endColorstr='#333333',GradientType=0 ); /* IE6-9 */
     background: linear-gradient(top, #444444 0%,#333333 100%); /* W3C */
 }
+.qq-upload-success .progress-bar .content:after {
+    background: transparent url('../img/cancel.png') 0 0 no-repeat scroll;
+}
+
 
 body.rtl .qq-upload-cancel {
     left: auto;
@@ -320,7 +338,7 @@ body.rtl .qq-upload-list li {
     clear: both;
     line-height: 14px;
 }
-body.rtl .qq-upload-list li .progress-bar{
+body.rtl .qq-upload-list li .progress-bar {
     position: relative;
     float: right;
     clear: both;
