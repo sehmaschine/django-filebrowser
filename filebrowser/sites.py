@@ -573,10 +573,11 @@ class FileBrowserSite(object):
             if DEFAULT_PERMISSIONS is not None:
                 os.chmod(full_path, DEFAULT_PERMISSIONS)
 
-            signals.filebrowser_post_upload.send(sender=request, path=folder, file=FileObject(smart_text(file_name), site=self), site=self)
+            f = FileObject(smart_text(file_name), site=self)
+            signals.filebrowser_post_upload.send(sender=request, path=folder, file=f, site=self)
 
             # let Ajax Upload know whether we saved it or not
-            ret_json = {'success': True, 'filename': file_name}
+            ret_json = {'success': True, 'filename': f.filename}
             return HttpResponse(json.dumps(ret_json))
 
 storage = DefaultStorage()
