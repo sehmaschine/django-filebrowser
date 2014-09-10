@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# slack4u <slack4u@gmail.com>, 2014
 # slack4u <slack4u@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-30 18:48+0100\n"
-"PO-Revision-Date: 2013-12-06 08:13+0000\n"
-"Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
+"PO-Revision-Date: 2014-06-24 23:43+0000\n"
+"Last-Translator: slack4u <slack4u@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/django-filebrowser/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,7 +48,7 @@ msgstr "180度回転"
 msgid ""
 "Error finding Upload-Folder (site.storage.location + site.directory). Maybe "
 "it does not exist?"
-msgstr ""
+msgstr "アップロードフォルダ (site.storage.location + site.directory) が見つかりませんでした。フォルダが存在していないかもしれません。"
 
 #: decorators.py:41
 msgid "The requested Folder does not exist."
@@ -177,7 +178,7 @@ msgstr "以下のエラーを修正してください。"
 msgid ""
 "The Name will be normalized by converting or stripping all non-standard "
 "characters."
-msgstr ""
+msgstr "名前に含まれる標準的でない文字は変換されたり削除されて正規化されます。"
 
 #: templates/filebrowser/createdir.html:39
 #: templates/filebrowser/upload.html:150
@@ -277,15 +278,15 @@ msgstr "保存して編集を続ける"
 
 #: templates/filebrowser/upload.html:42
 msgid "Drop files here to upload"
-msgstr ""
+msgstr "ここにドラッグ＆ドロップしてファイルをアップロード"
 
 #: templates/filebrowser/upload.html:43
 msgid "Upload a file"
-msgstr ""
+msgstr "ファイルをアップロード"
 
 #: templates/filebrowser/upload.html:52
 msgid "Failed"
-msgstr "フィルタ"
+msgstr "アップロードに失敗"
 
 #: templates/filebrowser/upload.html:66
 msgid "{file} has invalid extension. Only {extensions} are allowed."
