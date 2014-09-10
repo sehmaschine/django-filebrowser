@@ -89,9 +89,9 @@
                     bar.css('width', new_width);
                 },
                 onComplete: function(id, fileName, resp){
-                    // if (resp.success) {
-                    //     this.getItem(id).fadeOut('slow');
-                    // }
+                    if (resp.success) {
+                        this.getItem(id).find('.qq-upload-file').html(resp.filename);
+                    }
                 },
                 showMessage: function(message){ alert(message); }
             });
