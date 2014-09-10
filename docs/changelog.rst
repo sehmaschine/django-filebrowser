@@ -14,7 +14,7 @@ Changelog
 3.5.7 (September 10th 2014)
 ---------------------------
 
-* New: Compatibility with Django 1.7.
+* New: Compatibility with Django 1.7 and Grappelli 2.6.x.
 * Improved: Updated tests because of the new random suffix with get_available_name (django storage).
 * Improved: Added an icon in order to mark finished uploads.
 * Improved: Show resulting filename (e.g. with suffix, converted) after successful upload.
