@@ -11,8 +11,8 @@ For using the |filebrowser|, `Django <http://www.djangoproject.com>`_ needs to b
 Requirements
 ------------
 
-* Django 1.4/1.5/1.6, http://www.djangoproject.com
-* Grappelli 2.4/2.5, https://github.com/sehmaschine/django-grappelli
+* Django 1.4/1.5/1.6/1.7, http://www.djangoproject.com
+* Grappelli 2.4/2.5/2.6, https://github.com/sehmaschine/django-grappelli
 * Pillow, https://github.com/python-imaging/Pillow
 
 Installation

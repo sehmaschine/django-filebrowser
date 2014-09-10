@@ -8,11 +8,18 @@
 Changelog
 =========
 
-3.5.7 (not yet released)
+3.5.8 (not yet released)
 ------------------------
 
-* Improved: Updated tests in order to reflect the new random suffix with get_available_name.
+3.5.7 (September 10th 2014)
+---------------------------
+
+* New: Compatibility with Django 1.7.
+* Improved: Updated tests because of the new random suffix with get_available_name (django storage).
+* Improved: Added an icon in order to mark finished uploads.
+* Improved: Show resulting filename (e.g. with suffix, converted) after successful upload.
 * Fixed: Permissions with file upload.
+* Fixed: Unified json response with _upload_file (no matter if file already exists or not).
 
 3.5.6 (April 16th, 2014)
 ------------------------
