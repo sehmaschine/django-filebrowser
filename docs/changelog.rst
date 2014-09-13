@@ -11,6 +11,8 @@ Changelog
 3.5.8 (not yet released)
 ------------------------
 
+* Fixed: Wrong grappelli versions with setup.py.
+
 3.5.7 (September 10th 2014)
 ---------------------------
 
