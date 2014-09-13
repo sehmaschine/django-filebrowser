@@ -14,8 +14,8 @@ Requirements
 
 FileBrowser 3.5 requires
 
-* Django 1.4 or 1.5 or 1.6 (http://www.djangoproject.com)
-* Grappelli 2.4 or 2.5 (https://github.com/sehmaschine/django-grappelli)
+* Django 1.4/1.5/1.6/1.7 (http://www.djangoproject.com)
+* Grappelli 2.4/2.5/2.6 (https://github.com/sehmaschine/django-grappelli)
 * Pillow (https://github.com/python-imaging/Pillow)
 
 Documentation
