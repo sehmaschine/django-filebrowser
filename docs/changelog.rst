@@ -12,6 +12,7 @@ Changelog
 ------------------------
 
 * Fixed: Wrong grappelli versions with setup.py.
+* Fixed: Removed cycle templatetag (for compatibility with Django 1.4 to 1.7).
 
 3.5.7 (September 10th 2014)
 ---------------------------
