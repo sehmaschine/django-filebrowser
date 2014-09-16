@@ -133,11 +133,11 @@ Management Commands
 
 .. option:: fb_version_remove
 
-    If you need to generate certain (or all) versions, type:
+    If you need to remove certain (or all) versions, type:
 
     .. code-block:: python
 
-        python manage.py fb_version_generate
+        python manage.py fb_version_remove
 
     .. warning::
         Please be very careful with this command.
