@@ -69,7 +69,7 @@ class Command(BaseCommand):
                 else:
                     self.stdout.write('generating all versions for: %s\n' % fileobject.path)
                     for version in VERSIONS:
-                        versionobject = fileobject.version_generate(selected_version)  # FIXME force?
+                        versionobject = fileobject.version_generate(version)  # FIXME force?
 
         # # walkt throu the filebrowser directory
         # # for all/new files (except file versions itself and excludes)
