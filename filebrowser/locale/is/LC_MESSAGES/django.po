@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <hannson@gmail.com>, 2012.
+# hannson <hannson@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
-"POT-Creation-Date: 2012-10-23 12:55+0200\n"
-"PO-Revision-Date: 2012-12-17 20:16+0000\n"
-"Last-Translator: hannson <hannson@gmail.com>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-30 18:48+0100\n"
+"PO-Revision-Date: 2013-12-06 08:13+0000\n"
+"Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/django-filebrowser/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,152 +18,152 @@ msgstr ""
 "Language: is\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: actions.py:51
+#: actions.py:53
 #, python-format
 msgid "Action applied successfully to '%s'"
 msgstr "Aðgerð á '%s' tókst"
 
-#: actions.py:56 forms.py:21
+#: actions.py:59 forms.py:20
 msgid "Flip horizontal"
 msgstr "Snúa lárétt"
 
-#: actions.py:62 forms.py:22
+#: actions.py:66 forms.py:21
 msgid "Flip vertical"
 msgstr "Snúa lóðrétt"
 
-#: actions.py:68 forms.py:23
+#: actions.py:73 forms.py:22
 msgid "Rotate 90° CW"
 msgstr "Snúa 90° t.h."
 
-#: actions.py:74 forms.py:24
+#: actions.py:80 forms.py:23
 msgid "Rotate 90° CCW"
 msgstr "Snúa 90° t.h."
 
-#: actions.py:80 forms.py:25
+#: actions.py:87 forms.py:24
 msgid "Rotate 180°"
 msgstr "Snúa 189°"
 
-#: decorators.py:23
+#: decorators.py:39
 msgid ""
-"Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
-"exist?"
-msgstr "Villa við leit Innsendingamöppu (MEDIA_ROOT + DIRECTORY). Kannski er hún ekki til?"
+"Error finding Upload-Folder (site.storage.location + site.directory). Maybe "
+"it does not exist?"
+msgstr ""
 
-#: decorators.py:25
+#: decorators.py:41
 msgid "The requested Folder does not exist."
 msgstr "Umbeðin mappa er ekki til."
 
-#: decorators.py:41
+#: decorators.py:55
 msgid "The requested File does not exist."
 msgstr "Umbeðið skjal er ekki til."
 
-#: decorators.py:47
+#: decorators.py:61
 msgid "You do not have permission to access this file!"
 msgstr "Þú hefur ekki réttindi til að opna þessa skrá."
 
-#: fields.py:65
+#: fields.py:63
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
 msgstr "Framlenging %(ext)s er ekki leyfð. Eingöngu %(allowed)s eru leyfðar."
 
-#: forms.py:39 forms.py:58
+#: forms.py:57 forms.py:82
 msgid "Name"
 msgstr "Nafn"
 
-#: forms.py:39 forms.py:45 forms.py:58 forms.py:79
+#: forms.py:57 forms.py:69 forms.py:82 forms.py:101
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
 msgstr "Eingöngu stafir, tölur, undirstrik, bil og bandstrik eru leyfð."
 
-#: forms.py:48 forms.py:82
+#: forms.py:72 forms.py:104
 msgid "The Folder already exists."
 msgstr "Mappan er nú þegar til."
 
-#: forms.py:57
+#: forms.py:81
 msgid "Actions"
 msgstr "Aðgerðir"
 
-#: forms.py:84
+#: forms.py:106
 msgid "The File already exists."
 msgstr "Skráin er nú þegar til."
 
-#: settings.py:123 templates/filebrowser/include/tableheader.html:21
+#: settings.py:110 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
 msgstr "Mappa"
 
-#: settings.py:124
+#: settings.py:111
 msgid "Image"
 msgstr "Mynd"
 
-#: settings.py:125
+#: settings.py:112
 msgid "Video"
 msgstr "Myndband"
 
-#: settings.py:126
+#: settings.py:113
 msgid "Document"
 msgstr "Skjal"
 
-#: settings.py:127
+#: settings.py:114
 msgid "Audio"
 msgstr "Hljóð"
 
-#: sites.py:264 templates/filebrowser/include/breadcrumbs.html:9
+#: sites.py:348 templates/filebrowser/include/breadcrumbs.html:9
 #: templates/filebrowser/include/breadcrumbs.html:11
 msgid "FileBrowser"
 msgstr "Skráarstjóri"
 
-#: sites.py:289
+#: sites.py:369
 #, python-format
 msgid "The Folder %s was successfully created."
 msgstr "Mappan %s hefur verið búin til."
 
-#: sites.py:294
+#: sites.py:374
 msgid "Permission denied."
 msgstr "Aðgangi hafnað."
 
-#: sites.py:296
+#: sites.py:376
 msgid "Error creating folder."
 msgstr "Villa við stofnun möppu."
 
-#: sites.py:303 sites.py:306 templates/filebrowser/index.html:80
+#: sites.py:383 sites.py:386 templates/filebrowser/index.html:80
 msgid "New Folder"
 msgstr "Ný mappa"
 
-#: sites.py:320
+#: sites.py:396
 msgid "Select files to upload"
 msgstr "Veldu skrár til að senda"
 
-#: sites.py:323 templates/filebrowser/index.html:81
+#: sites.py:399 templates/filebrowser/index.html:81
 msgid "Upload"
 msgstr "Senda"
 
-#: sites.py:354 sites.py:357
+#: sites.py:429 sites.py:432
 msgid "Confirm delete"
 msgstr "Staðfesta eyðingu"
 
-#: sites.py:375
+#: sites.py:448
 #, python-format
 msgid "Successfully deleted %s"
 msgstr "%s hefur verið eytt."
 
-#: sites.py:413
+#: sites.py:485
 msgid "Renaming was successful."
 msgstr "Nafnbreyting tókst."
 
-#: sites.py:422
+#: sites.py:494
 msgid "Error."
 msgstr "Villa."
 
-#: widgets.py:19 widgets.py:52
+#: widgets.py:17 widgets.py:50
 msgid "Currently"
 msgstr "Núna"
 
-#: widgets.py:20 widgets.py:53
+#: widgets.py:18 widgets.py:51
 #: templates/filebrowser/include/filelisting.html:131
 msgid "Change"
 msgstr "Breyta"
 
-#: widgets.py:21 widgets.py:54
+#: widgets.py:19 widgets.py:52
 msgid "Clear"
 msgstr "Hreinsa"
 
@@ -346,39 +346,39 @@ msgstr "Velja"
 msgid "Versions"
 msgstr "Útgáfur"
 
-#: templates/filebrowser/include/filter.html:4
+#: templates/filebrowser/include/filter.html:5
 msgid "Filter"
 msgstr "Sía"
 
-#: templates/filebrowser/include/filter.html:7
+#: templates/filebrowser/include/filter.html:9
 msgid "By Date"
 msgstr "Eftir dagsetningu"
 
-#: templates/filebrowser/include/filter.html:9
+#: templates/filebrowser/include/filter.html:11
 msgid "Any Date"
 msgstr "Allar dagsetningar"
 
-#: templates/filebrowser/include/filter.html:10
+#: templates/filebrowser/include/filter.html:12
 msgid "Today"
 msgstr "Í dag"
 
-#: templates/filebrowser/include/filter.html:11
+#: templates/filebrowser/include/filter.html:13
 msgid "Past 7 days"
 msgstr "Síðustu 7 daga"
 
-#: templates/filebrowser/include/filter.html:12
+#: templates/filebrowser/include/filter.html:14
 msgid "This Month"
 msgstr "Þennan mánuð"
 
-#: templates/filebrowser/include/filter.html:13
+#: templates/filebrowser/include/filter.html:15
 msgid "This year"
 msgstr "Þetta ár"
 
-#: templates/filebrowser/include/filter.html:17
+#: templates/filebrowser/include/filter.html:21
 msgid "By Type"
 msgstr "Eftir tegund"
 
-#: templates/filebrowser/include/filter.html:19
+#: templates/filebrowser/include/filter.html:23
 msgid "All"
 msgstr "Allt"
 

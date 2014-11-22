@@ -1,28 +1,28 @@
 {% extends "admin/base_site.html" %}
 
 <!-- LOADING -->
-{% load i18n fb_tags fb_pagination %}
+{% load admin_static i18n fb_tags fb_pagination %}
 {% load url from future %}
 
 <!-- STYLESHEETS -->
 {% block stylesheets %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+    <link rel="stylesheet" type="text/css" href="{% static "filebrowser/css/filebrowser.css" %}" />
 {% endblock %}
 
 <!-- JAVASCRIPTS -->
 {% block javascripts %}
     {{ block.super }}
     {% ifequal query.pop '1' %} <!-- FileBrowseField -->
-    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_FileBrowseField.js"></script>
+    <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_FileBrowseField.js" %}"></script>
     {% endifequal %}
     {% ifequal query.pop '2' %} <!-- TinyMCE -->
-    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_TINYMCE }}tiny_mce_popup.js"></script>
-    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_TinyMCE.js"></script>
+    <script language="javascript" type="text/javascript" src="{% static "grappelli/tinymce/jscripts/tiny_mce/tiny_mce_popup.js" %}"></script>
+    <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_TinyMCE.js" %}"></script>
     {% if query.mce_rdomain %}<script language="javascript">document.domain = "{{ query.mce_rdomain }}"</script>{% endif %}
     {% endifequal %}
     {% ifequal query.pop '3' %} <!-- CKeditor (former "FCKeditor") -->
-    <script language="javascript" type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/FB_CKEditor.js"></script>
+    <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_CKEditor.js" %}"></script>
     {% endifequal %}
     {{ media }}
     <script type="text/javascript" charset="utf-8">
@@ -101,6 +101,10 @@
                             {% if query.type %}<input type="hidden" name="type" value="{{ query.type }}" />{% endif %}
                             {% if query.format %}<input type="hidden" name="format" value="{{ query.format }}" />{% endif %}
                             {% if query.dir %}<input type="hidden" name="dir" value="{{ query.dir|urlencode }}" />{% endif %}
+                            {% ifequal query.pop '3' %} {# Custom CKEditor fields #}
+                                {% if query.CKEditor %}<input type="hidden" name="CKEditor" value="{{ query.CKEditor }}" />{% endif %}
+                                {% if query.CKEditorFuncNum %}<input type="hidden" name="CKEditorFuncNum" value="{{ query.CKEditorFuncNum }}" />{% endif %}
+                            {% endifequal %}
                             <button class="grp-search-button" type="submit" value="">&nbsp;</button>
                         </form>
                     </div>

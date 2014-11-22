@@ -18,7 +18,7 @@
                     <li class="grp-separator"><span>...</span></li>
                 {% else %}
                     {% ifequal i page_num %}
-                        <li>{{ i|add:"1" }}</li>
+                        <li><span class="this-page">{{ i|add:"1" }}</span></li>
                     {% else %}
                         <li><a href="{% query_string "" "p" %}&amp;p={{ i|add:"1" }}">{{ i|add:"1" }}</a></li>
                     {% endifequal %}

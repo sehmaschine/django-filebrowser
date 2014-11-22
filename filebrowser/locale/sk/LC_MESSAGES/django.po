@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Juraj Bubniak <translations@jbub.eu>, 2012.
+# Juraj Bubniak <translations@jbub.eu>, 2012-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
-"POT-Creation-Date: 2012-10-23 12:55+0200\n"
-"PO-Revision-Date: 2012-11-13 20:43+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-30 18:48+0100\n"
+"PO-Revision-Date: 2013-12-21 20:04+0000\n"
 "Last-Translator: Juraj Bubniak <translations@jbub.eu>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/django-filebrowser/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -18,152 +18,152 @@ msgstr ""
 "Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: actions.py:51
+#: actions.py:53
 #, python-format
 msgid "Action applied successfully to '%s'"
 msgstr "Akcia bola úspešne aplikovaná na '%s'"
 
-#: actions.py:56 forms.py:21
+#: actions.py:59 forms.py:20
 msgid "Flip horizontal"
 msgstr "Preklopiť vodorovne"
 
-#: actions.py:62 forms.py:22
+#: actions.py:66 forms.py:21
 msgid "Flip vertical"
 msgstr "Preklopiť zvisle"
 
-#: actions.py:68 forms.py:23
+#: actions.py:73 forms.py:22
 msgid "Rotate 90° CW"
 msgstr "Otočiť o 90° v smere hodinových ručičiek"
 
-#: actions.py:74 forms.py:24
+#: actions.py:80 forms.py:23
 msgid "Rotate 90° CCW"
 msgstr "Otočiť o 90° proti smeru hodinových ručičiek"
 
-#: actions.py:80 forms.py:25
+#: actions.py:87 forms.py:24
 msgid "Rotate 180°"
 msgstr "Otočiť o 180°"
 
-#: decorators.py:23
+#: decorators.py:39
 msgid ""
-"Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
-"exist?"
-msgstr "Chyba pri zisťovaní Zložky-pre-nahrávanie (MEDIA_ROOT + ZLOŽKA). Možno cesta neexistuje?"
+"Error finding Upload-Folder (site.storage.location + site.directory). Maybe "
+"it does not exist?"
+msgstr "Chyba pri zisťovaní Zložky-pre-nahrávanie (site.storage.location + site.directory). Možno cesta neexistuje?"
 
-#: decorators.py:25
+#: decorators.py:41
 msgid "The requested Folder does not exist."
 msgstr "Požadovaná zložka neexistuje."
 
-#: decorators.py:41
+#: decorators.py:55
 msgid "The requested File does not exist."
 msgstr "Požadovaný súbor neexistuje."
 
-#: decorators.py:47
+#: decorators.py:61
 msgid "You do not have permission to access this file!"
 msgstr "Nemáte oprávnenie pre prístup na tento súbor!"
 
-#: fields.py:65
+#: fields.py:63
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
 msgstr "Prípona %(ext)s nieje povolená. Iba %(allowed)s je povolené."
 
-#: forms.py:39 forms.py:58
+#: forms.py:57 forms.py:82
 msgid "Name"
 msgstr "Názov"
 
-#: forms.py:39 forms.py:45 forms.py:58 forms.py:79
+#: forms.py:57 forms.py:69 forms.py:82 forms.py:101
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
 msgstr "Povolené sú len písmená, čísla, podčiarky, medzery a pomlčky."
 
-#: forms.py:48 forms.py:82
+#: forms.py:72 forms.py:104
 msgid "The Folder already exists."
 msgstr "Zložka už existuje."
 
-#: forms.py:57
+#: forms.py:81
 msgid "Actions"
 msgstr "Akcie"
 
-#: forms.py:84
+#: forms.py:106
 msgid "The File already exists."
 msgstr "Súbor už existuje."
 
-#: settings.py:123 templates/filebrowser/include/tableheader.html:21
+#: settings.py:110 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
 msgstr "Zložka"
 
-#: settings.py:124
+#: settings.py:111
 msgid "Image"
 msgstr "Obrázok"
 
-#: settings.py:125
+#: settings.py:112
 msgid "Video"
 msgstr "Obraz"
 
-#: settings.py:126
+#: settings.py:113
 msgid "Document"
 msgstr "Dokument"
 
-#: settings.py:127
+#: settings.py:114
 msgid "Audio"
 msgstr "Zvuk"
 
-#: sites.py:264 templates/filebrowser/include/breadcrumbs.html:9
+#: sites.py:348 templates/filebrowser/include/breadcrumbs.html:9
 #: templates/filebrowser/include/breadcrumbs.html:11
 msgid "FileBrowser"
 msgstr "Prehliadač Súborov"
 
-#: sites.py:289
+#: sites.py:369
 #, python-format
 msgid "The Folder %s was successfully created."
 msgstr "Zložka %s bola úspešne vytvorená."
 
-#: sites.py:294
+#: sites.py:374
 msgid "Permission denied."
 msgstr "Povolenie odmietnuté."
 
-#: sites.py:296
+#: sites.py:376
 msgid "Error creating folder."
 msgstr "Chyba pri vytváraní zložky."
 
-#: sites.py:303 sites.py:306 templates/filebrowser/index.html:80
+#: sites.py:383 sites.py:386 templates/filebrowser/index.html:80
 msgid "New Folder"
 msgstr "Nová Zložka"
 
-#: sites.py:320
+#: sites.py:396
 msgid "Select files to upload"
 msgstr "Vyberte súbory pre nahranie"
 
-#: sites.py:323 templates/filebrowser/index.html:81
+#: sites.py:399 templates/filebrowser/index.html:81
 msgid "Upload"
 msgstr "Nahrať"
 
-#: sites.py:354 sites.py:357
+#: sites.py:429 sites.py:432
 msgid "Confirm delete"
 msgstr "Potvrďte vymazanie"
 
-#: sites.py:375
+#: sites.py:448
 #, python-format
 msgid "Successfully deleted %s"
 msgstr "Úspešne vymazané %s"
 
-#: sites.py:413
+#: sites.py:485
 msgid "Renaming was successful."
 msgstr "Premenovanie bolo úspešné."
 
-#: sites.py:422
+#: sites.py:494
 msgid "Error."
 msgstr "Chyba."
 
-#: widgets.py:19 widgets.py:52
+#: widgets.py:17 widgets.py:50
 msgid "Currently"
 msgstr "Aktuálne"
 
-#: widgets.py:20 widgets.py:53
+#: widgets.py:18 widgets.py:51
 #: templates/filebrowser/include/filelisting.html:131
 msgid "Change"
 msgstr "Zmeniť"
 
-#: widgets.py:21 widgets.py:54
+#: widgets.py:19 widgets.py:52
 msgid "Clear"
 msgstr "Vyčistiť"
 
@@ -346,39 +346,39 @@ msgstr "Vybrať"
 msgid "Versions"
 msgstr "Verzie"
 
-#: templates/filebrowser/include/filter.html:4
+#: templates/filebrowser/include/filter.html:5
 msgid "Filter"
 msgstr "Filter"
 
-#: templates/filebrowser/include/filter.html:7
+#: templates/filebrowser/include/filter.html:9
 msgid "By Date"
 msgstr "Podľa Dátumu"
 
-#: templates/filebrowser/include/filter.html:9
+#: templates/filebrowser/include/filter.html:11
 msgid "Any Date"
 msgstr "Hociktorý Dátum"
 
-#: templates/filebrowser/include/filter.html:10
+#: templates/filebrowser/include/filter.html:12
 msgid "Today"
 msgstr "Dnes"
 
-#: templates/filebrowser/include/filter.html:11
+#: templates/filebrowser/include/filter.html:13
 msgid "Past 7 days"
 msgstr "Posledných 7 dní"
 
-#: templates/filebrowser/include/filter.html:12
+#: templates/filebrowser/include/filter.html:14
 msgid "This Month"
 msgstr "Tento Mesiac"
 
-#: templates/filebrowser/include/filter.html:13
+#: templates/filebrowser/include/filter.html:15
 msgid "This year"
 msgstr "Tento Rok"
 
-#: templates/filebrowser/include/filter.html:17
+#: templates/filebrowser/include/filter.html:21
 msgid "By Type"
 msgstr "Podľa Typu"
 
-#: templates/filebrowser/include/filter.html:19
+#: templates/filebrowser/include/filter.html:23
 msgid "All"
 msgstr "Všetky"
 

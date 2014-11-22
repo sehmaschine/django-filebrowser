@@ -8,7 +8,7 @@
         {% version_object fileobject settings_var.ADMIN_THUMBNAIL as thumbnail_version %}
     {% endif %}
     
-    <tr class="grp-row {% cycle 'grp-row-even' 'grp-row-odd' %}{% if fileobject.filetype == "Folder" %} fb_folder{% endif %}">
+    <tr class="grp-row grp-row-even{% if fileobject.filetype == "Folder" %} fb_folder{% endif %}">
         
         <!-- FILESELECT FOR FILEBROWSEFIELD -->
         {% if query.pop == "1" %}
@@ -24,7 +24,7 @@
                             <ul class="grp-pulldown-versions">
                                 {% for version in settings_var.ADMIN_VERSIONS %}
                                     {% version_setting version %}
-                                    <li><a href="{% url 'filebrowser:fb_version' %}{% query_string '' 'filename' %}&amp;filename={{ fileobject.filename|urlencode }}&amp;version={{ version }}" title="">{{ version_setting.verbose_name }}</a></li>
+                                    <li><a href="{% url 'filebrowser:fb_version' %}{% query_string '' 'filename, dirname' %}&amp;dir={{ fileobject.dirname|urlencode }}&amp;filename={{ fileobject.filename|urlencode }}&amp;version={{ version }}" title="">{{ version_setting.verbose_name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -104,7 +104,7 @@
         
         <!-- FILENAME/DIMENSIONS -->
         {% if fileobject.filetype == "Folder" %}
-            <td><a href="{% url 'filebrowser:fb_browse' %}{% query_string "" "q,dir,p" %}&amp;dir={{ fileobject.directory|urlencode }}"><strong>{{ fileobject.filename }}</strong></a></td>
+            <td><a href="{% url 'filebrowser:fb_browse' %}{% query_string "" "q,dir,p" %}&amp;dir={{ fileobject.path_relative_directory|urlencode }}"><strong>{{ fileobject.filename }}</strong></a></td>
         {% else %}
             <td>
                 <strong>{{ fileobject.filename }}</strong>

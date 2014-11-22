@@ -14,9 +14,9 @@ Requirements
 
 FileBrowser 3.5 requires
 
-* Django 1.4 (http://www.djangoproject.com)
-* Grappelli 2.4 (https://github.com/sehmaschine/django-grappelli)
-* PIL (http://www.pythonware.com/products/pil/)
+* Django 1.4/1.5/1.6/1.7 (http://www.djangoproject.com)
+* Grappelli 2.4/2.5/2.6 (https://github.com/sehmaschine/django-grappelli)
+* Pillow (https://github.com/python-imaging/Pillow)
 
 Documentation
 -------------
@@ -26,13 +26,12 @@ http://readthedocs.org/docs/django-filebrowser/
 Translation
 -----------
 
-https://www.transifex.net/projects/p/django-filebrowser/
+https://www.transifex.com/projects/p/django-filebrowser/
 
 Releases
 --------
 
-* FileBrowser 3.5.3 (Development Version, not yet released, see Branch Stable/3.5.x)
-* FileBrowser 3.5.2 (February 22 2013): Compatible with Django 1.4/1.5
-* FileBrowser 3.4.3 (April 2012): Compatible with Django 1.3
+* FileBrowser 3.5.8 (Development Version, not yet released, see Branch Stable/3.5.x)
+* FileBrowser 3.5.7 (September 10th, 2014): Compatible with Django 1.4/1.5/1.6/1.7
 
 Older versions are availabe at GitHub, but are not supported anymore.

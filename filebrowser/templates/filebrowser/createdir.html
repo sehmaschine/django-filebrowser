@@ -1,16 +1,16 @@
 {% extends "admin/base_site.html" %}
 
 <!-- LOADING -->
-{% load i18n fb_tags fb_csrf %}
+{% load admin_static i18n fb_tags fb_csrf %}
 
 <!-- STYLESHEETS -->
 {% block stylesheets %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+    <link rel="stylesheet" type="text/css" href="{% static "filebrowser/css/filebrowser.css" %}" />
 {% endblock %}
 
 <!-- COLTYPE/BODYCLASS -->
-{% block bodyclass %}change-form grp-filebrowser{% if query.pop %} grp-popup{% endif %}{% endblock %}
+{% block bodyclass %}grp-change-form grp-filebrowser{% if query.pop %} grp-popup{% endif %}{% endblock %}
 {% block content-class %}{% endblock %}
 
 <!-- BREADCRUMBS -->

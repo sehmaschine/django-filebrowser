@@ -1,4 +1,4 @@
-:tocdepth: 1
+:orphan:
 
 .. |grappelli| replace:: Grappelli
 .. |filebrowser| replace:: FileBrowser
@@ -8,18 +8,16 @@
 FAQ
 ===
 
-Some questions, some answers.
-
 Why should I use the |filebrowser|?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you need your editors or customer to manage files, the |filebrowser| is an alternative to an FTP-client. Moreover, with the |filebrowser| you are able to define different image-versions according to your websites grid.
+If you need your editors or customers to manage files, the |filebrowser| is an alternative to an FTP-client. Moreover, you are able to define different image versions according to your websites grid.
 Alternatives to the |filebrowser| can be found at http://djangopackages.com/grids/g/file-managers/.
 
-I want to use |filebrowser|, but I don't want to use |grappelli|?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Do I need |grappelli|?
+^^^^^^^^^^^^^^^^^^^^^^
 
-|grappelli| is a requirement for using the |filebrowser|. There are several filebrowser-no-grappelli versions (most of them on GitHub), but we don't follow the development.
+|grappelli| is a requirement for using the |filebrowser|. There are several filebrowser-no-grappelli repositories (most of them on GitHub), but we don't follow the development.
 
 I need help!
 ^^^^^^^^^^^^
@@ -34,10 +32,10 @@ The |filebrowser| is about managing files. We think that you should prepare your
 How do I upload to another server?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Use a custom storage engine, see https://docs.djangoproject.com/en/1.3/howto/custom-file-storage/.
+Use a custom storage engine, see https://docs.djangoproject.com/en/1.6/howto/custom-file-storage/.
 
-Why should I need image-versions?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Why do I need image-versions?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You need image-versions if your website is based on a *grid*.
 

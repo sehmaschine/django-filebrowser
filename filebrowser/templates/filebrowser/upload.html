@@ -1,20 +1,20 @@
 {% extends "admin/base_site.html" %}
 
 <!-- LOADING -->
-{% load i18n l10n fb_tags %}
+{% load admin_static i18n l10n fb_tags %}
 {% load url from future %}
 
 <!-- STYLESHEETS -->
 {% block stylesheets %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{{ settings_var.URL_FILEBROWSER_MEDIA }}css/filebrowser.css" />
+    <link rel="stylesheet" type="text/css" href="{% static "filebrowser/css/filebrowser.css" %}" />
 {% endblock %}
 
 <!-- JAVASCRIPTS -->
 {% block javascripts %}
     {{ block.super }}
     <script type="text/javascript" src="../../jsi18n/"></script>
-    <script type="text/javascript" src="{{ settings_var.URL_FILEBROWSER_MEDIA }}js/fileuploader.js"></script>
+    <script type="text/javascript" src="{% static "filebrowser/js/fileuploader.js" %}"></script>
     <script type="text/javascript">
     (function($){
         $(document).ready(function() {
@@ -50,6 +50,7 @@
                     '<span class="qq-upload-size"></span>' +
                     '<a class="qq-upload-cancel" href="#">{% trans "Cancel" %}</a>' +
                     '<span class="qq-upload-failed-text">{% trans "Failed" %}</span>' +
+                    '<span class="qq-upload-complete"></span>' +
                     '<div class="progress-bar"><div class="content"></div></div>' +
                 '</li>',
 
@@ -58,6 +59,7 @@
                           'csrf_xname': 'X-CSRFToken',
                           'folder': '{{ query.dir|escapejs }}', },
 
+                allowedExtensions: {% get_file_extensions request.GET %},
                 sizeLimit: {{ settings_var.MAX_UPLOAD_SIZE|unlocalize }},
                 minSizeLimit: 0,
                 debug: false,
@@ -87,9 +89,9 @@
                     bar.css('width', new_width);
                 },
                 onComplete: function(id, fileName, resp){
-                    // if (resp.success) {
-                    //     this.getItem(id).fadeOut('slow');
-                    // }
+                    if (resp.success) {
+                        this.getItem(id).find('.qq-upload-file').html(resp.filename);
+                    }
                 },
                 showMessage: function(message){ alert(message); }
             });

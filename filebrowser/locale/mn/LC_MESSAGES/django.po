@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Анхбаяр Анхаа <l.ankhbayar@gmail.com>, 2011-2012.
+# Анхбаяр Анхаа <l.ankhbayar@gmail.com>, 2011-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
-"POT-Creation-Date: 2012-10-23 12:55+0200\n"
-"PO-Revision-Date: 2012-11-29 13:09+0000\n"
-"Last-Translator: Анхбаяр Анхаа <l.ankhbayar@gmail.com>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-30 18:48+0100\n"
+"PO-Revision-Date: 2013-12-06 08:13+0000\n"
+"Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
 "Language-Team: Mongolian (http://www.transifex.com/projects/p/django-filebrowser/language/mn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,152 +18,152 @@ msgstr ""
 "Language: mn\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: actions.py:51
+#: actions.py:53
 #, python-format
 msgid "Action applied successfully to '%s'"
 msgstr "'%s' үйлдэлийг хийж дууслаа."
 
-#: actions.py:56 forms.py:21
+#: actions.py:59 forms.py:20
 msgid "Flip horizontal"
 msgstr "Хөндлөн хувирга"
 
-#: actions.py:62 forms.py:22
+#: actions.py:66 forms.py:21
 msgid "Flip vertical"
 msgstr "Босоо хувирга"
 
-#: actions.py:68 forms.py:23
+#: actions.py:73 forms.py:22
 msgid "Rotate 90° CW"
 msgstr "90° эргүүл CW"
 
-#: actions.py:74 forms.py:24
+#: actions.py:80 forms.py:23
 msgid "Rotate 90° CCW"
 msgstr "90° эргүүл CCW"
 
-#: actions.py:80 forms.py:25
+#: actions.py:87 forms.py:24
 msgid "Rotate 180°"
 msgstr "180° эргүүл"
 
-#: decorators.py:23
+#: decorators.py:39
 msgid ""
-"Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
-"exist?"
-msgstr "Хуулах хавтасийг олсонгүй (MEDIA_ROOT + DIRECTORY). Энэ хастас байхгүй байж магадгүй?"
+"Error finding Upload-Folder (site.storage.location + site.directory). Maybe "
+"it does not exist?"
+msgstr ""
 
-#: decorators.py:25
+#: decorators.py:41
 msgid "The requested Folder does not exist."
 msgstr "Хүссэн хавтас байхгүй байна."
 
-#: decorators.py:41
+#: decorators.py:55
 msgid "The requested File does not exist."
 msgstr "Хүссэн файл байхгүй байна."
 
-#: decorators.py:47
+#: decorators.py:61
 msgid "You do not have permission to access this file!"
 msgstr "Энэ файлруу хандах эрх хүрэлцэхгүй байна!"
 
-#: fields.py:65
+#: fields.py:63
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
 msgstr "%(ext)s файлын өргөтгөлийг зөвшөөрөхгүй. Зөвхөн %(allowed)s эдгээрийг зөвшөөрнө."
 
-#: forms.py:39 forms.py:58
+#: forms.py:57 forms.py:82
 msgid "Name"
 msgstr "Нэр"
 
-#: forms.py:39 forms.py:45 forms.py:58 forms.py:79
+#: forms.py:57 forms.py:69 forms.py:82 forms.py:101
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
 msgstr "Зөвхөн үсэг, тоо, доогуур зураас, хоосон зай, дундуур зураасыг зөвшөөрнө."
 
-#: forms.py:48 forms.py:82
+#: forms.py:72 forms.py:104
 msgid "The Folder already exists."
 msgstr "Хавтас өмнө нь үүссэн байна."
 
-#: forms.py:57
+#: forms.py:81
 msgid "Actions"
 msgstr "Үйлдэлүүд"
 
-#: forms.py:84
+#: forms.py:106
 msgid "The File already exists."
-msgstr "Ийм файл байна. Давхардлаа."
+msgstr "Ийм файл өмнө нь үүссэн байна."
 
-#: settings.py:123 templates/filebrowser/include/tableheader.html:21
+#: settings.py:110 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
 msgstr "Хавтас"
 
-#: settings.py:124
+#: settings.py:111
 msgid "Image"
 msgstr "Зураг"
 
-#: settings.py:125
+#: settings.py:112
 msgid "Video"
 msgstr "Бичлэг"
 
-#: settings.py:126
+#: settings.py:113
 msgid "Document"
 msgstr "Баримт"
 
-#: settings.py:127
+#: settings.py:114
 msgid "Audio"
 msgstr "Дуу"
 
-#: sites.py:264 templates/filebrowser/include/breadcrumbs.html:9
+#: sites.py:348 templates/filebrowser/include/breadcrumbs.html:9
 #: templates/filebrowser/include/breadcrumbs.html:11
 msgid "FileBrowser"
 msgstr "Файл хөтөч"
 
-#: sites.py:289
+#: sites.py:369
 #, python-format
 msgid "The Folder %s was successfully created."
 msgstr "Хавтас %s амжилттай үүслээ."
 
-#: sites.py:294
+#: sites.py:374
 msgid "Permission denied."
 msgstr "Эрх хүрэлцэхгүй байна."
 
-#: sites.py:296
+#: sites.py:376
 msgid "Error creating folder."
 msgstr "Хавтас үүсгэхэд алдаа гарлаа"
 
-#: sites.py:303 sites.py:306 templates/filebrowser/index.html:80
+#: sites.py:383 sites.py:386 templates/filebrowser/index.html:80
 msgid "New Folder"
 msgstr "Шинэ хавтас"
 
-#: sites.py:320
+#: sites.py:396
 msgid "Select files to upload"
 msgstr "Сонгосон файлуудыг хуул"
 
-#: sites.py:323 templates/filebrowser/index.html:81
+#: sites.py:399 templates/filebrowser/index.html:81
 msgid "Upload"
 msgstr "Хуул"
 
-#: sites.py:354 sites.py:357
+#: sites.py:429 sites.py:432
 msgid "Confirm delete"
 msgstr "Устгахыг баталгаажуул"
 
-#: sites.py:375
+#: sites.py:448
 #, python-format
 msgid "Successfully deleted %s"
 msgstr "%s амжилттай утсгав."
 
-#: sites.py:413
+#: sites.py:485
 msgid "Renaming was successful."
 msgstr "Нэрийг амжилттай өөрчиллөө."
 
-#: sites.py:422
+#: sites.py:494
 msgid "Error."
 msgstr "Алдаа."
 
-#: widgets.py:19 widgets.py:52
+#: widgets.py:17 widgets.py:50
 msgid "Currently"
 msgstr "Одоогоор"
 
-#: widgets.py:20 widgets.py:53
+#: widgets.py:18 widgets.py:51
 #: templates/filebrowser/include/filelisting.html:131
 msgid "Change"
-msgstr "Өөрчлөх"
+msgstr "Өөрчил"
 
-#: widgets.py:21 widgets.py:54
+#: widgets.py:19 widgets.py:52
 msgid "Clear"
 msgstr "Цэврэл"
 
@@ -188,7 +188,7 @@ msgstr "Нэрийг жижиг үсгээр хоосон зайг доогуу�
 
 #: templates/filebrowser/createdir.html:50
 msgid "Submit"
-msgstr "Оруул"
+msgstr "Илгээх"
 
 #: templates/filebrowser/custom_field.html:26
 #: templates/filebrowser/widgets/clearablefileinput.html:11
@@ -265,7 +265,7 @@ msgstr "Зураг үзэх"
 
 #: templates/filebrowser/detail.html:170
 msgid "Delete"
-msgstr "Утсгах"
+msgstr "Утсга"
 
 #: templates/filebrowser/detail.html:171
 msgid "Save"
@@ -346,39 +346,39 @@ msgstr "Сонго"
 msgid "Versions"
 msgstr "Хувилбарууд"
 
-#: templates/filebrowser/include/filter.html:4
+#: templates/filebrowser/include/filter.html:5
 msgid "Filter"
 msgstr "Шүүлт"
 
-#: templates/filebrowser/include/filter.html:7
+#: templates/filebrowser/include/filter.html:9
 msgid "By Date"
 msgstr "Огноогоор"
 
-#: templates/filebrowser/include/filter.html:9
+#: templates/filebrowser/include/filter.html:11
 msgid "Any Date"
 msgstr "Бүх огноо"
 
-#: templates/filebrowser/include/filter.html:10
+#: templates/filebrowser/include/filter.html:12
 msgid "Today"
 msgstr "Өнөөдөр"
 
-#: templates/filebrowser/include/filter.html:11
+#: templates/filebrowser/include/filter.html:13
 msgid "Past 7 days"
 msgstr "Сүүлийн 7 өдөр"
 
-#: templates/filebrowser/include/filter.html:12
+#: templates/filebrowser/include/filter.html:14
 msgid "This Month"
 msgstr "Энэ сар"
 
-#: templates/filebrowser/include/filter.html:13
+#: templates/filebrowser/include/filter.html:15
 msgid "This year"
 msgstr "Энэ жил"
 
-#: templates/filebrowser/include/filter.html:17
+#: templates/filebrowser/include/filter.html:21
 msgid "By Type"
 msgstr "Төрлөөр"
 
-#: templates/filebrowser/include/filter.html:19
+#: templates/filebrowser/include/filter.html:23
 msgid "All"
 msgstr "Бүгд"
 

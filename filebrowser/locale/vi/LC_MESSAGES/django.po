@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# luanvuhlu <luanhlu3503@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
-"POT-Creation-Date: 2012-10-23 12:55+0200\n"
-"PO-Revision-Date: 2012-11-10 08:20+0000\n"
-"Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-30 18:48+0100\n"
+"PO-Revision-Date: 2014-02-18 08:41+0000\n"
+"Last-Translator: luanvuhlu <luanhlu3503@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/django-filebrowser/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,406 +18,406 @@ msgstr ""
 "Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: actions.py:51
+#: actions.py:53
 #, python-format
 msgid "Action applied successfully to '%s'"
-msgstr ""
+msgstr "Thao tác '%s'  thành công"
 
-#: actions.py:56 forms.py:21
+#: actions.py:59 forms.py:20
 msgid "Flip horizontal"
-msgstr ""
+msgstr "Lật ngang"
 
-#: actions.py:62 forms.py:22
+#: actions.py:66 forms.py:21
 msgid "Flip vertical"
-msgstr ""
+msgstr "Lật dọc"
 
-#: actions.py:68 forms.py:23
+#: actions.py:73 forms.py:22
 msgid "Rotate 90° CW"
-msgstr ""
+msgstr "Xoay 90° CW"
 
-#: actions.py:74 forms.py:24
+#: actions.py:80 forms.py:23
 msgid "Rotate 90° CCW"
-msgstr ""
+msgstr "Xoay 90° CCW"
 
-#: actions.py:80 forms.py:25
+#: actions.py:87 forms.py:24
 msgid "Rotate 180°"
-msgstr ""
+msgstr "Xoay 180°"
 
-#: decorators.py:23
+#: decorators.py:39
 msgid ""
-"Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
-"exist?"
-msgstr ""
-
-#: decorators.py:25
-msgid "The requested Folder does not exist."
-msgstr ""
+"Error finding Upload-Folder (site.storage.location + site.directory). Maybe "
+"it does not exist?"
+msgstr "Không tìm thấy Upload_Folder (site.storage.location + site.directory). Có thể nó không tồn tại?"
 
 #: decorators.py:41
+msgid "The requested Folder does not exist."
+msgstr "Thư mục yêu cầu không tồn tại."
+
+#: decorators.py:55
 msgid "The requested File does not exist."
-msgstr ""
+msgstr "File yêu cầu không tồn tại."
 
-#: decorators.py:47
+#: decorators.py:61
 msgid "You do not have permission to access this file!"
-msgstr ""
+msgstr "Bạn không có quyền truy cập file này"
 
-#: fields.py:65
+#: fields.py:63
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
-msgstr ""
+msgstr "Đuôi %(ext)s không được phép. Chỉ cho phép %(allowed)s ."
 
-#: forms.py:39 forms.py:58
+#: forms.py:57 forms.py:82
 msgid "Name"
-msgstr ""
+msgstr "Tên"
 
-#: forms.py:39 forms.py:45 forms.py:58 forms.py:79
+#: forms.py:57 forms.py:69 forms.py:82 forms.py:101
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
-msgstr ""
+msgstr "Chỉ cho phép các kí tự, số, dấu gạch dưới, dấu cách và dấu gạch ngang."
 
-#: forms.py:48 forms.py:82
+#: forms.py:72 forms.py:104
 msgid "The Folder already exists."
-msgstr ""
+msgstr "Thư mục không tồn tại"
 
-#: forms.py:57
+#: forms.py:81
 msgid "Actions"
-msgstr ""
+msgstr "Các thao tác"
 
-#: forms.py:84
+#: forms.py:106
 msgid "The File already exists."
-msgstr ""
+msgstr "File không tồn tại."
 
-#: settings.py:123 templates/filebrowser/include/tableheader.html:21
+#: settings.py:110 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
-msgstr ""
+msgstr "Thư mục"
 
-#: settings.py:124
+#: settings.py:111
 msgid "Image"
-msgstr ""
+msgstr "Image"
 
-#: settings.py:125
+#: settings.py:112
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
-#: settings.py:126
+#: settings.py:113
 msgid "Document"
-msgstr ""
+msgstr "Document"
 
-#: settings.py:127
+#: settings.py:114
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
-#: sites.py:264 templates/filebrowser/include/breadcrumbs.html:9
+#: sites.py:348 templates/filebrowser/include/breadcrumbs.html:9
 #: templates/filebrowser/include/breadcrumbs.html:11
 msgid "FileBrowser"
-msgstr ""
+msgstr "Quản lý File"
 
-#: sites.py:289
+#: sites.py:369
 #, python-format
 msgid "The Folder %s was successfully created."
-msgstr ""
+msgstr "Thư mục %s đã được tạo."
 
-#: sites.py:294
+#: sites.py:374
 msgid "Permission denied."
-msgstr ""
+msgstr "Không được phép truy cập."
 
-#: sites.py:296
+#: sites.py:376
 msgid "Error creating folder."
-msgstr ""
+msgstr "Lỗi khi tạo thư mục."
 
-#: sites.py:303 sites.py:306 templates/filebrowser/index.html:80
+#: sites.py:383 sites.py:386 templates/filebrowser/index.html:80
 msgid "New Folder"
-msgstr ""
+msgstr "Thư mục mới"
 
-#: sites.py:320
+#: sites.py:396
 msgid "Select files to upload"
-msgstr ""
+msgstr "Chọn các file tải lên"
 
-#: sites.py:323 templates/filebrowser/index.html:81
+#: sites.py:399 templates/filebrowser/index.html:81
 msgid "Upload"
-msgstr ""
+msgstr "Tải lên"
 
-#: sites.py:354 sites.py:357
+#: sites.py:429 sites.py:432
 msgid "Confirm delete"
-msgstr ""
+msgstr "Xác nhận xóa"
 
-#: sites.py:375
+#: sites.py:448
 #, python-format
 msgid "Successfully deleted %s"
-msgstr ""
+msgstr "Đã xóa %s"
 
-#: sites.py:413
+#: sites.py:485
 msgid "Renaming was successful."
-msgstr ""
+msgstr "Đổi tên thành công"
 
-#: sites.py:422
+#: sites.py:494
 msgid "Error."
-msgstr ""
+msgstr "Lôĩ"
 
-#: widgets.py:19 widgets.py:52
+#: widgets.py:17 widgets.py:50
 msgid "Currently"
-msgstr ""
+msgstr "Hiện tại"
 
-#: widgets.py:20 widgets.py:53
+#: widgets.py:18 widgets.py:51
 #: templates/filebrowser/include/filelisting.html:131
 msgid "Change"
-msgstr ""
+msgstr "Thay đổi"
 
-#: widgets.py:21 widgets.py:54
+#: widgets.py:19 widgets.py:52
 msgid "Clear"
-msgstr ""
+msgstr "Clear"
 
 #: templates/filebrowser/createdir.html:23
 #: templates/filebrowser/detail.html:48
 msgid "Please correct the following errors."
-msgstr ""
+msgstr "Vui lòng sửa các lỗi sau đây"
 
 #: templates/filebrowser/createdir.html:36
 #: templates/filebrowser/upload.html:147
 msgid ""
 "The Name will be normalized by converting or stripping all non-standard "
 "characters."
-msgstr ""
+msgstr "Tên sẽ được chuẩn hóa bằng cách chuyển đổi hoặc loại bỏ các ký tự không chuẩn"
 
 #: templates/filebrowser/createdir.html:39
 #: templates/filebrowser/upload.html:150
 msgid ""
 "The Name will be converted to lowercase. Spaces will be replaced with "
 "underscores."
-msgstr ""
+msgstr "Tên phải đổi thành chữ in thường. Dấu cách sẽ được thay thế bằng dấu gạch ngang"
 
 #: templates/filebrowser/createdir.html:50
 msgid "Submit"
-msgstr ""
+msgstr "Gửi"
 
 #: templates/filebrowser/custom_field.html:26
 #: templates/filebrowser/widgets/clearablefileinput.html:11
 #: templates/filebrowser/widgets/fileinput.html:11
 msgid "File not found"
-msgstr ""
+msgstr "Không tìm thấy file"
 
 #: templates/filebrowser/delete_confirm.html:30
 #, python-format
 msgid ""
 "Are you sure you want to delete \"%(escaped_object)s\"? All of the following"
 " items will be deleted:"
-msgstr ""
+msgstr "Bạn có chắc chắn muốn xóa \"%(escaped_object)s\"? Tất cả những mục sau sẽ bị xóa theo"
 
 #: templates/filebrowser/delete_confirm.html:43
 #, python-format
 msgid "... and %(escaped_object)s more Files."
-msgstr ""
+msgstr "... và %(escaped_object)s thêm các File "
 
 #: templates/filebrowser/delete_confirm.html:50
 #: templates/filebrowser/upload.html:51
 msgid "Cancel"
-msgstr ""
+msgstr "Hủy bỏ"
 
 #: templates/filebrowser/delete_confirm.html:51
 msgid "Yes, I'm sure"
-msgstr ""
+msgstr "Tôi chắc chắn"
 
 #: templates/filebrowser/detail.html:63
 msgid "Edit"
-msgstr ""
+msgstr "Sửa"
 
 #: templates/filebrowser/detail.html:78
 msgid "Folder Information"
-msgstr ""
+msgstr "Thông tin thư mục"
 
 #: templates/filebrowser/detail.html:81 templates/filebrowser/detail.html:116
 #: templates/filebrowser/include/tableheader.html:28
 #: templates/filebrowser/include/tableheader.html:29
 msgid "Date"
-msgstr ""
+msgstr "Ngày"
 
 #: templates/filebrowser/detail.html:93
 msgid "File Information"
-msgstr ""
+msgstr "Thông tin file"
 
 #: templates/filebrowser/detail.html:96
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: templates/filebrowser/detail.html:106
 msgid "Filesize"
-msgstr ""
+msgstr "Kích cỡ file"
 
 #: templates/filebrowser/detail.html:127
 #: templates/filebrowser/include/tableheader.html:25
 #: templates/filebrowser/include/tableheader.html:26
 msgid "Size"
-msgstr ""
+msgstr "Kích cớ"
 
 #: templates/filebrowser/detail.html:140
 msgid "Image Versions"
-msgstr ""
+msgstr "Phiên bản Image"
 
 #: templates/filebrowser/detail.html:144
 #: templates/filebrowser/include/tableheader.html:15
 msgid "Thumbnail"
-msgstr ""
+msgstr "Thumbnail"
 
 #: templates/filebrowser/detail.html:146
 #: templates/filebrowser/include/filelisting.html:101
 msgid "View Image"
-msgstr ""
+msgstr "Xem ảnh"
 
 #: templates/filebrowser/detail.html:170
 msgid "Delete"
-msgstr ""
+msgstr "Xóa"
 
 #: templates/filebrowser/detail.html:171
 msgid "Save"
-msgstr ""
+msgstr "Lưu"
 
 #: templates/filebrowser/detail.html:172
 msgid "Save and continue editing"
-msgstr ""
+msgstr "Lưu và tiếp tục sửa"
 
 #: templates/filebrowser/upload.html:42
 msgid "Drop files here to upload"
-msgstr ""
+msgstr "Thả các file vào đây để tải lên"
 
 #: templates/filebrowser/upload.html:43
 msgid "Upload a file"
-msgstr ""
+msgstr "Tải lên file"
 
 #: templates/filebrowser/upload.html:52
 msgid "Failed"
-msgstr ""
+msgstr "Thất bại"
 
 #: templates/filebrowser/upload.html:66
 msgid "{file} has invalid extension. Only {extensions} are allowed."
-msgstr ""
+msgstr "{file} có đuôi không đúng. Chỉ cho phép các đuôi sau {extensions}"
 
 #: templates/filebrowser/upload.html:67
 msgid "{file} is too large, maximum file size is {sizeLimit}."
-msgstr ""
+msgstr "{file} quá lớn, kích cỡ lớn nhất là {sizeLimit}."
 
 #: templates/filebrowser/upload.html:68
 msgid "{file} is too small, minimum file size is {minSizeLimit}."
-msgstr ""
+msgstr "{file} quá nhỏ, kích cỡ nhỏ nhất là {minSizeLimit}."
 
 #: templates/filebrowser/upload.html:69
 msgid "{file} is empty, please select files again without it."
-msgstr ""
+msgstr "{file} rỗng, vui lòng chọn lại các file khác"
 
 #: templates/filebrowser/upload.html:70
 msgid ""
 "The files are being uploaded, if you leave now the upload will be cancelled."
-msgstr ""
+msgstr "File đang được tải lên, nếu bạn rời khỏi, quá trình tải lên sẽ bị hủy"
 
 #: templates/filebrowser/upload.html:115
 msgid "Please enable Javascript to upload files."
-msgstr ""
+msgstr "Vui lòng bật javascript để tải file lên"
 
 #: templates/filebrowser/upload.html:120
 msgid "Help"
-msgstr ""
+msgstr "Giúp đỡ"
 
 #: templates/filebrowser/upload.html:123
 msgid "Allowed"
-msgstr ""
+msgstr "Đã cho phép"
 
 #: templates/filebrowser/upload.html:137
 msgid "Max. Filesize"
-msgstr ""
+msgstr "Lớn nhất. Kích cỡ file"
 
 #: templates/filebrowser/upload.html:144
 #: templates/filebrowser/include/tableheader.html:17
 #: templates/filebrowser/include/tableheader.html:18
 msgid "Filename"
-msgstr ""
+msgstr "Teen file"
 
 #: templates/filebrowser/include/breadcrumbs.html:6
 msgid "Home"
-msgstr ""
+msgstr "Trang chủ"
 
 #: templates/filebrowser/include/filelisting.html:19
 #: templates/filebrowser/include/filelisting.html:45
 #: templates/filebrowser/include/filelisting.html:70
 msgid "Select"
-msgstr ""
+msgstr "Chọn"
 
 #: templates/filebrowser/include/filelisting.html:23
 #: templates/filebrowser/include/filelisting.html:49
 #: templates/filebrowser/include/filelisting.html:74
 msgid "Versions"
-msgstr ""
+msgstr "Phiên bản"
 
-#: templates/filebrowser/include/filter.html:4
+#: templates/filebrowser/include/filter.html:5
 msgid "Filter"
-msgstr ""
-
-#: templates/filebrowser/include/filter.html:7
-msgid "By Date"
-msgstr ""
+msgstr "Lọc"
 
 #: templates/filebrowser/include/filter.html:9
-msgid "Any Date"
-msgstr ""
-
-#: templates/filebrowser/include/filter.html:10
-msgid "Today"
-msgstr ""
+msgid "By Date"
+msgstr "Theo ngày"
 
 #: templates/filebrowser/include/filter.html:11
-msgid "Past 7 days"
-msgstr ""
+msgid "Any Date"
+msgstr "Bất kỳ Ngày nào"
 
 #: templates/filebrowser/include/filter.html:12
-msgid "This Month"
-msgstr ""
+msgid "Today"
+msgstr "Hôm nay"
 
 #: templates/filebrowser/include/filter.html:13
+msgid "Past 7 days"
+msgstr "7 ngày trước"
+
+#: templates/filebrowser/include/filter.html:14
+msgid "This Month"
+msgstr "Trong tháng này"
+
+#: templates/filebrowser/include/filter.html:15
 msgid "This year"
-msgstr ""
+msgstr "Trong năm nay"
 
-#: templates/filebrowser/include/filter.html:17
+#: templates/filebrowser/include/filter.html:21
 msgid "By Type"
-msgstr ""
+msgstr "Theo loại"
 
-#: templates/filebrowser/include/filter.html:19
+#: templates/filebrowser/include/filter.html:23
 msgid "All"
-msgstr ""
+msgstr "Tất cả"
 
 #: templates/filebrowser/include/paginator.html:6
 msgid "result"
-msgstr ""
+msgstr "kết quả"
 
 #: templates/filebrowser/include/paginator.html:6
 msgid "results"
-msgstr ""
+msgstr "các kết quả"
 
 #: templates/filebrowser/include/paginator.html:10
 #: templates/filebrowser/include/paginator.html:12
 msgid "total"
-msgstr ""
+msgstr "tổng cộng"
 
 #: templates/filebrowser/include/tableheader.html:12
 #: templates/filebrowser/include/tableheader.html:13
 msgid "Type"
-msgstr ""
+msgstr "Loại"
 
 #: templates/filebrowser/include/toolbar.html:6
 msgid "Results"
-msgstr ""
+msgstr "Các kết quả"
 
 #: templates/filebrowser/include/toolbar.html:8
 #, python-format
 msgid "%(counter)s result"
 msgid_plural "%(counter)s results"
-msgstr[0] ""
+msgstr[0] "%(counter)s kết quả"
 
 #: templates/filebrowser/include/toolbar.html:9
 #, python-format
 msgid "%(full_result_count)s total"
-msgstr ""
+msgstr "tổng cộng %(full_result_count)s"
 
 #: templates/filebrowser/include/toolbar.html:16
 msgid "Search"
-msgstr ""
+msgstr "Tìm kiếm"
 
 #~ msgid "BROWSE"
 #~ msgstr "BROWSE"
