@@ -1,5 +1,6 @@
 {% load i18n fb_tags fb_versions %}
 {% load url from future %}
+{% load cycle from future %}
 
 {% for fileobject in page.object_list %}
     
@@ -8,7 +9,7 @@
         {% version_object fileobject settings_var.ADMIN_THUMBNAIL as thumbnail_version %}
     {% endif %}
     
-    <tr class="grp-row grp-row-even{% if fileobject.filetype == "Folder" %} fb_folder{% endif %}">
+    <tr class="grp-row {% cycle 'grp-row-even' 'grp-row-odd' %}{% if fileobject.filetype == "Folder" %} fb_folder{% endif %}">
         
         <!-- FILESELECT FOR FILEBROWSEFIELD -->
         {% if query.pop == "1" %}
@@ -37,7 +38,7 @@
         
         <!-- FILESELECT FOR RTE/TINYMCE -->
         <!-- we need to use the absolute url here -->
-        {% if query.pop == "2" %}
+        {% if query.pop == "2" or query.pop == "4" %}
             <td class="fb_icon">
                 {% selectable fileobject.filetype query.type %}
                 {% if selectable %}

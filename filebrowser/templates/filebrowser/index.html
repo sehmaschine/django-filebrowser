@@ -24,6 +24,9 @@
     {% ifequal query.pop '3' %} <!-- CKeditor (former "FCKeditor") -->
     <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_CKEditor.js" %}"></script>
     {% endifequal %}
+    {% ifequal query.pop '4' %} <!-- TinyMCE -->
+    <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_TinyMCEv4.js" %}"></script>
+    {% endifequal %}
     {{ media }}
     <script type="text/javascript" charset="utf-8">
         (function($) {
