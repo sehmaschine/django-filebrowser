@@ -248,7 +248,9 @@ Default sorting attribute::
 
     DEFAULT_SORTING_BY = getattr(settings, "FILEBROWSER_DEFAULT_SORTING_BY", "date")
 
-Options are: ``date``, ``filesize``, ``filename_lower``, ``filetype_checked``
+Options are: ``date``, ``filesize``, ``filename_lower``, ``filetype_checked``, ``mimetype``
+
+You can also use a few of them in one time eg. ``(mimetype, filename_lower)``
 
 DEFAULT_SORTING_ORDER
 ^^^^^^^^^^^^^^^^^^^^^
