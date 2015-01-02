@@ -578,7 +578,7 @@ class FileBrowserSite(object):
 
             # let Ajax Upload know whether we saved it or not
             ret_json = {'success': True, 'filename': f.filename}
-            return HttpResponse(json.dumps(ret_json))
+            return HttpResponse(json.dumps(ret_json), content_type="application/json")
 
 storage = DefaultStorage()
 # Default FileBrowser site
