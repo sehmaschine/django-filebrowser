@@ -3,7 +3,7 @@
 
 <ul class="grp-horizontal-list">
     {% if not query.pop %}
-        <li><a href="../../">{% trans "Home" %}</a></li>
+        <li><a href="{% url 'admin:index' %}">{% trans "Home" %}</a></li>
     {% endif %}
     {% if breadcrumbs or breadcrumbs_title %}
         <li><a href="{% url 'filebrowser:fb_browse' %}{% query_string "" "q,dir,filename,p" %}">{% trans 'FileBrowser' %}</a></li>
