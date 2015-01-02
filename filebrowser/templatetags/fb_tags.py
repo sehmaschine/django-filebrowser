@@ -74,15 +74,15 @@ def string_to_dict(string):
 
     kwargs = {}
     if string:
-        string = str(string)
-        if ',' not in string:
+        string = unicode(string)
+        if u',' not in string:
             # ensure at least one ','
-            string += ','
-        for arg in string.split(','):
+            string += u','
+        for arg in string.split(u','):
             arg = arg.strip()
             if arg == '':
                 continue
-            kw, val = arg.split('=', 1)
+            kw, val = arg.split(u'=', 1)
             kwargs[kw] = val
     return kwargs
 
