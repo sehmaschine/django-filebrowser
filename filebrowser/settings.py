@@ -106,7 +106,7 @@ OVERWRITE_EXISTING = getattr(settings, "FILEBROWSER_OVERWRITE_EXISTING", True)
 
 # EXTRA TRANSLATION STRINGS
 
-# The following strings are not availabe within views or templates
+# The following strings are not available within views or templates
 _('Folder')
 _('Image')
 _('Video')
