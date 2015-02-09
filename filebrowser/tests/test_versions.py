@@ -181,7 +181,7 @@ class VersionTemplateTagsTests(TestCase):
         # Check permissions
         if DEFAULT_PERMISSIONS is not None:
             permissions_default = oct(DEFAULT_PERMISSIONS)
-            permissions_file = oct(os.stat(os.path.join(settings.MEDIA_ROOT, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")).st_mode & 0777)
+            permissions_file = oct(os.stat(os.path.join(settings.MEDIA_ROOT, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")).st_mode & 0o777)
             self.assertEqual(permissions_default, permissions_file)
 
     def test_version_object(self):

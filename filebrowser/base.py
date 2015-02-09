@@ -11,9 +11,10 @@ import warnings
 
 # DJANGO IMPORTS
 from django.core.files import File
+from django.utils.six import string_types
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, PLACEHOLDER, FORCE_PLACEHOLDER, SHOW_PLACEHOLDER, STRICT_PIL, IMAGE_MAXBLOCK, DEFAULT_PERMISSIONS
+from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, STRICT_PIL, IMAGE_MAXBLOCK, DEFAULT_PERMISSIONS
 from filebrowser.utils import path_strip, scale_and_crop
 from django.utils.encoding import python_2_unicode_compatible, smart_str
 
@@ -61,6 +62,7 @@ class FileListing():
         self.sorting_order = sorting_order
         if not site:
             from filebrowser.sites import site as default_site
+
             site = default_site
         self.site = site
 
@@ -79,11 +81,13 @@ class FileListing():
         the sorted list of objects.
         """
         from operator import attrgetter
-        if isinstance(attr, basestring):  # Backward compatibility hack
+
+        if isinstance(attr, string_types):  # Backward compatibility hack
             attr = (attr, )
         return sorted(seq, key=attrgetter(*attr))
 
     _is_folder_stored = None
+
     @property
     def is_folder(self):
         if self._is_folder_stored is None:
@@ -216,6 +220,7 @@ class FileObject():
     def __init__(self, path, site=None):
         if not site:
             from filebrowser.sites import site as default_site
+
             site = default_site
         self.site = site
         if platform.system() == 'Windows':
@@ -261,6 +266,7 @@ class FileObject():
     # exists
 
     _filetype_stored = None
+
     @property
     def filetype(self):
         "Filetype as defined with EXTENSIONS"
@@ -273,6 +279,7 @@ class FileObject():
         return self._filetype_stored
 
     _filesize_stored = None
+
     @property
     def filesize(self):
         "Filesize in bytes"
@@ -284,6 +291,7 @@ class FileObject():
         return None
 
     _date_stored = None
+
     @property
     def date(self):
         "Modified time (from site.storage) as float (mktime)"
@@ -302,6 +310,7 @@ class FileObject():
         return None
 
     _exists_stored = None
+
     @property
     def exists(self):
         "True, if the path exists, False otherwise"
@@ -344,6 +353,7 @@ class FileObject():
     # orientation
 
     _dimensions_stored = None
+
     @property
     def dimensions(self):
         "Image dimensions as a tuple"
@@ -376,7 +386,7 @@ class FileObject():
     def aspectratio(self):
         "Aspect ratio (float format)"
         if self.dimensions:
-            return float(self.width)/float(self.height)
+            return float(self.width) / float(self.height)
         return None
 
     @property
@@ -408,6 +418,7 @@ class FileObject():
         return os.path.dirname(path_strip(os.path.join(self.head, ''), self.site.directory))
 
     _is_folder_stored = None
+
     @property
     def is_folder(self):
         "True, if path is a folder"
@@ -434,7 +445,7 @@ class FileObject():
     def is_version(self):
         "True if file is a version, false otherwise"
         tmp = self.filename_root.split("_")
-        if tmp[len(tmp)-1] in VERSIONS:
+        if tmp[len(tmp) - 1] in VERSIONS:
             return True
         return False
 
@@ -460,8 +471,8 @@ class FileObject():
     def original_filename(self):
         "Get the filename of an original image from a version"
         tmp = self.filename_root.split("_")
-        if tmp[len(tmp)-1] in VERSIONS:
-            return u"%s%s" % (self.filename_root.replace("_%s" % tmp[len(tmp)-1], ""), self.extension)
+        if tmp[len(tmp) - 1] in VERSIONS:
+            return u"%s%s" % (self.filename_root.replace("_%s" % tmp[len(tmp) - 1], ""), self.extension)
         return self.filename
 
     # VERSION METHODS
@@ -521,7 +532,8 @@ class FileObject():
         version_path = self.version_path(version_suffix)
         version_dir, version_basename = os.path.split(version_path)
         root, ext = os.path.splitext(version_basename)
-        version = scale_and_crop(im, VERSIONS[version_suffix]['width'], VERSIONS[version_suffix]['height'], VERSIONS[version_suffix]['opts'])
+        version = scale_and_crop(im, VERSIONS[version_suffix]['width'], VERSIONS[version_suffix]['height'],
+                                 VERSIONS[version_suffix]['opts'])
         if not version:
             version = im
         # version methods as defined with VERSIONS
@@ -531,7 +543,8 @@ class FileObject():
                     version = m(version)
         # save version
         try:
-            version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1] != '.gif'))
+            version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=VERSION_QUALITY,
+                         optimize=(os.path.splitext(version_path)[1] != '.gif'))
         except IOError:
             version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=VERSION_QUALITY)
         # remove old version, if any
