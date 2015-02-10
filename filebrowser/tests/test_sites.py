@@ -142,7 +142,7 @@ def test_do_upload(test):
     # Check permissions
     if DEFAULT_PERMISSIONS is not None:
         permissions_default = oct(DEFAULT_PERMISSIONS)
-        permissions_file = oct(os.stat(test.testfile.path_full).st_mode & 0777)
+        permissions_file = oct(os.stat(test.testfile.path_full).st_mode & 0o777)
         test.assertTrue(permissions_default == permissions_file)
 
 
