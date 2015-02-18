@@ -286,7 +286,6 @@ class FileBrowserSite(object):
         "Browse Files/Directories."
         
         if not request.user.has_perm('filebrowser.can_list_files'):
-            print request.user.has_perm('filebrowser.can_list_files')
             raise PermissionDenied
         
         filter_re = []
@@ -366,6 +365,10 @@ class FileBrowserSite(object):
 
     def createdir(self, request):
         "Create Directory"
+        
+        if not request.user.has_perm('filebrowser.can_add_directories'):
+            raise PermissionDenied
+        
         from filebrowser.forms import CreateDirForm
         query = request.GET
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
@@ -402,6 +405,10 @@ class FileBrowserSite(object):
 
     def upload(self, request):
         "Multipe File Upload."
+        
+        if not request.user.has_perm('filebrowser.can_add_files'):
+            raise PermissionDenied
+        
         query = request.GET
 
         return render_to_response('filebrowser/upload.html', {
@@ -415,6 +422,10 @@ class FileBrowserSite(object):
 
     def delete_confirm(self, request):
         "Delete existing File/Directory."
+        
+        if not request.user.has_perm('filebrowser.can_delete_files'):
+            raise PermissionDenied
+        
         query = request.GET
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
@@ -447,6 +458,10 @@ class FileBrowserSite(object):
         }, context_instance=Context(request, current_app=self.name))
 
     def delete(self, request):
+        
+        if not request.user.has_perm('filebrowser.can_delete_files'):
+            raise PermissionDenied
+        
         "Delete existing File/Directory."
         query = request.GET
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
@@ -470,6 +485,10 @@ class FileBrowserSite(object):
         Show detail page for a file.
         Rename existing File/Directory (deletes existing Image Versions/Thumbnails).
         """
+        
+        if not request.user.has_perm('filebrowser.can_view_files'):
+            raise PermissionDenied
+        
         from filebrowser.forms import ChangeForm
         query = request.GET
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
@@ -483,6 +502,8 @@ class FileBrowserSite(object):
                 try:
                     action_response = None
                     if action_name:
+                        if not request.user.has_perm('filebrowser.can_edit_files'):
+                            raise PermissionDenied
                         action = self.get_action(action_name)
                         # Pre-action signal
                         signals.filebrowser_actions_pre_apply.send(sender=request, action_name=action_name, fileobject=[fileobject], site=self)
@@ -490,12 +511,16 @@ class FileBrowserSite(object):
                         action_response = action(request=request, fileobjects=[fileobject])
                         # Post-action signal
                         signals.filebrowser_actions_post_apply.send(sender=request, action_name=action_name, fileobject=[fileobject], result=action_response, site=self)
+                        
                     if new_name != fileobject.filename:
+                        if not request.user.has_perm('filebrowser.can_rename_files'):
+                            raise PermissionDenied
                         signals.filebrowser_pre_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name, site=self)
                         fileobject.delete_versions()
                         self.storage.move(fileobject.path, os.path.join(fileobject.head, new_name))
                         signals.filebrowser_post_rename.send(sender=request, path=fileobject.path, name=fileobject.filename, new_name=new_name, site=self)
                         messages.add_message(request, messages.SUCCESS, _('Renaming was successful.'))
+                        
                     if isinstance(action_response, HttpResponse):
                         return action_response
                     if "_continue" in request.POST:
@@ -605,15 +630,13 @@ site.add_action(rotate_180)
 from filebrowser.permissions import FileBrowserPermission
 from django.db.utils import IntegrityError
 try:
-    FileBrowserPermission.objects.create(codename="can_list_files", name="Can List Files")
-    FileBrowserPermission.objects.create(codename="can_view_files", name="Can View Files")
-    FileBrowserPermission.objects.create(codename="can_add_files", name="Can Add Files")
-    FileBrowserPermission.objects.create(codename="can_edit_files", name="Can Edit Files")
-    FileBrowserPermission.objects.create(codename="can_delete_files", name="Can Delete Files")
-   
-    FileBrowserPermission.objects.create(codename="can_add_directories", name="Can Add Directories")
-    FileBrowserPermission.objects.create(codename="can_delete_directories", name="Can Delete Directories")
-    FileBrowserPermission.objects.create(codename="can_rename_directories", name="Can Rename Directories")
+    FileBrowserPermission.objects.create(codename="can_list_files", name="Can List Files") #OK
+    FileBrowserPermission.objects.create(codename="can_view_files", name="Can View Files") #OK
+    FileBrowserPermission.objects.create(codename="can_add_files", name="Can Add Files") #OK
+    FileBrowserPermission.objects.create(codename="can_edit_files", name="Can Edit Files") #OK
+    FileBrowserPermission.objects.create(codename="can_rename_files", name="Can Rename Files") #OK
+    FileBrowserPermission.objects.create(codename="can_delete_files", name="Can Delete Files") #OK
+    FileBrowserPermission.objects.create(codename="can_add_directories", name="Can Add Directories") #OK
 except IntegrityError:
     #Ok, they are still there!
     pass
