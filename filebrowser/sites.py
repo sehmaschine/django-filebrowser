@@ -13,6 +13,7 @@ from django.shortcuts import render_to_response, HttpResponse
 from django.template import RequestContext as Context
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.contrib.admin.views.decorators import staff_member_required
+from django.core.exceptions import PermissionDenied
 from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
 from django import forms
@@ -283,6 +284,10 @@ class FileBrowserSite(object):
 
     def browse(self, request):
         "Browse Files/Directories."
+        
+        if request.user.has_perm('filebrowser.can_list_files'):
+            raise PermissionDenied
+        
         filter_re = []
         for exp in EXCLUDE:
             filter_re.append(re.compile(exp))
@@ -594,3 +599,20 @@ site.add_action(flip_vertical)
 site.add_action(rotate_90_clockwise)
 site.add_action(rotate_90_counterclockwise)
 site.add_action(rotate_180)
+
+#Load default permissions
+from filebrowser.permissions import FileBrowserPermission
+from django.db.utils import IntegrityError
+try:
+    FileBrowserPermission.objects.create(codename="can_list_files", name="Can List Files")
+    FileBrowserPermission.objects.create(codename="can_view_files", name="Can View Files")
+    FileBrowserPermission.objects.create(codename="can_add_files", name="Can Add Files")
+    FileBrowserPermission.objects.create(codename="can_edit_files", name="Can Edit Files")
+    FileBrowserPermission.objects.create(codename="can_delete_files", name="Can Delete Files")
+   
+    FileBrowserPermission.objects.create(codename="can_add_directories", name="Can Add Directories")
+    FileBrowserPermission.objects.create(codename="can_delete_directories", name="Can Delete Directories")
+    FileBrowserPermission.objects.create(codename="can_rename_directories", name="Can Rename Directories")
+except IntegrityError:
+    #Ok, they are still there!
+    pass
