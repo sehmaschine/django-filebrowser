@@ -1,4 +1,4 @@
-Django FileBrowser with Permission management
+Django FileBrowser
 ==================
 
 **Media-Management with Grappelli**.

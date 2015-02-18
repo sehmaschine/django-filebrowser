@@ -458,11 +458,11 @@ class FileBrowserSite(object):
         }, context_instance=Context(request, current_app=self.name))
 
     def delete(self, request):
-        
+        "Delete existing File/Directory."
+
         if not request.user.has_perm('filebrowser.can_delete_files'):
             raise PermissionDenied
         
-        "Delete existing File/Directory."
         query = request.GET
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
