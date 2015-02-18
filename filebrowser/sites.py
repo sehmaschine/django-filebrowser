@@ -285,7 +285,7 @@ class FileBrowserSite(object):
     def browse(self, request):
         "Browse Files/Directories."
         
-        if request.user.has_perm('filebrowser.can_list_files'):
+        if not request.user.has_perm('filebrowser.can_list_files'):
             raise PermissionDenied
         
         filter_re = []
