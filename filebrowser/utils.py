@@ -4,6 +4,7 @@
 import re
 import os
 import unicodedata
+import math
 
 # DJANGO IMPORTS
 from django.utils import six
@@ -82,13 +83,13 @@ def scale_and_crop(im, width, height, opts):
         r = min(xr/x, yr/y)
 
     if r < 1.0 or (r > 1.0 and 'upscale' in opts):
-        im = im.resize((int(x*r), int(y*r)), resample=Image.ANTIALIAS)
+        im = im.resize((int(math.ceil(x*r)), int(math.ceil(y*r))), resample=Image.ANTIALIAS)
 
     if 'crop' in opts:
         x, y = [float(v) for v in im.size]
         ex, ey = (x-min(x, xr))/2, (y-min(y, yr))/2
         if ex or ey:
-            im = im.crop((int(ex), int(ey), int(x-ex), int(y-ey)))
+            im = im.crop((int(ex), int(ey), int(ex+xr), int(ey+yr)))
     return im
 
 scale_and_crop.valid_options = ('crop', 'upscale')
