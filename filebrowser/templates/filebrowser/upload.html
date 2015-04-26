@@ -117,6 +117,15 @@
                 {% trans "Please enable Javascript to upload files." %}
             </noscript>
         </div>
+        <div style="padding: 6px 20px; text-align: right">
+            {% for item in breadcrumbs %}
+                {% if forloop.last %}
+                    <strong><a href="{% url 'filebrowser:fb_browse' %}{% query_string "" "q,dir,filename,p" %}&amp;dir={{ item.1|urlencode }}">{% trans "Back" %}</a></strong>
+                {% endif %}
+            {% empty %}
+                <strong><a href="{% url 'filebrowser:fb_browse' %}{% query_string "" "q,dir,filename,p" %}&amp;dir={{ item.1|urlencode }}">{% trans "Back" %}</a></strong>
+            {% endfor %}
+        </div>
         </fieldset>
         <fieldset class="grp-module grp-collapse grp-closed">
             <h2 class="grp-collapse-handler">{% trans "Help" %}</h2>
