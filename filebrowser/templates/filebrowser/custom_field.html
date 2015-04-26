@@ -1,5 +1,24 @@
 {% load i18n fb_versions %}
-<input id="{{ final_attrs.id }}" type="text" class="vFileBrowseField{% if final_attrs.class %} {{ final_attrs.class }}{% endif %}" name="{{ final_attrs.name }}" value="{{ value.path }}" /><a href="javascript:FileBrowser.show('{{ final_attrs.id }}', '{{ url }}?pop=1{% if final_attrs.directory %}&amp;dir={{ final_attrs.directory|urlencode|urlencode }}{% endif %}{% if final_attrs.format %}&amp;type={{ final_attrs.format }}{% endif %}');" class="fb_show"></a>
+<input
+        id="{{ final_attrs.id }}"
+        type="text"
+        class="vFileBrowseField{% if final_attrs.class %} {{ final_attrs.class }}{% endif %}"
+        name="{{ final_attrs.name }}"
+        data-dir="{% if final_attrs.directory %}{{ final_attrs.directory|urlencode|urlencode }}{% endif %}"
+        data-type="{% if final_attrs.format %}{{ final_attrs.format }}{% endif %}"
+        value="{{ value.path }}" />
+<a class="fb_show js_vFileBrowseField{% if final_attrs.id %} {{ final_attrs.id }}{% endif %}" href="#"></a>
+
+<script>
+    django.jQuery('body').on('click', '.js_vFileBrowseField', function (ev) {
+        ev.preventDefault();
+        FileBrowser.show(
+            django.jQuery(ev.target).prev().attr('id'),
+            '{{ url }}?pop=1&' + django.jQuery.param(django.jQuery(ev.target).prev().data())
+        );
+    });
+</script>
+
 {% if value.filetype == "Image" and value.exists %}
 {% version_object value.path final_attrs.ADMIN_THUMBNAIL as thumbnail_version %}
 {% if thumbnail_version %}
