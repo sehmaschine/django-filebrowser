@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <cuchac@email.cz>, 2012.
+# cuchac <cuchac@email.cz>, 2013
+# cuchac <cuchac@email.cz>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
-"POT-Creation-Date: 2012-10-23 12:55+0200\n"
-"PO-Revision-Date: 2012-11-10 08:20+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-30 18:48+0100\n"
+"PO-Revision-Date: 2013-12-06 08:13+0000\n"
 "Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/django-filebrowser/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -18,152 +19,152 @@ msgstr ""
 "Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: actions.py:51
+#: actions.py:53
 #, python-format
 msgid "Action applied successfully to '%s'"
 msgstr "Akce byla úspěšně aplikována na '%s'"
 
-#: actions.py:56 forms.py:21
+#: actions.py:59 forms.py:20
 msgid "Flip horizontal"
 msgstr "Převrátit horizontálně"
 
-#: actions.py:62 forms.py:22
+#: actions.py:66 forms.py:21
 msgid "Flip vertical"
 msgstr "Převrátit vertikálně"
 
-#: actions.py:68 forms.py:23
+#: actions.py:73 forms.py:22
 msgid "Rotate 90° CW"
 msgstr "Rotovat o 90° podle směru hod. ručiček"
 
-#: actions.py:74 forms.py:24
+#: actions.py:80 forms.py:23
 msgid "Rotate 90° CCW"
 msgstr "Rotovat o 90° proti směru hod. ručiček"
 
-#: actions.py:80 forms.py:25
+#: actions.py:87 forms.py:24
 msgid "Rotate 180°"
 msgstr "Rotovat o 180°"
 
-#: decorators.py:23
+#: decorators.py:39
 msgid ""
-"Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
-"exist?"
-msgstr "Nelze nalézt složka pro Upload souborů (MEDIA_ROOT + DIRECTORY). Možná neexistuje?"
+"Error finding Upload-Folder (site.storage.location + site.directory). Maybe "
+"it does not exist?"
+msgstr ""
 
-#: decorators.py:25
+#: decorators.py:41
 msgid "The requested Folder does not exist."
 msgstr "Požadovaná složka neeistuje."
 
-#: decorators.py:41
+#: decorators.py:55
 msgid "The requested File does not exist."
 msgstr "Požadovaný soubor neexistuje."
 
-#: decorators.py:47
+#: decorators.py:61
 msgid "You do not have permission to access this file!"
 msgstr "Nemáte oprávnění přistupovat k danému souboru!"
 
-#: fields.py:65
+#: fields.py:63
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
 msgstr "Přípona %(ext)s není povolena. Pouze přípona %(allowed)s je povolena."
 
-#: forms.py:39 forms.py:58
+#: forms.py:57 forms.py:82
 msgid "Name"
 msgstr "Jméno"
 
-#: forms.py:39 forms.py:45 forms.py:58 forms.py:79
+#: forms.py:57 forms.py:69 forms.py:82 forms.py:101
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
 msgstr "Pouze písmena, číslice, podtržítka, mezery a pomlčky jsou povoleny."
 
-#: forms.py:48 forms.py:82
+#: forms.py:72 forms.py:104
 msgid "The Folder already exists."
 msgstr "Složka již existuje."
 
-#: forms.py:57
+#: forms.py:81
 msgid "Actions"
 msgstr "Akce"
 
-#: forms.py:84
+#: forms.py:106
 msgid "The File already exists."
 msgstr "Soubor již existuje."
 
-#: settings.py:123 templates/filebrowser/include/tableheader.html:21
+#: settings.py:110 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
 msgstr "Složka"
 
-#: settings.py:124
+#: settings.py:111
 msgid "Image"
 msgstr "Obrázek"
 
-#: settings.py:125
+#: settings.py:112
 msgid "Video"
 msgstr "Video"
 
-#: settings.py:126
+#: settings.py:113
 msgid "Document"
 msgstr "Dokument"
 
-#: settings.py:127
+#: settings.py:114
 msgid "Audio"
 msgstr "Hudba"
 
-#: sites.py:264 templates/filebrowser/include/breadcrumbs.html:9
+#: sites.py:348 templates/filebrowser/include/breadcrumbs.html:9
 #: templates/filebrowser/include/breadcrumbs.html:11
 msgid "FileBrowser"
 msgstr "Správce Souborů"
 
-#: sites.py:289
+#: sites.py:369
 #, python-format
 msgid "The Folder %s was successfully created."
 msgstr "Složka %s byla úspěšně vytvořena."
 
-#: sites.py:294
+#: sites.py:374
 msgid "Permission denied."
 msgstr "Přístup odepřen."
 
-#: sites.py:296
+#: sites.py:376
 msgid "Error creating folder."
 msgstr "Nelze vytvořit složka."
 
-#: sites.py:303 sites.py:306 templates/filebrowser/index.html:80
+#: sites.py:383 sites.py:386 templates/filebrowser/index.html:80
 msgid "New Folder"
 msgstr "Vytvořit složku"
 
-#: sites.py:320
+#: sites.py:396
 msgid "Select files to upload"
 msgstr "Vyberte soubory pro nahrání"
 
-#: sites.py:323 templates/filebrowser/index.html:81
+#: sites.py:399 templates/filebrowser/index.html:81
 msgid "Upload"
 msgstr "Nahrát soubory"
 
-#: sites.py:354 sites.py:357
+#: sites.py:429 sites.py:432
 msgid "Confirm delete"
 msgstr "Potvrdit smazání"
 
-#: sites.py:375
+#: sites.py:448
 #, python-format
 msgid "Successfully deleted %s"
 msgstr "Úspěšně smazán %s"
 
-#: sites.py:413
+#: sites.py:485
 msgid "Renaming was successful."
 msgstr "Přejmenování bylo úspěšné."
 
-#: sites.py:422
+#: sites.py:494
 msgid "Error."
 msgstr "Chyba."
 
-#: widgets.py:19 widgets.py:52
+#: widgets.py:17 widgets.py:50
 msgid "Currently"
 msgstr "Aktuálně"
 
-#: widgets.py:20 widgets.py:53
+#: widgets.py:18 widgets.py:51
 #: templates/filebrowser/include/filelisting.html:131
 msgid "Change"
 msgstr "Změnit"
 
-#: widgets.py:21 widgets.py:54
+#: widgets.py:19 widgets.py:52
 msgid "Clear"
 msgstr "Vymazat"
 
@@ -177,7 +178,7 @@ msgstr "Prosím opravte následující chyby."
 msgid ""
 "The Name will be normalized by converting or stripping all non-standard "
 "characters."
-msgstr ""
+msgstr "Jméno souboru bude upraveno tak, aby neobsahovalo nestandardní znaky."
 
 #: templates/filebrowser/createdir.html:39
 #: templates/filebrowser/upload.html:150
@@ -277,11 +278,11 @@ msgstr "Uložit a pokračovat v úpravách"
 
 #: templates/filebrowser/upload.html:42
 msgid "Drop files here to upload"
-msgstr ""
+msgstr "Vyberte soubor, který chcete nahrát"
 
 #: templates/filebrowser/upload.html:43
 msgid "Upload a file"
-msgstr ""
+msgstr "Nahrát soubor"
 
 #: templates/filebrowser/upload.html:52
 msgid "Failed"
@@ -346,39 +347,39 @@ msgstr "Vybrat"
 msgid "Versions"
 msgstr "Velikosti"
 
-#: templates/filebrowser/include/filter.html:4
+#: templates/filebrowser/include/filter.html:5
 msgid "Filter"
 msgstr "Filtr"
 
-#: templates/filebrowser/include/filter.html:7
+#: templates/filebrowser/include/filter.html:9
 msgid "By Date"
 msgstr "Podle data"
 
-#: templates/filebrowser/include/filter.html:9
+#: templates/filebrowser/include/filter.html:11
 msgid "Any Date"
 msgstr "Nezáleží"
 
-#: templates/filebrowser/include/filter.html:10
+#: templates/filebrowser/include/filter.html:12
 msgid "Today"
 msgstr "Dnes"
 
-#: templates/filebrowser/include/filter.html:11
+#: templates/filebrowser/include/filter.html:13
 msgid "Past 7 days"
 msgstr "Posledních 7 dní"
 
-#: templates/filebrowser/include/filter.html:12
+#: templates/filebrowser/include/filter.html:14
 msgid "This Month"
 msgstr "Tento měsíc"
 
-#: templates/filebrowser/include/filter.html:13
+#: templates/filebrowser/include/filter.html:15
 msgid "This year"
 msgstr "Tento rok"
 
-#: templates/filebrowser/include/filter.html:17
+#: templates/filebrowser/include/filter.html:21
 msgid "By Type"
 msgstr "Podle typu"
 
-#: templates/filebrowser/include/filter.html:19
+#: templates/filebrowser/include/filter.html:23
 msgid "All"
 msgstr "Všechny"
 

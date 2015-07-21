@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Fábio  <bnafta@gmail.com>, 2011-2013.
+# Fábio <bnafta@gmail.com>, 2011-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
-"POT-Creation-Date: 2012-10-23 12:55+0200\n"
-"PO-Revision-Date: 2013-01-05 13:58+0000\n"
-"Last-Translator: Fábio <bnafta@gmail.com>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-30 18:48+0100\n"
+"PO-Revision-Date: 2013-12-06 08:13+0000\n"
+"Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/django-filebrowser/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,152 +18,152 @@ msgstr ""
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: actions.py:51
+#: actions.py:53
 #, python-format
 msgid "Action applied successfully to '%s'"
 msgstr "Ação aplicada com sucesso para '%s'"
 
-#: actions.py:56 forms.py:21
+#: actions.py:59 forms.py:20
 msgid "Flip horizontal"
 msgstr "Inverter na horizontal"
 
-#: actions.py:62 forms.py:22
+#: actions.py:66 forms.py:21
 msgid "Flip vertical"
 msgstr "Inverter na vertical"
 
-#: actions.py:68 forms.py:23
+#: actions.py:73 forms.py:22
 msgid "Rotate 90° CW"
 msgstr "Girar 90° CW"
 
-#: actions.py:74 forms.py:24
+#: actions.py:80 forms.py:23
 msgid "Rotate 90° CCW"
 msgstr "Girar 90° CCW"
 
-#: actions.py:80 forms.py:25
+#: actions.py:87 forms.py:24
 msgid "Rotate 180°"
 msgstr "Girar 180°"
 
-#: decorators.py:23
+#: decorators.py:39
 msgid ""
-"Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
-"exist?"
-msgstr "Erro ao buscar Pasta de Upload (MEDIA_ROOT + DIRECTORY). Talvez ela não existe?"
+"Error finding Upload-Folder (site.storage.location + site.directory). Maybe "
+"it does not exist?"
+msgstr ""
 
-#: decorators.py:25
+#: decorators.py:41
 msgid "The requested Folder does not exist."
 msgstr "A pasta solicitada não existe."
 
-#: decorators.py:41
+#: decorators.py:55
 msgid "The requested File does not exist."
 msgstr "O arquivo solicitado não existe."
 
-#: decorators.py:47
+#: decorators.py:61
 msgid "You do not have permission to access this file!"
 msgstr "Você não tem permissão para acessar esse arquivo!"
 
-#: fields.py:65
+#: fields.py:63
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
 msgstr "Extensão %(ext)s  não é permitida. Apenas %(allowed)s é permitido."
 
-#: forms.py:39 forms.py:58
+#: forms.py:57 forms.py:82
 msgid "Name"
 msgstr "Nome"
 
-#: forms.py:39 forms.py:45 forms.py:58 forms.py:79
+#: forms.py:57 forms.py:69 forms.py:82 forms.py:101
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
 msgstr "São permitidos somente letras, números, sublinhados, espaços e hífens."
 
-#: forms.py:48 forms.py:82
+#: forms.py:72 forms.py:104
 msgid "The Folder already exists."
 msgstr "A pasta já existe."
 
-#: forms.py:57
+#: forms.py:81
 msgid "Actions"
 msgstr "Ações"
 
-#: forms.py:84
+#: forms.py:106
 msgid "The File already exists."
 msgstr "O arquivo já existe."
 
-#: settings.py:123 templates/filebrowser/include/tableheader.html:21
+#: settings.py:110 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
 msgstr "Pasta"
 
-#: settings.py:124
+#: settings.py:111
 msgid "Image"
 msgstr "Imagem"
 
-#: settings.py:125
+#: settings.py:112
 msgid "Video"
 msgstr "Vídeo"
 
-#: settings.py:126
+#: settings.py:113
 msgid "Document"
 msgstr "Documento"
 
-#: settings.py:127
+#: settings.py:114
 msgid "Audio"
 msgstr "Áudio"
 
-#: sites.py:264 templates/filebrowser/include/breadcrumbs.html:9
+#: sites.py:348 templates/filebrowser/include/breadcrumbs.html:9
 #: templates/filebrowser/include/breadcrumbs.html:11
 msgid "FileBrowser"
 msgstr "FileBrowser"
 
-#: sites.py:289
+#: sites.py:369
 #, python-format
 msgid "The Folder %s was successfully created."
 msgstr "A pasta %s foi criada com sucesso."
 
-#: sites.py:294
+#: sites.py:374
 msgid "Permission denied."
 msgstr "Permissão negada."
 
-#: sites.py:296
+#: sites.py:376
 msgid "Error creating folder."
 msgstr "Erro ao criar pasta."
 
-#: sites.py:303 sites.py:306 templates/filebrowser/index.html:80
+#: sites.py:383 sites.py:386 templates/filebrowser/index.html:80
 msgid "New Folder"
 msgstr "Nova Pasta"
 
-#: sites.py:320
+#: sites.py:396
 msgid "Select files to upload"
 msgstr "Selecione os arquivos para efetuar upload"
 
-#: sites.py:323 templates/filebrowser/index.html:81
+#: sites.py:399 templates/filebrowser/index.html:81
 msgid "Upload"
 msgstr "Carregar"
 
-#: sites.py:354 sites.py:357
+#: sites.py:429 sites.py:432
 msgid "Confirm delete"
 msgstr "Confirmar exclusão"
 
-#: sites.py:375
+#: sites.py:448
 #, python-format
 msgid "Successfully deleted %s"
 msgstr "%s excluído com sucesso "
 
-#: sites.py:413
+#: sites.py:485
 msgid "Renaming was successful."
 msgstr "Renomeação foi bem sucedida."
 
-#: sites.py:422
+#: sites.py:494
 msgid "Error."
 msgstr "Erro."
 
-#: widgets.py:19 widgets.py:52
+#: widgets.py:17 widgets.py:50
 msgid "Currently"
 msgstr "No Momento"
 
-#: widgets.py:20 widgets.py:53
+#: widgets.py:18 widgets.py:51
 #: templates/filebrowser/include/filelisting.html:131
 msgid "Change"
 msgstr "Alterar"
 
-#: widgets.py:21 widgets.py:54
+#: widgets.py:19 widgets.py:52
 msgid "Clear"
 msgstr "Limpar"
 
@@ -346,39 +346,39 @@ msgstr "Selecionar"
 msgid "Versions"
 msgstr "Versões"
 
-#: templates/filebrowser/include/filter.html:4
+#: templates/filebrowser/include/filter.html:5
 msgid "Filter"
 msgstr "Filtro"
 
-#: templates/filebrowser/include/filter.html:7
+#: templates/filebrowser/include/filter.html:9
 msgid "By Date"
 msgstr "Por data"
 
-#: templates/filebrowser/include/filter.html:9
+#: templates/filebrowser/include/filter.html:11
 msgid "Any Date"
 msgstr "Qualquer Data"
 
-#: templates/filebrowser/include/filter.html:10
+#: templates/filebrowser/include/filter.html:12
 msgid "Today"
 msgstr "Hoje"
 
-#: templates/filebrowser/include/filter.html:11
+#: templates/filebrowser/include/filter.html:13
 msgid "Past 7 days"
 msgstr "Últimos 7 dias"
 
-#: templates/filebrowser/include/filter.html:12
+#: templates/filebrowser/include/filter.html:14
 msgid "This Month"
 msgstr "Este mês"
 
-#: templates/filebrowser/include/filter.html:13
+#: templates/filebrowser/include/filter.html:15
 msgid "This year"
 msgstr "Este ano"
 
-#: templates/filebrowser/include/filter.html:17
+#: templates/filebrowser/include/filter.html:21
 msgid "By Type"
 msgstr "Por Tipo"
 
-#: templates/filebrowser/include/filter.html:19
+#: templates/filebrowser/include/filter.html:23
 msgid "All"
 msgstr "Todos"
 

@@ -6,7 +6,6 @@ import ntpath
 import posixpath
 import shutil
 import sys
-import StringIO
 
 # DJANGO IMPORTS
 from django.conf import settings
@@ -15,6 +14,7 @@ from django.contrib.auth.models import User
 from django.utils.encoding import filepath_to_uri
 from django.template import Context, Template, TemplateSyntaxError
 from django.core.management import call_command
+from django.utils.six import StringIO
 
 # FILEBROWSER IMPORTS
 import filebrowser
@@ -28,7 +28,7 @@ FILEBROWSER_PATH = os.path.split(TESTS_PATH)[0]
 
 
 class CommandsTests(TestCase):
-    
+
     def setUp(self):
         """
         Save original values/functions so they can be restored in tearDown
@@ -43,7 +43,6 @@ class CommandsTests(TestCase):
         # DIRECTORY
         # custom directory because this could be set with sites
         # and we cannot rely on filebrowser.settings
-        # FIXME: find better directory name
         self.directory = "fb_test_directory/"
         self.directory_path = os.path.join(site.storage.location, self.directory)
         if os.path.exists(self.directory_path):
@@ -62,7 +61,6 @@ class CommandsTests(TestCase):
             os.makedirs(self.versions_path)
 
         # create temporary test folder and move testimage
-        # FIXME: find better path names
         self.tmpdir_name = os.path.join("fb_tmp_dir", "fb_tmp_dir_sub")
         self.tmpdir_path = os.path.join(site.storage.location, self.directory, self.tmpdir_name)
         if os.path.exists(self.tmpdir_path):
@@ -102,7 +100,7 @@ class CommandsTests(TestCase):
         # no versions
         self.assertEqual(os.path.exists(os.path.join(settings.MEDIA_ROOT, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")), False)
 
-        sys.stdin = StringIO.StringIO("large")
+        sys.stdin = StringIO("large")
         call_command('fb_version_generate', 'fb_test_directory')
 
         # versions
@@ -113,7 +111,7 @@ class CommandsTests(TestCase):
         Test management command fb_verison_remove
         """
         pass
-        
+
     def tearDown(self):
         """
         Restore original values/functions
@@ -131,4 +129,3 @@ class CommandsTests(TestCase):
         # remove temporary directory and test folder
         shutil.rmtree(self.directory_path)
         shutil.rmtree(self.versions_path)
-

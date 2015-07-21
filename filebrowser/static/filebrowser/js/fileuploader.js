@@ -447,7 +447,7 @@ qq.FileUploaderBasic.prototype = {
         return name;
     },
     _isAllowedExtension: function(fileName){
-        var ext = (-1 !== fileName.indexOf('.')) ? fileName.replace(/.*[.]/, '').toLowerCase() : '';
+        var ext = (-1 !== fileName.indexOf('.')) ? fileName.substr(fileName.lastIndexOf('.')).toLowerCase() : '';
         var allowed = this._options.allowedExtensions;
         
         if (!allowed.length){return true;}        

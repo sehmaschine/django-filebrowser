@@ -1,7 +1,8 @@
 # coding: utf-8
 
 # PYTHON IMPORTS
-import os, shutil
+import os
+import shutil
 
 # DJANGO IMPORTS
 from django.core.files.move import file_move_safe
@@ -70,11 +71,11 @@ class S3BotoStorageMixin(StorageMixin):
 
     def isdir(self, name):
         # That's some inefficient implementation...
-        # If there are some files having 'name' as their prefix, then 
+        # If there are some files having 'name' as their prefix, then
         # the name is considered to be a directory
-        if not name: # Empty name is a directory
+        if not name:  # Empty name is a directory
             return True
-            
+
         if self.isfile(name):
             return False
 
@@ -93,10 +94,10 @@ class S3BotoStorageMixin(StorageMixin):
                 self.delete(new_file_name)
             else:
                 raise "The destination file '%s' exists and allow_overwrite is False" % new_file_name
-        
+
         old_key_name = self._encode_name(self._normalize_name(self._clean_name(old_file_name)))
         new_key_name = self._encode_name(self._normalize_name(self._clean_name(new_file_name)))
-        
+
         k = self.bucket.copy_key(new_key_name, self.bucket.name, old_key_name)
 
         if not k:
@@ -106,7 +107,7 @@ class S3BotoStorageMixin(StorageMixin):
 
     def makedirs(self, name):
         pass
-        
+
     def rmtree(self, name):
         name = self._normalize_name(self._clean_name(name))
         dirlist = self.bucket.list(self._encode_name(name))

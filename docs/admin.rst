@@ -2,19 +2,35 @@
 
 .. |grappelli| replace:: Grappelli
 .. |filebrowser| replace:: FileBrowser
+.. |site| replace:: FileBrowser site
+.. |sites| replace:: FileBrowser sites
+.. |fb| replace:: FileBrowser
 
-.. _views:
+.. _admin:
 
-Adding Sites
-============
+Admin Interface
+===============
 
-Similar to ``django.contrib.admin``, you first need to add a ``filebrowser.site`` to your admin interface.
+The main |filebrowser| admin application is an extension for the Django admin interface in order to browser your media folder, upload and rename/delete files.
 
-In your ``urls.py`` import the default FileBrowser site (or your custom site)::
+.. _site:
+
+FileBrowser Site
+----------------
+
+.. versionadded:: 3.4.0
+
+.. py:class:: FileBrowserSite(name=None, app_name='filebrowser', storage=default_storage)
+    
+    Respresents the FileBrowser admin application (similar to Django's admin site).
+
+    :param name: A name for the site, defaults to None.
+    :param app_name: Defaults to 'filebrowser'.
+    :param storage: A custom storage engine, defaults to Djangos default storage.
+
+Similar to ``django.contrib.admin``, you first need to add a ``filebrowser.site`` to your admin interface. In your ``urls.py``, import the default FileBrowser site (or your custom site) and add the site to your URL-patterns (before any admin-urls)::
 
     from filebrowser.sites import site
-
-and add the site to your URL-patterns (before any admin-urls)::
     
     urlpatterns = patterns('',
        url(r'^adminurl/filebrowser/', include(site.urls)),
@@ -22,238 +38,229 @@ and add the site to your URL-patterns (before any admin-urls)::
 
 Now you are able to browse the location defined with the storage engine associated to your site.
 
+.. code-block:: python
+
+    from django.core.files.storage import DefaultStorage
+    from filebrowser.sites import FileBrowserSite
+    
+    # Default FileBrowser site
+    site = FileBrowserSite(name='filebrowser', storage=DefaultStorage())
+
+    # My Custom FileBrowser site
+    custom_site = FileBrowserSite(name='custom_filebrowser', storage=DefaultStorage())
+    custom_site.directory = "custom_uploads/"
+
+.. note::
+    The module variable ``site`` from ``filebrowser.sites`` is the default FileBrowser application.
+
+.. _actions:
+
+Custom Actions
+--------------
+
+.. versionadded:: 3.4.0
+
+Similar to Django's admin actions, you can define your |fb| actions and thus automate the typical tasks of your users. Registered custom actions are listed in the detail view of a file and a user can select a single action at a time. The selected action will then be applied to the file.
+
+The default |fb| image actions, such as "Flip Vertical" or "Rotate 90° Clockwise" are in fact implemented as custom actions (see the module  ``filebrowser.actions``).
+
+Writing Your Own Actions
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Custom actions are simple functions::
+
+    def foo(request, fileobjects):
+        # Do something with the fileobjects
+
+The first parameter is a ``HttpRequest`` object (representing the submitted form in which a user selected the action) and the second parameter is a list of ``FileObjects`` to which the action should be applied.
+
+The list contains exactly one instance of FileObject (representing the file from the detail view), but this may change in the future, as custom actions may become available also in browse views (similar to admin actions applied to a list of checked objects).
+
+Registering an Action
+^^^^^^^^^^^^^^^^^^^^^
+
+In order to make your action visible, you need to register it with a |site|::
+
+    site.add_action(foo)
+
+Once registered, the action will appear in the detail view of a file. You can also give your action a short description::
+
+    foo.short_description = 'Do foo with the File'
+
+This short description will then appear in the list of available actions. If you do not provide a short description, the function name will be used instead and |fb| will replace any underscores in the function name with spaces.
+
+Associating Actions with Specific Files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each custom action can be associated with a specific file type (e.g., images, audio file, etc) to which it applies. In order to do that, you need to define a predicate/filter function, which takes a single argument (FileObject) and returns ``True`` if your action is applicable to that FileObject. Finally, you need to register this filter function with your action::
+
+    foo.applies_to(lambda fileobject: fileobject.filetype == 'Image')
+
+In the above example, foo will appear in the action list only for image files. If you do not specify any filter function for your action, |fb| considers the action as applicable to all files.
+
+Messages & Intermediate Pages
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can provide a feedback to a user about a successful or failed execution of an action by using a message. For example::
+
+    from django.contrib import messages
+    
+    def desaturate_image(request, fileobjects):
+        for f in fileobjects:
+            # Desaturate the image
+            messages.add_message(request, messages.SUCCESS, _("Image '%s' was desaturated.") % f.filename)
+
+Some actions may require user confirmation (e.g., in order to prevent accidental and irreversible modification to files). In order to that, follow the same pattern as with Django's admin action and return a ``HttpResponse`` object from your action. Good practice for intermediate pages is to implement a confirm view and have your action return ``HttpResponseRedirect``::
+
+    def crop_image(request, fileobjects):
+        files = '&f='.join([f.path_relative for f in fileobjects])
+        return HttpResponseRedirect('/confirm/?action=crop_image&f=%s' % files)
+
+.. _storages:
+
+File Storages
+-------------
+
+.. versionadded:: 3.4.0
+
+You have the option to specify which file storage engine a |fb| should use to browse/upload/modify your media files. This enables you to use a |fb| even if your media files are located at some remote system. See also the Django's documentation on storages https://docs.djangoproject.com/en/dev/topics/files/.
+
+To associate a |site| with a particular storage engine, set the ``storage`` property of a site object::
+
+    from django.core.files.storage import FileSystemStorage
+    site.storage = FileSystemStorage(location='/path/to/media/directory', base_url='/media/')
+
+For storage classes other than FileSystemStorage (or those that inherit from that class), there's more effort involved in providing a storage object that can be used with |fb|. See :ref:`mixin`
+
+.. note::
+    Prior |fb| 3.4, the way to specify |fb|'s  MEDIA_ROOT and MEDIA_URL was via settings.py. Starting from version 3.4, those variables are associated with the storage instance and you can set them as illustrated in the above example. 
+
+.. warning::
+    For the reason of backward compatibility, |fb| settings FILEBROWSER_MEDIA_ROOT and FILEBROWSER_MEDIA_URL can still be used to customize |fb| as long as you're using the default |fb|'s site without having changed its storage engine. In the next major release of |fb| these settings will be removed.
+
+.. _mixin:
+
+StorageMixin Class
+^^^^^^^^^^^^^^^^^^
+
+A |fb| uses the Django's Storage class to access media files. However, the API of the Storage class does not provide all methods necessary for FileBrowser's functionality. A ``StorageMixin`` class from ``filebrowser.storage`` module therefore defines all the additional methods that a |fb| requires:
+
+.. function:: isdir(self, name)
+
+    Returns true if name exists and is a directory.
+
+.. function:: isfile(self, name)
+        
+    Returns true if name exists and is a regular file.
+
+.. function:: move(self, old_file_name, new_file_name, allow_overwrite=False)
+        
+    Moves safely a file from one location to another. If ``allow_ovewrite==False`` and ``new_file_name`` exists, raises an exception.        
+
+.. function:: makedirs(self, name)
+        
+    Creates all missing directories specified by name. Analogue to os.mkdirs().
+
+.. _views:
+
 Views
-=====
+-----
 
 All views use the ``staff_member_requird`` and ``path_exists`` decorator in order to check if the server path actually exists. Some views also use the ``file_exists`` decorator.
 
-Browse
-------
+* Browse, ``fb_browse``
+    Browse a directory on your server. Returns a :ref:`filelisting`.
 
-Browse a directory on your server. Returns a :ref:`filelisting`::
+    * Optional query string args: ``dir``, ``o``, ``ot``, ``q``, ``p``, ``filter_date``, ``filter_type``, ``type``
 
-    /adminurl/filebrowser/browse/
+* Create directory, ``fb_createdir``
+    Create a new folder on your server.
 
-* URL: ``fb_browse``
-* Optional query string args: ``dir``, ``o``, ``ot``, ``q``, ``p``, ``filter_date``, ``filter_type``, ``type``
+    * Optional query string args: ``dir``
+    * Signals: `filebrowser_pre_createdir`, `filebrowser_post_createdir`
 
-.. _views_createdir:
+* Upload, ``fb_upload``
+    Multiple upload.
 
-Create directory
-----------------
+    * Optional query string args: ``dir``, ``type``
+    * Signals: `filebrowser_pre_upload`, `filebrowser_post_upload`
 
-Create a new folder on your server::
+* Edit, ``fb_edit``
+    Edit a file or folder.
 
-    /adminurl/filebrowser/createdir/
+    * Required query string args: ``filename``
+    * Optional query string args: ``dir``
+    * Signals: `filebrowser_pre_rename`, `filebrowser_post_rename`
 
-* URL: ``fb_createdir``
-* Optional query string args: ``dir``
-* Signals: :ref:`filebrowser_pre_createdir`, :ref:`filebrowser_post_createdir`
+    You are able to apply custom actions (see :ref:`actions`) to the edit-view.
 
-.. _views_upload:
+* Confirm delete, ``fb_confirm_delete``
+    Confirm the deletion of a file or folder.
 
-Upload
-------
+    * Required query string args: ``filename``
+    * Optional query string args: ``dir``
 
-Multiple upload::
-
-    /adminurl/filebrowser/upload/
-
-* URL: ``fb_upload``
-* Optional query string args: ``dir``
-* Signals: :ref:`filebrowser_pre_upload`, :ref:`filebrowser_post_upload`
-
-.. _views_edit:
-
-Edit
-----
-
-Edit a file or folder::
-
-    /adminurl/filebrowser/edit/?filename=testimage.jpg
-
-* URL: ``fb_edit``
-* Required query string args: ``filename``
-* Optional query string args: ``dir``
-* Signals: :ref:`filebrowser_pre_rename`, :ref:`filebrowser_post_rename`
-
-You are able to apply custom actions (see :ref:`actions`) to the edit-view.
-
-.. note::
-    This won't check if you use the file or folder anywhere with your models.
-
-.. _views_confirm_delete:
-
-Confirm delete
---------------
-
-Confirm the deletion of a file or folder::
-
-    /adminurl/filebrowser/confirm_delete/?filename=testimage.jpg
-
-* URL: ``fb_confirm_delete``
-* Required query string args: ``filename``
-* Optional query string args: ``dir``
-
-.. note::
     If you try to delete a folder, all files/folders within this folder are listed on this page.
 
-.. _views_delete:
+* Delete, ``fb_delete``
+    Delete a file or folder.
 
-Delete
-------
-
-Delete a file or folder::
-
-    /adminurl/filebrowser/delete/?filename=testimage.jpg
-
-* URL: ``fb_delete``
-* Required query string args: ``filename``
-* Optional query string args: ``dir``
-* Signals: :ref:`filebrowser_pre_delete`, :ref:`filebrowser_post_delete`
-
-.. note::
-    This won't check if you use the file or folder anywhere with your models.
+    * Required query string args: ``filename``
+    * Optional query string args: ``dir``
+    * Signals: `filebrowser_pre_delete`, `filebrowser_post_delete`
 
 .. warning::
     If you delete a Folder, all items within this Folder are being deleted.
 
-.. _views_version:
+* Version, ``fb_version``
+    Generate a version of an image as defined with ``ADMIN_VERSIONS``.
 
-Version
--------
+    * Required query string args: ``filename``
+    * Optional Query string args: ``dir``
 
-Generate a version of an Image as defined with ``ADMIN_VERSIONS``::
-
-    /adminurl/filebrowser/version/?filename=testimage.jpg
-
-* URL: ``fb_version``
-* Required query string args: ``filename``
-* Query string args: ``dir``
-
-.. note::
-    This is a helper used by the ``FileBrowseField`` and TinyMCE for selecting an Image-Version.
+    This is a helper used by the ``FileBrowseField`` and TinyMCE for selecting a version.
 
 .. _signals:
 
 Signals
-=======
+-------
 
-The FileBrowser sends a couple of different signals:
+The FileBrowser sends a couple of different signals. Please take a look at the module `filebrowser.signals` for further explanation on the provided arguments.
 
-.. _filebrowser_pre_upload:
+* :data:`filebrowser_pre_upload`
+    Sent before a an Upload starts.
 
-``filebrowser_pre_upload``
---------------------------
+* :data:`filebrowser_post_upload`
+    Sent after an Upload has finished.
 
-Sent before a an Upload starts. Arguments:
+* :data:`filebrowser_pre_delete`
+    Sent before an Item (File, Folder) is deleted.
 
-* ``path``: Absolute server path to the file/folder
-* ``name``: Name of the file/folder
-* ``site``: Current ``FileBrowserSite`` instance
+* :data:`filebrowser_post_delete`
+    Sent after an Item (File, Folder) has been deleted.
 
-.. _filebrowser_post_upload:
+* :data:`filebrowser_pre_createdir`
+    Sent before a new Folder is created.
 
-``filebrowser_post_upload``
----------------------------
+* :data:`filebrowser_post_createdir`
+    Sent after a new Folder has been created.
 
-Sent after an Upload has finished. Arguments:
+* :data:`filebrowser_pre_rename`
+    Sent before an Item (File, Folder) is renamed.
 
-* ``path``: Absolute server path to the file/folder
-* ``name``: Name of the file/folder
-* ``site``: Current ``FileBrowserSite`` instance
+* :data:`filebrowser_post_rename`
+    Sent after an Item (File, Folder) has been renamed.
 
-.. _filebrowser_pre_delete:
+* :data:`filebrowser_actions_pre_apply`
+    Sent before a custom action is applied.
 
-``filebrowser_pre_delete``
---------------------------
-
-Sent before an Item (File, Folder) is deleted. Arguments:
-
-* ``path``: Absolute server path to the file/folder
-* ``name``: Name of the file/folder
-* ``site``: Current ``FileBrowserSite`` instance
-
-.. _filebrowser_post_delete:
-
-``filebrowser_post_delete``
----------------------------
-
-Sent after an Item (File, Folder) has been deleted. Arguments:
-
-* ``path``: Absolute server path to the file/folder
-* ``name``: Name of the file/folder
-* ``site``: Current ``FileBrowserSite`` instance
-
-.. _filebrowser_pre_createdir:
-
-``filebrowser_pre_createdir``
------------------------------
-
-Sent before a new Folder is created. Arguments:
-
-* ``path``: Absolute server path to the folder
-* ``name``: Name of the new folder
-* ``site``: Current ``FileBrowserSite`` instance
-
-.. _filebrowser_post_createdir:
-
-``filebrowser_post_createdir``
-------------------------------
-
-Sent after a new Folder has been created. Arguments:
-
-* ``path``: Absolute server path to the folder
-* ``name``: Name of the new folder
-* ``site``: Current ``FileBrowserSite`` instance
-
-.. _filebrowser_pre_rename:
-
-``filebrowser_pre_rename``
---------------------------
-
-Sent before an Item (File, Folder) is renamed. Arguments:
-
-* ``path``: Absolute server path to the file/folder
-* ``name``: Name of the file/folder
-* ``new_name``: New name of the file/folder
-* ``site``: Current ``FileBrowserSite`` instance
-
-.. _filebrowser_post_rename:
-
-``filebrowser_post_rename``
----------------------------
-
-Sent after an Item (File, Folder) has been renamed.
-
-* ``path``: Absolute server path to the file/folder
-* ``name``: Name of the file/folder
-* ``new_name``: New name of the file/folder
-* ``site``: Current ``FileBrowserSite`` instance
-
-``filebrowser_actions_pre_apply``
----------------------------------
-
-Sent before a custom action is applied. Arguments:
-
-* ``action_name``: Name of the custom action
-* ``fileobjects``: A list of fileobjects the action will be applied to
-* ``site``: Current ``FileBrowserSite`` instance
-
-``filebrowser_actions_post_apply``
-----------------------------------
-
-Sent after a custom action has been applied.
-
-* ``action_name``: Name of the custom action
-* ``fileobjects``: A list of fileobjects the action has been be applied to
-* ``results``: The response you defined with your custom action
-* ``site``: Current ``FileBrowserSite`` instance
+* :data:`filebrowser_actions_post_apply`
+    Sent after a custom action has been applied.
 
 .. _signals_examples:
 
 Example for using these Signals
--------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Here's a small example for using the above Signals::
 

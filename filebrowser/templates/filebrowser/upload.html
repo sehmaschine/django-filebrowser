@@ -50,6 +50,7 @@
                     '<span class="qq-upload-size"></span>' +
                     '<a class="qq-upload-cancel" href="#">{% trans "Cancel" %}</a>' +
                     '<span class="qq-upload-failed-text">{% trans "Failed" %}</span>' +
+                    '<span class="qq-upload-complete"></span>' +
                     '<div class="progress-bar"><div class="content"></div></div>' +
                 '</li>',
 
@@ -58,6 +59,7 @@
                           'csrf_xname': 'X-CSRFToken',
                           'folder': '{{ query.dir|escapejs }}', },
 
+                allowedExtensions: {% get_file_extensions request.GET %},
                 sizeLimit: {{ settings_var.MAX_UPLOAD_SIZE|unlocalize }},
                 minSizeLimit: 0,
                 debug: false,
@@ -87,9 +89,9 @@
                     bar.css('width', new_width);
                 },
                 onComplete: function(id, fileName, resp){
-                    // if (resp.success) {
-                    //     this.getItem(id).fadeOut('slow');
-                    // }
+                    if (resp.success) {
+                        this.getItem(id).find('.qq-upload-file').html(resp.filename);
+                    }
                 },
                 showMessage: function(message){ alert(message); }
             });

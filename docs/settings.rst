@@ -8,10 +8,11 @@
 Settings
 ========
 
-There are quite a few possibilities of customizing the |filebrowser| to fit your needs. Nonetheless, you should be able to start with the default settings.
+There are some settings in order to customize the |filebrowser|. Nonetheless, you should be able to start with the default settings.
 
-.. note::
-    All settings can be defined in your projects settings-file or the FileBrowsers settings-file (``settings.py``). When using the projects settings-file, you have to use the prefix ``FILEBROWSER_`` for every setting (e.g. ``FILEBROWSER_EXTENSIONS`` instead of ``EXTENSIONS``). 
+All settings can be defined in your projects settings-file. In that case, you have to use the prefix ``FILEBROWSER_`` for every setting (e.g. ``FILEBROWSER_EXTENSIONS`` instead of ``EXTENSIONS``). 
+
+.. _settingsurlspaths:
 
 Main URL/Paths Settings
 -----------------------
@@ -21,7 +22,7 @@ MEDIA_ROOT
 
 .. warning::
 
-    Will be removed with version 3.6.0. Since 3.4, ``MEDIA_ROOT`` is defined with your storage engine.
+    Will be removed with version 3.6.0. Since 3.4, MEDIA_ROOT is defined with your storage engine.
 
 The absolute path to the directory that holds the media-files you want to browse::
 
@@ -32,9 +33,9 @@ MEDIA_URL
 
 .. warning::
 
-    Will be removed with version 3.6.0. Since 3.4, ``MEDIA_URL`` is defined with your storage engine.
+    Will be removed with version 3.6.0. Since 3.4, MEDIA_URL is defined with your storage engine.
 
-URL that handles the media served from ``MEDIA_ROOT``::
+URL that handles the media served from MEDIA_ROOT::
 
     MEDIA_URL = getattr(settings, "FILEBROWSER_MEDIA_URL", settings.MEDIA_URL)
 
@@ -54,7 +55,9 @@ FileBrowser Media, TinyMCE Media
 --------------------------------
 
 .. deprecated:: 3.5.3
-    Using staticfiles instead.
+    Use ``staticfiles`` instead.
+
+.. _settingsextensionsformats:
 
 Extensions and Formats
 ----------------------
@@ -86,6 +89,8 @@ Set different Options for selecting elements from the FileBrowser::
 
 When using the browse-function for selecting Files/Folders, you can use an additional query-attribute ``type`` in order to restrict the choices.
 
+.. _settingsversions:
+
 Versions
 --------
 
@@ -98,8 +103,17 @@ Directory to save image versions (and thumbnails). If no directory is given, ver
 
     VERSIONS_BASEDIR = getattr(settings, 'FILEBROWSER_VERSIONS_BASEDIR', '')
 
-.. note::
-    If ``VERSIONS_BASEDIR`` is within ``site.directory`` it will be browsed. If you don't want FileBrowser to browse/display the contents of VERSION_BASEDIR, make this directory *hidden*.
+We do recommend the following structure for media files::
+
+    └── media  # site.storage.location (e.g. MEDIA_ROOT)
+        ├── _versions  # VERSIONS_BASEDIR (outside of site.directory)
+        └── uploads  # site.directory
+
+.. warning::
+    If VERSIONS_BASEDIR is within site.directory it will be browsed.
+
+.. warning::
+    With the next major release (3.6.0), the default setting will be "_versions".
 
 VERSIONS
 ^^^^^^^^
@@ -125,19 +139,23 @@ Quality of saved versions::
 ADMIN_VERSIONS
 ^^^^^^^^^^^^^^
 
-The versions you want to show with the admin-interface::
+The versions you want to show with the admin interface::
 
     ADMIN_VERSIONS = getattr(settings, 'FILEBROWSER_ADMIN_VERSIONS', ['thumbnail', 'small', 'medium', 'big', 'large'])
 
 ADMIN_THUMBNAIL
 ^^^^^^^^^^^^^^^
 
-The version being used as the admin-thumbnail::
+The version being used as the admin thumbnail::
 
     ADMIN_THUMBNAIL = getattr(settings, 'FILEBROWSER_ADMIN_THUMBNAIL', 'admin_thumbnail')
 
+.. _settingsplaceholder:
+
 Placeholder
 -----------
+
+With your locale environment, you don't necessarily have access to all media files (e.g. images uploaded by your client). Therefore, you can use a PLACEHOLDER.
 
 PLACEHOLDER
 ^^^^^^^^^^^
@@ -159,6 +177,8 @@ FORCE_PLACEHOLDER
 Always show placeholder (even if the original image exists)::
 
     FORCE_PLACEHOLDER = getattr(settings, "FILEBROWSER_FORCE_PLACEHOLDER", False)
+
+.. _settingsextrasettings:
 
 Extra Settings
 --------------
@@ -249,18 +269,14 @@ regex to clean directory names before creation::
 SEARCH_TRAVERSE
 ^^^^^^^^^^^^^^^
 
-.. versionadded:: 3.3
-
-``True``, if you want to traverse all subdirectories when searching. Please note that with thousands of files/directories, this might take a while::
+``True`` if you want to traverse all subdirectories when searching. Please note that with thousands of files/directories, this might take a while::
 
     SEARCH_TRAVERSE = getattr(settings, "FILEBROWSER_SEARCH_TRAVERSE", False)
 
 DEFAULT_PERMISSIONS
 ^^^^^^^^^^^^^^^^^^^
 
-.. versionadded:: 3.3
-
-Default Upload and Version Permissions::
+Default upload and version permissions::
 
     DEFAULT_PERMISSIONS = getattr(settings, "FILEBROWSER_DEFAULT_PERMISSIONS", 0755)
 
@@ -270,6 +286,6 @@ OVERWRITE_EXISTING
 
 .. versionadded:: 3.5.1
 
-``True`` in order to overwrite existing files, ``False`` to use the behaviour of the storage engine::
+``True`` in order to overwrite existing files. ``False`` to use the behaviour of the storage engine::
 
     OVERWRITE_EXISTING = getattr(settings, "FILEBROWSER_OVERWRITE_EXISTING", True)

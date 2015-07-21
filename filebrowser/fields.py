@@ -4,15 +4,14 @@
 import os
 
 # DJANGO IMPORTS
+from django.core import urlresolvers
 from django.db import models
+from django.db.models.fields import Field, CharField
 from django import forms
 from django.forms.widgets import Input
-from django.db.models.fields import Field, CharField
-from django.utils.encoding import force_unicode
 from django.template.loader import render_to_string
+from django.utils.six import with_metaclass
 from django.utils.translation import ugettext_lazy as _
-from django.core import urlresolvers
-from django.contrib.admin.templatetags.admin_static import static
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import *
@@ -22,10 +21,10 @@ from filebrowser.sites import site
 
 class FileBrowseWidget(Input):
     input_type = 'text'
-    
+
     class Media:
-        js = (static('filebrowser/js/AddFileBrowser.js'),)
-    
+        js = ('filebrowser/js/AddFileBrowser.js',)
+
     def __init__(self, attrs={}):
         super(FileBrowseWidget, self).__init__(attrs)
         self.site = attrs.get('filebrowser_site', None)
@@ -37,7 +36,7 @@ class FileBrowseWidget(Input):
         else:
             self.attrs = {}
         super(FileBrowseWidget, self).__init__(attrs)
-    
+
     def render(self, name, value, attrs=None):
         url = urlresolvers.reverse(self.site.name + ":fb_browse")
         if value is None:
@@ -45,7 +44,6 @@ class FileBrowseWidget(Input):
         if value != "" and not isinstance(value, FileObject):
             value = FileObject(value, site=self.site)
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
-        final_attrs['search_icon'] = static('filebrowser/img/filebrowser_icon_show.gif')
         final_attrs['url'] = url
         final_attrs['directory'] = self.directory
         final_attrs['extensions'] = self.extensions
@@ -61,11 +59,11 @@ class FileBrowseWidget(Input):
 
 
 class FileBrowseFormField(forms.CharField):
-    
+
     default_error_messages = {
         'extension': _(u'Extension %(ext)s is not allowed. Only %(allowed)s is allowed.'),
     }
-    
+
     def __init__(self, max_length=None, min_length=None, site=None, directory=None, extensions=None, format=None, *args, **kwargs):
         self.max_length, self.min_length = max_length, min_length
         self.site = kwargs.pop('filebrowser_site', site)
@@ -75,7 +73,7 @@ class FileBrowseFormField(forms.CharField):
             self.format = format or ''
             self.extensions = extensions or EXTENSIONS.get(format)
         super(FileBrowseFormField, self).__init__(*args, **kwargs)
-    
+
     def clean(self, value):
         value = super(FileBrowseFormField, self).clean(value)
         if value == '':
@@ -86,22 +84,21 @@ class FileBrowseFormField(forms.CharField):
         return value
 
 
-class FileBrowseField(CharField):
+class FileBrowseField(with_metaclass(models.SubfieldBase, CharField)):
     description = "FileBrowseField"
-    __metaclass__ = models.SubfieldBase
-    
+
     def __init__(self, *args, **kwargs):
         self.site = kwargs.pop('filebrowser_site', site)
         self.directory = kwargs.pop('directory', '')
         self.extensions = kwargs.pop('extensions', '')
         self.format = kwargs.pop('format', '')
         return super(FileBrowseField, self).__init__(*args, **kwargs)
-    
+
     def to_python(self, value):
         if not value or isinstance(value, FileObject):
             return value
         return FileObject(value, site=self.site)
-    
+
     def get_prep_value(self, value):
         if not value:
             return value
@@ -112,7 +109,7 @@ class FileBrowseField(CharField):
         if not value:
             return value
         return value.path
-    
+
     def formfield(self, **kwargs):
         attrs = {}
         attrs["filebrowser_site"] = self.site
@@ -135,5 +132,3 @@ try:
     add_introspection_rules([], ["^filebrowser\.fields\.FileBrowseField"])
 except:
     pass
-
-

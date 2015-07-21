@@ -1,7 +1,8 @@
 # coding: utf-8
 
 # PYTHON IMPORTS
-import os, re
+import os
+import re
 from time import gmtime
 
 # DJANGO IMPORTS
@@ -11,7 +12,7 @@ from django.core.files import File
 
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import VERSIONS
+from filebrowser.settings import VERSIONS, PLACEHOLDER, SHOW_PLACEHOLDER, FORCE_PLACEHOLDER
 from filebrowser.base import FileObject
 from filebrowser.sites import get_default_site
 register = Library()
@@ -21,7 +22,7 @@ class VersionNode(Node):
     def __init__(self, src, suffix):
         self.src = src
         self.suffix = suffix
-        
+
     def render(self, context):
         try:
             version_suffix = self.suffix.resolve(context)
@@ -29,19 +30,21 @@ class VersionNode(Node):
         except VariableDoesNotExist:
             return ""
         if version_suffix not in VERSIONS:
-            return "" # FIXME: should this throw an error?
+            return ""  # FIXME: should this throw an error?
         if isinstance(source, FileObject):
             source = source.path
         elif isinstance(source, File):
             source = source.name
-        else: # string
+        else:  # string
             source = source
         site = context.get('filebrowser_site', get_default_site())
+        if FORCE_PLACEHOLDER or (SHOW_PLACEHOLDER and not site.storage.isfile(source)):
+            source = PLACEHOLDER
         fileobject = FileObject(source, site=site)
         try:
             version = fileobject.version_generate(version_suffix)
             return version.url
-        except Exception, e:
+        except Exception as e:
             if settings.TEMPLATE_DEBUG:
                 raise e
         return ""
@@ -51,7 +54,7 @@ def version(parser, token):
     """
     Displaying a version of an existing Image according to the predefined VERSIONS settings (see filebrowser settings).
     {% version fileobject version_suffix %}
-    
+
     Use {% version fileobject 'medium' %} in order to
     display the medium-size version of an image.
     version_suffix can be a string or a variable. if version_suffix is a string, use quotes.
@@ -68,7 +71,7 @@ class VersionObjectNode(Node):
         self.src = src
         self.suffix = suffix
         self.var_name = var_name
-    
+
     def render(self, context):
         try:
             version_suffix = self.suffix.resolve(context)
@@ -76,19 +79,21 @@ class VersionObjectNode(Node):
         except VariableDoesNotExist:
             return None
         if version_suffix not in VERSIONS:
-            return "" # FIXME: should this throw an error?
+            return ""  # FIXME: should this throw an error?
         if isinstance(source, FileObject):
             source = source.path
         elif isinstance(source, File):
             source = source.name
-        else: # string
+        else:  # string
             source = source
         site = context.get('filebrowser_site', get_default_site())
+        if FORCE_PLACEHOLDER or (SHOW_PLACEHOLDER and not site.storage.isfile(source)):
+            source = PLACEHOLDER
         fileobject = FileObject(source, site=site)
         try:
             version = fileobject.version_generate(version_suffix)
             context[self.var_name] = version
-        except Exception, e:
+        except Exception as e:
             if settings.TEMPLATE_DEBUG:
                 raise e
             context[self.var_name] = ""
@@ -99,12 +104,12 @@ def version_object(parser, token):
     """
     Returns a context variable 'var_name' with the FileObject
     {% version_object fileobject version_suffix as var_name %}
-    
+
     Use {% version_object fileobject 'medium' as version_medium %} in order to
     retrieve the medium version of an image stored in a variable version_medium.
     version_suffix can be a string or a variable. If version_suffix is a string, use quotes.
     """
-    
+
     bits = token.split_contents()
     if len(bits) != 5:
         raise TemplateSyntaxError("'version_object' tag takes 4 arguments")
@@ -120,7 +125,7 @@ class VersionSettingNode(Node):
         else:
             self.version_suffix = None
             self.version_suffix_var = Variable(version_suffix)
-    
+
     def render(self, context):
         if self.version_suffix:
             version_suffix = self.version_suffix
@@ -137,17 +142,16 @@ def version_setting(parser, token):
     """
     Get Information about a version setting.
     """
-    
+
     try:
         tag, version_suffix = token.split_contents()
     except:
-        raise TemplateSyntaxError, "%s tag requires 1 argument" % token.contents.split()[0]
+        raise TemplateSyntaxError("%s tag requires 1 argument" % token.contents.split()[0])
     if (version_suffix[0] == version_suffix[-1] and version_suffix[0] in ('"', "'")) and version_suffix.lower()[1:-1] not in VERSIONS:
-        raise TemplateSyntaxError, "%s tag received bad version_suffix %s" % (tag, version_suffix)
+        raise TemplateSyntaxError("%s tag received bad version_suffix %s" % (tag, version_suffix))
     return VersionSettingNode(version_suffix)
 
 
 register.tag(version)
 register.tag(version_object)
 register.tag(version_setting)
-

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <remy.hubscher@ionyse.com>, 2011.
+# Bertrand Bordage <bordage.bertrand@gmail.com>, 2013
+# Natim <remy.hubscher@ionyse.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
-"Report-Msgid-Bugs-To: https://github.com/sehmaschine/django-filebrowser/issues\n"
-"POT-Creation-Date: 2012-10-23 12:55+0200\n"
-"PO-Revision-Date: 2012-11-10 08:20+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-30 18:48+0100\n"
+"PO-Revision-Date: 2013-12-06 08:13+0000\n"
 "Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/django-filebrowser/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -18,152 +19,152 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: actions.py:51
+#: actions.py:53
 #, python-format
 msgid "Action applied successfully to '%s'"
 msgstr "L'action sur '%s' a été réalisé avec succès"
 
-#: actions.py:56 forms.py:21
+#: actions.py:59 forms.py:20
 msgid "Flip horizontal"
 msgstr "Retourner horizontalement"
 
-#: actions.py:62 forms.py:22
+#: actions.py:66 forms.py:21
 msgid "Flip vertical"
 msgstr "Retourner verticalement"
 
-#: actions.py:68 forms.py:23
+#: actions.py:73 forms.py:22
 msgid "Rotate 90° CW"
 msgstr "Tourner de 90° Horaire"
 
-#: actions.py:74 forms.py:24
+#: actions.py:80 forms.py:23
 msgid "Rotate 90° CCW"
 msgstr "Tourner de 90° Anti-Horaire"
 
-#: actions.py:80 forms.py:25
+#: actions.py:87 forms.py:24
 msgid "Rotate 180°"
 msgstr "Tourner de 180°"
 
-#: decorators.py:23
+#: decorators.py:39
 msgid ""
-"Error finding Upload-Folder (MEDIA_ROOT + DIRECTORY). Maybe it does not "
-"exist?"
-msgstr "Impossible de trouver le répertoire d'upload (MEDIA_ROOT + DIRECTORY). Peut-être qu'il n'existe pas ?"
+"Error finding Upload-Folder (site.storage.location + site.directory). Maybe "
+"it does not exist?"
+msgstr "Impossible de trouver le répertoire d'upload (site.storage.location + site.directory). Peut-être ne l'avez-vous pas créé ?"
 
-#: decorators.py:25
+#: decorators.py:41
 msgid "The requested Folder does not exist."
 msgstr "Le répertoire demandé n'existe pas."
 
-#: decorators.py:41
+#: decorators.py:55
 msgid "The requested File does not exist."
 msgstr "Le fichier demandé n'existe pas."
 
-#: decorators.py:47
+#: decorators.py:61
 msgid "You do not have permission to access this file!"
 msgstr "Vous n'avez pas la permission d’accéder à ce fichier !"
 
-#: fields.py:65
+#: fields.py:63
 #, python-format
 msgid "Extension %(ext)s is not allowed. Only %(allowed)s is allowed."
 msgstr "L'extension %(ext)s n'est pas autorisée. Seules les extensions suivantes sont disponibles : %(allowed)s"
 
-#: forms.py:39 forms.py:58
+#: forms.py:57 forms.py:82
 msgid "Name"
 msgstr "Nom"
 
-#: forms.py:39 forms.py:45 forms.py:58 forms.py:79
+#: forms.py:57 forms.py:69 forms.py:82 forms.py:101
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
 msgstr "Seuls les lettres, chiffres, tirets-bas (_), espaces et tirets (-) sont autorisés."
 
-#: forms.py:48 forms.py:82
+#: forms.py:72 forms.py:104
 msgid "The Folder already exists."
 msgstr "Le répertoire existe déja."
 
-#: forms.py:57
+#: forms.py:81
 msgid "Actions"
 msgstr "Actions"
 
-#: forms.py:84
+#: forms.py:106
 msgid "The File already exists."
 msgstr "Le fichier existe déjà."
 
-#: settings.py:123 templates/filebrowser/include/tableheader.html:21
+#: settings.py:110 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
 msgid "Folder"
 msgstr "Répertoire"
 
-#: settings.py:124
+#: settings.py:111
 msgid "Image"
 msgstr "Image"
 
-#: settings.py:125
+#: settings.py:112
 msgid "Video"
 msgstr "Vidéo"
 
-#: settings.py:126
+#: settings.py:113
 msgid "Document"
 msgstr "Document"
 
-#: settings.py:127
+#: settings.py:114
 msgid "Audio"
 msgstr "Audio"
 
-#: sites.py:264 templates/filebrowser/include/breadcrumbs.html:9
+#: sites.py:348 templates/filebrowser/include/breadcrumbs.html:9
 #: templates/filebrowser/include/breadcrumbs.html:11
 msgid "FileBrowser"
 msgstr "Gestionnaire de fichiers"
 
-#: sites.py:289
+#: sites.py:369
 #, python-format
 msgid "The Folder %s was successfully created."
 msgstr "Le répertoire %s a bien été créé."
 
-#: sites.py:294
+#: sites.py:374
 msgid "Permission denied."
 msgstr "Accès refusé."
 
-#: sites.py:296
+#: sites.py:376
 msgid "Error creating folder."
 msgstr "Error lors de la création du répertoire."
 
-#: sites.py:303 sites.py:306 templates/filebrowser/index.html:80
+#: sites.py:383 sites.py:386 templates/filebrowser/index.html:80
 msgid "New Folder"
 msgstr "Nouveau répertoire"
 
-#: sites.py:320
+#: sites.py:396
 msgid "Select files to upload"
 msgstr "Sélectionnez les fichiers à transférer."
 
-#: sites.py:323 templates/filebrowser/index.html:81
+#: sites.py:399 templates/filebrowser/index.html:81
 msgid "Upload"
 msgstr "Télécharger"
 
-#: sites.py:354 sites.py:357
+#: sites.py:429 sites.py:432
 msgid "Confirm delete"
 msgstr "Confirmez la suppression"
 
-#: sites.py:375
+#: sites.py:448
 #, python-format
 msgid "Successfully deleted %s"
 msgstr "%s a bien été supprimé"
 
-#: sites.py:413
+#: sites.py:485
 msgid "Renaming was successful."
 msgstr "Correctement renommer."
 
-#: sites.py:422
+#: sites.py:494
 msgid "Error."
 msgstr "Erreur."
 
-#: widgets.py:19 widgets.py:52
+#: widgets.py:17 widgets.py:50
 msgid "Currently"
 msgstr "Actuellement"
 
-#: widgets.py:20 widgets.py:53
+#: widgets.py:18 widgets.py:51
 #: templates/filebrowser/include/filelisting.html:131
 msgid "Change"
 msgstr "Modifier"
 
-#: widgets.py:21 widgets.py:54
+#: widgets.py:19 widgets.py:52
 msgid "Clear"
 msgstr "Vider"
 
@@ -177,7 +178,7 @@ msgstr "Merci de corriger les erreurs suivantes."
 msgid ""
 "The Name will be normalized by converting or stripping all non-standard "
 "characters."
-msgstr ""
+msgstr "Le nom sera normalisé par la conversion ou suppression de tout caractère non-standard."
 
 #: templates/filebrowser/createdir.html:39
 #: templates/filebrowser/upload.html:150
@@ -277,11 +278,11 @@ msgstr "Sauvegarder et continuer l'édition"
 
 #: templates/filebrowser/upload.html:42
 msgid "Drop files here to upload"
-msgstr ""
+msgstr "Sélectionner les fichiers à transférer"
 
 #: templates/filebrowser/upload.html:43
 msgid "Upload a file"
-msgstr ""
+msgstr "Transférer"
 
 #: templates/filebrowser/upload.html:52
 msgid "Failed"
@@ -346,39 +347,39 @@ msgstr "Sélectionner"
 msgid "Versions"
 msgstr "Versions"
 
-#: templates/filebrowser/include/filter.html:4
+#: templates/filebrowser/include/filter.html:5
 msgid "Filter"
 msgstr "Filtrer"
 
-#: templates/filebrowser/include/filter.html:7
+#: templates/filebrowser/include/filter.html:9
 msgid "By Date"
 msgstr "Par date"
 
-#: templates/filebrowser/include/filter.html:9
+#: templates/filebrowser/include/filter.html:11
 msgid "Any Date"
 msgstr "Toute les dates"
 
-#: templates/filebrowser/include/filter.html:10
+#: templates/filebrowser/include/filter.html:12
 msgid "Today"
 msgstr "Aujourd'hui"
 
-#: templates/filebrowser/include/filter.html:11
+#: templates/filebrowser/include/filter.html:13
 msgid "Past 7 days"
 msgstr "7 derniers jours"
 
-#: templates/filebrowser/include/filter.html:12
+#: templates/filebrowser/include/filter.html:14
 msgid "This Month"
 msgstr "Ce mois"
 
-#: templates/filebrowser/include/filter.html:13
+#: templates/filebrowser/include/filter.html:15
 msgid "This year"
 msgstr "Cette année"
 
-#: templates/filebrowser/include/filter.html:17
+#: templates/filebrowser/include/filter.html:21
 msgid "By Type"
 msgstr "Par type"
 
-#: templates/filebrowser/include/filter.html:19
+#: templates/filebrowser/include/filter.html:23
 msgid "All"
 msgstr "Tous"
 

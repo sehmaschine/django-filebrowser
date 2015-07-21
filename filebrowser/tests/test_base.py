@@ -21,14 +21,14 @@ FILEBROWSER_PATH = os.path.split(TESTS_PATH)[0]
 
 
 class FileObjectPathTests(TestCase):
-    
+
     def setUp(self):
         """
         Save original values/functions so they can be restored in tearDown
         """
         self.original_directory = site.directory
         self.original_path = filebrowser.base.os.path
-    
+
     def test_windows_paths(self):
         """
         Use ntpath to test windows paths independently from current os
@@ -36,11 +36,10 @@ class FileObjectPathTests(TestCase):
         site.directory = 'uploads/'
         filebrowser.base.os.path = ntpath
         f = FileObject('uploads\\testdir\\testfile.jpg', site=site)
-        
+
         self.assertEqual(f.path_relative_directory, 'testdir\\testfile.jpg')
-        self.assertEqual(f.directory, 'testdir\\testfile.jpg')
-        self.assertEqual(f.folder, r'testdir')
-        
+        self.assertEqual(f.dirname, r'testdir')
+
     def test_posix_paths(self):
         """
         Use posixpath to test posix paths independently from current os
@@ -48,11 +47,10 @@ class FileObjectPathTests(TestCase):
         filebrowser.base.os.path = posixpath
         site.directory = 'uploads/'
         f = FileObject('uploads/testdir/testfile.jpg', site=site)
-        
+
         self.assertEqual(f.path_relative_directory, 'testdir/testfile.jpg')
-        self.assertEqual(f.directory, 'testdir/testfile.jpg')
-        self.assertEqual(f.folder, r'testdir')
-        
+        self.assertEqual(f.dirname, r'testdir')
+
     def tearDown(self):
         """
         Restore original values/functions
@@ -62,14 +60,14 @@ class FileObjectPathTests(TestCase):
 
 
 class FileObjectUnicodeTests(TestCase):
-    
+
     def setUp(self):
         """
         Save original values/functions so they can be restored in tearDown
         """
         self.original_path = filebrowser.base.os.path
         self.original_directory = site.directory
-    
+
     def test_windows_paths(self):
         """
         Use ntpath to test windows paths independently from current os
@@ -77,11 +75,10 @@ class FileObjectUnicodeTests(TestCase):
         site.directory = 'uploads/'
         filebrowser.base.os.path = ntpath
         f = FileObject('uploads\\$%^&*\\測試文件.jpg', site=site)
-        
+
         self.assertEqual(f.path_relative_directory, '$%^&*\\測試文件.jpg')
-        self.assertEqual(f.directory, '$%^&*\\測試文件.jpg')
-        self.assertEqual(f.folder, r'$%^&*')
-        
+        self.assertEqual(f.dirname, r'$%^&*')
+
     def test_posix_paths(self):
         """
         Use posixpath to test posix paths independently from current os
@@ -89,11 +86,10 @@ class FileObjectUnicodeTests(TestCase):
         filebrowser.base.os.path = posixpath
         site.directory = 'uploads/'
         f = FileObject('uploads/$%^&*/測試文件.jpg', site=site)
-        
+
         self.assertEqual(f.path_relative_directory, '$%^&*/測試文件.jpg')
-        self.assertEqual(f.directory, '$%^&*/測試文件.jpg')
-        self.assertEqual(f.folder, r'$%^&*')
-        
+        self.assertEqual(f.dirname, r'$%^&*')
+
     def tearDown(self):
         """
         Restore original values/functions
@@ -103,10 +99,19 @@ class FileObjectUnicodeTests(TestCase):
 
 
 class FileObjectAttributeTests(TestCase):
-    
+
     def setUp(self):
         """
         Save original values/functions so they can be restored in tearDown
+
+        We are using this folder structure (within storage.location):
+
+        └── _versionstestdirectory
+        └── fb_test_directory
+            └── fb_tmp_dir
+                └── fb_tmp_dir_sub
+                    └── testimage.jpg
+
         """
         self.original_path = filebrowser.base.os.path
         self.original_directory = site.directory
@@ -117,7 +122,6 @@ class FileObjectAttributeTests(TestCase):
         # DIRECTORY
         # custom directory because this could be set with sites
         # and we cannot rely on filebrowser.settings
-        # FIXME: find better directory name
         self.directory = "fb_test_directory/"
         self.directory_path = os.path.join(site.storage.location, self.directory)
         if os.path.exists(self.directory_path):
@@ -135,14 +139,21 @@ class FileObjectAttributeTests(TestCase):
         else:
             os.makedirs(self.versions_path)
 
-        # create temporary test folder and move testimage
-        # FIXME: find better path names
+        # create temporary test folder
         self.tmpdir_name = os.path.join("fb_tmp_dir", "fb_tmp_dir_sub")
         self.tmpdir_path = os.path.join(site.storage.location, self.directory, self.tmpdir_name)
         if os.path.exists(self.tmpdir_path):
             self.fail("Temporary testfolder already exists.")
         else:
             os.makedirs(self.tmpdir_path)
+
+        # create alternative temporary test folder
+        self.tmpdir_name_alt = os.path.join("fb_tmp_dir", "fb_tmp_dir_sub", "xxx")
+        self.tmpdir_path_alt = os.path.join(site.storage.location, self.directory, self.tmpdir_name_alt)
+        if os.path.exists(self.tmpdir_path_alt):
+            self.fail("Temporary testfolder already exists.")
+        else:
+            os.makedirs(self.tmpdir_path_alt)
 
         # copy test image to temporary test folder
         self.image_path = os.path.join(FILEBROWSER_PATH, "static", "filebrowser", "img", "testimage.jpg")
@@ -156,6 +167,7 @@ class FileObjectAttributeTests(TestCase):
         # fileobjects
         self.f_image = FileObject(os.path.join(self.directory, self.tmpdir_name, "testimage.jpg"), site=site)
         self.f_folder = FileObject(os.path.join(self.directory, self.tmpdir_name), site=site)
+        self.f_folder_alt = FileObject(os.path.join(self.directory, self.tmpdir_name_alt), site=site)
 
     def test_init_attributes(self):
         """
@@ -202,11 +214,26 @@ class FileObjectAttributeTests(TestCase):
         # dirname
         # url
         """
+        # test with image
         self.assertEqual(self.f_image.path, "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg")
         self.assertEqual(self.f_image.path_relative_directory, "fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg")
         self.assertEqual(self.f_image.path_full, os.path.join(site.storage.location, site.directory, "fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg"))
         self.assertEqual(self.f_image.dirname, "fb_tmp_dir/fb_tmp_dir_sub")
         self.assertEqual(self.f_image.url, site.storage.url(self.f_image.path))
+
+        # test with folder
+        self.assertEqual(self.f_folder.path, "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub")
+        self.assertEqual(self.f_folder.path_relative_directory, "fb_tmp_dir/fb_tmp_dir_sub")
+        self.assertEqual(self.f_folder.path_full, os.path.join(site.storage.location, site.directory, "fb_tmp_dir/fb_tmp_dir_sub"))
+        self.assertEqual(self.f_folder.dirname, "fb_tmp_dir")
+        self.assertEqual(self.f_folder.url, site.storage.url(self.f_folder.path))
+
+        # test with alternative folder
+        self.assertEqual(self.f_folder_alt.path, "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/xxx")
+        self.assertEqual(self.f_folder_alt.path_relative_directory, "fb_tmp_dir/fb_tmp_dir_sub/xxx")
+        self.assertEqual(self.f_folder_alt.path_full, os.path.join(site.storage.location, site.directory, "fb_tmp_dir/fb_tmp_dir_sub/xxx"))
+        self.assertEqual(self.f_folder_alt.dirname, "fb_tmp_dir/fb_tmp_dir_sub")
+        self.assertEqual(self.f_folder_alt.url, site.storage.url(self.f_folder_alt.path))
 
     def test_image_attributes(self):
         """
@@ -228,22 +255,28 @@ class FileObjectAttributeTests(TestCase):
         """
         FileObject folder attributes
 
-        # directory
-        # folder
+        # directory (deprecated)
+        # folder (deprecated)
         # is_folder
         # is_empty
         """
         # test with image
-        self.assertEqual(self.f_image.directory, "fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg")
-        self.assertEqual(self.f_image.folder, "fb_tmp_dir/fb_tmp_dir_sub") # FIXME: equals dirname?
+        #self.assertEqual(self.f_image.directory, "fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg")  # equals path_relative_directory
+        #self.assertEqual(self.f_image.folder, "fb_tmp_dir/fb_tmp_dir_sub")  # equals dirname
         self.assertEqual(self.f_image.is_folder, False)
         self.assertEqual(self.f_image.is_empty, False)
 
-        # test with actual folder
-        self.assertEqual(self.f_folder.directory, "fb_tmp_dir/fb_tmp_dir_sub")
-        self.assertEqual(self.f_folder.folder, "fb_tmp_dir") # FIXME: equals dirname?
+        # test with folder
+        #self.assertEqual(self.f_folder.directory, "fb_tmp_dir/fb_tmp_dir_sub")  # equals path_relative_directory
+        #self.assertEqual(self.f_folder.folder, "fb_tmp_dir")  # equals dirname
         self.assertEqual(self.f_folder.is_folder, True)
         self.assertEqual(self.f_folder.is_empty, False)
+
+        # test with alternative folder
+        #self.assertEqual(self.f_folder_alt.directory, "fb_tmp_dir/fb_tmp_dir_sub/xxx")  # equals path_relative_directory
+        #self.assertEqual(self.f_folder_alt.folder, "fb_tmp_dir/fb_tmp_dir_sub")  # equals dirname
+        self.assertEqual(self.f_folder_alt.is_folder, True)
+        self.assertEqual(self.f_folder_alt.is_empty, True)
 
     def test_version_attributes_1(self):
         """
@@ -252,6 +285,7 @@ class FileObjectAttributeTests(TestCase):
 
         # is_version
         # original
+        # original_filename
         # versions_basedir
         # versions
         # admin_versions
@@ -267,7 +301,7 @@ class FileObjectAttributeTests(TestCase):
         }
         filebrowser.base.ADMIN_VERSIONS = ['large']
         # expected test results
-        version_list = ['fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg', 'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg']
+        version_list = ['fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg', 'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg',]
         admin_version_list = ['fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
 
         self.assertEqual(self.f_image.is_version, False)
@@ -297,6 +331,7 @@ class FileObjectAttributeTests(TestCase):
 
         # is_version
         # original
+        # original_filename
         # versions_basedir
         # versions
         # admin_versions
@@ -311,7 +346,7 @@ class FileObjectAttributeTests(TestCase):
         }
         filebrowser.base.ADMIN_VERSIONS = ['large']
         # expected test results
-        version_list = ['fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg', 'fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg']
+        version_list = ['fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg', 'fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
         admin_version_list = ['fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
 
         self.assertEqual(self.f_image.is_version, False)
@@ -332,7 +367,8 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(f_version.is_version, True)
         self.assertEqual(f_version.original_filename, "testimage.jpg")
         self.assertEqual(f_version.original.path, self.f_image.path)
-        # FIXME: versions should not have versions or admin_versions
+        self.assertEqual(f_version.versions(), [])
+        self.assertEqual(f_version.admin_versions(), [])
 
     def test_version_attributes_3(self):
         """
@@ -341,6 +377,7 @@ class FileObjectAttributeTests(TestCase):
 
         # is_version
         # original
+        # original_filename
         # versions_basedir
         # versions
         # admin_versions
@@ -355,7 +392,7 @@ class FileObjectAttributeTests(TestCase):
         }
         filebrowser.base.ADMIN_VERSIONS = ['large']
         # expected test results
-        version_list = ['_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg', '_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg']
+        version_list = ['_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg', '_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
         admin_version_list = ['_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
 
         self.assertEqual(self.f_image.is_version, False)
@@ -376,7 +413,8 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(f_version.is_version, True)
         self.assertEqual(f_version.original_filename, "testimage.jpg")
         self.assertEqual(f_version.original.path, self.f_image.path)
-        # FIXME: versions should not have versions or admin_versions
+        self.assertEqual(f_version.versions(), [])
+        self.assertEqual(f_version.admin_versions(), [])
 
     def test_delete(self):
         """
@@ -414,7 +452,6 @@ class FileObjectAttributeTests(TestCase):
         self.f_image.delete_versions()
         self.assertEqual(site.storage.exists(f_version_thumb.path), False)
 
-        
     def tearDown(self):
         """
         Restore original values/functions
@@ -431,7 +468,7 @@ class FileObjectAttributeTests(TestCase):
 
 
 class FileListingTests(TestCase):
-    
+
     def setUp(self):
         """
         Save original values/functions so they can be restored in tearDown
@@ -563,4 +600,3 @@ class FileListingTests(TestCase):
 
         # remove temporary directory and test folder
         shutil.rmtree(self.directory_path)
-
