@@ -532,6 +532,8 @@ class FileObject():
         except IOError:
             return ""
         im = Image.open(f)
+        if "RGB" not in im.mode:
+            im = im.convert("RGB")
         version_path = self.version_path(version_suffix)
         version_dir, version_basename = os.path.split(version_path)
         root, ext = os.path.splitext(version_basename)
