@@ -26,7 +26,7 @@ from django.core.files.storage import DefaultStorage, default_storage, FileSyste
 # FILEBROWSER IMPORTS
 from filebrowser.settings import STRICT_PIL, DIRECTORY, EXTENSIONS, SELECT_FORMATS, ADMIN_VERSIONS, ADMIN_THUMBNAIL, MAX_UPLOAD_SIZE,\
     NORMALIZE_FILENAME, CONVERT_FILENAME, SEARCH_TRAVERSE, EXCLUDE, VERSIONS, EXTENSION_LIST, DEFAULT_SORTING_BY, DEFAULT_SORTING_ORDER,\
-    LIST_PER_PAGE, OVERWRITE_EXISTING, DEFAULT_PERMISSIONS
+    LIST_PER_PAGE, OVERWRITE_EXISTING, DEFAULT_PERMISSIONS, VERSIONS_BASEDIR
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileListing, FileObject
 from filebrowser.decorators import path_exists, file_exists
