@@ -426,10 +426,19 @@ class FileObject():
         return False
 
     # VERSION ATTRIBUTES/PROPERTIES
+    # version
     # is_version
     # versions_basedir
     # original
     # original_filename
+
+    @property
+    def version(self):
+        "Returns version name"
+        tmp = self.filename_root.split("_")
+        if tmp[-1] in VERSIONS:
+            return tmp[-1]
+        return None
 
     @property
     def is_version(self):
@@ -519,6 +528,8 @@ class FileObject():
         except IOError:
             return ""
         im = Image.open(f)
+        if "RGB" not in im.mode:
+            im = im.convert("RGB")
         version_path = self.version_path(version_suffix)
         version_dir, version_basename = os.path.split(version_path)
         root, ext = os.path.splitext(version_basename)
