@@ -12,7 +12,7 @@ class OnDemandMiddleware(object):
     This make sure new request is made by browser, and  file serving will be done
     in ordinary way (probably by web-server).
 
-    Just make sure the web-server request is handled by django if the requested file does not exist.
+    Just make sure the request is handled by django if the requested file does not exist.
     """
 
     def process_exception(self, request, exception):

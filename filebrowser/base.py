@@ -8,6 +8,7 @@ import platform
 import mimetypes
 from tempfile import NamedTemporaryFile
 import warnings
+import re
 
 # DJANGO IMPORTS
 from django.core.files import File
@@ -439,18 +440,15 @@ class FileObject():
     @property
     def version(self):
         "Returns version name"
-        tmp = self.filename_root.split("_")
-        if tmp[-1] in VERSIONS:
-            return tmp[-1]
+        ext = (r'_(%s)$') % ('|'.join(VERSIONS.keys()))
+        match = re.search(ext, self.filename_root, re.IGNORECASE)
+        if match:
+            return match.groups()[0]
         return None
 
     @property
     def is_version(self):
-        "True if file is a version, false otherwise"
-        tmp = self.filename_root.split("_")
-        if tmp[len(tmp)-1] in VERSIONS:
-            return True
-        return False
+        return self.version is not None
 
     @property
     def versions_basedir(self):
@@ -473,9 +471,9 @@ class FileObject():
     @property
     def original_filename(self):
         "Get the filename of an original image from a version"
-        tmp = self.filename_root.split("_")
-        if tmp[len(tmp)-1] in VERSIONS:
-            return u"%s%s" % (self.filename_root.replace("_%s" % tmp[len(tmp)-1], ""), self.extension)
+        version = self.version
+        if version:
+            return u"%s%s" % (self.filename_root[:-(len(version) + 1)], self.extension)
         return self.filename
 
     # VERSION METHODS
