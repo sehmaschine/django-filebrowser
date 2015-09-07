@@ -13,9 +13,6 @@ With the FileBrowser, you are able to define different versions/sizes for images
 Defining Versions
 -----------------
 
-.. versionadded:: 3.4.0
-    ``methods``
-
 First you need to know which versions/sizes of an image you'd like to generate with your website. Let's say you're using a 12 column grid with 60px for each column and 20px margin (which is a total of 940px). With this grid, you could (for example) define these image versions.
 
 .. code-block:: python
@@ -77,9 +74,9 @@ With your templates, use ``version`` if you simply need to retrieve the URL or `
 
     <!-- get the url with version -->
     <img src="{% version blogentry.image 'medium' %}" />
-    
+
     <!-- get a fileobject with version_object -->
-    {% version_object blogentry.image 'medium' as version_medium %} 
+    {% version_object blogentry.image 'medium' as version_medium %}
     {{ version_medium.width }}
     <img src="{{ version_medium }}" />
 

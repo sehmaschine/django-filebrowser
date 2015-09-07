@@ -10,7 +10,7 @@ Settings
 
 There are some settings in order to customize the |filebrowser|. Nonetheless, you should be able to start with the default settings.
 
-All settings can be defined in your projects settings-file. In that case, you have to use the prefix ``FILEBROWSER_`` for every setting (e.g. ``FILEBROWSER_EXTENSIONS`` instead of ``EXTENSIONS``). 
+All settings can be defined in your projects settings-file. In that case, you have to use the prefix ``FILEBROWSER_`` for every setting (e.g. ``FILEBROWSER_EXTENSIONS`` instead of ``EXTENSIONS``).
 
 .. _settingsurlspaths:
 
@@ -51,12 +51,6 @@ You can override this setting on a per–site basis::
     from filebrowser.sites import site
     site.directory = "uploads/"
 
-FileBrowser Media, TinyMCE Media
---------------------------------
-
-.. deprecated:: 3.5.3
-    Use ``staticfiles`` instead.
-
 .. _settingsextensionsformats:
 
 Extensions and Formats
@@ -96,8 +90,6 @@ Versions
 
 VERSIONS_BASEDIR (relative to storage location)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. versionchanged:: 3.4.0
 
 Directory to save image versions (and thumbnails). If no directory is given, versions are stored at the same location as the original image::
 
@@ -182,12 +174,6 @@ Always show placeholder (even if the original image exists)::
 
 Extra Settings
 --------------
-
-SAVE_FULL_URL
-^^^^^^^^^^^^^
-
-.. deprecated:: 3.4.0
-    With custom storage engines, saving the full URL doesn't make sense anymore. Moreover, removing this settings allows for easily replacing a FileBrowseField with Djangos File- or ImageField.
 
 STRICT_PIL
 ^^^^^^^^^^
@@ -284,8 +270,6 @@ Default upload and version permissions::
 
 OVERWRITE_EXISTING
 ^^^^^^^^^^^^^^^^^^
-
-.. versionadded:: 3.5.1
 
 ``True`` in order to overwrite existing files. ``False`` to use the behaviour of the storage engine::
 

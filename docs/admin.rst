@@ -18,10 +18,8 @@ The main |filebrowser| admin application is an extension for the Django admin in
 FileBrowser Site
 ----------------
 
-.. versionadded:: 3.4.0
-
 .. py:class:: FileBrowserSite(name=None, app_name='filebrowser', storage=default_storage)
-    
+
     Respresents the FileBrowser admin application (similar to Django's admin site).
 
     :param name: A name for the site, defaults to None.
@@ -31,7 +29,7 @@ FileBrowser Site
 Similar to ``django.contrib.admin``, you first need to add a ``filebrowser.site`` to your admin interface. In your ``urls.py``, import the default FileBrowser site (or your custom site) and add the site to your URL-patterns (before any admin-urls)::
 
     from filebrowser.sites import site
-    
+
     urlpatterns = patterns('',
        url(r'^adminurl/filebrowser/', include(site.urls)),
     )
@@ -42,7 +40,7 @@ Now you are able to browse the location defined with the storage engine associat
 
     from django.core.files.storage import DefaultStorage
     from filebrowser.sites import FileBrowserSite
-    
+
     # Default FileBrowser site
     site = FileBrowserSite(name='filebrowser', storage=DefaultStorage())
 
@@ -57,8 +55,6 @@ Now you are able to browse the location defined with the storage engine associat
 
 Custom Actions
 --------------
-
-.. versionadded:: 3.4.0
 
 Similar to Django's admin actions, you can define your |fb| actions and thus automate the typical tasks of your users. Registered custom actions are listed in the detail view of a file and a user can select a single action at a time. The selected action will then be applied to the file.
 
@@ -104,7 +100,7 @@ Messages & Intermediate Pages
 You can provide a feedback to a user about a successful or failed execution of an action by using a message. For example::
 
     from django.contrib import messages
-    
+
     def desaturate_image(request, fileobjects):
         for f in fileobjects:
             # Desaturate the image
@@ -121,8 +117,6 @@ Some actions may require user confirmation (e.g., in order to prevent accidental
 File Storages
 -------------
 
-.. versionadded:: 3.4.0
-
 You have the option to specify which file storage engine a |fb| should use to browse/upload/modify your media files. This enables you to use a |fb| even if your media files are located at some remote system. See also the Django's documentation on storages https://docs.djangoproject.com/en/dev/topics/files/.
 
 To associate a |site| with a particular storage engine, set the ``storage`` property of a site object::
@@ -133,7 +127,7 @@ To associate a |site| with a particular storage engine, set the ``storage`` prop
 For storage classes other than FileSystemStorage (or those that inherit from that class), there's more effort involved in providing a storage object that can be used with |fb|. See :ref:`mixin`
 
 .. note::
-    Prior |fb| 3.4, the way to specify |fb|'s  MEDIA_ROOT and MEDIA_URL was via settings.py. Starting from version 3.4, those variables are associated with the storage instance and you can set them as illustrated in the above example. 
+    Prior |fb| 3.4, the way to specify |fb|'s  MEDIA_ROOT and MEDIA_URL was via settings.py. Starting from version 3.4, those variables are associated with the storage instance and you can set them as illustrated in the above example.
 
 .. warning::
     For the reason of backward compatibility, |fb| settings FILEBROWSER_MEDIA_ROOT and FILEBROWSER_MEDIA_URL can still be used to customize |fb| as long as you're using the default |fb|'s site without having changed its storage engine. In the next major release of |fb| these settings will be removed.
@@ -150,15 +144,15 @@ A |fb| uses the Django's Storage class to access media files. However, the API o
     Returns true if name exists and is a directory.
 
 .. function:: isfile(self, name)
-        
+
     Returns true if name exists and is a regular file.
 
 .. function:: move(self, old_file_name, new_file_name, allow_overwrite=False)
-        
-    Moves safely a file from one location to another. If ``allow_ovewrite==False`` and ``new_file_name`` exists, raises an exception.        
+
+    Moves safely a file from one location to another. If ``allow_ovewrite==False`` and ``new_file_name`` exists, raises an exception.
 
 .. function:: makedirs(self, name)
-        
+
     Creates all missing directories specified by name. Analogue to os.mkdirs().
 
 .. _views:
@@ -265,7 +259,7 @@ Example for using these Signals
 Here's a small example for using the above Signals::
 
     from filebrowser import signals
-    
+
     def pre_upload_callback(sender, **kwargs):
         """
         Receiver function called before an upload starts.
@@ -273,7 +267,7 @@ Here's a small example for using the above Signals::
         print "Pre Upload Callback"
         print "kwargs:", kwargs
     signals.filebrowser_pre_upload.connect(pre_upload_callback)
-    
+
     def post_upload_callback(sender, **kwargs):
         """
         Receiver function called each time an upload has finished.

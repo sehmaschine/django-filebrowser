@@ -15,7 +15,7 @@ FileBrowseField
 
 .. py:class:: FileBrowseField(max_length[, site, directory, extensions, format, **options])
 
-    A subclass of `CharField <https://docs.djangoproject.com/en/1.6/ref/models/fields/#charfield>`_, referencing a media file within.
+    A subclass of `CharField <https://docs.djangoproject.com/en/1.8/ref/models/fields/#charfield>`_, referencing a media file within.
     Returns a :ref:`fileobject`.
 
     :param site: A FileBrowser site (defaults to the main site), see :ref:`site`.
@@ -28,7 +28,7 @@ For example:
 .. code-block:: python
 
     from filebrowser.fields import FileBrowseField
-    
+
     class BlogEntry(models.Model):
         image = FileBrowseField("Image", max_length=200, directory="images/", extensions=[".jpg"], blank=True, null=True)
         document = FileBrowseField("PDF", max_length=200, directory="documents/", extensions=[".pdf",".doc"], blank=True, null=True)
@@ -55,7 +55,7 @@ To show a thumbnail with the changelist, you can define a ModelAdmin method:
 .. code-block:: python
 
     from filebrowser.settings import ADMIN_THUMBNAIL
-    
+
     def image_thumbnail(self, obj):
         if obj.image and obj.image.filetype == "Image":
             return '<img src="%s" />' % obj.image.version_generate(ADMIN_THUMBNAIL).url
@@ -69,7 +69,7 @@ Using the FileBrowseField with TinyMCE
 
 In order to replace the TinyMCE image/file manager with the FileBrowser, you have to use a `FileBrowser Callback <http://www.tinymce.com/wiki.php/Configuration:file_browser_callback>`_. There's an example TinyMCE configuration file in /static/js/ called TinyMCEAdmin.js. You can either copy the FileBrowserCallback to your own file or just use tinymce_setup.js (which comes with django-grappelli).
 
-Just add these lines to your `ModelAdmin asset definitions <https://docs.djangoproject.com/en/1.6/ref/contrib/admin/#modeladmin-asset-definitions>`_:
+Just add these lines to your `ModelAdmin asset definitions <https://docs.djangoproject.com/en/1.8/ref/contrib/admin/#modeladmin-asset-definitions>`_:
 
 .. code-block:: python
 
@@ -82,12 +82,12 @@ Just add these lines to your `ModelAdmin asset definitions <https://docs.djangop
 FileInput
 ---------
 
-Subclass of `FileInput <https://docs.djangoproject.com/en/1.6/ref/forms/widgets/#fileinput>`_ with an additional thumbnail:
+Subclass of `FileInput <https://docs.djangoproject.com/en/1.8/ref/forms/widgets/#fileinput>`_ with an additional thumbnail:
 
 .. code-block:: python
-    
+
     from filebrowser.widgets import FileInput
-    
+
     class BlogEntryOptions(admin.ModelAdmin):
         formfield_overrides = {
             models.ImageField: {'widget': FileInput},
@@ -98,12 +98,12 @@ Subclass of `FileInput <https://docs.djangoproject.com/en/1.6/ref/forms/widgets/
 ClearableFileInput
 ------------------
 
-Subclass of `ClearableFileInput <https://docs.djangoproject.com/en/1.6/ref/forms/widgets/#clearablefileinput>`_ with an additional thumbnail:
+Subclass of `ClearableFileInput <https://docs.djangoproject.com/en/1.8/ref/forms/widgets/#clearablefileinput>`_ with an additional thumbnail:
 
 .. code-block:: python
-    
+
     from filebrowser.widgets import ClearableFileInput
-    
+
     class BlogEntryOptions(admin.ModelAdmin):
         formfield_overrides = {
             models.ImageField: {'widget': ClearableFileInput},
@@ -112,14 +112,14 @@ Subclass of `ClearableFileInput <https://docs.djangoproject.com/en/1.6/ref/forms
 Django FileField and the FileBrowser
 ------------------------------------
 
-Return a :ref:`fileobject` from a `FileField <https://docs.djangoproject.com/en/1.6/ref/models/fields/#filefield>`_ or `ImageField <https://docs.djangoproject.com/en/1.6/ref/models/fields/#imagefield>`_ with:
+Return a :ref:`fileobject` from a `FileField <https://docs.djangoproject.com/en/1.8/ref/models/fields/#filefield>`_ or `ImageField <https://docs.djangoproject.com/en/1.8/ref/models/fields/#imagefield>`_ with:
 
 .. code-block:: python
-    
+
     from filebrowser.base import FileObject
-    
+
     image_upload = models.ImageField(u"Image (Upload)", max_length=250, upload_to=image_upload_path, blank=True, null=True)
-    
+
     def image(self):
         if self.image_upload:
             return FileObject(self.image_upload.path)
@@ -128,9 +128,9 @@ Return a :ref:`fileobject` from a `FileField <https://docs.djangoproject.com/en/
 In order show a thumbnail with your changelist, you could use a ModelAdmin method:
 
 .. code-block:: python
-    
+
     from filebrowser.base import FileObject
-    
+
     def image_thumbnail(self, obj):
         if obj.image_upload:
             image = FileObject(obj.image_upload.path)
