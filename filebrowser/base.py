@@ -532,7 +532,6 @@ class FileObject():
                     version = m(version)
 
         # IF need Convert RGB
-        # http://stackoverflow.com/questions/21669657/getting-cannot-write-mode-p-as-jpeg-while-operating-on-jpg-image
         if version.mode not in ("L", "RGB"):
             version = version.convert("RGB")
 
