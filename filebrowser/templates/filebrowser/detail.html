@@ -58,7 +58,6 @@
                 </div>
             </div>
         </fieldset>
-        {% if fileobject.filetype == "Image" %}
         <fieldset class="grp-module grp-collapse grp-open">
             <h2 class="grp-collapse-handler">{% trans "Edit" %}</h2>
             <div class="grp-row {% if form.custom_action.errors %}grp-errors{% endif %}">
@@ -72,7 +71,6 @@
                 </div>
             </div>
         </fieldset>
-        {% endif %}
         {% if fileobject.filetype == "Folder" %}
         <fieldset class="grp-module grp-collapse grp-open">
             <h2 class="grp-collapse-handler">{% trans "Folder Information" %}</h2>
