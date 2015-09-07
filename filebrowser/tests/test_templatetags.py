@@ -13,7 +13,7 @@ class TemplateTagsTests(TestCase):
         self.assertEqual(sorted(get_file_extensions('')),
             sorted(['.pdf', '.doc', '.rtf', '.txt', '.xls', '.csv', '.docx', '.mov',
             '.wmv', '.mpeg', '.mpg', '.avi', '.rm', '.jpg', '.jpeg', '.gif', '.png',
-            '.tif', '.tiff', '.mp3', '.mp4', '.wav', '.aiff', '.midi', '.m4p']))
+            '.tif', '.tiff', '.mp3', '.mp4', '.wav', '.aiff', '.midi', '.m4p', '.m4v', '.webm']))
         self.assertEqual(
             get_file_extensions(QueryDict('type=image')),
             ['.jpg', '.jpeg', '.gif', '.png', '.tif', '.tiff']
