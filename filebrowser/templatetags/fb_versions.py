@@ -44,9 +44,9 @@ class VersionNode(Node):
         try:
             version = fileobject.version_generate(version_suffix)
             return version.url
-        except Exception as e:
+        except Exception:
             if settings.TEMPLATE_DEBUG:
-                raise e
+                raise
         return ""
 
 
@@ -93,9 +93,9 @@ class VersionObjectNode(Node):
         try:
             version = fileobject.version_generate(version_suffix)
             context[self.var_name] = version
-        except Exception as e:
+        except Exception:
             if settings.TEMPLATE_DEBUG:
-                raise e
+                raise
             context[self.var_name] = ""
         return ""
 
