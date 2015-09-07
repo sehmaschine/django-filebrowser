@@ -107,7 +107,7 @@ class VersionTemplateTagsTests(TestCase):
         Test scale/crop functionality
         scale_and_crop(im, width, height, opts)
 
-        self.f_image: width = 1000, height = 750
+        self.f_image (original): width 1000, height 750
         """
 
         # new width 500 > 500/375
@@ -121,6 +121,8 @@ class VersionTemplateTagsTests(TestCase):
         self.assertEqual(version.size[0], 500)
         self.assertEqual(version.size[1], 375)
 
+        # SIZE TOO BIG, BUT NO UPSCALE DEFINED
+
         # new width 1500, no upscale > False
         im = Image.open(self.f_image.path_full)
         version = scale_and_crop(im, 1500, "", "")
@@ -129,6 +131,12 @@ class VersionTemplateTagsTests(TestCase):
         im = Image.open(self.f_image.path_full)
         version = scale_and_crop(im, "", 1125, "")
         self.assertEqual(version, False)
+        # new width 1500, height 1125, no upscale > False
+        im = Image.open(self.f_image.path_full)
+        version = scale_and_crop(im, 1500, 1125, "")
+        self.assertEqual(version, False)
+
+        # SIZE TOO BIG, UPSCALE DEFINED
 
         # new width 1500, upscale > 1500/1125
         im = Image.open(self.f_image.path_full)
@@ -140,18 +148,73 @@ class VersionTemplateTagsTests(TestCase):
         version = scale_and_crop(im, "", 1125, "upscale")
         self.assertEqual(version.size[0], 1500)
         self.assertEqual(version.size[1], 1125)
-
-        # new width 500 and height 500 > 500/375
+        # new width 1500, new height 1125, upscale > 1500/1125
         im = Image.open(self.f_image.path_full)
-        version = scale_and_crop(im, 500, 500, "")
+        version = scale_and_crop(im, 1500, 1125, "upscale")
+        self.assertEqual(version.size[0], 1500)
+        self.assertEqual(version.size[1], 1125)
+        # new width 1500, new height 1125, upscale > 1500/1125
+        im = Image.open(self.f_image.path_full)
+        version = scale_and_crop(im, 1500, 0, "upscale")
+        self.assertEqual(version.size[0], 1500)
+        self.assertEqual(version.size[1], 1125)
+
+        # SIZE TOO SMALL, UPSCALE DEFINED
+
+        # width too small, no upscale
+        im = Image.open(self.f_image.path_full)
+        version = scale_and_crop(im, 500, "", "upscale")
         self.assertEqual(version.size[0], 500)
         self.assertEqual(version.size[1], 375)
+        # height too small, no upscale
+        im = Image.open(self.f_image.path_full)
+        version = scale_and_crop(im, "", 375, "upscale")
+        self.assertEqual(version.size[0], 500)
+        self.assertEqual(version.size[1], 375)
+
+        # CROPPING
 
         # new width 500 and height 500 w. crop > 500/500
         im = Image.open(self.f_image.path_full)
         version = scale_and_crop(im, 500, 500, "crop")
         self.assertEqual(version.size[0], 500)
         self.assertEqual(version.size[1], 500)
+        # new width 1500 and height 1500 w. crop > false (upscale missing)
+        im = Image.open(self.f_image.path_full)
+        version = scale_and_crop(im, 1500, 1500, "crop")
+        self.assertEqual(version, False)
+        # new width 1500 and height 1500 w. crop > false (upscale missing)
+        im = Image.open(self.f_image.path_full)
+        version = scale_and_crop(im, 1500, 1500, "crop,upscale")
+        self.assertEqual(version.size[0], 1500)
+        self.assertEqual(version.size[1], 1500)
+
+        # SPECIAL CASES
+
+        # new width 500 and height 1125
+        # new width is smaller than original, but new height is bigger
+        # width has higher priority
+        im = Image.open(self.f_image.path_full)
+        version = scale_and_crop(im, 500, 1125, "")
+        self.assertEqual(version.size[0], 500)
+        self.assertEqual(version.size[1], 375)
+        # same with upscale
+        im = Image.open(self.f_image.path_full)
+        version = scale_and_crop(im, 500, 1125, "upscale")
+        self.assertEqual(version.size[0], 500)
+        self.assertEqual(version.size[1], 375)
+        # new width 1500 and height 375
+        # new width is bigger than original, but new height is smaller
+        # height has higher priority
+        im = Image.open(self.f_image.path_full)
+        version = scale_and_crop(im, 1500, 375, "")
+        self.assertEqual(version.size[0], 500)
+        self.assertEqual(version.size[1], 375)
+        # same with upscale
+        im = Image.open(self.f_image.path_full)
+        version = scale_and_crop(im, 1500, 375, "upscale")
+        self.assertEqual(version.size[0], 500)
+        self.assertEqual(version.size[1], 375)
 
 
     def test_version(self):

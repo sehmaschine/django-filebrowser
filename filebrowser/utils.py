@@ -63,12 +63,8 @@ def scale_and_crop(im, width, height, opts):
 
     x, y = [float(v) for v in im.size]
 
-    # version would be bigger than original
-    # no need to create this version, because "upscale" isn't defined.
     if 'upscale' not in opts:
-        if x < float(width or 0):
-            return False
-        if y < float(height or 0):
+        if (x < width or not x) and (y < height or not y):
             return False
 
     if width:
