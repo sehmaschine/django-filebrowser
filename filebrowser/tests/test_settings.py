@@ -5,7 +5,6 @@ import os
 
 # DJANGO IMPORTS
 from django.test import TestCase
-from django.contrib.auth.models import User
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import *

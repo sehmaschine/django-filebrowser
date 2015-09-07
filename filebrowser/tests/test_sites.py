@@ -34,7 +34,7 @@ APP_NAME = 'filebrowser'
 TESTS_PATH = os.path.dirname(os.path.abspath(__file__))
 FILEBROWSER_PATH = os.path.split(TESTS_PATH)[0]
 
-### TEST FUNCTIONS
+# TEST FUNCTIONS
 
 
 def test_browse(test):
@@ -161,7 +161,7 @@ def test_overwrite(test):
     url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage.jpg'})])
 
     with open(os.path.join(FILEBROWSER_PATH, 'static/filebrowser/img/testimage.jpg'), "rb") as f:
-        #file_size = os.path.getsize(f.name)
+        # file_size = os.path.getsize(f.name)
         test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
     # Check files
@@ -174,7 +174,7 @@ def test_overwrite(test):
     url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage.jpg'})])
 
     with open(os.path.join(FILEBROWSER_PATH, 'static/filebrowser/img/testimage.jpg'), "rb") as f:
-        #file_size = os.path.getsize(f.name)
+        # file_size = os.path.getsize(f.name)
         test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
     # Check files
@@ -365,10 +365,10 @@ def test_delete(test):
     test.tmpdir = None
 
 
-### INSTANCE METHODS
+# INSTANCE METHODS
 
-## setUp, tearDown, and runTest methods for the dynamically created
-## test cases (they will become instance methods)
+# setUp, tearDown, and runTest methods for the dynamically created
+# test cases (they will become instance methods)
 
 def setUp(self):
     # Create a site_tester user
@@ -403,14 +403,14 @@ def runTest(self):
     test_delete_confirm(self)
     test_delete(self)
 
-### CREATION OF TEST CASES
+# CREATION OF TEST CASES
 
 # Get the names of all deployed filebrowser sites with the given
 all_sites = get_resolver(get_urlconf()).app_dict[APP_NAME]
 
 this_module = sys.modules[__name__]
 
-## Create a test class for each deployed filebrowser site
+# Create a test class for each deployed filebrowser site
 for site in all_sites:
     print('Creating Test for the FileBrowser site:', site)
     # Create a subclass of TestCase

@@ -2,7 +2,6 @@
 
 # PYTHON IMPORTS
 import os
-import ntpath
 import posixpath
 import shutil
 import sys
@@ -10,16 +9,12 @@ import sys
 # DJANGO IMPORTS
 from django.conf import settings
 from django.test import TestCase
-from django.contrib.auth.models import User
-from django.utils.encoding import filepath_to_uri
-from django.template import Context, Template, TemplateSyntaxError
 from django.core.management import call_command
 from django.utils.six import StringIO
 
 # FILEBROWSER IMPORTS
 import filebrowser
-from filebrowser.base import FileObject, FileListing
-from filebrowser.templatetags.fb_versions import version, version_object, version_setting
+from filebrowser.base import FileObject
 from filebrowser.sites import site
 from filebrowser.management.commands import fb_version_generate, fb_version_remove
 

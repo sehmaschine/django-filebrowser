@@ -8,8 +8,6 @@ import shutil
 
 # DJANGO IMPORTS
 from django.test import TestCase
-from django.contrib.auth.models import User
-from django.utils.encoding import filepath_to_uri
 
 # FILEBROWSER IMPORTS
 import filebrowser
@@ -261,20 +259,20 @@ class FileObjectAttributeTests(TestCase):
         # is_empty
         """
         # test with image
-        #self.assertEqual(self.f_image.directory, "fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg")  # equals path_relative_directory
-        #self.assertEqual(self.f_image.folder, "fb_tmp_dir/fb_tmp_dir_sub")  # equals dirname
+        # self.assertEqual(self.f_image.directory, "fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg")  # equals path_relative_directory
+        # self.assertEqual(self.f_image.folder, "fb_tmp_dir/fb_tmp_dir_sub")  # equals dirname
         self.assertEqual(self.f_image.is_folder, False)
         self.assertEqual(self.f_image.is_empty, False)
 
         # test with folder
-        #self.assertEqual(self.f_folder.directory, "fb_tmp_dir/fb_tmp_dir_sub")  # equals path_relative_directory
-        #self.assertEqual(self.f_folder.folder, "fb_tmp_dir")  # equals dirname
+        # self.assertEqual(self.f_folder.directory, "fb_tmp_dir/fb_tmp_dir_sub")  # equals path_relative_directory
+        # self.assertEqual(self.f_folder.folder, "fb_tmp_dir")  # equals dirname
         self.assertEqual(self.f_folder.is_folder, True)
         self.assertEqual(self.f_folder.is_empty, False)
 
         # test with alternative folder
-        #self.assertEqual(self.f_folder_alt.directory, "fb_tmp_dir/fb_tmp_dir_sub/xxx")  # equals path_relative_directory
-        #self.assertEqual(self.f_folder_alt.folder, "fb_tmp_dir/fb_tmp_dir_sub")  # equals dirname
+        # self.assertEqual(self.f_folder_alt.directory, "fb_tmp_dir/fb_tmp_dir_sub/xxx")  # equals path_relative_directory
+        # self.assertEqual(self.f_folder_alt.folder, "fb_tmp_dir/fb_tmp_dir_sub")  # equals dirname
         self.assertEqual(self.f_folder_alt.is_folder, True)
         self.assertEqual(self.f_folder_alt.is_empty, True)
 
@@ -301,7 +299,7 @@ class FileObjectAttributeTests(TestCase):
         }
         filebrowser.base.ADMIN_VERSIONS = ['large']
         # expected test results
-        version_list = ['fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg', 'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg',]
+        version_list = ['fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg', 'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
         admin_version_list = ['fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
 
         self.assertEqual(self.f_image.is_version, False)
@@ -583,8 +581,8 @@ class FileListingTests(TestCase):
         """
         self.assertEqual(self.f_listing_file.walk(), [])
         self.assertEqual(list(self.f_listing.walk()), [u'fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg', u'fb_tmp_dir/fb_tmp_dir_sub', u'fb_tmp_dir', u'testimage.jpg'])
-        self.assertEqual(list(f.path for f in self.f_listing.files_walk_total()),  [u'fb_test_directory/testimage.jpg', u'fb_test_directory/fb_tmp_dir', u'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub', u'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg'])
-        self.assertEqual(list(f.path for f in self.f_listing.files_walk_filtered()),  [u'fb_test_directory/testimage.jpg', u'fb_test_directory/fb_tmp_dir', u'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub', u'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg'])
+        self.assertEqual(list(f.path for f in self.f_listing.files_walk_total()), [u'fb_test_directory/testimage.jpg', u'fb_test_directory/fb_tmp_dir', u'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub', u'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg'])
+        self.assertEqual(list(f.path for f in self.f_listing.files_walk_filtered()), [u'fb_test_directory/testimage.jpg', u'fb_test_directory/fb_tmp_dir', u'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub', u'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg'])
         self.assertEqual(self.f_listing.results_walk_total(), 4)
         self.assertEqual(self.f_listing.results_walk_filtered(), 4)
 
