@@ -18,7 +18,7 @@ Installation and Setup
 
 .. toctree::
    :maxdepth: 3
-   
+
    quickstart
    settings
 
@@ -27,7 +27,7 @@ API
 
 .. toctree::
    :maxdepth: 4
-   
+
    api
 
 Fields & Widgets
@@ -35,7 +35,7 @@ Fields & Widgets
 
 .. toctree::
    :maxdepth: 3
-   
+
    fieldswidgets
 
 Admin Interface
@@ -51,7 +51,7 @@ Image Versions
 
 .. toctree::
    :maxdepth: 3
-   
+
    versions
 
 Help
@@ -59,7 +59,7 @@ Help
 
 .. toctree::
    :maxdepth: 2
-   
+
    help
    changelog
 
@@ -90,7 +90,7 @@ Use the `FileBrowser Google Group <http://groups.google.com/group/django-filebro
 Versions and Compatibility
 --------------------------
 
-* FileBrowser 3.5.8 (Development Version, not yet released, see Branch Stable/3.5.x)
-* FileBrowser 3.5.7 (September 10th, 2014): Compatible with Django 1.4/1.5/1.6/1.7
+* FileBrowser 3.5.9 (Development Version, not yet released, see Branch Stable/3.5.x)
+* FileBrowser 3.5.8 (September 7th, 2014): Compatible with Django 1.4/1.5/1.6/1.7
 
 Older versions are available at GitHub, but are not supported anymore.

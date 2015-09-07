@@ -31,7 +31,7 @@ https://www.transifex.com/projects/p/django-filebrowser/
 Releases
 --------
 
-* FileBrowser 3.5.8 (Development Version, not yet released, see Branch Stable/3.5.x)
-* FileBrowser 3.5.7 (September 10th, 2014): Compatible with Django 1.4/1.5/1.6/1.7
+* FileBrowser 3.5.9 (Development Version, not yet released, see Branch Stable/3.5.x)
+* FileBrowser 3.5.8 (September 7th, 2014): Compatible with Django 1.4/1.5/1.6/1.7
 
 Older versions are available at GitHub, but are not supported anymore.
