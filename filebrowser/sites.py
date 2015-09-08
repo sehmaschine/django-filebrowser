@@ -209,11 +209,7 @@ class FileBrowserSite(object):
 
     def get_urls(self):
         "URLs for a filebrowser.site"
-        try:
-            from django.conf.urls import url, patterns
-        except ImportError:
-            # for Django version less then 1.4
-            from django.conf.urls.defaults import url, patterns
+        from django.conf.urls import url, patterns
 
         # filebrowser urls (views)
         urlpatterns = patterns(
