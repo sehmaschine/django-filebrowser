@@ -54,7 +54,8 @@ When using the FileBrowser with the admin interface, you need to define ``ADMIN_
 Versions and the Frontend
 -------------------------
 
-With your templates, you have two different tags to choose from: ``version`` and ``version_object``. With both tags, the version will be generated if it doesn't already exist OR if the original image is newer than the version. In order to update an image, you just overwrite the original image and the versions will be generated automatically (as you request them within your template).
+With the templatetag ``version`` a version will be generated if it doesn't already exist OR if the original image is newer than the version.
+In order to update an image, you just overwrite the original image and the versions will be generated automatically (as you request them within your template).
 
 A Model example:
 
@@ -65,7 +66,7 @@ A Model example:
     class BlogEntry(models.Model):
         image = FileBrowseField("Image", max_length=200, blank=True, null=True)
 
-With your templates, use ``version`` if you simply need to retrieve the URL or ``version_object`` if you need to get a :ref:`fileobject`:
+With your templates, use ``version`` if you simply need to retrieve the URL or ``version as var`` if you need to get a :ref:`fileobject`:
 
 .. code-block:: html
 
@@ -75,8 +76,8 @@ With your templates, use ``version`` if you simply need to retrieve the URL or `
     <!-- get the url with version -->
     <img src="{% version blogentry.image 'medium' %}" />
 
-    <!-- get a fileobject with version_object -->
-    {% version_object blogentry.image 'medium' as version_medium %}
+    <!-- get a fileobject with version -->
+    {% version blogentry.image 'medium' as version_medium %}
     {{ version_medium.width }}
     <img src="{{ version_medium }}" />
 
@@ -89,6 +90,15 @@ Retrieves/Generates a version and returns an URL:
 
     {% version model.field_name version_prefix %}
 
+Retrieves/Generates a version and returns a FileObject:
+
+.. code-block:: html
+
+    {% version model.field_name version_prefix as variable %}
+
+.. note::
+    ``version_prefix`` can either be a string or a variable. If ``version_prefix`` is a string, use quotes.
+
 Templatetag ``version_object``
 ++++++++++++++++++++++++++++++
 
@@ -98,8 +108,8 @@ Retrieves/Generates a version and returns a FileObject:
 
     {% version_object model.field_name version_prefix as variable %}
 
-.. note::
-    With both templatetags, ``version_prefix`` can either be a string or a variable. If ``version_prefix`` is a string, use quotes.
+.. warning::
+    Will be removed with 3.7.
 
 Versions in Views
 -----------------

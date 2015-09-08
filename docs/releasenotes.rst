@@ -18,6 +18,12 @@ Updates
 * The settings ``MEDIA_ROOT`` and ``MEDIA_URL`` have been removed.
 * File listing is not being filtered if ``VERSIONS_BASEDIR`` is being used.
 * Removed ``Folder`` from ``EXTENSIONS``.
+* Templatetag ``version`` can now be used as ``version ... as varname`` (instead of ``version_object``).
+
+Depreciations:
+
+* ``version_object`` will be removed with 3.7
+* Defining a ``VERSIONS_BASEDIR`` outside of site.directory will be mandatory with 3.7
 
 Update from FileBrowser 3.5.x
 -----------------------------
