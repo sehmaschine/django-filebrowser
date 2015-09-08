@@ -434,6 +434,8 @@ class FileObject():
     @property
     def is_version(self):
         "True if file is a version, false otherwise"
+        # FIXME: with 3.7, check for VERSIONS_BASEDIR as well in order to make sure
+        # it is actually a version (do not rely on the file ending only).
         tmp = self.filename_root.split("_")
         if tmp[len(tmp) - 1] in VERSIONS:
             return True
