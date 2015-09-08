@@ -17,28 +17,6 @@ All settings can be defined in your projects settings-file. In that case, you ha
 Main URL/Paths Settings
 -----------------------
 
-MEDIA_ROOT
-^^^^^^^^^^
-
-.. warning::
-
-    Will be removed with version 3.6.0. Since 3.4, MEDIA_ROOT is defined with your storage engine.
-
-The absolute path to the directory that holds the media-files you want to browse::
-
-    MEDIA_ROOT = getattr(settings, "FILEBROWSER_MEDIA_ROOT", settings.MEDIA_ROOT)
-
-MEDIA_URL
-^^^^^^^^^
-
-.. warning::
-
-    Will be removed with version 3.6.0. Since 3.4, MEDIA_URL is defined with your storage engine.
-
-URL that handles the media served from MEDIA_ROOT::
-
-    MEDIA_URL = getattr(settings, "FILEBROWSER_MEDIA_URL", settings.MEDIA_URL)
-
 DIRECTORY (relative to storage location)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -50,6 +28,9 @@ You can override this setting on a per–site basis::
 
     from filebrowser.sites import site
     site.directory = "uploads/"
+
+.. warning::
+    If you define site.directory, make sure to use a trailing slash.
 
 .. _settingsextensionsformats:
 
@@ -93,7 +74,7 @@ VERSIONS_BASEDIR (relative to storage location)
 
 Directory to save image versions (and thumbnails). If no directory is given, versions are stored at the same location as the original image::
 
-    VERSIONS_BASEDIR = getattr(settings, 'FILEBROWSER_VERSIONS_BASEDIR', '')
+    VERSIONS_BASEDIR = getattr(settings, 'FILEBROWSER_VERSIONS_BASEDIR', '_versions')
 
 We do recommend the following structure for media files::
 
@@ -103,9 +84,6 @@ We do recommend the following structure for media files::
 
 .. warning::
     If VERSIONS_BASEDIR is within site.directory it will be browsed.
-
-.. warning::
-    With the next major release (3.6.0), the default setting will be "_versions".
 
 VERSIONS
 ^^^^^^^^
