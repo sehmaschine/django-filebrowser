@@ -9,7 +9,7 @@ FileObject
 ==========
 
 .. py:class:: FileObject(path, site=None)
-    
+
     An object representing a media file.
 
     :param path: Relative path to a location within `site.storage.location`.
@@ -198,14 +198,6 @@ Folder attributes
 ^^^^^^^^^^^^^^^^^
 
 The folder attributes make sense when the ``FileObject`` represents a directory (not a file).
-
-.. attribute:: directory
-.. deprecated:: 3.5.3
-   Use `path_relative_directory` instead.
-
-.. attribute:: folder
-.. deprecated:: 3.5.3
-   Use `dirname` instead.
 
 .. attribute:: is_folder
 
