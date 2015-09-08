@@ -12,7 +12,6 @@ DIRECTORY = getattr(settings, "FILEBROWSER_DIRECTORY", 'uploads/')
 # EXTENSIONS AND FORMATS
 # Allowed Extensions for File Upload. Lower case is important.
 EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
-    'Folder': [''],
     'Image': ['.jpg', '.jpeg', '.gif', '.png', '.tif', '.tiff'],
     'Document': ['.pdf', '.doc', '.rtf', '.txt', '.xls', '.csv', '.docx'],
     'Video': ['.mov', '.mp4', '.m4v', '.webm', '.wmv', '.mpeg', '.mpg', '.avi', '.rm'],
@@ -22,7 +21,7 @@ EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
 # This has to be a subset of EXTENSIONS.
 # e.g., add ?type=image to the browse-URL ...
 SELECT_FORMATS = getattr(settings, "FILEBROWSER_SELECT_FORMATS", {
-    'file': ['Folder', 'Image', 'Document', 'Video', 'Audio'],
+    'file': ['Image', 'Document', 'Video', 'Audio'],
     'image': ['Image'],
     'document': ['Document'],
     'media': ['Video', 'Audio'],

@@ -21,6 +21,7 @@
                         <label>{% trans "By Type" %}</label>
                         <select class="grp-filter-choice">
                             <option value="{% query_string "" "filter_type,p" %}">{% trans "All" %}</option>
+                            <option value="{% query_string "" "filter_type,p" %}&amp;filter_type=Folder"{% if query.filter_type == 'Folder' %} selected="selected"{% endif %}>{% trans "Folder" %}</option>
                             {% for extension in settings_var.EXTENSIONS %}
                             <option value="{% query_string "" "filter_type,p" %}&amp;filter_type={{ extension }}"{% if query.filter_type == extension %} selected="selected"{% endif %}>{% trans extension %}</option>
                             {% endfor %}
