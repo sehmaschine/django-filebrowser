@@ -21,7 +21,7 @@ FileBrowseField
     :param site: A FileBrowser site (defaults to the main site), see :ref:`site`.
     :param directory: Directory to browse when clicking the search icon.
     :param extensions: List of allowed extensions, see :ref:`settingsextensionsformats`.
-    :param format: A key from SELECT_FORMATS in order to restrict the selection to specific filetypes, , see :ref:`settingsextensionsformats`.
+    :param format: A key from SELECT_FORMATS in order to restrict the selection to specific filetypes, see :ref:`settingsextensionsformats`.
 
 For example:
 

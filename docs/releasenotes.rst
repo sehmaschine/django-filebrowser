@@ -13,8 +13,11 @@ FileBrowser 3.6 is compatible with Django 1.8 as well as Grappelli 2.7.
 Updates
 -------
 
+* Compatibility with Django 1.8 and Grappelli 2.7
 * The setting ``VERSIONS_BASEDIR`` is now ``_versions`` by default.
 * The settings ``MEDIA_ROOT`` and ``MEDIA_URL`` have been removed.
+* File listing is not being filtered if ``VERSIONS_BASEDIR`` is being used.
+* Removed ``Folder`` from ``EXTENSIONS``.
 
 Update from FileBrowser 3.5.x
 -----------------------------

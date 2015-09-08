@@ -43,7 +43,6 @@ EXTENSIONS
 Allowed extensions for file upload::
 
     EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
-        'Folder': [''],
         'Image': ['.jpg','.jpeg','.gif','.png','.tif','.tiff'],
         'Document': ['.pdf','.doc','.rtf','.txt','.xls','.csv'],
         'Video': ['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
@@ -56,7 +55,7 @@ SELECT_FORMATS
 Set different Options for selecting elements from the FileBrowser::
 
     SELECT_FORMATS = getattr(settings, "FILEBROWSER_SELECT_FORMATS", {
-        'file': ['Folder','Image','Document','Video','Audio'],
+        'file': ['Image','Document','Video','Audio'],
         'image': ['Image'],
         'document': ['Document'],
         'media': ['Video','Audio'],
@@ -83,7 +82,7 @@ We do recommend the following structure for media files::
         └── uploads  # site.directory
 
 .. warning::
-    If VERSIONS_BASEDIR is within site.directory it will be browsed.
+    With version 3.7, defining a VERSIONS_BASEDIR outside of site.directory is mandatory.
 
 VERSIONS
 ^^^^^^^^
