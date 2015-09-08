@@ -28,7 +28,7 @@ except ImportError:
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import STRICT_PIL, DIRECTORY, EXTENSIONS, SELECT_FORMATS, ADMIN_VERSIONS, ADMIN_THUMBNAIL, MAX_UPLOAD_SIZE,\
-    NORMALIZE_FILENAME, CONVERT_FILENAME, SEARCH_TRAVERSE, EXCLUDE, VERSIONS, EXTENSION_LIST, DEFAULT_SORTING_BY, DEFAULT_SORTING_ORDER,\
+    NORMALIZE_FILENAME, CONVERT_FILENAME, SEARCH_TRAVERSE, EXCLUDE, VERSIONS, VERSIONS_BASEDIR, EXTENSION_LIST, DEFAULT_SORTING_BY, DEFAULT_SORTING_ORDER,\
     LIST_PER_PAGE, OVERWRITE_EXISTING, DEFAULT_PERMISSIONS
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileListing, FileObject
@@ -282,9 +282,12 @@ class FileBrowserSite(object):
         filter_re = []
         for exp in EXCLUDE:
             filter_re.append(re.compile(exp))
-        for k, v in VERSIONS.items():
-            exp = (r'_%s(%s)$') % (k, '|'.join(EXTENSION_LIST))
-            filter_re.append(re.compile(exp, re.IGNORECASE))
+
+        # do not filter if VERSIONS_BASEDIR is being used
+        if not VERSIONS_BASEDIR:
+            for k, v in VERSIONS.items():
+                exp = (r'_%s(%s)$') % (k, '|'.join(EXTENSION_LIST))
+                filter_re.append(re.compile(exp, re.IGNORECASE))
 
         def filter_browse(item):
             "Defining a browse filter"
