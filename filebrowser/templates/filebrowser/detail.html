@@ -27,6 +27,10 @@
                     }
                 }
             });
+            // remove edit module if no actions are given
+            if ($("select#id_custom_action").find("option").length <= 1) {
+                $("fieldset#fieldset_edit").hide();
+            }
         });
     })(grp.jQuery);
     </script>
@@ -57,7 +61,7 @@
                 </div>
             </div>
         </fieldset>
-        <fieldset class="grp-module grp-collapse grp-open">
+        <fieldset class="grp-module grp-collapse grp-open" id="fieldset_edit">
             <h2 class="grp-collapse-handler">{% trans "Edit" %}</h2>
             <div class="grp-row {% if form.custom_action.errors %}grp-errors{% endif %}">
                 <div class="l-2c-fluid l-d-4">
