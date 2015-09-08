@@ -5,6 +5,7 @@ import os
 
 # DJANGO IMPORTS
 from django.test import TestCase
+from django.conf import settings
 
 # FILEBROWSER IMPORTS
 from filebrowser.settings import *
@@ -15,17 +16,11 @@ class SettingsTests(TestCase):
     def setUp(self):
         pass
 
-    def test_media_root(self):
-        """
-        Test that ``MEDIA_ROOT`` exists.
-        """
-        self.assertEqual(os.path.exists(MEDIA_ROOT), 1)
-
     def test_directory(self):
         """
         Test that ``MEDIA_ROOT`` plus ``DIRECTORY`` exists.
         """
-        self.assertEqual(os.path.exists(os.path.join(MEDIA_ROOT, DIRECTORY)), 1)
+        self.assertEqual(os.path.exists(os.path.join(settings.MEDIA_ROOT, DIRECTORY)), 1)
         # Check for trailing slash
         self.assertEqual(os.path.basename(DIRECTORY), '')
 
@@ -33,7 +28,7 @@ class SettingsTests(TestCase):
         """
         Test that ``MEDIA_ROOT`` plus ``VERSIONS_BASEDIR`` exists.
         """
-        self.assertEqual(os.path.exists(os.path.join(MEDIA_ROOT, VERSIONS_BASEDIR)), 1)
+        self.assertEqual(os.path.exists(os.path.join(settings.MEDIA_ROOT, VERSIONS_BASEDIR)), 1)
 
     def test_admin_thumbnail(self):
         """
@@ -53,7 +48,7 @@ class SettingsTests(TestCase):
         """
         Test if ``PLACEHOLDER`` exists.
         """
-        self.assertEqual(os.path.exists(os.path.join(MEDIA_ROOT, PLACEHOLDER)), 1)
+        self.assertEqual(os.path.exists(os.path.join(settings.MEDIA_ROOT, PLACEHOLDER)), 1)
 
     def test_show_placeholder(self):
         """
