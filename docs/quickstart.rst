@@ -58,7 +58,7 @@ Settings
 Check the :ref:`settings`.
 
 .. note::
-    You need to add a folder "uploads" within ``site.storage.location`` when using the default settings. And we strongly recommend to define a ``VERSIONS_BASEDIR``.
+    You need to add a folder "uploads" within ``site.storage.location`` when using the default settings.
 
 Testing
 -------
