@@ -4,13 +4,6 @@
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
-# PATH AND URL SETTINGS
-
-# Main Media Settings
-# WARNING: FILEBROWSER_MEDIA_ROOT and FILEBROWSER_MEDIA_URL will be removed with Filebrowser 3.6.
-# Read the documentation on FileBrowser's storages (http://readthedocs.org/docs/django-filebrowser/en/latest/file_storages.html)
-MEDIA_ROOT = getattr(settings, "FILEBROWSER_MEDIA_ROOT", settings.MEDIA_ROOT)
-MEDIA_URL = getattr(settings, "FILEBROWSER_MEDIA_URL", settings.MEDIA_URL)
 # Main FileBrowser Directory. This has to be a directory within MEDIA_ROOT.
 # Leave empty in order to browse all files under MEDIA_ROOT.
 # DO NOT USE A SLASH AT THE BEGINNING, DO NOT FORGET THE TRAILING SLASH AT THE END.
@@ -40,7 +33,7 @@ SELECT_FORMATS = getattr(settings, "FILEBROWSER_SELECT_FORMATS", {
 # Directory to Save Image Versions (and Thumbnails). Relative to site.storage.location.
 # If no directory is given, versions are stored within the Image directory.
 # VERSION URL: VERSIONS_BASEDIR/original_path/originalfilename_versionsuffix.extension
-VERSIONS_BASEDIR = getattr(settings, 'FILEBROWSER_VERSIONS_BASEDIR', '')
+VERSIONS_BASEDIR = getattr(settings, 'FILEBROWSER_VERSIONS_BASEDIR', '_versions')
 # Versions Format. Available Attributes: verbose_name, width, height, opts
 VERSIONS = getattr(settings, "FILEBROWSER_VERSIONS", {
     'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},

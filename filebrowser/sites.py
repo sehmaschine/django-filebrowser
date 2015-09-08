@@ -65,7 +65,7 @@ def get_site_dict(app_name='filebrowser'):
     Return a dict with all *deployed* FileBrowser sites that have
     a given app_name.
     """
-    if not app_name in _sites_cache:
+    if app_name not in _sites_cache:
         return {}
     # Get names of all deployed filebrowser sites with a give app_name
     deployed = get_resolver(get_urlconf()).app_dict[app_name]
@@ -77,7 +77,7 @@ def register_site(app_name, site_name, site):
     """
     Add a site into the site dict.
     """
-    if not app_name in _sites_cache:
+    if app_name not in _sites_cache:
         _sites_cache[app_name] = {}
     _sites_cache[app_name][site_name] = site
 
@@ -93,7 +93,7 @@ def get_default_site(app_name='filebrowser'):
 
     # Django's default name resolution method (see django.core.urlresolvers.reverse())
     app_list = resolver.app_dict[app_name]
-    if not name in app_list:
+    if name not in app_list:
         name = app_list[0]
 
     return get_site_dict()[name]
@@ -124,11 +124,11 @@ def get_filterdate(filter_date, date_time):
     date_day = strftime("%d", gmtime(date_time))
     if filter_date == 'today' and int(date_year) == int(localtime()[0]) and int(date_month) == int(localtime()[1]) and int(date_day) == int(localtime()[2]):
         returnvalue = 'true'
-    elif filter_date == 'thismonth' and date_time >= time()-2592000:
+    elif filter_date == 'thismonth' and date_time >= time() - 2592000:
         returnvalue = 'true'
     elif filter_date == 'thisyear' and int(date_year) == int(localtime()[0]):
         returnvalue = 'true'
-    elif filter_date == 'past7days' and date_time >= time()-604800:
+    elif filter_date == 'past7days' and date_time >= time() - 604800:
         returnvalue = 'true'
     elif filter_date == '':
         returnvalue = 'true'
@@ -493,7 +493,7 @@ class FileBrowserSite(object):
                     if isinstance(action_response, HttpResponse):
                         return action_response
                     if "_continue" in request.POST:
-                        redirect_url = reverse("filebrowser:fb_detail", current_app=self.name) + query_helper(query, "filename="+new_name, "filename")
+                        redirect_url = reverse("filebrowser:fb_detail", current_app=self.name) + query_helper(query, "filename=" + new_name, "filename")
                     else:
                         redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, "", "filename")
                     return HttpResponseRedirect(redirect_url)
