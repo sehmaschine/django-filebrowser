@@ -40,11 +40,11 @@ Add the |filebrowser| site to your url-patterns (before any admin-urls):
 
     from filebrowser.sites import site
 
-    urlpatterns = patterns('',
-       (r'^admin/filebrowser/', include(site.urls)),
-       (r'^grappelli/', include('grappelli.urls')),
-       (r'^admin/', include(admin.site.urls)),
-    )
+    urlpatterns = patterns[
+       url(r'^admin/filebrowser/', include(site.urls)),
+       url(r'^grappelli/', include('grappelli.urls')),
+       url(r'^admin/', include(admin.site.urls)),
+    ]
 
 Collect the static files (please refer to the `Staticfiles Documentation <http://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/>`_ for more information):
 

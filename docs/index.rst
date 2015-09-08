@@ -90,8 +90,15 @@ Use the `FileBrowser Google Group <http://groups.google.com/group/django-filebro
 Versions and Compatibility
 --------------------------
 
-* FileBrowser 3.6.1 (Development Version, not yet released, see Branch Stable/3.6.x)
-* FileBrowser 3.5.9 (Development Version, not yet released, see Branch Stable/3.5.x)
-* FileBrowser 3.5.8 (September 7th, 2014): Compatible with Django 1.4/1.5/1.6/1.7
+**FileBrowser is always developed against the latest stable Django release and is NOT tested with Djangos trunk.**
+
+* FileBrowser 3.6.1 (September 9th, 2015): Compatible with Django 1.8
+* FileBrowser 3.5.8 (September 7th, 2015): Compatible with Django 1.4/1.5/1.6/1.7
+
+Current development branches:
+
+* FileBrowser 3.6.2 (Development Version for Django >= 1.8, see Branch Stable/3.6.x)
+* FileBrowser 3.5.9 (Development Version for Django <= 1.7, see Branch Stable/3.5.x)
 
 Older versions are available at GitHub, but are not supported anymore.
+Support for 3.5.x is limited to security issues and very important bugfixes.
