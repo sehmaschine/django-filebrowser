@@ -27,28 +27,19 @@ except ImportError:
     from django.utils.encoding import smart_unicode as smart_text
 
 # FILEBROWSER IMPORTS
-from filebrowser.settings import STRICT_PIL, DIRECTORY, EXTENSIONS, SELECT_FORMATS, ADMIN_VERSIONS, ADMIN_THUMBNAIL, MAX_UPLOAD_SIZE,\
+from filebrowser.settings import DIRECTORY, EXTENSIONS, SELECT_FORMATS, ADMIN_VERSIONS, ADMIN_THUMBNAIL, MAX_UPLOAD_SIZE,\
     NORMALIZE_FILENAME, CONVERT_FILENAME, SEARCH_TRAVERSE, EXCLUDE, VERSIONS, VERSIONS_BASEDIR, EXTENSION_LIST, DEFAULT_SORTING_BY, DEFAULT_SORTING_ORDER,\
-    LIST_PER_PAGE, OVERWRITE_EXISTING, DEFAULT_PERMISSIONS
+    LIST_PER_PAGE, OVERWRITE_EXISTING, DEFAULT_PERMISSIONS, UPLOAD_TEMPDIR
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.base import FileListing, FileObject
 from filebrowser.decorators import path_exists, file_exists
-from filebrowser.storage import FileSystemStorageMixin, StorageMixin
+from filebrowser.storage import FileSystemStorageMixin
 from filebrowser.utils import convert_filename
 from filebrowser import signals
 
 # Add some required methods to FileSystemStorage
 if FileSystemStorageMixin not in FileSystemStorage.__bases__:
     FileSystemStorage.__bases__ += (FileSystemStorageMixin,)
-
-# PIL import
-if STRICT_PIL:
-    from PIL import Image
-else:
-    try:
-        from PIL import Image
-    except ImportError:
-        import Image
 
 # JSON import
 try:
@@ -531,9 +522,14 @@ class FileBrowserSite(object):
     def _upload_file(self, request):
         """
         Upload file to the server.
+
+        If temporary is true, we upload to UPLOAD_TEMP_DIR, otherwise
+        we upload to site.directory
         """
         if request.method == "POST":
             folder = request.GET.get('folder', '')
+            temporary = request.GET.get('temporary', '')
+            temp_filename = None
 
             if len(request.FILES) == 0:
                 return HttpResponseBadRequest('Invalid request! No files included.')
@@ -545,13 +541,23 @@ class FileBrowserSite(object):
             fb_uploadurl_re = re.compile(r'^.*(%s)' % reverse("filebrowser:fb_upload", current_app=self.name))
             folder = fb_uploadurl_re.sub('', folder)
 
-            path = os.path.join(self.directory, folder)
+            # temporary upload folder should be outside self.directory
+            if folder == UPLOAD_TEMPDIR and temporary == "true":
+                path = folder
+            else:
+                path = os.path.join(self.directory, folder)
             # we convert the filename before uploading in order
             # to check for existing files/folders
             file_name = convert_filename(filedata.name)
             filedata.name = file_name
             file_path = os.path.join(path, file_name)
             file_already_exists = self.storage.exists(file_path)
+
+            # construct temporary filename by adding the upload folder, because
+            # otherwise we don't have any clue if the file has temporary been
+            # uploaded or not
+            if folder == UPLOAD_TEMPDIR and temporary == "true":
+                temp_filename = os.path.join(folder, file_name)
 
             # Check for name collision with a directory
             if file_already_exists and self.storage.isdir(file_path):
@@ -579,7 +585,7 @@ class FileBrowserSite(object):
             signals.filebrowser_post_upload.send(sender=request, path=folder, file=f, site=self)
 
             # let Ajax Upload know whether we saved it or not
-            ret_json = {'success': True, 'filename': f.filename}
+            ret_json = {'success': True, 'filename': f.filename, 'temp_filename': temp_filename}
             return HttpResponse(json.dumps(ret_json), content_type="application/json")
 
 storage = DefaultStorage()

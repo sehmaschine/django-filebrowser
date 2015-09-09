@@ -4,8 +4,7 @@
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
-# Main FileBrowser Directory. This has to be a directory within MEDIA_ROOT.
-# Leave empty in order to browse all files under MEDIA_ROOT.
+# Main FileBrowser Directory. Relative to site.storage.location.
 # DO NOT USE A SLASH AT THE BEGINNING, DO NOT FORGET THE TRAILING SLASH AT THE END.
 DIRECTORY = getattr(settings, "FILEBROWSER_DIRECTORY", 'uploads/')
 
@@ -95,6 +94,12 @@ SEARCH_TRAVERSE = getattr(settings, "FILEBROWSER_SEARCH_TRAVERSE", False)
 DEFAULT_PERMISSIONS = getattr(settings, "FILEBROWSER_DEFAULT_PERMISSIONS", 0o755)
 # Overwrite existing files on upload
 OVERWRITE_EXISTING = getattr(settings, "FILEBROWSER_OVERWRITE_EXISTING", True)
+
+# UPLOAD
+
+# Directory to Save temporary uploaded files (FileBrowseUploadField)
+# Relative to site.storage.location.
+UPLOAD_TEMPDIR = getattr(settings, 'FILEBROWSER_UPLOAD_TEMPDIR', '_temp')
 
 # EXTRA TRANSLATION STRINGS
 

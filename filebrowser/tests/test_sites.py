@@ -12,6 +12,7 @@ creation of instance methods from functions.
 from __future__ import with_statement
 import os
 import sys
+import json
 
 # DJANGO IMPORTS
 from django.test import TestCase
@@ -23,6 +24,7 @@ except:
     from django.utils.http import urlencode
 
 # FILEBROWSER IMPORTS
+import filebrowser
 import filebrowser.settings
 from filebrowser.settings import VERSIONS, DEFAULT_PERMISSIONS
 from filebrowser.base import FileObject
@@ -130,6 +132,45 @@ def test_do_upload(test):
 
     # Check we get OK response
     test.assertTrue(response.status_code == 200)
+    data = json.loads(response.content)
+    test.assertEqual(data["filename"], "testimage.jpg")
+    test.assertEqual(data["temp_filename"], None)
+
+    # Check the file now exists
+    path = os.path.join(test.tmpdir.path, 'testimage.jpg')
+    test.testfile = FileObject(path, site=test.site)
+    test.assertTrue(test.site.storage.exists(path))
+
+    # Check the file has the correct size
+    test.assertTrue(file_size == test.site.storage.size(path))
+
+    # Check permissions
+    if DEFAULT_PERMISSIONS is not None:
+        permissions_default = oct(DEFAULT_PERMISSIONS)
+        permissions_file = oct(os.stat(test.testfile.path_full).st_mode & 0o777)
+        test.assertTrue(permissions_default == permissions_file)
+
+
+def test_do_temp_upload(test):
+    """
+    Test the temporary upload (used with the FileBrowseUploadField)
+    We use the standard test directory here (no special upload dir needed).
+    """
+
+    filebrowser.sites.UPLOAD_TEMPDIR = test.tmpdir.path_relative_directory
+
+    url = reverse('%s:fb_do_upload' % test.site_name)
+    url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage.jpg', 'temporary': 'true'})])
+
+    with open(os.path.join(FILEBROWSER_PATH, 'static/filebrowser/img/testimage.jpg'), "rb") as f:
+        file_size = os.path.getsize(f.name)
+        response = test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+    # Check we get OK response
+    test.assertTrue(response.status_code == 200)
+    data = json.loads(response.content)
+    test.assertEqual(data["filename"], "testimage.jpg")
+    test.assertEqual(data["temp_filename"], os.path.join(test.tmpdir.path_relative_directory, "testimage.jpg"))
 
     # Check the file now exists
     path = os.path.join(test.tmpdir.path, 'testimage.jpg')
@@ -378,9 +419,11 @@ def setUp(self):
     user.save()
     # Obtain the site object
     self.site = get_site_dict(APP_NAME)[self.site_name]
+    self.original_upload_tempdir = filebrowser.sites.UPLOAD_TEMPDIR
 
 
 def tearDown(self):
+    filebrowser.sites.UPLOAD_TEMPDIR = self.original_upload_tempdir
     # Delete a left-over tmp directories, if there's any
     if hasattr(self, 'tmpdir') and self.tmpdir:
         print("Removing left-over tmp dir:", self.tmpdir.path)
@@ -397,6 +440,7 @@ def runTest(self):
     test_createdir(self)
     test_upload(self)
     test_do_upload(self)
+    test_do_temp_upload(self)
     test_overwrite(self)
     test_convert_normalize(self)
     test_detail(self)
