@@ -21,8 +21,8 @@ Updates
 * Templatetag ``version`` can now be used as ``version ... as varname`` (instead of ``version_object``).
 * New ``FileBrowseUploadField`` (experimental).
 
-Depreciations
--------------
+Upcoming Depreciations (3.7)
+----------------------------
 
 * ``version_object`` will be removed with 3.7
 * Defining a ``VERSIONS_BASEDIR`` outside of site.directory will be mandatory with 3.7
