@@ -8,8 +8,8 @@
 FileListing
 ===========
 
-.. py:class:: FileListing(path, filter_func=None, sorting_by=None, sorting_order=None)
-    
+.. class:: FileListing(path, filter_func=None, sorting_by=None, sorting_order=None)
+
     Returns a list of FileObjects for a server path, see :ref:`fileobject`.
 
     :param path: Relative path to a location within `site.storage.location`.

@@ -8,7 +8,7 @@
 FileObject
 ==========
 
-.. py:class:: FileObject(path, site=None)
+.. class:: FileObject(path, site=None)
 
     An object representing a media file.
 

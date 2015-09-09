@@ -6,14 +6,14 @@
 Fields & Widgets
 ================
 
-The :ref:`filebrowsefield` is a custom model field which returns a :ref:`fileobject`. The widgets :ref:`fileinputwidget` and :ref:`clearablefileinputwidget` are used with the admin app in order to show an additional thumbnail for images.
+The :ref:`filebrowsefield` is a custom model field which returns a :ref:`fileobject`.
 
 .. _filebrowsefield:
 
 FileBrowseField
 ---------------
 
-.. py:class:: FileBrowseField(max_length[, site, directory, extensions, format, **options])
+.. class:: FileBrowseField(max_length[, site, directory, extensions, format, **options])
 
     A subclass of `CharField <https://docs.djangoproject.com/en/1.8/ref/models/fields/#charfield>`_, referencing a media file within.
     Returns a :ref:`fileobject`.
@@ -93,6 +93,9 @@ Subclass of `FileInput <https://docs.djangoproject.com/en/1.8/ref/forms/widgets/
             models.ImageField: {'widget': FileInput},
         }
 
+.. warning::
+    Will be removed with 3.7.
+
 .. _clearablefileinputwidget:
 
 ClearableFileInput
@@ -108,6 +111,9 @@ Subclass of `ClearableFileInput <https://docs.djangoproject.com/en/1.8/ref/forms
         formfield_overrides = {
             models.ImageField: {'widget': ClearableFileInput},
         }
+
+.. warning::
+    Will be removed with 3.7.
 
 Django FileField and the FileBrowser
 ------------------------------------

@@ -18,7 +18,7 @@ The main |filebrowser| admin application is an extension for the Django admin in
 FileBrowser Site
 ----------------
 
-.. py:class:: FileBrowserSite(name=None, app_name='filebrowser', storage=default_storage)
+.. class:: FileBrowserSite(name=None, app_name='filebrowser', storage=default_storage)
 
     Respresents the FileBrowser admin application (similar to Django's admin site).
 

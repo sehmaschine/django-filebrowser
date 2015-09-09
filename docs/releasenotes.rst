@@ -19,11 +19,14 @@ Updates
 * File listing is not being filtered if ``VERSIONS_BASEDIR`` is being used.
 * Removed ``Folder`` from ``EXTENSIONS``.
 * Templatetag ``version`` can now be used as ``version ... as varname`` (instead of ``version_object``).
+* New ``FileBrowseUploadField`` (experimental).
 
-Depreciations:
+Depreciations
+-------------
 
 * ``version_object`` will be removed with 3.7
 * Defining a ``VERSIONS_BASEDIR`` outside of site.directory will be mandatory with 3.7
+* ``FileInput`` and ``ClearableFileInput`` will be removed with 3.7
 
 Update from FileBrowser 3.5.x
 -----------------------------
