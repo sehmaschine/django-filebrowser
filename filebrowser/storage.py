@@ -45,7 +45,7 @@ class StorageMixin(object):
         """
         raise NotImplementedError()
 
-    def setpermission(self, name)
+    def setpermission(self, name):
         """
         Sets file permission
         """
