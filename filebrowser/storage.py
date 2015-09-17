@@ -123,4 +123,7 @@ class S3BotoStorageMixin(StorageMixin):
             item.delete()
 
     def setpermission(self, name):
-        raise NotImplementedError()
+        # Permissions for S3 uploads with django-storages
+        # is set in settings.py with AWS_DEFAULT_ACL.
+        # More info: http://django-common-configs.readthedocs.org/en/latest/configs/storage.html
+        pass
