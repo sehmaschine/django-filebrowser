@@ -568,18 +568,16 @@ class FileBrowserSite(object):
             uploadedfile = handle_file_upload(path, filedata, site=self)
 
             if file_already_exists and OVERWRITE_EXISTING:
-                old_file = smart_text(file_path)
+                file_name = smart_text(file_path)
                 new_file = smart_text(uploadedfile)
-                self.storage.move(new_file, old_file, allow_overwrite=True)
-                full_path = FileObject(smart_text(old_file), site=self).path_full
+                self.storage.move(new_file, file_name, allow_overwrite=True)
             else:
                 file_name = smart_text(uploadedfile)
                 filedata.name = os.path.relpath(file_name, path)
-                full_path = FileObject(smart_text(file_name), site=self).path_full
 
             # set permissions
             if DEFAULT_PERMISSIONS is not None:
-                os.chmod(full_path, DEFAULT_PERMISSIONS)
+                self.storage.setpermission(file_name)
 
             f = FileObject(smart_text(file_name), site=self)
             signals.filebrowser_post_upload.send(sender=request, path=folder, file=f, site=self)
