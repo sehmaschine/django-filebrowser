@@ -5,6 +5,7 @@ import shutil
 from django.conf import settings
 from django.test import TestCase
 from django.template import Context, Template, TemplateSyntaxError
+from mock import patch
 
 from filebrowser.settings import STRICT_PIL, DIRECTORY
 from filebrowser.base import FileObject
@@ -204,30 +205,37 @@ class VersionTemplateTagTests(TestCase):
         c = Context({"obj": F_IMG, "path": "uploads/filebrowser_test/testimagexxx.jpg"})
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, ""))
 
+    @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
+    @patch('filebrowser.templatetags.fb_versions.FORCE_PLACEHOLDER', True)
     def test_force_placeholder_with_existing_image(self, ):
         t = Template('{% load fb_versions %}{% version obj.path suffix %}')
         c = Context({"obj": F_IMG, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/placeholder_test/testimage_large.jpg"))
 
+    @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
+    @patch('filebrowser.templatetags.fb_versions.FORCE_PLACEHOLDER', True)
     def test_force_placeholder_without_existing_image(self):
         t = Template('{% load fb_versions %}{% version obj.path suffix %}')
         c = Context({"obj": F_MISSING, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/placeholder_test/testimage_large.jpg"))
 
+    @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
     def test_no_force_placeholder_with_existing_image(self):
         t = Template('{% load fb_versions %}{% version obj.path suffix %}')
         c = Context({"obj": F_IMG, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/filebrowser_test/testimage_large.jpg"))
 
+    @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
     def test_no_force_placeholder_without_existing_image(self):
         t = Template('{% load fb_versions %}{% version obj.path suffix %}')
         c = Context({"obj": F_MISSING, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/placeholder_test/testimage_large.jpg"))
 
+    # @patch('filebrowser.settings.DEFAULT_PERMISSIONS')
     # def test_permissions(self, mock_permissions):
     #     mock_permissions.return_value = 0o755
     #     permissions_file = oct(os.stat(os.path.join(settings.MEDIA_ROOT, "_versions/filebrowser_test/testimage_large.jpg")).st_mode & 0o777)
@@ -293,6 +301,8 @@ class VersionAsTemplateTagTests(TestCase):
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, ""))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, ""))
 
+    @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
+    @patch('filebrowser.templatetags.fb_versions.FORCE_PLACEHOLDER', True)
     def test_force_placeholder_with_existing_image(self):
         t = Template('{% load fb_versions %}{% version obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": F_IMG, "suffix": "large"})
@@ -300,6 +310,7 @@ class VersionAsTemplateTagTests(TestCase):
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "_versions/placeholder_test/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/placeholder_test/testimage_large.jpg"))
 
+    @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
     def test_no_force_placeholder_with_existing_image(self):
         t = Template('{% load fb_versions %}{% version obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": F_IMG, "suffix": "large"})
@@ -307,12 +318,15 @@ class VersionAsTemplateTagTests(TestCase):
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "_versions/filebrowser_test/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/filebrowser_test/testimage_large.jpg"))
 
+    @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
+    @patch('filebrowser.templatetags.fb_versions.FORCE_PLACEHOLDER', True)
         t = Template('{% load fb_versions %}{% version obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": F_MISSING, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "_versions/placeholder_test/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/placeholder_test/testimage_large.jpg"))
 
+    @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
         t = Template('{% load fb_versions %}{% version obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": F_MISSING, "suffix": "large"})
         r = t.render(c)
@@ -381,6 +395,8 @@ class VersionObjectTemplateTagTests(TestCase):
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, ""))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, ""))
 
+    @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
+    @patch('filebrowser.templatetags.fb_versions.FORCE_PLACEHOLDER', True)
     def test_force_with_existing_image(self):
         t = Template('{% load fb_versions %}{% version_object obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": F_IMG, "suffix": "large"})
@@ -388,6 +404,7 @@ class VersionObjectTemplateTagTests(TestCase):
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "_versions/placeholder_test/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/placeholder_test/testimage_large.jpg"))
 
+    @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
     def test_no_force_with_existing_image(self):
         t = Template('{% load fb_versions %}{% version_object obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": F_IMG, "suffix": "large"})
@@ -395,6 +412,8 @@ class VersionObjectTemplateTagTests(TestCase):
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "_versions/filebrowser_test/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/filebrowser_test/testimage_large.jpg"))
 
+    @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
+    @patch('filebrowser.templatetags.fb_versions.FORCE_PLACEHOLDER', True)
     def test_force_with_non_existing_image(self):
         t = Template('{% load fb_versions %}{% version_object obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": F_MISSING, "suffix": "large"})
@@ -402,6 +421,8 @@ class VersionObjectTemplateTagTests(TestCase):
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "_versions/placeholder_test/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/placeholder_test/testimage_large.jpg"))
 
+    @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
+    @patch('filebrowser.templatetags.fb_versions.FORCE_PLACEHOLDER', False)
     def test_no_force_with_non_existing_image(self):
         t = Template('{% load fb_versions %}{% version_object obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": F_MISSING, "suffix": "large"})
