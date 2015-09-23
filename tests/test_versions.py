@@ -27,8 +27,8 @@ else:
     except ImportError:
         import Image
 
-TESTS_PATH = os.path.dirname(os.path.abspath(__file__))
-FILEBROWSER_PATH = os.path.split(TESTS_PATH)[0]
+TESTS_ROOT = os.path.join(settings.BASE_DIR, 'tests')
+FILEBROWSER_PATH = os.path.join(settings.BASE_DIR, 'filebrowser')
 
 
 class VersionTemplateTagsTests(TestCase):

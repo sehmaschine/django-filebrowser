@@ -18,6 +18,7 @@ import json
 from django.test import TestCase
 from django.test.client import Client
 from django.core.urlresolvers import get_resolver, get_urlconf, reverse
+from django.conf import settings
 try:
     from django.utils.six.moves.urllib.parse import urlencode
 except:
@@ -33,8 +34,8 @@ from filebrowser.sites import get_site_dict
 # This module will test all FileBrowser sites with the following app_name
 APP_NAME = 'filebrowser'
 
-TESTS_PATH = os.path.dirname(os.path.abspath(__file__))
-FILEBROWSER_PATH = os.path.split(TESTS_PATH)[0]
+TESTS_ROOT = os.path.join(settings.BASE_DIR, 'tests')
+FILEBROWSER_PATH = os.path.join(settings.BASE_DIR, 'filebrowser')
 
 # TEST FUNCTIONS
 

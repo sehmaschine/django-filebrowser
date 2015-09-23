@@ -8,14 +8,15 @@ import shutil
 
 # DJANGO IMPORTS
 from django.test import TestCase
+from django.conf import settings
 
 # FILEBROWSER IMPORTS
 import filebrowser
 from filebrowser.base import FileObject, FileListing
 from filebrowser.sites import site
 
-TESTS_PATH = os.path.dirname(os.path.abspath(__file__))
-FILEBROWSER_PATH = os.path.split(TESTS_PATH)[0]
+TESTS_ROOT = os.path.join(settings.BASE_DIR, 'tests')
+FILEBROWSER_PATH = os.path.join(settings.BASE_DIR, 'filebrowser')
 
 
 class FileObjectPathTests(TestCase):
