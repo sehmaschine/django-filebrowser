@@ -145,22 +145,6 @@ class ScaleAndCropTests(TestCase):
         self.assertEqual(version.size[1], 375)
 
 
-    def test_version(self):
-        """
-        Templatetag version
-        """
-        # new settings
-        filebrowser.base.VERSIONS_BASEDIR = "fb_test_directory/_versions"
-        filebrowser.base.VERSIONS = {
-            'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
-            'large': {'verbose_name': 'Large', 'width': 600, 'height': '', 'opts': ''},
-            'fixedheight': {'verbose_name': 'Fixed height', 'width': '', 'height': 100, 'opts': ''},
-        }
-        filebrowser.base.ADMIN_VERSIONS = ['large']
-        filebrowser.settings.VERSIONS = filebrowser.base.VERSIONS
-        fb_versions.VERSIONS = filebrowser.base.VERSIONS
-
-        # templatetag version with wrong token
 class VersionTemplateTagTests(TestCase):
     """Test basic version uses
 
@@ -219,29 +203,21 @@ class VersionTemplateTagTests(TestCase):
         # r = t.render(c)
         # self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # test placeholder with existing image
-        fb_versions.PLACEHOLDER = "fb_test_directory/fb_tmp_dir/fb_tmp_placeholder/testimage.jpg"
-        fb_versions.SHOW_PLACEHOLDER = True
-        fb_versions.FORCE_PLACEHOLDER = True
         t = Template('{% load fb_versions %}{% version obj.path suffix %}')
         c = Context({"obj": self.f_image, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
 
-        fb_versions.FORCE_PLACEHOLDER = False
         t = Template('{% load fb_versions %}{% version obj.path suffix %}')
         c = Context({"obj": self.f_image, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # test placeholder with non-existing image
-        fb_versions.FORCE_PLACEHOLDER = True
         t = Template('{% load fb_versions %}{% version obj.path suffix %}')
         c = Context({"obj": self.f_image_not_exists, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
 
-        fb_versions.FORCE_PLACEHOLDER = False
         t = Template('{% load fb_versions %}{% version obj.path suffix %}')
         c = Context({"obj": self.f_image_not_exists, "suffix": "large"})
         r = t.render(c)
@@ -253,21 +229,6 @@ class VersionTemplateTagTests(TestCase):
             permissions_file = oct(os.stat(os.path.join(settings.MEDIA_ROOT, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg")).st_mode & 0o777)
             self.assertEqual(permissions_default, permissions_file)
 
-    def test_version_as_object(self):
-        """
-        Templatetag version_object
-        """
-        # new settings
-        filebrowser.base.VERSIONS_BASEDIR = "fb_test_directory/_versions"
-        filebrowser.base.VERSIONS = {
-            'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
-            'large': {'verbose_name': 'Large', 'width': 600, 'height': '', 'opts': ''},
-        }
-        filebrowser.base.ADMIN_VERSIONS = ['large']
-        filebrowser.settings.VERSIONS = filebrowser.base.VERSIONS
-        fb_versions.VERSIONS = filebrowser.base.VERSIONS
-
-        # templatetag version with hardcoded path
 class VersionAsTemplateTagTests(TestCase):
     """Test variable version uses
 
@@ -322,32 +283,24 @@ class VersionAsTemplateTagTests(TestCase):
         # self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
         # self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # test placeholder with existing image
-        fb_versions.PLACEHOLDER = "fb_test_directory/fb_tmp_dir/fb_tmp_placeholder/testimage.jpg"
-        fb_versions.SHOW_PLACEHOLDER = True
-        fb_versions.FORCE_PLACEHOLDER = True
         t = Template('{% load fb_versions %}{% version obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
 
-        fb_versions.FORCE_PLACEHOLDER = False
         t = Template('{% load fb_versions %}{% version obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # test placeholder with non-existing image
-        fb_versions.FORCE_PLACEHOLDER = True
         t = Template('{% load fb_versions %}{% version obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image_not_exists, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
 
-        fb_versions.FORCE_PLACEHOLDER = False
         t = Template('{% load fb_versions %}{% version obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image_not_exists, "suffix": "large"})
         r = t.render(c)
@@ -355,21 +308,6 @@ class VersionAsTemplateTagTests(TestCase):
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
 
 
-    def test_version_object(self):
-        """
-        Templatetag version_object
-        """
-        # new settings
-        filebrowser.base.VERSIONS_BASEDIR = "fb_test_directory/_versions"
-        filebrowser.base.VERSIONS = {
-            'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
-            'large': {'verbose_name': 'Large', 'width': 600, 'height': '', 'opts': ''},
-        }
-        filebrowser.base.ADMIN_VERSIONS = ['large']
-        filebrowser.settings.VERSIONS = filebrowser.base.VERSIONS
-        fb_versions.VERSIONS = filebrowser.base.VERSIONS
-
-        # templatetag with wrong token
 class VersionObjectTemplateTagTests(TestCase):
     """Test version_object uses
 
@@ -429,37 +367,26 @@ class VersionObjectTemplateTagTests(TestCase):
         # self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
         # self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # test placeholder with existing image
-        fb_versions.PLACEHOLDER = "fb_test_directory/fb_tmp_dir/fb_tmp_placeholder/testimage.jpg"
-        fb_versions.SHOW_PLACEHOLDER = True
-        fb_versions.FORCE_PLACEHOLDER = True
         t = Template('{% load fb_versions %}{% version_object obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
 
-        fb_versions.FORCE_PLACEHOLDER = False
         t = Template('{% load fb_versions %}{% version_object obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # test placeholder with non-existing image
-        fb_versions.FORCE_PLACEHOLDER = True
         t = Template('{% load fb_versions %}{% version_object obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image_not_exists, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
 
-        fb_versions.FORCE_PLACEHOLDER = False
         t = Template('{% load fb_versions %}{% version_object obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image_not_exists, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
-
-    def test_version_setting(self):
-        pass
