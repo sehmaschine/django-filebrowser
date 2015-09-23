@@ -1,18 +1,12 @@
 # coding: utf-8
-
-# PYTHON IMPORTS
 import os
-import posixpath
 import shutil
 
-# DJANGO IMPORTS
 from django.conf import settings
 from django.test import TestCase
 from django.template import Context, Template, TemplateSyntaxError
 
-# FILEBROWSER IMPORTS
-import filebrowser
-from filebrowser.settings import DEFAULT_PERMISSIONS, STRICT_PIL
+from filebrowser.settings import STRICT_PIL, DIRECTORY
 from filebrowser.base import FileObject
 from filebrowser.sites import site
 from filebrowser.utils import scale_and_crop
@@ -27,13 +21,13 @@ else:
     except ImportError:
         import Image
 
-DIRECTORY_PATH = os.path.join(site.storage.location, fb_settings.DIRECTORY)
+DIRECTORY_PATH = os.path.join(site.storage.location, DIRECTORY)
 TEST_PATH = os.path.join(DIRECTORY_PATH, 'filebrowser_test')
 PLACEHOLDER_PATH = os.path.join(DIRECTORY_PATH, 'placeholder_test')
 
 STATIC_IMG_PATH = os.path.join(settings.BASE_DIR, 'filebrowser', "static", "filebrowser", "img", "testimage.jpg")
-F_IMG = FileObject(os.path.join(fb_settings.DIRECTORY, 'filebrowser_test', "testimage.jpg"), site=site)
-F_MISSING = FileObject(os.path.join(fb_settings.DIRECTORY, 'filebrowser_test', "missing.jpg"), site=site)
+F_IMG = FileObject(os.path.join(DIRECTORY, 'filebrowser_test', "testimage.jpg"), site=site)
+F_MISSING = FileObject(os.path.join(DIRECTORY, 'filebrowser_test', "missing.jpg"), site=site)
 
 
 class ScaleAndCropTests(TestCase):
