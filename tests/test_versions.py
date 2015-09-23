@@ -236,15 +236,11 @@ class VersionTemplateTagTests(TestCase):
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/placeholder_test/testimage_large.jpg"))
 
-    # @patch('filebrowser.settings.DEFAULT_PERMISSIONS')
-    # def test_permissions(self, mock_permissions):
-    #     mock_permissions.return_value = 0o755
+    # def test_permissions(self):
+    # FIXME: Test permissions by creating file AFTER we patch DEFAULT_PERMISSIONS
     #     permissions_file = oct(os.stat(os.path.join(settings.MEDIA_ROOT, "_versions/filebrowser_test/testimage_large.jpg")).st_mode & 0o777)
+    #     self.assertEqual(oct(0o755), permissions_file)
 
-        # Check permissions
-        if DEFAULT_PERMISSIONS is not None:
-            permissions_default = oct(DEFAULT_PERMISSIONS)
-            self.assertEqual(permissions_default, permissions_file)
 
 class VersionAsTemplateTagTests(TestCase):
     """Test variable version uses
