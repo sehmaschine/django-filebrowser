@@ -199,6 +199,7 @@ class VersionTemplateTagTests(TestCase):
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/filebrowser_test/testimage_fixedheight.jpg"))
 
+    def test_non_existing_path(self):
         # FIXME: templatetag version with non-existing path
         t = Template('{% load fb_versions %}{% version path "large" %}')
         c = Context({"obj": F_IMG, "path": "uploads/filebrowser_test/testimagexxx.jpg"})
@@ -320,6 +321,7 @@ class VersionAsTemplateTagTests(TestCase):
 
     @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
     @patch('filebrowser.templatetags.fb_versions.FORCE_PLACEHOLDER', True)
+    def test_force_placeholder_with_non_existing_image(self):
         t = Template('{% load fb_versions %}{% version obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": F_MISSING, "suffix": "large"})
         r = t.render(c)
@@ -327,6 +329,7 @@ class VersionAsTemplateTagTests(TestCase):
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/placeholder_test/testimage_large.jpg"))
 
     @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
+    def test_no_force_placeholder_with_non_existing_image(self):
         t = Template('{% load fb_versions %}{% version obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": F_MISSING, "suffix": "large"})
         r = t.render(c)
