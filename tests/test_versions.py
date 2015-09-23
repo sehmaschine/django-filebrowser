@@ -199,10 +199,10 @@ class VersionTemplateTagTests(TestCase):
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/filebrowser_test/testimage_fixedheight.jpg"))
 
-        # # FIXME: templatetag version with non-existing path
-        # t = Template('{% load fb_versions %}{% version path "large" %}')
-        # r = t.render(c)
+        # FIXME: templatetag version with non-existing path
+        t = Template('{% load fb_versions %}{% version path "large" %}')
         c = Context({"obj": F_IMG, "path": "uploads/filebrowser_test/testimagexxx.jpg"})
+        r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, ""))
 
     @patch('filebrowser.templatetags.fb_versions.SHOW_PLACEHOLDER', True)
@@ -293,11 +293,11 @@ class VersionAsTemplateTagTests(TestCase):
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "_versions/filebrowser_test/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/filebrowser_test/testimage_large.jpg"))
 
-        # # FIXME: templatetag version with non-existing path
-        # t = Template('{% load fb_versions %}{% version path "large" as version_large %}{{ version_large.url }}')
-        # r = t.render(c)
     def test_non_existing_path(self):
+        # FIXME: templatetag version with non-existing path
+        t = Template('{% load fb_versions %}{% version path "large" as version_large %}{{ version_large.url }}')
         c = Context({"obj": F_IMG, "path": "uploads/filebrowser_test/testimagexxx.jpg"})
+        r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, ""))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, ""))
 
@@ -384,14 +384,14 @@ class VersionObjectTemplateTagTests(TestCase):
         t = Template('{% load fb_versions %}{% version_object obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": F_IMG, "suffix": "large"})
         r = t.render(c)
-        # # FIXME: templatetag version with non-existing path
-        # t = Template('{% load fb_versions %}{% version_object path "large" as version_large %}{{ version_large.url }}')
-        # r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "_versions/filebrowser_test/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_versions/filebrowser_test/testimage_large.jpg"))
 
     def test_non_existing_path(self):
+        # FIXME: templatetag version with non-existing path
+        t = Template('{% load fb_versions %}{% version_object path "large" as version_large %}{{ version_large.url }}')
         c = Context({"obj": F_IMG, "path": "uploads/filebrowser_test/testimagexxx.jpg"})
+        r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, ""))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, ""))
 
