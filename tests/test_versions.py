@@ -30,8 +30,8 @@ else:
 FILEBROWSER_PATH = os.path.join(settings.BASE_DIR, 'filebrowser')
 
 
-class VersionTemplateTagsTests(TestCase):
 
+class ScaleAndCropTests(TestCase):
     def setUp(self):
         """
         Save original values/functions so they can be restored in tearDown
@@ -223,6 +223,14 @@ class VersionTemplateTagsTests(TestCase):
         fb_versions.VERSIONS = filebrowser.base.VERSIONS
 
         # templatetag version with wrong token
+class VersionTemplateTagTests(TestCase):
+    """Test basic version uses
+
+    Eg:
+    {% version obj "large" %}
+    {% version path "large" %}
+
+    """
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version obj.path %}'))
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version %}'))
 
@@ -311,6 +319,15 @@ class VersionTemplateTagsTests(TestCase):
         fb_versions.VERSIONS = filebrowser.base.VERSIONS
 
         # templatetag version with hardcoded path
+class VersionAsTemplateTagTests(TestCase):
+    """Test variable version uses
+
+    Eg:
+    {% version obj "large" as version_large %}
+    {% version path "large" as version_large %}
+
+    """
+
         t = Template('{% load fb_versions %}{% version path "large" as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image, "path": "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg"})
         r = t.render(c)
@@ -393,6 +410,15 @@ class VersionTemplateTagsTests(TestCase):
         fb_versions.VERSIONS = filebrowser.base.VERSIONS
 
         # templatetag with wrong token
+class VersionObjectTemplateTagTests(TestCase):
+    """Test version_object uses
+
+    Eg:
+    {% version_object obj "large" as version_large %}
+    {% version_object path "large" as version_large %}
+
+    """
+
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version_object obj.path %}'))
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version_object %}'))
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version_object obj.path "medium" %}'))
