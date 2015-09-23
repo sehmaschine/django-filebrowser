@@ -164,34 +164,35 @@ class VersionTemplateTagTests(TestCase):
         shutil.rmtree(TEST_PATH)
         shutil.rmtree(PLACEHOLDER_PATH)
 
+    def test_wrong_token(self):
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version obj.path %}'))
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version %}'))
 
-        # templatetag version without path
+    def test_without_path(self):
         t = Template('{% load fb_versions %}{% version obj "medium" %}')
         c = Context({"obj": self.f_image})
         r = t.render(c)
         self.assertEqual(r, "")  # FIXME: should this throw an error?
 
-        # templatetag version with hardcoded path
+    def test_hardcoded_path(self):
         t = Template('{% load fb_versions %}{% version path "large" %}')
         c = Context({"obj": self.f_image, "path": "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg"})
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # templatetag version with obj
+    def test_with_obj(self):
         t = Template('{% load fb_versions %}{% version obj "large" %}')
         c = Context({"obj": self.f_image})
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # templatetag version with obj.path
+    def test_with_obj_path(self):
         t = Template('{% load fb_versions %}{% version obj.path "large" %}')
         c = Context({"obj": self.f_image})
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # fixed height
+    def test_size_fixedheight(self):
         t = Template('{% load fb_versions %}{% version path "fixedheight" %}')
         c = Context({"obj": self.f_image, "path": "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg"})
         r = t.render(c)
@@ -203,25 +204,31 @@ class VersionTemplateTagTests(TestCase):
         # r = t.render(c)
         # self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
+    def test_force_placeholder_with_existing_image(self, ):
         t = Template('{% load fb_versions %}{% version obj.path suffix %}')
         c = Context({"obj": self.f_image, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
 
+    def test_force_placeholder_without_existing_image(self):
         t = Template('{% load fb_versions %}{% version obj.path suffix %}')
         c = Context({"obj": self.f_image, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
+    def test_no_force_placeholder_with_existing_image(self):
         t = Template('{% load fb_versions %}{% version obj.path suffix %}')
         c = Context({"obj": self.f_image_not_exists, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
 
+    def test_no_force_placeholder_without_existing_image(self):
         t = Template('{% load fb_versions %}{% version obj.path suffix %}')
         c = Context({"obj": self.f_image_not_exists, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
+    # def test_permissions(self, mock_permissions):
+    #     mock_permissions.return_value = 0o755
 
         # Check permissions
         if DEFAULT_PERMISSIONS is not None:
@@ -249,27 +256,28 @@ class VersionAsTemplateTagTests(TestCase):
         shutil.rmtree(TEST_PATH)
         shutil.rmtree(PLACEHOLDER_PATH)
 
+    def test_hardcoded_path(self):
         t = Template('{% load fb_versions %}{% version path "large" as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image, "path": "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg"})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # templatetag version with obj.path
+    def test_obj_path(self):
         t = Template('{% load fb_versions %}{% version obj.path "large" as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # templatetag version with obj
+    def test_with_obj(self):
         t = Template('{% load fb_versions %}{% version obj "large" as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # templatetag version with suffix as variable
+    def test_with_suffix_as_variable(self):
         t = Template('{% load fb_versions %}{% version obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image, "suffix": "large"})
         r = t.render(c)
@@ -282,13 +290,16 @@ class VersionAsTemplateTagTests(TestCase):
         # r = t.render(c)
         # self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
         # self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
+    def test_non_existing_path(self):
 
+    def test_force_placeholder_with_existing_image(self):
         t = Template('{% load fb_versions %}{% version obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
 
+    def test_no_force_placeholder_with_existing_image(self):
         t = Template('{% load fb_versions %}{% version obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image, "suffix": "large"})
         r = t.render(c)
@@ -328,32 +339,33 @@ class VersionObjectTemplateTagTests(TestCase):
         shutil.rmtree(TEST_PATH)
         shutil.rmtree(PLACEHOLDER_PATH)
 
+    def test_wrong_token(self):
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version_object obj.path %}'))
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version_object %}'))
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version_object obj.path "medium" %}'))
 
-        # templatetag version_object with hardcoded path
+    def test_hardcoded_path(self):
         t = Template('{% load fb_versions %}{% version_object path "large" as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image, "path": "fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg"})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # templatetag version_object with obj.path
+    def test_obj_path(self):
         t = Template('{% load fb_versions %}{% version_object obj.path "large" as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # templatetag version_object with obj
+    def test_with_obj(self):
         t = Template('{% load fb_versions %}{% version_object obj "large" as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
-        # templatetag version_object with suffix as variable
+    def test_suffix_as_variable(self):
         t = Template('{% load fb_versions %}{% version_object obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image, "suffix": "large"})
         r = t.render(c)
@@ -366,25 +378,30 @@ class VersionObjectTemplateTagTests(TestCase):
         # r = t.render(c)
         # self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
         # self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
+    def test_non_existing_path(self):
 
+    def test_force_with_existing_image(self):
         t = Template('{% load fb_versions %}{% version_object obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
 
+    def test_no_force_with_existing_image(self):
         t = Template('{% load fb_versions %}{% version_object obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg"))
 
+    def test_force_with_non_existing_image(self):
         t = Template('{% load fb_versions %}{% version_object obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image_not_exists, "suffix": "large"})
         r = t.render(c)
         self.assertEqual(c["version_large"].url, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "fb_test_directory/_versions/fb_tmp_dir/fb_tmp_placeholder/testimage_large.jpg"))
 
+    def test_no_force_with_non_existing_image(self):
         t = Template('{% load fb_versions %}{% version_object obj suffix as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.f_image_not_exists, "suffix": "large"})
         r = t.render(c)
