@@ -18,7 +18,6 @@ from filebrowser.base import FileObject
 from filebrowser.sites import site
 from filebrowser.management.commands import fb_version_generate, fb_version_remove
 
-TESTS_ROOT = os.path.join(settings.BASE_DIR, 'tests')
 FILEBROWSER_PATH = os.path.join(settings.BASE_DIR, 'filebrowser')
 
 

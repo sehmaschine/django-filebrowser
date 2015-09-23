@@ -27,7 +27,6 @@ else:
     except ImportError:
         import Image
 
-TESTS_ROOT = os.path.join(settings.BASE_DIR, 'tests')
 FILEBROWSER_PATH = os.path.join(settings.BASE_DIR, 'filebrowser')
 
 

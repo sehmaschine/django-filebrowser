@@ -34,7 +34,6 @@ from filebrowser.sites import get_site_dict
 # This module will test all FileBrowser sites with the following app_name
 APP_NAME = 'filebrowser'
 
-TESTS_ROOT = os.path.join(settings.BASE_DIR, 'tests')
 FILEBROWSER_PATH = os.path.join(settings.BASE_DIR, 'filebrowser')
 
 # TEST FUNCTIONS

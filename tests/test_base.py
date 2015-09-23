@@ -15,7 +15,6 @@ import filebrowser
 from filebrowser.base import FileObject, FileListing
 from filebrowser.sites import site
 
-TESTS_ROOT = os.path.join(settings.BASE_DIR, 'tests')
 FILEBROWSER_PATH = os.path.join(settings.BASE_DIR, 'filebrowser')
 
 
