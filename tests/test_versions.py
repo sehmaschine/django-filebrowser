@@ -27,8 +27,13 @@ else:
     except ImportError:
         import Image
 
-FILEBROWSER_PATH = os.path.join(settings.BASE_DIR, 'filebrowser')
+DIRECTORY_PATH = os.path.join(site.storage.location, fb_settings.DIRECTORY)
+TEST_PATH = os.path.join(DIRECTORY_PATH, 'filebrowser_test')
+PLACEHOLDER_PATH = os.path.join(DIRECTORY_PATH, 'placeholder_test')
 
+STATIC_IMG_PATH = os.path.join(settings.BASE_DIR, 'filebrowser', "static", "filebrowser", "img", "testimage.jpg")
+F_IMG = FileObject(os.path.join(fb_settings.DIRECTORY, 'filebrowser_test', "testimage.jpg"), site=site)
+F_MISSING = FileObject(os.path.join(fb_settings.DIRECTORY, 'filebrowser_test', "missing.jpg"), site=site)
 
 
 class ScaleAndCropTests(TestCase):
