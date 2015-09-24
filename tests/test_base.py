@@ -1,99 +1,63 @@
 # coding: utf-8
 
-# PYTHON IMPORTS
 import os
 import ntpath
 import posixpath
 import shutil
 
-# DJANGO IMPORTS
 from django.test import TestCase
-from django.conf import settings
+from mock import patch
 
-# FILEBROWSER IMPORTS
 import filebrowser
 from filebrowser.base import FileObject, FileListing
 from filebrowser.sites import site
+from tests import FilebrowserTestCase
 
-FILEBROWSER_PATH = os.path.join(settings.BASE_DIR, 'filebrowser')
 
+class FileObjectPathTests(FilebrowserTestCase):
 
-class FileObjectPathTests(TestCase):
-
-    def setUp(self):
-        """
-        Save original values/functions so they can be restored in tearDown
-        """
-        self.original_directory = site.directory
-        self.original_path = filebrowser.base.os.path
-
+    @patch('filebrowser.base.os.path', ntpath)
     def test_windows_paths(self):
         """
         Use ntpath to test windows paths independently from current os
         """
-        site.directory = 'uploads/'
-        filebrowser.base.os.path = ntpath
-        f = FileObject('uploads\\testdir\\testfile.jpg', site=site)
+        f = FileObject('_test\\uploads\\subfolder\\testfile.jpg', site=site)
 
-        self.assertEqual(f.path_relative_directory, 'testdir\\testfile.jpg')
-        self.assertEqual(f.dirname, r'testdir')
+        self.assertEqual(f.path_relative_directory, 'subfolder\\testfile.jpg')
+        self.assertEqual(f.dirname, r'subfolder')
 
+    @patch('filebrowser.base.os.path', posixpath)
     def test_posix_paths(self):
         """
         Use posixpath to test posix paths independently from current os
         """
-        filebrowser.base.os.path = posixpath
-        site.directory = 'uploads/'
-        f = FileObject('uploads/testdir/testfile.jpg', site=site)
+        f = FileObject('_test/uploads/subfolder/testfile.jpg', site=site)
 
-        self.assertEqual(f.path_relative_directory, 'testdir/testfile.jpg')
-        self.assertEqual(f.dirname, r'testdir')
-
-    def tearDown(self):
-        """
-        Restore original values/functions
-        """
-        filebrowser.base.os.path = self.original_path
-        site.directory = self.original_directory
+        self.assertEqual(f.path_relative_directory, 'subfolder/testfile.jpg')
+        self.assertEqual(f.dirname, r'subfolder')
 
 
 class FileObjectUnicodeTests(TestCase):
 
-    def setUp(self):
-        """
-        Save original values/functions so they can be restored in tearDown
-        """
-        self.original_path = filebrowser.base.os.path
-        self.original_directory = site.directory
-
+    @patch('filebrowser.base.os.path', ntpath)
     def test_windows_paths(self):
         """
         Use ntpath to test windows paths independently from current os
         """
-        site.directory = 'uploads/'
-        filebrowser.base.os.path = ntpath
-        f = FileObject('uploads\\$%^&*\\測試文件.jpg', site=site)
+        f = FileObject('_test\\uploads\\$%^&*\\測試文件.jpg', site=site)
 
         self.assertEqual(f.path_relative_directory, '$%^&*\\測試文件.jpg')
         self.assertEqual(f.dirname, r'$%^&*')
 
+    @patch('filebrowser.base.os.path', posixpath)
     def test_posix_paths(self):
         """
         Use posixpath to test posix paths independently from current os
         """
-        filebrowser.base.os.path = posixpath
-        site.directory = 'uploads/'
-        f = FileObject('uploads/$%^&*/測試文件.jpg', site=site)
+        f = FileObject('_test/uploads/$%^&*/測試文件.jpg', site=site)
 
         self.assertEqual(f.path_relative_directory, '$%^&*/測試文件.jpg')
         self.assertEqual(f.dirname, r'$%^&*')
-
-    def tearDown(self):
-        """
-        Restore original values/functions
-        """
-        filebrowser.base.os.path = self.original_path
-        site.directory = self.original_directory
 
 
 class FileObjectAttributeTests(TestCase):
