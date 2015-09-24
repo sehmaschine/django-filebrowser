@@ -35,7 +35,6 @@ class FilebrowserTestCase(TestCase):
         os.makedirs(cls.PLACEHOLDER_PATH)
 
         shutil.copy(cls.STATIC_IMG_PATH, cls.FOLDER_PATH)
-        shutil.copy(cls.STATIC_IMG_PATH, cls.PLACEHOLDER_PATH)
 
     @classmethod
     def tearDownClass(cls):

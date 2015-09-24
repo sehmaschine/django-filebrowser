@@ -1,5 +1,6 @@
 # coding: utf-8
 import os
+import shutil
 
 from django.conf import settings
 from django.template import Context, Template, TemplateSyntaxError
@@ -135,6 +136,9 @@ class VersionTemplateTagTests(TestCase):
 
     """
 
+    def setUp(self):
+        shutil.copy(self.STATIC_IMG_PATH, self.PLACEHOLDER_PATH)
+
     def test_wrong_token(self):
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version obj.path %}'))
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version %}'))
@@ -223,6 +227,9 @@ class VersionAsTemplateTagTests(TestCase):
 
     """
 
+    def setUp(self):
+        shutil.copy(self.STATIC_IMG_PATH, self.PLACEHOLDER_PATH)
+
     def test_hardcoded_path(self):
         t = Template('{% load fb_versions %}{% version path "large" as version_large %}{{ version_large.url }}')
         c = Context({"obj": self.F_IMAGE, "path": "_test/uploads/folder/testimage.jpg"})
@@ -302,6 +309,9 @@ class VersionObjectTemplateTagTests(TestCase):
     {% version_object path "large" as version_large %}
 
     """
+    def setUp(self):
+        shutil.copy(self.STATIC_IMG_PATH, self.PLACEHOLDER_PATH)
+
     def test_wrong_token(self):
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version_object obj.path %}'))
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version_object %}'))
