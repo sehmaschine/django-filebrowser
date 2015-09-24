@@ -5,16 +5,14 @@ import ntpath
 import posixpath
 import shutil
 
-from django.test import TestCase
 from mock import patch
 
-import filebrowser
 from filebrowser.base import FileObject, FileListing
 from filebrowser.sites import site
-from tests import FilebrowserTestCase
+from tests import FilebrowserTestCase as TestCase
 
 
-class FileObjectPathTests(FilebrowserTestCase):
+class FileObjectPathTests(TestCase):
 
     @patch('filebrowser.base.os.path', ntpath)
     def test_windows_paths(self):
@@ -61,75 +59,6 @@ class FileObjectUnicodeTests(TestCase):
 
 
 class FileObjectAttributeTests(TestCase):
-
-    def setUp(self):
-        """
-        Save original values/functions so they can be restored in tearDown
-
-        We are using this folder structure (within storage.location):
-
-        └── _versionstestdirectory
-        └── fb_test_directory
-            └── fb_tmp_dir
-                └── fb_tmp_dir_sub
-                    └── testimage.jpg
-
-        """
-        self.original_path = filebrowser.base.os.path
-        self.original_directory = site.directory
-        self.original_versions_basedir = filebrowser.base.VERSIONS_BASEDIR
-        self.original_versions = filebrowser.base.VERSIONS
-        self.original_admin_versions = filebrowser.base.ADMIN_VERSIONS
-
-        # DIRECTORY
-        # custom directory because this could be set with sites
-        # and we cannot rely on filebrowser.settings
-        self.directory = "fb_test_directory/"
-        self.directory_path = os.path.join(site.storage.location, self.directory)
-        if os.path.exists(self.directory_path):
-            self.fail("Test directory already exists.")
-        else:
-            os.makedirs(self.directory_path)
-        # set site directory
-        site.directory = self.directory
-
-        # VERSIONS
-        self.versions = "_versionstestdirectory"
-        self.versions_path = os.path.join(site.storage.location, self.versions)
-        if os.path.exists(self.versions_path):
-            self.fail("Versions directory already exists.")
-        else:
-            os.makedirs(self.versions_path)
-
-        # create temporary test folder
-        self.tmpdir_name = os.path.join("fb_tmp_dir", "fb_tmp_dir_sub")
-        self.tmpdir_path = os.path.join(site.storage.location, self.directory, self.tmpdir_name)
-        if os.path.exists(self.tmpdir_path):
-            self.fail("Temporary testfolder already exists.")
-        else:
-            os.makedirs(self.tmpdir_path)
-
-        # create alternative temporary test folder
-        self.tmpdir_name_alt = os.path.join("fb_tmp_dir", "fb_tmp_dir_sub", "xxx")
-        self.tmpdir_path_alt = os.path.join(site.storage.location, self.directory, self.tmpdir_name_alt)
-        if os.path.exists(self.tmpdir_path_alt):
-            self.fail("Temporary testfolder already exists.")
-        else:
-            os.makedirs(self.tmpdir_path_alt)
-
-        # copy test image to temporary test folder
-        self.image_path = os.path.join(FILEBROWSER_PATH, "static", "filebrowser", "img", "testimage.jpg")
-        if not os.path.exists(self.image_path):
-            self.fail("Testimage not found.")
-        shutil.copy(self.image_path, self.tmpdir_path)
-
-        # set posixpath
-        filebrowser.base.os.path = posixpath
-
-        # fileobjects
-        self.f_image = FileObject(os.path.join(self.directory, self.tmpdir_name, "testimage.jpg"), site=site)
-        self.f_folder = FileObject(os.path.join(self.directory, self.tmpdir_name), site=site)
-        self.f_folder_alt = FileObject(os.path.join(self.directory, self.tmpdir_name_alt), site=site)
 
     def test_init_attributes(self):
         """
@@ -257,12 +186,6 @@ class FileObjectAttributeTests(TestCase):
         # version_generate(suffix)
         """
         # new settings
-        filebrowser.base.VERSIONS_BASEDIR = ""
-        filebrowser.base.VERSIONS = {
-            'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
-            'large': {'verbose_name': 'Large', 'width': 600, 'height': '', 'opts': ''},
-        }
-        filebrowser.base.ADMIN_VERSIONS = ['large']
         # expected test results
         version_list = ['fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg', 'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
         admin_version_list = ['fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
@@ -302,13 +225,6 @@ class FileObjectAttributeTests(TestCase):
         # version_name(suffix)
         # version_generate(suffix)
         """
-        # new settings
-        filebrowser.base.VERSIONS_BASEDIR = "fb_test_directory/_versions"
-        filebrowser.base.VERSIONS = {
-            'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
-            'large': {'verbose_name': 'Large', 'width': 600, 'height': '', 'opts': ''},
-        }
-        filebrowser.base.ADMIN_VERSIONS = ['large']
         # expected test results
         version_list = ['fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg', 'fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
         admin_version_list = ['fb_test_directory/_versions/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
@@ -350,12 +266,6 @@ class FileObjectAttributeTests(TestCase):
         # version_generate(suffix)
         """
         # new settings
-        filebrowser.base.VERSIONS_BASEDIR = "_versionstestdirectory"
-        filebrowser.base.VERSIONS = {
-            'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
-            'large': {'verbose_name': 'Large', 'width': 600, 'height': '', 'opts': ''},
-        }
-        filebrowser.base.ADMIN_VERSIONS = ['large']
         # expected test results
         version_list = ['_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_admin_thumbnail.jpg', '_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
         admin_version_list = ['_versionstestdirectory/fb_tmp_dir/fb_tmp_dir_sub/testimage_large.jpg']
@@ -390,14 +300,6 @@ class FileObjectAttributeTests(TestCase):
         # delete_admin_versions
         """
 
-        # new settings
-        filebrowser.base.VERSIONS_BASEDIR = ""
-        filebrowser.base.VERSIONS = {
-            'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
-            'large': {'verbose_name': 'Large', 'width': 600, 'height': '', 'opts': ''},
-        }
-        filebrowser.base.ADMIN_VERSIONS = ['large']
-
         # version does not exist yet
         f_version = FileObject(os.path.join(self.directory, self.tmpdir_name, "testimage_large.jpg"), site=site)
         self.assertEqual(f_version.exists, False)
@@ -417,19 +319,6 @@ class FileObjectAttributeTests(TestCase):
         self.f_image.delete_versions()
         self.assertEqual(site.storage.exists(f_version_thumb.path), False)
 
-    def tearDown(self):
-        """
-        Restore original values/functions
-        """
-        filebrowser.base.os.path = self.original_path
-        site.directory = self.original_directory
-        filebrowser.base.VERSIONS_BASEDIR = self.original_versions_basedir
-        filebrowser.base.VERSIONS = self.original_versions
-        filebrowser.base.ADMIN_VERSIONS = self.original_admin_versions
-
-        # remove temporary directory and test folder
-        shutil.rmtree(self.directory_path)
-        shutil.rmtree(self.versions_path)
 
 
 class FileListingTests(TestCase):
