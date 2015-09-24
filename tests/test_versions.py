@@ -139,8 +139,9 @@ class VersionTemplateTagTests(TestCase):
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version obj.path %}'))
         self.assertRaises(TemplateSyntaxError, lambda: Template('{% load fb_versions %}{% version %}'))
 
-    def test_without_path(self):
-        t = Template('{% load fb_versions %}{% version obj "medium" %}')
+    def test_invalid_version(self):
+        # FIXME: should this throw an error?
+        t = Template('{% load fb_versions %}{% version obj "invalid" %}')
         c = Context({"obj": self.F_IMAGE})
         r = t.render(c)
         self.assertEqual(r, "")
