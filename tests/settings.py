@@ -106,8 +106,11 @@ STATIC_URL = '/static/'
 # Settings added for for django-filebrowser tests
 MEDIA_ROOT = os.path.join(BASE_DIR, 'tests', 'media')
 MEDIA_URL = '/media/'
+
+FILEBROWSER_DIRECTORY = '_test/uploads/'
+FILEBROWSER_VERSIONS_BASEDIR = '_test/_versions/'
 FILEBROWSER_ADMIN_VERSIONS = ['large']
-FILEBROWSER_PLACEHOLDER = 'uploads/placeholder_test/testimage.jpg'
+FILEBROWSER_PLACEHOLDER = '_test/uploads/placeholders/testimage.jpg'
 FILEBROWSER_VERSIONS = {
     'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
     'large': {'verbose_name': 'Large', 'width': 600, 'height': '', 'opts': ''},
