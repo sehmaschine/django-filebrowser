@@ -322,62 +322,7 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(site.storage.exists(f_version_thumb.path), False)
 
 
-
 class FileListingTests(TestCase):
-
-    def setUp(self):
-        """
-        Save original values/functions so they can be restored in tearDown
-
-        our temporary file structure looks like this:
-
-        /fb_test_directory/
-        /fb_test_directory/testimage.jpg
-        /fb_test_directory/fb_tmp_dir/
-        /fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/
-        /fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg
-        """
-        self.original_path = filebrowser.base.os.path
-        self.original_directory = site.directory
-        self.original_versions_basedir = filebrowser.base.VERSIONS_BASEDIR
-        self.original_versions = filebrowser.base.VERSIONS
-        self.original_admin_versions = filebrowser.base.ADMIN_VERSIONS
-
-        # DIRECTORY
-        # custom directory because this could be set with sites
-        # and we cannot rely on filebrowser.settings
-        # FIXME: find better directory name
-        self.directory = "fb_test_directory/"
-        self.directory_path = os.path.join(site.storage.location, self.directory)
-        if os.path.exists(self.directory_path):
-            self.fail("Test directory already exists.")
-        else:
-            os.makedirs(self.directory_path)
-        # set site directory
-        site.directory = self.directory
-
-        # create temporary test folder and move testimage
-        # FIXME: find better path names
-        self.tmpdir_name = os.path.join("fb_tmp_dir", "fb_tmp_dir_sub")
-        self.tmpdir_path = os.path.join(site.storage.location, self.directory, self.tmpdir_name)
-        if os.path.exists(self.tmpdir_path):
-            self.fail("Temporary testfolder already exists.")
-        else:
-            os.makedirs(self.tmpdir_path)
-
-        # copy test image to temporary test folder
-        self.image_path = os.path.join(FILEBROWSER_PATH, "static", "filebrowser", "img", "testimage.jpg")
-        if not os.path.exists(self.image_path):
-            self.fail("Testimage not found.")
-        shutil.copy(self.image_path, self.directory_path)
-        shutil.copy(self.image_path, self.tmpdir_path)
-
-        # set posixpath
-        filebrowser.base.os.path = posixpath
-
-        # filelisting/fileobject
-        self.f_listing = FileListing(self.directory, sorting_by='date', sorting_order='desc')
-        self.f_listing_file = FileListing(os.path.join(self.directory, self.tmpdir_name, "testimage.jpg"))
 
     def test_init_attributes(self):
         """
@@ -443,16 +388,3 @@ class FileListingTests(TestCase):
         self.assertEqual(list(f.path for f in self.f_listing.files_walk_filtered()), [u'fb_test_directory/testimage.jpg', u'fb_test_directory/fb_tmp_dir', u'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub', u'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg'])
         self.assertEqual(self.f_listing.results_walk_total(), 4)
         self.assertEqual(self.f_listing.results_walk_filtered(), 4)
-
-    def tearDown(self):
-        """
-        Restore original values/functions
-        """
-        filebrowser.base.os.path = self.original_path
-        site.directory = self.original_directory
-        filebrowser.base.VERSIONS_BASEDIR = self.original_versions_basedir
-        filebrowser.base.VERSIONS = self.original_versions
-        filebrowser.base.ADMIN_VERSIONS = self.original_admin_versions
-
-        # remove temporary directory and test folder
-        shutil.rmtree(self.directory_path)
