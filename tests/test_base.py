@@ -240,6 +240,7 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(self.f_folder_alt.is_folder, True)
         self.assertEqual(self.f_folder_alt.is_empty, True)
 
+    @patch('filebrowser.base.ADMIN_VERSIONS', ['large'])
     def test_version_attributes_1(self):
         """
         FileObject version attributes/methods
@@ -286,6 +287,7 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(f_version.original.path, self.f_image.path)
         # FIXME: versions should not have versions or admin_versions
 
+    @patch('filebrowser.base.ADMIN_VERSIONS', ['large'])
     def test_version_attributes_2(self):
         """
         FileObject version attributes/methods
@@ -332,6 +334,7 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(f_version.versions(), [])
         self.assertEqual(f_version.admin_versions(), [])
 
+    @patch('filebrowser.base.ADMIN_VERSIONS', ['large'])
     def test_version_attributes_3(self):
         """
         FileObject version attributes/methods

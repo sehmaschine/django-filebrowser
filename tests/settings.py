@@ -109,10 +109,4 @@ MEDIA_URL = '/media/'
 
 FILEBROWSER_DIRECTORY = '_test/uploads/'
 FILEBROWSER_VERSIONS_BASEDIR = '_test/_versions/'
-FILEBROWSER_ADMIN_VERSIONS = ['large']
 FILEBROWSER_PLACEHOLDER = '_test/uploads/placeholders/testimage.jpg'
-FILEBROWSER_VERSIONS = {
-    'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
-    'large': {'verbose_name': 'Large', 'width': 600, 'height': '', 'opts': ''},
-    'fixedheight': {'verbose_name': 'Fixed height', 'width': '', 'height': 100, 'opts': ''}
-}

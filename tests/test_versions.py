@@ -163,6 +163,7 @@ class VersionTemplateTagTests(TestCase):
         r = t.render(c)
         self.assertEqual(r, os.path.join(settings.MEDIA_URL, "_test/_versions/subfolder/testimage_large.jpg"))
 
+    @patch.dict('filebrowser.templatetags.fb_versions.VERSIONS', {'fixedheight': {'verbose_name': 'Fixed height', 'width': '', 'height': 100, 'opts': ''}})
     def test_size_fixedheight(self):
         t = Template('{% load fb_versions %}{% version path "fixedheight" %}')
         c = Context({"obj": self.F_IMG, "path": "_test/uploads/subfolder/testimage.jpg"})
