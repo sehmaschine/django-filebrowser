@@ -11,7 +11,7 @@ from filebrowser.settings import DIRECTORY
 from tests import FilebrowserTestCase as TestCase
 
 
-class CommandsTests(TestCase):
+class VersionGenerateCommandTests(TestCase):
 
     def setUp(self):
         self.version_file = os.path.join(settings.MEDIA_ROOT, "_test/_versions/subfolder/testimage_large.jpg")
