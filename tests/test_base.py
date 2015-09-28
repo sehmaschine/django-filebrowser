@@ -351,10 +351,10 @@ class FileListingTests(TestCase):
         # sorting_by
         # sorting_order
         """
-        self.assertEqual(self.f_listing.path, 'fb_test_directory/')
-        self.assertEqual(self.f_listing.filter_func, None)
-        self.assertEqual(self.f_listing.sorting_by, 'date')
-        self.assertEqual(self.f_listing.sorting_order, 'desc')
+        self.assertEqual(self.F_LISTING_FOLDER.path, '_test/uploads/')
+        self.assertEqual(self.F_LISTING_FOLDER.filter_func, None)
+        self.assertEqual(self.F_LISTING_FOLDER.sorting_by, 'date')
+        self.assertEqual(self.F_LISTING_FOLDER.sorting_order, 'desc')
 
     def test_listing(self):
         """
@@ -366,12 +366,13 @@ class FileListingTests(TestCase):
         # results_listing_total
         # results_listing_filtered
         """
-        self.assertEqual(self.f_listing_file.listing(), [])
-        self.assertEqual(list(self.f_listing.listing()), [u'fb_tmp_dir', u'testimage.jpg'])
-        self.assertEqual(list(f.path for f in self.f_listing.files_listing_total()), [u'fb_test_directory/testimage.jpg', u'fb_test_directory/fb_tmp_dir'])
-        self.assertEqual(list(f.path for f in self.f_listing.files_listing_filtered()), [u'fb_test_directory/testimage.jpg', u'fb_test_directory/fb_tmp_dir'])
-        self.assertEqual(self.f_listing.results_listing_total(), 2)
-        self.assertEqual(self.f_listing.results_listing_filtered(), 2)
+
+        self.assertEqual(self.F_LISTING_IMAGE.listing(), [])
+        self.assertEqual(list(self.F_LISTING_FOLDER.listing()), [u'folder', u'testimage.jpg'])
+        self.assertEqual(list(f.path for f in self.F_LISTING_FOLDER.files_listing_total()), [u'_test/uploads/testimage.jpg', u'_test/uploads/folder'])
+        self.assertEqual(list(f.path for f in self.F_LISTING_FOLDER.files_listing_filtered()), [u'_test/uploads/testimage.jpg', u'_test/uploads/folder'])
+        self.assertEqual(self.F_LISTING_FOLDER.results_listing_total(), 2)
+        self.assertEqual(self.F_LISTING_FOLDER.results_listing_filtered(), 2)
 
     def test_listing_filtered(self):
         """
@@ -383,12 +384,13 @@ class FileListingTests(TestCase):
         # results_listing_total
         # results_listing_filtered
         """
-        self.assertEqual(self.f_listing_file.listing(), [])
-        self.assertEqual(list(self.f_listing.listing()), [u'fb_tmp_dir', u'testimage.jpg'])
-        self.assertEqual(list(f.path for f in self.f_listing.files_listing_total()), [u'fb_test_directory/testimage.jpg', u'fb_test_directory/fb_tmp_dir'])
-        self.assertEqual(list(f.path for f in self.f_listing.files_listing_filtered()), [u'fb_test_directory/testimage.jpg', u'fb_test_directory/fb_tmp_dir'])
-        self.assertEqual(self.f_listing.results_listing_total(), 2)
-        self.assertEqual(self.f_listing.results_listing_filtered(), 2)
+
+        self.assertEqual(self.F_LISTING_IMAGE.listing(), [])
+        self.assertEqual(list(self.F_LISTING_FOLDER.listing()), [u'folder', u'testimage.jpg'])
+        self.assertEqual(list(f.path for f in self.F_LISTING_FOLDER.files_listing_total()), [u'_test/uploads/testimage.jpg', u'_test/uploads/folder'])
+        self.assertEqual(list(f.path for f in self.F_LISTING_FOLDER.files_listing_filtered()), [u'_test/uploads/testimage.jpg', u'_test/uploads/folder'])
+        self.assertEqual(self.F_LISTING_FOLDER.results_listing_total(), 2)
+        self.assertEqual(self.F_LISTING_FOLDER.results_listing_filtered(), 2)
 
     def test_walk(self):
         """
@@ -400,9 +402,10 @@ class FileListingTests(TestCase):
         # results_walk_total
         # results_walk_filtered
         """
-        self.assertEqual(self.f_listing_file.walk(), [])
-        self.assertEqual(list(self.f_listing.walk()), [u'fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg', u'fb_tmp_dir/fb_tmp_dir_sub', u'fb_tmp_dir', u'testimage.jpg'])
-        self.assertEqual(list(f.path for f in self.f_listing.files_walk_total()), [u'fb_test_directory/testimage.jpg', u'fb_test_directory/fb_tmp_dir', u'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub', u'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg'])
-        self.assertEqual(list(f.path for f in self.f_listing.files_walk_filtered()), [u'fb_test_directory/testimage.jpg', u'fb_test_directory/fb_tmp_dir', u'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub', u'fb_test_directory/fb_tmp_dir/fb_tmp_dir_sub/testimage.jpg'])
-        self.assertEqual(self.f_listing.results_walk_total(), 4)
-        self.assertEqual(self.f_listing.results_walk_filtered(), 4)
+
+        self.assertEqual(self.F_LISTING_IMAGE.walk(), [])
+        self.assertEqual(list(self.F_LISTING_FOLDER.walk()), [u'folder/subfolder/testimage.jpg', u'folder/subfolder', u'folder', u'testimage.jpg'])
+        self.assertEqual(list(f.path for f in self.F_LISTING_FOLDER.files_walk_total()), [u'_test/uploads/testimage.jpg', u'_test/uploads/folder', u'_test/uploads/folder/subfolder', u'_test/uploads/folder/subfolder/testimage.jpg'])
+        self.assertEqual(list(f.path for f in self.F_LISTING_FOLDER.files_walk_filtered()), [u'_test/uploads/testimage.jpg', u'_test/uploads/folder', u'_test/uploads/folder/subfolder', u'_test/uploads/folder/subfolder/testimage.jpg'])
+        self.assertEqual(self.F_LISTING_FOLDER.results_walk_total(), 4)
+        self.assertEqual(self.F_LISTING_FOLDER.results_walk_filtered(), 4)
