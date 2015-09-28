@@ -23,6 +23,7 @@ else:
 
 class ScaleAndCropTests(TestCase):
     def setUp(self):
+        super(ScaleAndCropTests, self).setUp()
         self.im = Image.open(self.F_IMAGE.path_full)
 
     def test_scale_width(self):
@@ -137,6 +138,8 @@ class VersionTemplateTagTests(TestCase):
     """
 
     def setUp(self):
+        super(VersionTemplateTagTests, self).setUp()
+        os.makedirs(self.PLACEHOLDER_PATH)
         shutil.copy(self.STATIC_IMG_PATH, self.PLACEHOLDER_PATH)
 
     def test_wrong_token(self):
@@ -228,6 +231,8 @@ class VersionAsTemplateTagTests(TestCase):
     """
 
     def setUp(self):
+        super(VersionAsTemplateTagTests, self).setUp()
+        os.makedirs(self.PLACEHOLDER_PATH)
         shutil.copy(self.STATIC_IMG_PATH, self.PLACEHOLDER_PATH)
 
     def test_hardcoded_path(self):
@@ -310,6 +315,8 @@ class VersionObjectTemplateTagTests(TestCase):
 
     """
     def setUp(self):
+        super(VersionObjectTemplateTagTests, self).setUp()
+        os.makedirs(self.PLACEHOLDER_PATH)
         shutil.copy(self.STATIC_IMG_PATH, self.PLACEHOLDER_PATH)
 
     def test_wrong_token(self):

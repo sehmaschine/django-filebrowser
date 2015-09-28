@@ -323,8 +323,26 @@ class FileObjectAttributeTests(TestCase):
 
 
 class FileListingTests(TestCase):
+    """
+    /_test/uploads/testimage.jpg
+    /_test/uploads/folder/
+    /_test/uploads/folder/subfolder/
+    /_test/uploads/folder/subfolder/testimage.jpg
+    """
+
+    def setUp(self):
+        # Intentionally NOT calling super().
+        # Easier to specify state then modify existing state
+        self.F_LISTING_FOLDER = FileListing(self.DIRECTORY, sorting_by='date', sorting_order='desc')
+        self.F_LISTING_IMAGE = FileListing(os.path.join(self.DIRECTORY, 'folder', 'subfolder', "testimage.jpg"))
+
+        os.makedirs(self.FOLDER_PATH)
+        os.makedirs(self.SUBFOLDER_PATH)
+        shutil.copy(self.STATIC_IMG_PATH, self.SUBFOLDER_PATH)
+        shutil.copy(self.STATIC_IMG_PATH, self.DIRECTORY_PATH)
 
     def test_init_attributes(self):
+
         """
         FileListing init attributes
 

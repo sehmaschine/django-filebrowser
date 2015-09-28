@@ -13,8 +13,7 @@ class FilebrowserTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        super(FilebrowserTestCase, cls).setUpClass()
-
+        cls.DIRECTORY = DIRECTORY
         cls.TEST_PATH = os.path.join(site.storage.location, '_test')
         cls.DIRECTORY_PATH = os.path.join(site.storage.location, DIRECTORY)
         cls.VERSIONS_PATH = os.path.join(site.storage.location, VERSIONS_BASEDIR)
@@ -30,13 +29,12 @@ class FilebrowserTestCase(TestCase):
         cls.F_FOLDER = FileObject(os.path.join(DIRECTORY, 'folder'), site=site)
         cls.F_SUBFOLDER = FileObject(os.path.join(DIRECTORY, 'folder', 'subfolder'), site=site)
 
-        os.makedirs(cls.FOLDER_PATH)
-        os.makedirs(cls.SUBFOLDER_PATH)
-        os.makedirs(cls.PLACEHOLDER_PATH)
+        super(FilebrowserTestCase, cls).setUpClass()
 
-        shutil.copy(cls.STATIC_IMG_PATH, cls.FOLDER_PATH)
+    def setUp(self):
+        os.makedirs(self.FOLDER_PATH)
+        os.makedirs(self.SUBFOLDER_PATH)
+        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
 
-    @classmethod
-    def tearDownClass(cls):
-        super(FilebrowserTestCase, cls).tearDownClass()
-        shutil.rmtree(cls.TEST_PATH)
+    def tearDown(self):
+        shutil.rmtree(self.TEST_PATH)

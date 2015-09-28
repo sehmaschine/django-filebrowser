@@ -14,7 +14,8 @@ from tests import FilebrowserTestCase as TestCase
 class VersionGenerateCommandTests(TestCase):
 
     def setUp(self):
-        self.version_file = os.path.join(settings.MEDIA_ROOT, "_test/_versions/subfolder/testimage_large.jpg")
+        super(VersionGenerateCommandTests, self).setUp()
+        self.version_file = os.path.join(settings.MEDIA_ROOT, "_test/_versions/folder/testimage_large.jpg")
 
     def test_fb_version_generate(self):
         self.assertFalse(os.path.exists(self.version_file))
