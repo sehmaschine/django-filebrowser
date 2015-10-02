@@ -45,6 +45,11 @@ class StorageMixin(object):
         """
         raise NotImplementedError()
 
+    def setpermission(self, name):
+        """
+        Sets file permission
+        """
+        raise NotImplementedError()
 
 class FileSystemStorageMixin(StorageMixin):
 
@@ -63,6 +68,9 @@ class FileSystemStorageMixin(StorageMixin):
     def rmtree(self, name):
         shutil.rmtree(self.path(name))
 
+    def setpermission(self, name):
+        full_path = FileObject(smart_text(name), site=self).path_full
+        os.chmod(full_path, DEFAULT_PERMISSIONS)
 
 class S3BotoStorageMixin(StorageMixin):
 
@@ -113,3 +121,9 @@ class S3BotoStorageMixin(StorageMixin):
         dirlist = self.bucket.list(self._encode_name(name))
         for item in dirlist:
             item.delete()
+
+    def setpermission(self, name):
+        # Permissions for S3 uploads with django-storages
+        # is set in settings.py with AWS_DEFAULT_ACL.
+        # More info: http://django-common-configs.readthedocs.org/en/latest/configs/storage.html
+        pass
