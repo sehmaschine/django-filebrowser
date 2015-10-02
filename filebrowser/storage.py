@@ -6,6 +6,11 @@ import shutil
 
 # DJANGO IMPORTS
 from django.core.files.move import file_move_safe
+from django.utils.encoding import smart_text
+
+# FILEBROWSER IMPORTS
+from filebrowser.settings import DEFAULT_PERMISSIONS
+from filebrowser.base import FileObject
 
 
 class StorageMixin(object):
@@ -51,6 +56,7 @@ class StorageMixin(object):
         """
         raise NotImplementedError()
 
+
 class FileSystemStorageMixin(StorageMixin):
 
     def isdir(self, name):
@@ -71,6 +77,7 @@ class FileSystemStorageMixin(StorageMixin):
     def setpermission(self, name):
         full_path = FileObject(smart_text(name), site=self).path_full
         os.chmod(full_path, DEFAULT_PERMISSIONS)
+
 
 class S3BotoStorageMixin(StorageMixin):
 
