@@ -16,8 +16,6 @@ from filebrowser.settings import DEFAULT_PERMISSIONS, STRICT_PIL
 from filebrowser.base import FileObject
 from filebrowser.sites import site
 from filebrowser.utils import scale_and_crop
-
-# XXX This should help to resolve issue #286
 from filebrowser.templatetags import fb_versions
 
 # PIL import
