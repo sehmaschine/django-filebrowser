@@ -14,9 +14,9 @@ import os
 import json
 
 # DJANGO IMPORTS
-from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.contrib.auth.models import User
 try:
     from django.utils.six.moves.urllib.parse import urlencode
 except:
@@ -31,28 +31,31 @@ from filebrowser.base import FileObject
 
 # This module will test all FileBrowser sites with the following app_name
 APP_NAME = 'filebrowser'
+from filebrowser.sites import site
+from tests import FilebrowserTestCase as TestCase
 
 FILEBROWSER_PATH = os.path.join(settings.BASE_DIR, 'filebrowser')
 
 # TEST FUNCTIONS
 
+class BrowseViewTests(TestCase):
+    def setUp(self):
+        super(BrowseViewTests, self).setUp()
+        user = User.objects.create_user('testuser', 'test@domain.com', 'password')
+        user.is_staff = True
+        user.save()
 
-def test_browse(test):
-    """
-    Check the browse view functions as expected.
-    """
-    url = reverse('%s:fb_browse' % test.site_name)
-    response = test.c.get(url)
+        self.url = reverse('filebrowser:fb_browse')
+        self.client.login(username='testuser', password='password')
 
-    # Check we get OK response for browsing
-    test.assertTrue(response.status_code == 200)
+    def test_get(self):
+        response = self.client.get(self.url)
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue('filebrowser/index.html' in [t.name for t in response.templates])
 
-    # Check that a correct template was used:
-    test.assertTrue('filebrowser/index.html' in [t.name for t in response.templates])
-
-    # Check directory was set correctly in the context. If this fails, it may indicate
-    # that two sites were instantiated with the same name.
-    test.assertTrue(test.site.directory == response.context['filebrowser_site'].directory)
+        # Check directory was set correctly in the context. If this fails, it may indicate
+        # that two sites were instantiated with the same name.
+        self.assertTrue(site.directory == response.context['filebrowser_site'].directory)
 
 
 def test_ckeditor_params_in_search_form(test):
