@@ -48,6 +48,19 @@ class BrowseViewTests(TestCase):
         self.assertTrue(site.directory == response.context['filebrowser_site'].directory)
 
 
+class CreateDirViewTests(TestCase):
+    def setUp(self):
+        super(CreateDirViewTests, self).setUp()
+        self.url = reverse('filebrowser:fb_createdir')
+        self.client.login(username=self.user.username, password='password')
+
+    def test_post(self):
+        self.assertFalse(site.storage.exists(self.CREATEFOLDER_PATH))
+        response = self.client.post(self.url, {'name': self.F_CREATEFOLDER.path_relative_directory})
+        self.assertTrue(response.status_code == 302)
+        self.assertTrue(site.storage.exists(self.CREATEFOLDER_PATH))
+
+
 def test_ckeditor_params_in_search_form(test):
     """
     The CKEditor GET params must be included in the search form as hidden
@@ -66,33 +79,6 @@ def test_ckeditor_params_in_search_form(test):
     test.assertContains(response, '<input type="hidden" name="type" value="image" />')
     test.assertContains(response, '<input type="hidden" name="CKEditor" value="id_body" />')
     test.assertContains(response, '<input type="hidden" name="CKEditorFuncNum" value="1" />')
-
-
-def test_createdir(test):
-    """
-    Check the createdir view functions as expected. Creates a new tmp directory
-    under 'site.directory'.
-    """
-    # Generate a name of a new temp directory
-    prefix = 'tmp_test'
-    sufix = 0
-    tmpdir_name = '%s_%d' % (prefix, sufix)
-    while test.site.storage.exists(os.path.join(test.site.directory, tmpdir_name)):
-        sufix += 1
-        tmpdir_name = '%s_%d' % (prefix, sufix)
-
-    # Store the this temp directory (we need to delete it later)
-    test.tmpdir = FileObject(os.path.join(test.site.directory, tmpdir_name), site=test.site)
-
-    # Create the directory using the createdir view
-    url = reverse('%s:fb_createdir' % test.site_name)
-    response = test.c.post(url, {'name': tmpdir_name})
-
-    # Check we got Redirection response for createdir
-    test.assertTrue(response.status_code == 302)
-
-    # Check the directory now exists
-    test.assertTrue(test.site.storage.exists(test.tmpdir.path))
 
 
 def test_upload(test):

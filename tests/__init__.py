@@ -31,6 +31,7 @@ class FilebrowserTestCase(TestCase):
 
         self.FOLDER_PATH = os.path.join(self.DIRECTORY_PATH, 'folder')
         self.SUBFOLDER_PATH = os.path.join(self.FOLDER_PATH, 'subfolder')
+        self.CREATEFOLDER_PATH = os.path.join(self.DIRECTORY_PATH, 'create')
         self.PLACEHOLDER_PATH = os.path.join(self.DIRECTORY_PATH, 'placeholders')
 
         self.STATIC_IMG_PATH = os.path.join(settings.BASE_DIR, 'filebrowser', "static", "filebrowser", "img", "testimage.jpg")
@@ -39,6 +40,7 @@ class FilebrowserTestCase(TestCase):
         self.F_MISSING = FileObject(os.path.join(DIRECTORY, 'folder', "missing.jpg"), site=site)
         self.F_FOLDER = FileObject(os.path.join(DIRECTORY, 'folder'), site=site)
         self.F_SUBFOLDER = FileObject(os.path.join(DIRECTORY, 'folder', 'subfolder'), site=site)
+        self.F_CREATEFOLDER = FileObject(os.path.join(DIRECTORY, 'create'), site=site)
 
         os.makedirs(self.FOLDER_PATH)
         os.makedirs(self.SUBFOLDER_PATH)
