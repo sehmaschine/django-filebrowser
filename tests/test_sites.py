@@ -27,16 +27,11 @@ import filebrowser
 import filebrowser.settings
 from filebrowser.settings import VERSIONS, DEFAULT_PERMISSIONS
 from filebrowser.base import FileObject
-
-
-# This module will test all FileBrowser sites with the following app_name
-APP_NAME = 'filebrowser'
 from filebrowser.sites import site
 from tests import FilebrowserTestCase as TestCase
 
 FILEBROWSER_PATH = os.path.join(settings.BASE_DIR, 'filebrowser')
 
-# TEST FUNCTIONS
 
 class BrowseViewTests(TestCase):
     def setUp(self):
@@ -405,5 +400,3 @@ def test_delete(test):
     test.assertTrue(response.status_code == 302)
     test.assertFalse(test.site.storage.exists(test.tmpdir.path))
     test.tmpdir = None
-
-
