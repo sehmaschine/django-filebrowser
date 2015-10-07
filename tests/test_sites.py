@@ -81,18 +81,20 @@ def test_ckeditor_params_in_search_form(test):
     test.assertContains(response, '<input type="hidden" name="CKEditorFuncNum" value="1" />')
 
 
-def test_upload(test):
-    """
-    Check the upload view functions as expected. Does not check the uploading itself.
-    """
-    url = reverse('%s:fb_upload' % test.site_name)
-    response = test.c.get(url, {'name': test.tmpdir.path_relative_directory})
+class UploadViewTests(TestCase):
+    def setUp(self):
+        super(UploadViewTests, self).setUp()
+        self.url = reverse('filebrowser:fb_upload')
+        self.client.login(username=self.user.username, password='password')
 
-    # Check we get OK response for upload view
-    test.assertTrue(response.status_code == 200)
+    def test_get(self):
+        response = self.client.get(self.url, {'name': self.F_CREATEFOLDER.path_relative_directory})
 
-    # Check the correct template was used
-    test.assertTrue('filebrowser/upload.html' in [t.name for t in response.templates])
+        # Check we get OK response for upload view
+        self.assertTrue(response.status_code == 200)
+
+        # Check the correct template was used
+        self.assertTrue('filebrowser/upload.html' in [t.name for t in response.templates])
 
 
 def test_do_upload(test):
