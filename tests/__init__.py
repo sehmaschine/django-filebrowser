@@ -2,6 +2,7 @@ import os
 import shutil
 
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.test import TestCase
 
 from filebrowser.settings import DIRECTORY, VERSIONS_BASEDIR
@@ -10,6 +11,14 @@ from filebrowser.sites import site
 
 
 class FilebrowserTestCase(TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super(FilebrowserTestCase, cls).setUpClass()
+
+        cls.user = User.objects.create_user('testuser', 'test@domain.com', 'password')
+        cls.user.is_staff = True
+        cls.user.save()
 
     def setUp(self):
         self.DIRECTORY = DIRECTORY

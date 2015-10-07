@@ -16,7 +16,6 @@ import json
 # DJANGO IMPORTS
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from django.contrib.auth.models import User
 try:
     from django.utils.six.moves.urllib.parse import urlencode
 except:
@@ -36,12 +35,8 @@ FILEBROWSER_PATH = os.path.join(settings.BASE_DIR, 'filebrowser')
 class BrowseViewTests(TestCase):
     def setUp(self):
         super(BrowseViewTests, self).setUp()
-        user = User.objects.create_user('testuser', 'test@domain.com', 'password')
-        user.is_staff = True
-        user.save()
-
         self.url = reverse('filebrowser:fb_browse')
-        self.client.login(username='testuser', password='password')
+        self.client.login(username=self.user.username, password='password')
 
     def test_get(self):
         response = self.client.get(self.url)
