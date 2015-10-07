@@ -11,13 +11,11 @@ creation of instance methods from functions.
 # PYTHON IMPORTS
 from __future__ import with_statement
 import os
-import sys
 import json
 
 # DJANGO IMPORTS
 from django.test import TestCase
-from django.test.client import Client
-from django.core.urlresolvers import get_resolver, get_urlconf, reverse
+from django.core.urlresolvers import reverse
 from django.conf import settings
 try:
     from django.utils.six.moves.urllib.parse import urlencode
@@ -29,7 +27,7 @@ import filebrowser
 import filebrowser.settings
 from filebrowser.settings import VERSIONS, DEFAULT_PERMISSIONS
 from filebrowser.base import FileObject
-from filebrowser.sites import get_site_dict
+
 
 # This module will test all FileBrowser sites with the following app_name
 APP_NAME = 'filebrowser'
@@ -406,66 +404,3 @@ def test_delete(test):
     test.tmpdir = None
 
 
-# INSTANCE METHODS
-
-# setUp, tearDown, and runTest methods for the dynamically created
-# test cases (they will become instance methods)
-
-def setUp(self):
-    # Create a site_tester user
-    from django.contrib.auth.models import User
-    user = User.objects.create_user('site_tester', 'st@willworkforfood.com', 'secret')
-    user.is_staff = True
-    user.save()
-    # Obtain the site object
-    self.site = get_site_dict(APP_NAME)[self.site_name]
-    self.original_upload_tempdir = filebrowser.sites.UPLOAD_TEMPDIR
-
-
-def tearDown(self):
-    filebrowser.sites.UPLOAD_TEMPDIR = self.original_upload_tempdir
-    # Delete a left-over tmp directories, if there's any
-    if hasattr(self, 'tmpdir') and self.tmpdir:
-        print("Removing left-over tmp dir:", self.tmpdir.path)
-        self.site.storage.rmtree(self.tmpdir.path)
-
-
-def runTest(self):
-    # Login
-    response = self.c.login(username='site_tester', password='secret')
-    self.assertTrue(response)
-    # Execute tests
-    test_browse(self)
-    test_ckeditor_params_in_search_form(self)
-    test_createdir(self)
-    test_upload(self)
-    test_do_upload(self)
-    test_do_temp_upload(self)
-    test_overwrite(self)
-    test_convert_normalize(self)
-    test_detail(self)
-    test_delete_confirm(self)
-    test_delete(self)
-
-# CREATION OF TEST CASES
-
-# Get the names of all deployed filebrowser sites with the given
-all_sites = get_resolver(get_urlconf()).app_dict[APP_NAME]
-
-this_module = sys.modules[__name__]
-
-# Create a test class for each deployed filebrowser site
-for site in all_sites:
-    print('Creating Test for the FileBrowser site:', site)
-    # Create a subclass of TestCase
-    testcase_class = type('TestSite_' + site, (TestCase,), {'site_name': site, 'c': Client(), 'tmpdirs': None})
-    # Add setUp, tearDown, and runTest methods
-    setattr(testcase_class, 'setUp', setUp)
-    setattr(testcase_class, 'tearDown', tearDown)
-    setattr(testcase_class, 'runTest', runTest)
-    # Add the test case class to this module
-    setattr(this_module, 'TestSite_' + site, testcase_class)
-
-# Delete the attribute test_class, otherwise it will be
-# considered as a test case by django
-delattr(this_module, 'testcase_class')
