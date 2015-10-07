@@ -24,6 +24,8 @@ else:
 class ScaleAndCropTests(TestCase):
     def setUp(self):
         super(ScaleAndCropTests, self).setUp()
+        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
+
         self.im = Image.open(self.F_IMAGE.path_full)
 
     def test_scale_width(self):
@@ -139,6 +141,8 @@ class VersionTemplateTagTests(TestCase):
 
     def setUp(self):
         super(VersionTemplateTagTests, self).setUp()
+        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
+
         os.makedirs(self.PLACEHOLDER_PATH)
         shutil.copy(self.STATIC_IMG_PATH, self.PLACEHOLDER_PATH)
 
@@ -232,6 +236,8 @@ class VersionAsTemplateTagTests(TestCase):
 
     def setUp(self):
         super(VersionAsTemplateTagTests, self).setUp()
+        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
+
         os.makedirs(self.PLACEHOLDER_PATH)
         shutil.copy(self.STATIC_IMG_PATH, self.PLACEHOLDER_PATH)
 
@@ -316,6 +322,8 @@ class VersionObjectTemplateTagTests(TestCase):
     """
     def setUp(self):
         super(VersionObjectTemplateTagTests, self).setUp()
+        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
+
         os.makedirs(self.PLACEHOLDER_PATH)
         shutil.copy(self.STATIC_IMG_PATH, self.PLACEHOLDER_PATH)
 

@@ -15,6 +15,10 @@ from tests import FilebrowserTestCase as TestCase
 
 class FileObjectPathTests(TestCase):
 
+    def setUp(self):
+        super(FileObjectPathTests, self).setUp()
+        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
+
     @patch('filebrowser.base.os.path', ntpath)
     def test_windows_paths(self):
         """
@@ -38,6 +42,10 @@ class FileObjectPathTests(TestCase):
 
 class FileObjectUnicodeTests(TestCase):
 
+    def setUp(self):
+        super(FileObjectUnicodeTests, self).setUp()
+        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
+
     @patch('filebrowser.base.os.path', ntpath)
     def test_windows_paths(self):
         """
@@ -60,6 +68,10 @@ class FileObjectUnicodeTests(TestCase):
 
 
 class FileObjectAttributeTests(TestCase):
+
+    def setUp(self):
+        super(FileObjectAttributeTests, self).setUp()
+        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
 
     def test_init_attributes(self):
         """
@@ -331,13 +343,11 @@ class FileListingTests(TestCase):
     """
 
     def setUp(self):
-        # Intentionally NOT calling super().
-        # Easier to specify state then modify existing state
+        super(FileListingTests, self).setUp()
+
         self.F_LISTING_FOLDER = FileListing(self.DIRECTORY, sorting_by='date', sorting_order='desc')
         self.F_LISTING_IMAGE = FileListing(os.path.join(self.DIRECTORY, 'folder', 'subfolder', "testimage.jpg"))
 
-        os.makedirs(self.FOLDER_PATH)
-        os.makedirs(self.SUBFOLDER_PATH)
         shutil.copy(self.STATIC_IMG_PATH, self.SUBFOLDER_PATH)
         shutil.copy(self.STATIC_IMG_PATH, self.DIRECTORY_PATH)
 
