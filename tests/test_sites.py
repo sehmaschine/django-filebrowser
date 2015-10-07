@@ -89,45 +89,46 @@ class UploadViewTests(TestCase):
 
     def test_get(self):
         response = self.client.get(self.url, {'name': self.F_CREATEFOLDER.path_relative_directory})
-
-        # Check we get OK response for upload view
         self.assertTrue(response.status_code == 200)
-
-        # Check the correct template was used
         self.assertTrue('filebrowser/upload.html' in [t.name for t in response.templates])
 
 
-def test_do_upload(test):
-    """
-    Test the actual uploading
-    """
+class UploadFileViewTests(TestCase):
+    def setUp(self):
+        super(UploadFileViewTests, self).setUp()
+        self.url = reverse('filebrowser:fb_do_upload')
+        self.client.login(username=self.user.username, password='password')
 
-    url = reverse('%s:fb_do_upload' % test.site_name)
-    url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage.jpg'})])
+    def test_post(self):
+        uploaded_path = os.path.join(self.F_SUBFOLDER.path, 'testimage.jpg')
 
-    with open(os.path.join(FILEBROWSER_PATH, 'static/filebrowser/img/testimage.jpg'), "rb") as f:
-        file_size = os.path.getsize(f.name)
-        response = test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertFalse(site.storage.exists(uploaded_path))
 
-    # Check we get OK response
-    test.assertTrue(response.status_code == 200)
-    data = json.loads(response.content)
-    test.assertEqual(data["filename"], "testimage.jpg")
-    test.assertEqual(data["temp_filename"], None)
+        url = reverse('filebrowser:fb_do_upload')
+        url = '?'.join([url, urlencode({'folder': self.F_SUBFOLDER.path_relative_directory})])
 
-    # Check the file now exists
-    path = os.path.join(test.tmpdir.path, 'testimage.jpg')
-    test.testfile = FileObject(path, site=test.site)
-    test.assertTrue(test.site.storage.exists(path))
+        with open(os.path.join(self.STATIC_IMG_PATH), "rb") as f:
+            file_size = os.path.getsize(f.name)
+            response = self.client.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-    # Check the file has the correct size
-    test.assertTrue(file_size == test.site.storage.size(path))
+        # Check we get OK response
+        self.assertTrue(response.status_code == 200)
+        data = json.loads(response.content)
+        self.assertEqual(data["filename"], "testimage.jpg")
+        self.assertEqual(data["temp_filename"], None)
 
-    # Check permissions
-    if DEFAULT_PERMISSIONS is not None:
-        permissions_default = oct(DEFAULT_PERMISSIONS)
-        permissions_file = oct(os.stat(test.testfile.path_full).st_mode & 0o777)
-        test.assertTrue(permissions_default == permissions_file)
+        # Check the file now exists
+        self.testfile = FileObject(uploaded_path, site=site)
+        self.assertTrue(site.storage.exists(uploaded_path))
+
+        # Check the file has the correct size
+        self.assertTrue(file_size == site.storage.size(uploaded_path))
+
+        # Check permissions
+        if DEFAULT_PERMISSIONS is not None:
+            permissions_default = oct(DEFAULT_PERMISSIONS)
+            permissions_file = oct(os.stat(self.testfile.path_full).st_mode & 0o777)
+            self.assertTrue(permissions_default == permissions_file)
 
 
 def test_do_temp_upload(test):
