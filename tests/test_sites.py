@@ -26,7 +26,6 @@ except:
 
 # FILEBROWSER IMPORTS
 import filebrowser
-import filebrowser.settings
 from filebrowser.settings import VERSIONS, DEFAULT_PERMISSIONS
 from filebrowser.base import FileObject
 from filebrowser.sites import site
@@ -100,6 +99,8 @@ class UploadFileViewTests(TestCase):
     def setUp(self):
         super(UploadFileViewTests, self).setUp()
         self.url = reverse('filebrowser:fb_do_upload')
+        self.url_bad_name = '?'.join([self.url, urlencode({'folder': self.F_SUBFOLDER.path_relative_directory, 'qqfile': 'TEST IMAGE 000.jpg'})])
+
         self.client.login(username=self.user.username, password='password')
 
     def test_post(self):
@@ -138,7 +139,7 @@ class UploadFileViewTests(TestCase):
         """
         Test the temporary upload (used with the FileBrowseUploadField)
 
-        TODO: This is undocumented and may have unknow side effects with other settings.
+        TODO: This is undocumented.
         """
 
         uploaded_path = os.path.join(self.F_TEMPFOLDER.path, 'testimage.jpg')
@@ -196,101 +197,33 @@ class UploadFileViewTests(TestCase):
 
         self.assertEqual(len(site.storage.listdir(self.F_SUBFOLDER)[1]), 2)
 
+    @patch('filebrowser.utils.CONVERT_FILENAME', False)
+    @patch('filebrowser.utils.NORMALIZE_FILENAME', False)
+    def test_convert_false_normalize_false(self):
+        with open(self.STATIC_IMG_BAD_NAME_PATH, "rb") as f:
+            self.client.post(self.url_bad_name, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'TEST IMAGE 000.jpg']))
 
-def test_convert_normalize(test):
-    """
-    Test the uploading with CONVERT_FILENAME, NORMALIZE_FILENAME
-    """
+    @patch('filebrowser.utils.CONVERT_FILENAME', True)
+    @patch('filebrowser.utils.NORMALIZE_FILENAME', False)
+    def test_convert_true_normalize_false(self):
+        with open(self.STATIC_IMG_BAD_NAME_PATH, "rb") as f:
+            self.client.post(self.url_bad_name, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'test_image_000.jpg']))
 
-    url = reverse('%s:fb_do_upload' % test.site_name)
-    url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'TEST IMAGE 000.jpg'})])
-    f = open(os.path.join(FILEBROWSER_PATH, u'static/filebrowser/img/TEST IMAGE 000.jpg'), "rb")
+    @patch('filebrowser.utils.CONVERT_FILENAME', False)
+    @patch('filebrowser.utils.NORMALIZE_FILENAME', True)
+    def test_convert_false_normalize_true(self):
+        with open(self.STATIC_IMG_BAD_NAME_PATH, "rb") as f:
+            self.client.post(self.url_bad_name, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'TEST IMAGE 000.jpg']))
 
-    # Save settings
-    oe = filebrowser.sites.OVERWRITE_EXISTING
-    cf = filebrowser.sites.CONVERT_FILENAME
-    nf = filebrowser.sites.NORMALIZE_FILENAME
-
-    # Set CONVERT_FILENAME, NORMALIZE_FILENAME
-    filebrowser.sites.CONVERT_FILENAME = False
-    filebrowser.sites.NORMALIZE_FILENAME = False
-    filebrowser.utils.CONVERT_FILENAME = False
-    filebrowser.utils.NORMALIZE_FILENAME = False
-    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-    path = os.path.join(test.tmpdir.path, 'TEST IMAGE 000.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 3)
-
-    # OVERWRITE true
-    filebrowser.sites.OVERWRITE_EXISTING = True
-    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-    path = os.path.join(test.tmpdir.path, 'TEST IMAGE 000.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    path = os.path.join(test.tmpdir.path, 'TEST IMAGE 000_1.jpg')
-    test.assertFalse(test.site.storage.exists(path))
-    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 3)
-
-    # OVERWRITE false
-    filebrowser.sites.OVERWRITE_EXISTING = False
-    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-    path = os.path.join(test.tmpdir.path, 'TEST IMAGE 000.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 4)
-
-    # Set CONVERT_FILENAME, NORMALIZE_FILENAME
-    filebrowser.sites.CONVERT_FILENAME = True
-    filebrowser.sites.NORMALIZE_FILENAME = False
-    filebrowser.utils.CONVERT_FILENAME = True
-    filebrowser.utils.NORMALIZE_FILENAME = False
-    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-    path = os.path.join(test.tmpdir.path, 'test_image_000.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 5)
-
-    # OVERWRITE true
-    filebrowser.sites.OVERWRITE_EXISTING = True
-    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-    path = os.path.join(test.tmpdir.path, 'test_image_000.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 5)
-
-    # OVERWRITE false
-    filebrowser.sites.OVERWRITE_EXISTING = False
-    test.c.post(url, data={'qqfile': 'TTEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-    path = os.path.join(test.tmpdir.path, 'test_image_000.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 6)
-
-    # Set CONVERT_FILENAME, NORMALIZE_FILENAME
-    filebrowser.sites.CONVERT_FILENAME = True
-    filebrowser.sites.NORMALIZE_FILENAME = True
-    filebrowser.utils.CONVERT_FILENAME = True
-    filebrowser.utils.NORMALIZE_FILENAME = True
-    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-    path = os.path.join(test.tmpdir.path, 'test_image_000.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 7)
-
-    # OVERWRITE true
-    filebrowser.sites.OVERWRITE_EXISTING = True
-    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-    path = os.path.join(test.tmpdir.path, 'test_image_000.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 7)
-
-    # OVERWRITE false
-    filebrowser.sites.OVERWRITE_EXISTING = False
-    test.c.post(url, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-    path = os.path.join(test.tmpdir.path, 'test_image_000.jpg')
-    test.assertTrue(test.site.storage.exists(path))
-    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 8)
-
-    # Reset settings
-    filebrowser.sites.CONVERT_FILENAME = cf
-    filebrowser.sites.NORMALIZE_FILENAME = nf
-    filebrowser.utils.CONVERT_FILENAME = cf
-    filebrowser.utils.NORMALIZE_FILENAME = nf
-    filebrowser.sites.OVERWRITE_EXISTING = oe
+    @patch('filebrowser.utils.CONVERT_FILENAME', True)
+    @patch('filebrowser.utils.NORMALIZE_FILENAME', True)
+    def test_convert_true_normalize_true(self):
+        with open(self.STATIC_IMG_BAD_NAME_PATH, "rb") as f:
+            self.client.post(self.url_bad_name, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'test_image_000.jpg']))
 
 
 def test_detail(test):

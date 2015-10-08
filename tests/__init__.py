@@ -36,6 +36,7 @@ class FilebrowserTestCase(TestCase):
         self.PLACEHOLDER_PATH = os.path.join(self.DIRECTORY_PATH, 'placeholders')
 
         self.STATIC_IMG_PATH = os.path.join(settings.BASE_DIR, 'filebrowser', "static", "filebrowser", "img", "testimage.jpg")
+        self.STATIC_IMG_BAD_NAME_PATH = os.path.join(settings.BASE_DIR, 'filebrowser', "static", "filebrowser", "img", "TEST IMAGE 000.jpg")
 
         self.F_IMAGE = FileObject(os.path.join(DIRECTORY, 'folder', "testimage.jpg"), site=site)
         self.F_MISSING = FileObject(os.path.join(DIRECTORY, 'folder', "missing.jpg"), site=site)
