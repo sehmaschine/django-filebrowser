@@ -67,10 +67,11 @@ Filebrowser is shipped with a minimal django project for testing.
 
 Run the |filebrowser| tests:
 
+.. note::
+    Using virtualenv is recommended for testing.
+
 .. code-block:: console
 
-    virtualenv venv
-    source venv/bin/active
     pip install -r tests/requirements.txt
     python runtests.py
 
