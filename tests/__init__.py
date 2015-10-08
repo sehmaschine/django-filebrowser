@@ -29,6 +29,7 @@ class FilebrowserTestCase(TestCase):
         if os.path.exists(self.TEST_PATH):
             raise Exception('TEST_PATH Already Exists')
 
+        self.TEMP_PATH = os.path.join(self.TEST_PATH, 'tempfolder')
         self.FOLDER_PATH = os.path.join(self.DIRECTORY_PATH, 'folder')
         self.SUBFOLDER_PATH = os.path.join(self.FOLDER_PATH, 'subfolder')
         self.CREATEFOLDER_PATH = os.path.join(self.DIRECTORY_PATH, 'create')
@@ -41,6 +42,7 @@ class FilebrowserTestCase(TestCase):
         self.F_FOLDER = FileObject(os.path.join(DIRECTORY, 'folder'), site=site)
         self.F_SUBFOLDER = FileObject(os.path.join(DIRECTORY, 'folder', 'subfolder'), site=site)
         self.F_CREATEFOLDER = FileObject(os.path.join(DIRECTORY, 'create'), site=site)
+        self.F_TEMPFOLDER = FileObject(os.path.join('_test', 'tempfolder'), site=site)
 
         os.makedirs(self.FOLDER_PATH)
         os.makedirs(self.SUBFOLDER_PATH)

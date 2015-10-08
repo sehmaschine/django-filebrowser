@@ -13,6 +13,8 @@ from __future__ import with_statement
 import os
 import json
 
+from mock import patch
+
 # DJANGO IMPORTS
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -100,12 +102,11 @@ class UploadFileViewTests(TestCase):
         self.client.login(username=self.user.username, password='password')
 
     def test_post(self):
-        uploaded_path = os.path.join(self.F_SUBFOLDER.path, 'testimage.jpg')
 
+        uploaded_path = os.path.join(self.F_SUBFOLDER.path, 'testimage.jpg')
         self.assertFalse(site.storage.exists(uploaded_path))
 
-        url = reverse('filebrowser:fb_do_upload')
-        url = '?'.join([url, urlencode({'folder': self.F_SUBFOLDER.path_relative_directory})])
+        url = '?'.join([self.url, urlencode({'folder': self.F_SUBFOLDER.path_relative_directory})])
 
         with open(os.path.join(self.STATIC_IMG_PATH), "rb") as f:
             file_size = os.path.getsize(f.name)
@@ -125,46 +126,46 @@ class UploadFileViewTests(TestCase):
         self.assertTrue(file_size == site.storage.size(uploaded_path))
 
         # Check permissions
+        # TODO: break out into separate test
         if DEFAULT_PERMISSIONS is not None:
             permissions_default = oct(DEFAULT_PERMISSIONS)
             permissions_file = oct(os.stat(self.testfile.path_full).st_mode & 0o777)
             self.assertTrue(permissions_default == permissions_file)
 
+    @patch('filebrowser.sites.UPLOAD_TEMPDIR', '_test/tempfolder')
+    def test_do_temp_upload(self):
+        """
+        Test the temporary upload (used with the FileBrowseUploadField)
+        """
 
-def test_do_temp_upload(test):
-    """
-    Test the temporary upload (used with the FileBrowseUploadField)
-    We use the standard test directory here (no special upload dir needed).
-    """
+        uploaded_path = os.path.join(self.F_TEMPFOLDER.path, 'testimage.jpg')
+        self.assertFalse(site.storage.exists(uploaded_path))
 
-    filebrowser.sites.UPLOAD_TEMPDIR = test.tmpdir.path_relative_directory
+        url = reverse('filebrowser:fb_do_upload')
+        url = '?'.join([url, urlencode({'folder': self.F_TEMPFOLDER.path_relative_directory, 'qqfile': 'testimage.jpg', 'temporary': 'true'})])
 
-    url = reverse('%s:fb_do_upload' % test.site_name)
-    url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage.jpg', 'temporary': 'true'})])
+        with open(os.path.join(self.STATIC_IMG_PATH), "rb") as f:
+            file_size = os.path.getsize(f.name)
+            response = self.client.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-    with open(os.path.join(FILEBROWSER_PATH, 'static/filebrowser/img/testimage.jpg'), "rb") as f:
-        file_size = os.path.getsize(f.name)
-        response = test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        # Check we get OK response
+        self.assertTrue(response.status_code == 200)
+        data = json.loads(response.content)
+        self.assertEqual(data["filename"], "testimage.jpg")
+        self.assertEqual(data["temp_filename"], os.path.join(self.F_TEMPFOLDER.path_relative_directory, "testimage.jpg"))
 
-    # Check we get OK response
-    test.assertTrue(response.status_code == 200)
-    data = json.loads(response.content)
-    test.assertEqual(data["filename"], "testimage.jpg")
-    test.assertEqual(data["temp_filename"], os.path.join(test.tmpdir.path_relative_directory, "testimage.jpg"))
+        # Check the file now exists
+        self.testfile = FileObject(uploaded_path, site=site)
+        self.assertTrue(site.storage.exists(uploaded_path))
 
-    # Check the file now exists
-    path = os.path.join(test.tmpdir.path, 'testimage.jpg')
-    test.testfile = FileObject(path, site=test.site)
-    test.assertTrue(test.site.storage.exists(path))
+        # Check the file has the correct size
+        self.assertTrue(file_size == site.storage.size(uploaded_path))
 
-    # Check the file has the correct size
-    test.assertTrue(file_size == test.site.storage.size(path))
-
-    # Check permissions
-    if DEFAULT_PERMISSIONS is not None:
-        permissions_default = oct(DEFAULT_PERMISSIONS)
-        permissions_file = oct(os.stat(test.testfile.path_full).st_mode & 0o777)
-        test.assertTrue(permissions_default == permissions_file)
+        # Check permissions
+        if DEFAULT_PERMISSIONS is not None:
+            permissions_default = oct(DEFAULT_PERMISSIONS)
+            permissions_file = oct(os.stat(self.testfile.path_full).st_mode & 0o777)
+            self.assertTrue(permissions_default == permissions_file)
 
 
 def test_overwrite(test):
