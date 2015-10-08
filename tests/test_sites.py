@@ -49,6 +49,24 @@ class BrowseViewTests(TestCase):
         # that two sites were instantiated with the same name.
         self.assertTrue(site.directory == response.context['filebrowser_site'].directory)
 
+    def test_ckeditor_params_in_search_form(self):
+        """
+        The CKEditor GET params must be included in the search form as hidden
+        inputs so they persist after searching.
+        """
+        response = self.client.get(self.url, {
+            'pop': '3',
+            'type': 'image',
+            'CKEditor': 'id_body',
+            'CKEditorFuncNum': '1',
+        })
+
+        self.assertTrue(response.status_code == 200)
+        self.assertContains(response, '<input type="hidden" name="pop" value="3" />')
+        self.assertContains(response, '<input type="hidden" name="type" value="image" />')
+        self.assertContains(response, '<input type="hidden" name="CKEditor" value="id_body" />')
+        self.assertContains(response, '<input type="hidden" name="CKEditorFuncNum" value="1" />')
+
 
 class CreateDirViewTests(TestCase):
     def setUp(self):
@@ -61,26 +79,6 @@ class CreateDirViewTests(TestCase):
         response = self.client.post(self.url, {'name': self.F_CREATEFOLDER.path_relative_directory})
         self.assertTrue(response.status_code == 302)
         self.assertTrue(site.storage.exists(self.CREATEFOLDER_PATH))
-
-
-def test_ckeditor_params_in_search_form(test):
-    """
-    The CKEditor GET params must be included in the search form as hidden
-    inputs so they persist after searching.
-    """
-    url = reverse('%s:fb_browse' % test.site_name)
-    response = test.c.get(url, {
-        'pop': '3',
-        'type': 'image',
-        'CKEditor': 'id_body',
-        'CKEditorFuncNum': '1',
-    })
-
-    test.assertTrue(response.status_code == 200)
-    test.assertContains(response, '<input type="hidden" name="pop" value="3" />')
-    test.assertContains(response, '<input type="hidden" name="type" value="image" />')
-    test.assertContains(response, '<input type="hidden" name="CKEditor" value="id_body" />')
-    test.assertContains(response, '<input type="hidden" name="CKEditorFuncNum" value="1" />')
 
 
 class UploadViewTests(TestCase):
