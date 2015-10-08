@@ -226,44 +226,47 @@ class UploadFileViewTests(TestCase):
             self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'test_image_000.jpg']))
 
 
-def test_detail(test):
-    """
-    Check the detail view and version generation. Check also renaming of files.
-    """
-    url = reverse('%s:fb_detail' % test.site_name)
-    response = test.c.get(url, {'dir': test.testfile.dirname, 'filename': test.testfile.filename})
+class DetailViewTests(TestCase):
+    def setUp(self):
+        super(DetailViewTests, self).setUp()
+        self.url = reverse('filebrowser:fb_detail')
+        self.client.login(username=self.user.username, password='password')
 
-    # Check we get an OK response for the detail view
-    test.assertTrue(response.status_code == 200)
+    def test_get(self):
+        """ Check the detail view and version generation. Check also renaming of files. """
+        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
+        response = self.client.get(self.url, {'dir': self.F_IMAGE.dirname, 'filename': self.F_IMAGE.filename})
 
-    # At this moment all versions should be generated. Check that.
-    pre_rename_versions = []
-    for version_suffix in VERSIONS:
-        path = test.testfile.version_path(version_suffix)
-        pre_rename_versions.append(path)
-        test.assertTrue(test.site.storage.exists(path))
+        self.assertTrue(response.status_code == 200)
 
-    # Attemp renaming the file
-    url = '?'.join([url, urlencode({'dir': test.testfile.dirname, 'filename': test.testfile.filename})])
-    response = test.c.post(url, {'name': 'testpic.jpg'})
+        # At this moment all versions should be generated. Check that.
+        pre_rename_versions = []
+        for version_suffix in VERSIONS:
+            path = self.F_IMAGE.version_path(version_suffix)
+            pre_rename_versions.append(path)
+            self.assertTrue(site.storage.exists(path))
 
-    # Check we get 302 response for renaming
-    test.assertTrue(response.status_code == 302)
+        # Attemp renaming the file
+        url = '?'.join([self.url, urlencode({'dir': self.F_IMAGE.dirname, 'filename': self.F_IMAGE.filename})])
+        response = self.client.post(url, {'name': 'testpic.jpg'})
 
-    # Check the file was renamed correctly:
-    test.assertTrue(test.site.storage.exists(os.path.join(test.testfile.head, 'testpic.jpg')))
+        # Check we get 302 response for renaming
+        self.assertTrue(response.status_code == 302)
 
-    # Store the renamed file
-    test.testfile = FileObject(os.path.join(test.testfile.head, 'testpic.jpg'), site=test.site)
+        # Check the file was renamed correctly:
+        self.assertTrue(site.storage.exists(os.path.join(self.F_IMAGE.head, 'testpic.jpg')))
 
-    # Check if all pre-rename versions were deleted:
-    for path in pre_rename_versions:
-        test.assertFalse(test.site.storage.exists(path))
+        # Store the renamed file
+        self.F_IMAGE = FileObject(os.path.join(self.F_IMAGE.head, 'testpic.jpg'), site=site)
 
-    # Check if all post–rename versions were deleted (resp. not being generated):
-    for version_suffix in VERSIONS:
-        path = test.testfile.version_path(version_suffix)
-        test.assertFalse(test.site.storage.exists(path))
+        # Check if all pre-rename versions were deleted:
+        for path in pre_rename_versions:
+            self.assertFalse(site.storage.exists(path))
+
+        # Check if all post–rename versions were deleted (resp. not being generated):
+        for version_suffix in VERSIONS:
+            path = self.F_IMAGE.version_path(version_suffix)
+            self.assertFalse(site.storage.exists(path))
 
 
 def test_delete_confirm(test):
