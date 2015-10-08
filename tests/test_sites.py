@@ -136,11 +136,14 @@ class UploadFileViewTests(TestCase):
     def test_do_temp_upload(self):
         """
         Test the temporary upload (used with the FileBrowseUploadField)
+
         """
 
         uploaded_path = os.path.join(self.F_TEMPFOLDER.path, 'testimage.jpg')
         self.assertFalse(site.storage.exists(uploaded_path))
 
+        # TODO: Why is folder required to be temp? Shouldn't it use tempfolder
+        # regardless of what is specified?
         url = reverse('filebrowser:fb_do_upload')
         url = '?'.join([url, urlencode({'folder': self.F_TEMPFOLDER.path_relative_directory, 'qqfile': 'testimage.jpg', 'temporary': 'true'})])
 
