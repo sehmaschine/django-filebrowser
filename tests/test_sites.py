@@ -109,7 +109,7 @@ class UploadFileViewTests(TestCase):
 
         url = '?'.join([self.url, urlencode({'folder': self.F_SUBFOLDER.path_relative_directory})])
 
-        with open(os.path.join(self.STATIC_IMG_PATH), "rb") as f:
+        with open(self.STATIC_IMG_PATH, "rb") as f:
             file_size = os.path.getsize(f.name)
             response = self.client.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
@@ -149,7 +149,7 @@ class UploadFileViewTests(TestCase):
         url = reverse('filebrowser:fb_do_upload')
         url = '?'.join([url, urlencode({'folder': self.F_TEMPFOLDER.path_relative_directory, 'qqfile': 'testimage.jpg', 'temporary': 'true'})])
 
-        with open(os.path.join(self.STATIC_IMG_PATH), "rb") as f:
+        with open(self.STATIC_IMG_PATH, "rb") as f:
             file_size = os.path.getsize(f.name)
             response = self.client.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
@@ -179,7 +179,7 @@ class UploadFileViewTests(TestCase):
 
         url = '?'.join([self.url, urlencode({'folder': self.F_SUBFOLDER.path_relative_directory})])
 
-        with open(os.path.join(self.STATIC_IMG_PATH), "rb") as f:
+        with open(self.STATIC_IMG_PATH, "rb") as f:
             self.client.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
         self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'testimage.jpg']))
@@ -191,7 +191,7 @@ class UploadFileViewTests(TestCase):
 
         url = '?'.join([self.url, urlencode({'folder': self.F_SUBFOLDER.path_relative_directory})])
 
-        with open(os.path.join(self.STATIC_IMG_PATH), "rb") as f:
+        with open(self.STATIC_IMG_PATH, "rb") as f:
             self.client.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
         self.assertEqual(len(site.storage.listdir(self.F_SUBFOLDER)[1]), 2)
