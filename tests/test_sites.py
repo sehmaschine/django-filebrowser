@@ -269,19 +269,18 @@ class DetailViewTests(TestCase):
             self.assertFalse(site.storage.exists(path))
 
 
-def test_delete_confirm(test):
-    """
-    Check that the delete view functions as expected. Does not check the deletion itself,
-    that happens in test_delete().
-    """
-    url = reverse('%s:fb_delete_confirm' % test.site_name)
-    response = test.c.get(url, {'dir': test.testfile.dirname, 'filename': test.testfile.filename})
+class DeleteConfirmViewTests(TestCase):
+    def setUp(self):
+        super(DeleteConfirmViewTests, self).setUp()
+        self.url = reverse('filebrowser:fb_delete_confirm')
+        self.client.login(username=self.user.username, password='password')
+        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
 
-    # Check we get OK response for delete_confirm
-    test.assertTrue(response.status_code == 200)
-
-    # Check the correct template was used
-    test.assertTrue('filebrowser/delete_confirm.html' in [t.name for t in response.templates])
+    def test_get(self):
+        """ Check that the delete view functions as expected. Does not check the deletion itself, that happens in test_delete(). """
+        response = self.client.get(self.url, {'dir': self.F_IMAGE.dirname, 'filename': self.F_IMAGE.filename})
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue('filebrowser/delete_confirm.html' in [t.name for t in response.templates])
 
 
 def test_delete(test):
