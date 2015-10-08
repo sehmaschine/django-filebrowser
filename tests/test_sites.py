@@ -12,6 +12,7 @@ creation of instance methods from functions.
 from __future__ import with_statement
 import os
 import json
+import shutil
 
 from mock import patch
 
@@ -137,6 +138,7 @@ class UploadFileViewTests(TestCase):
         """
         Test the temporary upload (used with the FileBrowseUploadField)
 
+        TODO: This is undocumented and may have unknow side effects with other settings.
         """
 
         uploaded_path = os.path.join(self.F_TEMPFOLDER.path, 'testimage.jpg')
@@ -170,43 +172,29 @@ class UploadFileViewTests(TestCase):
             permissions_file = oct(os.stat(self.testfile.path_full).st_mode & 0o777)
             self.assertTrue(permissions_default == permissions_file)
 
+    @patch('filebrowser.sites.OVERWRITE_EXISTING', True)
+    def test_overwrite_existing_true(self):
+        shutil.copy(self.STATIC_IMG_PATH, self.SUBFOLDER_PATH)
+        self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'testimage.jpg']))
 
-def test_overwrite(test):
-    """
-    Test the uploading with OVERWRITE_EXISTING
-    """
+        url = '?'.join([self.url, urlencode({'folder': self.F_SUBFOLDER.path_relative_directory})])
 
-    # Save settings
-    oe = filebrowser.sites.OVERWRITE_EXISTING
+        with open(os.path.join(self.STATIC_IMG_PATH), "rb") as f:
+            self.client.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-    # OVERWRITE true
-    filebrowser.sites.OVERWRITE_EXISTING = True
+        self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'testimage.jpg']))
 
-    url = reverse('%s:fb_do_upload' % test.site_name)
-    url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage.jpg'})])
+    @patch('filebrowser.sites.OVERWRITE_EXISTING', False)
+    def test_overwrite_existing_false(self):
+        shutil.copy(self.STATIC_IMG_PATH, self.SUBFOLDER_PATH)
+        self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'testimage.jpg']))
 
-    with open(os.path.join(FILEBROWSER_PATH, 'static/filebrowser/img/testimage.jpg'), "rb") as f:
-        # file_size = os.path.getsize(f.name)
-        test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        url = '?'.join([self.url, urlencode({'folder': self.F_SUBFOLDER.path_relative_directory})])
 
-    # Check files
-    test.assertEqual(test.site.storage.listdir(test.tmpdir), ([], [u'testimage.jpg']))
+        with open(os.path.join(self.STATIC_IMG_PATH), "rb") as f:
+            self.client.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-    # OVERWRITE false
-    filebrowser.sites.OVERWRITE_EXISTING = False
-
-    url = reverse('%s:fb_do_upload' % test.site_name)
-    url = '?'.join([url, urlencode({'folder': test.tmpdir.path_relative_directory, 'qqfile': 'testimage.jpg'})])
-
-    with open(os.path.join(FILEBROWSER_PATH, 'static/filebrowser/img/testimage.jpg'), "rb") as f:
-        # file_size = os.path.getsize(f.name)
-        test.c.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-
-    # Check files
-    test.assertEqual(len(test.site.storage.listdir(test.tmpdir)[1]), 2)
-
-    # Reset settings
-    filebrowser.sites.OVERWRITE_EXISTING = oe
+        self.assertEqual(len(site.storage.listdir(self.F_SUBFOLDER)[1]), 2)
 
 
 def test_convert_normalize(test):
