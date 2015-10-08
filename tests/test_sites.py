@@ -1,37 +1,20 @@
 # coding: utf-8
-
-"""
-Tests for FileBrowser sites and their views.
-
-Note that we *dynamically generate* test cases for each deployed FileBrowser
-site. This includes creation of TestCase subclasses at runtime and also
-creation of instance methods from functions.
-"""
-
-# PYTHON IMPORTS
 from __future__ import with_statement
 import os
 import json
 import shutil
 
-from mock import patch
-
-# DJANGO IMPORTS
 from django.core.urlresolvers import reverse
-from django.conf import settings
 try:
     from django.utils.six.moves.urllib.parse import urlencode
 except:
     from django.utils.http import urlencode
+from mock import patch
 
-# FILEBROWSER IMPORTS
-import filebrowser
 from filebrowser.settings import VERSIONS, DEFAULT_PERMISSIONS
 from filebrowser.base import FileObject
 from filebrowser.sites import site
 from tests import FilebrowserTestCase as TestCase
-
-FILEBROWSER_PATH = os.path.join(settings.BASE_DIR, 'filebrowser')
 
 
 class BrowseViewTests(TestCase):

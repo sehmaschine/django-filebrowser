@@ -1,10 +1,7 @@
 # coding: utf-8
-
-# DJANGO IMPORTS
 from django.test import TestCase
 from django.http import QueryDict
 
-# FILEBROWSER IMPORTS
 from filebrowser.templatetags.fb_tags import get_file_extensions
 
 

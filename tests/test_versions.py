@@ -9,9 +9,7 @@ from mock import patch
 from tests import FilebrowserTestCase as TestCase
 from filebrowser.settings import STRICT_PIL
 from filebrowser.utils import scale_and_crop
-from filebrowser.templatetags import fb_versions
 
-# PIL import
 if STRICT_PIL:
     from PIL import Image
 else:
