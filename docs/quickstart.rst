@@ -63,11 +63,17 @@ Check the :ref:`settings`.
 Testing
 -------
 
+Filebrowser is shipped with a minimal django project for testing.
+
 Run the |filebrowser| tests:
+
+.. note::
+    Using virtualenv is recommended for testing.
 
 .. code-block:: console
 
-    python manage.py test filebrowser
+    pip install -r tests/requirements.txt
+    python runtests.py
 
 .. warning::
     Please note that the tests will copy files to your filesystem.

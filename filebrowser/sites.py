@@ -523,7 +523,7 @@ class FileBrowserSite(object):
         """
         Upload file to the server.
 
-        If temporary is true, we upload to UPLOAD_TEMP_DIR, otherwise
+        If temporary is true, we upload to UPLOAD_TEMPDIR, otherwise
         we upload to site.directory
         """
         if request.method == "POST":
