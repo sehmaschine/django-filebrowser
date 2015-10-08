@@ -231,10 +231,10 @@ class DetailViewTests(TestCase):
         super(DetailViewTests, self).setUp()
         self.url = reverse('filebrowser:fb_detail')
         self.client.login(username=self.user.username, password='password')
+        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
 
     def test_get(self):
         """ Check the detail view and version generation. Check also renaming of files. """
-        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
         response = self.client.get(self.url, {'dir': self.F_IMAGE.dirname, 'filename': self.F_IMAGE.filename})
 
         self.assertTrue(response.status_code == 200)
