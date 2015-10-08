@@ -283,31 +283,29 @@ class DeleteConfirmViewTests(TestCase):
         self.assertTrue('filebrowser/delete_confirm.html' in [t.name for t in response.templates])
 
 
-def test_delete(test):
-    """
-    Generate all versions for the uploaded file and attempt a deletion of that file.
-    Finally, attempt a deletion of the tmp dir.
-    """
-    # Generate all versions of the file
-    versions = []
-    for version_suffix in VERSIONS:
-        versions.append(test.testfile.version_generate(version_suffix))
+class DeleteViewTests(TestCase):
+    def setUp(self):
+        super(DeleteViewTests, self).setUp()
+        self.url = reverse('filebrowser:fb_delete')
+        self.client.login(username=self.user.username, password='password')
+        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
 
-    # Request the delete view
-    url = reverse('%s:fb_delete' % test.site_name)
-    response = test.c.get(url, {'dir': test.testfile.dirname, 'filename': test.testfile.filename})
+    def test_get(self):
+        """
+        Generate all versions for the uploaded file and attempt a deletion of that file.
+        Finally, attempt a deletion of the tmp dir.
+        """
+        versions = []
+        for version_suffix in VERSIONS:
+            versions.append(self.F_IMAGE.version_generate(version_suffix))
 
-    # Check we get 302 response for delete
-    test.assertTrue(response.status_code == 302)
+        # Request the delete view
+        response = self.client.get(self.url, {'dir': self.F_IMAGE.dirname, 'filename': self.F_IMAGE.filename})
 
-    # Check the file and its versions do not exist anymore
-    test.assertFalse(test.site.storage.exists(test.testfile.path))
-    for version in versions:
-        test.assertFalse(test.site.storage.exists(version.path))
-    test.testfile = None
+        # Check we get 302 response for delete
+        self.assertTrue(response.status_code == 302)
 
-    # Delete the tmp dir and check it does not exist anymore
-    response = test.c.get(url, {'dir': test.tmpdir.dirname, 'filename': test.tmpdir.filename})
-    test.assertTrue(response.status_code == 302)
-    test.assertFalse(test.site.storage.exists(test.tmpdir.path))
-    test.tmpdir = None
+        # Check the file and its versions do not exist anymore
+        self.assertFalse(site.storage.exists(self.F_IMAGE.path))
+        for version in versions:
+            self.assertFalse(site.storage.exists(version.path))
