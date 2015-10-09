@@ -25,9 +25,8 @@ def get_path(path, site):
 def get_file(path, filename, site):
     # Files and directories are valid
     converted_path = smart_text(os.path.join(site.directory, path, filename))
-    if not path.startswith('.') and not os.path.isabs(converted_path):
-        exists = site.storage.isfile(converted_path) or site.storage.isdir(converted_path)
-        if exists:
+    if not path.startswith('.') and not filename.startswith('.') and not os.path.isabs(converted_path):
+        if site.storage.isfile(converted_path) or site.storage.isdir(converted_path):
             return filename
 
 
