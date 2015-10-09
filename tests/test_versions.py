@@ -28,14 +28,12 @@ class ScaleAndCropTests(TestCase):
 
     def test_scale_width(self):
         version = scale_and_crop(self.im, 500, "", "")
-        self.assertEqual(version.size[0], 500)
-        self.assertEqual(version.size[1], 375)
+        self.assertEqual(version.size, (500, 375))
 
     def test_scale_height(self):
         # new height 375 > 500/375
         version = scale_and_crop(self.im, "", 375, "")
-        self.assertEqual(version.size[0], 500)
-        self.assertEqual(version.size[1], 375)
+        self.assertEqual(version.size, (500, 375))
 
     def test_scale_no_upscale_too_wide(self):
         version = scale_and_crop(self.im, 1500, "", "")
@@ -51,43 +49,35 @@ class ScaleAndCropTests(TestCase):
 
     def test_scale_with_upscale_width(self):
         version = scale_and_crop(self.im, 1500, "", "upscale")
-        self.assertEqual(version.size[0], 1500)
-        self.assertEqual(version.size[1], 1125)
+        self.assertEqual(version.size, (1500, 1125))
 
     def test_scale_with_upscale_height(self):
         version = scale_and_crop(self.im, "", 1125, "upscale")
-        self.assertEqual(version.size[0], 1500)
-        self.assertEqual(version.size[1], 1125)
+        self.assertEqual(version.size, (1500, 1125))
 
     def test_scale_with_upscale_width_and_height(self):
         version = scale_and_crop(self.im, 1500, 1125, "upscale")
-        self.assertEqual(version.size[0], 1500)
-        self.assertEqual(version.size[1], 1125)
+        self.assertEqual(version.size, (1500, 1125))
 
     def test_scale_with_upscale_width_and_zero_height(self):
         version = scale_and_crop(self.im, 1500, 0, "upscale")
-        self.assertEqual(version.size[0], 1500)
-        self.assertEqual(version.size[1], 1125)
+        self.assertEqual(version.size, (1500, 1125))
 
     def test_scale_with_upscale_zero_width_and_height(self):
         version = scale_and_crop(self.im, 0, 1125, "upscale")
-        self.assertEqual(version.size[0], 1500)
-        self.assertEqual(version.size[1], 1125)
+        self.assertEqual(version.size, (1500, 1125))
 
     def test_scale_with_upscale_width_too_small_for_upscale(self):
         version = scale_and_crop(self.im, 500, "", "upscale")
-        self.assertEqual(version.size[0], 500)
-        self.assertEqual(version.size[1], 375)
+        self.assertEqual(version.size, (500, 375))
 
     def test_scale_with_upscale_height_too_small_for_upscale(self):
         version = scale_and_crop(self.im, "", 375, "upscale")
-        self.assertEqual(version.size[0], 500)
-        self.assertEqual(version.size[1], 375)
+        self.assertEqual(version.size, (500, 375))
 
     def test_crop_width_and_height(self):
         version = scale_and_crop(self.im, 500, 500, "crop")
-        self.assertEqual(version.size[0], 500)
-        self.assertEqual(version.size[1], 500)
+        self.assertEqual(version.size, (500, 500))
 
     def test_crop_width_and_height_too_large_no_upscale(self):
         # new width 1500 and height 1500 w. crop > false (upscale missing)
@@ -96,36 +86,31 @@ class ScaleAndCropTests(TestCase):
 
     def test_crop_width_and_height_too_large_with_upscale(self):
         version = scale_and_crop(self.im, 1500, 1500, "crop,upscale")
-        self.assertEqual(version.size[0], 1500)
-        self.assertEqual(version.size[1], 1500)
+        self.assertEqual(version.size, (1500, 1500))
 
     def test_width_smaller_but_height_bigger_no_upscale(self):
         # new width 500 and height 1125
         # new width is smaller than original, but new height is bigger
         # width has higher priority
         version = scale_and_crop(self.im, 500, 1125, "")
-        self.assertEqual(version.size[0], 500)
-        self.assertEqual(version.size[1], 375)
+        self.assertEqual(version.size, (500, 375))
 
     def test_width_smaller_but_height_bigger_with_upscale(self):
         # same with upscale
         version = scale_and_crop(self.im, 500, 1125, "upscale")
-        self.assertEqual(version.size[0], 500)
-        self.assertEqual(version.size[1], 375)
+        self.assertEqual(version.size, (500, 375))
 
     def test_width_bigger_but_height_smaller_no_upscale(self):
         # new width 1500 and height 375
         # new width is bigger than original, but new height is smaller
         # height has higher priority
         version = scale_and_crop(self.im, 1500, 375, "")
-        self.assertEqual(version.size[0], 500)
-        self.assertEqual(version.size[1], 375)
+        self.assertEqual(version.size, (500, 375))
 
     def test_width_bigger_but_height_smaller_with_upscale(self):
         # same with upscale
         version = scale_and_crop(self.im, 1500, 375, "upscale")
-        self.assertEqual(version.size[0], 500)
-        self.assertEqual(version.size[1], 375)
+        self.assertEqual(version.size, (500, 375))
 
 
 class VersionTemplateTagTests(TestCase):
