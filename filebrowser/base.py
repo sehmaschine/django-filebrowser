@@ -1,24 +1,20 @@
 # coding: utf-8
 
-# PYTHON IMPORTS
-import os
 import datetime
-import time
-import platform
 import mimetypes
-from tempfile import NamedTemporaryFile
+import os
+import platform
+import tempfile
+import time
 import warnings
 
-# DJANGO IMPORTS
 from django.core.files import File
+from django.utils.encoding import python_2_unicode_compatible, smart_str
 from django.utils.six import string_types
 
-# FILEBROWSER IMPORTS
-from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, PLACEHOLDER, FORCE_PLACEHOLDER, SHOW_PLACEHOLDER, STRICT_PIL, IMAGE_MAXBLOCK, DEFAULT_PERMISSIONS, UPLOAD_TEMPDIR
+from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, STRICT_PIL, IMAGE_MAXBLOCK, DEFAULT_PERMISSIONS
 from filebrowser.utils import path_strip, scale_and_crop
-from django.utils.encoding import python_2_unicode_compatible, smart_str
 
-# PIL import
 if STRICT_PIL:
     from PIL import Image
     from PIL import ImageFile
@@ -29,6 +25,7 @@ else:
     except ImportError:
         import Image
         import ImageFile
+
 
 ImageFile.MAXBLOCK = IMAGE_MAXBLOCK  # default is 64k
 
@@ -514,7 +511,7 @@ class FileObject():
         value has to be a path relative to the storage location.
         """
 
-        tmpfile = File(NamedTemporaryFile())
+        tmpfile = File(tempfile.NamedTemporaryFile())
 
         try:
             f = self.site.storage.open(self.path)

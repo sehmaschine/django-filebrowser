@@ -1,18 +1,14 @@
 # coding: utf-8
 
-# PYTHON IMPORTS
 import os
-from tempfile import NamedTemporaryFile
+import tempfile
 
-# DJANGO IMPORTS
-from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.core.files import File
+from django.utils.translation import ugettext_lazy as _
 
-# FILEBROWSER IMPORTS
 from filebrowser.settings import VERSION_QUALITY, STRICT_PIL
 
-# PIL import
 if STRICT_PIL:
     from PIL import Image
 else:
@@ -34,7 +30,7 @@ def transpose_image(request, fileobjects, operation):
         f = fileobject.site.storage.open(fileobject.path)
         im = Image.open(f)
         new_image = im.transpose(operation)
-        tmpfile = File(NamedTemporaryFile())
+        tmpfile = File(tempfile.NamedTemporaryFile())
 
         try:
             new_image.save(tmpfile, format=Image.EXTENSION[ext], quality=VERSION_QUALITY, optimize=(os.path.splitext(fileobject.path)[1].lower() != '.gif'))

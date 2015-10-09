@@ -1,7 +1,7 @@
 # coding: utf-8
 
-# DJANGO IMPORTS
 from django.dispatch import Signal
+
 
 # upload signals
 # path: Absolute server path to the file/folder

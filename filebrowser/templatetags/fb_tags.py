@@ -1,11 +1,11 @@
 # coding: utf-8
 
-# DJANGO IMPORTS
 from django import template
+from django.template import TemplateSyntaxError
 from django.utils.http import urlquote
 
-# FILEBROWSER IMPORTS
 from filebrowser.settings import EXTENSIONS, SELECT_FORMATS
+
 
 register = template.Library()
 
