@@ -30,6 +30,7 @@ class GetPathTests(TestCase):
 class GetFileTests(TestCase):
 
     def test_empty(self):
+        # TODO: Should this return '' or 'folder'
         self.assertEqual(get_file('folder', '', site), '')
 
     def test_starts_with_period(self):

@@ -1,17 +1,14 @@
 # coding: utf-8
 
-# PYTHON IMPORTS
 import os
 
-# DJANGO IMPORTS
-from django.http import HttpResponseRedirect
-from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.utils.encoding import smart_text
+from django.utils.translation import ugettext as _
 
-# FILEBROWSER IMPORTS
 from filebrowser.templatetags.fb_tags import query_helper
 
 

@@ -1,18 +1,14 @@
 # coding: utf-8
 
-# PYTHON IMPORTS
 import re
 import os
 import unicodedata
 import math
 
-# DJANGO IMPORTS
 from django.utils import six
 
-# FILEBROWSER IMPORTS
 from filebrowser.settings import STRICT_PIL, NORMALIZE_FILENAME, CONVERT_FILENAME
 
-# PIL import
 if STRICT_PIL:
     from PIL import Image
 else:

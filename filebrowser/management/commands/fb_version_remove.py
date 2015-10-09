@@ -1,17 +1,13 @@
 # coding: utf-8
-
-# PYTHON IMPORTS
 import os
 import re
 import sys
 
-# DJANGO IMPORTS
-from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
 from django.utils.six.moves import input
 
-# FILEBROWSER IMPORTS
-from filebrowser.settings import EXTENSION_LIST, EXCLUDE, DIRECTORY, VERSIONS, EXTENSIONS
+from filebrowser.settings import EXCLUDE, EXTENSIONS
 
 
 class Command(BaseCommand):

@@ -1,9 +1,9 @@
 # coding: utf-8
 
-# DJANGO IMPORTS
-from django.template import Node
-from django.template import Library
+from django.template import Library, Node
 from django.utils.safestring import mark_safe
+
+
 register = Library()
 
 
