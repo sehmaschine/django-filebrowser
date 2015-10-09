@@ -34,6 +34,7 @@ def path_exists(site, function):
     "Check if the given path exists."
 
     def decorator(request, *args, **kwargs):
+        # TODO: This check should be moved to a better location than a decorator
         if get_path('', site=site) is None:
             # The storage location does not exist, raise an error to prevent eternal redirecting.
             raise ImproperlyConfigured(_("Error finding Upload-Folder (site.storage.location + site.directory). Maybe it does not exist?"))
@@ -53,12 +54,6 @@ def file_exists(site, function):
         file_path = get_file(request.GET.get('dir', ''), request.GET.get('filename', ''), site=site)
         if file_path is None:
             msg = _('The requested File does not exist.')
-            messages.add_message(request, messages.ERROR, msg)
-            redirect_url = reverse("filebrowser:fb_browse", current_app=site.name) + query_helper(request.GET, u"", "dir")
-            return HttpResponseRedirect(redirect_url)
-        elif file_path.startswith('/') or file_path.startswith('..'):
-            # prevent path traversal
-            msg = _('You do not have permission to access this file!')
             messages.add_message(request, messages.ERROR, msg)
             redirect_url = reverse("filebrowser:fb_browse", current_app=site.name) + query_helper(request.GET, u"", "dir")
             return HttpResponseRedirect(redirect_url)
