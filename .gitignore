@@ -5,3 +5,6 @@ dist
 *.pot
 .DS_store
 fabfile.py
+.settings/
+.project
+.pydevproject
