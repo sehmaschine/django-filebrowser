@@ -79,7 +79,7 @@ With your templates, use ``version`` if you simply need to retrieve the URL or `
     <!-- get a fileobject with version -->
     {% version blogentry.image 'medium' as version_medium %}
     {{ version_medium.width }}
-    <img src="{{ version_medium }}" />
+    <img src="{{ version_medium.url }}" />
 
 Templatetag ``version``
 +++++++++++++++++++++++
