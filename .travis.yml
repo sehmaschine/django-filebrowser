@@ -1,0 +1,13 @@
+language: python
+install:
+  - pip install tox
+  - pip install coverage
+script:
+  - tox
+env:
+  - TOXENV=py27-django18
+  - TOXENV=py34-django18
+branches:
+  only:
+    - master
+    - stable/3.6.x

@@ -11,6 +11,10 @@ Changelog
 3.6.2 (not yet released)
 ------------------------
 
+* New: Better test coverage with tox.
+* New: Added Travis CI.
+* New: Improved tests.
+
 3.6.1 (September 9th, 2015)
 ---------------------------
 
