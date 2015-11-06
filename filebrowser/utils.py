@@ -62,7 +62,7 @@ def scale_and_crop(im, width, height, opts):
     height = float(height or 0)
 
     if 'upscale' not in opts:
-        if (x < width or not x) and (y < height or not y):
+        if (x < width or not width) and (y < height or not height):
             return False
 
     if width:
