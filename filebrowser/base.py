@@ -534,7 +534,7 @@ class FileObject():
                     version = m(version)
 
         # IF need Convert RGB
-        if version.mode not in ("L", "RGB"):
+        if ext in [".jpg", ".jpeg"] and version.mode not in ("L", "RGB"):
             version = version.convert("RGB")
 
         # save version
