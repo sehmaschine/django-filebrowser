@@ -5,3 +5,5 @@ dist
 *.pot
 .DS_store
 fabfile.py
+NOTES.md
+.tox/*
