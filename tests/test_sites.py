@@ -97,7 +97,7 @@ class UploadFileViewTests(TestCase):
 
         # Check we get OK response
         self.assertTrue(response.status_code == 200)
-        data = json.loads(response.content)
+        data = json.loads(response.content.decode('utf-8'))
         self.assertEqual(data["filename"], "testimage.jpg")
         self.assertEqual(data["temp_filename"], None)
 
@@ -137,7 +137,7 @@ class UploadFileViewTests(TestCase):
 
         # Check we get OK response
         self.assertTrue(response.status_code == 200)
-        data = json.loads(response.content)
+        data = json.loads(response.content.decode('utf-8'))
         self.assertEqual(data["filename"], "testimage.jpg")
         self.assertEqual(data["temp_filename"], os.path.join(self.F_TEMPFOLDER.path_relative_directory, "testimage.jpg"))
 

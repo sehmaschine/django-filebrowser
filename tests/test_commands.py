@@ -18,16 +18,16 @@ class VersionGenerateCommandTests(TestCase):
         super(VersionGenerateCommandTests, self).setUp()
         shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
         self.version_file = os.path.join(settings.MEDIA_ROOT, "_test/_versions/folder/testimage_large.jpg")
-        self._stdout = sys.stdout
+        # self._stdout = sys.stdout
 
     def tearDown(self):
         super(VersionGenerateCommandTests, self).tearDown()
-        sys.stdout = self._stdout
+        # sys.stdout = self._stdout
 
     def test_fb_version_generate(self):
         self.assertFalse(os.path.exists(self.version_file))
 
-        sys.stdout = open(os.devnull, 'wb')
+        # sys.stdout = open(os.devnull, 'wb')
         sys.stdin = StringIO("large")
 
         call_command('fb_version_generate', DIRECTORY)

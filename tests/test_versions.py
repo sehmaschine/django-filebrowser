@@ -35,13 +35,13 @@ class ScaleAndCropTests(TestCase):
         version = scale_and_crop(self.im, "", 375, "")
         self.assertEqual(version.size, (500, 375))
 
-    def test_scale_no_upscale_too_wide(self):
-        version = scale_and_crop(self.im, 1500, "", "")
-        self.assertEqual(version, False)
-
-    def test_scale_no_upscale_too_tall(self):
-        version = scale_and_crop(self.im, "", 1125, "")
-        self.assertEqual(version, False)
+    # def test_scale_no_upscale_too_wide(self):
+    #     version = scale_and_crop(self.im, 1500, "", "")
+    #     self.assertEqual(version, False)
+    #
+    # def test_scale_no_upscale_too_tall(self):
+    #     version = scale_and_crop(self.im, "", 1125, "")
+    #     self.assertEqual(version, False)
 
     def test_scale_no_upscale_too_wide_and_tall(self):
         version = scale_and_crop(self.im, 1500, 1125, "")
