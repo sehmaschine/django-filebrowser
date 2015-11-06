@@ -61,6 +61,7 @@ Help
    :maxdepth: 2
 
    help
+   testing
    changelog
 
 Main Features
