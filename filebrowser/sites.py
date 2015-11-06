@@ -1,51 +1,46 @@
 # coding: utf-8
 
-# PYTHON IMPORTS
 import os
 import re
-from time import gmtime
-from time import strftime
-from time import localtime
-from time import time
+from time import gmtime, strftime, localtime, time
 
-# DJANGO IMPORTS
+from django import forms
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
+from django.core.files.storage import DefaultStorage, default_storage, FileSystemStorage
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core.urlresolvers import reverse, get_urlconf, get_resolver
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import render_to_response, HttpResponse
 from django.template import RequestContext as Context
-from django.http import HttpResponseRedirect, HttpResponseBadRequest
-from django.contrib.admin.views.decorators import staff_member_required
-from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
-from django import forms
-from django.core.urlresolvers import reverse, get_urlconf, get_resolver
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.contrib import messages
+from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
-from django.core.files.storage import DefaultStorage, default_storage, FileSystemStorage
 try:
     from django.utils.encoding import smart_text
 except ImportError:
     from django.utils.encoding import smart_unicode as smart_text
 
-# FILEBROWSER IMPORTS
-from filebrowser.settings import DIRECTORY, EXTENSIONS, SELECT_FORMATS, ADMIN_VERSIONS, ADMIN_THUMBNAIL, MAX_UPLOAD_SIZE,\
-    NORMALIZE_FILENAME, CONVERT_FILENAME, SEARCH_TRAVERSE, EXCLUDE, VERSIONS, VERSIONS_BASEDIR, EXTENSION_LIST, DEFAULT_SORTING_BY, DEFAULT_SORTING_ORDER,\
-    LIST_PER_PAGE, OVERWRITE_EXISTING, DEFAULT_PERMISSIONS, UPLOAD_TEMPDIR
-from filebrowser.templatetags.fb_tags import query_helper
+from filebrowser import signals
 from filebrowser.base import FileListing, FileObject
 from filebrowser.decorators import path_exists, file_exists
 from filebrowser.storage import FileSystemStorageMixin
+from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.utils import convert_filename
-from filebrowser import signals
+from filebrowser.settings import (DIRECTORY, EXTENSIONS, SELECT_FORMATS, ADMIN_VERSIONS, ADMIN_THUMBNAIL, MAX_UPLOAD_SIZE, NORMALIZE_FILENAME,
+                                  CONVERT_FILENAME, SEARCH_TRAVERSE, EXCLUDE, VERSIONS, VERSIONS_BASEDIR, EXTENSION_LIST, DEFAULT_SORTING_BY, DEFAULT_SORTING_ORDER,
+                                  LIST_PER_PAGE, OVERWRITE_EXISTING, DEFAULT_PERMISSIONS, UPLOAD_TEMPDIR)
+
+try:
+    import json
+except ImportError:
+    from django.utils import simplejson as json
+
 
 # Add some required methods to FileSystemStorage
 if FileSystemStorageMixin not in FileSystemStorage.__bases__:
     FileSystemStorage.__bases__ += (FileSystemStorageMixin,)
 
-# JSON import
-try:
-    import json
-except ImportError:
-    from django.utils import simplejson as json
 
 # This cache contains all *instantiated* FileBrowser sites
 _sites_cache = {}
@@ -523,7 +518,7 @@ class FileBrowserSite(object):
         """
         Upload file to the server.
 
-        If temporary is true, we upload to UPLOAD_TEMP_DIR, otherwise
+        If temporary is true, we upload to UPLOAD_TEMPDIR, otherwise
         we upload to site.directory
         """
         if request.method == "POST":

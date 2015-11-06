@@ -1,21 +1,17 @@
 # coding: utf-8
-
-# PYTHON IMPORTS
 import os
 
-# DJANGO IMPORTS
+from django import forms
 from django.core import urlresolvers
 from django.db import models
-from django.db.models.fields import Field, CharField
-from django import forms
+from django.db.models.fields import CharField
 from django.forms.widgets import Input
 from django.template.loader import render_to_string
 from django.utils.six import with_metaclass
 from django.utils.translation import ugettext_lazy as _
 
-# FILEBROWSER IMPORTS
-from filebrowser.settings import *
 from filebrowser.base import FileObject
+from filebrowser.settings import ADMIN_THUMBNAIL, EXTENSIONS, UPLOAD_TEMPDIR
 from filebrowser.sites import site
 
 

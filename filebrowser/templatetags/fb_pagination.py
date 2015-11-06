@@ -1,9 +1,7 @@
 # coding: utf-8
 
-# DJANGO IMPORTS
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
 from django.template import Library
+
 
 register = Library()
 DOT = '.'

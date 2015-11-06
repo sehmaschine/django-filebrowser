@@ -1,16 +1,13 @@
 # coding: utf-8
 
-# PYTHON IMPORTS
 import os
 import shutil
 
-# DJANGO IMPORTS
 from django.core.files.move import file_move_safe
 from django.utils.encoding import smart_text
 
-# FILEBROWSER IMPORTS
-from filebrowser.settings import DEFAULT_PERMISSIONS
 from filebrowser.base import FileObject
+from filebrowser.settings import DEFAULT_PERMISSIONS
 
 
 class StorageMixin(object):

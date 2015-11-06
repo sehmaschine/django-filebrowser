@@ -1,13 +1,11 @@
 # coding: utf-8
 
-# DJANGO IMPORTS
-from django.template.loader import render_to_string
-from django.forms.widgets import ClearableFileInput as DjangoClearableFileInput
 from django.forms.widgets import CheckboxInput
-from django.utils.translation import ugettext_lazy
+from django.forms.widgets import ClearableFileInput as DjangoClearableFileInput
+from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy
 
-# FILEBROWSER IMPORTS
 from filebrowser.base import FileObject
 from filebrowser.settings import ADMIN_THUMBNAIL
 

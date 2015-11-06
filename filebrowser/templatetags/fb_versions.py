@@ -1,20 +1,14 @@
 # coding: utf-8
 
-# PYTHON IMPORTS
-import os
-import re
-from time import gmtime
-
-# DJANGO IMPORTS
-from django.template import Library, Node, Variable, VariableDoesNotExist, TemplateSyntaxError
 from django.conf import settings
 from django.core.files import File
+from django.template import Library, Node, Variable, VariableDoesNotExist, TemplateSyntaxError
 
-
-# FILEBROWSER IMPORTS
 from filebrowser.settings import VERSIONS, PLACEHOLDER, SHOW_PLACEHOLDER, FORCE_PLACEHOLDER
 from filebrowser.base import FileObject
 from filebrowser.sites import get_default_site
+
+
 register = Library()
 
 
@@ -170,7 +164,6 @@ def version_setting(parser, token):
     if (version_suffix[0] == version_suffix[-1] and version_suffix[0] in ('"', "'")) and version_suffix.lower()[1:-1] not in VERSIONS:
         raise TemplateSyntaxError("%s tag received bad version_suffix %s" % (tag, version_suffix))
     return VersionSettingNode(version_suffix)
-
 
 register.tag(version)
 register.tag(version_object)

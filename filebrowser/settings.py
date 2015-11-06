@@ -1,8 +1,8 @@
 # coding: utf-8
 
-# django imports
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+
 
 # Main FileBrowser Directory. Relative to site.storage.location.
 # DO NOT USE A SLASH AT THE BEGINNING, DO NOT FORGET THE TRAILING SLASH AT THE END.

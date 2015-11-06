@@ -1,17 +1,14 @@
 # coding: utf-8
 
-# PYTHON IMPORTS
 import os
 import re
 
-# DJANGO IMPORTS
-from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
 from django.utils.six.moves import input
 
-# FILEBROWSER IMPORTS
-from filebrowser.settings import EXTENSION_LIST, EXCLUDE, DIRECTORY, VERSIONS, EXTENSIONS
-from filebrowser.base import FileListing, FileObject
+from filebrowser.base import FileListing
+from filebrowser.settings import EXTENSION_LIST, EXCLUDE, DIRECTORY, VERSIONS
 
 
 filter_re = []

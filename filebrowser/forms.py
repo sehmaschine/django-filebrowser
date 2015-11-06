@@ -1,20 +1,17 @@
 # coding: utf-8
 
-# PYTHON IMPORTS
 import os
 import re
 
-# DJANGO IMPORTS
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-# FILEBROWSER IMPORTS
 from filebrowser.settings import FOLDER_REGEX
 from filebrowser.utils import convert_filename
 
+
 ALNUM_NAME_RE = re.compile(FOLDER_REGEX, re.U)
 
-# CHOICES
 TRANSPOSE_CHOICES = (
     ("", u"-----"),
     ("0", _(u"Flip horizontal")),
