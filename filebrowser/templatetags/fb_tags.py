@@ -153,6 +153,10 @@ def get_file_extensions(qs):
             for item in v:
                 if item:
                     extensions.append(item)
-    return mark_safe(extensions)
+    return extensions
 
-register.simple_tag(get_file_extensions)
+
+# Django 1.9 auto escapes simple_tag unless marked as safe
+@register.simple_tag(name='get_file_extensions')
+def get_file_extensions_safe(qs):
+    return mark_safe(get_file_extensions(qs))
