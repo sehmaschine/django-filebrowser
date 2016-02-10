@@ -2,7 +2,7 @@ import os
 import shutil
 
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from filebrowser.settings import DIRECTORY, VERSIONS_BASEDIR
@@ -15,7 +15,7 @@ class FilebrowserTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
         super(FilebrowserTestCase, cls).setUpClass()
-
+        User = get_user_model()
         cls.user = User.objects.create_user('testuser', 'test@domain.com', 'password')
         cls.user.is_staff = True
         cls.user.save()
