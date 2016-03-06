@@ -205,7 +205,6 @@ class FileBrowseUploadField(CharField):
     """
 
     description = "FileBrowseUploadField"
-    __metaclass__ = models.SubfieldBase
 
     def __init__(self, *args, **kwargs):
         self.site = kwargs.pop('site', site)
@@ -215,6 +214,9 @@ class FileBrowseUploadField(CharField):
         self.upload_to = kwargs.pop('upload_to', '')
         self.temp_upload_dir = kwargs.pop('temp_upload_dir', '')
         return super(FileBrowseUploadField, self).__init__(*args, **kwargs)
+
+    def from_db_value(self, value, expression, connection, context):
+        return self.to_python(value)
 
     def to_python(self, value):
         if not value or isinstance(value, FileObject):

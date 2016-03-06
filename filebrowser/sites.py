@@ -330,6 +330,7 @@ class FileBrowserSite(object):
         except (EmptyPage, InvalidPage):
             page = p.page(p.num_pages)
 
+        request.current_app = self.name
         return render_to_response('filebrowser/index.html', {
             'p': p,
             'page': page,
@@ -340,7 +341,7 @@ class FileBrowserSite(object):
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': "",
             'filebrowser_site': self
-        }, context_instance=Context(request, current_app=self.name))
+        }, context_instance=Context(request))
 
     def createdir(self, request):
         "Create Directory"
@@ -368,6 +369,7 @@ class FileBrowserSite(object):
         else:
             form = CreateDirForm(path, filebrowser_site=self)
 
+        request.current_app = self.name
         return render_to_response('filebrowser/createdir.html', {
             'form': form,
             'query': query,
@@ -376,12 +378,13 @@ class FileBrowserSite(object):
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'New Folder'),
             'filebrowser_site': self
-        }, context_instance=Context(request, current_app=self.name))
+        }, context_instance=Context(request))
 
     def upload(self, request):
         "Multipe File Upload."
         query = request.GET
 
+        request.current_app = self.name
         return render_to_response('filebrowser/upload.html', {
             'query': query,
             'title': _(u'Select files to upload'),
@@ -389,7 +392,7 @@ class FileBrowserSite(object):
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'Upload'),
             'filebrowser_site': self
-        }, context_instance=Context(request, current_app=self.name))
+        }, context_instance=Context(request))
 
     def delete_confirm(self, request):
         "Delete existing File/Directory."
@@ -412,6 +415,7 @@ class FileBrowserSite(object):
             filelisting = None
             additional_files = None
 
+        request.current_app = self.name
         return render_to_response('filebrowser/delete_confirm.html', {
             'fileobject': fileobject,
             'filelisting': filelisting,
@@ -422,7 +426,7 @@ class FileBrowserSite(object):
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _(u'Confirm delete'),
             'filebrowser_site': self
-        }, context_instance=Context(request, current_app=self.name))
+        }, context_instance=Context(request))
 
     def delete(self, request):
         "Delete existing File/Directory."
@@ -486,6 +490,7 @@ class FileBrowserSite(object):
         else:
             form = ChangeForm(initial={"name": fileobject.filename}, path=path, fileobject=fileobject, filebrowser_site=self)
 
+        request.current_app = self.name
         return render_to_response('filebrowser/detail.html', {
             'form': form,
             'fileobject': fileobject,
@@ -495,7 +500,7 @@ class FileBrowserSite(object):
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': u'%s' % fileobject.filename,
             'filebrowser_site': self
-        }, context_instance=Context(request, current_app=self.name))
+        }, context_instance=Context(request))
 
     def version(self, request):
         """
@@ -506,12 +511,13 @@ class FileBrowserSite(object):
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
 
+        request.current_app = self.name
         return render_to_response('filebrowser/version.html', {
             'fileobject': fileobject,
             'query': query,
             'settings_var': get_settings_var(directory=self.directory),
             'filebrowser_site': self
-        }, context_instance=Context(request, current_app=self.name))
+        }, context_instance=Context(request))
 
     def _upload_file(self, request):
         """
