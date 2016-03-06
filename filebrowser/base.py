@@ -393,18 +393,6 @@ class FileObject():
     # is_folder
     # is_empty
 
-    @property
-    def directory(self):
-        "Folder(s) relative from site.directory"
-        warnings.warn("directory will be removed with 3.6, use path_relative_directory instead.", DeprecationWarning)
-        return path_strip(self.path, self.site.directory)
-
-    @property
-    def folder(self):
-        "Parent folder(s)"
-        warnings.warn("directory will be removed with 3.6, use dirname instead.", DeprecationWarning)
-        return os.path.dirname(path_strip(os.path.join(self.head, ''), self.site.directory))
-
     _is_folder_stored = None
     @property
     def is_folder(self):
