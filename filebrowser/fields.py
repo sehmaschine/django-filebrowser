@@ -80,7 +80,7 @@ class FileBrowseFormField(forms.CharField):
         return value
 
 
-class FileBrowseField(with_metaclass(models.SubfieldBase, CharField)):
+class FileBrowseField(CharField):
     description = "FileBrowseField"
 
     def __init__(self, *args, **kwargs):
