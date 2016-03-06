@@ -80,7 +80,7 @@ class UploadFileViewTests(TestCase):
     def setUp(self):
         super(UploadFileViewTests, self).setUp()
         self.url = reverse('filebrowser:fb_do_upload')
-        self.url_bad_name = '?'.join([self.url, urlencode({'folder': self.F_SUBFOLDER.path_relative_directory, 'qqfile': 'TEST IMAGE 000.jpg'})])
+        self.url_bad_name = '?'.join([self.url, urlencode({'folder': self.F_SUBFOLDER.path_relative_directory, 'qqfile': 'TEST_IMAGE_000.jpg'})])
 
         self.client.login(username=self.user.username, password='password')
 
@@ -182,28 +182,28 @@ class UploadFileViewTests(TestCase):
     @patch('filebrowser.utils.NORMALIZE_FILENAME', False)
     def test_convert_false_normalize_false(self):
         with open(self.STATIC_IMG_BAD_NAME_PATH, "rb") as f:
-            self.client.post(self.url_bad_name, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'TEST IMAGE 000.jpg']))
+            self.client.post(self.url_bad_name, data={'qqfile': 'TEST_IMAGE_000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'TEST_IMAGE_000.jpg']))
 
     @patch('filebrowser.utils.CONVERT_FILENAME', True)
     @patch('filebrowser.utils.NORMALIZE_FILENAME', False)
     def test_convert_true_normalize_false(self):
         with open(self.STATIC_IMG_BAD_NAME_PATH, "rb") as f:
-            self.client.post(self.url_bad_name, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            self.client.post(self.url_bad_name, data={'qqfile': 'TEST_IMAGE_000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
             self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'test_image_000.jpg']))
 
     @patch('filebrowser.utils.CONVERT_FILENAME', False)
     @patch('filebrowser.utils.NORMALIZE_FILENAME', True)
     def test_convert_false_normalize_true(self):
         with open(self.STATIC_IMG_BAD_NAME_PATH, "rb") as f:
-            self.client.post(self.url_bad_name, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'TEST IMAGE 000.jpg']))
+            self.client.post(self.url_bad_name, data={'qqfile': 'TEST_IMAGE_000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'TEST_IMAGE_000.jpg']))
 
     @patch('filebrowser.utils.CONVERT_FILENAME', True)
     @patch('filebrowser.utils.NORMALIZE_FILENAME', True)
     def test_convert_true_normalize_true(self):
         with open(self.STATIC_IMG_BAD_NAME_PATH, "rb") as f:
-            self.client.post(self.url_bad_name, data={'qqfile': 'TEST IMAGE 000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            self.client.post(self.url_bad_name, data={'qqfile': 'TEST_IMAGE_000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
             self.assertEqual(site.storage.listdir(self.F_SUBFOLDER), ([], [u'test_image_000.jpg']))
 
 
