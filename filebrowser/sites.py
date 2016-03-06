@@ -195,11 +195,10 @@ class FileBrowserSite(object):
 
     def get_urls(self):
         "URLs for a filebrowser.site"
-        from django.conf.urls import url, patterns
+        from django.conf.urls import url
 
         # filebrowser urls (views)
-        urlpatterns = patterns(
-            '',
+        urlpatterns = [
             url(r'^browse/$', path_exists(self, filebrowser_view(self.browse)), name="fb_browse"),
             url(r'^createdir/', path_exists(self, filebrowser_view(self.createdir)), name="fb_createdir"),
             url(r'^upload/', path_exists(self, filebrowser_view(self.upload)), name="fb_upload"),
@@ -208,7 +207,7 @@ class FileBrowserSite(object):
             url(r'^detail/$', file_exists(self, path_exists(self, filebrowser_view(self.detail))), name="fb_detail"),
             url(r'^version/$', file_exists(self, path_exists(self, filebrowser_view(self.version))), name="fb_version"),
             url(r'^upload_file/$', staff_member_required(csrf_exempt(self._upload_file)), name="fb_do_upload"),
-        )
+        ]
         return urlpatterns
 
     def add_action(self, action, name=None):
