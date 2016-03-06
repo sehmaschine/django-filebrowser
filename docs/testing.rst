@@ -18,3 +18,8 @@ Run the |filebrowser| tests:
 
 .. warning::
     Please note that the tests will copy files to your filesystem.
+
+Travis
+------
+
+See https://travis-ci.org/sehmaschine/django-filebrowser.
