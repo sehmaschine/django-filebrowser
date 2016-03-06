@@ -3,6 +3,7 @@
 from django import template
 from django.template import TemplateSyntaxError
 from django.utils.http import urlquote
+from django.utils.safestring import mark_safe
 
 from filebrowser.settings import EXTENSIONS, SELECT_FORMATS
 
@@ -154,4 +155,8 @@ def get_file_extensions(qs):
                     extensions.append(item)
     return extensions
 
-register.simple_tag(get_file_extensions)
+
+# Django 1.9 auto escapes simple_tag unless marked as safe
+@register.simple_tag(name='get_file_extensions')
+def get_file_extensions_safe(qs):
+    return mark_safe(get_file_extensions(qs))
