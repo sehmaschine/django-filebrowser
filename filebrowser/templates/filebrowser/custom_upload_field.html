@@ -7,7 +7,7 @@
 {% endif %}
 </div>
 {% if value.filetype == "Image" %}
-{% version_object value.path final_attrs.ADMIN_THUMBNAIL as thumbnail_version %}
+{% version value.path final_attrs.ADMIN_THUMBNAIL as thumbnail_version %}
 {% if thumbnail_version %}
 <p class="preview" id="preview_{{ final_attrs.id }}">
     <a href="{{ value.url }}" target="_blank" id="previewlink_{{ final_attrs.id }}">

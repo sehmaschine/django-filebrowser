@@ -64,7 +64,7 @@ def version(parser, token):
     Return a context variable 'var_name' with the FileObject
     {% version fileobject version_suffix as var_name %}
 
-    Use {% version_object fileobject 'medium' as version_medium %} in order to
+    Use {% version fileobject 'medium' as version_medium %} in order to
     retrieve the medium version of an image stored in a variable version_medium.
     version_suffix can be a string or a variable. If version_suffix is a string, use quotes.
     """
@@ -73,63 +73,11 @@ def version(parser, token):
     if len(bits) != 3 and len(bits) != 5:
         raise TemplateSyntaxError("'version' tag takes 2 or 4 arguments")
     if len(bits) == 5 and bits[3] != 'as':
-        raise TemplateSyntaxError("second argument to 'version_object' tag must be 'as'")
+        raise TemplateSyntaxError("second argument to 'version' tag must be 'as'")
     if len(bits) == 3:
         return VersionNode(parser.compile_filter(bits[1]), parser.compile_filter(bits[2]), None)
     if len(bits) == 5:
         return VersionNode(parser.compile_filter(bits[1]), parser.compile_filter(bits[2]), bits[4])
-
-
-class VersionObjectNode(Node):
-    def __init__(self, src, suffix, var_name):
-        self.src = src
-        self.suffix = suffix
-        self.var_name = var_name
-
-    def render(self, context):
-        try:
-            version_suffix = self.suffix.resolve(context)
-            source = self.src.resolve(context)
-        except VariableDoesNotExist:
-            return None
-        if version_suffix not in VERSIONS:
-            return ""  # FIXME: should this throw an error?
-        if isinstance(source, FileObject):
-            source = source.path
-        elif isinstance(source, File):
-            source = source.name
-        else:  # string
-            source = source
-        site = context.get('filebrowser_site', get_default_site())
-        if FORCE_PLACEHOLDER or (SHOW_PLACEHOLDER and not site.storage.isfile(source)):
-            source = PLACEHOLDER
-        fileobject = FileObject(source, site=site)
-        try:
-            version = fileobject.version_generate(version_suffix)
-            context[self.var_name] = version
-        except Exception:
-            if settings.TEMPLATE_DEBUG:
-                raise
-            context[self.var_name] = ""
-        return ""
-
-
-def version_object(parser, token):
-    """
-    Returns a context variable 'var_name' with the FileObject
-    {% version_object fileobject version_suffix as var_name %}
-
-    Use {% version_object fileobject 'medium' as version_medium %} in order to
-    retrieve the medium version of an image stored in a variable version_medium.
-    version_suffix can be a string or a variable. If version_suffix is a string, use quotes.
-    """
-
-    bits = token.split_contents()
-    if len(bits) != 5:
-        raise TemplateSyntaxError("'version_object' tag takes 4 arguments")
-    if bits[3] != 'as':
-        raise TemplateSyntaxError("second argument to 'version_object' tag must be 'as'")
-    return VersionObjectNode(parser.compile_filter(bits[1]), parser.compile_filter(bits[2]), bits[4])
 
 
 class VersionSettingNode(Node):
@@ -166,5 +114,4 @@ def version_setting(parser, token):
     return VersionSettingNode(version_suffix)
 
 register.tag(version)
-register.tag(version_object)
 register.tag(version_setting)

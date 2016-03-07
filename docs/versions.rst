@@ -99,18 +99,6 @@ Retrieves/Generates a version and returns a FileObject:
 .. note::
     ``version_prefix`` can either be a string or a variable. If ``version_prefix`` is a string, use quotes.
 
-Templatetag ``version_object``
-++++++++++++++++++++++++++++++
-
-Retrieves/Generates a version and returns a FileObject:
-
-.. code-block:: html
-
-    {% version_object model.field_name version_prefix as variable %}
-
-.. warning::
-    Will be removed with 3.7.
-
 Versions in Views
 -----------------
 

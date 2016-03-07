@@ -35,8 +35,8 @@
 <!-- CONTENT -->
 {% block content %}
     {% if fileobject.filetype == "Image" %}
-        {% version_object fileobject.path settings_var.ADMIN_THUMBNAIL as thumbnail_version %}
-        {% version_object fileobject.path query.version as image_version %}
+        {% version fileobject.path settings_var.ADMIN_THUMBNAIL as thumbnail_version %}
+        {% version fileobject.path query.version as image_version %}
         {% ifequal query.pop '1' %} <!-- FileBrowseField -->
         <script type="text/javascript" charset="utf-8">
             (function($) {
@@ -57,4 +57,3 @@
         {% endifequal %}
     {% endif %}
 {% endblock %}
-
