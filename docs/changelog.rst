@@ -8,8 +8,13 @@
 Changelog
 =========
 
-3.6.3 (not yet released)
+3.6.4 (not yet released)
 ------------------------
+
+3.6.3 (March 7th, 2016)
+-----------------------
+
+* Fixed: Grappelli version with setup.py.
 
 3.6.2 (March 6th, 2016)
 -----------------------
