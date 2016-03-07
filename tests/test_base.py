@@ -161,26 +161,26 @@ class FileObjectAttributeTests(TestCase):
         """
         FileObject folder attributes
 
-        # directory (deprecated)
-        # folder (deprecated)
+        # directory (deprecated) > path_relative_directory
+        # folder (deprecated) > dirname
         # is_folder
         # is_empty
         """
         # test with image
-        self.assertEqual(self.F_IMAGE.directory, "folder/testimage.jpg")  # equals path_relative_directory
-        self.assertEqual(self.F_IMAGE.folder, "folder")  # equals dirname
+        self.assertEqual(self.F_IMAGE.path_relative_directory, "folder/testimage.jpg")  # equals path_relative_directory
+        self.assertEqual(self.F_IMAGE.dirname, "folder")  # equals dirname
         self.assertEqual(self.F_IMAGE.is_folder, False)
         self.assertEqual(self.F_IMAGE.is_empty, False)
 
         # test with folder
-        self.assertEqual(self.F_FOLDER.directory, "folder")  # equals path_relative_directory
-        self.assertEqual(self.F_FOLDER.folder, "")  # equals dirname
+        self.assertEqual(self.F_FOLDER.path_relative_directory, "folder")  # equals path_relative_directory
+        self.assertEqual(self.F_FOLDER.dirname, "")  # equals dirname
         self.assertEqual(self.F_FOLDER.is_folder, True)
         self.assertEqual(self.F_FOLDER.is_empty, False)
 
         # test with alternative folder
-        self.assertEqual(self.F_SUBFOLDER.directory, "folder/subfolder")  # equals path_relative_directory
-        self.assertEqual(self.F_SUBFOLDER.folder, "folder")  # equals dirname
+        self.assertEqual(self.F_SUBFOLDER.path_relative_directory, "folder/subfolder")  # equals path_relative_directory
+        self.assertEqual(self.F_SUBFOLDER.dirname, "folder")  # equals dirname
         self.assertEqual(self.F_SUBFOLDER.is_folder, True)
         self.assertEqual(self.F_SUBFOLDER.is_empty, True)
 

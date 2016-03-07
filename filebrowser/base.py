@@ -388,8 +388,6 @@ class FileObject():
         return None
 
     # FOLDER ATTRIBUTES/PROPERTIES
-    # directory (deprecated)
-    # folder (deprecated)
     # is_folder
     # is_empty
 
