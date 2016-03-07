@@ -77,44 +77,6 @@ Just add these lines to your `ModelAdmin asset definitions <https://docs.djangop
         js = ['/path/to/tinymce/jscripts/tiny_mce/tiny_mce.js',
               '/path/to/your/tinymce_setup.js']
 
-.. _fileinputwidget:
-
-FileInput
----------
-
-Subclass of `FileInput <https://docs.djangoproject.com/en/1.8/ref/forms/widgets/#fileinput>`_ with an additional thumbnail:
-
-.. code-block:: python
-
-    from filebrowser.widgets import FileInput
-
-    class BlogEntryOptions(admin.ModelAdmin):
-        formfield_overrides = {
-            models.ImageField: {'widget': FileInput},
-        }
-
-.. warning::
-    Will be removed with 3.7.
-
-.. _clearablefileinputwidget:
-
-ClearableFileInput
-------------------
-
-Subclass of `ClearableFileInput <https://docs.djangoproject.com/en/1.8/ref/forms/widgets/#clearablefileinput>`_ with an additional thumbnail:
-
-.. code-block:: python
-
-    from filebrowser.widgets import ClearableFileInput
-
-    class BlogEntryOptions(admin.ModelAdmin):
-        formfield_overrides = {
-            models.ImageField: {'widget': ClearableFileInput},
-        }
-
-.. warning::
-    Will be removed with 3.7.
-
 Django FileField and the FileBrowser
 ------------------------------------
 
