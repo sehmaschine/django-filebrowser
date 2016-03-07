@@ -8,8 +8,13 @@
 Changelog
 =========
 
-3.6.4 (not yet released)
+3.6.5 (not yet released)
 ------------------------
+
+3.6.4 (March 7th, 2016)
+-----------------------
+
+* Fixed: Bug with conf.py.
 
 3.6.3 (March 7th, 2016)
 -----------------------
