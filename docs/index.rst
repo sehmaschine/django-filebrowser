@@ -73,7 +73,6 @@ Main Features
 * Image versions to fit your websites grid (esp. useful with adaptive/responsive layouts).
 * Integration with TinyMCE.
 * FileBrowseField to select images/documents.
-* FileInput and ClearableFileInput with image preview.
 * Signals for upload, rename and delete.
 * Custom actions.
 * Custom file storage engines.
