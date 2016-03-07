@@ -82,7 +82,7 @@ We do recommend the following structure for media files::
         └── uploads  # site.directory
 
 .. warning::
-    With version 3.7, defining a VERSIONS_BASEDIR outside of site.directory is mandatory.
+    From version 3.7, defining a VERSIONS_BASEDIR outside of site.directory is mandatory.
 
 VERSIONS
 ^^^^^^^^

@@ -14,13 +14,17 @@ Updates
 -------
 
 * Compatibility with Django 1.9 and Grappelli 2.8
+* If you use versions, defining a ``VERSIONS_BASEDIR`` outside of site.directory is now mandatory.
 
-Upcoming Depreciations (3.7)
-----------------------------
+Depreciations (3.7)
+-------------------
 
-* ``version_object`` will be removed with 3.7
-* Defining a ``VERSIONS_BASEDIR`` outside of site.directory will be mandatory with 3.7
-* ``FileInput`` and ``ClearableFileInput`` will be removed with 3.7
+As already noted with 3.6, there's a couple of backwards-incompatible changes with 3.7.
+
+* FileObject ``directory`` is deprecated (use ``path_relative_directory`` instead).
+* FileObject ``folder`` is deprecated (use ``dirname`` instead).
+* ``FileInput`` and ``ClearableFileInput`` have been removed.
+* ``version_object`` has been removed (use ``version`` instead).
 
 Update from FileBrowser 3.6.x
 -----------------------------

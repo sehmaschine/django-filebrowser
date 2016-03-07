@@ -8,11 +8,8 @@
 Changelog
 =========
 
-3.6.7 (not yet released)
+3.7.1 (not yet released)
 ------------------------
-
-3.7.1 (March 7th, 2016)
------------------------
 
 * Compatibility with Django 1.9 and Grappelli 2.8
 

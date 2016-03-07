@@ -11,8 +11,8 @@ For using the |filebrowser|, `Django <http://www.djangoproject.com>`_ needs to b
 Requirements
 ------------
 
-* Django 1.8, http://www.djangoproject.com
-* Grappelli 2.7, https://github.com/sehmaschine/django-grappelli
+* Django 1.9, http://www.djangoproject.com
+* Grappelli 2.8, https://github.com/sehmaschine/django-grappelli
 * Pillow, https://github.com/python-imaging/Pillow
 
 Installation
@@ -40,7 +40,7 @@ Add the |filebrowser| site to your url-patterns (before any admin-urls):
 
     from filebrowser.sites import site
 
-    urlpatterns = patterns[
+    urlpatterns = [
        url(r'^admin/filebrowser/', include(site.urls)),
        url(r'^grappelli/', include('grappelli.urls')),
        url(r'^admin/', include(admin.site.urls)),
