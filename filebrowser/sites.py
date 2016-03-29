@@ -169,6 +169,8 @@ class FileBrowserSite(object):
     A filebrowser.site defines admin views for browsing your servers media files.
     """
 
+    filelisting_class = FileListing
+
     def __init__(self, name=None, app_name='filebrowser', storage=default_storage):
         self.name = name
         self.app_name = app_name
@@ -287,7 +289,7 @@ class FileBrowserSite(object):
         query = request.GET.copy()
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
 
-        filelisting = FileListing(
+        filelisting = self.filelisting_class(
             path,
             filter_func=filter_browse,
             sorting_by=query.get('o', DEFAULT_SORTING_BY),
@@ -400,7 +402,7 @@ class FileBrowserSite(object):
         path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
         if fileobject.filetype == "Folder":
-            filelisting = FileListing(
+            filelisting = self.filelisting_class(
                 os.path.join(path, fileobject.filename),
                 sorting_by=query.get('o', 'filename'),
                 sorting_order=query.get('ot', DEFAULT_SORTING_ORDER),
