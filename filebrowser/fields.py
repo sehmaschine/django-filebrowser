@@ -94,6 +94,9 @@ class FileBrowseField(CharField):
         if not value or isinstance(value, FileObject):
             return value
         return FileObject(value, site=self.site)
+        
+    def from_db_value(self, value, expression, connection, context):
+        return self.to_python(value)
 
     def get_prep_value(self, value):
         if not value:
