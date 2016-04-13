@@ -13,7 +13,7 @@ from django.utils.encoding import python_2_unicode_compatible, smart_str
 from django.utils.six import string_types
 
 from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, STRICT_PIL, IMAGE_MAXBLOCK, DEFAULT_PERMISSIONS
-from filebrowser.utils import path_strip, scale_and_crop
+from filebrowser.utils import path_strip, process_image
 
 if STRICT_PIL:
     from PIL import Image
@@ -417,12 +417,7 @@ class FileObject():
     @property
     def is_version(self):
         "True if file is a version, false otherwise"
-        # FIXME: with 3.7, check for VERSIONS_BASEDIR as well in order to make sure
-        # it is actually a version (do not rely on the file ending only).
-        tmp = self.filename_root.split("_")
-        if tmp[len(tmp) - 1] in VERSIONS:
-            return True
-        return False
+        return self.head.startswith(VERSIONS_BASEDIR)
 
     @property
     def versions_basedir(self):
@@ -445,10 +440,11 @@ class FileObject():
     @property
     def original_filename(self):
         "Get the filename of an original image from a version"
+        if not self.is_version:
+            return self.filename
         tmp = self.filename_root.split("_")
         if tmp[len(tmp) - 1] in VERSIONS:
             return u"%s%s" % (self.filename_root.replace("_%s" % tmp[len(tmp) - 1], ""), self.extension)
-        return self.filename
 
     # VERSION METHODS
     # versions()
@@ -481,17 +477,21 @@ class FileObject():
         "Path to a version (relative to storage location)"  # FIXME: version_path for version?
         return os.path.join(self.versions_basedir, self.dirname, self.version_name(version_suffix))
 
-    def version_generate(self, version_suffix):
+    def version_generate(self, version_suffix, extra_options=None):
         "Generate a version"  # FIXME: version_generate for version?
         path = self.path
+        options = dict(VERSIONS.get(version_suffix, {}))
+        if extra_options:
+            options.update(extra_options)
+
         version_path = self.version_path(version_suffix)
         if not self.site.storage.isfile(version_path):
-            version_path = self._generate_version(version_suffix)
+            version_path = self._generate_version(version_path, options)
         elif self.site.storage.modified_time(path) > self.site.storage.modified_time(version_path):
-            version_path = self._generate_version(version_suffix)
+            version_path = self._generate_version(version_path, options)
         return FileObject(version_path, site=self.site)
 
-    def _generate_version(self, version_suffix):
+    def _generate_version(self, version_path, options):
         """
         Generate Version for an Image.
         value has to be a path relative to the storage location.
@@ -504,15 +504,13 @@ class FileObject():
         except IOError:
             return ""
         im = Image.open(f)
-        version_path = self.version_path(version_suffix)
         version_dir, version_basename = os.path.split(version_path)
         root, ext = os.path.splitext(version_basename)
-        version = scale_and_crop(im, VERSIONS[version_suffix]['width'], VERSIONS[version_suffix]['height'], VERSIONS[version_suffix]['opts'])
+        version = process_image(im, options)
         if not version:
             version = im
-        # version methods as defined with VERSIONS
-        if 'methods' in VERSIONS[version_suffix].keys():
-            for m in VERSIONS[version_suffix]['methods']:
+        if 'methods' in options:
+            for m in options['methods']:
                 if callable(m):
                     version = m(version)
 
