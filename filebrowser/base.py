@@ -483,6 +483,10 @@ class FileObject():
         options = dict(VERSIONS.get(version_suffix, {}))
         if extra_options:
             options.update(extra_options)
+        if 'size' in options and 'width' not in options:
+            width, height = options['size']
+            options['width'] = width
+            options['height'] = height
 
         version_path = self.version_path(version_suffix)
         if not self.site.storage.isfile(version_path):

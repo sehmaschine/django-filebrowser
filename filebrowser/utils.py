@@ -67,10 +67,11 @@ def process_image(source, processor_options, processors=None):
     return image
 
 
-def scale_and_crop(im, width, height, opts, **kwargs):
+def scale_and_crop(im, width, height, **kwargs):
     """
     Scale and Crop.
     """
+    opts = kwargs.get('opts', '')
 
     x, y = [float(v) for v in im.size]
     width = float(width or 0)

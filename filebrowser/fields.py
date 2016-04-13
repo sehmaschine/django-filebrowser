@@ -94,7 +94,7 @@ class FileBrowseField(CharField):
         if not value or isinstance(value, FileObject):
             return value
         return FileObject(value, site=self.site)
-        
+
     def from_db_value(self, value, expression, connection, context):
         return self.to_python(value)
 
@@ -110,6 +110,7 @@ class FileBrowseField(CharField):
         return value.path
 
     def formfield(self, **kwargs):
+        widget_class = kwargs.get('widget', FileBrowseWidget)
         attrs = {}
         attrs["filebrowser_site"] = self.site
         attrs["directory"] = self.directory
@@ -117,7 +118,7 @@ class FileBrowseField(CharField):
         attrs["format"] = self.format
         defaults = {
             'form_class': FileBrowseFormField,
-            'widget': FileBrowseWidget(attrs=attrs),
+            'widget': widget_class(attrs=attrs),
             'filebrowser_site': self.site,
             'directory': self.directory,
             'extensions': self.extensions,
