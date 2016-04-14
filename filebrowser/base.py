@@ -6,11 +6,11 @@ import os
 import platform
 import tempfile
 import time
-import warnings
 
 from django.core.files import File
 from django.utils.encoding import python_2_unicode_compatible, smart_str
 from django.utils.six import string_types
+from django.utils.functional import cached_property
 
 from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, STRICT_PIL, IMAGE_MAXBLOCK, DEFAULT_PERMISSIONS
 from filebrowser.utils import path_strip, process_image
@@ -81,12 +81,9 @@ class FileListing():
             attr = (attr, )
         return sorted(seq, key=attrgetter(*attr))
 
-    _is_folder_stored = None
-    @property
+    @cached_property
     def is_folder(self):
-        if self._is_folder_stored is None:
-            self._is_folder_stored = self.site.storage.isdir(self.path)
-        return self._is_folder_stored
+        return self.site.storage.isdir(self.path)
 
     def listing(self):
         "List all files for path"
@@ -258,38 +255,21 @@ class FileObject():
     # datetime
     # exists
 
-    _filetype_stored = None
-    @property
+    @cached_property
     def filetype(self):
         "Filetype as defined with EXTENSIONS"
-        if self._filetype_stored is not None:
-            return self._filetype_stored
-        if self.is_folder:
-            self._filetype_stored = 'Folder'
-        else:
-            self._filetype_stored = self._get_file_type()
-        return self._filetype_stored
+        return 'Folder' if self.is_folder else self._get_file_type()
 
-    _filesize_stored = None
-    @property
+    @cached_property
     def filesize(self):
         "Filesize in bytes"
-        if self._filesize_stored is not None:
-            return self._filesize_stored
-        if self.exists:
-            self._filesize_stored = self.site.storage.size(self.path)
-            return self._filesize_stored
-        return None
+        return self.site.storage.size(self.path) if self.exists else None
 
-    _date_stored = None
-    @property
+    @cached_property
     def date(self):
         "Modified time (from site.storage) as float (mktime)"
-        if self._date_stored is not None:
-            return self._date_stored
         if self.exists:
-            self._date_stored = time.mktime(self.site.storage.modified_time(self.path).timetuple())
-            return self._date_stored
+            return time.mktime(self.site.storage.modified_time(self.path).timetuple())
         return None
 
     @property
@@ -299,13 +279,10 @@ class FileObject():
             return datetime.datetime.fromtimestamp(self.date)
         return None
 
-    _exists_stored = None
-    @property
+    @cached_property
     def exists(self):
         "True, if the path exists, False otherwise"
-        if self._exists_stored is None:
-            self._exists_stored = self.site.storage.exists(self.path)
-        return self._exists_stored
+        return self.site.storage.exists(self.path)
 
     # PATH/URL ATTRIBUTES/PROPERTIES
     # path (see init)
@@ -341,20 +318,16 @@ class FileObject():
     # aspectratio
     # orientation
 
-    _dimensions_stored = None
-    @property
+    @cached_property
     def dimensions(self):
         "Image dimensions as a tuple"
         if self.filetype != 'Image':
             return None
-        if self._dimensions_stored is not None:
-            return self._dimensions_stored
         try:
             im = Image.open(self.site.storage.open(self.path))
-            self._dimensions_stored = im.size
+            return im.size
         except:
             pass
-        return self._dimensions_stored
 
     @property
     def width(self):
@@ -391,13 +364,10 @@ class FileObject():
     # is_folder
     # is_empty
 
-    _is_folder_stored = None
-    @property
+    @cached_property
     def is_folder(self):
         "True, if path is a folder"
-        if self._is_folder_stored is None:
-            self._is_folder_stored = self.site.storage.isdir(self.path)
-        return self._is_folder_stored
+        return self.site.storage.isdir(self.path)
 
     @property
     def is_empty(self):
