@@ -3,11 +3,9 @@ import os
 
 from django import forms
 from django.core import urlresolvers
-from django.db import models
 from django.db.models.fields import CharField
 from django.forms.widgets import Input
 from django.template.loader import render_to_string
-from django.utils.six import with_metaclass
 from django.utils.translation import ugettext_lazy as _
 
 from filebrowser.base import FileObject
@@ -45,6 +43,7 @@ class FileBrowseWidget(Input):
         final_attrs['extensions'] = self.extensions
         final_attrs['format'] = self.format
         final_attrs['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
+        final_attrs['data_attrs'] = {k: v for k, v in final_attrs.items() if k.startswith('data-')}
         filebrowser_site = self.site
         if value != "":
             try:
