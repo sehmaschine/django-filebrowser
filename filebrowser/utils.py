@@ -54,25 +54,29 @@ def path_strip(path, root):
     return path
 
 
+_default_processors = None
+
+
 def process_image(source, processor_options, processors=None):
     """
     Process a source PIL image through a series of image processors, returning
     the (potentially) altered image.
     """
+    global _default_processors
     if processors is None:
-        processors = [import_string(name) for name in PROCESSORS]
+        if _default_processors is None:
+            _default_processors = [import_string(name) for name in PROCESSORS]
+        processors = _default_processors
     image = source
     for processor in processors:
         image = processor(image, **processor_options)
     return image
 
 
-def scale_and_crop(im, width, height, **kwargs):
+def scale_and_crop(im, width, height, opts='', **kwargs):
     """
     Scale and Crop.
     """
-    opts = kwargs.get('opts', '')
-
     x, y = [float(v) for v in im.size]
     width = float(width or 0)
     height = float(height or 0)

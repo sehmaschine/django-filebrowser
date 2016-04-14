@@ -51,6 +51,7 @@ ADMIN_THUMBNAIL = getattr(settings, 'FILEBROWSER_ADMIN_THUMBNAIL', 'admin_thumbn
 PROCESSORS = getattr(settings, 'FILEBROWSER_PROCESSORS', [
     'filebrowser.utils.scale_and_crop',
 ])
+VERSION_NAMER = getattr(settings, 'FILEBROWSER_VERSION_NAMER', 'filebrowser.namers.VersionNamer')
 
 # PLACEHOLDER
 

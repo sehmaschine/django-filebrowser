@@ -14,6 +14,7 @@ from django.utils.functional import cached_property
 
 from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, STRICT_PIL, IMAGE_MAXBLOCK, DEFAULT_PERMISSIONS
 from filebrowser.utils import path_strip, process_image
+from .namers import get_namer
 
 if STRICT_PIL:
     from PIL import Image
@@ -412,9 +413,11 @@ class FileObject():
         "Get the filename of an original image from a version"
         if not self.is_version:
             return self.filename
-        tmp = self.filename_root.split("_")
-        if tmp[len(tmp) - 1] in VERSIONS:
-            return u"%s%s" % (self.filename_root.replace("_%s" % tmp[len(tmp) - 1], ""), self.extension)
+        return get_namer(
+            file_object=self,
+            filename_root=self.filename_root,
+            extension=self.extension,
+        ).get_original_name()
 
     # VERSION METHODS
     # versions()
@@ -422,6 +425,16 @@ class FileObject():
     # version_name(suffix)
     # version_path(suffix)
     # version_generate(suffix)
+
+    def _get_options(self, version_suffix, extra_options=None):
+        options = dict(VERSIONS.get(version_suffix, {}))
+        if extra_options:
+            options.update(extra_options)
+        if 'size' in options and 'width' not in options:
+            width, height = options['size']
+            options['width'] = width
+            options['height'] = height
+        return options
 
     def versions(self):
         "List of versions (not checking if they actually exist)"
@@ -439,26 +452,30 @@ class FileObject():
                 version_list.append(os.path.join(self.versions_basedir, self.dirname, self.version_name(version)))
         return version_list
 
-    def version_name(self, version_suffix):
+    def version_name(self, version_suffix, extra_options=None):
         "Name of a version"  # FIXME: version_name for version?
-        return self.filename_root + "_" + version_suffix + self.extension
+        options = self._get_options(version_suffix, extra_options)
+        return get_namer(
+            file_object=self,
+            version_suffix=version_suffix,
+            filename_root=self.filename_root,
+            extension=self.extension,
+            options=options,
+        ).get_version_name()
 
-    def version_path(self, version_suffix):
+    def version_path(self, version_suffix, extra_options=None):
         "Path to a version (relative to storage location)"  # FIXME: version_path for version?
-        return os.path.join(self.versions_basedir, self.dirname, self.version_name(version_suffix))
+        return os.path.join(
+            self.versions_basedir,
+            self.dirname,
+            self.version_name(version_suffix, extra_options))
 
     def version_generate(self, version_suffix, extra_options=None):
         "Generate a version"  # FIXME: version_generate for version?
         path = self.path
-        options = dict(VERSIONS.get(version_suffix, {}))
-        if extra_options:
-            options.update(extra_options)
-        if 'size' in options and 'width' not in options:
-            width, height = options['size']
-            options['width'] = width
-            options['height'] = height
+        options = self._get_options(version_suffix, extra_options)
 
-        version_path = self.version_path(version_suffix)
+        version_path = self.version_path(version_suffix, extra_options)
         if not self.site.storage.isfile(version_path):
             version_path = self._generate_version(version_path, options)
         elif self.site.storage.modified_time(path) > self.site.storage.modified_time(version_path):
