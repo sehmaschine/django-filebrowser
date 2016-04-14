@@ -7,6 +7,7 @@ from django.db.models.fields import CharField
 from django.forms.widgets import Input
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 
 from filebrowser.base import FileObject
 from filebrowser.settings import ADMIN_THUMBNAIL, EXTENSIONS, UPLOAD_TEMPDIR
@@ -124,6 +125,8 @@ class FileBrowseField(CharField):
             'format': self.format
         }
         return super(FileBrowseField, self).formfield(**defaults)
+
+FORMFIELD_FOR_DBFIELD_DEFAULTS[FileBrowseField] = {'widget': FileBrowseWidget}
 
 
 class FileBrowseUploadWidget(Input):
