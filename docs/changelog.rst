@@ -11,6 +11,8 @@ Changelog
 3.6.5 (not yet released)
 ------------------------
 
+* Fixed: filter_type with custom_fields.
+
 3.6.4 (March 7th, 2016)
 -----------------------
 
