@@ -1,5 +1,19 @@
 Django FileBrowser
 ==================
+.. image:: https://api.travis-ci.org/sehmaschine/django-filebrowser.svg
+    :target: https://travis-ci.org/sehmaschine/django-filebrowser
+
+.. image:: https://img.shields.io/pypi/dm/django-filebrowser.svg
+    :target: https://pypi.python.org/pypi/django-filebrowser
+
+.. image:: https://readthedocs.org/projects/django-filebrowser/badge/?version=latest
+    :target: http://django-filebrowser.readthedocs.org/en/latest/?badge=latest
+
+.. image:: https://img.shields.io/pypi/v/django-filebrowser.svg
+    :target: https://pypi.python.org/pypi/django-filebrowser
+
+.. image:: https://img.shields.io/pypi/l/django-filebrowser.svg
+    :target: https://pypi.python.org/pypi/django-filebrowser
 
 **Media-Management with Grappelli**.
 
