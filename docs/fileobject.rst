@@ -291,7 +291,11 @@ Version methods
     .. note::
         The versions are not being generated.
 
-.. method:: version_name(version_suffix)
+.. method:: version_name(version_suffix, extra_options=None)
+
+    :param version_suffix: A version name as defined in :ref:`settingsversions_versions`.
+    :param extra_options: Optional ``dict`` that will be merged with the
+        predefined ``VERSION`` definition if the given ``version_suffix`` exists.
 
     Get the filename for a version::
 
@@ -301,7 +305,14 @@ Version methods
     .. note::
         The version is not being generated.
 
-.. method:: version_path(version_suffix)
+    .. seealso::
+        Files names can be customized using :ref:`settingsversions_version_namer`.
+
+.. method:: version_path(version_suffix, extra_options=None)
+
+    :param version_suffix: A version name as defined in :ref:`settingsversions_versions`.
+    :param extra_options: Optional ``dict`` that will be merged with the
+        predefined ``VERSION`` definition if the given ``version_suffix`` exists.
 
     Get the path for a version::
 
@@ -311,7 +322,13 @@ Version methods
     .. note::
         The version is not being generated.
 
-.. method:: version_generate(version_suffix)
+.. _method_version_generate:
+
+.. method:: version_generate(version_suffix, extra_options=None)
+
+    :param version_suffix: A version name as defined in :ref:`settingsversions_versions`.
+    :param extra_options: Optional ``dict`` that will be merged with the
+        predefined ``VERSION`` definition if the given ``version_suffix`` exists.
 
     Generate a version::
 
@@ -319,6 +336,12 @@ Version methods
         <FileObject: uploads/testfolder/testimage_medium.jpg>
 
     Please note that a version is only generated, if it does not already exist or if the original image is newer than the existing version.
+
+    .. note::
+        The param ``version_suffix`` is not required to be in ``VERSIONS``
+        anymore, any suffix should work, if the new ``extra_options`` param
+        contains enough data to generate a version.
+
 
 Delete methods
 ^^^^^^^^^^^^^^
