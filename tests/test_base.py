@@ -419,3 +419,83 @@ class FileListingTests(TestCase):
         self.assertEqual(list(f.path for f in self.F_LISTING_FOLDER.files_walk_filtered()), [u'_test/uploads/testimage.jpg', u'_test/uploads/folder', u'_test/uploads/folder/subfolder', u'_test/uploads/folder/subfolder/testimage.jpg'])
         self.assertEqual(self.F_LISTING_FOLDER.results_walk_total(), 4)
         self.assertEqual(self.F_LISTING_FOLDER.results_walk_filtered(), 4)
+
+
+class FileObjecNamerTests(TestCase):
+
+    PATCH_VERSIONS = {
+        'thumbnail': {'verbose_name': 'Thumbnail (1 col)', 'width': 60, 'height': 60, 'opts': 'crop'},
+        'small': {'verbose_name': 'Small (2 col)', 'width': 140, 'height': '', 'opts': ''},
+        'large': {'verbose_name': 'Large (8 col)', 'width': 680, 'height': '', 'opts': ''},
+    }
+    PATCH_ADMIN_VERSIONS = ['large']
+
+    def setUp(self):
+        super(FileObjecNamerTests, self).setUp()
+        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
+
+    @patch('filebrowser.namers.VERSION_NAMER', 'filebrowser.namers.OptionsNamer')
+    def test_init_attributes(self):
+        """
+        FileObject init attributes
+
+        # path
+        # head
+        # filename
+        # filename_lower
+        # filename_root
+        # extension
+        # mimetype
+        """
+        self.assertEqual(self.F_IMAGE.path, "_test/uploads/folder/testimage.jpg")
+        self.assertEqual(self.F_IMAGE.head, '_test/uploads/folder')
+        self.assertEqual(self.F_IMAGE.filename, 'testimage.jpg')
+        self.assertEqual(self.F_IMAGE.filename_lower, 'testimage.jpg')
+        self.assertEqual(self.F_IMAGE.filename_root, 'testimage')
+        self.assertEqual(self.F_IMAGE.extension, '.jpg')
+        self.assertEqual(self.F_IMAGE.mimetype, ('image/jpeg', None))
+
+    @patch('filebrowser.namers.VERSION_NAMER', 'filebrowser.namers.OptionsNamer')
+    @patch('filebrowser.base.VERSIONS', PATCH_VERSIONS)
+    @patch('filebrowser.base.ADMIN_VERSIONS', PATCH_ADMIN_VERSIONS)
+    def test_version_attributes_with_options_namer(self):
+        """
+        FileObject version attributes/methods
+        without versions_basedir
+
+        # is_version
+        # original
+        # original_filename
+        # versions_basedir
+        # versions
+        # admin_versions
+        # version_name(suffix)
+        # version_path(suffix)
+        # version_generate(suffix)
+        """
+        # new settings
+        version_list = sorted([
+            '_test/_versions/folder/testimage_large--680x0.jpg',
+            '_test/_versions/folder/testimage_small--140x0.jpg',
+            '_test/_versions/folder/testimage_thumbnail--60x60--opts-crop.jpg'
+        ])
+        admin_version_list = ['_test/_versions/folder/testimage_large--680x0.jpg']
+
+        self.assertEqual(self.F_IMAGE.is_version, False)
+        self.assertEqual(self.F_IMAGE.original.path, self.F_IMAGE.path)
+        self.assertEqual(self.F_IMAGE.versions_basedir, "_test/_versions/")
+        self.assertEqual(self.F_IMAGE.versions(), version_list)
+        self.assertEqual(self.F_IMAGE.admin_versions(), admin_version_list)
+        self.assertEqual(self.F_IMAGE.version_name("large"), "testimage_large--680x0.jpg")
+        self.assertEqual(self.F_IMAGE.version_path("large"), "_test/_versions/folder/testimage_large--680x0.jpg")
+
+        # version does not exist yet
+        f_version = FileObject(os.path.join(site.directory, 'folder', "testimage_large--680x0.jpg"), site=site)
+        self.assertEqual(f_version.exists, False)
+        # generate version
+        f_version = self.F_IMAGE.version_generate("large")
+        self.assertEqual(f_version.path, "_test/_versions/folder/testimage_large--680x0.jpg")
+        self.assertEqual(f_version.exists, True)
+        self.assertEqual(f_version.is_version, True)
+        self.assertEqual(f_version.original_filename, "testimage.jpg")
+        self.assertEqual(f_version.original.path, self.F_IMAGE.path)

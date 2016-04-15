@@ -73,7 +73,7 @@ def process_image(source, processor_options, processors=None):
     return image
 
 
-def scale_and_crop(im, width, height, opts='', **kwargs):
+def scale_and_crop(im, width=None, height=None, opts='', **kwargs):
     """
     Scale and Crop.
     """
@@ -81,9 +81,12 @@ def scale_and_crop(im, width, height, opts='', **kwargs):
     width = float(width or 0)
     height = float(height or 0)
 
+    if (x, y) == (width, height):
+        return im
+
     if 'upscale' not in opts:
         if (x < width or not width) and (y < height or not height):
-            return False
+            return im
 
     if width:
         xr = float(width)

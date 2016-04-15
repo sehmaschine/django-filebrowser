@@ -1,3 +1,4 @@
+import re
 from django.utils import six
 from django.utils.module_loading import import_string
 
@@ -33,20 +34,33 @@ class OptionsNamer(VersionNamer):
     def get_version_name(self):
         name = "{root}_{options}{extension}".format(
             root=self.file_object.filename_root,
-            options='--'.join(self.prepared_options),
+            options=self.options_as_string,
             extension=self.file_object.extension,
         )
         return name
 
     def get_original_name(self):
-        "Removes the substring containing the last _ (underscore) in the filename"
+        """
+        Restores the original file name wipping out the last
+        `_version_suffix--plus-any-configs` block entirely.
+        """
         root = self.file_object.filename_root
         tmp = root.split("_")
         options_part = tmp[len(tmp) - 1]
         return u"%s%s" % (root.replace("_%s" % options_part, ""), self.file_object.extension)
 
     @property
-    def prepared_options(self):
+    def options_as_string(self):
+        """
+        The options part should not contain `_` (underscore) on order to get
+        original name back.
+        """
+        name = '--'.join(self.options_list).replace(',', 'x')
+        name = re.sub(r'[_\s]', '-', name)
+        return re.sub(r'[^\w-]', '', name).strip()
+
+    @property
+    def options_list(self):
         opts = []
         if not self.options:
             return opts
@@ -56,8 +70,10 @@ class OptionsNamer(VersionNamer):
 
         if 'size' in self.options:
             opts.append('%sx%s' % tuple(self.options['size']))
-        elif 'width' in self.options:
-            opts.append('%sx%s' % (self.options['width'], self.options['width'],))
+        elif 'width' in self.options or 'height' in self.options:
+            width = float(self.options.get('width') or 0)
+            height = float(self.options.get('height') or 0)
+            opts.append('%dx%d' % (width, height))
 
         for k, v in sorted(self.options.items()):
             if not v or k in ('size', 'width', 'height',
@@ -71,9 +87,6 @@ class OptionsNamer(VersionNamer):
                     v = 'x'.join([six.text_type(v) for item in v])
                 except TypeError:
                     v = six.text_type(v)
-            opts.append('%s-%s' % (k, self.sanitize_value(v)))
+            opts.append('%s-%s' % (k, v))
 
         return opts
-
-    def sanitize_value(self, value):
-        return value.replace(',', 'x')
