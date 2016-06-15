@@ -9,7 +9,7 @@ from django.utils import six
 from django.utils.module_loading import import_string
 
 from filebrowser.settings import STRICT_PIL, NORMALIZE_FILENAME, CONVERT_FILENAME
-from filebrowser.settings import PROCESSORS
+from filebrowser.settings import VERSION_PROCESSORS
 
 if STRICT_PIL:
     from PIL import Image
@@ -65,7 +65,7 @@ def process_image(source, processor_options, processors=None):
     global _default_processors
     if processors is None:
         if _default_processors is None:
-            _default_processors = [import_string(name) for name in PROCESSORS]
+            _default_processors = [import_string(name) for name in VERSION_PROCESSORS]
         processors = _default_processors
     image = source
     for processor in processors:

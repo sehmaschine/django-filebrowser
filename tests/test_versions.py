@@ -46,7 +46,7 @@ class ImageProcessorsTests(TestCase):
         version = process_image(self.im, {'width': 500, 'height': ""})
         self.assertEqual(version.size, (500, 375))
 
-    @patch('filebrowser.utils.PROCESSORS', [
+    @patch('filebrowser.utils.VERSION_PROCESSORS', [
         'tests.test_versions.processor_mark_1',
         'tests.test_versions.processor_mark_2',
     ])
@@ -55,7 +55,7 @@ class ImageProcessorsTests(TestCase):
         self.assertTrue(hasattr(version, 'mark_1'))
         self.assertTrue(hasattr(version, 'mark_2'))
 
-    @patch('filebrowser.utils.PROCESSORS', [
+    @patch('filebrowser.utils.VERSION_PROCESSORS', [
         'tests.test_versions.processor_mark_1',
     ])
     def test_process_image_calls_only_explicit_provided_processors(self):
