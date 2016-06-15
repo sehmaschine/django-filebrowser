@@ -293,9 +293,13 @@ Version methods
 
 .. method:: version_name(version_suffix, extra_options=None)
 
-    :param version_suffix: A version name as defined in :ref:`settingsversions_versions`.
-    :param extra_options: Optional ``dict`` that will be merged with the
-        predefined ``VERSION`` definition if the given ``version_suffix`` exists.
+    :param version_suffix: A suffix to compose the version name acordinly to
+        the :ref:`settingsversions_version_namer` in use. If the suffix
+        is a key in :ref:`settingsversions_versions` the options will be used.
+    :param extra_options: An optional ``dict`` to be used in the version
+        generation. If ``version_suffix`` matches a key in
+        :ref:`settingsversions_versions` they will be merged and the
+        ``extra_options`` will take precedence.
 
     Get the filename for a version::
 
@@ -310,9 +314,13 @@ Version methods
 
 .. method:: version_path(version_suffix, extra_options=None)
 
-    :param version_suffix: A version name as defined in :ref:`settingsversions_versions`.
-    :param extra_options: Optional ``dict`` that will be merged with the
-        predefined ``VERSION`` definition if the given ``version_suffix`` exists.
+    :param version_suffix: A suffix to compose the version name acordinly to
+        the :ref:`settingsversions_version_namer` in use. If the suffix
+        is a key in :ref:`settingsversions_versions` the options will be used.
+    :param extra_options: An optional ``dict`` to be used in the version
+        generation. If ``version_suffix`` matches a key in
+        :ref:`settingsversions_versions` they will be merged and the
+        ``extra_options`` will take precedence.
 
     Get the path for a version::
 
@@ -326,9 +334,14 @@ Version methods
 
 .. method:: version_generate(version_suffix, extra_options=None)
 
-    :param version_suffix: A version name as defined in :ref:`settingsversions_versions`.
-    :param extra_options: Optional ``dict`` that will be merged with the
-        predefined ``VERSION`` definition if the given ``version_suffix`` exists.
+    :param version_suffix: A suffix to compose the version name acordinly to
+        the :ref:`settingsversions_version_namer` in use. If the suffix
+        is a key in :ref:`settingsversions_versions` the options will be used.
+    :param extra_options: An optional ``dict`` to be used in the version
+        generation. If ``version_suffix`` matches a key in
+        :ref:`settingsversions_versions` they will be merged and the
+        ``extra_options`` will take precedence.
+
 
     Generate a version::
 
@@ -336,11 +349,6 @@ Version methods
         <FileObject: uploads/testfolder/testimage_medium.jpg>
 
     Please note that a version is only generated, if it does not already exist or if the original image is newer than the existing version.
-
-    .. note::
-        The param ``version_suffix`` is not required to be in ``VERSIONS``
-        anymore, any suffix should work, if the new ``extra_options`` param
-        contains enough data to generate a version.
 
 
 Delete methods

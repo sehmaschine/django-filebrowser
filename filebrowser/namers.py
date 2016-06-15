@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import re
 from django.utils import six
 from django.utils.module_loading import import_string
@@ -24,7 +25,7 @@ class VersionNamer(object):
     def get_original_name(self):
         tmp = self.file_object.filename_root.split("_")
         if tmp[len(tmp) - 1] in VERSIONS:
-            return u"%s%s" % (
+            return "%s%s" % (
                 self.file_object.filename_root.replace("_%s" % tmp[len(tmp) - 1], ""),
                 self.file_object.extension)
 
@@ -47,7 +48,8 @@ class OptionsNamer(VersionNamer):
         root = self.file_object.filename_root
         tmp = root.split("_")
         options_part = tmp[len(tmp) - 1]
-        return u"%s%s" % (root.replace("_%s" % options_part, ""), self.file_object.extension)
+        name = re.sub('_%s$' % options_part, '', root)
+        return "%s%s" % (name, self.file_object.extension)
 
     @property
     def options_as_string(self):

@@ -66,6 +66,17 @@ class FileObjectUnicodeTests(TestCase):
         self.assertEqual(f.path_relative_directory, '$%^&*/測試文件.jpg')
         self.assertEqual(f.dirname, r'$%^&*')
 
+    @patch('filebrowser.base.os.path', posixpath)
+    @patch('filebrowser.namers.VERSION_NAMER', 'filebrowser.namers.OptionsNamer')
+    def test_unicode_options_namer_version(self):
+        path_unicode = os.path.join(self.FOLDER_PATH, '測試文件.jpg')
+        expected = u'測試文件_large--680x0.jpg'
+
+        shutil.copy(self.STATIC_IMG_PATH, path_unicode)
+        f = FileObject(path_unicode, site=site)
+        version = f.version_generate('large')
+        self.assertEqual(version.filename, expected)
+
 
 class FileObjectAttributeTests(TestCase):
 

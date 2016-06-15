@@ -8,7 +8,7 @@ import tempfile
 import time
 
 from django.core.files import File
-from django.utils.encoding import python_2_unicode_compatible, smart_str
+from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.six import string_types
 from django.utils.functional import cached_property
 
@@ -219,13 +219,13 @@ class FileObject():
         else:
             self.path = path
         self.head = os.path.dirname(path)
-        self.filename = os.path.basename(path)
+        self.filename = force_text(os.path.basename(path))
         self.filename_lower = self.filename.lower()
         self.filename_root, self.extension = os.path.splitext(self.filename)
         self.mimetype = mimetypes.guess_type(self.filename)
 
     def __str__(self):
-        return smart_str(self.path)
+        return force_text(self.path)
 
     @property
     def name(self):
