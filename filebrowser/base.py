@@ -219,7 +219,7 @@ class FileObject():
         else:
             self.path = path
         self.head = os.path.dirname(path)
-        self.filename = force_text(os.path.basename(path))
+        self.filename = os.path.basename(path)
         self.filename_lower = self.filename.lower()
         self.filename_root, self.extension = os.path.splitext(self.filename)
         self.mimetype = mimetypes.guess_type(self.filename)
