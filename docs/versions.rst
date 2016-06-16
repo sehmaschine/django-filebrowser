@@ -10,10 +10,17 @@ Versions
 
 With the FileBrowser, you are able to define different versions/sizes for images. This enables you to save an original image on your server while having different versions of that image to automatically fit your websites grid. Versions are also useful for responsive/adaptive layouts.
 
+To generate a version of a source image, you specify `options` which are used
+by the image processors (see :ref:`settingsversions_processors`) to generate the
+required version.
+
 Defining Versions
 -----------------
 
-First you need to know which versions/sizes of an image you'd like to generate with your website. Let's say you're using a 12 column grid with 60px for each column and 20px margin (which is a total of 940px). With this grid, you could (for example) define these image versions.
+First you need to know which versions/sizes of an image you'd like to generate
+with your website. Let's say you're using a 12 column grid with 60px for each
+column and 20px margin (which is a total of 940px). With this grid, you could
+(for example) define these image :ref:`settingsversions_versions`:
 
 .. code-block:: python
 
@@ -40,6 +47,63 @@ Use the ``methods`` argument, if you need to add a filter:
     FILEBROWSER_VERSIONS = {
         'big': {'verbose_name': 'Big (6 col)', 'width': 460, 'height': '', 'opts': '', 'methods': [grayscale]},
     })
+
+
+.. _versions__custom_processors:
+
+Custom processors
+-----------------
+
+Custom processors can be created using a simple method like this:
+
+.. code:: python
+
+    def grayscale_processor(im, grayscale=False, **kwargs):
+        if grayscale:
+            if im.mode != "L":
+                im = im.convert("L")
+        return im
+
+The first argument for a processor is the source image.
+
+All other arguments are keyword arguments which relate to the list of options
+received from the :ref:`version_generate method <method_version_generate>`.
+
+Ensure that you explicitly declare all params that could be used by your
+processor, as the processors arguments can be inspected to get a list of valid
+options.
+
+In order to turn your processor optional, define the params that your processor
+expects with a falsy default, and in this case you could return the
+original image without any modification.
+
+You must also use ``**kwargs`` at the end of your argument list because all
+`options` used to generate the version are available to all processors, not
+just the ones defined in your processor.
+
+Whether a processor actually modifies the image or not, they must always return
+an image.
+
+Using the processor
++++++++++++++++++++
+
+Override the  :ref:`settingsversions_processors` setting:
+
+.. code-block:: python
+
+    FILEBROWSER_VERSION_PROCESSORS = [
+        'filebrowser.utils.scale_and_crop',
+        'my_project.my_processors.grayscale_processor',
+    ]
+
+And in your versions definition:
+
+.. code-block:: python
+
+    FILEBROWSER_VERSIONS = {
+        'big_gray': {'verbose_name': 'Big (6 col)', 'width': 460, 'grayscale': True},
+    })
+
 
 Versions and the Admin
 ----------------------
