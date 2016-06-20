@@ -6,8 +6,10 @@ import unicodedata
 import math
 
 from django.utils import six
+from django.utils.module_loading import import_string
 
 from filebrowser.settings import STRICT_PIL, NORMALIZE_FILENAME, CONVERT_FILENAME
+from filebrowser.settings import VERSION_PROCESSORS
 
 if STRICT_PIL:
     from PIL import Image
@@ -52,18 +54,39 @@ def path_strip(path, root):
     return path
 
 
-def scale_and_crop(im, width, height, opts):
+_default_processors = None
+
+
+def process_image(source, processor_options, processors=None):
+    """
+    Process a source PIL image through a series of image processors, returning
+    the (potentially) altered image.
+    """
+    global _default_processors
+    if processors is None:
+        if _default_processors is None:
+            _default_processors = [import_string(name) for name in VERSION_PROCESSORS]
+        processors = _default_processors
+    image = source
+    for processor in processors:
+        image = processor(image, **processor_options)
+    return image
+
+
+def scale_and_crop(im, width=None, height=None, opts='', **kwargs):
     """
     Scale and Crop.
     """
-
     x, y = [float(v) for v in im.size]
     width = float(width or 0)
     height = float(height or 0)
 
+    if (x, y) == (width, height):
+        return im
+
     if 'upscale' not in opts:
         if (x < width or not width) and (y < height or not height):
-            return False
+            return im
 
     if width:
         xr = float(width)

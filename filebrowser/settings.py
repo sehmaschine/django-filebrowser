@@ -48,6 +48,11 @@ ADMIN_VERSIONS = getattr(settings, 'FILEBROWSER_ADMIN_VERSIONS', ['thumbnail', '
 # Which Version should be used as Admin-thumbnail.
 ADMIN_THUMBNAIL = getattr(settings, 'FILEBROWSER_ADMIN_THUMBNAIL', 'admin_thumbnail')
 
+VERSION_PROCESSORS = getattr(settings, 'FILEBROWSER_VERSION_PROCESSORS', [
+    'filebrowser.utils.scale_and_crop',
+])
+VERSION_NAMER = getattr(settings, 'FILEBROWSER_VERSION_NAMER', 'filebrowser.namers.VersionNamer')
+
 # PLACEHOLDER
 
 # Path to placeholder image (relative to storage location)

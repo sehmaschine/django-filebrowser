@@ -3,12 +3,11 @@ import os
 
 from django import forms
 from django.core import urlresolvers
-from django.db import models
 from django.db.models.fields import CharField
 from django.forms.widgets import Input
 from django.template.loader import render_to_string
-from django.utils.six import with_metaclass
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 
 from filebrowser.base import FileObject
 from filebrowser.settings import ADMIN_THUMBNAIL, EXTENSIONS, UPLOAD_TEMPDIR
@@ -45,6 +44,7 @@ class FileBrowseWidget(Input):
         final_attrs['extensions'] = self.extensions
         final_attrs['format'] = self.format
         final_attrs['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
+        final_attrs['data_attrs'] = {k: v for k, v in final_attrs.items() if k.startswith('data-')}
         filebrowser_site = self.site
         if value != "":
             try:
@@ -94,7 +94,7 @@ class FileBrowseField(CharField):
         if not value or isinstance(value, FileObject):
             return value
         return FileObject(value, site=self.site)
-        
+
     def from_db_value(self, value, expression, connection, context):
         return self.to_python(value)
 
@@ -110,6 +110,7 @@ class FileBrowseField(CharField):
         return value.path
 
     def formfield(self, **kwargs):
+        widget_class = kwargs.get('widget', FileBrowseWidget)
         attrs = {}
         attrs["filebrowser_site"] = self.site
         attrs["directory"] = self.directory
@@ -117,13 +118,15 @@ class FileBrowseField(CharField):
         attrs["format"] = self.format
         defaults = {
             'form_class': FileBrowseFormField,
-            'widget': FileBrowseWidget(attrs=attrs),
+            'widget': widget_class(attrs=attrs),
             'filebrowser_site': self.site,
             'directory': self.directory,
             'extensions': self.extensions,
             'format': self.format
         }
         return super(FileBrowseField, self).formfield(**defaults)
+
+FORMFIELD_FOR_DBFIELD_DEFAULTS[FileBrowseField] = {'widget': FileBrowseWidget}
 
 
 class FileBrowseUploadWidget(Input):
