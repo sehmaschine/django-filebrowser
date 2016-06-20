@@ -54,6 +54,8 @@ Use the ``methods`` argument, if you need to add a filter:
 Custom processors
 -----------------
 
+.. versionadded:: 3.7.2
+
 Custom processors can be created using a simple method like this:
 
 .. code:: python
