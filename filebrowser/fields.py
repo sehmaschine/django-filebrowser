@@ -59,6 +59,7 @@ class FileBrowseFormField(forms.CharField):
 
     default_error_messages = {
         'extension': _(u'Extension %(ext)s is not allowed. Only %(allowed)s is allowed.'),
+        'path': _(u'Path %(path)s is not found on the server.'),
     }
 
     def __init__(self, max_length=None, min_length=None, site=None, directory=None, extensions=None, format=None, *args, **kwargs):
@@ -79,7 +80,7 @@ class FileBrowseFormField(forms.CharField):
         if self.extensions and file_extension not in self.extensions:
             raise forms.ValidationError(self.error_messages['extension'] % {'ext': file_extension, 'allowed': ", ".join(self.extensions)})
         if not os.path.normpath(os.path.join(MEDIA_ROOT, value)).startswith(MEDIA_ROOT):
-            raise forms.ValidationError('File not found.')
+            raise forms.ValidationError(self.error_messages['path'] % {'path': value})
         return value
 
 
@@ -182,6 +183,7 @@ class FileBrowseUploadFormField(forms.CharField):
 
     default_error_messages = {
         'extension': _(u'Extension %(ext)s is not allowed. Only %(allowed)s is allowed.'),
+        'path': _(u'Path %(path)s is not found on the server.'),
     }
 
     def __init__(self, max_length=None, min_length=None, site=None, directory=None, extensions=None, format=None, upload_to=None, temp_upload_dir=None, *args, **kwargs):
@@ -204,7 +206,7 @@ class FileBrowseUploadFormField(forms.CharField):
         if self.extensions and file_extension not in self.extensions:
             raise forms.ValidationError(self.error_messages['extension'] % {'ext': file_extension, 'allowed': ", ".join(self.extensions)})
         if not os.path.normpath(os.path.join(MEDIA_ROOT, value)).startswith(MEDIA_ROOT):
-            raise forms.ValidationError('File not found.')
+            raise forms.ValidationError(self.error_messages['path'] % {'path': value})
         return value
 
 
