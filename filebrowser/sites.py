@@ -170,6 +170,8 @@ class FileBrowserSite(object):
     """
     filelisting_class = FileListing
 
+    filelisting_class = FileListing
+
     def __init__(self, name=None, app_name='filebrowser', storage=default_storage):
         self.name = name
         self.app_name = app_name
