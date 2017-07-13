@@ -10,4 +10,5 @@ env:
 branches:
   only:
     - master
+    - stable/3.8.x
     - stable/3.7.x
