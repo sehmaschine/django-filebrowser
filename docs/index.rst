@@ -11,7 +11,7 @@ Django FileBrowser Documentation
 **Media-Management with Grappelli**.
 
 .. note::
-    |filebrowser| 3.8.1 requires Django 1.10 and |grappelli| 2.9.
+    |filebrowser| 3.8.2 requires Django 1.10 and |grappelli| 2.9.
 
 Installation and Setup
 ----------------------
