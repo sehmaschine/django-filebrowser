@@ -8,12 +8,12 @@
 Changelog
 =========
 
-3.8.2 (not yet released)
+3.9.2 (not yet released)
 ------------------------
 
-3.8.1 (July 13th, 2017)
+3.9.1 (July 13th, 2017)
 -----------------------
 
-* Compatibility with Django 1.10 and Grappelli 2.9
+* Compatibility with Django 1.11 and Grappelli 2.10
 
 For further information, see :ref:`releasenotes`.
