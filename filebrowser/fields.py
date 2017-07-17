@@ -8,7 +8,7 @@ from django.forms.widgets import Input
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
-from django.conf.settings import MEDIA_ROOT
+from django.conf import settings
 
 from filebrowser.base import FileObject
 from filebrowser.settings import ADMIN_THUMBNAIL, EXTENSIONS, UPLOAD_TEMPDIR
@@ -79,7 +79,7 @@ class FileBrowseFormField(forms.CharField):
         file_extension = os.path.splitext(value)[1].lower()
         if self.extensions and file_extension not in self.extensions:
             raise forms.ValidationError(self.error_messages['extension'] % {'ext': file_extension, 'allowed': ", ".join(self.extensions)})
-        if not os.path.normpath(os.path.join(MEDIA_ROOT, value)).startswith(MEDIA_ROOT):
+        if not os.path.normpath(os.path.join(settings.MEDIA_ROOT, value)).startswith(settings.MEDIA_ROOT):
             raise forms.ValidationError(self.error_messages['path'] % {'path': value})
         return value
 
@@ -205,7 +205,7 @@ class FileBrowseUploadFormField(forms.CharField):
         file_extension = os.path.splitext(value)[1].lower()
         if self.extensions and file_extension not in self.extensions:
             raise forms.ValidationError(self.error_messages['extension'] % {'ext': file_extension, 'allowed': ", ".join(self.extensions)})
-        if not os.path.normpath(os.path.join(MEDIA_ROOT, value)).startswith(MEDIA_ROOT):
+        if not os.path.normpath(os.path.join(settings.MEDIA_ROOT, value)).startswith(settings.MEDIA_ROOT):
             raise forms.ValidationError(self.error_messages['path'] % {'path': value})
         return value
 
