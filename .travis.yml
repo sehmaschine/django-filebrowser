@@ -5,9 +5,9 @@ install:
 script:
   - tox
 env:
-  - TOXENV=py27-django19
-  - TOXENV=py34-django19
+  - TOXENV=py27-django111
+  - TOXENV=py34-django111
 branches:
   only:
     - master
-    - stable/3.7.x
+    - stable/3.9.x

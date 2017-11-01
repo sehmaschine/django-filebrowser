@@ -32,7 +32,7 @@ The |filebrowser| is about managing files. We think that you should prepare your
 How do I upload to another server?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Use a custom storage engine, see https://docs.djangoproject.com/en/1.9/howto/custom-file-storage/.
+Use a custom storage engine, see https://docs.djangoproject.com/en/1.11/howto/custom-file-storage/.
 
 Why do I need image-versions?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
