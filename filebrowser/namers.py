@@ -2,7 +2,9 @@ from __future__ import unicode_literals
 import re
 from django.utils import six
 from django.utils.module_loading import import_string
-from django.utils.text import force_text
+import django
+if django.VERSION <= (2, 0):
+    from django.utils.text import force_text
 
 from .settings import VERSIONS, VERSION_NAMER
 
@@ -34,11 +36,18 @@ class VersionNamer(object):
 class OptionsNamer(VersionNamer):
 
     def get_version_name(self):
-        name = "{root}_{options}{extension}".format(
-            root=force_text(self.file_object.filename_root),
-            options=self.options_as_string,
-            extension=self.file_object.extension,
-        )
+        if django.VERSION <= (2, 0):
+            name = "{root}_{options}{extension}".format(
+                root=force_text(self.file_object.filename_root),
+                options=self.options_as_string,
+                extension=self.file_object.extension,
+            )
+        else:
+            name = "{root}_{options}{extension}".format(
+                root=decode(self.file_object.filename_root),
+                options=self.options_as_string,
+                extension=self.file_object.extension,
+            )
         return name
 
     def get_original_name(self):
