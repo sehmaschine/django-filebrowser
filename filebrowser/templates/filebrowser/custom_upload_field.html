@@ -86,22 +86,25 @@
                     while (typeof item != "undefined") {
                         if (item.qqFileId == id) {
                             return $(item);
+                        } else {
+                            item = items.pop();
                         }
-                        item = items.pop();
                     }
                 },
-                onProgress: function(id, fileName, loaded, total){
+                onProgress: function(id, fileName, loaded, total) {
                     var bar = $(this.element).find('.progress-bar .content');
                     var new_width = '' + (loaded/total * 100) + '%';
                     bar.css('width', new_width);
                 },
-                onComplete: function(id, fileName, resp){
+                onComplete: function(id, fileName, resp) {
                     if (resp.success) {
                         $(this.element).find('.progress-bar').fadeOut();
                         $('#{{ final_attrs.id }}').val(resp.temp_filename);
                     }
                 },
-                showMessage: function(message){ alert(message); }
+                showMessage: function(message) {
+                    alert(message);
+                }
             });
         });
     })(grp.jQuery);

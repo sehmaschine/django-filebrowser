@@ -277,7 +277,6 @@ span.qq-upload-file {
 .qq-upload-complete {
     display: none;
     position: absolute;
-    float: right;
     left: 334px;
     margin: -15px -2px 0 0;
     color: transparent !important;
@@ -329,24 +328,13 @@ span.qq-upload-file {
 
 body.rtl .qq-upload-cancel {
     left: auto;
-    right: 336px;
-    margin: 0;
-}
-body.rtl .qq-upload-list li {
-    position: relative;
-    float: right;
-    clear: both;
-    line-height: 14px;
-}
-body.rtl .qq-upload-list li .progress-bar {
-    position: relative;
-    float: right;
-    clear: both;
-}
-body.rtl .qq-upload-list li span, 
-body.rtl .qq-upload-list li a {
-    float: right;
+    right: 334px;
     margin-right: 0;
-    margin-left: 10px;
-    vertical-align: baseline;
+    margin-left: -2px;
+}
+body.rtl .qq-upload-complete {
+    left: auto;
+    right: 334px;
+    margin-right: 0;
+    margin-left: -2px;
 }

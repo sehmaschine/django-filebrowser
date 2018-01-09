@@ -122,10 +122,10 @@
         <!-- RESULTS -->
         {% if filelisting.results_current %}
             <div class="grp-module grp-changelist-results">
-                <table cellspacing="0">
+                <table class="grp-table" cellspacing="0">
                     {% include "filebrowser/include/tableheader.html" %}
                     <tbody>
-                    {% include "filebrowser/include/filelisting.html" %}
+                        {% include "filebrowser/include/filelisting.html" %}
                     </tbody>
                 </table>
             </div>
