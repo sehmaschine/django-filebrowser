@@ -4,10 +4,9 @@ import os
 
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
-import django
-if django.VERSION >= (2, 0):
+try:
     from django.urls import reverse
-else:
+except ImportError: # Django < 2.0
     from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.utils.encoding import smart_text
