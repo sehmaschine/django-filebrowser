@@ -2,7 +2,7 @@
 import os
 
 from django import forms
-from django.core import urlresolvers
+from django.urls import reverse
 from django.db.models.fields import CharField
 from django.forms.widgets import Input
 from django.template.loader import render_to_string
@@ -33,7 +33,7 @@ class FileBrowseWidget(Input):
         super(FileBrowseWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None):
-        url = urlresolvers.reverse(self.site.name + ":fb_browse")
+        url = reverse(self.site.name + ":fb_browse")
         if value is None:
             value = ""
         if value != "" and not isinstance(value, FileObject):
@@ -153,7 +153,7 @@ class FileBrowseUploadWidget(Input):
         super(FileBrowseUploadWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None):
-        url = urlresolvers.reverse(self.site.name + ":fb_browse")
+        url = reverse(self.site.name + ":fb_browse")
         if value is None:
             value = ""
         if value != "" and not isinstance(value, FileObject):

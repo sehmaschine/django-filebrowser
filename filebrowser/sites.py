@@ -3,13 +3,12 @@
 import os
 import re
 from time import gmtime, strftime, localtime, time
-
 from django import forms
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.files.storage import DefaultStorage, default_storage, FileSystemStorage
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.core.urlresolvers import reverse, get_urlconf, get_resolver
+from django.urls import reverse, get_urlconf, get_resolver
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import render, HttpResponse
 from django.template import RequestContext as Context
