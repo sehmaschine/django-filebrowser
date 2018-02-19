@@ -4,10 +4,7 @@ import os
 
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
-try:
-    from django.urls import reverse
-except ImportError: # Django < 2.0
-    from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.utils.encoding import smart_text
 from django.utils.translation import ugettext as _

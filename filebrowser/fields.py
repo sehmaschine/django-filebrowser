@@ -2,10 +2,7 @@
 import os
 
 from django import forms
-try:
-    from django.urls import reverse
-except ImportError: # Django < 2.0
-    from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models.fields import CharField
 from django.forms.widgets import Input
 from django.template.loader import render_to_string
