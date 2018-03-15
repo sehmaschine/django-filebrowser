@@ -9,13 +9,16 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.files.storage import DefaultStorage, default_storage, FileSystemStorage
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.core.urlresolvers import reverse, get_urlconf, get_resolver
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import render, HttpResponse
 from django.template import RequestContext as Context
 from django.utils.translation import ugettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
+try:
+    from django.urls import reverse, get_urlconf, get_resolver
+except ImportError:
+    from django.core.urlresolvers import reverse, get_urlconf, get_resolver
 try:
     from django.utils.encoding import smart_text
 except ImportError:

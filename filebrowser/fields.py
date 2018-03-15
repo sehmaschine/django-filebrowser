@@ -2,12 +2,15 @@
 import os
 
 from django import forms
-from django.core import urlresolvers
 from django.db.models.fields import CharField
 from django.forms.widgets import Input
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 
 from filebrowser.base import FileObject
 from filebrowser.settings import ADMIN_THUMBNAIL, EXTENSIONS, UPLOAD_TEMPDIR
@@ -33,7 +36,7 @@ class FileBrowseWidget(Input):
         super(FileBrowseWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None):
-        url = urlresolvers.reverse(self.site.name + ":fb_browse")
+        url = reverse(self.site.name + ":fb_browse")
         if value is None:
             value = ""
         if value != "" and not isinstance(value, FileObject):
@@ -104,7 +107,7 @@ class FileBrowseField(CharField):
         return value.path
 
     def value_to_string(self, obj):
-        value = self._get_val_from_obj(obj)
+        value = self.value_from_object(obj)
         if not value:
             return value
         return value.path
@@ -153,7 +156,7 @@ class FileBrowseUploadWidget(Input):
         super(FileBrowseUploadWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None):
-        url = urlresolvers.reverse(self.site.name + ":fb_browse")
+        url = reverse(self.site.name + ":fb_browse")
         if value is None:
             value = ""
         if value != "" and not isinstance(value, FileObject):
@@ -235,7 +238,7 @@ class FileBrowseUploadField(CharField):
         return value.path
 
     def value_to_string(self, obj):
-        value = self._get_val_from_obj(obj)
+        value = self.value_from_object(obj)
         if not value:
             return value
         return value.path

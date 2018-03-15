@@ -4,10 +4,13 @@ import os
 
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.utils.encoding import smart_text
 from django.utils.translation import ugettext as _
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 
 from filebrowser.templatetags.fb_tags import query_helper
 
