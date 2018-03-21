@@ -113,3 +113,9 @@ def scale_and_crop(im, width=None, height=None, opts='', **kwargs):
     return im
 
 scale_and_crop.valid_options = ('crop', 'upscale')
+
+
+def get_modified_time(storage, path):
+    if hasattr(storage, "get_modified_time"):
+        return storage.get_modified_time(path)
+    return storage.modified_time(path)
