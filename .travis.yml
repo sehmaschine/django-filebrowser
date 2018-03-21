@@ -1,13 +1,14 @@
 language: python
+python: 3.5
 install:
   - pip install tox
   - pip install coverage
 script:
   - tox
 env:
-  - TOXENV=py27-django111
-  - TOXENV=py34-django111
+  - TOXENV=py34
+  - TOXENV=py35
 branches:
   only:
     - master
-    - stable/3.9.x
+    - stable/3.10.x
