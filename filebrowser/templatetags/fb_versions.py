@@ -45,10 +45,10 @@ class VersionNode(Node):
             else:
                 return version.url
         except Exception:
-            if settings.TEMPLATE_DEBUG:
-                raise
             if self.var_name:
                 context[self.var_name] = ""
+            if getattr(settings, 'TEMPLATE_DEBUG', True):
+                raise
         return ""
 
 
