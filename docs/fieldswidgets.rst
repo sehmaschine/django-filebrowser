@@ -30,8 +30,8 @@ For example:
     from filebrowser.fields import FileBrowseField
 
     class BlogEntry(models.Model):
-        image = FileBrowseField("Image", max_length=200, directory="images/", extensions=[".jpg"], blank=True, null=True)
-        document = FileBrowseField("PDF", max_length=200, directory="documents/", extensions=[".pdf",".doc"], blank=True, null=True)
+        image = FileBrowseField("Image", max_length=200, directory="images/", extensions=[".jpg"], blank=True)
+        document = FileBrowseField("PDF", max_length=200, directory="documents/", extensions=[".pdf",".doc"], blank=True)
 
 FileBrowseField in Templates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -86,7 +86,7 @@ Return a :ref:`fileobject` from a `FileField <https://docs.djangoproject.com/en/
 
     from filebrowser.base import FileObject
 
-    image_upload = models.ImageField(u"Image (Upload)", max_length=250, upload_to=image_upload_path, blank=True, null=True)
+    image_upload = models.ImageField(u"Image (Upload)", max_length=250, upload_to=image_upload_path, blank=True)
 
     def image(self):
         if self.image_upload:

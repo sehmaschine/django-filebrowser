@@ -13,7 +13,7 @@ from django.utils.six import string_types
 from django.utils.functional import cached_property
 
 from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, STRICT_PIL, IMAGE_MAXBLOCK, DEFAULT_PERMISSIONS
-from filebrowser.utils import path_strip, process_image
+from filebrowser.utils import path_strip, process_image, get_modified_time
 from .namers import get_namer
 
 if STRICT_PIL:
@@ -270,7 +270,7 @@ class FileObject():
     def date(self):
         "Modified time (from site.storage) as float (mktime)"
         if self.exists:
-            return time.mktime(self.site.storage.modified_time(self.path).timetuple())
+            return time.mktime(get_modified_time(self.site.storage, self.path).timetuple())
         return None
 
     @property
@@ -478,7 +478,7 @@ class FileObject():
         version_path = self.version_path(version_suffix, extra_options)
         if not self.site.storage.isfile(version_path):
             version_path = self._generate_version(version_path, options)
-        elif self.site.storage.modified_time(path) > self.site.storage.modified_time(version_path):
+        elif get_modified_time(self.site.storage, path) > get_modified_time(self.site.storage, version_path):
             version_path = self._generate_version(version_path, options)
         return FileObject(version_path, site=self.site)
 

@@ -130,7 +130,7 @@ A Model example:
     from filebrowser.fields import FileBrowseField
 
     class BlogEntry(models.Model):
-        image = FileBrowseField("Image", max_length=200, blank=True, null=True)
+        image = FileBrowseField("Image", max_length=200, blank=True)
 
 With your templates, use ``version`` if you simply need to retrieve the URL or ``version as var`` if you need to get a :ref:`fileobject`:
 

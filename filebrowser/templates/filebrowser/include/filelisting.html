@@ -115,7 +115,7 @@
 
         <!-- FOLDER -->
         {% if query.q and settings_var.SEARCH_TRAVERSE %}
-            <td><a href="{% url 'filebrowser:fb_browse' %}{% query_string "" "dir,p" %}&amp;dir={{ fileobject.folder|urlencode }}"><strong>{{ fileobject.folder }}</strong></a></td>
+            <td><a href="{% url 'filebrowser:fb_browse' %}{% query_string "" "dir,p" %}&amp;dir={{ fileobject.dirname|urlencode }}"><strong>{{ fileobject.dirname }}</strong></a></td>
         {% endif %}
 
         <!-- SIZE -->
@@ -127,7 +127,7 @@
         <!-- EDIT -->
         <td>
             <ul class="grp-actions">
-                <li class="grp-change-link"><a href="{% url 'filebrowser:fb_detail' %}{% query_string "" "p" %}&amp;filename={{ fileobject.filename|urlencode }}"><strong>{% trans "Change" %}</strong></a></li>
+                <li class="grp-change-link"><a href="{% url 'filebrowser:fb_detail' %}{% query_string "" "p,dir" %}&dir={{ fileobject.dirname|urlencode }}&amp;filename={{ fileobject.filename|urlencode }}"><strong>{% trans "Change" %}</strong></a></li>
             </ul>
         </td>
 
