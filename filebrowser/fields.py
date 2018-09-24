@@ -32,7 +32,7 @@ class FileBrowseWidget(Input):
             self.attrs = {}
         super(FileBrowseWidget, self).__init__(attrs)
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         url = reverse(self.site.name + ":fb_browse")
         if value is None:
             value = ""
@@ -152,7 +152,7 @@ class FileBrowseUploadWidget(Input):
             self.attrs = {}
         super(FileBrowseUploadWidget, self).__init__(attrs)
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         url = reverse(self.site.name + ":fb_browse")
         if value is None:
             value = ""
