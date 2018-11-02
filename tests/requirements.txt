@@ -1,5 +1,5 @@
-Django>=2.0,<2.1
-django-grappelli>=2.11,<2.12
+Django>=2.1,<2.2
+django-grappelli>=2.12,<2.13
 funcsigs==0.4
 mock==1.3.0
 pbr==1.8.0
