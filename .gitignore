@@ -6,4 +6,5 @@ dist
 .DS_store
 fabfile.py
 NOTES.md
+.flake8
 .tox/*
