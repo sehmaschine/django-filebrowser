@@ -364,9 +364,9 @@ class FileBrowserSite(object):
                 except OSError as e:
                     errno = e.args[0]
                     if errno == 13:
-                        form.errors['name'] = forms.util.ErrorList([_('Permission denied.')])
+                        form.errors['name'] = forms.utils.ErrorList([_('Permission denied.')])
                     else:
-                        form.errors['name'] = forms.util.ErrorList([_('Error creating folder.')])
+                        form.errors['name'] = forms.utils.ErrorList([_('Error creating folder.')])
         else:
             form = CreateDirForm(path, filebrowser_site=self)
 
@@ -487,7 +487,7 @@ class FileBrowserSite(object):
                         redirect_url = reverse("filebrowser:fb_browse", current_app=self.name) + query_helper(query, "", "filename")
                     return HttpResponseRedirect(redirect_url)
                 except OSError:
-                    form.errors['name'] = forms.util.ErrorList([_('Error.')])
+                    form.errors['name'] = forms.utils.ErrorList([_('Error.')])
         else:
             form = ChangeForm(initial={"name": fileobject.filename}, path=path, fileobject=fileobject, filebrowser_site=self)
 
