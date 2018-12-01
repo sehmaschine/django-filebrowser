@@ -72,8 +72,8 @@ class FileBrowseFormField(forms.CharField):
 
     def clean(self, value):
         value = super(FileBrowseFormField, self).clean(value)
-        if value == '':
-            return value
+        if value in self.empty_values:
+            return self.empty_value
         file_extension = os.path.splitext(value)[1].lower()
         if self.extensions and file_extension not in self.extensions:
             raise forms.ValidationError(self.error_messages['extension'] % {'ext': file_extension, 'allowed': ", ".join(self.extensions)})
