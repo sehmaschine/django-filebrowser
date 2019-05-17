@@ -46,7 +46,7 @@
             })(grp.jQuery);
         </script>
         {% endifequal %}
-        {% ifequal query.pop '2' %} <!-- TinyMCE -->
+        {% if query.pop == "2" or query.pop == "4" %} <!-- TinyMCE v2 and v4 -->
         <script type="text/javascript" charset="utf-8">
             (function($) {
                 $(document).ready(function() {
@@ -54,6 +54,6 @@
                 });
             })(grp.jQuery);
         </script>
-        {% endifequal %}
+        {% endif %}
     {% endif %}
 {% endblock %}
