@@ -20,6 +20,10 @@
     <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_TinyMCE.js" %}"></script>
     {% if query.mce_rdomain %}<script language="javascript">document.domain = "{{ query.mce_rdomain }}"</script>{% endif %}
     {% endifequal %}
+    {% ifequal query.pop '4' %} <!-- TinyMCEv4 -->
+    <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_TinyMCEv4.js" %}"></script>
+    {% endifequal %}
+
 {% endblock %}
 
 <!-- COLTYPE/BODYCLASS -->
@@ -46,7 +50,7 @@
             })(grp.jQuery);
         </script>
         {% endifequal %}
-        {% ifequal query.pop '2' %} <!-- TinyMCE -->
+        {% if query.pop == "2" or query.pop == "4" %} <!-- TinyMCE v2 and v4 -->
         <script type="text/javascript" charset="utf-8">
             (function($) {
                 $(document).ready(function() {
@@ -54,6 +58,6 @@
                 });
             })(grp.jQuery);
         </script>
-        {% endifequal %}
+        {% endif %}
     {% endif %}
 {% endblock %}
