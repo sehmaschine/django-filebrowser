@@ -27,7 +27,7 @@
                     <div class="c-1"><label class="required" for="id_dir_name">{{ form.name.label }}</label></div>
                     <div class="c-2">
                         {{ form.name }}
-                        {% if form.dir_name.errors %}<ul class="errorlist">{{ form.name.errors }}</ul>{% endif %}
+                        {% if form.name.errors %}<ul class="errorlist">{{ form.name.errors }}</ul>{% endif %}
                         <p class="grp-help">
                             {{ form.name.help_text|safe }}
                             {% if settings_var.NORMALIZE_FILENAME or settings_var.CONVERT_FILENAME %}
