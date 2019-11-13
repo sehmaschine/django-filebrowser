@@ -109,6 +109,7 @@ class FileObjectAttributeTests(TestCase):
         FileObject general attributes
 
         # filetype
+        # format
         # filesize
         # date
         # datetime
@@ -120,6 +121,10 @@ class FileObjectAttributeTests(TestCase):
         self.assertEqual(self.F_IMAGE.filesize, 870037)
         # FIXME: test date/datetime
         self.assertEqual(self.F_IMAGE.exists, True)
+
+        # format
+        self.assertEqual(self.F_IMAGE.format, ['file', 'image'])
+        self.assertEqual(self.F_FOLDER.format, [])
 
     def test_path_url_attributes(self):
         """

@@ -1,7 +1,7 @@
 {% load i18n fb_tags %}
 
 {% if results_var.results_total %}
-{% if query.filter_type or query.filter_date or query.q %}
+{% if query.filter_type or query.filter_date or query.q or query.type %}
 <div class="module results">
     <h2>{% trans 'Results' %}</h2>
     <div class="form-row">

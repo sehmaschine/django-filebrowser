@@ -32,6 +32,15 @@ class BrowseViewTests(TestCase):
         # that two sites were instantiated with the same name.
         self.assertTrue(site.directory == response.context['filebrowser_site'].directory)
 
+    def test_filter(self):
+        shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
+        self.assertEqual(site.storage.listdir(self.F_FOLDER), (['subfolder'], [u'testimage.jpg']))
+
+        response = self.client.get(self.url + "?dir=folder")
+        self.assertEqual(len(response.context['page'].object_list), 2)
+        response = self.client.get(self.url + "?dir=folder&type=document")
+        self.assertEqual(len(response.context['page'].object_list), 0)
+
     def test_ckeditor_params_in_search_form(self):
         """
         The CKEditor GET params must be included in the search form as hidden

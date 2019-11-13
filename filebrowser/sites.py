@@ -308,11 +308,14 @@ class FileBrowserSite(object):
 
         filter_type = query.get('filter_type')
         filter_date = query.get('filter_date')
+        filter_format = query.get('type')
 
         for fileobject in listing:
-            # date/type filter
+            # date/type filter, format filter
             append = False
-            if (not filter_type or fileobject.filetype == filter_type) and (not filter_date or get_filterdate(filter_date, fileobject.date or 0)):
+            if (not filter_type or fileobject.filetype == filter_type) and \
+                    (not filter_date or get_filterdate(filter_date, fileobject.date or 0)) and \
+                    (not filter_format or filter_format in fileobject.format):
                 append = True
             # search
             if do_search and not re_q.search(fileobject.filename.lower()):

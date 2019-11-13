@@ -12,7 +12,7 @@ from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.six import string_types
 from django.utils.functional import cached_property
 
-from filebrowser.settings import EXTENSIONS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, STRICT_PIL, IMAGE_MAXBLOCK, DEFAULT_PERMISSIONS
+from filebrowser.settings import EXTENSIONS, SELECT_FORMATS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, STRICT_PIL, IMAGE_MAXBLOCK, DEFAULT_PERMISSIONS
 from filebrowser.utils import path_strip, process_image, get_modified_time
 from .namers import get_namer
 
@@ -249,8 +249,19 @@ class FileObject():
                     file_type = k
         return file_type
 
+    def _get_format_type(self):
+        "Get format type as defined in SELECT_FORMATS."
+        format_type = []
+        for k, v in SELECT_FORMATS.items():
+            for item in v:
+                for extension in EXTENSIONS.get(item, None):
+                    if self.extension.lower() == extension.lower():
+                        format_type.append(k)
+        return format_type
+
     # GENERAL ATTRIBUTES/PROPERTIES
     # filetype
+    # format
     # filesize
     # date
     # datetime
@@ -260,6 +271,11 @@ class FileObject():
     def filetype(self):
         "Filetype as defined with EXTENSIONS"
         return 'Folder' if self.is_folder else self._get_file_type()
+
+    @cached_property
+    def format(self):
+        "Format as defined with SELECT_FORMATS"
+        return self._get_format_type()
 
     @cached_property
     def filesize(self):

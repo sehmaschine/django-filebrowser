@@ -107,40 +107,43 @@ def string_to_list(string):
     return args
 
 
-class SelectableNode(template.Node):
-    def __init__(self, filetype, format):
-        self.filetype = template.Variable(filetype)
-        self.format = template.Variable(format)
-
-    def render(self, context):
-        try:
-            filetype = self.filetype.resolve(context)
-        except template.VariableDoesNotExist:
-            filetype = ''
-        try:
-            format = self.format.resolve(context)
-        except template.VariableDoesNotExist:
-            format = ''
-        if filetype and format and filetype in SELECT_FORMATS[format]:
-            selectable = True
-        elif filetype and format and filetype not in SELECT_FORMATS[format]:
-            selectable = False
-        else:
-            selectable = True
-        context['selectable'] = selectable
-        return ''
-
-
-def selectable(parser, token):
-
-    try:
-        tag, filetype, format = token.split_contents()
-    except:
-        raise TemplateSyntaxError("%s tag requires 2 arguments" % token.contents.split()[0])
-
-    return SelectableNode(filetype, format)
-
-register.tag(selectable)
+# class SelectableNode(template.Node):
+#     def __init__(self, file_format, query_type):
+#         self.file_format = template.Variable(file_format)
+#         self.query_type = template.Variable(query_type)
+#
+#     def render(self, context):
+#         try:
+#             file_format = self.file_format.resolve(context)
+#         except template.VariableDoesNotExist:
+#             file_format = ''
+#         try:
+#             query_type = self.query_type.resolve(context)
+#         except template.VariableDoesNotExist:
+#             query_type = ''
+#         selectable = True
+#         if query_type:
+#
+#         if file_format and query_type and filetype in SELECT_FORMATS[format]:
+#             selectable = True
+#         elif filetype and format and filetype not in SELECT_FORMATS[format]:
+#             selectable = False
+#         else:
+#             selectable = True
+#         context['selectable'] = selectable
+#         return ''
+#
+#
+# def selectable(parser, token):
+#
+#     try:
+#         tag, file_format, query_type = token.split_contents()
+#     except:  # noqa
+#         raise TemplateSyntaxError("%s tag requires 2 arguments" % token.contents.split()[0])
+#
+#     return SelectableNode(file_format, query_type)
+#
+# register.tag(selectable)
 
 
 def get_file_extensions(qs):

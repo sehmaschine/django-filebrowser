@@ -86,6 +86,13 @@ General Attributes
         >>> fileobject.filetype
         'Image'
 
+.. attribute:: format
+
+    Type of the file, as defined with ``SELECT_FORMATS``::
+
+        >>> fileobject.format
+        'file'
+
 .. attribute:: filesize
 
     Filesize in Bytes::

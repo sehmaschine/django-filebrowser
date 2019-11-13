@@ -2,12 +2,14 @@
 <nav class="grp-pagination">
     <header style="display:none"><h1>Pagination</h1></header>
     <ul class="grp-horizontal-list">
-        {% if query.q or query.filter_date or query.filter_type %}
-        <li class="grp-results"><span>{{ filelisting.results_current }} {% ifequal filelisting.results_current 1 %}{% trans 'result' %}{% else %}{% trans 'results' %}{% endifequal %}</span></li>
+        {% if filelisting.results_current %}
+            {% if query.q or query.filter_date or query.filter_type or query.type %}
+                <li class="grp-results"><span>{{ filelisting.results_current }} {% ifequal filelisting.results_current 1 %}{% trans 'result' %}{% else %}{% trans 'results' %}{% endifequal %}</span></li>
+            {% endif %}
         {% endif %}
         <li class="grp-results">
             {% if query.q or filelisting.results_total != filelisting.results_current %}
-            <a href="{% query_string "" "filter_date,filter_type,p,q" %}" class="total">{{ filelisting.results_total }} {% trans 'total' %}</a>
+            <a href="{% query_string "" "filter_date,filter_type,p,q,type" %}" class="total">{{ filelisting.results_total }} {% trans 'total' %}</a>
             {% else %}
             <span>{{ filelisting.results_total }} {% trans "total" %}</span>
             {% endif %}

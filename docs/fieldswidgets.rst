@@ -33,6 +33,10 @@ For example:
         image = FileBrowseField("Image", max_length=200, directory="images/", extensions=[".jpg"], blank=True)
         document = FileBrowseField("PDF", max_length=200, directory="documents/", extensions=[".pdf",".doc"], blank=True)
 
+If you define `extensions`, you'll get a validation error if the selected file/folder doesn't match the extension defined with the field.
+
+If you define `format`, the pop-up for selecting files will only show items which match the definition.
+
 FileBrowseField in Templates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
