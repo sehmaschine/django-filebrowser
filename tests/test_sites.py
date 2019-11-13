@@ -39,7 +39,7 @@ class BrowseViewTests(TestCase):
         response = self.client.get(self.url + "?dir=folder")
         self.assertEqual(len(response.context['page'].object_list), 2)
         response = self.client.get(self.url + "?dir=folder&type=document")
-        self.assertEqual(len(response.context['page'].object_list), 0)
+        self.assertEqual(len(response.context['page'].object_list), 1)
 
     def test_ckeditor_params_in_search_form(self):
         """

@@ -320,6 +320,10 @@ class FileBrowserSite(object):
             # search
             if do_search and not re_q.search(fileobject.filename.lower()):
                 append = False
+            # always show folders with popups
+            # otherwise, one is not able to select/filter files within subfolders
+            if fileobject.filetype == "Folder":
+                append = True
             # append
             if append:
                 files.append(fileobject)
