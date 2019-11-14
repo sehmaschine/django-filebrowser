@@ -8,8 +8,13 @@
 Changelog
 =========
 
-3.11.3 (not yet released)
+3.11.4 (not yet released)
 -------------------------
+
+3.11.3 (November 14th, 2019)
+----------------------------
+
+* FIXED: requirements installation.
 
 3.11.2 (November 14th, 2019)
 ----------------------------
