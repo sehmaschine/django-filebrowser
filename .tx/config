@@ -3,6 +3,7 @@ host = https://www.transifex.com
 
 [django-filebrowser.djangopo]
 file_filter = filebrowser/locale/<lang>/LC_MESSAGES/django.po
+minimum_perc = 0
 source_file = filebrowser/locale/en/LC_MESSAGES/django.po
 source_lang = en
 type = PO

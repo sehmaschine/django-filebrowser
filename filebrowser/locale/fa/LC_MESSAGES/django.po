@@ -4,19 +4,20 @@
 # 
 # Translators:
 # Alireza Savand <alireza.savand@gmail.com>, 2012-2013
+# MJafar Mashhadi <raindigital2007@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: django-filebrowser\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-30 18:48+0100\n"
-"PO-Revision-Date: 2013-12-06 08:13+0000\n"
-"Last-Translator: Patrick Kranzlmueller <patrick@vonautomatisch.at>\n"
-"Language-Team: Persian (http://www.transifex.com/projects/p/django-filebrowser/language/fa/)\n"
+"PO-Revision-Date: 2018-06-24 00:37+0000\n"
+"Last-Translator: MJafar Mashhadi <raindigital2007@gmail.com>\n"
+"Language-Team: Persian (http://www.transifex.com/sehmaschine/django-filebrowser/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fa\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: actions.py:53
 #, python-format
@@ -25,11 +26,11 @@ msgstr "عملیات با موفقیت انجام شد برای '%s'"
 
 #: actions.py:59 forms.py:20
 msgid "Flip horizontal"
-msgstr "جابجایی افقی"
+msgstr "آینه افقی"
 
 #: actions.py:66 forms.py:21
 msgid "Flip vertical"
-msgstr "جابجایی عمودی"
+msgstr "آینه عمودی"
 
 #: actions.py:73 forms.py:22
 msgid "Rotate 90° CW"
@@ -41,25 +42,25 @@ msgstr "چرخش ۹۰ درجه در خلاف جهت ساعت"
 
 #: actions.py:87 forms.py:24
 msgid "Rotate 180°"
-msgstr "چرخش ۱۹۰ درجه"
+msgstr "چرخش ۱۸۰ درجه"
 
 #: decorators.py:39
 msgid ""
 "Error finding Upload-Folder (site.storage.location + site.directory). Maybe "
 "it does not exist?"
-msgstr ""
+msgstr "پوشه آپلود (site.storage.location + site.directory) پیدا نشد. مطمئن شوید که این پوشه وجود دارد."
 
 #: decorators.py:41
 msgid "The requested Folder does not exist."
-msgstr "پوشه درخواستی وجود ندارد."
+msgstr "پوشهٔ درخواستی وجود ندارد."
 
 #: decorators.py:55
 msgid "The requested File does not exist."
-msgstr "فایل درخواستی وجود ندارد."
+msgstr "پروندهٔ درخواستی وجود ندارد."
 
 #: decorators.py:61
 msgid "You do not have permission to access this file!"
-msgstr "اجازه دسترسی به این فایل ندارید!"
+msgstr "اجازه دسترسی به این پرونده را ندارید!"
 
 #: fields.py:63
 #, python-format
@@ -72,7 +73,7 @@ msgstr "نام"
 
 #: forms.py:57 forms.py:69 forms.py:82 forms.py:101
 msgid "Only letters, numbers, underscores, spaces and hyphens are allowed."
-msgstr "فقط حروف، عدد، زیرخط،فاصله‌ها و خط‌ربط مجاز هستند."
+msgstr "فقط حروف، عدد، زیرخط، فاصله و خط‌ربط مجاز هستند."
 
 #: forms.py:72 forms.py:104
 msgid "The Folder already exists."
@@ -84,7 +85,7 @@ msgstr "عملیات‌ها"
 
 #: forms.py:106
 msgid "The File already exists."
-msgstr "پوشه"
+msgstr "نام پرونده تکراری است."
 
 #: settings.py:110 templates/filebrowser/include/tableheader.html:21
 #: templates/filebrowser/include/tableheader.html:22
@@ -110,7 +111,7 @@ msgstr "صوت"
 #: sites.py:348 templates/filebrowser/include/breadcrumbs.html:9
 #: templates/filebrowser/include/breadcrumbs.html:11
 msgid "FileBrowser"
-msgstr "فایل‌بروز"
+msgstr "مرورگر پرونده"
 
 #: sites.py:369
 #, python-format
@@ -119,7 +120,7 @@ msgstr "پوشه %s  با موفقیت ایجاد شد."
 
 #: sites.py:374
 msgid "Permission denied."
-msgstr "اجازه رد شد."
+msgstr "اجازه ندارید."
 
 #: sites.py:376
 msgid "Error creating folder."
@@ -131,11 +132,11 @@ msgstr "پوشه جدید"
 
 #: sites.py:396
 msgid "Select files to upload"
-msgstr "انتخاب فایل‌ها برای آپلود"
+msgstr "انتخاب پرونده برای بارگذاری"
 
 #: sites.py:399 templates/filebrowser/index.html:81
 msgid "Upload"
-msgstr "آپلود"
+msgstr "بارگذاری"
 
 #: sites.py:429 sites.py:432
 msgid "Confirm delete"
@@ -177,14 +178,14 @@ msgstr "خطاهای زیر را اصلاح کنید."
 msgid ""
 "The Name will be normalized by converting or stripping all non-standard "
 "characters."
-msgstr "نام فایل تمیز خواهد شد به روش از بین بردن همه‌ی حروف غیراستاندار"
+msgstr "حروف غیراستاندارد از نام پرونده حذف خواهند شد"
 
 #: templates/filebrowser/createdir.html:39
 #: templates/filebrowser/upload.html:150
 msgid ""
 "The Name will be converted to lowercase. Spaces will be replaced with "
 "underscores."
-msgstr "نام به حروف کوچک تبدیل خواهد شد، فاصله‌ها به زیر خط جاگذاری خواهند شد."
+msgstr "در نام پرونده فاصله‌ها با زیرخط و حروف بزرگ با حروف کوچک جایگزین خواهند شد."
 
 #: templates/filebrowser/createdir.html:50
 msgid "Submit"
@@ -194,7 +195,7 @@ msgstr "ارسال"
 #: templates/filebrowser/widgets/clearablefileinput.html:11
 #: templates/filebrowser/widgets/fileinput.html:11
 msgid "File not found"
-msgstr "فایل پیدا نشد"
+msgstr "پرونده وجود ندارد"
 
 #: templates/filebrowser/delete_confirm.html:30
 #, python-format
@@ -233,7 +234,7 @@ msgstr "تاریخ"
 
 #: templates/filebrowser/detail.html:93
 msgid "File Information"
-msgstr "اطلاعات فایل"
+msgstr "اطلاعات پرونده"
 
 #: templates/filebrowser/detail.html:96
 msgid "URL"
@@ -241,13 +242,13 @@ msgstr "آدرس"
 
 #: templates/filebrowser/detail.html:106
 msgid "Filesize"
-msgstr "اندازه فایل"
+msgstr "حجم پرونده"
 
 #: templates/filebrowser/detail.html:127
 #: templates/filebrowser/include/tableheader.html:25
 #: templates/filebrowser/include/tableheader.html:26
 msgid "Size"
-msgstr "اندازه"
+msgstr "حجم"
 
 #: templates/filebrowser/detail.html:140
 msgid "Image Versions"
@@ -277,7 +278,7 @@ msgstr "ذخیره و ادامه ویرایش"
 
 #: templates/filebrowser/upload.html:42
 msgid "Drop files here to upload"
-msgstr "انتخاب فایل برای بارگذاری"
+msgstr "پرونده مورد نظرتان را با کلیکِ موس وارد این ناحیه کنید تا بارگذاری شود"
 
 #: templates/filebrowser/upload.html:43
 msgid "Upload a file"
@@ -293,11 +294,11 @@ msgstr "{file} پسوند غیر مجاز دارد. فقط {extensions} مجاز
 
 #: templates/filebrowser/upload.html:67
 msgid "{file} is too large, maximum file size is {sizeLimit}."
-msgstr "{file} خیلی بزرگ است، حداکثر اندازه فایل {sizeLimit}."
+msgstr "{file} خیلی بزرگ است، حداکثر حجم فایل {sizeLimit}."
 
 #: templates/filebrowser/upload.html:68
 msgid "{file} is too small, minimum file size is {minSizeLimit}."
-msgstr "{file} خیلی کوچک است, حداقل اندازه فایل {minSizeLimit}."
+msgstr "{file} خیلی کوچک است, حداقل حجم فایل {minSizeLimit}."
 
 #: templates/filebrowser/upload.html:69
 msgid "{file} is empty, please select files again without it."
@@ -310,7 +311,7 @@ msgstr "فایل‌ها در حال دانلود شدن هستند، اگر تر
 
 #: templates/filebrowser/upload.html:115
 msgid "Please enable Javascript to upload files."
-msgstr "جاوااسکریپت را فعال کنید برای آپلود فایل‌ها."
+msgstr "برای بارگذاری پرونده‌ها باید جاوااسکریپت را فعال کنید."
 
 #: templates/filebrowser/upload.html:120
 msgid "Help"
@@ -322,7 +323,7 @@ msgstr "مجاز"
 
 #: templates/filebrowser/upload.html:137
 msgid "Max. Filesize"
-msgstr "حداکثر اندازه فایل"
+msgstr "حداکثر حجم پرونده"
 
 #: templates/filebrowser/upload.html:144
 #: templates/filebrowser/include/tableheader.html:17
@@ -352,7 +353,7 @@ msgstr "فیلتر"
 
 #: templates/filebrowser/include/filter.html:9
 msgid "By Date"
-msgstr "توسط تاریخ"
+msgstr "بر حسب تاریخ"
 
 #: templates/filebrowser/include/filter.html:11
 msgid "Any Date"
@@ -364,7 +365,7 @@ msgstr "امروز"
 
 #: templates/filebrowser/include/filter.html:13
 msgid "Past 7 days"
-msgstr "۷ روز گذشته"
+msgstr "هفتهٔ گذشته"
 
 #: templates/filebrowser/include/filter.html:14
 msgid "This Month"
@@ -372,11 +373,11 @@ msgstr "این ماه"
 
 #: templates/filebrowser/include/filter.html:15
 msgid "This year"
-msgstr "این سال"
+msgstr "امسال"
 
 #: templates/filebrowser/include/filter.html:21
 msgid "By Type"
-msgstr "توسط نوع"
+msgstr "بر حسب نوع"
 
 #: templates/filebrowser/include/filter.html:23
 msgid "All"
@@ -409,6 +410,7 @@ msgstr "نتیجه‌ها"
 msgid "%(counter)s result"
 msgid_plural "%(counter)s results"
 msgstr[0] "%(counter)s نتیجه‌ها"
+msgstr[1] "%(counter)s نتیجه"
 
 #: templates/filebrowser/include/toolbar.html:9
 #, python-format
@@ -417,7 +419,7 @@ msgstr "%(full_result_count)s کلی"
 
 #: templates/filebrowser/include/toolbar.html:16
 msgid "Search"
-msgstr "جستجو"
+msgstr "جست‌وجو"
 
 #~ msgid "BROWSE"
 #~ msgstr "BROWSE"
