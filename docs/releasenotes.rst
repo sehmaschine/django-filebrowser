@@ -5,19 +5,19 @@
 
 .. _releasenotes:
 
-FileBrowser 3.11 Release Notes
+FileBrowser 3.12 Release Notes
 ==============================
 
-FileBrowser 3.11 is compatible with Django 2.1 as well as Grappelli 2.12.
+FileBrowser 3.12 is compatible with Django 2.2 as well as Grappelli 2.13.
 
 Updates
 -------
 
-* Compatibility with Django 2.1 and Grappelli 2.12
+* Compatibility with Django 2.2 and Grappelli 2.13
 
-Update from FileBrowser 3.10.x
+Update from FileBrowser 3.11.x
 ------------------------------
 
-* Update Django to 2.1 and check https://docs.djangoproject.com/en/dev/releases/2.1/
-* Update Grappelli to 2.12.x
-* Update FileBrowser to 3.11.x
+* Update Django to 2.2 and check https://docs.djangoproject.com/en/dev/releases/2.2/
+* Update Grappelli to 2.13.x
+* Update FileBrowser to 3.12.x

@@ -8,7 +8,7 @@ def read(fname):
 
 setup(
     name='django-filebrowser',
-    version='3.11.3',
+    version='3.12.1',
     description='Media-Management with Grappelli',
     long_description=read('README.rst'),
     url='http://django-filebrowser.readthedocs.org',
@@ -34,7 +34,7 @@ setup(
     ],
     zip_safe=False,
     install_requires=[
-        'django-grappelli>=2.12,<2.13',
+        'django-grappelli>=2.13,<2.14',
         'pillow',
     ],
 )
