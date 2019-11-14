@@ -5,8 +5,6 @@ from setuptools import setup, find_packages
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-with open('requirements.txt', 'r') as f:
-    REQUIREMENTS = f.readlines()
 
 setup(
     name='django-filebrowser',
@@ -35,5 +33,8 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
     zip_safe=False,
-    install_requires=REQUIREMENTS,
+    install_requires=[
+        'django-grappelli>=2.12,<2.13',
+        'pillow',
+    ],
 )
