@@ -36,13 +36,13 @@ https://www.transifex.com/projects/p/django-filebrowser/
 Releases
 --------
 
-* FileBrowser 3.11.1 (November 2nd, 2018): Compatible with Django 2.1
+* FileBrowser 3.11.2 (November 14th, 2019): Compatible with Django 2.1
 * FileBrowser 3.10.2 (November 2nd, 2018): Compatible with Django 2.0
 * FileBrowser 3.9.2 (November 2nd, 2018): Compatible with Django 1.11
 
 Current development branches:
 
-* FileBrowser 3.11.2 (Development Version for Django = 2.1, see Branch Stable/3.11.x)
+* FileBrowser 3.11.3 (Development Version for Django = 2.1, see Branch Stable/3.11.x)
 * FileBrowser 3.10.3 (Development Version for Django = 2.0, see Branch Stable/3.10.x)
 * FileBrowser 3.9.3 (Development Version for Django = 1.11, see Branch Stable/3.9.x)
 
