@@ -107,6 +107,8 @@ class FileBrowseField(CharField):
         value = self.value_from_object(obj)
         if not value:
             return value
+        if type(value) is str:
+            return value
         return value.path
 
     def formfield(self, **kwargs):
