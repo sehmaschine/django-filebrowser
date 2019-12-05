@@ -4,9 +4,10 @@ import os
 import sys
 import shutil
 
+from six import StringIO
+
 from django.conf import settings
 from django.core.management import call_command
-from django.utils.six import StringIO
 
 from filebrowser.settings import DIRECTORY
 from tests import FilebrowserTestCase as TestCase

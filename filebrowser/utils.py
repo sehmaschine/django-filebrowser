@@ -5,7 +5,8 @@ import os
 import unicodedata
 import math
 
-from django.utils import six
+import six
+
 from django.utils.module_loading import import_string
 
 from filebrowser.settings import STRICT_PIL, NORMALIZE_FILENAME, CONVERT_FILENAME
