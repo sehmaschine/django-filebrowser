@@ -1,15 +1,15 @@
 # coding: utf-8
 
-import os
 import ntpath
+import os
 import posixpath
 import shutil
 
-from mock import patch
-
-from filebrowser.base import FileObject, FileListing
-from filebrowser.sites import site
+from filebrowser.base import FileListing, FileObject
 from filebrowser.settings import VERSIONS
+from filebrowser.sites import site
+
+from mock import patch
 from tests import FilebrowserTestCase as TestCase
 
 

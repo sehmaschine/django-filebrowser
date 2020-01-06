@@ -4,8 +4,7 @@ import os
 import shutil
 
 from django.core.files.move import file_move_safe
-from django.utils.encoding import smart_text
-
+from django.utils.encoding import smart_str
 from filebrowser.base import FileObject
 from filebrowser.settings import DEFAULT_PERMISSIONS
 
@@ -72,7 +71,7 @@ class FileSystemStorageMixin(StorageMixin):
         shutil.rmtree(self.path(name))
 
     def setpermission(self, name):
-        full_path = FileObject(smart_text(name), site=self).path_full
+        full_path = FileObject(smart_str(name), site=self).path_full
         os.chmod(full_path, DEFAULT_PERMISSIONS)
 
 

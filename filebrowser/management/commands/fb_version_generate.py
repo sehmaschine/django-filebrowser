@@ -3,13 +3,12 @@
 import os
 import re
 
+from six.moves import input
+
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
-from django.utils.six.moves import input
-
 from filebrowser.base import FileListing
-from filebrowser.settings import EXTENSION_LIST, EXCLUDE, DIRECTORY, VERSIONS
-
+from filebrowser.settings import DIRECTORY, EXCLUDE, EXTENSION_LIST, VERSIONS
 
 filter_re = []
 for exp in EXCLUDE:
