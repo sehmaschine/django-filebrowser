@@ -23,6 +23,9 @@
     {% ifequal query.pop '4' %} <!-- TinyMCEv4 -->
     <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_TinyMCEv4.js" %}"></script>
     {% endifequal %}
+    {% ifequal query.pop '5' %} <!-- TinyMCE v5 -->
+    <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_TinyMCEv5.js" %}"></script>
+    {% endifequal %}
 
 {% endblock %}
 
@@ -50,7 +53,7 @@
             })(grp.jQuery);
         </script>
         {% endifequal %}
-        {% if query.pop == "2" or query.pop == "4" %} <!-- TinyMCE v2 and v4 -->
+        {% if query.pop in '245' %} <!-- TinyMCE version 3, 4 and 5 -->
         <script type="text/javascript" charset="utf-8">
             (function($) {
                 $(document).ready(function() {
