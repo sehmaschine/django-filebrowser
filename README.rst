@@ -42,7 +42,7 @@ Releases
 
 Current development branches:
 
-* FileBrowser 3.13.1 (Development Version for Django = 3.0, see Branch Stable/3.13.x)
+* FileBrowser 3.13.2 (Development Version for Django = 3.0, see Branch Stable/3.13.x)
 * FileBrowser 3.12.2 (Development Version for Django = 2.2, see Branch Stable/3.12.x)
 * FileBrowser 3.9.3 (Development Version for Django = 1.11, see Branch Stable/3.9.x)
 

@@ -11,7 +11,7 @@ Django FileBrowser Documentation
 **Media-Management with Grappelli**.
 
 .. note::
-    |filebrowser| 3.13.1 requires Django 3.0 and |grappelli| 2.14.
+    |filebrowser| 3.13.2 requires Django 3.0 and |grappelli| 2.14.
 
 Installation and Setup
 ----------------------
@@ -98,7 +98,7 @@ Versions and Compatibility
 
 Current development branches:
 
-* FileBrowser 3.13.1 (Development Version for Django = 3.0, see Branch Stable/3.13.x)
+* FileBrowser 3.13.2 (Development Version for Django = 3.0, see Branch Stable/3.13.x)
 * FileBrowser 3.12.2 (Development Version for Django = 2.2, see Branch Stable/3.12.x)
 * FileBrowser 3.9.3 (Development Version for Django = 1.11, see Branch Stable/3.9.x)
 
