@@ -14,7 +14,7 @@
             <td class="fb_icon">
                 {% if not query.type or query.type in fileobject.format %}
                     <!-- select original -->
-                    <button class="grp-button fb_selectlink" onclick="FileSubmit('{{ fileobject.path }}', '{{ fileobject.url }}', '{{ thumbnail_version.url }}', '{{ fileobject.filetype }}');">{% trans "Select" %}</button>
+                    <button class="grp-button fb_selectlink" onclick="FileSubmit('{{ fileobject.path | escapejs }}', '{{ fileobject.url | escapejs }}', '{{ thumbnail_version.url }}', '{{ fileobject.filetype }}');">{% trans "Select" %}</button>
                     <!-- select versions -->
                     {% if fileobject.filetype == "Image" and settings_var.ADMIN_VERSIONS %}
                         <div class="grp-pulldown-versions-container">
