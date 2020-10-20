@@ -487,6 +487,7 @@ class FileObject():
         "Path to a version (relative to storage location)"  # FIXME: version_path for version?
         return os.path.join(
             self.versions_basedir,
+            self.site.directory,
             self.dirname,
             self.version_name(version_suffix, extra_options))
 
