@@ -7,13 +7,17 @@ import platform
 import tempfile
 import time
 
-from django.core.files import File
-from django.utils.encoding import python_2_unicode_compatible, force_text
-from django.utils.six import string_types
-from django.utils.functional import cached_property
+from six import python_2_unicode_compatible, string_types
 
-from filebrowser.settings import EXTENSIONS, SELECT_FORMATS, VERSIONS, ADMIN_VERSIONS, VERSIONS_BASEDIR, VERSION_QUALITY, STRICT_PIL, IMAGE_MAXBLOCK, DEFAULT_PERMISSIONS
-from filebrowser.utils import path_strip, process_image, get_modified_time
+from django.core.files import File
+from django.utils.encoding import force_str
+from django.utils.functional import cached_property
+from filebrowser.settings import (ADMIN_VERSIONS, DEFAULT_PERMISSIONS,
+                                  EXTENSIONS, IMAGE_MAXBLOCK, SELECT_FORMATS,
+                                  STRICT_PIL, VERSION_QUALITY, VERSIONS,
+                                  VERSIONS_BASEDIR)
+from filebrowser.utils import get_modified_time, path_strip, process_image
+
 from .namers import get_namer
 
 if STRICT_PIL:
@@ -225,7 +229,7 @@ class FileObject():
         self.mimetype = mimetypes.guess_type(self.filename)
 
     def __str__(self):
-        return force_text(self.path)
+        return force_str(self.path)
 
     @property
     def name(self):

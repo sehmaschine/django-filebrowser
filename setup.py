@@ -1,5 +1,6 @@
 import os
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
 
 
 def read(fname):
@@ -8,7 +9,7 @@ def read(fname):
 
 setup(
     name='django-filebrowser',
-    version='3.12.2',
+    version='3.13.1',
     description='Media-Management with Grappelli',
     long_description=read('README.rst'),
     url='http://django-filebrowser.readthedocs.org',
@@ -34,7 +35,8 @@ setup(
     ],
     zip_safe=False,
     install_requires=[
-        'django-grappelli>=2.13,<2.14',
+        'django-grappelli>=2.14,<2.15',
         'pillow',
+        'six',
     ],
 )

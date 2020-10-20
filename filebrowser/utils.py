@@ -1,15 +1,15 @@
 # coding: utf-8
 
-import re
-import os
-import unicodedata
 import math
+import os
+import re
+import unicodedata
 
-from django.utils import six
+import six
+
 from django.utils.module_loading import import_string
-
-from filebrowser.settings import STRICT_PIL, NORMALIZE_FILENAME, CONVERT_FILENAME
-from filebrowser.settings import VERSION_PROCESSORS
+from filebrowser.settings import (CONVERT_FILENAME, NORMALIZE_FILENAME,
+                                  STRICT_PIL, VERSION_PROCESSORS)
 
 if STRICT_PIL:
     from PIL import Image

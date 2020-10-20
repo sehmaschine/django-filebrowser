@@ -2,34 +2,40 @@
 
 import os
 import re
-from time import gmtime, strftime, localtime, time
+from time import gmtime, localtime, strftime, time
 
 from django import forms
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from django.core.files.storage import DefaultStorage, default_storage, FileSystemStorage
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.urls import reverse, get_urlconf, get_resolver
-from django.http import HttpResponseRedirect, HttpResponseBadRequest
-from django.shortcuts import render, HttpResponse
+from django.core.files.storage import (DefaultStorage, FileSystemStorage,
+                                       default_storage)
+from django.core.paginator import EmptyPage, InvalidPage, Paginator
+from django.http import HttpResponseBadRequest, HttpResponseRedirect
+from django.shortcuts import HttpResponse, render
 from django.template import RequestContext as Context
+from django.urls import get_resolver, get_urlconf, reverse
+from django.utils.encoding import smart_str
 from django.utils.translation import ugettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
-try:
-    from django.utils.encoding import smart_text
-except ImportError:
-    from django.utils.encoding import smart_unicode as smart_text
-
 from filebrowser import signals
+# Default actions
+from filebrowser.actions import (flip_horizontal, flip_vertical,
+                                 rotate_90_clockwise,
+                                 rotate_90_counterclockwise, rotate_180)
 from filebrowser.base import FileListing, FileObject
-from filebrowser.decorators import path_exists, file_exists
+from filebrowser.decorators import file_exists, path_exists
+from filebrowser.settings import (ADMIN_THUMBNAIL, ADMIN_VERSIONS,
+                                  CONVERT_FILENAME, DEFAULT_PERMISSIONS,
+                                  DEFAULT_SORTING_BY, DEFAULT_SORTING_ORDER,
+                                  DIRECTORY, EXCLUDE, EXTENSION_LIST,
+                                  EXTENSIONS, LIST_PER_PAGE, MAX_UPLOAD_SIZE,
+                                  NORMALIZE_FILENAME, OVERWRITE_EXISTING,
+                                  SEARCH_TRAVERSE, SELECT_FORMATS,
+                                  UPLOAD_TEMPDIR, VERSIONS, VERSIONS_BASEDIR)
 from filebrowser.storage import FileSystemStorageMixin
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.utils import convert_filename
-from filebrowser.settings import (DIRECTORY, EXTENSIONS, SELECT_FORMATS, ADMIN_VERSIONS, ADMIN_THUMBNAIL, MAX_UPLOAD_SIZE, NORMALIZE_FILENAME,
-                                  CONVERT_FILENAME, SEARCH_TRAVERSE, EXCLUDE, VERSIONS, VERSIONS_BASEDIR, EXTENSION_LIST, DEFAULT_SORTING_BY, DEFAULT_SORTING_ORDER,
-                                  LIST_PER_PAGE, OVERWRITE_EXISTING, DEFAULT_PERMISSIONS, UPLOAD_TEMPDIR)
 
 try:
     import json
@@ -576,20 +582,20 @@ class FileBrowserSite(object):
             uploadedfile = handle_file_upload(path, filedata, site=self)
 
             if file_already_exists and OVERWRITE_EXISTING:
-                old_file = smart_text(file_path)
-                new_file = smart_text(uploadedfile)
+                old_file = smart_str(file_path)
+                new_file = smart_str(uploadedfile)
                 self.storage.move(new_file, old_file, allow_overwrite=True)
-                full_path = FileObject(smart_text(old_file), site=self).path_full
+                full_path = FileObject(smart_str(old_file), site=self).path_full
             else:
-                file_name = smart_text(uploadedfile)
+                file_name = smart_str(uploadedfile)
                 filedata.name = os.path.relpath(file_name, path)
-                full_path = FileObject(smart_text(file_name), site=self).path_full
+                full_path = FileObject(smart_str(file_name), site=self).path_full
 
             # set permissions
             if DEFAULT_PERMISSIONS is not None:
                 os.chmod(full_path, DEFAULT_PERMISSIONS)
 
-            f = FileObject(smart_text(file_name), site=self)
+            f = FileObject(smart_str(file_name), site=self)
             signals.filebrowser_post_upload.send(sender=request, path=folder, file=f, site=self)
 
             # let Ajax Upload know whether we saved it or not
@@ -600,8 +606,6 @@ storage = DefaultStorage()
 # Default FileBrowser site
 site = FileBrowserSite(name='filebrowser', storage=storage)
 
-# Default actions
-from filebrowser.actions import flip_horizontal, flip_vertical, rotate_90_clockwise, rotate_90_counterclockwise, rotate_180
 site.add_action(flip_horizontal)
 site.add_action(flip_vertical)
 site.add_action(rotate_90_clockwise)

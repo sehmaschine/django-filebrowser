@@ -11,7 +11,7 @@ Django FileBrowser Documentation
 **Media-Management with Grappelli**.
 
 .. note::
-    |filebrowser| 3.12.2 requires Django 2.2 and |grappelli| 2.13.
+    |filebrowser| 3.13.1 requires Django 3.0 and |grappelli| 2.14.
 
 Installation and Setup
 ----------------------
@@ -92,15 +92,15 @@ Versions and Compatibility
 
 **FileBrowser is always developed against the latest stable Django release and is NOT tested with Djangos trunk.**
 
-* FileBrowser 3.12.1 (November 14th, 2019): Compatible with Django 2.2
-* FileBrowser 3.11.3 (November 14th, 2019): Compatible with Django 2.1
-* FileBrowser 3.9.2 (November 2nd, 2018): Compatible with Django 1.11
+* FileBrowser 3.13.1 (May 15th, 2020): Compatible with Django 3.0
+* FileBrowser 3.12.1 (November 14th, 2019): Compatible with Django 2.2 (LTS)
+* FileBrowser 3.9.2 (November 2nd, 2018): Compatible with Django 1.11 (LTS)
 
 Current development branches:
 
+* FileBrowser 3.13.1 (Development Version for Django = 3.0, see Branch Stable/3.13.x)
 * FileBrowser 3.12.2 (Development Version for Django = 2.2, see Branch Stable/3.12.x)
-* FileBrowser 3.11.4 (Development Version for Django = 2.1, see Branch Stable/3.11.x)
 * FileBrowser 3.9.3 (Development Version for Django = 1.11, see Branch Stable/3.9.x)
 
 Older versions are available at GitHub, but are not supported anymore.
-Support for 3.11.x and 3.9.x is limited to security issues and very important bugfixes.
+Support for 3.12.x and 3.9.x is limited to security issues and very important bugfixes.
