@@ -6,6 +6,6 @@ var FileBrowserDialogue = {
         window.parent.postMessage({
             mceAction: 'FileSelected',
             content: FileURL
-        }, '*');
+        }, window);
     }
 }
