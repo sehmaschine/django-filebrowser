@@ -5,7 +5,7 @@ import tempfile
 
 from django.contrib import messages
 from django.core.files import File
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from filebrowser.settings import VERSION_QUALITY, STRICT_PIL
 

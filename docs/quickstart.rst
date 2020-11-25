@@ -11,8 +11,8 @@ For using the |filebrowser|, `Django <http://www.djangoproject.com>`_ needs to b
 Requirements
 ------------
 
-* Django 1.11, http://www.djangoproject.com
-* Grappelli 2.9, https://github.com/sehmaschine/django-grappelli
+* Django 3.1, http://www.djangoproject.com
+* Grappelli 2.14, https://github.com/sehmaschine/django-grappelli
 * Pillow, https://github.com/python-imaging/Pillow
 
 Installation
@@ -28,11 +28,11 @@ Add the filebrowser to your ``INSTALLED_APPS`` (before django.contrib.admin):
 
 .. code-block:: python
 
-    INSTALLED_APPS = (
+    INSTALLED_APPS = [
         'grappelli',
         'filebrowser',
         'django.contrib.admin',
-    )
+    ]
 
 Add the |filebrowser| site to your url-patterns (before any admin-urls):
 
@@ -41,9 +41,9 @@ Add the |filebrowser| site to your url-patterns (before any admin-urls):
     from filebrowser.sites import site
 
     urlpatterns = [
-       path('admin/filebrowser/', site.urls),
-       path('grappelli/', include('grappelli.urls')),
-       path('admin/', admin.site.urls),
+        path('admin/filebrowser/', site.urls),
+        path('grappelli/', include('grappelli.urls')),
+        path('admin/', admin.site.urls),
     ]
 
 Collect the static files (please refer to the `Staticfiles Documentation <http://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/>`_ for more information):

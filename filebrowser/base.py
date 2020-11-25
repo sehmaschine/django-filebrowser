@@ -497,12 +497,12 @@ class FileObject():
 
         version_path = self.version_path(version_suffix, extra_options)
         if not self.site.storage.isfile(version_path):
-            version_path = self._generate_version(version_path, options)
+            version_path = self._generate_version(version_path, version_suffix, options)
         elif get_modified_time(self.site.storage, path) > get_modified_time(self.site.storage, version_path):
-            version_path = self._generate_version(version_path, options)
+            version_path = self._generate_version(version_path, version_suffix, options)
         return FileObject(version_path, site=self.site)
 
-    def _generate_version(self, version_path, options):
+    def _generate_version(self, version_path, version_suffix, options):
         """
         Generate Version for an Image.
         value has to be a path relative to the storage location.
@@ -530,10 +530,11 @@ class FileObject():
             version = version.convert("RGB")
 
         # save version
+        quality = VERSIONS.get(version_suffix, {}).get("quality", VERSION_QUALITY)
         try:
-            version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=VERSION_QUALITY, optimize=(os.path.splitext(version_path)[1] != '.gif'))
+            version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=quality, optimize=(os.path.splitext(version_path)[1] != '.gif'))
         except IOError:
-            version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=VERSION_QUALITY)
+            version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=quality)
         # remove old version, if any
         if version_path != self.site.storage.get_available_name(version_path):
             self.site.storage.delete(version_path)
