@@ -52,7 +52,7 @@
             })(grp.jQuery);
         </script>
         {% endifequal %}
-        {% if query.pop in '245' %} <!-- TinyMCE version 3, 4 and 5 -->
+        {% if query.pop == "2" or query.pop == "4" or query.pop == "5" %} <!-- TinyMCE version 3, 4 and 5 -->
         <script type="text/javascript" charset="utf-8">
             (function($) {
                 $(document).ready(function() {
