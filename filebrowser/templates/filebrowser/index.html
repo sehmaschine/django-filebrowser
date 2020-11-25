@@ -26,6 +26,9 @@
     {% ifequal query.pop '4' %} <!-- TinyMCE v4 -->
     <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_TinyMCEv4.js" %}"></script>
     {% endifequal %}
+    {% ifequal query.pop '5' %} <!-- TinyMCE v5 -->
+    <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_TinyMCEv5.js" %}"></script>
+    {% endifequal %}
 
     {{ media }}
     <script type="text/javascript" charset="utf-8">
