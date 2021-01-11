@@ -31,7 +31,7 @@ tinyMCE.init({
     'bold italic backcolor | alignleft aligncenter ' +
     'alignright alignjustify | bullist numlist outdent indent | ' +
     'removeformat | help',
-    content_css: '//www.tiny.cloud/css/codepen.min.css'
+    content_css: '//www.tiny.cloud/css/codepen.min.css',
     image_advtab: true,
 
     file_picker_callback: FileBrowserPopup,
