@@ -585,17 +585,16 @@ class FileBrowserSite(object):
                 old_file = smart_str(file_path)
                 new_file = smart_str(uploadedfile)
                 self.storage.move(new_file, old_file, allow_overwrite=True)
-                full_path = FileObject(smart_str(old_file), site=self).path_full
+                f = FileObject(smart_str(old_file), site=self)
             else:
                 file_name = smart_str(uploadedfile)
                 filedata.name = os.path.relpath(file_name, path)
-                full_path = FileObject(smart_str(file_name), site=self).path_full
+                f = FileObject(smart_str(file_name), site=self)
 
             # set permissions
             if DEFAULT_PERMISSIONS is not None:
-                os.chmod(full_path, DEFAULT_PERMISSIONS)
+                os.chmod(f.path_full, DEFAULT_PERMISSIONS)
 
-            f = FileObject(smart_str(file_name), site=self)
             signals.filebrowser_post_upload.send(sender=request, path=folder, file=f, site=self)
 
             # let Ajax Upload know whether we saved it or not
