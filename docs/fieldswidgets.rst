@@ -15,7 +15,7 @@ FileBrowseField
 
 .. class:: FileBrowseField(max_length[, site, directory, extensions, format, **options])
 
-    A subclass of `CharField <https://docs.djangoproject.com/en/1.9/ref/models/fields/#charfield>`_, referencing a media file within.
+    A subclass of `CharField <https://docs.djangoproject.com/en/dev/ref/models/fields/#charfield>`_, referencing a media file within.
     Returns a :ref:`fileobject`.
 
     :param site: A FileBrowser site (defaults to the main site), see :ref:`site`.
@@ -73,7 +73,7 @@ Using the FileBrowseField with TinyMCE
 
 In order to replace the TinyMCE image/file manager with the FileBrowser, you have to use a `FileBrowser Callback <http://www.tinymce.com/wiki.php/Configuration:file_browser_callback>`_. There's an example TinyMCE configuration file in /static/js/ called TinyMCEAdmin.js. You can either copy the FileBrowserCallback to your own file or just use tinymce_setup.js (which comes with django-grappelli).
 
-Just add these lines to your `ModelAdmin asset definitions <https://docs.djangoproject.com/en/1.9/ref/contrib/admin/#modeladmin-asset-definitions>`_:
+Just add these lines to your `ModelAdmin asset definitions <https://docs.djangoproject.com/en/dev/ref/contrib/admin/#modeladmin-asset-definitions>`_:
 
 .. code-block:: python
 
@@ -84,7 +84,7 @@ Just add these lines to your `ModelAdmin asset definitions <https://docs.djangop
 Django FileField and the FileBrowser
 ------------------------------------
 
-Return a :ref:`fileobject` from a `FileField <https://docs.djangoproject.com/en/1.9/ref/models/fields/#filefield>`_ or `ImageField <https://docs.djangoproject.com/en/1.9/ref/models/fields/#imagefield>`_ with:
+Return a :ref:`fileobject` from a `FileField <https://docs.djangoproject.com/en/dev/ref/models/fields/#filefield>`_ or `ImageField <https://docs.djangoproject.com/en/dev/ref/models/fields/#imagefield>`_ with:
 
 .. code-block:: python
 
