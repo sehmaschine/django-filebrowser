@@ -8,8 +8,14 @@
 Changelog
 =========
 
-3.13.3 (not yet released)
+3.13.4 (not yet released)
 -------------------------
+
+3.13.3 (April 22nd 2021)
+------------------------
+
+* Fixed: Post upload signal sends wrong fileobject if file already exists.
+* Fixed: Django doc links.
 
 3.13.2 (Nov 25th 2020)
 ----------------------
