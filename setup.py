@@ -9,7 +9,7 @@ def read(fname):
 
 setup(
     name='django-filebrowser',
-    version='3.14.1',
+    version='3.14.2',
     description='Media-Management with Grappelli',
     long_description=read('README.rst'),
     url='http://django-filebrowser.readthedocs.org',
@@ -23,14 +23,11 @@ setup(
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Django',
-        'Framework :: Django :: 2.1',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
