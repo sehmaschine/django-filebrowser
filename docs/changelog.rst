@@ -8,8 +8,13 @@
 Changelog
 =========
 
-3.13.4 (not yet released)
+3.14.2 (not yet released)
 -------------------------
+
+3.14.1 (April 22nd 2021)
+------------------------
+
+* Compatibility with Django 3.2 and Grappelli 2.15
 
 3.13.3 (April 22nd 2021)
 ------------------------
