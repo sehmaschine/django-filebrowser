@@ -40,7 +40,7 @@
 
 <!-- CONTENT -->
 {% block content %}
-    {% if fileobject.filetype == "Image" %}
+    {% if fileobject.filetype == "Image" or fileobject.filetype == "Video" %}
         {% version fileobject.path settings_var.ADMIN_THUMBNAIL as thumbnail_version %}
         {% version fileobject.path query.version as image_version %}
         {% ifequal query.pop '1' %} <!-- FileBrowseField -->

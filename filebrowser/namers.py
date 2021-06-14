@@ -24,6 +24,8 @@ class VersionNamer(object):
             setattr(self, k, v)
 
     def get_version_name(self):
+        if self.file_object.filetype == 'Video':
+            return self.file_object.filename_root + "_" + self.version_suffix + '.jpg'    
         return self.file_object.filename_root + "_" + self.version_suffix + self.extension
 
     def get_original_name(self):
