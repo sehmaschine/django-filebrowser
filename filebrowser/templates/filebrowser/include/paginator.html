@@ -4,7 +4,7 @@
     <ul class="grp-horizontal-list">
         {% if filelisting.results_current %}
             {% if query.q or query.filter_date or query.filter_type or query.type %}
-                <li class="grp-results"><span>{{ filelisting.results_current }} {% ifequal filelisting.results_current 1 %}{% trans 'result' %}{% else %}{% trans 'results' %}{% endifequal %}</span></li>
+                <li class="grp-results"><span>{{ filelisting.results_current }} {% if filelisting.results_current == 1 %}{% trans 'result' %}{% else %}{% trans 'results' %}{% endif %}</span></li>
             {% endif %}
         {% endif %}
         <li class="grp-results">
@@ -16,15 +16,15 @@
         </li>
         {% if page_range %}
             {% for i in page_range %}
-                {% ifequal i "." %}
+                {% if not i|floatformat %}
                     <li class="grp-separator"><span>...</span></li>
                 {% else %}
-                    {% ifequal i page_num %}
+                    {% if i == page_num %}
                         <li><span class="this-page">{{ i|add:"1" }}</span></li>
                     {% else %}
                         <li><a href="{% query_string "" "p" %}&amp;p={{ i|add:"1" }}">{{ i|add:"1" }}</a></li>
-                    {% endifequal %}
-                {% endifequal %}
+                    {% endif %}
+                {% endif %}
             {% endfor %}
         {% endif %}
     </ul>
