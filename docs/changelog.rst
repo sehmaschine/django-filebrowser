@@ -11,6 +11,9 @@ Changelog
 3.14.2 (not yet released)
 -------------------------
 
+* Removed `ifequal` templatetags (used `if` instead).
+* Removed `providing_args` from signals.
+
 3.14.1 (April 22nd 2021)
 ------------------------
 

@@ -47,9 +47,9 @@ You can use all attributes from :ref:`fileobject`:
     {{ blogentry.image }}
     <img src="{{ publication.image.url }}" />
 
-    {% ifequal blogentry.image.image_orientation "landscape" %}
+    {% if blogentry.image.image_orientation == "landscape" %}
         <img src="{{ blogentry.image.url }}" class="landscape" />
-    {% endifequal %}
+    {% endif %}
 
 Showing Thumbnail in the Changelist
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
