@@ -8,9 +8,13 @@
 Changelog
 =========
 
-3.14.2 (not yet released)
+3.14.3 (not yet released)
 -------------------------
 
+3.14.2 (January 7th 2022)
+-------------------------
+
+* Migrate CI to GitHub actions.
 * Removed `ifequal` templatetags (used `if` instead).
 * Removed `providing_args` from signals.
 
