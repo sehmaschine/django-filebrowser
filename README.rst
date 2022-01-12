@@ -17,7 +17,7 @@ The FileBrowser is an extension to the `Django <http://www.djangoproject.com>`_ 
 Requirements
 ------------
 
-FileBrowser 3.14.3 requires
+FileBrowser 3.14.4 requires
 
 * Django 3.2 (http://www.djangoproject.com)
 * Grappelli 2.15 (https://github.com/sehmaschine/django-grappelli)
