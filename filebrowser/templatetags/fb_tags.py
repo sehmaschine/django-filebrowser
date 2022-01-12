@@ -1,12 +1,12 @@
 # coding: utf-8
 
+from urllib.parse import quote as urlquote
+
 from django import template
 from django.template import TemplateSyntaxError
-from django.utils.http import urlquote
 from django.utils.safestring import mark_safe
 
 from filebrowser.settings import EXTENSIONS, SELECT_FORMATS
-
 
 register = template.Library()
 

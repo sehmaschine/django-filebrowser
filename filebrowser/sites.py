@@ -15,9 +15,10 @@ from django.shortcuts import HttpResponse, render
 from django.template import RequestContext as Context
 from django.urls import get_resolver, get_urlconf, reverse
 from django.utils.encoding import smart_str
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
+
 from filebrowser import signals
 # Default actions
 from filebrowser.actions import (flip_horizontal, flip_vertical,
@@ -202,18 +203,18 @@ class FileBrowserSite(object):
 
     def get_urls(self):
         "URLs for a filebrowser.site"
-        from django.conf.urls import url
+        from django.urls import re_path
 
         # filebrowser urls (views)
         urlpatterns = [
-            url(r'^browse/$', path_exists(self, filebrowser_view(self.browse)), name="fb_browse"),
-            url(r'^createdir/', path_exists(self, filebrowser_view(self.createdir)), name="fb_createdir"),
-            url(r'^upload/', path_exists(self, filebrowser_view(self.upload)), name="fb_upload"),
-            url(r'^delete_confirm/$', file_exists(self, path_exists(self, filebrowser_view(self.delete_confirm))), name="fb_delete_confirm"),
-            url(r'^delete/$', file_exists(self, path_exists(self, filebrowser_view(self.delete))), name="fb_delete"),
-            url(r'^detail/$', file_exists(self, path_exists(self, filebrowser_view(self.detail))), name="fb_detail"),
-            url(r'^version/$', file_exists(self, path_exists(self, filebrowser_view(self.version))), name="fb_version"),
-            url(r'^upload_file/$', staff_member_required(csrf_exempt(self._upload_file)), name="fb_do_upload"),
+            re_path(r'^browse/$', path_exists(self, filebrowser_view(self.browse)), name="fb_browse"),
+            re_path(r'^createdir/', path_exists(self, filebrowser_view(self.createdir)), name="fb_createdir"),
+            re_path(r'^upload/', path_exists(self, filebrowser_view(self.upload)), name="fb_upload"),
+            re_path(r'^delete_confirm/$', file_exists(self, path_exists(self, filebrowser_view(self.delete_confirm))), name="fb_delete_confirm"),
+            re_path(r'^delete/$', file_exists(self, path_exists(self, filebrowser_view(self.delete))), name="fb_delete"),
+            re_path(r'^detail/$', file_exists(self, path_exists(self, filebrowser_view(self.detail))), name="fb_detail"),
+            re_path(r'^version/$', file_exists(self, path_exists(self, filebrowser_view(self.version))), name="fb_version"),
+            re_path(r'^upload_file/$', staff_member_required(csrf_exempt(self._upload_file)), name="fb_do_upload"),
         ]
         return urlpatterns
 
