@@ -8,8 +8,13 @@
 Changelog
 =========
 
-3.14.3 (not yet released)
+3.14.4 (not yet released)
 -------------------------
+
+3.14.3 (January 12th 2022)
+--------------------------
+
+* Removed `ifnotequal` templatetags (used `if` instead).
 
 3.14.2 (January 7th 2022)
 -------------------------

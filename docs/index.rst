@@ -92,14 +92,14 @@ Versions and Compatibility
 
 **FileBrowser is always developed against the latest stable Django release and is NOT tested with Djangos trunk.**
 
-* FileBrowser 3.14.2 (January 7th, 2022): Compatible with Django 3.2 (LTS)
+* FileBrowser 3.14.3 (January 12th, 2022): Compatible with Django 3.2 (LTS)
 * FileBrowser 3.13.3 (April 22nd, 2021): Compatible with Django 3.1
 * FileBrowser 3.12.1 (November 14th, 2019): Compatible with Django 2.2 (LTS)
 * FileBrowser 3.9.2 (November 2nd, 2018): Compatible with Django 1.11 (LTS)
 
 Current development branches:
 
-* FileBrowser 3.14.3 (Development Version for Django 3.2, see Branch Stable/3.14.x)
+* FileBrowser 3.14.4 (Development Version for Django 3.2, see Branch Stable/3.14.x)
 * FileBrowser 3.13.4 (Development Version for Django 3.1, see Branch Stable/3.13.x)
 * FileBrowser 3.12.2 (Development Version for Django 2.2, see Branch Stable/3.12.x)
 * FileBrowser 3.9.3 (Development Version for Django 1.11, see Branch Stable/3.9.x)
