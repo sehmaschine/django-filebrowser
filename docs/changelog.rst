@@ -8,35 +8,9 @@
 Changelog
 =========
 
-3.14.2 (not yet released)
--------------------------
-
-* Removed `ifequal` templatetags (used `if` instead).
-* Removed `providing_args` from signals.
-
-3.14.1 (April 22nd 2021)
+4.0.1 (not yet released)
 ------------------------
 
-* Compatibility with Django 3.2 and Grappelli 2.15
-
-3.13.3 (April 22nd 2021)
-------------------------
-
-* Fixed: Post upload signal sends wrong fileobject if file already exists.
-* Fixed: Django doc links.
-
-3.13.2 (Nov 25th 2020)
-----------------------
-
-* Compatibility with Django 3.1
-* Fixed Quickstart
-* Fixed display of errors with upload template
-* Added version qualities
-* Added support for TinyMCE v5
-
-3.13.1 (May 15th 2020)
-----------------------
-
-* Compatibility with Django 3.0 and Grappelli 2.14
+* Compatibility with Django 4.0 and Grappelli 3.0
 
 For further information, see :ref:`releasenotes`.
