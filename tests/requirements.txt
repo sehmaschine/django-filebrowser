@@ -3,6 +3,6 @@ django-grappelli>=3.0,<3.1
 funcsigs==1.0.2
 mock==4.0.3
 pbr==5.8.0
-Pillow==9.0.0
+Pillow==9.0.1
 six==1.16.0
 wheel==0.37.1
