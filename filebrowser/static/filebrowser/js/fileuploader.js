@@ -447,13 +447,13 @@ qq.FileUploaderBasic.prototype = {
         return name;
     },
     _isAllowedExtension: function(fileName){
-        var ext = (-1 !== fileName.indexOf('.')) ? fileName.substr(fileName.lastIndexOf('.')).toLowerCase() : '';
+        var fileNameLower = fileName.toLowerCase();
         var allowed = this._options.allowedExtensions;
         
         if (!allowed.length){return true;}        
         
         for (var i=0; i<allowed.length; i++){
-            if (allowed[i].toLowerCase() == ext){ return true;}    
+            if (fileNameLower.endsWith(allowed[i].toLowerCase())){ return true;}
         }
         
         return false;
