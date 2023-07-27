@@ -36,12 +36,12 @@ https://www.transifex.com/projects/p/django-filebrowser/
 Releases
 --------
 
-* FileBrowser 4.0.2 (November 22nd, 2022): Compatible with Django 4.0
+* FileBrowser 4.0.3 (July 27th, 2023): Compatible with Django 4.0
 * FileBrowser 3.14.3 (January 12th, 2022): Compatible with Django 3.2 (LTS)
 
 Current development branches:
 
-* FileBrowser 4.0.3 (Development Version for Django 4.0, see Branch Stable/4.0.x)
+* FileBrowser 4.0.4 (Development Version for Django 4.0, see Branch Stable/4.0.x)
 * FileBrowser 3.14.4 (Development Version for Django 3.2, see Branch Stable/3.14.x)
 
 Older versions are available at GitHub, but are not supported anymore.
