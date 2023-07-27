@@ -103,7 +103,7 @@ def scale_and_crop(im, width=None, height=None, opts='', **kwargs):
         r = min(xr / x, yr / y)
 
     if r < 1.0 or (r > 1.0 and 'upscale' in opts):
-        im = im.resize((int(math.ceil(x * r)), int(math.ceil(y * r))), resample=Image.ANTIALIAS)
+        im = im.resize((int(math.ceil(x * r)), int(math.ceil(y * r))), resample=Image.Resampling.LANCZOS)
 
     if 'crop' in opts:
         x, y = [float(v) for v in im.size]
