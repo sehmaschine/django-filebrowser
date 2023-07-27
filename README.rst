@@ -1,7 +1,7 @@
 Django FileBrowser
 ==================
-.. image:: https://api.travis-ci.org/sehmaschine/django-filebrowser.svg
-    :target: https://travis-ci.org/sehmaschine/django-filebrowser
+.. image:: https://github.com/sehmaschine/django-filebrowser/actions/workflows/tests.yml/badge.svg?branch=master
+    :target: https://github.com/sehmaschine/django-filebrowser/actions/workflows/tests.yml?query=branch%3Amaster
 
 .. image:: https://readthedocs.org/projects/django-filebrowser/badge/?version=latest
     :target: http://django-filebrowser.readthedocs.org/en/latest/?badge=latest
