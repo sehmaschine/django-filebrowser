@@ -9,7 +9,7 @@ import six
 
 from django.utils.module_loading import import_string
 from filebrowser.settings import (CONVERT_FILENAME, NORMALIZE_FILENAME,
-                                  STRICT_PIL, VERSION_PROCESSORS)
+                                  STRICT_PIL, VERSION_PROCESSORS, VIDEO_THUMBNAIL_FRAME)
 
 if STRICT_PIL:
     from PIL import Image
@@ -19,6 +19,11 @@ else:
     except ImportError:
         import Image
 
+try:
+    import cv2
+    from io import BytesIO
+except ImportError:
+    pass
 
 def convert_filename(value):
     """
@@ -119,3 +124,17 @@ def get_modified_time(storage, path):
     if hasattr(storage, "get_modified_time"):
         return storage.get_modified_time(path)
     return storage.modified_time(path)
+
+def get_video_image(path):
+    v = cv2.VideoCapture(path)
+    vtf = VIDEO_THUMBNAIL_FRAME
+    if v.get(cv2.CAP_PROP_FRAME_COUNT) -1 < vtf: 
+        vtf = v.get(cv2.CAP_PROP_FRAME_COUNT) -1
+    if v.set(cv2.CAP_PROP_POS_FRAMES, vtf):
+        success, frame = v.read()
+        if success:
+            success, buffer = cv2.imencode(".jpg", frame)
+            temp = BytesIO(buffer)
+            temp.seek(0)
+            return temp
+    return None

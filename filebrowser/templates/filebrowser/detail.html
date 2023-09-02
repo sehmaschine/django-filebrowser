@@ -122,7 +122,7 @@
                     </div>
                 </div>
             </div>
-            {% if fileobject.filetype == "Image" %}
+            {% if fileobject.filetype == "Image" or fileobject.filetype == "Video" %}
                 <div class="grp-row">
                     <div class="l-2c-fluid l-d-4">
                         <div class="c-1"><label>{% trans "Size" %}</label></div>
@@ -136,7 +136,7 @@
             {% endif %}
         </fieldset>
         {% endif %}
-        {% if fileobject.filetype == "Image" %}
+        {% if fileobject.filetype == "Image" or fileobject.filetype == "Video" %}
         <fieldset class="grp-module grp-collapse grp-open">
             <h2 class="grp-collapse-handler">{% trans "Image Versions" %}</h2>
             {% if settings_var.ADMIN_THUMBNAIL %}

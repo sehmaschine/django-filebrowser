@@ -15,8 +15,8 @@ from django.utils.functional import cached_property
 from filebrowser.settings import (ADMIN_VERSIONS, DEFAULT_PERMISSIONS,
                                   EXTENSIONS, IMAGE_MAXBLOCK, SELECT_FORMATS,
                                   STRICT_PIL, VERSION_QUALITY, VERSIONS,
-                                  VERSIONS_BASEDIR)
-from filebrowser.utils import get_modified_time, path_strip, process_image
+                                  VERSIONS_BASEDIR, VIDEO_THUMBNAIL)
+from filebrowser.utils import get_modified_time, path_strip, process_image, get_video_image
 
 from .namers import get_namer
 
@@ -30,7 +30,6 @@ else:
     except ImportError:
         import Image
         import ImageFile
-
 
 ImageFile.MAXBLOCK = IMAGE_MAXBLOCK  # default is 64k
 
@@ -342,10 +341,13 @@ class FileObject():
     @cached_property
     def dimensions(self):
         "Image dimensions as a tuple"
-        if self.filetype != 'Image':
+        if self.filetype != 'Image' and self.filetype != 'Video':
             return None
         try:
-            im = Image.open(self.site.storage.open(self.path))
+            if VIDEO_THUMBNAIL and self.filetype == 'Video':
+                im = Image.open(get_video_image(self.path_full))
+            elif self.filetype == 'Image':
+                im = Image.open(self.site.storage.open(self.path))
             return im.size
         except:
             pass
@@ -514,7 +516,17 @@ class FileObject():
             f = self.site.storage.open(self.path)
         except IOError:
             return ""
-        im = Image.open(f)
+        
+        im = None
+
+        if VIDEO_THUMBNAIL and self.filetype == 'Video':
+            im = Image.open(get_video_image(self.path_full))
+        elif self.filetype == 'Image':
+            im = Image.open(f)
+
+        if not im:
+            return None
+
         version_dir, version_basename = os.path.split(version_path)
         root, ext = os.path.splitext(version_basename)
         version = process_image(im, options)
@@ -526,9 +538,9 @@ class FileObject():
                     version = m(version)
 
         # IF need Convert RGB
-        if ext in [".jpg", ".jpeg"] and version.mode not in ("L", "RGB"):
+        if ext.lower() in [".jpg", ".jpeg"] and version.mode not in ("L", "RGB"):
             version = version.convert("RGB")
-
+        
         # save version
         quality = VERSIONS.get(version_suffix, {}).get("quality", VERSION_QUALITY)
         try:

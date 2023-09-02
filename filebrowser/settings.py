@@ -11,7 +11,7 @@ DIRECTORY = getattr(settings, "FILEBROWSER_DIRECTORY", 'uploads/')
 # EXTENSIONS AND FORMATS
 # Allowed Extensions for File Upload. Lower case is important.
 EXTENSIONS = getattr(settings, "FILEBROWSER_EXTENSIONS", {
-    'Image': ['.jpg', '.jpeg', '.gif', '.png', '.tif', '.tiff'],
+    'Image': ['.jpg', '.jpeg', '.gif', '.png', '.tif', '.tiff', '.heic'],
     'Document': ['.pdf', '.doc', '.rtf', '.txt', '.xls', '.csv', '.docx'],
     'Video': ['.mov', '.mp4', '.m4v', '.webm', '.wmv', '.mpeg', '.mpg', '.avi', '.rm'],
     'Audio': ['.mp3', '.wav', '.aiff', '.midi', '.m4p']
@@ -47,6 +47,9 @@ VERSION_QUALITY = getattr(settings, 'FILEBROWSER_VERSION_QUALITY', 90)
 ADMIN_VERSIONS = getattr(settings, 'FILEBROWSER_ADMIN_VERSIONS', ['thumbnail', 'small', 'medium', 'big', 'large'])
 # Which Version should be used as Admin-thumbnail.
 ADMIN_THUMBNAIL = getattr(settings, 'FILEBROWSER_ADMIN_THUMBNAIL', 'admin_thumbnail')
+
+VIDEO_THUMBNAIL = getattr(settings, 'FILEBROWSER_VIDEO_THUMBNAIL', True)
+VIDEO_THUMBNAIL_FRAME = getattr(settings, 'FILEBROWSER_ADMIN_VIDEO_THUMBNAIL_FRAME', 10)
 
 VERSION_PROCESSORS = getattr(settings, 'FILEBROWSER_VERSION_PROCESSORS', [
     'filebrowser.utils.scale_and_crop',

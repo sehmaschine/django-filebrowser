@@ -3,7 +3,7 @@
 {% for fileobject in page.object_list %}
 
     <!-- THUMBNAIL-VERSION FOR IMAGE-OBJECT -->
-    {% if fileobject.filetype == "Image" %}
+    {% if fileobject.filetype == "Image" or fileobject.filetype == "Video" %}
         {% version fileobject settings_var.ADMIN_THUMBNAIL as thumbnail_version %}
     {% endif %}
 
@@ -16,7 +16,7 @@
                     <!-- select original -->
                     <button class="grp-button fb_selectlink" onclick="FileSubmit('{{ fileobject.path }}', '{{ fileobject.url }}', '{{ thumbnail_version.url }}', '{{ fileobject.filetype }}');">{% trans "Select" %}</button>
                     <!-- select versions -->
-                    {% if fileobject.filetype == "Image" and settings_var.ADMIN_VERSIONS %}
+                    {% if fileobject.filetype == "Image" or fileobject.filetype == "Video" and settings_var.ADMIN_VERSIONS %}
                         <div class="grp-pulldown-versions-container">
                             <a href="javascript://" class="grp-pulldown-versions-handler" title="{% trans "Versions" %}">&nbsp;</a>
                             <ul class="grp-pulldown-versions">
@@ -41,7 +41,7 @@
                     <!-- select original -->
                     <button class="grp-button fb_selectlink" onclick="FileBrowserDialogue.fileSubmit('{{ fileobject.url|escapejs }}');">{% trans "Select" %}</button>
                     <!-- select versions -->
-                    {% if fileobject.filetype == "Image" and settings_var.ADMIN_VERSIONS %}
+                    {% if fileobject.filetype == "Image" or fileobject.filetype == "Video" and settings_var.ADMIN_VERSIONS %}
                         <div class="grp-pulldown-versions-container">
                             <a href="javascript://" class="grp-pulldown-versions-handler" title="{% trans "Versions" %}">&nbsp;</a>
                             <ul class="grp-pulldown-versions">
@@ -65,7 +65,7 @@
                     <!-- select original -->
                     <button class="grp-button fb_selectlink" onclick="OpenFile(ProtectPath('{{ fileobject.url|escapejs }}'));return false;">{% trans "Select" %}</button>
                     <!-- select versions -->
-                    {% if fileobject.filetype == "Image" and settings_var.ADMIN_VERSIONS %}
+                    {% if fileobject.filetype == "Image" or fileobject.filetype == "Video" and settings_var.ADMIN_VERSIONS %}
                         <div class="grp-pulldown-versions-container">
                             <a href="javascript://" class="grp-pulldown-versions-handler" title="{% trans "Versions" %}">&nbsp;</a>
                             <ul class="grp-pulldown-versions">
@@ -93,7 +93,7 @@
 
         <!-- THUMBNAIL -->
         <td class="fb_thumbnail">
-            {% if fileobject.filetype == "Image" %}
+            {% if fileobject.filetype == "Image" or fileobject.filetype == "Video" %}
                 <a href="{{ fileobject.url }}" class="fb_viewlink"><img src="{{ thumbnail_version.url }}" title="{% trans 'View Image' %}" /></a>
             {% endif %}
         </td>
