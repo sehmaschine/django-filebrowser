@@ -1,5 +1,3 @@
-# coding: utf-8
-
 import os
 import re
 from time import gmtime, localtime, strftime, time
@@ -14,7 +12,6 @@ from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import HttpResponse, render
 from django.template import RequestContext as Context
 from django.urls import get_resolver, get_urlconf, reverse
-from django.utils.encoding import smart_str
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
@@ -171,7 +168,7 @@ def filebrowser_view(view):
     return staff_member_required(never_cache(view))
 
 
-class FileBrowserSite(object):
+class FileBrowserSite:
     """
     A filebrowser.site defines admin views for browsing your servers media files.
     """
@@ -293,7 +290,7 @@ class FileBrowserSite(object):
             return True
 
         query = request.GET.copy()
-        path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
+        path = os.path.join(self.directory, query.get('dir', ''))
 
         filelisting = self.filelisting_class(
             path,
@@ -351,7 +348,7 @@ class FileBrowserSite(object):
             'page': page,
             'filelisting': filelisting,
             'query': query,
-            'title': _(u'FileBrowser'),
+            'title': _('FileBrowser'),
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': "",
@@ -362,7 +359,7 @@ class FileBrowserSite(object):
         "Create Directory"
         from filebrowser.forms import CreateDirForm
         query = request.GET
-        path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
+        path = os.path.join(self.directory, query.get('dir', ''))
 
         if request.method == 'POST':
             form = CreateDirForm(path, request.POST, filebrowser_site=self)
@@ -388,10 +385,10 @@ class FileBrowserSite(object):
         return render(request, 'filebrowser/createdir.html', {
             'form': form,
             'query': query,
-            'title': _(u'New Folder'),
+            'title': _('New Folder'),
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
-            'breadcrumbs_title': _(u'New Folder'),
+            'breadcrumbs_title': _('New Folder'),
             'filebrowser_site': self
         })
 
@@ -402,17 +399,17 @@ class FileBrowserSite(object):
         request.current_app = self.name
         return render(request, 'filebrowser/upload.html', {
             'query': query,
-            'title': _(u'Select files to upload'),
+            'title': _('Select files to upload'),
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
-            'breadcrumbs_title': _(u'Upload'),
+            'breadcrumbs_title': _('Upload'),
             'filebrowser_site': self
         })
 
     def delete_confirm(self, request):
         "Delete existing File/Directory."
         query = request.GET
-        path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
+        path = os.path.join(self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
         if fileobject.filetype == "Folder":
             filelisting = self.filelisting_class(
@@ -436,17 +433,17 @@ class FileBrowserSite(object):
             'filelisting': filelisting,
             'additional_files': additional_files,
             'query': query,
-            'title': _(u'Confirm delete'),
+            'title': _('Confirm delete'),
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
-            'breadcrumbs_title': _(u'Confirm delete'),
+            'breadcrumbs_title': _('Confirm delete'),
             'filebrowser_site': self
         })
 
     def delete(self, request):
         "Delete existing File/Directory."
         query = request.GET
-        path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
+        path = os.path.join(self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
 
         if request.GET:
@@ -469,7 +466,7 @@ class FileBrowserSite(object):
         """
         from filebrowser.forms import ChangeForm
         query = request.GET
-        path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
+        path = '%s' % os.path.join(self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
 
         if request.method == 'POST':
@@ -510,10 +507,10 @@ class FileBrowserSite(object):
             'form': form,
             'fileobject': fileobject,
             'query': query,
-            'title': u'%s' % fileobject.filename,
+            'title': fileobject.filename,
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
-            'breadcrumbs_title': u'%s' % fileobject.filename,
+            'breadcrumbs_title': fileobject.filename,
             'filebrowser_site': self
         })
 
@@ -523,7 +520,7 @@ class FileBrowserSite(object):
         This just exists in order to select a version with a filebrowser–popup.
         """
         query = request.GET
-        path = u'%s' % os.path.join(self.directory, query.get('dir', ''))
+        path = os.path.join(self.directory, query.get('dir', ''))
         fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
 
         request.current_app = self.name
@@ -583,14 +580,11 @@ class FileBrowserSite(object):
             uploadedfile = handle_file_upload(path, filedata, site=self)
 
             if file_already_exists and OVERWRITE_EXISTING:
-                old_file = smart_str(file_path)
-                new_file = smart_str(uploadedfile)
-                self.storage.move(new_file, old_file, allow_overwrite=True)
-                f = FileObject(smart_str(old_file), site=self)
+                self.storage.move(uploadedfile, file_path, allow_overwrite=True)
+                f = FileObject(file_path, site=self)
             else:
-                file_name = smart_str(uploadedfile)
-                filedata.name = os.path.relpath(file_name, path)
-                f = FileObject(smart_str(file_name), site=self)
+                filedata.name = os.path.relpath(uploadedfile, path)
+                f = FileObject(uploadedfile, site=self)
 
             # set permissions
             if DEFAULT_PERMISSIONS is not None:

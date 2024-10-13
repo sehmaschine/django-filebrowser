@@ -1,19 +1,16 @@
-# coding: utf-8
-
 import os
 
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.utils.encoding import smart_str
 from django.utils.translation import gettext as _
 
 from filebrowser.templatetags.fb_tags import query_helper
 
 
 def get_path(path, site):
-    converted_path = smart_str(os.path.join(site.directory, path))
+    converted_path = os.path.join(site.directory, path)
     if not path.startswith('.') and not os.path.isabs(converted_path):
         if site.storage.isdir(converted_path):
             return path
@@ -21,7 +18,7 @@ def get_path(path, site):
 
 def get_file(path, filename, site):
     # Files and directories are valid
-    converted_path = smart_str(os.path.join(site.directory, path, filename))
+    converted_path = os.path.join(site.directory, path, filename)
     if not path.startswith('.') and not filename.startswith('.') and not os.path.isabs(converted_path):
         if site.storage.isfile(converted_path) or site.storage.isdir(converted_path):
             return filename
@@ -38,7 +35,7 @@ def path_exists(site, function):
         if get_path(request.GET.get('dir', ''), site=site) is None:
             msg = _('The requested Folder does not exist.')
             messages.add_message(request, messages.ERROR, msg)
-            redirect_url = reverse("filebrowser:fb_browse", current_app=site.name) + query_helper(request.GET, u"", "dir")
+            redirect_url = reverse("filebrowser:fb_browse", current_app=site.name) + query_helper(request.GET, "", "dir")
             return HttpResponseRedirect(redirect_url)
         return function(request, *args, **kwargs)
     return decorator
@@ -52,7 +49,7 @@ def file_exists(site, function):
         if file_path is None:
             msg = _('The requested File does not exist.')
             messages.add_message(request, messages.ERROR, msg)
-            redirect_url = reverse("filebrowser:fb_browse", current_app=site.name) + query_helper(request.GET, u"", "dir")
+            redirect_url = reverse("filebrowser:fb_browse", current_app=site.name) + query_helper(request.GET, "", "dir")
             return HttpResponseRedirect(redirect_url)
         return function(request, *args, **kwargs)
     return decorator

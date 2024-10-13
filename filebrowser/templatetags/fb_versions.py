@@ -1,5 +1,3 @@
-# coding: utf-8
-
 from django.conf import settings
 from django.core.files import File
 from django.template import Library, Node, Variable, VariableDoesNotExist, TemplateSyntaxError

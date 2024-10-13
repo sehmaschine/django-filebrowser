@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # Django FileBrowser documentation build configuration file, created by
 # sphinx-quickstart on Sun Dec  5 19:11:46 2010.
 #
@@ -43,8 +41,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Django FileBrowser'
-copyright = u'2022, Patrick Kranzlmueller'
+project = 'Django FileBrowser'
+copyright = '2022, Patrick Kranzlmueller'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -182,8 +180,8 @@ htmlhelp_basename = 'DjangoFileBrowserdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'DjangoFileBrowser.tex', u'Django FileBrowser Documentation',
-   u'Patrick Kranzlmueller', 'manual'),
+  ('index', 'DjangoFileBrowser.tex', 'Django FileBrowser Documentation',
+   'Patrick Kranzlmueller', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -215,8 +213,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'djangofilebrowser', u'Django FileBrowser Documentation',
-     [u'Patrick Kranzlmueller'], 1)
+    ('index', 'djangofilebrowser', 'Django FileBrowser Documentation',
+     ['Patrick Kranzlmueller'], 1)
 ]
 
 if not on_rtd:  # only import and set the theme if we're building docs locally

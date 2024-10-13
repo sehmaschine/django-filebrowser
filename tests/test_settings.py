@@ -1,5 +1,3 @@
-# coding: utf-8
-
 # FIXME
 # These tests are designed to run against production, not testing. They
 # would be better suited for the Django Check Framework.

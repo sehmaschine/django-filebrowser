@@ -1,4 +1,3 @@
-# coding: utf-8
 import os
 
 from django import forms
@@ -57,7 +56,7 @@ class FileBrowseWidget(Input):
 class FileBrowseFormField(forms.CharField):
 
     default_error_messages = {
-        'extension': _(u'Extension %(ext)s is not allowed. Only %(allowed)s is allowed.'),
+        'extension': _('Extension %(ext)s is not allowed. Only %(allowed)s is allowed.'),
     }
 
     def __init__(self, max_length=None, min_length=None, site=None, directory=None, extensions=None, format=None, *args, **kwargs):
@@ -180,7 +179,7 @@ class FileBrowseUploadWidget(Input):
 class FileBrowseUploadFormField(forms.CharField):
 
     default_error_messages = {
-        'extension': _(u'Extension %(ext)s is not allowed. Only %(allowed)s is allowed.'),
+        'extension': _('Extension %(ext)s is not allowed. Only %(allowed)s is allowed.'),
     }
 
     def __init__(self, max_length=None, min_length=None, site=None, directory=None, extensions=None, format=None, upload_to=None, temp_upload_dir=None, *args, **kwargs):

@@ -1,15 +1,14 @@
-# coding: utf-8
 import os
 import shutil
+from unittest.mock import patch
 
 from django.conf import settings
 from django.template import Context, Template, TemplateSyntaxError
-from mock import patch
 
-from tests import FilebrowserTestCase as TestCase
 from filebrowser.settings import STRICT_PIL
 from filebrowser import utils
 from filebrowser.utils import scale_and_crop, process_image
+from . import FilebrowserTestCase as TestCase
 
 if STRICT_PIL:
     from PIL import Image

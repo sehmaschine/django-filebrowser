@@ -1,15 +1,12 @@
-# coding: utf-8
-
 import os
 import shutil
 import sys
-
-from six import StringIO
+from io import StringIO
 
 from django.conf import settings
 from django.core.management import call_command
 from filebrowser.settings import DIRECTORY
-from tests import FilebrowserTestCase as TestCase
+from . import FilebrowserTestCase as TestCase
 
 
 class VersionGenerateCommandTests(TestCase):

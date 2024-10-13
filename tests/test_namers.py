@@ -1,13 +1,9 @@
-# coding: utf-8
-
 import shutil
-
-from mock import patch
-
-from filebrowser.settings import VERSIONS
-from tests import FilebrowserTestCase as TestCase
+from unittest.mock import patch
 
 from filebrowser.namers import OptionsNamer
+from filebrowser.settings import VERSIONS
+from . import FilebrowserTestCase as TestCase
 
 
 class BaseNamerTests(TestCase):

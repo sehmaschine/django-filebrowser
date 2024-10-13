@@ -1,10 +1,8 @@
-# coding: utf-8
-
 import shutil
 
 from filebrowser.decorators import get_path, get_file
 from filebrowser.sites import site
-from tests import FilebrowserTestCase as TestCase
+from . import FilebrowserTestCase as TestCase
 
 
 class GetPathTests(TestCase):
