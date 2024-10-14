@@ -1,20 +1,15 @@
-# coding: utf-8
-from __future__ import with_statement
 import os
 import json
 import shutil
+from unittest.mock import patch
 
 from django.urls import reverse
-try:
-    from django.utils.six.moves.urllib.parse import urlencode
-except:
-    from django.utils.http import urlencode
-from mock import patch
+from django.utils.http import urlencode
 
 from filebrowser.settings import VERSIONS, DEFAULT_PERMISSIONS
 from filebrowser.base import FileObject
 from filebrowser.sites import site
-from tests import FilebrowserTestCase as TestCase
+from . import FilebrowserTestCase as TestCase
 
 
 class BrowseViewTests(TestCase):
@@ -34,7 +29,7 @@ class BrowseViewTests(TestCase):
 
     def test_filter(self):
         shutil.copy(self.STATIC_IMG_PATH, self.FOLDER_PATH)
-        self.assertEqual(site.storage.listdir(self.F_FOLDER.path), (['subfolder'], [u'testimage.jpg']))
+        self.assertEqual(site.storage.listdir(self.F_FOLDER.path), (['subfolder'], ['testimage.jpg']))
 
         response = self.client.get(self.url + "?dir=folder")
         self.assertEqual(len(response.context['page'].object_list), 2)
@@ -166,19 +161,19 @@ class UploadFileViewTests(TestCase):
     @patch('filebrowser.sites.OVERWRITE_EXISTING', True)
     def test_overwrite_existing_true(self):
         shutil.copy(self.STATIC_IMG_PATH, self.SUBFOLDER_PATH)
-        self.assertEqual(site.storage.listdir(self.F_SUBFOLDER.path), ([], [u'testimage.jpg']))
+        self.assertEqual(site.storage.listdir(self.F_SUBFOLDER.path), ([], ['testimage.jpg']))
 
         url = '?'.join([self.url, urlencode({'folder': self.F_SUBFOLDER.path_relative_directory})])
 
         with open(self.STATIC_IMG_PATH, "rb") as f:
             self.client.post(url, data={'qqfile': 'testimage.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-        self.assertEqual(site.storage.listdir(self.F_SUBFOLDER.path), ([], [u'testimage.jpg']))
+        self.assertEqual(site.storage.listdir(self.F_SUBFOLDER.path), ([], ['testimage.jpg']))
 
     @patch('filebrowser.sites.OVERWRITE_EXISTING', False)
     def test_overwrite_existing_false(self):
         shutil.copy(self.STATIC_IMG_PATH, self.SUBFOLDER_PATH)
-        self.assertEqual(site.storage.listdir(self.F_SUBFOLDER.path), ([], [u'testimage.jpg']))
+        self.assertEqual(site.storage.listdir(self.F_SUBFOLDER.path), ([], ['testimage.jpg']))
 
         url = '?'.join([self.url, urlencode({'folder': self.F_SUBFOLDER.path_relative_directory})])
 
@@ -192,28 +187,28 @@ class UploadFileViewTests(TestCase):
     def test_convert_false_normalize_false(self):
         with open(self.STATIC_IMG_BAD_NAME_PATH, "rb") as f:
             self.client.post(self.url_bad_name, data={'qqfile': 'TEST_IMAGE_000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER.path), ([], [u'TEST_IMAGE_000.jpg']))
+            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER.path), ([], ['TEST_IMAGE_000.jpg']))
 
     @patch('filebrowser.utils.CONVERT_FILENAME', True)
     @patch('filebrowser.utils.NORMALIZE_FILENAME', False)
     def test_convert_true_normalize_false(self):
         with open(self.STATIC_IMG_BAD_NAME_PATH, "rb") as f:
             self.client.post(self.url_bad_name, data={'qqfile': 'TEST_IMAGE_000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER.path), ([], [u'test_image_000.jpg']))
+            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER.path), ([], ['test_image_000.jpg']))
 
     @patch('filebrowser.utils.CONVERT_FILENAME', False)
     @patch('filebrowser.utils.NORMALIZE_FILENAME', True)
     def test_convert_false_normalize_true(self):
         with open(self.STATIC_IMG_BAD_NAME_PATH, "rb") as f:
             self.client.post(self.url_bad_name, data={'qqfile': 'TEST_IMAGE_000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER.path), ([], [u'TEST_IMAGE_000.jpg']))
+            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER.path), ([], ['TEST_IMAGE_000.jpg']))
 
     @patch('filebrowser.utils.CONVERT_FILENAME', True)
     @patch('filebrowser.utils.NORMALIZE_FILENAME', True)
     def test_convert_true_normalize_true(self):
         with open(self.STATIC_IMG_BAD_NAME_PATH, "rb") as f:
             self.client.post(self.url_bad_name, data={'qqfile': 'TEST_IMAGE_000.jpg', 'file': f}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER.path), ([], [u'test_image_000.jpg']))
+            self.assertEqual(site.storage.listdir(self.F_SUBFOLDER.path), ([], ['test_image_000.jpg']))
 
 
 class DetailViewTests(TestCase):

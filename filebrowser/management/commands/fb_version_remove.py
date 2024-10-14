@@ -1,9 +1,6 @@
-# coding: utf-8
 import os
 import re
 import sys
-
-from six.moves import input
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError

@@ -90,7 +90,7 @@ Return a :ref:`fileobject` from a `FileField <https://docs.djangoproject.com/en/
 
     from filebrowser.base import FileObject
 
-    image_upload = models.ImageField(u"Image (Upload)", max_length=250, upload_to=image_upload_path, blank=True)
+    image_upload = models.ImageField("Image (Upload)", max_length=250, upload_to=image_upload_path, blank=True)
 
     def image(self):
         if self.image_upload:

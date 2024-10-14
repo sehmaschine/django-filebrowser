@@ -1,13 +1,9 @@
-# coding: utf-8
-
 import datetime
 import mimetypes
 import os
 import platform
 import tempfile
 import time
-
-from six import python_2_unicode_compatible, string_types
 
 from django.core.files import File
 from django.utils.encoding import force_str
@@ -82,7 +78,7 @@ class FileListing():
         the sorted list of objects.
         """
         from operator import attrgetter
-        if isinstance(attr, string_types):  # Backward compatibility hack
+        if isinstance(attr, str):  # Backward compatibility hack
             attr = (attr, )
         return sorted(seq, key=attrgetter(*attr))
 
@@ -200,7 +196,6 @@ class FileListing():
         return len(self.files_walk_filtered())
 
 
-@python_2_unicode_compatible
 class FileObject():
     """
     The FileObject represents a file (or directory) on the server.

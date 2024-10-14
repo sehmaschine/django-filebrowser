@@ -1,5 +1,3 @@
-# coding: utf-8
-
 import os
 import tempfile
 
@@ -52,33 +50,33 @@ def transpose_image(request, fileobjects, operation):
 def flip_horizontal(request, fileobjects):
     "Flip image horizontally"
     transpose_image(request, fileobjects, 0)
-flip_horizontal.short_description = _(u'Flip horizontal')
+flip_horizontal.short_description = _('Flip horizontal')
 flip_horizontal.applies_to = applies_to_all_images
 
 
 def flip_vertical(request, fileobjects):
     "Flip image vertically"
     transpose_image(request, fileobjects, 1)
-flip_vertical.short_description = _(u'Flip vertical')
+flip_vertical.short_description = _('Flip vertical')
 flip_vertical.applies_to = applies_to_all_images
 
 
 def rotate_90_clockwise(request, fileobjects):
     "Rotate image 90 degrees clockwise"
     transpose_image(request, fileobjects, 4)
-rotate_90_clockwise.short_description = _(u'Rotate 90° CW')
+rotate_90_clockwise.short_description = _('Rotate 90° CW')
 rotate_90_clockwise.applies_to = applies_to_all_images
 
 
 def rotate_90_counterclockwise(request, fileobjects):
     "Rotate image 90 degrees counterclockwise"
     transpose_image(request, fileobjects, 2)
-rotate_90_counterclockwise.short_description = _(u'Rotate 90° CCW')
+rotate_90_counterclockwise.short_description = _('Rotate 90° CCW')
 rotate_90_counterclockwise.applies_to = applies_to_all_images
 
 
 def rotate_180(request, fileobjects):
     "Rotate image 180 degrees"
     transpose_image(request, fileobjects, 3)
-rotate_180.short_description = _(u'Rotate 180°')
+rotate_180.short_description = _('Rotate 180°')
 rotate_180.applies_to = applies_to_all_images

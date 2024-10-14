@@ -1,8 +1,4 @@
-from __future__ import unicode_literals
-
 import re
-
-import six
 
 from django.utils.encoding import force_str
 from django.utils.module_loading import import_string
@@ -15,7 +11,7 @@ def get_namer(**kwargs):
     return namer_cls(**kwargs)
 
 
-class VersionNamer(object):
+class VersionNamer:
     "Base namer only for reference"
 
     def __init__(self, **kwargs):
@@ -88,11 +84,11 @@ class OptionsNamer(VersionNamer):
             if v is True:
                 opts.append(k)
                 continue
-            if not isinstance(v, six.string_types):
+            if not isinstance(v, str):
                 try:
-                    v = 'x'.join([six.text_type(v) for item in v])
+                    v = 'x'.join([str(v) for item in v])
                 except TypeError:
-                    v = six.text_type(v)
+                    v = str(v)
             opts.append('%s-%s' % (k, v))
 
         return opts

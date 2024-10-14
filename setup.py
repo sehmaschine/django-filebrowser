@@ -36,6 +36,5 @@ setup(
     install_requires=[
         'django-grappelli>=3.0,<3.1',
         'pillow',
-        'six',
     ],
 )
