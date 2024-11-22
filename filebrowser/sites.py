@@ -267,6 +267,20 @@ class FileBrowserSite:
         "filebrowser.site URLs"
         return self.get_urls(), self.app_name, self.name
 
+     def _get_extra_context(self, request):
+        """
+        add extra context to filebrowser site
+        """
+
+        extra_context = {}
+
+        if hasattr(self,"add_extra_context"):
+            extra_context = self.add_extra_context(request)
+            if not isinstance(extra_context, dict):
+                raise TypeError('add_extra_context method must return a dict')
+
+        return extra_context
+      
     def browse(self, request):
         "Browse Files/Directories."
         filter_re = []
@@ -343,7 +357,8 @@ class FileBrowserSite:
             page = p.page(p.num_pages)
 
         request.current_app = self.name
-        return render(request, 'filebrowser/index.html', {
+        
+        context = {
             'p': p,
             'page': page,
             'filelisting': filelisting,
@@ -353,7 +368,11 @@ class FileBrowserSite:
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': "",
             'filebrowser_site': self
-        })
+        }
+        
+        context.update(self._get_extra_context(request))
+        
+        return render(request, 'filebrowser/index.html', context)
 
     def createdir(self, request):
         "Create Directory"
@@ -382,7 +401,8 @@ class FileBrowserSite:
             form = CreateDirForm(path, filebrowser_site=self)
 
         request.current_app = self.name
-        return render(request, 'filebrowser/createdir.html', {
+        
+        context = {
             'form': form,
             'query': query,
             'title': _('New Folder'),
@@ -390,21 +410,30 @@ class FileBrowserSite:
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _('New Folder'),
             'filebrowser_site': self
-        })
+        }
+        
+        context.update(self._get_extra_context(request))
+        
+        return render(request, 'filebrowser/createdir.html', context)
 
     def upload(self, request):
         "Multipe File Upload."
         query = request.GET
 
         request.current_app = self.name
-        return render(request, 'filebrowser/upload.html', {
+        
+        context = {
             'query': query,
             'title': _('Select files to upload'),
             'settings_var': get_settings_var(directory=self.directory),
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _('Upload'),
             'filebrowser_site': self
-        })
+        }
+        
+        context.update(self._get_extra_context(request))
+        
+        return render(request, 'filebrowser/upload.html', context)
 
     def delete_confirm(self, request):
         "Delete existing File/Directory."
@@ -428,7 +457,8 @@ class FileBrowserSite:
             additional_files = None
 
         request.current_app = self.name
-        return render(request, 'filebrowser/delete_confirm.html', {
+        
+        context = {
             'fileobject': fileobject,
             'filelisting': filelisting,
             'additional_files': additional_files,
@@ -438,7 +468,11 @@ class FileBrowserSite:
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': _('Confirm delete'),
             'filebrowser_site': self
-        })
+        }
+        
+        context.update(self._get_extra_context(request))
+        
+        return render(request, 'filebrowser/delete_confirm.html', context)
 
     def delete(self, request):
         "Delete existing File/Directory."
@@ -503,7 +537,8 @@ class FileBrowserSite:
             form = ChangeForm(initial={"name": fileobject.filename}, path=path, fileobject=fileobject, filebrowser_site=self)
 
         request.current_app = self.name
-        return render(request, 'filebrowser/detail.html', {
+        
+        context = {
             'form': form,
             'fileobject': fileobject,
             'query': query,
@@ -512,7 +547,11 @@ class FileBrowserSite:
             'breadcrumbs': get_breadcrumbs(query, query.get('dir', '')),
             'breadcrumbs_title': fileobject.filename,
             'filebrowser_site': self
-        })
+        }
+        
+        context.update(self._get_extra_context(request))
+        
+        return render(request, 'filebrowser/detail.html', context)
 
     def version(self, request):
         """
@@ -524,12 +563,17 @@ class FileBrowserSite:
         fileobject = FileObject(os.path.join(path, query.get('filename', '')), site=self)
 
         request.current_app = self.name
-        return render(request, 'filebrowser/version.html', {
+        
+        context = {
             'fileobject': fileobject,
             'query': query,
             'settings_var': get_settings_var(directory=self.directory),
             'filebrowser_site': self
-        })
+        }
+        
+        context.update(self._get_extra_context(request))
+        
+        return render(request, 'filebrowser/version.html', context)
 
     def _upload_file(self, request):
         """
