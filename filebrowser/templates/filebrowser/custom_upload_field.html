@@ -6,7 +6,7 @@
 <ul class="errorlist"><li>{% trans "File not found" %}</li></ul>
 {% endif %}
 </div>
-{% if value.filetype == "Image" %}
+{% if value.filetype == "Image" or fileobject.filetype == "Video" %}
 {% version value.path final_attrs.ADMIN_THUMBNAIL as thumbnail_version %}
 {% if thumbnail_version %}
 <p class="preview" id="preview_{{ final_attrs.id }}">
