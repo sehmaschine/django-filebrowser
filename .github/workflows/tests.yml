@@ -10,15 +10,25 @@ jobs:
       fail-fast: false
       matrix:
         versions:
-          - python: "3.8"
-            env: py38-django40
+          - python: "3"
+            env: py3-django52
+          - python: "310"
+            env: py310-django52
+          - python: "311"
+            env: py311-django52
+          - python: "312"
+            env: py312-django52
+          - python: "313"
+            env: py313-django52
+          - python: "314"
+            env: py314-django52
 
     name: "Python ${{ matrix.versions.python }} - ${{ matrix.versions.env }}"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.versions.python }}
       - name: Install Dependencies
