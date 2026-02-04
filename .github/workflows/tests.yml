@@ -12,15 +12,15 @@ jobs:
         versions:
           - python: "3"
             env: py3-django52
-          - python: "310"
+          - python: "3.10"
             env: py310-django52
-          - python: "311"
+          - python: "3.11"
             env: py311-django52
-          - python: "312"
+          - python: "3.12"
             env: py312-django52
-          - python: "313"
+          - python: "3.13"
             env: py313-django52
-          - python: "314"
+          - python: "3.14"
             env: py314-django52
 
     name: "Python ${{ matrix.versions.python }} - ${{ matrix.versions.env }}"
