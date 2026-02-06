@@ -8,6 +8,11 @@
 Changelog
 =========
 
+5.0.0 (not yet released)
+-------------------------
+
+* Compatibility with Django 5.x and Grappelli 4.0
+
 4.0.4 (not yet released)
 ------------------------
 
