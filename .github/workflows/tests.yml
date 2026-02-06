@@ -27,8 +27,6 @@ jobs:
           - python: "3.13"
             env: py313-django51
           # django 5.2
-          - python: "3"
-            env: py3-django52
           - python: "3.10"
             env: py310-django52
           - python: "3.11"
