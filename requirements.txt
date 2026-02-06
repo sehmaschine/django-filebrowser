@@ -1,2 +1,0 @@
-django-grappelli>=4.0,<4.1
-pillow
