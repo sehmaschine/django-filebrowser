@@ -9,7 +9,7 @@ def read(fname):
 
 setup(
     name="django-filebrowser",
-    version="5.0.0",
+    version="5.0.1",
     description="Media-Management with Grappelli",
     long_description=read("README.rst"),
     long_description_content_type="text/x-rst",
