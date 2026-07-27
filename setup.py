@@ -12,6 +12,7 @@ setup(
     version="5.0.0",
     description="Media-Management with Grappelli",
     long_description=read("README.rst"),
+    long_description_content_type="text/x-rst",
     url="http://django-filebrowser.readthedocs.org",
     download_url="",
     author="Patrick Kranzlmueller, Axel Swoboda (vonautomatisch)",
