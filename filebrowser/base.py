@@ -533,7 +533,10 @@ class FileObject():
         # remove old version, if any
         if version_path != self.site.storage.get_available_name(version_path):
             self.site.storage.delete(version_path)
-        self.site.storage.save(version_path, tmpfile)
+        version_path_relative = version_path
+        if os.path.isabs(version_path_relative):
+            version_path_relative = os.path.relpath(version_path, self.site.storage.location)
+        self.site.storage.save(version_path_relative, tmpfile)
         # set permissions
         if DEFAULT_PERMISSIONS is not None:
             os.chmod(self.site.storage.path(version_path), DEFAULT_PERMISSIONS)

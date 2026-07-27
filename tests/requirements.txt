@@ -1,6 +1,0 @@
-Django>=4.0,<4.1
-django-grappelli>=3.0,<3.1
-funcsigs==1.0.2
-pbr==5.8.0
-Pillow==9.3.0
-wheel==0.37.1
