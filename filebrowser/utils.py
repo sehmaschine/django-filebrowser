@@ -4,8 +4,12 @@ import re
 import unicodedata
 
 from django.utils.module_loading import import_string
-from filebrowser.settings import (CONVERT_FILENAME, NORMALIZE_FILENAME,
-                                  STRICT_PIL, VERSION_PROCESSORS)
+from filebrowser.settings import (
+    CONVERT_FILENAME,
+    NORMALIZE_FILENAME,
+    STRICT_PIL,
+    VERSION_PROCESSORS,
+)
 
 if STRICT_PIL:
     from PIL import Image
@@ -25,12 +29,16 @@ def convert_filename(value):
         chunks = value.split(os.extsep)
         normalized = []
         for v in chunks:
-            v = unicodedata.normalize('NFKD', str(v)).encode('ascii', 'ignore').decode('ascii')
-            v = re.sub(r'[^\w\s-]', '', v).strip()
+            v = (
+                unicodedata.normalize("NFKD", str(v))
+                .encode("ascii", "ignore")
+                .decode("ascii")
+            )
+            v = re.sub(r"[^\w\s-]", "", v).strip()
             normalized.append(v)
 
         if len(normalized) > 1:
-            value = '.'.join(normalized)
+            value = ".".join(normalized)
         else:
             value = normalized[0]
 
@@ -46,7 +54,7 @@ def path_strip(path, root):
     path = os.path.normcase(path)
     root = os.path.normcase(root)
     if path.startswith(root):
-        return path[len(root):]
+        return path[len(root) :]
     return path
 
 
@@ -69,7 +77,7 @@ def process_image(source, processor_options, processors=None):
     return image
 
 
-def scale_and_crop(im, width=None, height=None, opts='', **kwargs):
+def scale_and_crop(im, width=None, height=None, opts="", **kwargs):
     """
     Scale and Crop.
     """
@@ -80,7 +88,7 @@ def scale_and_crop(im, width=None, height=None, opts='', **kwargs):
     if (x, y) == (width, height):
         return im
 
-    if 'upscale' not in opts:
+    if "upscale" not in opts:
         if (x < width or not width) and (y < height or not height):
             return im
 
@@ -93,22 +101,26 @@ def scale_and_crop(im, width=None, height=None, opts='', **kwargs):
     else:
         yr = float(y * width / x)
 
-    if 'crop' in opts:
+    if "crop" in opts:
         r = max(xr / x, yr / y)
     else:
         r = min(xr / x, yr / y)
 
-    if r < 1.0 or (r > 1.0 and 'upscale' in opts):
-        im = im.resize((int(math.ceil(x * r)), int(math.ceil(y * r))), resample=Image.Resampling.LANCZOS)
+    if r < 1.0 or (r > 1.0 and "upscale" in opts):
+        im = im.resize(
+            (int(math.ceil(x * r)), int(math.ceil(y * r))),
+            resample=Image.Resampling.LANCZOS,
+        )
 
-    if 'crop' in opts:
+    if "crop" in opts:
         x, y = [float(v) for v in im.size]
         ex, ey = (x - min(x, xr)) / 2, (y - min(y, yr)) / 2
         if ex or ey:
             im = im.crop((int(ex), int(ey), int(ex + xr), int(ey + yr)))
     return im
 
-scale_and_crop.valid_options = ('crop', 'upscale')
+
+scale_and_crop.valid_options = ("crop", "upscale")
 
 
 def get_modified_time(storage, path):

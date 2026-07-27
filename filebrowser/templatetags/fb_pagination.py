@@ -2,13 +2,13 @@ from django.template import Library
 
 
 register = Library()
-DOT = '.'
+DOT = "."
 
 
-@register.inclusion_tag('filebrowser/include/paginator.html', takes_context=True)
+@register.inclusion_tag("filebrowser/include/paginator.html", takes_context=True)
 def pagination(context):
-    page_num = context['page'].number - 1
-    paginator = context['p']
+    page_num = context["page"].number - 1
+    paginator = context["p"]
 
     if not paginator.num_pages or paginator.num_pages == 1:
         page_range = []
@@ -34,13 +34,15 @@ def pagination(context):
             if page_num < (paginator.num_pages - ON_EACH_SIDE - ON_ENDS - 1):
                 page_range.extend(range(page_num + 1, page_num + ON_EACH_SIDE + 1))
                 page_range.append(DOT)
-                page_range.extend(range(paginator.num_pages - ON_ENDS, paginator.num_pages))
+                page_range.extend(
+                    range(paginator.num_pages - ON_ENDS, paginator.num_pages)
+                )
             else:
                 page_range.extend(range(page_num + 1, paginator.num_pages))
 
     return {
-        'page_range': page_range,
-        'page_num': page_num,
-        'filelisting': context['filelisting'],
-        'query': context['query'],
+        "page_range": page_range,
+        "page_num": page_num,
+        "filelisting": context["filelisting"],
+        "query": context["query"],
     }

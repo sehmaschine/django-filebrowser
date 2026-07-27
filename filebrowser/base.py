@@ -8,10 +8,17 @@ import time
 from django.core.files import File
 from django.utils.encoding import force_str
 from django.utils.functional import cached_property
-from filebrowser.settings import (ADMIN_VERSIONS, DEFAULT_PERMISSIONS,
-                                  EXTENSIONS, IMAGE_MAXBLOCK, SELECT_FORMATS,
-                                  STRICT_PIL, VERSION_QUALITY, VERSIONS,
-                                  VERSIONS_BASEDIR)
+from filebrowser.settings import (
+    ADMIN_VERSIONS,
+    DEFAULT_PERMISSIONS,
+    EXTENSIONS,
+    IMAGE_MAXBLOCK,
+    SELECT_FORMATS,
+    STRICT_PIL,
+    VERSION_QUALITY,
+    VERSIONS,
+    VERSIONS_BASEDIR,
+)
 from filebrowser.utils import get_modified_time, path_strip, process_image
 
 from .namers import get_namer
@@ -31,7 +38,7 @@ else:
 ImageFile.MAXBLOCK = IMAGE_MAXBLOCK  # default is 64k
 
 
-class FileListing():
+class FileListing:
     """
     The FileListing represents a group of FileObjects/FileDirObjects.
 
@@ -46,6 +53,7 @@ class FileListing():
 
     where path is a relative path to a storage location
     """
+
     # Four variables to store the length of a listing obtained by various listing methods
     # (updated whenever a particular listing method is called).
     _results_listing_total = None
@@ -53,13 +61,16 @@ class FileListing():
     _results_listing_filtered = None
     _results_walk_total = None
 
-    def __init__(self, path, filter_func=None, sorting_by=None, sorting_order=None, site=None):
+    def __init__(
+        self, path, filter_func=None, sorting_by=None, sorting_order=None, site=None
+    ):
         self.path = path
         self.filter_func = filter_func
         self.sorting_by = sorting_by
         self.sorting_order = sorting_order
         if not site:
             from filebrowser.sites import site as default_site
+
             site = default_site
         self.site = site
 
@@ -78,8 +89,9 @@ class FileListing():
         the sorted list of objects.
         """
         from operator import attrgetter
+
         if isinstance(attr, str):  # Backward compatibility hack
-            attr = (attr, )
+            attr = (attr,)
         return sorted(seq, key=attrgetter(*attr))
 
     @cached_property
@@ -106,11 +118,15 @@ class FileListing():
         if dirs:
             for d in dirs:
                 self._walk(os.path.join(path, d), filelisting)
-                filelisting.extend([path_strip(os.path.join(path, d), self.site.directory)])
+                filelisting.extend(
+                    [path_strip(os.path.join(path, d), self.site.directory)]
+                )
 
         if files:
             for f in files:
-                filelisting.extend([path_strip(os.path.join(path, f), self.site.directory)])
+                filelisting.extend(
+                    [path_strip(os.path.join(path, f), self.site.directory)]
+                )
 
     def walk(self):
         "Walk all files for path"
@@ -144,7 +160,9 @@ class FileListing():
         "Returns FileObjects for all files in walk"
         files = []
         for item in self.walk():
-            fileobject = FileObject(os.path.join(self.site.directory, item), site=self.site)
+            fileobject = FileObject(
+                os.path.join(self.site.directory, item), site=self.site
+            )
             files.append(fileobject)
         if self.sorting_by:
             files = self.sort_by_attr(files, self.sorting_by)
@@ -196,7 +214,7 @@ class FileListing():
         return len(self.files_walk_filtered())
 
 
-class FileObject():
+class FileObject:
     """
     The FileObject represents a file (or directory) on the server.
 
@@ -211,10 +229,11 @@ class FileObject():
     def __init__(self, path, site=None):
         if not site:
             from filebrowser.sites import site as default_site
+
             site = default_site
         self.site = site
-        if platform.system() == 'Windows':
-            self.path = path.replace('\\', '/')
+        if platform.system() == "Windows":
+            self.path = path.replace("\\", "/")
         else:
             self.path = path
         self.head = os.path.dirname(path)
@@ -241,7 +260,7 @@ class FileObject():
 
     def _get_file_type(self):
         "Get file type as defined in EXTENSIONS."
-        file_type = ''
+        file_type = ""
         for k, v in EXTENSIONS.items():
             for extension in v:
                 if self.extension.lower() == extension.lower():
@@ -269,7 +288,7 @@ class FileObject():
     @cached_property
     def filetype(self):
         "Filetype as defined with EXTENSIONS"
-        return 'Folder' if self.is_folder else self._get_file_type()
+        return "Folder" if self.is_folder else self._get_file_type()
 
     @cached_property
     def format(self):
@@ -285,7 +304,9 @@ class FileObject():
     def date(self):
         "Modified time (from site.storage) as float (mktime)"
         if self.exists:
-            return time.mktime(get_modified_time(self.site.storage, self.path).timetuple())
+            return time.mktime(
+                get_modified_time(self.site.storage, self.path).timetuple()
+            )
         return None
 
     @property
@@ -337,7 +358,7 @@ class FileObject():
     @cached_property
     def dimensions(self):
         "Image dimensions as a tuple"
-        if self.filetype != 'Image':
+        if self.filetype != "Image":
             return None
         try:
             im = Image.open(self.site.storage.open(self.path))
@@ -420,7 +441,12 @@ class FileObject():
         "Returns the original FileObject"
         if self.is_version:
             relative_path = self.head.replace(self.versions_basedir, "").lstrip("/")
-            return FileObject(os.path.join(self.site.directory, relative_path, self.original_filename), site=self.site)
+            return FileObject(
+                os.path.join(
+                    self.site.directory, relative_path, self.original_filename
+                ),
+                site=self.site,
+            )
         return self
 
     @property
@@ -445,10 +471,10 @@ class FileObject():
         options = dict(VERSIONS.get(version_suffix, {}))
         if extra_options:
             options.update(extra_options)
-        if 'size' in options and 'width' not in options:
-            width, height = options['size']
-            options['width'] = width
-            options['height'] = height
+        if "size" in options and "width" not in options:
+            width, height = options["size"]
+            options["width"] = width
+            options["height"] = height
         return options
 
     def versions(self):
@@ -456,7 +482,11 @@ class FileObject():
         version_list = []
         if self.filetype == "Image" and not self.is_version:
             for version in sorted(VERSIONS):
-                version_list.append(os.path.join(self.versions_basedir, self.dirname, self.version_name(version)))
+                version_list.append(
+                    os.path.join(
+                        self.versions_basedir, self.dirname, self.version_name(version)
+                    )
+                )
         return version_list
 
     def admin_versions(self):
@@ -464,7 +494,11 @@ class FileObject():
         version_list = []
         if self.filetype == "Image" and not self.is_version:
             for version in ADMIN_VERSIONS:
-                version_list.append(os.path.join(self.versions_basedir, self.dirname, self.version_name(version)))
+                version_list.append(
+                    os.path.join(
+                        self.versions_basedir, self.dirname, self.version_name(version)
+                    )
+                )
         return version_list
 
     def version_name(self, version_suffix, extra_options=None):
@@ -483,7 +517,8 @@ class FileObject():
         return os.path.join(
             self.versions_basedir,
             self.dirname,
-            self.version_name(version_suffix, extra_options))
+            self.version_name(version_suffix, extra_options),
+        )
 
     def version_generate(self, version_suffix, extra_options=None):
         "Generate a version"  # FIXME: version_generate for version?
@@ -493,7 +528,9 @@ class FileObject():
         version_path = self.version_path(version_suffix, extra_options)
         if not self.site.storage.isfile(version_path):
             version_path = self._generate_version(version_path, version_suffix, options)
-        elif get_modified_time(self.site.storage, path) > get_modified_time(self.site.storage, version_path):
+        elif get_modified_time(self.site.storage, path) > get_modified_time(
+            self.site.storage, version_path
+        ):
             version_path = self._generate_version(version_path, version_suffix, options)
         return FileObject(version_path, site=self.site)
 
@@ -515,8 +552,8 @@ class FileObject():
         version = process_image(im, options)
         if not version:
             version = im
-        if 'methods' in options:
-            for m in options['methods']:
+        if "methods" in options:
+            for m in options["methods"]:
                 if callable(m):
                     version = m(version)
 
@@ -527,7 +564,12 @@ class FileObject():
         # save version
         quality = VERSIONS.get(version_suffix, {}).get("quality", VERSION_QUALITY)
         try:
-            version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=quality, optimize=(os.path.splitext(version_path)[1] != '.gif'))
+            version.save(
+                tmpfile,
+                format=Image.EXTENSION[ext.lower()],
+                quality=quality,
+                optimize=(os.path.splitext(version_path)[1] != ".gif"),
+            )
         except IOError:
             version.save(tmpfile, format=Image.EXTENSION[ext.lower()], quality=quality)
         # remove old version, if any
@@ -535,7 +577,9 @@ class FileObject():
             self.site.storage.delete(version_path)
         version_path_relative = version_path
         if os.path.isabs(version_path_relative):
-            version_path_relative = os.path.relpath(version_path, self.site.storage.location)
+            version_path_relative = os.path.relpath(
+                version_path, self.site.storage.location
+            )
         self.site.storage.save(version_path_relative, tmpfile)
         # set permissions
         if DEFAULT_PERMISSIONS is not None:

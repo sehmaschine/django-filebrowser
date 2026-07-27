@@ -8,7 +8,7 @@ from filebrowser.settings import EXCLUDE, EXTENSIONS
 
 
 class Command(BaseCommand):
-    args = '<media_path>'
+    args = "<media_path>"
     help = "Remove Image-Versions within FILEBROWSER_DIRECTORY/MEDIA_ROOT."
 
     def handle(self, *args, **options):
@@ -21,7 +21,10 @@ class Command(BaseCommand):
         path = os.path.join(settings.MEDIA_ROOT, media_path)
 
         if not os.path.isdir(path):
-            raise CommandError('<media_path> must be a directory in MEDIA_ROOT. "%s" is no directory.' % path)
+            raise CommandError(
+                '<media_path> must be a directory in MEDIA_ROOT. "%s" is no directory.'
+                % path
+            )
 
         self.stdout.write("\n%s\n" % self.help)
         self.stdout.write("in this case: %s\n" % path)
@@ -29,11 +32,18 @@ class Command(BaseCommand):
         # get suffix or prefix
         default_prefix_or_suffix = "s"
         while 1:
-            self.stdout.write('\nOlder versions of the FileBrowser used to prefix the filename with the version name.\n')
-            self.stdout.write('Current version of the FileBrowser adds the version name as suffix.\n')
-            prefix_or_suffix = input('"p" for prefix or "s" for suffix (leave blank for "%s"): ' % default_prefix_or_suffix)
+            self.stdout.write(
+                "\nOlder versions of the FileBrowser used to prefix the filename with the version name.\n"
+            )
+            self.stdout.write(
+                "Current version of the FileBrowser adds the version name as suffix.\n"
+            )
+            prefix_or_suffix = input(
+                '"p" for prefix or "s" for suffix (leave blank for "%s"): '
+                % default_prefix_or_suffix
+            )
 
-            if default_prefix_or_suffix and prefix_or_suffix == '':
+            if default_prefix_or_suffix and prefix_or_suffix == "":
                 prefix_or_suffix = default_prefix_or_suffix
             if prefix_or_suffix != "s" and prefix_or_suffix != "p":
                 sys.stderr.write('Error: "p" and "s" are the only valid inputs.\n')
@@ -43,10 +53,10 @@ class Command(BaseCommand):
 
         # get version name
         while 1:
-            version_name = input('\nversion name as defined with VERSIONS: ')
+            version_name = input("\nversion name as defined with VERSIONS: ")
 
             if version_name == "":
-                self.stderr.write('Error: You have to enter a version name.\n')
+                self.stderr.write("Error: You have to enter a version name.\n")
                 version_name = None
                 continue
             else:
@@ -57,37 +67,37 @@ class Command(BaseCommand):
 
         # output (short version) of files to be deleted
         if len(files) > 15:
-            self.stdout.write('\nFirst/Last 5 files to remove:\n')
+            self.stdout.write("\nFirst/Last 5 files to remove:\n")
             for current_file in files[:5]:
-                self.stdout.write('%s\n' % current_file)
-            self.stdout.write('...\n')
-            self.stdout.write('...\n')
-            for current_file in files[len(files) - 5:]:
-                self.stdout.write('%s\n' % current_file)
+                self.stdout.write("%s\n" % current_file)
+            self.stdout.write("...\n")
+            self.stdout.write("...\n")
+            for current_file in files[len(files) - 5 :]:
+                self.stdout.write("%s\n" % current_file)
         else:
-            self.stdout.write('\nFiles to remove:\n')
+            self.stdout.write("\nFiles to remove:\n")
             for current_file in files:
-                self.stdout.write('%s\n' % current_file)
+                self.stdout.write("%s\n" % current_file)
 
         # no files...done
         if len(files) == 0:
-            self.stdout.write('0 files removed.\n\n')
+            self.stdout.write("0 files removed.\n\n")
             return
         else:
-            self.stdout.write('%d file(s) will be removed.\n\n' % len(files))
+            self.stdout.write("%d file(s) will be removed.\n\n" % len(files))
 
         # ask to make sure
         do_remove = ""
-        self.stdout.write('Are Sure you want to delete these files?\n')
+        self.stdout.write("Are Sure you want to delete these files?\n")
         do_remove = input('"y" for Yes or "n" for No (leave blank for "n"): ')
 
         # if "yes" we delete. any different case we finish without removing anything
         if do_remove == "y":
             for current_file in files:
                 os.remove(current_file)
-            self.stdout.write('%d file(s) removed.\n\n' % len(files))
+            self.stdout.write("%d file(s) removed.\n\n" % len(files))
         else:
-            self.stdout.write('No files removed.\n\n')
+            self.stdout.write("No files removed.\n\n")
         return
 
     # get files mathing:
@@ -107,7 +117,7 @@ class Command(BaseCommand):
             for filename in filenames:
                 filtered = False
                 # no "hidden" files (stating with ".")
-                if filename.startswith('.'):
+                if filename.startswith("."):
                     continue
                 # check the exclude list
                 for re_prefix in filter_re:

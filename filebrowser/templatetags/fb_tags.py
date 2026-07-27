@@ -9,7 +9,7 @@ from filebrowser.settings import EXTENSIONS, SELECT_FORMATS
 register = template.Library()
 
 
-@register.inclusion_tag('filebrowser/include/_response.html', takes_context=True)
+@register.inclusion_tag("filebrowser/include/_response.html", takes_context=True)
 def query_string(context, add=None, remove=None):
     """
     Allows the addition and removal of query string parameters.
@@ -25,9 +25,9 @@ def query_string(context, add=None, remove=None):
     # Written as an inclusion tag to simplify getting the context.
     add = string_to_dict(add)
     remove = string_to_list(remove)
-    params = context['query'].copy()
+    params = context["query"].copy()
     response = get_query_string(params, add, remove)
-    return {'response': response}
+    return {"response": response}
 
 
 def query_helper(query, add=None, remove=None):
@@ -59,7 +59,7 @@ def get_query_string(p, new_params=None, remove=None):
             del p[k]
         elif v is not None:
             p[k] = v
-    return '?' + '&'.join(['%s=%s' % (urlquote(k), urlquote(v)) for k, v in p.items()])
+    return "?" + "&".join(["%s=%s" % (urlquote(k), urlquote(v)) for k, v in p.items()])
 
 
 def string_to_dict(string):
@@ -73,14 +73,14 @@ def string_to_dict(string):
     kwargs = {}
     if string:
         string = str(string)
-        if ',' not in string:
+        if "," not in string:
             # ensure at least one ','
-            string += ','
-        for arg in string.split(','):
+            string += ","
+        for arg in string.split(","):
             arg = arg.strip()
-            if arg == '':
+            if arg == "":
                 continue
-            kw, val = arg.split('=', 1)
+            kw, val = arg.split("=", 1)
             kwargs[kw] = val
     return kwargs
 
@@ -94,12 +94,12 @@ def string_to_list(string):
     args = []
     if string:
         string = str(string)
-        if ',' not in string:
+        if "," not in string:
             # ensure at least one ','
-            string += ','
-        for arg in string.split(','):
+            string += ","
+        for arg in string.split(","):
             arg = arg.strip()
-            if arg == '':
+            if arg == "":
                 continue
             args.append(arg)
     return args
@@ -158,6 +158,6 @@ def get_file_extensions(qs):
 
 
 # Django 1.9 auto escapes simple_tag unless marked as safe
-@register.simple_tag(name='get_file_extensions')
+@register.simple_tag(name="get_file_extensions")
 def get_file_extensions_safe(qs):
     return mark_safe(get_file_extensions(qs))

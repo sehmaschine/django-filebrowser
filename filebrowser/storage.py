@@ -59,7 +59,9 @@ class FileSystemStorageMixin(StorageMixin):
         return os.path.isfile(self.path(name))
 
     def move(self, old_file_name, new_file_name, allow_overwrite=False):
-        file_move_safe(self.path(old_file_name), self.path(new_file_name), allow_overwrite=True)
+        file_move_safe(
+            self.path(old_file_name), self.path(new_file_name), allow_overwrite=True
+        )
 
     def makedirs(self, name):
         os.makedirs(self.path(name))
@@ -103,8 +105,12 @@ class S3BotoStorageMixin(StorageMixin):
             else:
                 raise "The destination file '%s' exists and allow_overwrite is False" % new_file_name
 
-        old_key_name = self._encode_name(self._normalize_name(self._clean_name(old_file_name)))
-        new_key_name = self._encode_name(self._normalize_name(self._clean_name(new_file_name)))
+        old_key_name = self._encode_name(
+            self._normalize_name(self._clean_name(old_file_name))
+        )
+        new_key_name = self._encode_name(
+            self._normalize_name(self._clean_name(new_file_name))
+        )
 
         k = self.bucket.copy_key(new_key_name, self.bucket.name, old_key_name)
 

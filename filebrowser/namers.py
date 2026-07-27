@@ -20,14 +20,17 @@ class VersionNamer:
             setattr(self, k, v)
 
     def get_version_name(self):
-        return self.file_object.filename_root + "_" + self.version_suffix + self.extension
+        return (
+            self.file_object.filename_root + "_" + self.version_suffix + self.extension
+        )
 
     def get_original_name(self):
         tmp = self.file_object.filename_root.split("_")
         if tmp[len(tmp) - 1] in VERSIONS:
             return "%s%s" % (
                 self.file_object.filename_root.replace("_%s" % tmp[len(tmp) - 1], ""),
-                self.file_object.extension)
+                self.file_object.extension,
+            )
 
 
 class OptionsNamer(VersionNamer):
@@ -48,7 +51,7 @@ class OptionsNamer(VersionNamer):
         root = self.file_object.filename_root
         tmp = root.split("_")
         options_part = tmp[len(tmp) - 1]
-        name = re.sub('_%s$' % options_part, '', root)
+        name = re.sub("_%s$" % options_part, "", root)
         return "%s%s" % (name, self.file_object.extension)
 
     @property
@@ -57,9 +60,9 @@ class OptionsNamer(VersionNamer):
         The options part should not contain `_` (underscore) on order to get
         original name back.
         """
-        name = '--'.join(self.options_list).replace(',', 'x')
-        name = re.sub(r'[_\s]', '-', name)
-        return re.sub(r'[^\w-]', '', name).strip()
+        name = "--".join(self.options_list).replace(",", "x")
+        name = re.sub(r"[_\s]", "-", name)
+        return re.sub(r"[^\w-]", "", name).strip()
 
     @property
     def options_list(self):
@@ -67,28 +70,34 @@ class OptionsNamer(VersionNamer):
         if not self.options:
             return opts
 
-        if 'version_suffix' in self.kwargs:
-            opts.append(self.kwargs['version_suffix'])
+        if "version_suffix" in self.kwargs:
+            opts.append(self.kwargs["version_suffix"])
 
-        if 'size' in self.options:
-            opts.append('%sx%s' % tuple(self.options['size']))
-        elif 'width' in self.options or 'height' in self.options:
-            width = float(self.options.get('width') or 0)
-            height = float(self.options.get('height') or 0)
-            opts.append('%dx%d' % (width, height))
+        if "size" in self.options:
+            opts.append("%sx%s" % tuple(self.options["size"]))
+        elif "width" in self.options or "height" in self.options:
+            width = float(self.options.get("width") or 0)
+            height = float(self.options.get("height") or 0)
+            opts.append("%dx%d" % (width, height))
 
         for k, v in sorted(self.options.items()):
-            if not v or k in ('size', 'width', 'height',
-                              'quality', 'subsampling', 'verbose_name'):
+            if not v or k in (
+                "size",
+                "width",
+                "height",
+                "quality",
+                "subsampling",
+                "verbose_name",
+            ):
                 continue
             if v is True:
                 opts.append(k)
                 continue
             if not isinstance(v, str):
                 try:
-                    v = 'x'.join([str(v) for item in v])
+                    v = "x".join([str(v) for item in v])
                 except TypeError:
                     v = str(v)
-            opts.append('%s-%s' % (k, v))
+            opts.append("%s-%s" % (k, v))
 
         return opts

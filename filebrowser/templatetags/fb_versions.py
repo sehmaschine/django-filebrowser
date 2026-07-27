@@ -1,8 +1,19 @@
 from django.conf import settings
 from django.core.files import File
-from django.template import Library, Node, Variable, VariableDoesNotExist, TemplateSyntaxError
+from django.template import (
+    Library,
+    Node,
+    Variable,
+    VariableDoesNotExist,
+    TemplateSyntaxError,
+)
 
-from filebrowser.settings import VERSIONS, PLACEHOLDER, SHOW_PLACEHOLDER, FORCE_PLACEHOLDER
+from filebrowser.settings import (
+    VERSIONS,
+    PLACEHOLDER,
+    SHOW_PLACEHOLDER,
+    FORCE_PLACEHOLDER,
+)
 from filebrowser.base import FileObject
 from filebrowser.sites import get_default_site
 
@@ -32,7 +43,7 @@ class VersionNode(Node):
             source = source.name
         else:  # string
             source = source
-        site = context.get('filebrowser_site', get_default_site())
+        site = context.get("filebrowser_site", get_default_site())
         if FORCE_PLACEHOLDER or (SHOW_PLACEHOLDER and not site.storage.isfile(source)):
             source = PLACEHOLDER
         fileobject = FileObject(source, site=site)
@@ -45,7 +56,7 @@ class VersionNode(Node):
         except Exception:
             if self.var_name:
                 context[self.var_name] = ""
-            if getattr(settings, 'TEMPLATE_DEBUG', True):
+            if getattr(settings, "TEMPLATE_DEBUG", True):
                 raise
         return ""
 
@@ -70,17 +81,21 @@ def version(parser, token):
     bits = token.split_contents()
     if len(bits) != 3 and len(bits) != 5:
         raise TemplateSyntaxError("'version' tag takes 2 or 4 arguments")
-    if len(bits) == 5 and bits[3] != 'as':
+    if len(bits) == 5 and bits[3] != "as":
         raise TemplateSyntaxError("second argument to 'version' tag must be 'as'")
     if len(bits) == 3:
-        return VersionNode(parser.compile_filter(bits[1]), parser.compile_filter(bits[2]), None)
+        return VersionNode(
+            parser.compile_filter(bits[1]), parser.compile_filter(bits[2]), None
+        )
     if len(bits) == 5:
-        return VersionNode(parser.compile_filter(bits[1]), parser.compile_filter(bits[2]), bits[4])
+        return VersionNode(
+            parser.compile_filter(bits[1]), parser.compile_filter(bits[2]), bits[4]
+        )
 
 
 class VersionSettingNode(Node):
     def __init__(self, version_suffix):
-        if (version_suffix[0] == version_suffix[-1] and version_suffix[0] in ('"', "'")):
+        if version_suffix[0] == version_suffix[-1] and version_suffix[0] in ('"', "'"):
             self.version_suffix = version_suffix[1:-1]
         else:
             self.version_suffix = None
@@ -94,8 +109,8 @@ class VersionSettingNode(Node):
                 version_suffix = self.version_suffix_var.resolve(context)
             except VariableDoesNotExist:
                 return None
-        context['version_setting'] = VERSIONS[version_suffix]
-        return ''
+        context["version_setting"] = VERSIONS[version_suffix]
+        return ""
 
 
 def version_setting(parser, token):
@@ -106,10 +121,17 @@ def version_setting(parser, token):
     try:
         tag, version_suffix = token.split_contents()
     except:
-        raise TemplateSyntaxError("%s tag requires 1 argument" % token.contents.split()[0])
-    if (version_suffix[0] == version_suffix[-1] and version_suffix[0] in ('"', "'")) and version_suffix.lower()[1:-1] not in VERSIONS:
-        raise TemplateSyntaxError("%s tag received bad version_suffix %s" % (tag, version_suffix))
+        raise TemplateSyntaxError(
+            "%s tag requires 1 argument" % token.contents.split()[0]
+        )
+    if (
+        version_suffix[0] == version_suffix[-1] and version_suffix[0] in ('"', "'")
+    ) and version_suffix.lower()[1:-1] not in VERSIONS:
+        raise TemplateSyntaxError(
+            "%s tag received bad version_suffix %s" % (tag, version_suffix)
+        )
     return VersionSettingNode(version_suffix)
+
 
 register.tag(version)
 register.tag(version_setting)
