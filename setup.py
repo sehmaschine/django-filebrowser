@@ -24,6 +24,9 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Django",
+        "Framework :: Django :: 5.0",
+        "Framework :: Django :: 5.1",
+        "Framework :: Django :: 5.2",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
@@ -37,6 +40,7 @@ setup(
     ],
     zip_safe=False,
     install_requires=[
+        "django>=5.0,<6",
         "django-grappelli>=4.0,<4.1",
         "pillow",
     ],
