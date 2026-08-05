@@ -1,3 +1,4 @@
+import json
 import os
 import re
 from time import gmtime, localtime, strftime, time
@@ -5,11 +6,10 @@ from time import gmtime, localtime, strftime, time
 from django import forms
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from django.core.files.storage import DefaultStorage, FileSystemStorage, default_storage
+from django.core.files.storage import FileSystemStorage, default_storage
 from django.core.paginator import EmptyPage, InvalidPage, Paginator
 from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import HttpResponse, render
-from django.template import RequestContext as Context
 from django.urls import get_resolver, get_urlconf, reverse
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
@@ -51,11 +51,6 @@ from filebrowser.settings import (
 from filebrowser.storage import FileSystemStorageMixin
 from filebrowser.templatetags.fb_tags import query_helper
 from filebrowser.utils import convert_filename
-
-try:
-    import json
-except ImportError:
-    from django.utils import simplejson as json
 
 
 # Add some required methods to FileSystemStorage
@@ -785,9 +780,8 @@ class FileBrowserSite:
             return HttpResponse(json.dumps(ret_json), content_type="application/json")
 
 
-storage = DefaultStorage()
 # Default FileBrowser site
-site = FileBrowserSite(name="filebrowser", storage=storage)
+site = FileBrowserSite(name="filebrowser", storage=default_storage)
 
 site.add_action(flip_horizontal)
 site.add_action(flip_vertical)
